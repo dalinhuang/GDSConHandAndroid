@@ -1,0 +1,9 @@
+谷歌基站定位接口http://www.google.com/loc/json 已停掉
+
+收费接口 
+https://developers.google.com/maps/documentation/business/geolocation/
+
+新的商用的google基站定位数据服务有每天100次内免费，不过却也是要绑定信用卡后才能激活API key， 
+
+百度版：http://api.map.baidu.com/lbsapi/cloud/geosdk-android-download.htm
+http://www.google.com/glm/mmap

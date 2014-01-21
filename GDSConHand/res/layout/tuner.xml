@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="utf-8"?>
+        
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:scrollbarAlwaysDrawVerticalTrack="false">
+
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content">
+	    
+	    <TextView
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:background="@drawable/navbar"
+	            android:gravity="center"
+	            android:paddingBottom="10dp"
+	            android:paddingTop="10dp"
+	            android:text="@string/setting_periodical_and_time_interval"
+	            android:textColor="@android:color/white"
+	            android:textSize="18sp"
+	            android:textStyle="bold" />
+	    
+	    <CheckBox
+	           android:id="@+id/PERIODIC_WIFI_CAPTURE_ON_FOR_LOCATOR"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="PERIODIC_WIFI_CAPTURE_ON_FOR_LOCATOR" />
+	    
+	    <CheckBox
+	           android:id="@+id/PERIODIC_WIFI_CAPTURE_ON_FOR_COLLECTER"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="PERIODIC_WIFI_CAPTURE_ON_FOR_COLLECTER" />
+	
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	
+	        <TextView
+	            android:id="@+id/textView1"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="PERIODIC_WIFI_CAPTURE_INTERVAL"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	        <EditText
+	            android:id="@+id/PERIODIC_WIFI_CAPTURE_INTERVAL"
+	            android:layout_width="150dp"
+	            android:layout_height="wrap_content"
+	            android:ems="10"
+	            android:inputType="number" />
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	
+	        <TextView
+	            android:id="@+id/textView2"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="MAX_AGE_FOR_WIFI_SAMPLES"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	        <EditText
+	            android:id="@+id/MAX_AGE_FOR_WIFI_SAMPLES"
+	            android:layout_width="150dp"
+	            android:layout_height="wrap_content"
+	            android:ems="10"
+	            android:inputType="number" />
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	
+	        <TextView
+	            android:id="@+id/textView3"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="MIN_WIFI_SAMPLES_BUFFERED"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	        <EditText
+	            android:id="@+id/MIN_WIFI_SAMPLES_BUFFERED"
+	            android:layout_width="150dp"
+	            android:layout_height="wrap_content"
+	            android:ems="10"
+	            android:inputType="number" />
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	
+	        <TextView
+	            android:id="@+id/textView4"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="PERIODIC_LOCATE_INTERVAL"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	        <EditText
+	            android:id="@+id/PERIODIC_LOCATE_INTERVAL"
+	            android:layout_width="150dp"
+	            android:layout_height="wrap_content"
+	            android:ems="10"
+	            android:inputType="number" />
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	
+	        <TextView
+	            android:id="@+id/textView5"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="PERIODIC_WIFI_SCAN_INTERVAL"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	        <EditText
+	            android:id="@+id/PERIODIC_WIFI_SCAN_INTERVAL"
+	            android:layout_width="150dp"
+	            android:layout_height="wrap_content"
+	            android:ems="10"
+	            android:inputType="number" />
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	
+	        <TextView
+	            android:id="@+id/textView6"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="MAX_FINGERPRINTS_FOR_LOCATE"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	        <EditText
+	            android:id="@+id/MAX_FINGERPRINTS_FOR_LOCATE"
+	            android:layout_width="150dp"
+	            android:layout_height="wrap_content"
+	            android:ems="10"
+	            android:inputType="number" />
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	
+	        <TextView
+	            android:id="@+id/textView7"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="MAX_WAIT_MS_FOR_LOCATE"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	        <EditText
+	            android:id="@+id/MAX_WAIT_MS_FOR_LOCATE"
+	            android:layout_width="150dp"
+	            android:layout_height="wrap_content"
+	            android:ems="10"
+	            android:inputType="number" />
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	
+	        <TextView
+	            android:id="@+id/textView8"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="MAX_FINGERPRINTS_FOR_COLLECT"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	        <EditText
+	            android:id="@+id/MAX_FINGERPRINTS_FOR_COLLECT"
+	            android:layout_width="150dp"
+	            android:layout_height="wrap_content"
+	            android:ems="10"
+	            android:inputType="number" />
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	
+	        <TextView
+	            android:id="@+id/textView9"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="MAX_WAIT_MS_FOR_COLLECT"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	        <EditText
+	            android:id="@+id/MAX_WAIT_MS_FOR_COLLECT"
+	            android:layout_width="150dp"
+	            android:layout_height="wrap_content"
+	            android:ems="10"
+	            android:inputType="number" />
+	    </LinearLayout>
+	    
+	    <TextView
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:background="@drawable/navbar"
+	            android:gravity="center"
+	            android:paddingBottom="10dp"
+	            android:paddingTop="10dp"
+	            android:text="@string/setting_signal_filter"
+	            android:textColor="@android:color/white"
+	            android:textSize="18sp"
+	            android:textStyle="bold" />
+	    
+	   <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	
+	        <TextView
+	            android:id="@+id/textView10"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="MIN_DBM_COUNT_IN"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	        <EditText
+	            android:id="@+id/MIN_DBM_COUNT_IN"
+	            android:layout_width="150dp"
+	            android:layout_height="wrap_content"
+	            android:ems="10"
+	            android:inputType="numberSigned" />
+	        
+
+	    </LinearLayout>
+	    
+	     <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	        
+	        <TextView
+	            android:id="@+id/textView10_1"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="MAX_DBM_COUNT_IN"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	        <EditText
+	            android:id="@+id/MAX_DBM_COUNT_IN"
+	            android:layout_width="150dp"
+	            android:layout_height="wrap_content"
+	            android:ems="10"
+	            android:inputType="numberSigned" />
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	
+	        <TextView
+	            android:id="@+id/textView11"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="MIN_AP_COUNT_IN"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	        <EditText
+	            android:id="@+id/MIN_AP_COUNT_IN"
+	            android:layout_width="150dp"
+	            android:layout_height="wrap_content"
+	            android:ems="10"
+	            android:inputType="number" />
+	    </LinearLayout>
+	    
+	    <TextView
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:background="@drawable/navbar"
+	            android:gravity="center"
+	            android:paddingBottom="10dp"
+	            android:paddingTop="10dp"
+	            android:text="@string/setting_server"
+	            android:textColor="@android:color/white"
+	            android:textSize="18sp"
+	            android:textStyle="bold" />
+	
+		<CheckBox
+	           android:id="@+id/DEBUG"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="DEBUG" />
+		
+		<CheckBox
+	           android:id="@+id/SERVER_RUNNING_IN_LINUX"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="SERVER_RUNNING_IN_LINUX" />
+		
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+
+		    <TextView
+		        android:id="@+id/textView2001"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="LINUX_SERVER_IP"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <EditText
+		        android:id="@+id/LINUX_SERVER_IP"
+		        android:layout_width="150dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.24"
+		        android:ems="10"
+		        android:inputType="text" />
+		</LinearLayout>
+		
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+
+		    <TextView
+		        android:id="@+id/textView2002"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="LINUX_SERVER_PORT"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <EditText
+		        android:id="@+id/LINUX_SERVER_PORT"
+		        android:layout_width="150dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.24"
+		        android:ems="10"
+		        android:inputType="number" />
+		</LinearLayout>
+		
+		<CheckBox
+	           android:id="@+id/USE_DOMAIN_NAME"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="USE_DOMAIN_NAME" />
+		
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+
+		    <TextView
+		        android:id="@+id/textView20"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="SERVER_DOMAIN_NAME"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <EditText
+		        android:id="@+id/SERVER_DOMAIN_NAME"
+		        android:layout_width="150dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.24"
+		        android:ems="10"
+		        android:inputType="text" />
+		</LinearLayout>
+		
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+
+		    <TextView
+		        android:id="@+id/textView21"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="SERVER_IP"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <EditText
+		        android:id="@+id/SERVER_IP"
+		        android:layout_width="150dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.24"
+		        android:ems="10"
+		        android:inputType="text" />
+		</LinearLayout>
+		
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+
+		    <TextView
+		        android:id="@+id/textView22"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="SERVER_PORT"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <EditText
+		        android:id="@+id/SERVER_PORT"
+		        android:layout_width="150dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.24"
+		        android:ems="10"
+		        android:inputType="number" />
+		</LinearLayout>
+		
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+
+		    <TextView
+		        android:id="@+id/textView221"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="CONNECTION_TIMEOUT"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <EditText
+		        android:id="@+id/CONNECTION_TIMEOUT"
+		        android:layout_width="150dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.24"
+		        android:ems="10"
+		        android:inputType="number" />
+		</LinearLayout>
+		
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+
+		    <TextView
+		        android:id="@+id/textView222"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="SOCKET_TIMEOUT"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <EditText
+		        android:id="@+id/SOCKET_TIMEOUT"
+		        android:layout_width="150dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.24"
+		        android:ems="10"
+		        android:inputType="number" />
+		</LinearLayout>
+		
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+
+		    <TextView
+		        android:id="@+id/textView23"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="SERVER_SUB_DOMAIN"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <EditText
+		        android:id="@+id/SERVER_SUB_DOMAIN"
+		        android:layout_width="150dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.24"
+		        android:ems="10"
+		        android:inputType="text" />
+		</LinearLayout>
+		
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+
+		    <TextView
+		        android:id="@+id/textView24"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="URL_PREFIX"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <EditText
+		        android:id="@+id/URL_PREFIX"
+		        android:layout_width="150dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.24"
+		        android:ems="10"
+		        android:inputType="text" />
+		</LinearLayout>
+		
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+
+		    <TextView
+		        android:id="@+id/textView25"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="URL_API_LOCATE"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <EditText
+		        android:id="@+id/URL_API_LOCATE"
+		        android:layout_width="150dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.24"
+		        android:ems="10"
+		        android:inputType="text" />
+		</LinearLayout>
+		
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+
+		    <TextView
+		        android:id="@+id/textView26"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="URL_API_COLLECT"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <EditText
+		        android:id="@+id/URL_API_COLLECT"
+		        android:layout_width="150dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.24"
+		        android:ems="10"
+		        android:inputType="text" />
+		</LinearLayout>
+		
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+
+		    <TextView
+		        android:id="@+id/textView27"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="URL_API_QUERY"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <EditText
+		        android:id="@+id/URL_API_QUERY"
+		        android:layout_width="150dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.24"
+		        android:ems="10"
+		        android:inputType="text" />
+		</LinearLayout>
+		
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+
+		    <TextView
+		        android:id="@+id/textView28"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="URL_API_NFC_COLLECT"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <EditText
+		        android:id="@+id/URL_API_NFC_COLLECT"
+		        android:layout_width="150dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.24"
+		        android:ems="10"
+		        android:inputType="text" />
+		</LinearLayout>
+		
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+
+		    <TextView
+		        android:id="@+id/textView29"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="URL_API_LOCATE_BASE_NFC"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <EditText
+		        android:id="@+id/URL_API_LOCATE_BASE_NFC"
+		        android:layout_width="150dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.24"
+		        android:ems="10"
+		        android:inputType="text" />
+		</LinearLayout>
+		
+		<TextView
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:background="@drawable/navbar"
+	            android:gravity="center"
+	            android:paddingBottom="10dp"
+	            android:paddingTop="10dp"
+	            android:text="@string/team"
+	            android:textColor="@android:color/white"
+	            android:textSize="18sp"
+	            android:textStyle="bold" />
+		
+		<TextView
+	            android:id="@+id/textView30"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/team_members"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+		    
+	        <Button
+	            android:id="@+id/closeButton"
+	            android:layout_width="130dp"
+	            android:layout_height="40dp"
+	            android:layout_marginBottom="5dp"
+	            android:text="@string/menu_exit"
+	            android:textSize="15sp"
+	            android:textStyle="bold" />
+	
+	        <Button
+	            android:id="@+id/resetButton"
+	            android:layout_width="130dp"
+	            android:layout_height="40dp"
+	            android:layout_marginBottom="5dp"
+	            android:text="@string/setting_reset"
+	            android:textSize="15sp"
+	            android:textStyle="bold" />
+	
+	        <Button
+	            android:id="@+id/saveButton"
+	            android:layout_width="130dp"
+	            android:layout_height="40dp"
+	            android:layout_marginBottom="5dp"
+	            android:text="@string/setting_save"
+	            android:textSize="15sp"
+	            android:textStyle="bold" />
+	
+	    </LinearLayout>
+	
+	</LinearLayout>
+	
+</ScrollView> 
+

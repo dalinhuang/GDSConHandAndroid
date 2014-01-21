@@ -1,0 +1,182 @@
+package com.ericsson.cgc.aurora.wifiindoor.runtime;
+
+import java.util.ArrayList;
+
+import org.andengine.entity.sprite.AnimatedSprite;
+
+
+/**
+ * @author haleyshi
+ * 
+ */
+public class Cell {
+
+	private int rowNo;
+	private int colNo;
+	
+	private boolean passable;
+	
+	private AnimatedSprite backgroundSprite;
+	
+	private ArrayList<String> informations;
+	private boolean infoPushed;
+	private long infoPushTime;
+
+	public Cell(int rowNo, int colNo) {
+		this.rowNo = rowNo;
+		this.colNo = colNo;
+		setInfoPushed(false);
+		setInformations(null);
+		setInfoPushTime(0);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cell other = (Cell) obj;
+		if (colNo != other.colNo)
+			return false;
+		if (rowNo != other.rowNo)
+			return false;
+		return true;
+	}
+
+	public AnimatedSprite getBackgroundSprite() {
+		return backgroundSprite;
+	}
+
+
+	public int getColNo() {
+		return colNo;
+	}
+	
+	public long getInfoPushTime() {
+		return infoPushTime;
+	}
+	
+	public ArrayList<String> getInformations() {
+		return informations;
+	}
+
+	public int getRowNo() {
+		return rowNo;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + colNo;
+		result = prime * result + rowNo;
+		return result;
+	}
+
+	public String informationsToString(){
+		if ((informations==null) || (informations.isEmpty())){
+			return null;
+		}
+		
+		String text = "";
+		
+		for (String information : informations){
+			text += information + "\n";
+		}
+		
+		return text;
+	}
+
+	public String informationsToString(ArrayList<String> informations){
+		if ((informations==null) || (informations.isEmpty())){
+			return null;
+		}
+		
+		String text = "";
+		
+		for (String information : informations){
+			text += information + "\n";
+		}
+		
+		return text;
+	}
+
+	public boolean isInfoPushed() {
+		return infoPushed;
+	}
+
+	public boolean isPassable() {
+		return passable;
+	}
+
+	public boolean isRefreshInfoNeeded(){
+		if (!isInfoPushed()) {
+			setInfoPushed(true);
+			infoPushTime = System.currentTimeMillis();
+			return true;
+		}
+		
+		// Refresh if more than 30 minutes
+		if (System.currentTimeMillis() - infoPushTime > 1800000) {
+			infoPushTime = System.currentTimeMillis();
+			return true;
+		}
+		
+		return false;
+	}
+
+	public boolean isSameInfo(ArrayList<String> informations){
+		String sample = informationsToString(informations);
+		String myInfo = informationsToString(this.informations);
+		
+		if (sample==null) {
+			return true;
+		}
+		
+		if (sample.equals(myInfo)){
+			return true;
+		}
+		
+		return false;
+	}
+
+	public void setBackgroundSprite(AnimatedSprite backgroundSprite) {
+		this.backgroundSprite = backgroundSprite;
+	}
+
+	public void setColNo(int colNo) {
+		this.colNo = colNo;
+	}
+
+	public void setInfo(ArrayList<String> informations) {
+		setInfoPushed(true);
+		setInformations(informations);
+		setInfoPushTime(System.currentTimeMillis());
+	}
+	
+	public void setInfoPushed(boolean infoPushed) {
+		this.infoPushed = infoPushed;
+	}
+	
+	public void setInfoPushTime(long infoPushTime) {
+		this.infoPushTime = infoPushTime;
+	}
+	
+	public void setInformations(ArrayList<String> informations) {
+		this.informations = informations;
+	}
+	
+	public void setPassable(boolean passable) {
+		this.passable = passable;
+	}
+	
+	@Override
+	public String toString() {
+		return "Cell [rowNo=" + rowNo + ", colNo=" + colNo + "]";
+	}
+	
+}
+

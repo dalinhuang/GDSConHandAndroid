@@ -1,0 +1,43 @@
+Android App <-> Web Service
+-----------------------------
+Android App side:
+
+MainActivity.sendToServer(JSONObject data);       -----> Send the Fingerprint (see below) to server
+MainActivity.waitForLocation();                   <----- Get the location (mapid, x, y) from server
+
+Fingerprint:
+--------------
+WifiFingerprint fingerPrint = new WifiFingerprint(cellInfoManager, wifiInfoManager, IndoorMapData.REQUEST_COLLECT/IndoorMapData.REQUEST_LOCATE);
+
+public class WifiFingerprint {
+	private JSONObject cellConnected;   //ignore
+	private JSONArray neighboringCells; //ignore
+	private JSONArray neighboringAPs;	
+}	
+
+neighboringAPs:
+------------------
+JSONObject localJSONObject = wifi.info();
+jsonArray.put(localJSONObject);
+
+wifi.info():
+--------------
+jsonobject.put("mac", bssid);
+jsonobject.put("ssid", ssid);
+jsonobject.put("dbm", dBm+"");
+jsonobject.put("connected", connected_to_this_ap); //true or false
+
+
+REQUEST_COLLECT:
+----------------
+JSONObject data = new JSONObject();
+data.put("req", IndoorMapData.REQUEST_COLLECT); 
+data.put("map", runtimeIndoorMap.getId());
+data.put("x", x);
+data.put("y", y);
+data.put("fingerprint", fingerPrint);
+
+REQUEST_LOCATE:
+----------------
+data.put("req", IndoorMapData.REQUEST_LOCATE);
+data.put("fingerprint", fingerPrint);
