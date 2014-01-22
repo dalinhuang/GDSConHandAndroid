@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">WIFI室内定位</string>
+    <string name="app_name">掌上广东科学中心</string>
     <string name="menu_back">返回</string>
     <string name="menu_info">显示公告信息</string>
     <string name="menu_help">帮助</string>
@@ -14,8 +14,8 @@
     <string name="setting_server">服务器</string>
     <string name="setting_save">保存更改</string>
     <string name="setting_reset">重置数据</string>
-    <string name="team">开发组: </string>
-    <string name="team_members">开发组: Geoffrey Chen; Haley Shi; Larry Huang; Paddy Liu</string>
+    <string name="team"></string>
+    <string name="team_members"></string>
     <string name="done">完成</string>
     <string name="help">帮助</string>
     <string name="neighbor_cell_forbidden">该手机不支持获取相邻基站！</string>
@@ -71,7 +71,7 @@
     <string name="location_not_in_this_map">位置不在当前地图中！</string>
     <string name="map_file_broken">地图文件已损坏！</string>
     <string name="ok">好的</string>
-    <string name="map_selector_updated">已更新</string>
+    <string name="map_selector_updated">已更新</string
     <string name="map_selector_outdated">未更新</string>
     <string name="map_selector_downloading">正在下载</string>
     <string name="map_size">地图大小：</string>
