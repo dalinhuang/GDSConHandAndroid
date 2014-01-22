@@ -1255,7 +1255,8 @@ private float density = 1.5f;
 						
 						switch (mMode) {
 							case IndoorMapData.MAP_MODE_VIEW:
-								showAd(false);
+								//Hoare
+								//showAd(false);
 								break;
 							default:
 								hideAd();
@@ -2187,7 +2188,8 @@ private float density = 1.5f;
 			}
 		};
 		
-		mapADSprite = Library.ADVERTISE.load(MapViewerActivity.this, runtimeIndoorMap, spriteListener, default_ad);
+		//Hoare: comment ad
+		//mapADSprite = Library.ADVERTISE.load(MapViewerActivity.this, runtimeIndoorMap, spriteListener, default_ad);
 		
 		float adWidth = mapADSprite.getWidth();
 		float adHeight = mapADSprite.getHeight();		
@@ -2273,9 +2275,9 @@ private float density = 1.5f;
 	}
 	
 	private void showAd(boolean default_ad) {
-		putAdvertiseUnit(default_ad);	
+/*		putAdvertiseUnit(default_ad);	
 		
-		mAdvertisement.showAdvertisement();
+		mAdvertisement.showAdvertisement();*/
 	}
 	
 	private void showInfo() {

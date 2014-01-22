@@ -71,7 +71,7 @@
     <string name="location_not_in_this_map">位置不在当前地图中！</string>
     <string name="map_file_broken">地图文件已损坏！</string>
     <string name="ok">好的</string>
-    <string name="map_selector_updated">已更新</string
+    <string name="map_selector_updated">已更新</string>
     <string name="map_selector_outdated">未更新</string>
     <string name="map_selector_downloading">正在下载</string>
     <string name="map_size">地图大小：</string>
