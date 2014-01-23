@@ -10,10 +10,6 @@ public class TestLocateCollectReply implements IType {
 	private long timestamp3; // Server Send
 	private int reTest; // re-test indicator
 	
-	public TestLocateCollectReply() {
-		
-	}
-	
 	public TestLocateCollectReply(Location origLocation, LocationSet locations, long timestamp1, long timestamp2, long timestamp3, int reTest) {
 		setOrigLocation(origLocation);
 		setLocations(locations);
@@ -22,24 +18,18 @@ public class TestLocateCollectReply implements IType {
 		setTimestamp3(timestamp3);
 		setReTest(reTest);
 	}
-
-	public LocationSet getLocations() {
-		return locations;
+	
+	public TestLocateCollectReply() {
+		
 	}
-
-
-	public Location getOrigLocation() {
-		return origLocation;
-	}
-
-
-	public int getReTest() {
-		return reTest;
-	}
-
 
 	public long getTimestamp1() {
 		return timestamp1;
+	}
+
+
+	public void setTimestamp1(long timestamp1) {
+		this.timestamp1 = timestamp1;
 	}
 
 
@@ -48,31 +38,41 @@ public class TestLocateCollectReply implements IType {
 	}
 
 
-	public long getTimestamp3() {
-		return timestamp3;
-	}	
-
-	public void setLocations(LocationSet locations) {
-		this.locations = locations;
+	public void setTimestamp2(long timestamp2) {
+		this.timestamp2 = timestamp2;
 	}
 
-	public void setOrigLocation(Location origLocation) {
-		this.origLocation = origLocation;
+
+	public long getTimestamp3() {
+		return timestamp3;
+	}
+
+
+	public void setTimestamp3(long timestamp3) {
+		this.timestamp3 = timestamp3;
+	}	
+
+	public int getReTest() {
+		return reTest;
 	}
 
 	public void setReTest(int reTest) {
 		this.reTest = reTest;
 	}
 
-	public void setTimestamp1(long timestamp1) {
-		this.timestamp1 = timestamp1;
+	public Location getOrigLocation() {
+		return origLocation;
 	}
 
-	public void setTimestamp2(long timestamp2) {
-		this.timestamp2 = timestamp2;
+	public void setOrigLocation(Location origLocation) {
+		this.origLocation = origLocation;
 	}
 
-	public void setTimestamp3(long timestamp3) {
-		this.timestamp3 = timestamp3;
+	public LocationSet getLocations() {
+		return locations;
+	}
+
+	public void setLocations(LocationSet locations) {
+		this.locations = locations;
 	}
 }

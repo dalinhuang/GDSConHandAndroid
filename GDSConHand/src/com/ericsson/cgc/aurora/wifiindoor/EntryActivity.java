@@ -32,39 +32,80 @@ public class EntryActivity extends Activity implements SensorEventListener {
 	
 	public static final String PACKAGE_NAME = "com.ericsson.cgc.aurora.wifiindoor";
 	   	        
-	public void handleApkVersionReply(ApkVersionReply version) {
-		Util.setApkVersionChecked(true);
-		Util.setApkVersionReply(version);
+	@Override
+	protected void onResume() {
+		super.onResume();
+		System.gc();
+		Util.setEnergySave(false);
 		
-		if (version.getVersionCode() > Util.getApkVersionCode() ) {
-			if (!Util.isNetworkConfigPending()) {
-				Util.doNewVersionUpdate(this);
-			} else {
-				Util.setApkUpdatePending(true);
-			}	
-		} else {
-			Util.showShortToast(this, R.string.latest_apk_version);
-		}
-	}
-	
-	private void locateMe() {		
-		if (!Util.isHttpConnectionEstablished()) {
-			Util.showLongToast(EntryActivity.this, R.string.retry_ip);
-			Util.initApp(EntryActivity.this);
-			return;
-		}
+		// Enable NFC Foreground Dispatch
+		Util.enableNfc(this);
 		
-		Intent intent_map_locator = new Intent(EntryActivity.this, MapLocatorActivity.class);
-		Bundle mBundle = new Bundle(); 
-		mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM, IndoorMapData.BUNDLE_VALUE_REQ_FROM_LOCATOR);
-		intent_map_locator.putExtras(mBundle); 
-		startActivity(intent_map_locator);
+		// Disable ACCELEROMETER
+		Util.enableAcclerometer(this);
 	}
 	
 	@Override
-	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		// TODO Auto-generated method stub
+	protected void onStop(){
+	    super.onStop();
+	  
+	    // Disable NFC Foreground Dispatch
+	    Util.disableNfc(this);
+			
+	    // Disable ACCELEROMETER
+	    Util.disableAcclerometer(this);
+	    
+	    Util.setEnergySave(true);
+	    Util.cancelToast();
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Util.setEnergySave(true);
 		
+		// Disable NFC Foreground Dispatch
+		Util.disableNfc(this);
+		
+		// Disable ACCELEROMETER
+	    Util.disableAcclerometer(this);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		Util.setEnergySave(true);
+		
+		// Disable NFC Foreground Dispatch
+		Util.disableNfc(this);
+		
+		// Disable ACCELEROMETER
+	    Util.disableAcclerometer(this);
+	    
+	    Util.cancelToast();
+	 
+	    super.onDestroy();
+	}
+	
+	@Override
+	public void onNewIntent(Intent intent) {
+	    //Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);	
+		
+		super.onNewIntent(intent);
+	    
+	    // Ensure there is a network connection
+	    if (!Util.isHttpConnectionEstablished()) {
+	    	Util.showLongToast(this, R.string.retry_ip);
+	    	return;
+	    }
+
+		String tagId = Util.getNfcInfoManager().getTagId(intent);
+		
+		if (tagId == null) {
+			return;
+		}
+	    
+	    //String tagId = tagFromIntent.getId().toString();
+		Util.nfcQrLocateMe(this, tagId);  
 	}
 	
 	@Override
@@ -81,13 +122,14 @@ public class EntryActivity extends Activity implements SensorEventListener {
 		}
 	
 	}
-	
-	/** Called when the activity is first created. */
+
+    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        Util.initApp(this);
+        // Already down in GMapEntryActivity
+        //Util.initApp(this);
                
         // Locate the current Map
         on_click_listener0 = new OnClickListener(){
@@ -144,88 +186,39 @@ public class EntryActivity extends Activity implements SensorEventListener {
         button3.setOnClickListener(on_click_listener3);
     }
 	
-	@Override
-	protected void onDestroy() {
-		Util.setEnergySave(true);
+	public void handleApkVersionReply(ApkVersionReply version) {
+		Util.setApkVersionChecked(true);
+		Util.setApkVersionReply(version);
 		
-		// Disable NFC Foreground Dispatch
-		Util.disableNfc(this);
-		
-		// Disable ACCELEROMETER
-	    Util.disableAcclerometer(this);
-	    
-	    Util.cancelToast();
-	 
-	    super.onDestroy();
-	}
-
-    @Override
-	public void onNewIntent(Intent intent) {
-	    //Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);	
-		
-		super.onNewIntent(intent);
-	    
-	    // Ensure there is a network connection
-	    if (!Util.isHttpConnectionEstablished()) {
-	    	Util.showLongToast(this, R.string.retry_ip);
-	    	return;
-	    }
-
-		String tagId = Util.getNfcInfoManager().getTagId(intent);
-		
-		if (tagId == null) {
-			return;
-		}
-	    
-	    //String tagId = tagFromIntent.getId().toString();
-		Util.nfcQrLocateMe(this, tagId);  
-	}
-	
-	@Override
-	protected void onPause() {
-		super.onPause();
-		Util.setEnergySave(true);
-		
-		// Disable NFC Foreground Dispatch
-		Util.disableNfc(this);
-		
-		// Disable ACCELEROMETER
-	    Util.disableAcclerometer(this);
-	}
-	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		System.gc();
-		Util.setEnergySave(false);
-		
-		// Enable NFC Foreground Dispatch
-		Util.enableNfc(this);
-		
-		// Disable ACCELEROMETER
-		Util.enableAcclerometer(this);
-	}
-	
-	@Override
-	public void onSensorChanged(SensorEvent event) {
-		
-		if (Util.isShakeDetected(event)) {
-			locateMe();
+		if (version.getVersionCode() > Util.getApkVersionCode() ) {
+			if (!Util.isNetworkConfigPending()) {
+				Util.doNewVersionUpdate(this);
+			} else {
+				Util.setApkUpdatePending(true);
+			}	
+		} else {
+			Util.showShortToast(this, R.string.latest_apk_version);
 		}
 	}
 	
-	@Override
-	protected void onStop(){
-	    super.onStop();
-	  
-	    // Disable NFC Foreground Dispatch
-	    Util.disableNfc(this);
-			
-	    // Disable ACCELEROMETER
-	    Util.disableAcclerometer(this);
-	    
-	    Util.setEnergySave(true);
-	    Util.cancelToast();
+	public void updateLocation(com.ericsson.cgc.aurora.wifiindoor.types.Location location) {
+		updateLocation(location.getMapId(), location.getX(), location.getY());
+	}
+	
+	private boolean updateLocation(int mapId, int colNo, int rowNo) {
+		if ((rowNo==-1) || (colNo==-1)) {			
+			Util.showLongToast(this, R.string.no_match_location);
+			return false;
+		}
+		
+		Log.e("LocatorActivity", "Start openMapViewer");
+		openMapViewer(mapId, colNo, rowNo);
+		
+		return true;
+	}
+	
+	public void updateLocation(LocationSet locationSet) {
+		updateLocation(locationSet.balanceLocation());	
 	}
 	
 	private void openMapViewer(int mapId, int colNo, int rowNo) {
@@ -258,24 +251,32 @@ public class EntryActivity extends Activity implements SensorEventListener {
 		startActivity(intent_locate_map);		
 	}
 	
-	public void updateLocation(com.ericsson.cgc.aurora.wifiindoor.types.Location location) {
-		updateLocation(location.getMapId(), location.getX(), location.getY());
-	}
-
-	private boolean updateLocation(int mapId, int colNo, int rowNo) {
-		if ((rowNo==-1) || (colNo==-1)) {			
-			Util.showLongToast(this, R.string.no_match_location);
-			return false;
+	private void locateMe() {		
+		if (!Util.isHttpConnectionEstablished()) {
+			Util.showLongToast(EntryActivity.this, R.string.retry_ip);
+			Util.initApp(EntryActivity.this);
+			return;
 		}
 		
-		Log.e("LocatorActivity", "Start openMapViewer");
-		openMapViewer(mapId, colNo, rowNo);
-		
-		return true;
+		Intent intent_map_locator = new Intent(EntryActivity.this, MapLocatorActivity.class);
+		Bundle mBundle = new Bundle(); 
+		mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM, IndoorMapData.BUNDLE_VALUE_REQ_FROM_LOCATOR);
+		intent_map_locator.putExtras(mBundle); 
+		startActivity(intent_map_locator);
 	}
 
-	public void updateLocation(LocationSet locationSet) {
-		updateLocation(locationSet.balanceLocation());	
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		
+		if (Util.isShakeDetected(event)) {
+			locateMe();
+		}
 	}
 
 }

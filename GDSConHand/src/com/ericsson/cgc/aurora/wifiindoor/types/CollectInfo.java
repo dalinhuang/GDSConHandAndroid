@@ -23,18 +23,18 @@ public class CollectInfo {
 	}
 
 	/**
-	 * @return the wifiFingerPrint
-	 */
-	public WifiFingerPrint getWifiFingerPrint() {
-		return wifiFingerPrint;
-	}
-
-	/**
 	 * @param location
 	 *            the location to set
 	 */
 	public void setLocation(Location location) {
 		this.location = location;
+	}
+
+	/**
+	 * @return the wifiFingerPrint
+	 */
+	public WifiFingerPrint getWifiFingerPrint() {
+		return wifiFingerPrint;
 	}
 
 	/**

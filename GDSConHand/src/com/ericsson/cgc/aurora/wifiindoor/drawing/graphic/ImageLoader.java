@@ -3,10 +3,10 @@ package com.ericsson.cgc.aurora.wifiindoor.drawing.graphic;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.ericsson.cgc.aurora.wifiindoor.drawing.graphic.svg.SVGImageBuilder;
+
 import android.app.Activity;
 import android.graphics.Bitmap;
-
-import com.ericsson.cgc.aurora.wifiindoor.drawing.graphic.svg.SVGImageBuilder;
 
 /**
  * @author haleyshi

@@ -5,15 +5,13 @@ import org.andengine.engine.camera.ZoomCamera;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.OnScaleGestureListener;
 
-import com.ericsson.cgc.aurora.wifiindoor.util.VisualParameters;
-
 /**
  * @author haleyshi
  *
  */
 public class ZoomControl {
 	
-	private static final float CHANGE_UNIT = 0.1f;
+	private static float CHANGE_UNIT = 0.1f;
 
 	private ZoomCamera mCamera;
 	
@@ -22,16 +20,29 @@ public class ZoomControl {
 	
 	private OnScaleGestureListener scaleGestureListner;
 
-	public ZoomControl(ZoomCamera zCamera, float maxZoomFactor, float minZoomFactor) {
+	public ZoomControl(ZoomCamera zCamera, float maxZoomFactor, float minZoomFactor, final float density) {
 		this.mCamera = zCamera;
 		this.maxZoomFactor = maxZoomFactor;
 		this.minZoomFactor = minZoomFactor;
+		CHANGE_UNIT = 0.1f * density;
 		
 		this.scaleGestureListner = new OnScaleGestureListener() {
 			
+			@Override
+			public void onScaleEnd(ScaleGestureDetector detector) {
+				//Log.d("zoomGestureDector", "scale end");
+			}
+			
 			private float previousSpan;
 			
-			private float spanChangeUnit = 10 * VisualParameters.density;
+			@Override
+			public boolean onScaleBegin(ScaleGestureDetector detector) {
+				//Log.d("zoomGestureDector", "scale begin");
+				previousSpan = detector.getCurrentSpan();
+				return true;
+			}
+			
+			private float spanChangeUnit = 10 * 1.0f * density;
 			
 			@Override
 			public boolean onScale(ScaleGestureDetector detector) {
@@ -55,29 +66,9 @@ public class ZoomControl {
 				
 				return true;
 			}
-			
-			@Override
-			public boolean onScaleBegin(ScaleGestureDetector detector) {
-				//Log.d("zoomGestureDector", "scale begin");
-				previousSpan = detector.getCurrentSpan();
-				return true;
-			}
-			
-			@Override
-			public void onScaleEnd(ScaleGestureDetector detector) {
-				//Log.d("zoomGestureDector", "scale end");
-			}
 		};
 	}
 
-	public OnScaleGestureListener getScaleGestureListner() {
-		return scaleGestureListner;
-	}
-	
-	public float getZoomFactor(){
-		return mCamera.getZoomFactor();
-	}
-	
 	public void zoomIn(){
 		zoomIn(1);
 	}
@@ -91,14 +82,6 @@ public class ZoomControl {
 		}
 	}
 	
-	public void zoomMostIn(){
-		mCamera.setZoomFactor(maxZoomFactor);
-	}
-
-	public void zoomMostOut(){
-		mCamera.setZoomFactor(minZoomFactor);
-	}
-	
 	public void zoomOut(){
 		zoomOut(1);
 	}
@@ -110,5 +93,21 @@ public class ZoomControl {
 		}else{
 			mCamera.setZoomFactor(minZoomFactor);
 		}
+	}
+	
+	public void zoomMostIn(){
+		mCamera.setZoomFactor(maxZoomFactor);
+	}
+
+	public void zoomMostOut(){
+		mCamera.setZoomFactor(minZoomFactor);
+	}
+	
+	public float getZoomFactor(){
+		return mCamera.getZoomFactor();
+	}
+	
+	public OnScaleGestureListener getScaleGestureListner() {
+		return scaleGestureListner;
 	}
 }

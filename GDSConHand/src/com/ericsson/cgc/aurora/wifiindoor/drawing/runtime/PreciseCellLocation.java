@@ -9,10 +9,35 @@ public class PreciseCellLocation {
 	
 	private float colPosition;
 
+	public float getRowPosition() {
+		return rowPosition;
+	}
+
+	public void setRowPosition(float rowPosition) {
+		this.rowPosition = rowPosition;
+	}
+
+	public float getColPosition() {
+		return colPosition;
+	}
+
+	public void setColPosition(float colPosition) {
+		this.colPosition = colPosition;
+	}
+
 	public PreciseCellLocation(float rowPosition, float colPosition) {
 		super();
 		this.rowPosition = rowPosition;
 		this.colPosition = colPosition;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Float.floatToIntBits(colPosition);
+		result = prime * result + Float.floatToIntBits(rowPosition);
+		return result;
 	}
 
 	@Override
@@ -31,31 +56,6 @@ public class PreciseCellLocation {
 				.floatToIntBits(other.rowPosition))
 			return false;
 		return true;
-	}
-
-	public float getColPosition() {
-		return colPosition;
-	}
-
-	public float getRowPosition() {
-		return rowPosition;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Float.floatToIntBits(colPosition);
-		result = prime * result + Float.floatToIntBits(rowPosition);
-		return result;
-	}
-
-	public void setColPosition(float colPosition) {
-		this.colPosition = colPosition;
-	}
-
-	public void setRowPosition(float rowPosition) {
-		this.rowPosition = rowPosition;
 	}
 
 	@Override

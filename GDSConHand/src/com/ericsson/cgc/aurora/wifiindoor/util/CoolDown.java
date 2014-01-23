@@ -4,16 +4,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class CoolDown {
-    class Task extends TimerTask {
-        public void run() {
-            valid = true;
-        }
-    }
     private boolean valid;
     private Timer timer;
-
     private long delay;
- 
+
     public CoolDown(long delay) {
         timer = new Timer();
         valid = true;
@@ -27,5 +21,11 @@ public class CoolDown {
             return true;
         }
         return false;
+    }
+ 
+    class Task extends TimerTask {
+        public void run() {
+            valid = true;
+        }
     }
 }

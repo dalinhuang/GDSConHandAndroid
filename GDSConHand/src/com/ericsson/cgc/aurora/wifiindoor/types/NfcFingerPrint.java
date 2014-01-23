@@ -15,35 +15,35 @@ public class NfcFingerPrint {
 		setDeviceName(Util.getDeviceName());
 	}
 
-	public String getAccountName() {
-		return accountName;
+	public String getTagId() {
+		return tagId;
 	}
 
-	public String getDeviceName() {
-		return deviceName;
+	public void setTagId(String tagId) {
+		this.tagId = tagId;
 	}
 	
 	public String getMyWifiMac() {
 		return myWifiMac;
 	}
 
-	public String getTagId() {
-		return tagId;
+	public void setMyWifiMac(String myWifiMac) {
+		this.myWifiMac = myWifiMac;
 	}
 
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
+	public String getDeviceName() {
+		return deviceName;
 	}
 
 	public void setDeviceName(String deviceName) {
 		this.deviceName = deviceName;
 	}
 
-	public void setMyWifiMac(String myWifiMac) {
-		this.myWifiMac = myWifiMac;
+	public String getAccountName() {
+		return accountName;
 	}
 
-	public void setTagId(String tagId) {
-		this.tagId = tagId;
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
 	}
 }

@@ -1,5 +1,8 @@
 package com.ericsson.cgc.aurora.wifiindoor.network;
 
+import com.ericsson.cgc.aurora.wifiindoor.util.NfcConstants;
+import com.ericsson.cgc.aurora.wifiindoor.util.WifiIpsSettings;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -8,9 +11,6 @@ import android.nfc.Tag;
 import android.nfc.tech.MifareClassic;
 import android.text.TextUtils;
 import android.util.Log;
-
-import com.ericsson.cgc.aurora.wifiindoor.util.NfcConstants;
-import com.ericsson.cgc.aurora.wifiindoor.util.WifiIpsSettings;
 
 public class NfcInfoManager {
 	private static final boolean DEBUG = WifiIpsSettings.DEBUG;
@@ -22,27 +22,20 @@ public class NfcInfoManager {
 		nfcAdapter = NfcAdapter.getDefaultAdapter(paramContext);
 	}
 	
-	/**
-	 * bytesToHexString
-	 * 
-	 * @param src
-	 * @return
-	 * @param
-	 * @return
-	 */
-	@SuppressLint("DefaultLocale")
-	private String bytesToHexString(byte[] src) {
-		StringBuilder stringBuilder = new StringBuilder();
-		if (src == null || src.length <= 0) {
-			return null;
+	public boolean isNfcEmbeded() {
+		if (nfcAdapter==null){
+			return false;
 		}
-		char[] buffer = new char[2];
-		for (int i = 0; i < src.length; i++) {
-			buffer[0] = Character.forDigit((src[i] >>> 4) & 0x0F, 16);
-			buffer[1] = Character.forDigit(src[i] & 0x0F, 16);
-			stringBuilder.append(buffer);
+		
+		return true;
+	}
+	
+	public boolean isNfcEnabled(){
+		if (!isNfcEmbeded()) {
+			return false;
 		}
-		return stringBuilder.toString().toUpperCase();
+		
+		return nfcAdapter.isEnabled();
 	}
 	
 	public NfcAdapter getNfcAdapter(){
@@ -69,58 +62,6 @@ public class NfcInfoManager {
 
 		return rfidFullString.substring(0,
 				NfcConstants.RFID_STRING_MAX_LENGTH);
-	}
-	
-	public boolean isNfcEmbeded() {
-		if (nfcAdapter==null){
-			return false;
-		}
-		
-		return true;
-	}
-	
-	public boolean isNfcEnabled(){
-		if (!isNfcEmbeded()) {
-			return false;
-		}
-		
-		return nfcAdapter.isEnabled();
-	}
-
-	private Tag parseTagFromIntent(Intent intent) {
-		if (DEBUG)
-			Log.d(TAG, "parseNfcIntent()");
-
-		Tag tag;
-
-		String action = intent.getAction();
-
-		if (!action.equals(NfcAdapter.ACTION_TECH_DISCOVERED)) {
-			if (DEBUG)
-				Log.d(TAG, "invalid action.");
-			return null;
-		}
-
-		tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-
-		if ((tag == null) || (tag.getTechList().length == 0)) {
-			if (DEBUG)
-				Log.d(TAG, "TAG is null or doesn't include any tech.");
-
-			return null;
-		}
-
-		if (DEBUG) {
-			Log.d(TAG, "Support below techs.");
-			for (String tech : tag.getTechList()) {
-				Log.d(TAG, tech);
-			}
-		}
-
-		if (DEBUG)
-			Log.d(TAG, "mTag.getId() == " + bytesToHexString(tag.getId()));
-
-		return tag;
 	}
 	
 	/**
@@ -186,7 +127,7 @@ public class NfcInfoManager {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * readDataFromTag
 	 * 
@@ -218,5 +159,64 @@ public class NfcInfoManager {
 			e.printStackTrace();
 		}
 		return metaInfo;
+	}
+	
+	private Tag parseTagFromIntent(Intent intent) {
+		if (DEBUG)
+			Log.d(TAG, "parseNfcIntent()");
+
+		Tag tag;
+
+		String action = intent.getAction();
+
+		if (!action.equals(NfcAdapter.ACTION_TECH_DISCOVERED)) {
+			if (DEBUG)
+				Log.d(TAG, "invalid action.");
+			return null;
+		}
+
+		tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+
+		if ((tag == null) || (tag.getTechList().length == 0)) {
+			if (DEBUG)
+				Log.d(TAG, "TAG is null or doesn't include any tech.");
+
+			return null;
+		}
+
+		if (DEBUG) {
+			Log.d(TAG, "Support below techs.");
+			for (String tech : tag.getTechList()) {
+				Log.d(TAG, tech);
+			}
+		}
+
+		if (DEBUG)
+			Log.d(TAG, "mTag.getId() == " + bytesToHexString(tag.getId()));
+
+		return tag;
+	}
+	
+	/**
+	 * bytesToHexString
+	 * 
+	 * @param src
+	 * @return
+	 * @param
+	 * @return
+	 */
+	@SuppressLint("DefaultLocale")
+	private String bytesToHexString(byte[] src) {
+		StringBuilder stringBuilder = new StringBuilder();
+		if (src == null || src.length <= 0) {
+			return null;
+		}
+		char[] buffer = new char[2];
+		for (int i = 0; i < src.length; i++) {
+			buffer[0] = Character.forDigit((src[i] >>> 4) & 0x0F, 16);
+			buffer[1] = Character.forDigit(src[i] & 0x0F, 16);
+			stringBuilder.append(buffer);
+		}
+		return stringBuilder.toString().toUpperCase();
 	}
 }

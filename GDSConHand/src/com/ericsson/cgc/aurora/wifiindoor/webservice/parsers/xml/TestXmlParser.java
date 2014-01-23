@@ -11,12 +11,12 @@ import java.io.IOException;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.util.Log;
-
 import com.ericsson.cgc.aurora.wifiindoor.util.WifiIpsSettings;
 import com.ericsson.cgc.aurora.wifiindoor.webservice.error.WifiIpsError;
 import com.ericsson.cgc.aurora.wifiindoor.webservice.error.WifiIpsParseException;
 import com.ericsson.cgc.aurora.wifiindoor.webservice.types.Test;
+
+import android.util.Log;
 
 
 /**

@@ -13,20 +13,20 @@ public class WifiFingerPrintSample {
 		setBirthday(birthday);
 	}
 
-	public long getBirthday() {
-		return birthday;
-	}
-	
 	public ArrayList<MyWifiInfo> getNeighboringAPs() {
 		return neighboringAPs;
+	}
+	
+	public void setNeighboringAPs(ArrayList<MyWifiInfo> neighboringAPs) {
+		this.neighboringAPs = neighboringAPs;
+	}
+
+	public long getBirthday() {
+		return birthday;
 	}
 
 	public void setBirthday(long birthday) {
 		this.birthday = birthday;
-	}
-
-	public void setNeighboringAPs(ArrayList<MyWifiInfo> neighboringAPs) {
-		this.neighboringAPs = neighboringAPs;
 	}
 
 }

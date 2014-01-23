@@ -29,4 +29,5 @@ public class MsgConstants {
 	public static final int MT_MAP_INFO_QUERY = 13;
 	public static final int MT_NAVI_INFO_QUERY = 14;
 	public static final int MT_AD_INFO_QUERY = 15;
+	public static final int MT_INTEREST_PLACES_QUERY = 16;
 }

@@ -22,11 +22,6 @@ public class OutgoingMessageQueue {
 
 	private static Object mAccessLock = new Object();
 
-	public static boolean isEmpty() {
-		return mQueue.isEmpty();
-
-	}
-
 	public static boolean offer(JSONObject data) {
 		synchronized (mAccessLock) {
 			return mQueue.offer(data);
@@ -43,5 +38,10 @@ public class OutgoingMessageQueue {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public static boolean isEmpty() {
+		return mQueue.isEmpty();
+
 	}
 }

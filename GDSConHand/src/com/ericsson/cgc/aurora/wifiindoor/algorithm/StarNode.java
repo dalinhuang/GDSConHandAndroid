@@ -25,8 +25,8 @@ public class StarNode {
 		}
 	}
 
-	public Cell getLocation() {
-		return this.location;
+	public void setSearchParent(StarNode searchParent) {
+		this.searchParent = searchParent;
 	}
 
 	public StarNode getSearchParent() {
@@ -37,7 +37,7 @@ public class StarNode {
 		this.location = location;
 	}
 
-	public void setSearchParent(StarNode searchParent) {
-		this.searchParent = searchParent;
+	public Cell getLocation() {
+		return this.location;
 	}
 }

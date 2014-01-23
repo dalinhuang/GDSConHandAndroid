@@ -24,55 +24,36 @@ public class NaviInfo implements Serializable{
 	private ArrayList<NaviNode> nodes;
 	private ArrayList<NaviData> paths;
 
-	//Set current InoorMap from XML file
-	public boolean fromXML(InputStream map_file_is){
-		XStream xs = new XStream();
-		setAlias(xs);
-
-		try {
-			xs.fromXML(map_file_is, this);
-			
-			map_file_is.close();
-			return true;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		
-		return false;
+	public int getVersionCode() {
+		return versionCode;
 	}
 
-	//Set current IndoorMap from XML file
-	public boolean fromXML(String map_file_path){
-		XStream xs = new XStream();
-		setAlias(xs);
-
-		try {
-			FileInputStream fis = new FileInputStream(map_file_path);
-			xs.fromXML(fis, this);
-			
-			fis.close();
-			return true;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		
-		return false;
+	public void setVersionCode(int versionCode) {
+		this.versionCode = versionCode;
 	}
 
 	public int getId() {
 		return id;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public ArrayList<NaviNode> getNodes() {
 		return nodes;
 	}
 
+	public void setNodes(ArrayList<NaviNode> nodes) {
+		this.nodes = nodes;
+	}
+	
 	public ArrayList<NaviData> getPaths() {
 		return paths;
 	}
 
-	public int getVersionCode() {
-		return versionCode;
+	public void setPaths(ArrayList<NaviData> paths) {
+		this.paths = paths;
 	}
 	
 	//Set Alias for the XML serialization
@@ -81,30 +62,6 @@ public class NaviInfo implements Serializable{
 		xs.alias("NaviNode", com.ericsson.cgc.aurora.wifiindoor.map.NaviNode.class);
 		xs.alias("NaviData", com.ericsson.cgc.aurora.wifiindoor.map.NaviData.class);
 		//Invoke other objects' setAlias methods here
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public void setNodes(ArrayList<NaviNode> nodes) {
-		this.nodes = nodes;
-	}
-	
-	public void setPaths(ArrayList<NaviData> paths) {
-		this.paths = paths;
-	}
-	
-	public void setVersionCode(int versionCode) {
-		this.versionCode = versionCode;
-	}
-	
-	//test
-	public String toString(){
-		//Serialize this object
-		XStream xs = new XStream();
-		setAlias(xs);
-		return xs.toXML(this);
 	}
 	
 	public boolean toXML(){
@@ -135,6 +92,49 @@ public class NaviInfo implements Serializable{
 		}
 		
 		return true;
+	}
+	
+	//Set current InoorMap from XML file
+	public boolean fromXML(InputStream map_file_is){
+		XStream xs = new XStream();
+		setAlias(xs);
+
+		try {
+			xs.fromXML(map_file_is, this);
+			
+			map_file_is.close();
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	//Set current IndoorMap from XML file
+	public boolean fromXML(String map_file_path){
+		XStream xs = new XStream();
+		setAlias(xs);
+
+		try {
+			FileInputStream fis = new FileInputStream(map_file_path);
+			xs.fromXML(fis, this);
+			
+			fis.close();
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	//test
+	public String toString(){
+		//Serialize this object
+		XStream xs = new XStream();
+		setAlias(xs);
+		return xs.toXML(this);
 	}
 
 }

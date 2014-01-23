@@ -19,6 +19,7 @@ import com.ericsson.cgc.aurora.wifiindoor.ads.AdvertiseInfoReplyJsonParser;
 import com.ericsson.cgc.aurora.wifiindoor.types.ApkVersionReply;
 import com.ericsson.cgc.aurora.wifiindoor.types.BuildingManagerReply;
 import com.ericsson.cgc.aurora.wifiindoor.types.IndoorMapReply;
+import com.ericsson.cgc.aurora.wifiindoor.types.InterestPlacesInfoReply;
 import com.ericsson.cgc.aurora.wifiindoor.types.Location;
 import com.ericsson.cgc.aurora.wifiindoor.types.LocationSet;
 import com.ericsson.cgc.aurora.wifiindoor.types.MapInfoReply;
@@ -33,6 +34,7 @@ import com.ericsson.cgc.aurora.wifiindoor.webservice.error.WifiIpsException;
 import com.ericsson.cgc.aurora.wifiindoor.webservice.parsers.json.ApkVersionJsonParser;
 import com.ericsson.cgc.aurora.wifiindoor.webservice.parsers.json.BuildingManagerReplyJsonParser;
 import com.ericsson.cgc.aurora.wifiindoor.webservice.parsers.json.IndoorMapReplyJsonParser;
+import com.ericsson.cgc.aurora.wifiindoor.webservice.parsers.json.InterestPlacesInfoReplyJsonParser;
 import com.ericsson.cgc.aurora.wifiindoor.webservice.parsers.json.LocationJsonParser;
 import com.ericsson.cgc.aurora.wifiindoor.webservice.parsers.json.LocationSetJsonParser;
 import com.ericsson.cgc.aurora.wifiindoor.webservice.parsers.json.MapInfoReplyJsonParser;
@@ -70,20 +72,45 @@ public class WifiIpsHttpApi {
 		mHttpApi = new HttpApiWithNoAuth(clientVersion);
 	}
 
-	public void collect(JSONObject json) throws WifiIpsException,
+	public Test testPostXml(String parameter) throws WifiIpsException,
 			WifiIpsCredentialsException, WifiIpsError, IOException {
 		HttpPost httpPost = mHttpApi.createHttpPost(
-				fullUrl(WifiIpsSettings.URL_API_COLLECT), json);
-		mHttpApi.doHttpRequest(httpPost, mNullJsonParser);
+				fullUrl(WifiIpsSettings.URL_API_TEST), new BasicNameValuePair(
+						"parameter", parameter));
+		return (Test) mHttpApi.doHttpRequest(httpPost, new TestXmlParser());
 	}
 
-	public void collectNfc(JSONObject json) throws WifiIpsException,
+	public Test testPostJson(JSONObject json) throws WifiIpsException,
 			WifiIpsCredentialsException, WifiIpsError, IOException {
 		HttpPost httpPost = mHttpApi.createHttpPost(
-				fullUrl(WifiIpsSettings.URL_API_NFC_COLLECT), json);
-		mHttpApi.doHttpRequest(httpPost, mNullJsonParser);
+				fullUrl(WifiIpsSettings.URL_API_TEST), json);
+		return (Test) mHttpApi.doHttpRequest(httpPost, new TestJsonParser());
 	}
 
+	public Test testGet(String parameter) throws WifiIpsException,
+			WifiIpsCredentialsException, WifiIpsError, IOException {
+		HttpGet httpGet = mHttpApi.createHttpGet(
+				fullUrl(WifiIpsSettings.URL_API_TEST), new BasicNameValuePair(
+						"parameter", parameter));
+		return (Test) mHttpApi.doHttpRequest(httpGet, new TestXmlParser());
+	}
+
+	public LocationSet locate(JSONObject json) throws WifiIpsException,
+			WifiIpsCredentialsException, WifiIpsError, IOException {
+		HttpPost httpPost = mHttpApi.createHttpPost(
+				fullUrl(WifiIpsSettings.URL_API_LOCATE), json);
+		return (LocationSet) mHttpApi.doHttpRequest(httpPost,
+				new LocationSetJsonParser());
+	}
+	
+	public TestLocateCollectReply locateTest(JSONObject json) throws WifiIpsException,
+			WifiIpsCredentialsException, WifiIpsError, IOException {
+		HttpPost httpPost = mHttpApi.createHttpPost(
+				fullUrl(WifiIpsSettings.URL_API_LOCATE_TEST), json);
+		return (TestLocateCollectReply) mHttpApi.doHttpRequest(httpPost,
+				new TestLocationJsonParser());
+	}
+	
 	public TestLocateCollectReply collectTest(JSONObject json) throws WifiIpsException,
 			WifiIpsCredentialsException, WifiIpsError, IOException {
 		HttpPost httpPost = mHttpApi.createHttpPost(
@@ -92,39 +119,11 @@ public class WifiIpsHttpApi {
 				new TestLocationJsonParser());
 	}
 
-	public void deleteFingerprint(JSONObject json) throws WifiIpsException,
+	public void collect(JSONObject json) throws WifiIpsException,
 			WifiIpsCredentialsException, WifiIpsError, IOException {
 		HttpPost httpPost = mHttpApi.createHttpPost(
-				fullUrl(WifiIpsSettings.URL_API_DELETE_FINGERPRINT), json);
+				fullUrl(WifiIpsSettings.URL_API_COLLECT), json);
 		mHttpApi.doHttpRequest(httpPost, mNullJsonParser);
-	}
-	
-	private String fullUrl(String url) {
-		return mApiBaseUrl + url;
-	}
-	
-	public LocationSet locate(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
-		HttpPost httpPost = mHttpApi.createHttpPost(
-				fullUrl(WifiIpsSettings.URL_API_LOCATE), json);
-		return (LocationSet) mHttpApi.doHttpRequest(httpPost,
-				new LocationSetJsonParser());
-	}
-
-	public Location locateBaseOnNfc(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
-		HttpPost httpPost = mHttpApi.createHttpPost(
-				fullUrl(WifiIpsSettings.URL_API_LOCATE_BASE_NFC), json);
-		return (Location) mHttpApi.doHttpRequest(httpPost,
-				new LocationJsonParser());
-	}
-
-	public TestLocateCollectReply locateTest(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
-		HttpPost httpPost = mHttpApi.createHttpPost(
-				fullUrl(WifiIpsSettings.URL_API_LOCATE_TEST), json);
-		return (TestLocateCollectReply) mHttpApi.doHttpRequest(httpPost,
-				new TestLocationJsonParser());
 	}
 
 	public QueryInfo query(JSONObject json) throws WifiIpsException,
@@ -135,13 +134,27 @@ public class WifiIpsHttpApi {
 				new QueryInfoJsonParser());
 	}
 
-	public AdGroup queryAdvertiseInfo(JSONObject json) throws WifiIpsException,
-            WifiIpsCredentialsException, WifiIpsError, IOException {
-        HttpPost httpPost = mHttpApi.createHttpPost(
-                 fullUrl(WifiIpsSettings.URL_API_QUERY_ADVERTISE_INFO), json);
-        return (AdGroup) mHttpApi.doHttpRequest(httpPost,
-                 new AdvertiseInfoReplyJsonParser());
-   }
+	public void collectNfc(JSONObject json) throws WifiIpsException,
+			WifiIpsCredentialsException, WifiIpsError, IOException {
+		HttpPost httpPost = mHttpApi.createHttpPost(
+				fullUrl(WifiIpsSettings.URL_API_NFC_COLLECT), json);
+		mHttpApi.doHttpRequest(httpPost, mNullJsonParser);
+	}
+
+	public Location locateBaseOnNfc(JSONObject json) throws WifiIpsException,
+			WifiIpsCredentialsException, WifiIpsError, IOException {
+		HttpPost httpPost = mHttpApi.createHttpPost(
+				fullUrl(WifiIpsSettings.URL_API_LOCATE_BASE_NFC), json);
+		return (Location) mHttpApi.doHttpRequest(httpPost,
+				new LocationJsonParser());
+	}
+	
+	public void deleteFingerprint(JSONObject json) throws WifiIpsException,
+			WifiIpsCredentialsException, WifiIpsError, IOException {
+		HttpPost httpPost = mHttpApi.createHttpPost(
+				fullUrl(WifiIpsSettings.URL_API_DELETE_FINGERPRINT), json);
+		mHttpApi.doHttpRequest(httpPost, mNullJsonParser);
+	}
 	
 	public ApkVersionReply queryApkVersion(JSONObject json) throws WifiIpsException,
 			WifiIpsCredentialsException, WifiIpsError, IOException {
@@ -157,6 +170,14 @@ public class WifiIpsHttpApi {
 				fullUrl(WifiIpsSettings.URL_API_QUERY_BUILDING), json);
 		return (BuildingManagerReply) mHttpApi.doHttpRequest(httpPost,
 				new BuildingManagerReplyJsonParser());
+	}
+	
+	public MapManagerReply queryMaps(JSONObject json) throws WifiIpsException,
+			WifiIpsCredentialsException, WifiIpsError, IOException {
+		HttpPost httpPost = mHttpApi.createHttpPost(
+				fullUrl(WifiIpsSettings.URL_API_QUERY_MAP_LIST), json);
+		return (MapManagerReply) mHttpApi.doHttpRequest(httpPost,
+				new MapManagerReplyJsonParser());
 	}
 	
 	public IndoorMapReply queryMap(JSONObject json) throws WifiIpsException,
@@ -175,14 +196,6 @@ public class WifiIpsHttpApi {
 				new MapInfoReplyJsonParser());
 	}
 	
-	public MapManagerReply queryMaps(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
-		HttpPost httpPost = mHttpApi.createHttpPost(
-				fullUrl(WifiIpsSettings.URL_API_QUERY_MAP_LIST), json);
-		return (MapManagerReply) mHttpApi.doHttpRequest(httpPost,
-				new MapManagerReplyJsonParser());
-	}
-	
 	public NaviInfoReply queryNaviInfo(JSONObject json) throws WifiIpsException,
 			WifiIpsCredentialsException, WifiIpsError, IOException {
 		HttpPost httpPost = mHttpApi.createHttpPost(
@@ -191,26 +204,24 @@ public class WifiIpsHttpApi {
 				new NaviInfoReplyJsonParser());
 	}
 	
-	public Test testGet(String parameter) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
-		HttpGet httpGet = mHttpApi.createHttpGet(
-				fullUrl(WifiIpsSettings.URL_API_TEST), new BasicNameValuePair(
-						"parameter", parameter));
-		return (Test) mHttpApi.doHttpRequest(httpGet, new TestXmlParser());
+	public AdGroup queryAdvertiseInfo(JSONObject json) throws WifiIpsException,
+            WifiIpsCredentialsException, WifiIpsError, IOException {
+        HttpPost httpPost = mHttpApi.createHttpPost(
+                 fullUrl(WifiIpsSettings.URL_API_QUERY_ADVERTISE_INFO), json);
+        return (AdGroup) mHttpApi.doHttpRequest(httpPost,
+                 new AdvertiseInfoReplyJsonParser());
 	}
 	
-	public Test testPostJson(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
+	public InterestPlacesInfoReply queryInterestPlacesInfo(JSONObject json) throws WifiIpsException,
+    		WifiIpsCredentialsException, WifiIpsError, IOException {
 		HttpPost httpPost = mHttpApi.createHttpPost(
-				fullUrl(WifiIpsSettings.URL_API_TEST), json);
-		return (Test) mHttpApi.doHttpRequest(httpPost, new TestJsonParser());
-	}	
-
-	public Test testPostXml(String parameter) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
-		HttpPost httpPost = mHttpApi.createHttpPost(
-				fullUrl(WifiIpsSettings.URL_API_TEST), new BasicNameValuePair(
-						"parameter", parameter));
-		return (Test) mHttpApi.doHttpRequest(httpPost, new TestXmlParser());
+                fullUrl(WifiIpsSettings.URL_API_QUERY_INTEREST_PLACES), json);
+        return (InterestPlacesInfoReply) mHttpApi.doHttpRequest(httpPost,
+                 new InterestPlacesInfoReplyJsonParser());
 	}
+
+	private String fullUrl(String url) {
+		return mApiBaseUrl + url;
+	}
+
 }

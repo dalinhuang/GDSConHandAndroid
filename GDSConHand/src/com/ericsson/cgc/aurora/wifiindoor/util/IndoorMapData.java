@@ -32,6 +32,7 @@ public final class IndoorMapData {
 	public static final String BUNDLE_KEY_MAP_INFO = "MAP_INFO";
 	public static final String BUNDLE_KEY_LOCATION_INFO = "LOCATION_INFO";
 	public static final String BUNDLE_KEY_NAVI_RESULT = "NAVI_RESULT";
+	public static final String BUNDLE_KEY_INTEREST_PLACE_INSTANCE = "INTEREST_PLACE";
 	
 	public static final int BUNDLE_VALUE_REQ_FROM_LOCATOR = 0;
 	public static final int BUNDLE_VALUE_REQ_FROM_SELECTOR = 1;
@@ -55,6 +56,7 @@ public final class IndoorMapData {
 	public static final String BUILDING_MANAGER_FILE_NAME = "building_manager.xml";
 	public static final String MAP_INFO_FILE_NAME = "map_info.xml";
 	public static final String NAVI_INFO_FILE_NAME = "navigator.xml";
+	public static final String INTEREST_PLACE_INFO_FILE_NAME = "interest_places.xml";
 	
 	// Put all Map Sanity checking return codes here
 	public static final int MAP_SANITY_RC_OK = 255;

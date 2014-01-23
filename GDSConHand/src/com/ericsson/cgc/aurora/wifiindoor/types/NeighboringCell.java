@@ -18,46 +18,10 @@ public class NeighboringCell {
 	private int networkType;
 
 	/**
-	 * @return the cid
-	 */
-	public int getCid() {
-		return cid;
-	}
-
-	/**
 	 * @return the lac
 	 */
 	public int getLac() {
 		return lac;
-	}
-
-	/**
-	 * @return the networkType
-	 */
-	public int getNetworkType() {
-		return networkType;
-	}
-
-	/**
-	 * @return the psc
-	 */
-	public int getPsc() {
-		return psc;
-	}
-
-	/**
-	 * @return the rssi
-	 */
-	public int getRssi() {
-		return rssi;
-	}
-
-	/**
-	 * @param cid
-	 *            the cid to set
-	 */
-	public void setCid(int cid) {
-		this.cid = cid;
 	}
 
 	/**
@@ -69,11 +33,25 @@ public class NeighboringCell {
 	}
 
 	/**
-	 * @param networkType
-	 *            the networkType to set
+	 * @return the cid
 	 */
-	public void setNetworkType(int networkType) {
-		this.networkType = networkType;
+	public int getCid() {
+		return cid;
+	}
+
+	/**
+	 * @param cid
+	 *            the cid to set
+	 */
+	public void setCid(int cid) {
+		this.cid = cid;
+	}
+
+	/**
+	 * @return the psc
+	 */
+	public int getPsc() {
+		return psc;
 	}
 
 	/**
@@ -85,11 +63,33 @@ public class NeighboringCell {
 	}
 
 	/**
+	 * @return the rssi
+	 */
+	public int getRssi() {
+		return rssi;
+	}
+
+	/**
 	 * @param rssi
 	 *            the rssi to set
 	 */
 	public void setRssi(int rssi) {
 		this.rssi = rssi;
+	}
+
+	/**
+	 * @return the networkType
+	 */
+	public int getNetworkType() {
+		return networkType;
+	}
+
+	/**
+	 * @param networkType
+	 *            the networkType to set
+	 */
+	public void setNetworkType(int networkType) {
+		this.networkType = networkType;
 	}
 
 }

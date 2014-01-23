@@ -15,7 +15,13 @@ import com.ericsson.cgc.aurora.wifiindoor.runtime.RuntimeUser;
 public class SoundIndoorMapListener implements RuntimeIndoorMapListener {
 
 	@Override
-	public void appear(RuntimeUser user) {
+	public void initial(RuntimeIndoorMap runtimeIndoorMap) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void modeChanged(AnimatedSprite sprite, int mode) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -27,7 +33,7 @@ public class SoundIndoorMapListener implements RuntimeIndoorMapListener {
 	}
 
 	@Override
-	public void initial(RuntimeIndoorMap runtimeIndoorMap) {
+	public void appear(RuntimeUser user) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -35,12 +41,6 @@ public class SoundIndoorMapListener implements RuntimeIndoorMapListener {
 	@Override
 	public void locate(RuntimeIndoorMap runtimeIndoorMap, int rowNo, int colNo,
 			int userType, int idx) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void modeChanged(AnimatedSprite sprite, int mode) {
 		// TODO Auto-generated method stub
 		
 	}

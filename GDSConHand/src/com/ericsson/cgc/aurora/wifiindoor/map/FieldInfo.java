@@ -12,52 +12,52 @@ public class FieldInfo implements Serializable {
 	private float alpha;
 	private float rotation;
 	
-	public float getAlpha() {
-		return alpha;
-	}
-	
-	public String getInfo() {
-		return info;
-	}
-
-	public float getRotation() {
-		return rotation;
-	}
-
-	public float getScale() {
-		return scale;
-	}
-
 	public int getX() {
 		return x;
+	}
+	
+	public void setX(int x) {
+		this.x = x;
 	}
 
 	public int getY() {
 		return y;
 	}
 
-	public void setAlpha(float alpha) {
-		this.alpha = alpha;
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public String getInfo() {
+		return info;
 	}
 
 	public void setInfo(String info) {
 		this.info = info;
 	}
 
-	public void setRotation(float rotation) {
-		this.rotation = rotation;
+	public float getScale() {
+		return scale;
 	}
 
 	public void setScale(float scale) {
 		this.scale = scale;
 	}
 
-	public void setX(int x) {
-		this.x = x;
+	public float getAlpha() {
+		return alpha;
 	}
 
-	public void setY(int y) {
-		this.y = y;
+	public void setAlpha(float alpha) {
+		this.alpha = alpha;
+	}
+
+	public float getRotation() {
+		return rotation;
+	}
+
+	public void setRotation(float rotation) {
+		this.rotation = rotation;
 	}
 
 }

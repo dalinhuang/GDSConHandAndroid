@@ -39,17 +39,17 @@ import com.zxing.view.ViewfinderResultPointCallback;
  */
 public final class CaptureActivityHandler extends Handler {
 
+  private static final String TAG = CaptureActivityHandler.class.getSimpleName();
+
+  private final QrScannerActivity activity;
+  private final DecodeThread decodeThread;
+  private State state;
+
   private enum State {
     PREVIEW,
     SUCCESS,
     DONE
   }
-
-  private static final String TAG = CaptureActivityHandler.class.getSimpleName();
-  private final QrScannerActivity activity;
-  private final DecodeThread decodeThread;
-
-  private State state;
 
   public CaptureActivityHandler(QrScannerActivity activity, Vector<BarcodeFormat> decodeFormats,
       String characterSet) {

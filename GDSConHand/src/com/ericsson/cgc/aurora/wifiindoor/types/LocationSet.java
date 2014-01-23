@@ -7,6 +7,14 @@ import com.ericsson.cgc.aurora.wifiindoor.webservice.types.IType;
 public class LocationSet implements IType {
 	private ArrayList<Location> locations;
 
+	public ArrayList<Location> getLocations() {
+		return locations;
+	}
+
+	public void setLocations(ArrayList<Location> locations) {
+		this.locations = locations;
+	}
+	
 	public Location balanceLocation() {
 		if (locations == null) {
 			return new Location(-1, -1, -1, -1);
@@ -86,14 +94,6 @@ public class LocationSet implements IType {
 				return new Location(mapId,  Math.round(sumX/bestCnt), Math.round(sumY/bestCnt), version);
 			}
 		}		
-	}
-
-	public ArrayList<Location> getLocations() {
-		return locations;
-	}
-	
-	public void setLocations(ArrayList<Location> locations) {
-		this.locations = locations;
 	}
 	
 }

@@ -5,24 +5,24 @@ public class TestLocateCollectRequest {
 	private WifiFingerPrint fignerPrint;
 	private long timestamp;
 
-	public WifiFingerPrint getFignerPrint() {
-		return fignerPrint;
-	}
-
 	public Location getLocation() {
 		return location;
 	}
 
-	public long getTimestamp() {
-		return timestamp;
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+
+	public WifiFingerPrint getFignerPrint() {
+		return fignerPrint;
 	}
 
 	public void setFignerPrint(WifiFingerPrint fignerPrint) {
 		this.fignerPrint = fignerPrint;
 	}
 
-	public void setLocation(Location location) {
-		this.location = location;
+	public long getTimestamp() {
+		return timestamp;
 	}
 
 	public void setTimestamp(long timestamp) {

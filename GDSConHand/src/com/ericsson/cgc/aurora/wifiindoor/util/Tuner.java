@@ -9,10 +9,6 @@ public class Tuner {
 	private static boolean initialed = false;
 	private static Properties properties;
 	
-	public static Properties getProperties() {
-		return properties;
-	}
-	
 	public static void initial(){
 		
 		if (initialed) {
@@ -25,53 +21,7 @@ public class Tuner {
 			syncToConfig();
 		}
 	}
-
-	//读取配置文件 
-	public static boolean loadConfig() {		
-		if (properties == null) {
-			properties = new Properties();
-		}
-		
-		File file = Util.openOrCreateFileInPath(IndoorMapData.CONFIG_FILE_PATH, IndoorMapData.CONFIG_FILE_NAME, false);
-
-	    if (file == null) {
-	    	return false;
-	    }
-			
-		try {
-			FileInputStream s = new FileInputStream(file);
-			properties.load(s);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-		
-		return true;
-	}
 	
-	//保存配置文件
-	public static boolean saveConfig() {
-		File file = Util.openOrCreateFileInPath(IndoorMapData.CONFIG_FILE_PATH, IndoorMapData.CONFIG_FILE_NAME, false);
-
-	    if (file == null) {
-	    	return false;
-	    }
-			
-		try {
-			FileOutputStream s = new FileOutputStream(file);	
-			properties.store(s, "CONFIGURATION FOR WIFI IPS");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-		
-		return true;
-	}
-
-	public static void setProperties(Properties properties) {
-		Tuner.properties = properties;
-	}
-
 	public static void syncToConfig() {
 		if (properties == null) {
 			return;
@@ -352,5 +302,104 @@ public class Tuner {
 		} else {
 			properties.setProperty(key, WifiIpsSettings.URL_API_LOCATE_BASE_NFC);
 		}
+		
+		// Part VI:
+		key = "ADS_ENABLED";
+		value = properties.getProperty(key);
+		if (value != null) {
+			if (value.trim().equalsIgnoreCase("true")){
+				VisualParameters.ADS_ENABLED = true;
+			} else {
+				VisualParameters.ADS_ENABLED = false;
+			}
+		} else {
+			properties.setProperty(key, String.valueOf(VisualParameters.ADS_ENABLED));
+		}
+		
+		key = "BANNERS_ENABLED";
+		value = properties.getProperty(key);
+		if (value != null) {
+			if (value.trim().equalsIgnoreCase("true")){
+				VisualParameters.BANNERS_ENABLED = true;
+			} else {
+				VisualParameters.BANNERS_ENABLED = false;
+			}
+		} else {
+			properties.setProperty(key, String.valueOf(VisualParameters.BANNERS_ENABLED));
+		}
+		
+		key = "ENTRY_NEEDED";
+		value = properties.getProperty(key);
+		if (value != null) {
+			if (value.trim().equalsIgnoreCase("true")){
+				VisualParameters.ENTRY_NEEDED = true;
+			} else {
+				VisualParameters.ENTRY_NEEDED = false;
+			}
+		} else {
+			properties.setProperty(key, String.valueOf(VisualParameters.ENTRY_NEEDED));
+		}
+		
+		key = "GOOGLE_MAP_EMBEDDED";
+		value = properties.getProperty(key);
+		if (value != null) {
+			if (value.trim().equalsIgnoreCase("true")){
+				VisualParameters.GOOGLE_MAP_EMBEDDED = true;
+			} else {
+				VisualParameters.GOOGLE_MAP_EMBEDDED = false;
+			}
+		} else {
+			properties.setProperty(key, String.valueOf(VisualParameters.GOOGLE_MAP_EMBEDDED));
+		}
+	}
+
+	//Load Configuration from file
+	public static boolean loadConfig() {		
+		if (properties == null) {
+			properties = new Properties();
+		}
+		
+		File file = Util.openOrCreateFileInPath(IndoorMapData.CONFIG_FILE_PATH, IndoorMapData.CONFIG_FILE_NAME, false);
+
+	    if (file == null) {
+	    	return false;
+	    }
+			
+		try {
+			FileInputStream s = new FileInputStream(file);
+			properties.load(s);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+	
+	// save Configuration to file
+	public static boolean saveConfig() {
+		File file = Util.openOrCreateFileInPath(IndoorMapData.CONFIG_FILE_PATH, IndoorMapData.CONFIG_FILE_NAME, false);
+
+	    if (file == null) {
+	    	return false;
+	    }
+			
+		try {
+			FileOutputStream s = new FileOutputStream(file);	
+			properties.store(s, "CONFIGURATION FOR WIFI IPS");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+
+	public static Properties getProperties() {
+		return properties;
+	}
+
+	public static void setProperties(Properties properties) {
+		Tuner.properties = properties;
 	}
 }

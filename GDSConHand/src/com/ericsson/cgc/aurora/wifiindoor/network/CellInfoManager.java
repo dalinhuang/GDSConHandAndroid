@@ -13,149 +13,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.telephony.CellLocation;
-import android.telephony.NeighboringCellInfo;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
-import android.telephony.cdma.CdmaCellLocation;
-import android.telephony.gsm.GsmCellLocation;
-
 import com.ericsson.cgc.aurora.wifiindoor.types.MobileCell;
 import com.ericsson.cgc.aurora.wifiindoor.types.NeighboringCell;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+
+import android.telephony.NeighboringCellInfo;
+import android.telephony.TelephonyManager;
+import android.telephony.cdma.CdmaCellLocation;
+import android.telephony.gsm.GsmCellLocation;
+import android.telephony.CellLocation;
+import android.telephony.PhoneStateListener;
+
 public class CellInfoManager {
-	class CellInfoListener extends PhoneStateListener {
-
-		CellInfoListener(CellInfoManager manager) {
-		}
-
-		public void onCellLocationChanged(CellLocation paramCellLocation) {
-			if (telephonyManager != null) {
-				setCurrentLocation(CellInfoManager.this.telephonyManager
-						.getCellLocation());
-			}
-		}
-
-		public void onSignalStrengthChanged(int paramInt) {
-			CellInfoManager.this.setAsu(paramInt);
-		}
-
-	}
-
-	public static int dBm(int i) {
-		int j;
-
-		if (i >= 0 && i <= 31) {
-			j = i * 2 + -113;
-		} else {
-			j = 0;
-		}
-
-		return j;
-	}
-	private static String getJsonCellPos(int mcc, int mnc, int lac, int cid)
-			throws JSONException {
-		JSONObject jsonCellPos = new JSONObject();
-		jsonCellPos.put("version", "1.1.0");
-		jsonCellPos.put("host", "maps.google.com");
-
-		JSONArray array = new JSONArray();
-		JSONObject json1 = new JSONObject();
-		json1.put("location_area_code", "" + lac + "");
-		json1.put("mobile_country_code", "" + mcc + "");
-		json1.put("mobile_network_code", "" + mnc + "");
-		json1.put("age", 0);
-		json1.put("cell_id", "" + cid + "");
-		array.put(json1);
-
-		jsonCellPos.put("cell_towers", array);
-		return jsonCellPos.toString();
-	}
-	public static String httpPost(String url, String jsonCellPos)
-			throws IOException {
-		byte[] data = jsonCellPos.toString().getBytes();
-		URL realUrl = new URL(url);
-		HttpURLConnection httpURLConnection = (HttpURLConnection) realUrl
-				.openConnection();
-		httpURLConnection.setConnectTimeout(6 * 1000);
-		httpURLConnection.setDoOutput(true);
-		httpURLConnection.setDoInput(true);
-		httpURLConnection.setUseCaches(false);
-		httpURLConnection.setRequestMethod("POST");
-		httpURLConnection.setRequestProperty("Accept",
-				"application/json, text/javascript, */*; q=0.01");
-		httpURLConnection.setRequestProperty("Accept-Charset",
-				"GBK,utf-8;q=0.7,*;q=0.3");
-		httpURLConnection.setRequestProperty("Accept-Encoding",
-				"gzip,deflate,sdch");
-		httpURLConnection.setRequestProperty("Accept-Language",
-				"zh-CN,zh;q=0.8");
-		httpURLConnection.setRequestProperty("Connection", "Keep-Alive");
-		httpURLConnection.setRequestProperty("Content-Length",
-				String.valueOf(data.length));
-		httpURLConnection.setRequestProperty("Content-Type",
-				"application/json; charset=UTF-8");
-
-		httpURLConnection.setRequestProperty("Host", "www.minigps.net");
-		httpURLConnection.setRequestProperty("Referer",
-				"http://www.minigps.net/map.html");
-		httpURLConnection
-				.setRequestProperty(
-						"User-Agent",
-						"Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4X-Requested-With:XMLHttpRequest");
-
-		httpURLConnection.setRequestProperty("X-Requested-With",
-				"XMLHttpRequest");
-		httpURLConnection.setRequestProperty("Host", "www.minigps.net");
-
-		DataOutputStream outStream = new DataOutputStream(
-				httpURLConnection.getOutputStream());
-		outStream.write(data);
-		outStream.flush();
-		outStream.close();
-
-		if (httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-			InputStream inputStream = httpURLConnection.getInputStream();
-			return new String(read(inputStream));
-		}
-		return null;
-	}
-	public static String queryCellLocation(int mcc, int mnc, int lac, int cid) {
-		try {
-			String json = getJsonCellPos(mcc, mnc, lac, cid);
-			String url = "http://www.minigps.net/minigps/map/google/location";
-			return httpPost(url, json);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return "Unknown_Location";
-	}
-
-	public static byte[] read(InputStream inputSream) throws IOException {
-		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-		int len = -1;
-		byte[] buffer = new byte[1024];
-		while ((len = inputSream.read(buffer)) != -1) {
-			outStream.write(buffer, 0, len);
-		}
-		outStream.close();
-		inputSream.close();
-
-		return outStream.toByteArray();
-	}
-
 	private int asu;
 
 	private final PhoneStateListener listener;
-
 	private TelephonyManager telephonyManager;
-
 	private Context context;
-
 	private CellLocation currentLocation;
 
 	@SuppressWarnings("deprecation")
@@ -175,8 +51,126 @@ public class CellInfoManager {
 		}
 	}
 
+	public Context getContext() {
+		return context;
+	}
+
+	public void setContext(Context context) {
+		this.context = context;
+	}
+
+	public TelephonyManager getTelephonyManager() {
+		return telephonyManager;
+	}
+
 	public int getAsu() {
 		return asu;
+	}
+
+	public void setAsu(int asu) {
+		this.asu = asu;
+	}
+
+	public CellLocation getCurrentLocation() {
+		return currentLocation;
+	}
+
+	public void setCurrentLocation(CellLocation location) {
+		currentLocation = location;
+	}
+
+	public boolean isGsm() {
+		if (telephonyManager != null) {
+			if (telephonyManager.getPhoneType() == 1
+					&& currentLocation instanceof GsmCellLocation) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public boolean isCdma() {
+		if (telephonyManager != null) {
+			if (telephonyManager.getPhoneType() == 2
+					&& currentLocation instanceof CdmaCellLocation) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public static int dBm(int i) {
+		int j;
+
+		if (i >= 0 && i <= 31) {
+			j = i * 2 + -113;
+		} else {
+			j = 0;
+		}
+
+		return j;
+	}
+
+	public List<NeighboringCellInfo> getNeighboringCells() {
+		if (telephonyManager != null) {
+			List<NeighboringCellInfo> lsCellInfo = telephonyManager
+					.getNeighboringCellInfo();
+			return lsCellInfo;
+		}
+
+		return null;
+	}
+
+	public List<NeighboringCell> getNeighboringCellList() {
+		if (telephonyManager != null) {
+			List<NeighboringCellInfo> lsCellInfo = telephonyManager
+					.getNeighboringCellInfo();
+
+			List<NeighboringCell> list = new ArrayList<NeighboringCell>();
+
+			for (NeighboringCellInfo cell : lsCellInfo) {
+				NeighboringCell item = new NeighboringCell();
+				item.setLac(cell.getLac());
+				item.setCid(cell.getCid());
+				item.setPsc(cell.getPsc());
+				item.setRssi(cell.getRssi());
+				item.setNetworkType(cell.getNetworkType());
+
+				list.add(item);
+			}
+
+			return list;
+		}
+
+		return null;
+	}
+
+	public JSONArray neiboringCellInfo() {
+		JSONArray jsonArray = new JSONArray();
+
+		for (NeighboringCellInfo neighbor : getNeighboringCells()) {
+			JSONObject localJSONObject = getNeighborInfo(neighbor);
+			jsonArray.put(localJSONObject);
+		}
+
+		return jsonArray;
+	}
+
+	private JSONObject getNeighborInfo(NeighboringCellInfo neighbor) {
+		JSONObject jsonobject = new JSONObject();
+
+		try {
+			jsonobject.put("lac", neighbor.getLac());
+			jsonobject.put("cid", neighbor.getCid());
+			jsonobject.put("psc", neighbor.getPsc());
+			jsonobject.put("dbm", neighbor.getRssi());
+			jsonobject.put("type", neighbor.getNetworkType());
+		} catch (Exception ex) {
+		}
+
+		return jsonobject;
 	}
 
 	public MobileCell getConnectionCell() {
@@ -306,110 +300,117 @@ public class CellInfoManager {
 		return jsonobject;
 	}
 
-	public Context getContext() {
-		return context;
+	private static String getJsonCellPos(int mcc, int mnc, int lac, int cid)
+			throws JSONException {
+		JSONObject jsonCellPos = new JSONObject();
+		jsonCellPos.put("version", "1.1.0");
+		jsonCellPos.put("host", "maps.google.com");
+
+		JSONArray array = new JSONArray();
+		JSONObject json1 = new JSONObject();
+		json1.put("location_area_code", "" + lac + "");
+		json1.put("mobile_country_code", "" + mcc + "");
+		json1.put("mobile_network_code", "" + mnc + "");
+		json1.put("age", 0);
+		json1.put("cell_id", "" + cid + "");
+		array.put(json1);
+
+		jsonCellPos.put("cell_towers", array);
+		return jsonCellPos.toString();
 	}
 
-	public CellLocation getCurrentLocation() {
-		return currentLocation;
+	public static String httpPost(String url, String jsonCellPos)
+			throws IOException {
+		byte[] data = jsonCellPos.toString().getBytes();
+		URL realUrl = new URL(url);
+		HttpURLConnection httpURLConnection = (HttpURLConnection) realUrl
+				.openConnection();
+		httpURLConnection.setConnectTimeout(6 * 1000);
+		httpURLConnection.setDoOutput(true);
+		httpURLConnection.setDoInput(true);
+		httpURLConnection.setUseCaches(false);
+		httpURLConnection.setRequestMethod("POST");
+		httpURLConnection.setRequestProperty("Accept",
+				"application/json, text/javascript, */*; q=0.01");
+		httpURLConnection.setRequestProperty("Accept-Charset",
+				"GBK,utf-8;q=0.7,*;q=0.3");
+		httpURLConnection.setRequestProperty("Accept-Encoding",
+				"gzip,deflate,sdch");
+		httpURLConnection.setRequestProperty("Accept-Language",
+				"zh-CN,zh;q=0.8");
+		httpURLConnection.setRequestProperty("Connection", "Keep-Alive");
+		httpURLConnection.setRequestProperty("Content-Length",
+				String.valueOf(data.length));
+		httpURLConnection.setRequestProperty("Content-Type",
+				"application/json; charset=UTF-8");
+
+		httpURLConnection.setRequestProperty("Host", "www.minigps.net");
+		httpURLConnection.setRequestProperty("Referer",
+				"http://www.minigps.net/map.html");
+		httpURLConnection
+				.setRequestProperty(
+						"User-Agent",
+						"Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4X-Requested-With:XMLHttpRequest");
+
+		httpURLConnection.setRequestProperty("X-Requested-With",
+				"XMLHttpRequest");
+		httpURLConnection.setRequestProperty("Host", "www.minigps.net");
+
+		DataOutputStream outStream = new DataOutputStream(
+				httpURLConnection.getOutputStream());
+		outStream.write(data);
+		outStream.flush();
+		outStream.close();
+
+		if (httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+			InputStream inputStream = httpURLConnection.getInputStream();
+			return new String(read(inputStream));
+		}
+		return null;
 	}
 
-	private JSONObject getNeighborInfo(NeighboringCellInfo neighbor) {
-		JSONObject jsonobject = new JSONObject();
+	public static byte[] read(InputStream inputSream) throws IOException {
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		int len = -1;
+		byte[] buffer = new byte[1024];
+		while ((len = inputSream.read(buffer)) != -1) {
+			outStream.write(buffer, 0, len);
+		}
+		outStream.close();
+		inputSream.close();
 
+		return outStream.toByteArray();
+	}
+
+	public static String queryCellLocation(int mcc, int mnc, int lac, int cid) {
 		try {
-			jsonobject.put("lac", neighbor.getLac());
-			jsonobject.put("cid", neighbor.getCid());
-			jsonobject.put("psc", neighbor.getPsc());
-			jsonobject.put("dbm", neighbor.getRssi());
-			jsonobject.put("type", neighbor.getNetworkType());
-		} catch (Exception ex) {
+			String json = getJsonCellPos(mcc, mnc, lac, cid);
+			String url = "http://www.minigps.net/minigps/map/google/location";
+			return httpPost(url, json);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
-		return jsonobject;
+		return "Unknown_Location";
 	}
 
-	public List<NeighboringCell> getNeighboringCellList() {
-		if (telephonyManager != null) {
-			List<NeighboringCellInfo> lsCellInfo = telephonyManager
-					.getNeighboringCellInfo();
+	class CellInfoListener extends PhoneStateListener {
 
-			List<NeighboringCell> list = new ArrayList<NeighboringCell>();
-
-			for (NeighboringCellInfo cell : lsCellInfo) {
-				NeighboringCell item = new NeighboringCell();
-				item.setLac(cell.getLac());
-				item.setCid(cell.getCid());
-				item.setPsc(cell.getPsc());
-				item.setRssi(cell.getRssi());
-				item.setNetworkType(cell.getNetworkType());
-
-				list.add(item);
-			}
-
-			return list;
+		CellInfoListener(CellInfoManager manager) {
 		}
 
-		return null;
-	}
-
-	public List<NeighboringCellInfo> getNeighboringCells() {
-		if (telephonyManager != null) {
-			List<NeighboringCellInfo> lsCellInfo = telephonyManager
-					.getNeighboringCellInfo();
-			return lsCellInfo;
-		}
-
-		return null;
-	}
-
-	public TelephonyManager getTelephonyManager() {
-		return telephonyManager;
-	}
-
-	public boolean isCdma() {
-		if (telephonyManager != null) {
-			if (telephonyManager.getPhoneType() == 2
-					&& currentLocation instanceof CdmaCellLocation) {
-				return true;
+		public void onCellLocationChanged(CellLocation paramCellLocation) {
+			if (telephonyManager != null) {
+				setCurrentLocation(CellInfoManager.this.telephonyManager
+						.getCellLocation());
 			}
 		}
 
-		return false;
-	}
-
-	public boolean isGsm() {
-		if (telephonyManager != null) {
-			if (telephonyManager.getPhoneType() == 1
-					&& currentLocation instanceof GsmCellLocation) {
-				return true;
-			}
+		public void onSignalStrengthChanged(int paramInt) {
+			CellInfoManager.this.setAsu(paramInt);
 		}
 
-		return false;
-	}
-
-	public JSONArray neiboringCellInfo() {
-		JSONArray jsonArray = new JSONArray();
-
-		for (NeighboringCellInfo neighbor : getNeighboringCells()) {
-			JSONObject localJSONObject = getNeighborInfo(neighbor);
-			jsonArray.put(localJSONObject);
-		}
-
-		return jsonArray;
-	}
-
-	public void setAsu(int asu) {
-		this.asu = asu;
-	}
-
-	public void setContext(Context context) {
-		this.context = context;
-	}
-
-	public void setCurrentLocation(CellLocation location) {
-		currentLocation = location;
 	}
 
 }

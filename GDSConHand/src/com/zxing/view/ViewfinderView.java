@@ -70,25 +70,6 @@ public final class ViewfinderView extends View {
     possibleResultPoints = new HashSet<ResultPoint>(5);
   }
 
-  public void addPossibleResultPoint(ResultPoint point) {
-    possibleResultPoints.add(point);
-  }
-
-  /**
-   * Draw a bitmap with the result points highlighted instead of the live scanning display.
-   *
-   * @param barcode An image of the decoded barcode.
-   */
-  public void drawResultBitmap(Bitmap barcode) {
-    resultBitmap = barcode;
-    invalidate();
-  }
-
-  public void drawViewfinder() {
-    resultBitmap = null;
-    invalidate();
-  }
-
   @Override
   public void onDraw(Canvas canvas) {
     Rect frame = CameraManager.get().getFramingRect();
@@ -150,6 +131,25 @@ public final class ViewfinderView extends View {
       // not the entire viewfinder mask.
       postInvalidateDelayed(ANIMATION_DELAY, frame.left, frame.top, frame.right, frame.bottom);
     }
+  }
+
+  public void drawViewfinder() {
+    resultBitmap = null;
+    invalidate();
+  }
+
+  /**
+   * Draw a bitmap with the result points highlighted instead of the live scanning display.
+   *
+   * @param barcode An image of the decoded barcode.
+   */
+  public void drawResultBitmap(Bitmap barcode) {
+    resultBitmap = barcode;
+    invalidate();
+  }
+
+  public void addPossibleResultPoint(ResultPoint point) {
+    possibleResultPoints.add(point);
   }
 
 }

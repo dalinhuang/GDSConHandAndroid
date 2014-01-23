@@ -10,51 +10,6 @@ import com.ericsson.cgc.aurora.wifiindoor.runtime.Cell;
 
 public class PathSearcher {
 
-	private static Random random = new Random();
-
-	private static final int X_ADD = 1;
-
-	private static final int X_MINUS = 2;
-
-	private static final int Y_ADD = 3;
-
-	private static final int Y_MINUS = 4;
-
-	private static void addNeighbor(List<StarNode> neighbors,
-			boolean[][] passableMatrix, int x, int y) {
-		if (isRealRoad(passableMatrix, x, y)) {
-			neighbors.add(new StarNode(new Cell(x, y)));
-		}
-	}
-	private static List<Cell> construct(StarNode node) {
-
-		LinkedList<Cell> path = new LinkedList<Cell>();
-		while (node != null) {
-			path.addFirst(node.getLocation());
-			node = node.getSearchParent();
-		}
-		// remove the current positon from the path
-		path.removeFirst();
-		return path;
-	}
-	public static List<Cell> findKeyCells(boolean[][] passableMatrix,
-			Cell start, Cell goal) {
-
-		List<Cell> result = findPath(passableMatrix, start, goal);
-
-		Iterator<Cell> iterator = result.iterator();
-
-		while (iterator.hasNext()) {
-			Cell cell = iterator.next();
-			boolean[][] cloneMap = passableMatrix.clone();
-			cloneMap[cell.getRowNo()][cell.getColNo()] = false;
-			if (findPath(cloneMap, start, goal) == null) {
-				iterator.remove();
-			}
-		}
-
-		return result;
-	}
 	public static List<Cell> findPath(boolean[][] passableMatrix, Cell start,
 			Cell goal) {
 		StarNode startNode = new StarNode(start);
@@ -87,6 +42,41 @@ public class PathSearcher {
 
 		return null;
 	}
+
+	public static List<Cell> findKeyCells(boolean[][] passableMatrix,
+			Cell start, Cell goal) {
+
+		List<Cell> result = findPath(passableMatrix, start, goal);
+
+		Iterator<Cell> iterator = result.iterator();
+
+		while (iterator.hasNext()) {
+			Cell cell = iterator.next();
+			boolean[][] cloneMap = passableMatrix.clone();
+			cloneMap[cell.getRowNo()][cell.getColNo()] = false;
+			if (findPath(cloneMap, start, goal) == null) {
+				iterator.remove();
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * 
+	 * @param passableMatrix
+	 * @return
+	 */
+	private static boolean isRealRoad(boolean[][] passableMatrix, int x, int y) {
+		if (x < 0 || y < 0 || y >= passableMatrix[0].length
+				|| x >= passableMatrix.length) {
+			return false;
+		} else {
+			return passableMatrix[x][y];
+		}
+	}
+
+	private static Random random = new Random();
 
 	private static List<StarNode> getNeighbors(boolean[][] passableMatrix,
 			StarNode node, StarNode goalNode) {
@@ -166,18 +156,28 @@ public class PathSearcher {
 		return neighbors;
 	}
 
-	/**
-	 * 
-	 * @param passableMatrix
-	 * @return
-	 */
-	private static boolean isRealRoad(boolean[][] passableMatrix, int x, int y) {
-		if (x < 0 || y < 0 || y >= passableMatrix[0].length
-				|| x >= passableMatrix.length) {
-			return false;
-		} else {
-			return passableMatrix[x][y];
+	private static final int X_ADD = 1;
+	private static final int X_MINUS = 2;
+	private static final int Y_ADD = 3;
+	private static final int Y_MINUS = 4;
+
+	private static void addNeighbor(List<StarNode> neighbors,
+			boolean[][] passableMatrix, int x, int y) {
+		if (isRealRoad(passableMatrix, x, y)) {
+			neighbors.add(new StarNode(new Cell(x, y)));
 		}
+	}
+
+	private static List<Cell> construct(StarNode node) {
+
+		LinkedList<Cell> path = new LinkedList<Cell>();
+		while (node != null) {
+			path.addFirst(node.getLocation());
+			node = node.getSearchParent();
+		}
+		// remove the current positon from the path
+		path.removeFirst();
+		return path;
 	}
 
 }

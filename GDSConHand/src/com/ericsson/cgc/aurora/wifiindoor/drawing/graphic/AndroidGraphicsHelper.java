@@ -6,6 +6,24 @@ import android.graphics.Rect;
 
 public class AndroidGraphicsHelper {
 
+	public static Bitmap resizeBitmap(int width, int height, Bitmap originBitmap) {
+		Bitmap bitmap = Bitmap.createBitmap(width, height,
+				Bitmap.Config.ARGB_4444); // Fix the Out of Memory issue
+
+		Canvas canvas = new Canvas(bitmap);
+		canvas.drawBitmap(originBitmap, new Rect(0, 0, originBitmap.getWidth(),
+				originBitmap.getHeight()), new Rect(0, 0, width, height), null);
+		
+		// Try to fix the bitmap Out of Memory issue
+		//if(!originBitmap.isRecycled() ){
+		//	Log.e("BITMAP", "Recycle "+originBitmap.hashCode());
+		//	originBitmap.recycle(); // Recycle the memory used by bitmap
+	    //    System.gc();      // Call System garbage collector
+	    //}
+		
+		return bitmap;
+	}
+
 	public static Bitmap putTogether(int rows, int cols,
 			Bitmap... originBitmaps) {
 		
@@ -55,24 +73,6 @@ public class AndroidGraphicsHelper {
 		    //}
 		}
 			
-		return bitmap;
-	}
-
-	public static Bitmap resizeBitmap(int width, int height, Bitmap originBitmap) {
-		Bitmap bitmap = Bitmap.createBitmap(width, height,
-				Bitmap.Config.ARGB_4444); // Fix the Out of Memory issue
-
-		Canvas canvas = new Canvas(bitmap);
-		canvas.drawBitmap(originBitmap, new Rect(0, 0, originBitmap.getWidth(),
-				originBitmap.getHeight()), new Rect(0, 0, width, height), null);
-		
-		// Try to fix the bitmap Out of Memory issue
-		//if(!originBitmap.isRecycled() ){
-		//	Log.e("BITMAP", "Recycle "+originBitmap.hashCode());
-		//	originBitmap.recycle(); // Recycle the memory used by bitmap
-	    //    System.gc();      // Call System garbage collector
-	    //}
-		
 		return bitmap;
 	}
 

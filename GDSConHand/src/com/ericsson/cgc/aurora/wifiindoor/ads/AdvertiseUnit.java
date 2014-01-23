@@ -52,6 +52,23 @@ public class AdvertiseUnit extends Unit {
 	}
 
 
+	public String getUrls() {
+		return Urls;
+	}
+
+	public void setUrls(String Urls) {
+		this.Urls = Urls;
+	}
+	
+	public String getAdPictureName() {
+		return AdPictureName;
+	}
+
+	public void setAdPictureName(String AdPictureName) {
+		this.AdPictureName = AdPictureName;
+	}
+	
+
 	@Override
 	public void clearCache() {
 		super.clearCache();
@@ -70,18 +87,6 @@ public class AdvertiseUnit extends Unit {
 		return load(activity, null);
 	}
 	*/
-
-	public String getAdPictureName() {
-		return AdPictureName;
-	}
-	
-	public AnimatedSprite getSprite() {
-		return sprite;
-	}
-
-	public String getUrls() {
-		return Urls;
-	}
 	
 
 	public Sprite load(MapViewerActivity activity, RuntimeIndoorMap runtimeIndoorMap,final AdSpriteListener spriteListener, boolean default_ad) {
@@ -149,12 +154,6 @@ public class AdvertiseUnit extends Unit {
 		
 	}
 	
-
-	public void resetAdUnit(){
-		textureRegion=null;
-		
-	}
-	
     public Bitmap returnBitMap(String url) {   
   	   URL myFileUrl = null;   
   	   Bitmap bitmap = null;   
@@ -182,16 +181,17 @@ public class AdvertiseUnit extends Unit {
   	   return bitmap;   
   	} 
 
-	public void setAdPictureName(String AdPictureName) {
-		this.AdPictureName = AdPictureName;
+	public AnimatedSprite getSprite() {
+		return sprite;
 	}
 
 	public void setSprite(AnimatedSprite sprite) {
 		this.sprite = sprite;
 	}
 	
-	public void setUrls(String Urls) {
-		this.Urls = Urls;
+	public void resetAdUnit(){
+		textureRegion=null;
+		
 	}
 	
 

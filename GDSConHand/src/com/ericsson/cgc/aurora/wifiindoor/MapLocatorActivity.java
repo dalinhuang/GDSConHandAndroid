@@ -5,11 +5,6 @@ import java.io.InputStream;
 
 import org.json.JSONObject;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Toast;
-
 import com.ericsson.cgc.aurora.wifiindoor.map.IndoorMap;
 import com.ericsson.cgc.aurora.wifiindoor.types.IndoorMapReply;
 import com.ericsson.cgc.aurora.wifiindoor.types.Location;
@@ -19,7 +14,13 @@ import com.ericsson.cgc.aurora.wifiindoor.types.WifiFingerPrint;
 import com.ericsson.cgc.aurora.wifiindoor.util.IndoorMapData;
 import com.ericsson.cgc.aurora.wifiindoor.util.Util;
 import com.ericsson.cgc.aurora.wifiindoor.webservice.MsgConstants;
+
 import com.google.gson.Gson;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Toast;
 
 public class MapLocatorActivity extends Activity {
 	private Bundle bundle;
@@ -29,70 +30,70 @@ public class MapLocatorActivity extends Activity {
 	private int x;
 	private int y;	
 	
-	public void connectionFailed(){
-		finish();
-	}
-	
-	private void downloadMap(int mapId) {
-		VersionOrMapIdRequest id = new VersionOrMapIdRequest();
-		id.setCode(mapId);
+	@Override
+	protected void onResume() {
+		super.onResume();
 		
-		mapDownloadOngoing = true;
-		
-		Util.showShortToast(this, R.string.download_ongoing);
-		
-		try {
-			
-			Gson gson = new Gson();
-			String json = gson.toJson(id);
-			JSONObject data = new JSONObject(json);
+		System.gc();
 
-			if (Util.sendToServer(this, MsgConstants.MT_MAP_QUERY, data)) {
-				
-			} else {
-				// All errors should be handled in the sendToServer
-				// method
-			}
-		} catch (Exception ex) {
-			mapDownloadOngoing = false;
-			Util.showToast(this, "GET MAP ERROR: " + ex.getMessage(), Toast.LENGTH_LONG);
-			ex.printStackTrace();
-		}
-	}
-  
-	public void handleMapReply(IndoorMapReply indoorMapReply) {
-		if (indoorMapReply == null) {
-			return;
-		}
-		
-		// Store XML file
-		IndoorMap indoorMap = indoorMapReply.toIndoorMap();
-		
-		if (indoorMap == null) {
-			return;
-		}
-		
-		indoorMap.toXML();
-		
-		while (Util.isDownloadOngoing()) {
-			//wait
-		}
-		// download Map Picture
-		Util.downloadMapPicture(this, ""+indoorMap.getId(), indoorMap.getPictureName());
-		while (Util.isDownloadOngoing()) {
-			//wait
-		}
-		
-		// go to Map Viewer
-		if (mapDownloadOngoing && withLocation) {
-			startNewIntent(indoorMap, x, y);
-		} else {
-			if (mapDownloadOngoing) {
-				startNewIntent(indoorMap);
-			}
-		}
+		Util.getIpsMessageHandler().setActivity(this);
+		Util.getIpsMessageHandler().startTransportServiceThread();
 	}
 	
+	/** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.map_locator);
+
+        bundle = getIntent().getExtras();
+		int req = bundle.getInt(IndoorMapData.BUNDLE_KEY_REQ_FROM);
+		
+		switch (req) {
+		
+			case IndoorMapData.BUNDLE_VALUE_REQ_FROM_LOCATOR:
+				
+				Util.showShortToast(this, R.string.locate_current_map);
+				
+		        // Start the Ips Message Handler Thread if it has not been started yet.
+		        Util.getIpsMessageHandler().setActivity(this);
+				Util.getIpsMessageHandler().startTransportServiceThread();
+		        
+		        // Locate me so I know which map I should load.
+				locateMe();
+				
+				break;
+			
+			case IndoorMapData.BUNDLE_VALUE_REQ_FROM_VIEWER:
+				
+				Util.showShortToast(this, R.string.locate_current_map);
+				
+				// Load new map and pass in the new location
+				int mapId = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_MAP);
+				int mapVersion = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_MAP_VERSION);
+				int colNo = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_COL);
+				int rowNo = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_ROW);
+				
+				updateLocation(mapId, mapVersion, colNo, rowNo);
+				
+				break;
+				
+			case IndoorMapData.BUNDLE_VALUE_REQ_FROM_SELECTOR:
+				
+				Util.showShortToast(this, R.string.load_selected_map);
+				
+				// Load new map only
+				int mapId1 = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_MAP);
+				openMapViewer(mapId1);
+				
+				break;
+		
+			default:
+				finish();
+				break;
+		}
+    }
+  
 	private void locateMe() {		
 		if (!Util.getWifiInfoManager().isWifiEmbeded()) {
 			Util.showLongToast(this, R.string.no_wifi_embeded);
@@ -170,70 +171,43 @@ public class MapLocatorActivity extends Activity {
 		
 	}
 	
-	/** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.map_locator);
-
-        bundle = getIntent().getExtras();
-		int req = bundle.getInt(IndoorMapData.BUNDLE_KEY_REQ_FROM);
-		
-		switch (req) {
-		
-			case IndoorMapData.BUNDLE_VALUE_REQ_FROM_LOCATOR:
-				
-				Util.showShortToast(this, R.string.locate_current_map);
-				
-		        // Start the Ips Message Handler Thread if it has not been started yet.
-		        Util.getIpsMessageHandler().setActivity(this);
-				Util.getIpsMessageHandler().startTransportServiceThread();
-		        
-		        // Locate me so I know which map I should load.
-				locateMe();
-				
-				break;
+	public boolean updateLocation(int mapId, int mapVersion, int colNo, int rowNo) {
+		if ((mapId==-1) || (rowNo==-1) || (colNo==-1)) {			
+			Util.showLongToast(this, R.string.no_match_location);
 			
-			case IndoorMapData.BUNDLE_VALUE_REQ_FROM_VIEWER:
-				
-				Util.showShortToast(this, R.string.locate_current_map);
-				
-				// Load new map and pass in the new location
-				int mapId = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_MAP);
-				int mapVersion = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_MAP_VERSION);
-				int colNo = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_COL);
-				int rowNo = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_ROW);
-				
-				updateLocation(mapId, mapVersion, colNo, rowNo);
-				
-				break;
-				
-			case IndoorMapData.BUNDLE_VALUE_REQ_FROM_SELECTOR:
-				
-				Util.showShortToast(this, R.string.load_selected_map);
-				
-				// Load new map only
-				int mapId1 = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_MAP);
-				openMapViewer(mapId1);
-				
-				break;
-		
-			default:
-				finish();
-				break;
-		}
-    }
-	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		
-		System.gc();
+			finish();
 
-		Util.getIpsMessageHandler().setActivity(this);
-		Util.getIpsMessageHandler().startTransportServiceThread();
+			return false;
+		}
+		
+		openMapViewer(mapId, mapVersion, colNo, rowNo);
+		
+		return true;
 	}
 	
+	public void updateLocation(LocationSet locationSet) {
+		updateLocation(locationSet.balanceLocation());	
+	}
+	
+	private void updateLocation(Location location) {
+		updateLocation(location.getMapId(), location.getMapVersion(), location.getX(), location.getY());
+	}
+	
+	public void connectionFailed(){
+		finish();
+	}
+	
+	private void startNewIntent(IndoorMap indoorMap) {
+		Intent intent_locate_map = new Intent(MapLocatorActivity.this, MapViewerActivity.class); 
+		Bundle mBundle = new Bundle(); 
+		mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_MAP_INSTANCE, indoorMap);
+		mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM, IndoorMapData.BUNDLE_VALUE_REQ_FROM_SELECTOR);
+        intent_locate_map.putExtras(mBundle); 
+		startActivity(intent_locate_map);
+			
+		finish();
+	}
+
 	private void openMapViewer(int mapId) {
 		IndoorMap indoorMap = new IndoorMap();
 		
@@ -254,6 +228,19 @@ public class MapLocatorActivity extends Activity {
 		}
 		
 		startNewIntent(indoorMap);
+	}	
+	
+	private void startNewIntent(IndoorMap indoorMap, int colNo, int rowNo) {
+		Intent intent_locate_map = new Intent(MapLocatorActivity.this, MapViewerActivity.class);  
+		Bundle mBundle = new Bundle(); 
+		mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_MAP_INSTANCE, indoorMap);
+		mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM, IndoorMapData.BUNDLE_VALUE_REQ_FROM_LOCATOR);
+		mBundle.putInt(IndoorMapData.BUNDLE_KEY_LOCATION_COL, colNo);
+		mBundle.putInt(IndoorMapData.BUNDLE_KEY_LOCATION_ROW, rowNo);
+        intent_locate_map.putExtras(mBundle); 
+		startActivity(intent_locate_map);
+			
+		finish();
 	}
 	
 	private void openMapViewer(int mapId, int mapVersion, int colNo, int rowNo) {
@@ -288,50 +275,64 @@ public class MapLocatorActivity extends Activity {
 		startNewIntent(indoorMap, colNo, rowNo);
 	}
 
-	private void startNewIntent(IndoorMap indoorMap) {
-		Intent intent_locate_map = new Intent(MapLocatorActivity.this, MapViewerActivity.class); 
-		Bundle mBundle = new Bundle(); 
-		mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_MAP_INSTANCE, indoorMap);
-		mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM, IndoorMapData.BUNDLE_VALUE_REQ_FROM_SELECTOR);
-        intent_locate_map.putExtras(mBundle); 
-		startActivity(intent_locate_map);
+	private void downloadMap(int mapId) {
+		VersionOrMapIdRequest id = new VersionOrMapIdRequest();
+		id.setCode(mapId);
+		
+		mapDownloadOngoing = true;
+		
+		Util.showShortToast(this, R.string.download_ongoing);
+		
+		try {
 			
-		finish();
-	}	
-	
-	private void startNewIntent(IndoorMap indoorMap, int colNo, int rowNo) {
-		Intent intent_locate_map = new Intent(MapLocatorActivity.this, MapViewerActivity.class);  
-		Bundle mBundle = new Bundle(); 
-		mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_MAP_INSTANCE, indoorMap);
-		mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM, IndoorMapData.BUNDLE_VALUE_REQ_FROM_LOCATOR);
-		mBundle.putInt(IndoorMapData.BUNDLE_KEY_LOCATION_COL, colNo);
-		mBundle.putInt(IndoorMapData.BUNDLE_KEY_LOCATION_ROW, rowNo);
-        intent_locate_map.putExtras(mBundle); 
-		startActivity(intent_locate_map);
-			
-		finish();
+			Gson gson = new Gson();
+			String json = gson.toJson(id);
+			JSONObject data = new JSONObject(json);
+
+			if (Util.sendToServer(this, MsgConstants.MT_MAP_QUERY, data)) {
+				
+			} else {
+				// All errors should be handled in the sendToServer
+				// method
+			}
+		} catch (Exception ex) {
+			mapDownloadOngoing = false;
+			Util.showToast(this, "GET MAP ERROR: " + ex.getMessage(), Toast.LENGTH_LONG);
+			ex.printStackTrace();
+		}
 	}
 	
-	public boolean updateLocation(int mapId, int mapVersion, int colNo, int rowNo) {
-		if ((mapId==-1) || (rowNo==-1) || (colNo==-1)) {			
-			Util.showLongToast(this, R.string.no_match_location);
-			
-			finish();
-
-			return false;
+	public void handleMapReply(IndoorMapReply indoorMapReply) {
+		if (indoorMapReply == null) {
+			return;
 		}
 		
-		openMapViewer(mapId, mapVersion, colNo, rowNo);
+		// Store XML file
+		IndoorMap indoorMap = indoorMapReply.toIndoorMap();
 		
-		return true;
-	}
-
-	private void updateLocation(Location location) {
-		updateLocation(location.getMapId(), location.getMapVersion(), location.getX(), location.getY());
-	}
-	
-	public void updateLocation(LocationSet locationSet) {
-		updateLocation(locationSet.balanceLocation());	
+		if (indoorMap == null) {
+			return;
+		}
+		
+		indoorMap.toXML();
+		
+		while (Util.isDownloadOngoing()) {
+			//wait
+		}
+		// download Map Picture
+		Util.downloadMapPicture(this, ""+indoorMap.getId(), indoorMap.getPictureName());
+		while (Util.isDownloadOngoing()) {
+			//wait
+		}
+		
+		// go to Map Viewer
+		if (mapDownloadOngoing && withLocation) {
+			startNewIntent(indoorMap, x, y);
+		} else {
+			if (mapDownloadOngoing) {
+				startNewIntent(indoorMap);
+			}
+		}
 	}
 	
 }

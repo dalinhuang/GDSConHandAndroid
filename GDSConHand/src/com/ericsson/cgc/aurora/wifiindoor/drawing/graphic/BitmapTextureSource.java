@@ -40,19 +40,8 @@ public class BitmapTextureSource implements IBitmapTextureAtlasSource {
 	// ===========================================================
 
 	@Override
-	public IBitmapTextureAtlasSource deepCopy() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getTextureHeight() {
-		return bitmap.getHeight();
-	}
-
-	@Override
-	public int getTextureWidth() {
-		return bitmap.getWidth();
+	public String toString() {
+		return this.getClass().getSimpleName() + "(" + this.bitmap.hashCode() + "," + this.bitmap.getWidth() + " x " + this.bitmap.getHeight() + ")";
 	}
 
 	@Override
@@ -68,23 +57,6 @@ public class BitmapTextureSource implements IBitmapTextureAtlasSource {
 	}
 
 	@Override
-	public Bitmap onLoadBitmap(Config pBitmapConfig) {
-		return bitmap.copy(bitmap.getConfig(), false);
-	}
-
-	@Override
-	public void setTextureHeight(int pTextureHeight) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setTextureWidth(int pTextureWidth) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void setTextureX(int pTextureX) {
 		// TODO Auto-generated method stub
 		
@@ -97,8 +69,36 @@ public class BitmapTextureSource implements IBitmapTextureAtlasSource {
 	}
 
 	@Override
-	public String toString() {
-		return this.getClass().getSimpleName() + "(" + this.bitmap.hashCode() + "," + this.bitmap.getWidth() + " x " + this.bitmap.getHeight() + ")";
+	public int getTextureWidth() {
+		return bitmap.getWidth();
+	}
+
+	@Override
+	public int getTextureHeight() {
+		return bitmap.getHeight();
+	}
+
+	@Override
+	public void setTextureWidth(int pTextureWidth) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setTextureHeight(int pTextureHeight) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Bitmap onLoadBitmap(Config pBitmapConfig) {
+		return bitmap.copy(bitmap.getConfig(), false);
+	}
+
+	@Override
+	public IBitmapTextureAtlasSource deepCopy() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	// ===========================================================

@@ -1,5 +1,11 @@
 package com.ericsson.cgc.aurora.wifiindoor;
 
+import com.ericsson.cgc.aurora.wifiindoor.util.IndoorMapData;
+import com.ericsson.cgc.aurora.wifiindoor.util.Tuner;
+import com.ericsson.cgc.aurora.wifiindoor.util.Util;
+import com.ericsson.cgc.aurora.wifiindoor.util.VisualParameters;
+import com.ericsson.cgc.aurora.wifiindoor.util.WifiIpsSettings;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,11 +13,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-
-import com.ericsson.cgc.aurora.wifiindoor.util.IndoorMapData;
-import com.ericsson.cgc.aurora.wifiindoor.util.Tuner;
-import com.ericsson.cgc.aurora.wifiindoor.util.Util;
-import com.ericsson.cgc.aurora.wifiindoor.util.WifiIpsSettings;
 
 public class TunerActivity extends Activity {
 	private OnClickListener on_click_listener0 = null;
@@ -52,9 +53,24 @@ public class TunerActivity extends Activity {
 	private EditText URL_API_QUERY;
 	private EditText URL_API_NFC_COLLECT;
 	private EditText URL_API_LOCATE_BASE_NFC;
+	private CheckBox ADS_ENABLED;
+	private CheckBox BANNERS_ENABLED;
+	private CheckBox ENTRY_NEEDED;
+	private CheckBox GOOGLE_MAP_EMBEDDED;	
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Util.setEnergySave(false);
+	}
 	
-	/** Called when the activity is first created. */
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Util.setEnergySave(true);
+	}
+	
+    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,57 +138,15 @@ public class TunerActivity extends Activity {
     	URL_API_QUERY = (EditText) findViewById(R.id.URL_API_QUERY);
     	URL_API_NFC_COLLECT = (EditText) findViewById(R.id.URL_API_NFC_COLLECT);
     	URL_API_LOCATE_BASE_NFC = (EditText) findViewById(R.id.URL_API_LOCATE_BASE_NFC);
+    	ADS_ENABLED = (CheckBox) findViewById(R.id.ADS_ENABLED);
+    	BANNERS_ENABLED = (CheckBox) findViewById(R.id.BANNERS_ENABLED);
+    	ENTRY_NEEDED = (CheckBox) findViewById(R.id.ENTRY_NEEDED);
+    	GOOGLE_MAP_EMBEDDED = (CheckBox) findViewById(R.id.GOOGLE_MAP_EMBEDDED);
     	
     	resetToSavedValues();
     }
-	
-	@Override
-	protected void onPause() {
-		super.onPause();
-		Util.setEnergySave(true);
-	}
-	
-    @Override
-	protected void onResume() {
-		super.onResume();
-		Util.setEnergySave(false);
-	}
     
-    private void resetToSavedValues() {
-		PERIODIC_WIFI_CAPTURE_ON_FOR_LOCATOR.setChecked(IndoorMapData.PERIODIC_WIFI_CAPTURE_ON_FOR_LOCATOR);
-    	PERIODIC_WIFI_CAPTURE_ON_FOR_COLLECTER.setChecked(IndoorMapData.PERIODIC_WIFI_CAPTURE_ON_FOR_COLLECTER);
-    	PERIODIC_WIFI_CAPTURE_INTERVAL.setText(String.valueOf(IndoorMapData.PERIODIC_WIFI_CAPTURE_INTERVAL));
-    	MAX_AGE_FOR_WIFI_SAMPLES.setText(String.valueOf(IndoorMapData.MAX_AGE_FOR_WIFI_SAMPLES));
-    	MIN_WIFI_SAMPLES_BUFFERED.setText(String.valueOf(IndoorMapData.MIN_WIFI_SAMPLES_BUFFERED));
-    	PERIODIC_LOCATE_INTERVAL.setText(String.valueOf(IndoorMapData.PERIODIC_LOCATE_INTERVAL));
-    	PERIODIC_WIFI_SCAN_INTERVAL.setText(String.valueOf(IndoorMapData.PERIODIC_WIFI_SCAN_INTERVAL));
-    	MAX_FINGERPRINTS_FOR_LOCATE.setText(String.valueOf(IndoorMapData.MAX_FINGERPRINTS_FOR_LOCATE));
-    	MAX_WAIT_MS_FOR_LOCATE.setText(String.valueOf(IndoorMapData.MAX_WAIT_MS_FOR_LOCATE));
-    	MAX_FINGERPRINTS_FOR_COLLECT.setText(String.valueOf(IndoorMapData.MAX_FINGERPRINTS_FOR_COLLECT));
-    	MAX_WAIT_MS_FOR_COLLECT.setText(String.valueOf(IndoorMapData.MAX_WAIT_MS_FOR_COLLECT));
-    	MIN_DBM_COUNT_IN.setText(String.valueOf(IndoorMapData.MIN_DBM_COUNT_IN));
-    	MAX_DBM_COUNT_IN.setText(String.valueOf(IndoorMapData.MAX_DBM_COUNT_IN));
-    	MIN_AP_COUNT_IN.setText(String.valueOf(IndoorMapData.MIN_AP_COUNT_IN));
-    	DEBUG.setChecked(WifiIpsSettings.DEBUG);
-    	SERVER_RUNNING_IN_LINUX.setChecked(WifiIpsSettings.SERVER_RUNNING_IN_LINUX);
-    	LINUX_SERVER_IP.setText(String.valueOf(WifiIpsSettings.LINUX_SERVER_IP));
-    	LINUX_SERVER_PORT.setText(String.valueOf(WifiIpsSettings.LINUX_SERVER_PORT));
-    	USE_DOMAIN_NAME.setChecked(WifiIpsSettings.USE_DOMAIN_NAME);
-    	SERVER_DOMAIN_NAME.setText(String.valueOf(WifiIpsSettings.SERVER_DOMAIN_NAME));
-    	SERVER_IP.setText(String.valueOf(WifiIpsSettings.SERVER_IP));
-    	SERVER_PORT.setText(String.valueOf(WifiIpsSettings.SERVER_PORT));
-    	CONNECTION_TIMEOUT.setText(String.valueOf(WifiIpsSettings.CONNECTION_TIMEOUT));
-    	SOCKET_TIMEOUT.setText(String.valueOf(WifiIpsSettings.SOCKET_TIMEOUT));
-    	SERVER_SUB_DOMAIN.setText(String.valueOf(WifiIpsSettings.SERVER_SUB_DOMAIN));
-    	URL_PREFIX.setText(String.valueOf(WifiIpsSettings.URL_PREFIX));
-    	URL_API_LOCATE.setText(String.valueOf(WifiIpsSettings.URL_API_LOCATE));
-    	URL_API_COLLECT.setText(String.valueOf(WifiIpsSettings.URL_API_COLLECT));
-    	URL_API_QUERY.setText(String.valueOf(WifiIpsSettings.URL_API_QUERY));
-    	URL_API_NFC_COLLECT.setText(String.valueOf(WifiIpsSettings.URL_API_NFC_COLLECT));
-    	URL_API_LOCATE_BASE_NFC.setText(String.valueOf(WifiIpsSettings.URL_API_LOCATE_BASE_NFC));
-	}
-
-	private void saveValues() {
+    private void saveValues() {
     	
     	String name = null;
     	String value = null;
@@ -300,8 +274,62 @@ public class TunerActivity extends Activity {
     	name = "URL_API_LOCATE_BASE_NFC";
     	value = URL_API_LOCATE_BASE_NFC.getText().toString();
     	Tuner.getProperties().setProperty(name, value);
-
+    	
+    	name = "ADS_ENABLED";
+    	value = String.valueOf(ADS_ENABLED.isChecked());
+    	Tuner.getProperties().setProperty(name, value);
+    	
+    	name = "BANNERS_ENABLED";
+    	value = String.valueOf(BANNERS_ENABLED.isChecked());
+    	Tuner.getProperties().setProperty(name, value);
+    	
+    	name = "ENTRY_NEEDED";
+    	value = String.valueOf(ENTRY_NEEDED.isChecked());
+    	Tuner.getProperties().setProperty(name, value);
+    	
+    	name = "GOOGLE_MAP_EMBEDDED";
+    	value = String.valueOf(GOOGLE_MAP_EMBEDDED.isChecked());
+    	Tuner.getProperties().setProperty(name, value);
+ 
     	Tuner.saveConfig();
 		Tuner.syncToConfig();
+	}
+
+	private void resetToSavedValues() {
+		PERIODIC_WIFI_CAPTURE_ON_FOR_LOCATOR.setChecked(IndoorMapData.PERIODIC_WIFI_CAPTURE_ON_FOR_LOCATOR);
+    	PERIODIC_WIFI_CAPTURE_ON_FOR_COLLECTER.setChecked(IndoorMapData.PERIODIC_WIFI_CAPTURE_ON_FOR_COLLECTER);
+    	PERIODIC_WIFI_CAPTURE_INTERVAL.setText(String.valueOf(IndoorMapData.PERIODIC_WIFI_CAPTURE_INTERVAL));
+    	MAX_AGE_FOR_WIFI_SAMPLES.setText(String.valueOf(IndoorMapData.MAX_AGE_FOR_WIFI_SAMPLES));
+    	MIN_WIFI_SAMPLES_BUFFERED.setText(String.valueOf(IndoorMapData.MIN_WIFI_SAMPLES_BUFFERED));
+    	PERIODIC_LOCATE_INTERVAL.setText(String.valueOf(IndoorMapData.PERIODIC_LOCATE_INTERVAL));
+    	PERIODIC_WIFI_SCAN_INTERVAL.setText(String.valueOf(IndoorMapData.PERIODIC_WIFI_SCAN_INTERVAL));
+    	MAX_FINGERPRINTS_FOR_LOCATE.setText(String.valueOf(IndoorMapData.MAX_FINGERPRINTS_FOR_LOCATE));
+    	MAX_WAIT_MS_FOR_LOCATE.setText(String.valueOf(IndoorMapData.MAX_WAIT_MS_FOR_LOCATE));
+    	MAX_FINGERPRINTS_FOR_COLLECT.setText(String.valueOf(IndoorMapData.MAX_FINGERPRINTS_FOR_COLLECT));
+    	MAX_WAIT_MS_FOR_COLLECT.setText(String.valueOf(IndoorMapData.MAX_WAIT_MS_FOR_COLLECT));
+    	MIN_DBM_COUNT_IN.setText(String.valueOf(IndoorMapData.MIN_DBM_COUNT_IN));
+    	MAX_DBM_COUNT_IN.setText(String.valueOf(IndoorMapData.MAX_DBM_COUNT_IN));
+    	MIN_AP_COUNT_IN.setText(String.valueOf(IndoorMapData.MIN_AP_COUNT_IN));
+    	DEBUG.setChecked(WifiIpsSettings.DEBUG);
+    	SERVER_RUNNING_IN_LINUX.setChecked(WifiIpsSettings.SERVER_RUNNING_IN_LINUX);
+    	LINUX_SERVER_IP.setText(String.valueOf(WifiIpsSettings.LINUX_SERVER_IP));
+    	LINUX_SERVER_PORT.setText(String.valueOf(WifiIpsSettings.LINUX_SERVER_PORT));
+    	USE_DOMAIN_NAME.setChecked(WifiIpsSettings.USE_DOMAIN_NAME);
+    	SERVER_DOMAIN_NAME.setText(String.valueOf(WifiIpsSettings.SERVER_DOMAIN_NAME));
+    	SERVER_IP.setText(String.valueOf(WifiIpsSettings.SERVER_IP));
+    	SERVER_PORT.setText(String.valueOf(WifiIpsSettings.SERVER_PORT));
+    	CONNECTION_TIMEOUT.setText(String.valueOf(WifiIpsSettings.CONNECTION_TIMEOUT));
+    	SOCKET_TIMEOUT.setText(String.valueOf(WifiIpsSettings.SOCKET_TIMEOUT));
+    	SERVER_SUB_DOMAIN.setText(String.valueOf(WifiIpsSettings.SERVER_SUB_DOMAIN));
+    	URL_PREFIX.setText(String.valueOf(WifiIpsSettings.URL_PREFIX));
+    	URL_API_LOCATE.setText(String.valueOf(WifiIpsSettings.URL_API_LOCATE));
+    	URL_API_COLLECT.setText(String.valueOf(WifiIpsSettings.URL_API_COLLECT));
+    	URL_API_QUERY.setText(String.valueOf(WifiIpsSettings.URL_API_QUERY));
+    	URL_API_NFC_COLLECT.setText(String.valueOf(WifiIpsSettings.URL_API_NFC_COLLECT));
+    	URL_API_LOCATE_BASE_NFC.setText(String.valueOf(WifiIpsSettings.URL_API_LOCATE_BASE_NFC));  	
+    	ADS_ENABLED.setChecked(VisualParameters.ADS_ENABLED);
+    	BANNERS_ENABLED.setChecked(VisualParameters.BANNERS_ENABLED);
+    	ENTRY_NEEDED.setChecked(VisualParameters.ENTRY_NEEDED);
+    	GOOGLE_MAP_EMBEDDED.setChecked(VisualParameters.GOOGLE_MAP_EMBEDDED);
 	}
 }

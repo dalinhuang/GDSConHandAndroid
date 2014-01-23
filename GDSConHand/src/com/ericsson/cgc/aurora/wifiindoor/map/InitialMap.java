@@ -14,27 +14,27 @@ public class InitialMap implements Serializable{
 	private int rows;
 	private int columns;
 	
-	public int getCellPixel() {
-		return cellPixel;
+	public int getRows(){
+		return rows;
+	}
+	
+	public void setRows(int rows){
+		this.rows = rows;
 	}
 	
 	public int getColumns(){
 		return columns;
 	}
 	
-	public int getRows(){
-		return rows;
-	}
-	
-	public void setCellPixel(int cellPixel) {
-		this.cellPixel = cellPixel;
-	}
-
 	public void setColumns(int columns){
 		this.columns = columns;
 	}
 
-	public void setRows(int rows){
-		this.rows = rows;
+	public int getCellPixel() {
+		return cellPixel;
+	}
+
+	public void setCellPixel(int cellPixel) {
+		this.cellPixel = cellPixel;
 	}
 }

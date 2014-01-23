@@ -31,19 +31,19 @@ public class MyWifiInfo {
 		dbm = i;
 	}
 
-	public int getDbm() {
-		return dbm;
-	}
-
 	public String getMac() {
 		return mac;
-	}
-	
-	public void setDbm(int dbm) {
-		this.dbm = dbm;
 	}
 
 	public void setMac(String mac) {
 		this.mac = mac;
+	}
+	
+	public int getDbm() {
+		return dbm;
+	}
+
+	public void setDbm(int dbm) {
+		this.dbm = dbm;
 	}
 }

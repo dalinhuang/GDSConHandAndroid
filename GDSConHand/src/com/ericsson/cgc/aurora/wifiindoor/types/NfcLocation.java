@@ -9,20 +9,20 @@ public class NfcLocation {
 		location = new Location(mapId, mNfcColNo, mNfcRowNo, mapVersion);
 	}
 
-	public Location getLocation() {
-		return location;
-	}
-
 	public String getTagId() {
 		return tagId;
 	}
 
-	public void setLocation(Location location) {
-		this.location = location;
-	}
-
 	public void setTagId(String tagId) {
 		this.tagId = tagId;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 	
 }

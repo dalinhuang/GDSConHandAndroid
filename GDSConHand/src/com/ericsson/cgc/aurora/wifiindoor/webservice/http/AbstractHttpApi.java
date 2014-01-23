@@ -64,109 +64,51 @@ public abstract class AbstractHttpApi implements IHttpApi {
 		mClientVersion = clientVersion;
 	}
 
-	/**
-     * Create a thread-safe client. This client does not do redirecting, to allow us to capture
-     * correct "error" codes.
-     *
-     * @return HttpClient
-     */
-    public final DefaultHttpClient createHttpClient() {
-        // Sets up the http part of the service.
-        final SchemeRegistry supportedSchemes = new SchemeRegistry();
+	public IType doHttpRequest(HttpRequestBase httpRequest,
+			IXmlParser<? extends IType> parser)
+			throws WifiIpsCredentialsException, WifiIpsParseException, WifiIpsException,
+			IOException {
+		if (DEBUG)
+			Log.d(TAG, "doHttpRequest: " + httpRequest.getURI());
 
-        // Register the "http" protocol scheme, it is required
-        // by the default operator to look up socket factories.
-        final SocketFactory sf = PlainSocketFactory.getSocketFactory();
-        supportedSchemes.register(new Scheme("http", sf, 80));
+		HttpResponse response = executeHttpRequest(httpRequest);
+		if (DEBUG)
+			Log.d(TAG, "executed HttpRequest for: "
+					+ httpRequest.getURI().toString());
 
-        // Set some client http client parameter defaults.
-        final HttpParams httpParams = createHttpParams();
-        HttpClientParams.setRedirecting(httpParams, false);
-
-        final ClientConnectionManager ccm = new ThreadSafeClientConnManager(httpParams,
-                supportedSchemes);
-        return new DefaultHttpClient(ccm, httpParams);
-    }
+		int statusCode = response.getStatusLine().getStatusCode();
+		switch (statusCode) {
+		case 200:
+			InputStream is = response.getEntity().getContent();
+			try {
+				return parser.parse(AbstractXmlParser.createXmlPullParser(is));
+			} finally {
+				is.close();
+			}
+		case 401:
+			response.getEntity().consumeContent();
+			if (DEBUG)
+				Log.d(TAG, "HTTP Code: 401");
+			throw new WifiIpsCredentialsException(response.getStatusLine()
+					.toString());
+		case 404:
+			response.getEntity().consumeContent();
+			throw new WifiIpsException(response.getStatusLine().toString());
+		case 500:
+			response.getEntity().consumeContent();
+			if (DEBUG)
+				Log.d(TAG, "HTTP Code: 500");
+			throw new WifiIpsException("Wips is down. Try again later.");
+		default:
+			if (DEBUG)
+				Log.d(TAG, "Default case for status code reached: "
+						+ response.getStatusLine().toString());
+			response.getEntity().consumeContent();
+			throw new WifiIpsException("Error connecting to WifiIPS Server: "
+					+ statusCode + ". Try again later.");
+		}
+	}
 	
-	public HttpGet createHttpGet(String url, NameValuePair... nameValuePairs) {
-		if (DEBUG)
-			Log.d(TAG, "creating HttpGet for: " + url);
-
-		String query = URLEncodedUtils.format(stripNulls(nameValuePairs),
-				HTTP.UTF_8);
-		HttpGet httpGet = new HttpGet(url + "?" + query);
-		httpGet.addHeader(CLIENT_VERSION_HEADER, mClientVersion);
-
-		if (DEBUG)
-			Log.d(TAG, "Created: " + httpGet.getURI());
-
-		return httpGet;
-	}
-
-	/**
-     * Create the default HTTP protocol parameters.
-     */
-    private final HttpParams createHttpParams() {
-        final HttpParams params = new BasicHttpParams();
-
-        // Turn off stale checking. Our connections break all the time anyway,
-        // and it's not worth it to pay the penalty of checking every time.
-        HttpConnectionParams.setStaleCheckingEnabled(params, false);
-
-        HttpConnectionParams.setConnectionTimeout(params, WifiIpsSettings.CONNECTION_TIMEOUT);
-        HttpConnectionParams.setSoTimeout(params, WifiIpsSettings.SOCKET_TIMEOUT);
-        HttpConnectionParams.setSocketBufferSize(params, 8192);
-
-        return params;
-    }
-
-	public HttpPost createHttpPost(String url, JSONObject json) {
-		if (DEBUG)
-			Log.d(TAG, "creating HttpPost for: " + url);
-
-		HttpPost httpPost = new HttpPost(url);
-		
-		httpPost.setHeader("Accept", "application/json");
-		httpPost.setHeader("Content-type", "application/json;charset=UTF-8");
-		httpPost.setHeader("Content-Encoding", "UTF-8");
-		
-		httpPost.addHeader(CLIENT_VERSION_HEADER, mClientVersion);
-		try {
-			httpPost.setEntity(new StringEntity(json.toString(), "UTF-8"));
-		} catch (UnsupportedEncodingException e1) {
-			throw new IllegalArgumentException(
-					"Unable to encode http parameters.");
-		}
-
-		if (DEBUG)
-			Log.d(TAG, "Created: " + httpPost);
-
-		return httpPost;
-	}
-
-	public HttpPost createHttpPost(String url, NameValuePair... nameValuePairs) {
-		if (DEBUG)
-			Log.d(TAG, "creating HttpPost for: " + url);
-
-		HttpPost httpPost = new HttpPost(url);
-		
-		httpPost.setHeader("Accept", "application/xml");
-		httpPost.setHeader("Content-type", "application/xml");
-		
-		httpPost.addHeader(CLIENT_VERSION_HEADER, mClientVersion);
-		try {
-			httpPost.setEntity(new UrlEncodedFormEntity(
-					stripNulls(nameValuePairs), HTTP.UTF_8));
-		} catch (UnsupportedEncodingException e1) {
-			throw new IllegalArgumentException(
-					"Unable to encode http parameters.");
-		}
-		if (DEBUG)
-			Log.d(TAG, "Created: " + httpPost);
-
-		return httpPost;
-	}
-
 	public IType doHttpRequest(HttpRequestBase httpRequest,
 			IJsonParser<? extends IType> parser)
 			throws WifiIpsCredentialsException, WifiIpsParseException, WifiIpsException,
@@ -221,52 +163,7 @@ public abstract class AbstractHttpApi implements IHttpApi {
 		}
 	}
 
-	public IType doHttpRequest(HttpRequestBase httpRequest,
-			IXmlParser<? extends IType> parser)
-			throws WifiIpsCredentialsException, WifiIpsParseException, WifiIpsException,
-			IOException {
-		if (DEBUG)
-			Log.d(TAG, "doHttpRequest: " + httpRequest.getURI());
-
-		HttpResponse response = executeHttpRequest(httpRequest);
-		if (DEBUG)
-			Log.d(TAG, "executed HttpRequest for: "
-					+ httpRequest.getURI().toString());
-
-		int statusCode = response.getStatusLine().getStatusCode();
-		switch (statusCode) {
-		case 200:
-			InputStream is = response.getEntity().getContent();
-			try {
-				return parser.parse(AbstractXmlParser.createXmlPullParser(is));
-			} finally {
-				is.close();
-			}
-		case 401:
-			response.getEntity().consumeContent();
-			if (DEBUG)
-				Log.d(TAG, "HTTP Code: 401");
-			throw new WifiIpsCredentialsException(response.getStatusLine()
-					.toString());
-		case 404:
-			response.getEntity().consumeContent();
-			throw new WifiIpsException(response.getStatusLine().toString());
-		case 500:
-			response.getEntity().consumeContent();
-			if (DEBUG)
-				Log.d(TAG, "HTTP Code: 500");
-			throw new WifiIpsException("Wips is down. Try again later.");
-		default:
-			if (DEBUG)
-				Log.d(TAG, "Default case for status code reached: "
-						+ response.getStatusLine().toString());
-			response.getEntity().consumeContent();
-			throw new WifiIpsException("Error connecting to WifiIPS Server: "
-					+ statusCode + ". Try again later.");
-		}
-	}
-	
-    private HttpResponse executeHttpRequest(HttpRequestBase httpRequest)
+	private HttpResponse executeHttpRequest(HttpRequestBase httpRequest)
 			throws IOException {
 		if (DEBUG)
 			Log.d(TAG, "executing HttpRequest for: "
@@ -280,7 +177,69 @@ public abstract class AbstractHttpApi implements IHttpApi {
 		}
 	}
 
-    private List<NameValuePair> stripNulls(NameValuePair... nameValuePairs) {
+	public HttpGet createHttpGet(String url, NameValuePair... nameValuePairs) {
+		if (DEBUG)
+			Log.d(TAG, "creating HttpGet for: " + url);
+
+		String query = URLEncodedUtils.format(stripNulls(nameValuePairs),
+				HTTP.UTF_8);
+		HttpGet httpGet = new HttpGet(url + "?" + query);
+		httpGet.addHeader(CLIENT_VERSION_HEADER, mClientVersion);
+
+		if (DEBUG)
+			Log.d(TAG, "Created: " + httpGet.getURI());
+
+		return httpGet;
+	}
+
+	public HttpPost createHttpPost(String url, NameValuePair... nameValuePairs) {
+		if (DEBUG)
+			Log.d(TAG, "creating HttpPost for: " + url);
+
+		HttpPost httpPost = new HttpPost(url);
+		
+		httpPost.setHeader("Accept", "application/xml");
+		httpPost.setHeader("Content-type", "application/xml");
+		
+		httpPost.addHeader(CLIENT_VERSION_HEADER, mClientVersion);
+		try {
+			httpPost.setEntity(new UrlEncodedFormEntity(
+					stripNulls(nameValuePairs), HTTP.UTF_8));
+		} catch (UnsupportedEncodingException e1) {
+			throw new IllegalArgumentException(
+					"Unable to encode http parameters.");
+		}
+		if (DEBUG)
+			Log.d(TAG, "Created: " + httpPost);
+
+		return httpPost;
+	}
+
+	public HttpPost createHttpPost(String url, JSONObject json) {
+		if (DEBUG)
+			Log.d(TAG, "creating HttpPost for: " + url);
+
+		HttpPost httpPost = new HttpPost(url);
+		
+		httpPost.setHeader("Accept", "application/json");
+		httpPost.setHeader("Content-type", "application/json;charset=UTF-8");
+		httpPost.setHeader("Content-Encoding", "UTF-8");
+		
+		httpPost.addHeader(CLIENT_VERSION_HEADER, mClientVersion);
+		try {
+			httpPost.setEntity(new StringEntity(json.toString(), "UTF-8"));
+		} catch (UnsupportedEncodingException e1) {
+			throw new IllegalArgumentException(
+					"Unable to encode http parameters.");
+		}
+
+		if (DEBUG)
+			Log.d(TAG, "Created: " + httpPost);
+
+		return httpPost;
+	}
+
+	private List<NameValuePair> stripNulls(NameValuePair... nameValuePairs) {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		for (int i = 0; i < nameValuePairs.length; i++) {
 			NameValuePair param = nameValuePairs[i];
@@ -292,5 +251,46 @@ public abstract class AbstractHttpApi implements IHttpApi {
 		}
 		return params;
 	}
+	
+    /**
+     * Create a thread-safe client. This client does not do redirecting, to allow us to capture
+     * correct "error" codes.
+     *
+     * @return HttpClient
+     */
+    public final DefaultHttpClient createHttpClient() {
+        // Sets up the http part of the service.
+        final SchemeRegistry supportedSchemes = new SchemeRegistry();
+
+        // Register the "http" protocol scheme, it is required
+        // by the default operator to look up socket factories.
+        final SocketFactory sf = PlainSocketFactory.getSocketFactory();
+        supportedSchemes.register(new Scheme("http", sf, 80));
+
+        // Set some client http client parameter defaults.
+        final HttpParams httpParams = createHttpParams();
+        HttpClientParams.setRedirecting(httpParams, false);
+
+        final ClientConnectionManager ccm = new ThreadSafeClientConnManager(httpParams,
+                supportedSchemes);
+        return new DefaultHttpClient(ccm, httpParams);
+    }
+
+    /**
+     * Create the default HTTP protocol parameters.
+     */
+    private final HttpParams createHttpParams() {
+        final HttpParams params = new BasicHttpParams();
+
+        // Turn off stale checking. Our connections break all the time anyway,
+        // and it's not worth it to pay the penalty of checking every time.
+        HttpConnectionParams.setStaleCheckingEnabled(params, false);
+
+        HttpConnectionParams.setConnectionTimeout(params, WifiIpsSettings.CONNECTION_TIMEOUT);
+        HttpConnectionParams.setSoTimeout(params, WifiIpsSettings.SOCKET_TIMEOUT);
+        HttpConnectionParams.setSocketBufferSize(params, 8192);
+
+        return params;
+    }
 
 }

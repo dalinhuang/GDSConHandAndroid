@@ -16,9 +16,9 @@
 
 package com.zxing.camera;
 
-import android.graphics.Bitmap;
-
 import com.google.zxing.LuminanceSource;
+
+import android.graphics.Bitmap;
 
 /**
  * This object extends LuminanceSource around an array of YUV data returned from the camera driver,
@@ -52,12 +52,18 @@ public final class PlanarYUVLuminanceSource extends LuminanceSource {
     this.top = top;
   }
 
-  public int getDataHeight() {
-    return dataHeight;
-  }
-
-  public int getDataWidth() {
-    return dataWidth;
+  @Override
+  public byte[] getRow(int y, byte[] row) {
+    if (y < 0 || y >= getHeight()) {
+      throw new IllegalArgumentException("Requested row is outside the image: " + y);
+    }
+    int width = getWidth();
+    if (row == null || row.length < width) {
+      row = new byte[width];
+    }
+    int offset = (y + top) * dataWidth + left;
+    System.arraycopy(yuvData, offset, row, 0, width);
+    return row;
   }
 
   @Override
@@ -92,22 +98,16 @@ public final class PlanarYUVLuminanceSource extends LuminanceSource {
   }
 
   @Override
-  public byte[] getRow(int y, byte[] row) {
-    if (y < 0 || y >= getHeight()) {
-      throw new IllegalArgumentException("Requested row is outside the image: " + y);
-    }
-    int width = getWidth();
-    if (row == null || row.length < width) {
-      row = new byte[width];
-    }
-    int offset = (y + top) * dataWidth + left;
-    System.arraycopy(yuvData, offset, row, 0, width);
-    return row;
-  }
-
-  @Override
   public boolean isCropSupported() {
     return true;
+  }
+
+  public int getDataWidth() {
+    return dataWidth;
+  }
+
+  public int getDataHeight() {
+    return dataHeight;
   }
 
   public Bitmap renderCroppedGreyscaleBitmap() {

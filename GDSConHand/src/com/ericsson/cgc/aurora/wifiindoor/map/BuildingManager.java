@@ -13,11 +13,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
-
 import com.ericsson.cgc.aurora.wifiindoor.R;
 import com.ericsson.cgc.aurora.wifiindoor.types.BuildingManagerReply;
 import com.ericsson.cgc.aurora.wifiindoor.util.IndoorMapData;
 import com.ericsson.cgc.aurora.wifiindoor.util.Util;
+
 import com.thoughtworks.xstream.XStream;
 
 /**
@@ -30,6 +30,28 @@ public class BuildingManager implements Serializable {
 	private int versionCode;
 	private ArrayList<Building> buildings;
 	
+	//Number of the Buildings
+	public int getItemNumber(){
+		if (buildings == null){
+			return 0;
+		}
+		
+		return buildings.size();
+	}
+	
+	//Get the Item by the Index
+	public Building getItemByIndex(int index){
+		if (buildings == null){
+			return null;
+		}
+		
+		if (index >= getItemNumber()) {
+			return null;
+		}
+		
+		return buildings.get(index);
+	}
+	
 	//Add an Item
 	public void addItem(Building building){
 		if (buildings == null){
@@ -39,24 +61,43 @@ public class BuildingManager implements Serializable {
 		buildings.add(building);
 	}
 	
-	// Load from map manager file
-	public int fromXML() {
-		XStream xs = new XStream();
-		setAlias(xs);
-
-		try {			
-			FileInputStream fis = new FileInputStream(getFullPathForManagerFile());
-			xs.fromXML(fis, this);
-			fis.close();
-		} catch (FileNotFoundException fmfex) {
-			return IndoorMapData.FILE_RC_FILE_NOT_FOUND;
-		} catch (IOException ioex){
-			return IndoorMapData.FILE_RC_IO_ERROR;
-		}
-		
-		return IndoorMapData.FILE_RC_OK;
+	//Remove an Item
+	public void removeItem(Building building){
+		buildings.remove(building);
 	}
 	
+	//Set Alias for the XML serialization
+	private void setAlias(XStream xs){
+		xs.alias("BuildingManager", com.ericsson.cgc.aurora.wifiindoor.map.BuildingManager.class);
+		xs.alias("Building", com.ericsson.cgc.aurora.wifiindoor.map.Building.class);		
+	}
+
+	//Serialize current Map Manager to XML file
+	public boolean toXML(){
+		//Serialize this object
+		XStream xs = new XStream();
+		setAlias(xs);
+		
+		File file = Util.openOrCreateFileInPath(IndoorMapData.MAP_FILE_PATH_LOCAL, IndoorMapData.BUILDING_MANAGER_FILE_NAME, false);
+		
+		if (file == null) {
+			return false;
+		}
+		
+		//Write to the manager file
+		try{
+			FileOutputStream fos = new FileOutputStream(file);
+			xs.toXML(this, fos);
+			
+			fos.close();
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}	
+
 	// Load from map manager file, 1st time loading use this
 	public boolean fromXML(InputStream map_file_is) {
 		XStream xs = new XStream();
@@ -78,40 +119,28 @@ public class BuildingManager implements Serializable {
 		return false;
 	}
 	
-	public ArrayList<Building> getBuildings(){
-		return buildings;
-	}
-	
 	private String getFullPathForManagerFile() {
 		return Util.getFilePath(IndoorMapData.MAP_FILE_PATH_LOCAL) + IndoorMapData.BUILDING_MANAGER_FILE_NAME;
 	}
-
-	//Get the Item by the Index
-	public Building getItemByIndex(int index){
-		if (buildings == null){
-			return null;
-		}
-		
-		if (index >= getItemNumber()) {
-			return null;
-		}
-		
-		return buildings.get(index);
-	}	
-
-	//Number of the Buildings
-	public int getItemNumber(){
-		if (buildings == null){
-			return 0;
-		}
-		
-		return buildings.size();
-	}
 	
-	public int getVersionCode() {
-		return versionCode;
+	// Load from map manager file
+	public int fromXML() {
+		XStream xs = new XStream();
+		setAlias(xs);
+
+		try {			
+			FileInputStream fis = new FileInputStream(getFullPathForManagerFile());
+			xs.fromXML(fis, this);
+			fis.close();
+		} catch (FileNotFoundException fmfex) {
+			return IndoorMapData.FILE_RC_FILE_NOT_FOUND;
+		} catch (IOException ioex){
+			return IndoorMapData.FILE_RC_IO_ERROR;
+		}
+		
+		return IndoorMapData.FILE_RC_OK;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public boolean loadBuildingManager(final Activity activity, Resources resources) {
 		try{
@@ -143,6 +172,22 @@ public class BuildingManager implements Serializable {
         }
         
         return false;
+	}
+
+	public ArrayList<Building> getBuildings(){
+		return buildings;
+	}
+		
+	public void setBuildings(ArrayList<Building> buildings) {
+		this.buildings = buildings;
+	}
+
+	public int getVersionCode() {
+		return versionCode;
+	}
+
+	public void setVersionCode(int versionCode) {
+		this.versionCode = versionCode;
 	}
 
 	public void mergeBuildings(BuildingManagerReply manager2) {
@@ -184,50 +229,5 @@ public class BuildingManager implements Serializable {
 				buildings.add(building2);
 			}
 		}
-	}
-
-	//Remove an Item
-	public void removeItem(Building building){
-		buildings.remove(building);
-	}
-		
-	//Set Alias for the XML serialization
-	private void setAlias(XStream xs){
-		xs.alias("BuildingManager", com.ericsson.cgc.aurora.wifiindoor.map.BuildingManager.class);
-		xs.alias("Building", com.ericsson.cgc.aurora.wifiindoor.map.Building.class);		
-	}
-
-	public void setBuildings(ArrayList<Building> buildings) {
-		this.buildings = buildings;
-	}
-
-	public void setVersionCode(int versionCode) {
-		this.versionCode = versionCode;
-	}
-
-	//Serialize current Map Manager to XML file
-	public boolean toXML(){
-		//Serialize this object
-		XStream xs = new XStream();
-		setAlias(xs);
-		
-		File file = Util.openOrCreateFileInPath(IndoorMapData.MAP_FILE_PATH_LOCAL, IndoorMapData.BUILDING_MANAGER_FILE_NAME, false);
-		
-		if (file == null) {
-			return false;
-		}
-		
-		//Write to the manager file
-		try{
-			FileOutputStream fos = new FileOutputStream(file);
-			xs.toXML(this, fos);
-			
-			fos.close();
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return false;
-		}
-		
-		return true;
 	}
 }

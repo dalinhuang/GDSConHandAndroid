@@ -13,12 +13,12 @@ public class ApkVersionRequest {
 		return versionCode;
 	}
 	
-	public String getVersionName() {
-		return versionName;
-	}
-	
 	public void setVersionCode(int versionCode) {
 		this.versionCode = versionCode;
+	}
+	
+	public String getVersionName() {
+		return versionName;
 	}
 	
 	public void setVersionName(String versionName) {

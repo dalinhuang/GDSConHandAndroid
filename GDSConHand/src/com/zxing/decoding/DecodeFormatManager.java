@@ -23,7 +23,6 @@ import java.util.regex.Pattern;
 
 import android.content.Intent;
 import android.net.Uri;
-
 import com.google.zxing.BarcodeFormat;
 
 final class DecodeFormatManager {
@@ -53,6 +52,8 @@ final class DecodeFormatManager {
     DATA_MATRIX_FORMATS.add(BarcodeFormat.DATA_MATRIX);
   }
 
+  private DecodeFormatManager() {}
+
   static Vector<BarcodeFormat> parseDecodeFormats(Intent intent) {
     List<String> scanFormats = null;
     String scanFormatsString = intent.getStringExtra(Intents.Scan.SCAN_FORMATS);
@@ -60,6 +61,14 @@ final class DecodeFormatManager {
       scanFormats = Arrays.asList(COMMA_PATTERN.split(scanFormatsString));
     }
     return parseDecodeFormats(scanFormats, intent.getStringExtra(Intents.Scan.MODE));
+  }
+
+  static Vector<BarcodeFormat> parseDecodeFormats(Uri inputUri) {
+    List<String> formats = inputUri.getQueryParameters(Intents.Scan.SCAN_FORMATS);
+    if (formats != null && formats.size() == 1 && formats.get(0) != null){
+      formats = Arrays.asList(COMMA_PATTERN.split(formats.get(0)));
+    }
+    return parseDecodeFormats(formats, inputUri.getQueryParameter(Intents.Scan.MODE));
   }
 
   private static Vector<BarcodeFormat> parseDecodeFormats(Iterable<String> scanFormats,
@@ -91,15 +100,5 @@ final class DecodeFormatManager {
     }
     return null;
   }
-
-  static Vector<BarcodeFormat> parseDecodeFormats(Uri inputUri) {
-    List<String> formats = inputUri.getQueryParameters(Intents.Scan.SCAN_FORMATS);
-    if (formats != null && formats.size() == 1 && formats.get(0) != null){
-      formats = Arrays.asList(COMMA_PATTERN.split(formats.get(0)));
-    }
-    return parseDecodeFormats(formats, inputUri.getQueryParameter(Intents.Scan.MODE));
-  }
-
-  private DecodeFormatManager() {}
 
 }

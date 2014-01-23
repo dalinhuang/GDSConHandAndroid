@@ -1,6 +1,8 @@
 package com.ericsson.cgc.aurora.wifiindoor.drawing.graphic.model;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.TextureOptions;
@@ -9,8 +11,15 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.opengl.texture.atlas.bitmap.source.FileBitmapTextureAtlasSource;
 import org.andengine.opengl.texture.region.TextureRegion;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+
 import com.ericsson.cgc.aurora.wifiindoor.MapViewerActivity;
+import com.ericsson.cgc.aurora.wifiindoor.drawing.graphic.AndEngineGraphicsHelper;
 import com.ericsson.cgc.aurora.wifiindoor.runtime.RuntimeIndoorMap;
+import com.ericsson.cgc.aurora.wifiindoor.util.IndoorMapData;
 import com.ericsson.cgc.aurora.wifiindoor.util.Util;
 import com.ericsson.cgc.aurora.wifiindoor.util.VisualParameters;
 
@@ -19,11 +28,11 @@ import com.ericsson.cgc.aurora.wifiindoor.util.VisualParameters;
 @SuppressWarnings("unused")
 public class MapPictureUnit extends Unit {
 
-	private TextureRegion textureRegion;
-
 	public MapPictureUnit(){
 		
 	}
+
+	private TextureRegion textureRegion;
 
 	@Override
 	public void clearCache() {

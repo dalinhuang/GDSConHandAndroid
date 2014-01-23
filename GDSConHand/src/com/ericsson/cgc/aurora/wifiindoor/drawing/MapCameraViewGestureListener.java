@@ -2,28 +2,22 @@ package com.ericsson.cgc.aurora.wifiindoor.drawing;
 
 import org.andengine.engine.camera.ZoomCamera;
 
-import android.view.GestureDetector.OnGestureListener;
-import android.view.MotionEvent;
-
 import com.ericsson.cgc.aurora.wifiindoor.MapViewerActivity;
 import com.ericsson.cgc.aurora.wifiindoor.util.Util;
+
+import android.view.GestureDetector.OnGestureListener;
+import android.view.MotionEvent;
 
 public final class MapCameraViewGestureListener implements OnGestureListener {
 	private static final float VIEW_MOVEMENT_BASE_RATIO = 0.1f;  // Adjust this to let the scroll follow your finger
 
 	private MapViewerActivity activity;
 
-	private boolean isMovingCamera;
-	
 	public MapCameraViewGestureListener(MapViewerActivity activity) {
 		this.activity = activity;
 	}
-
-	private float getMoveRatio() {
-		ZoomCamera camera = activity.getMCamera();
-		// When in zoom mode, the ratio need to be changed
-		return VIEW_MOVEMENT_BASE_RATIO / camera.getZoomFactor();
-	}
+	
+	private boolean isMovingCamera;
 
 	// 用户轻触触摸屏，由1个MotionEvent ACTION_DOWN触发
 	public boolean onDown(MotionEvent e) {
@@ -89,6 +83,12 @@ public final class MapCameraViewGestureListener implements OnGestureListener {
 	public boolean onSingleTapUp(MotionEvent e) {
 		//Log.e("onSingleTapUp", "[onSingleTapUp]");
 		return true;
+	}
+
+	private float getMoveRatio() {
+		ZoomCamera camera = activity.getMCamera();
+		// When in zoom mode, the ratio need to be changed
+		return VIEW_MOVEMENT_BASE_RATIO / camera.getZoomFactor();
 	}
 }
 

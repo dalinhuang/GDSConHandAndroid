@@ -16,11 +16,11 @@
 
 package com.zxing.camera;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import android.os.IBinder;
 import android.util.Log;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * This class is used to activate the weak light on some camera phones (not flash)
@@ -50,8 +50,7 @@ final class FlashlightManager {
     }
   }
 
-  static void disableFlashlight() {
-    setFlashlight(false);
+  private FlashlightManager() {
   }
 
   /**
@@ -59,6 +58,10 @@ final class FlashlightManager {
    */
   //FIXME
   static void enableFlashlight() {
+    setFlashlight(false);
+  }
+
+  static void disableFlashlight() {
     setFlashlight(false);
   }
 
@@ -99,21 +102,6 @@ final class FlashlightManager {
     return maybeGetMethod(proxyClass, "setFlashlightEnabled", boolean.class);
   }
 
-  private static Object invoke(Method method, Object instance, Object... args) {
-    try {
-      return method.invoke(instance, args);
-    } catch (IllegalAccessException e) {
-      Log.w(TAG, "Unexpected error while invoking " + method, e);
-      return null;
-    } catch (InvocationTargetException e) {
-      Log.w(TAG, "Unexpected error while invoking " + method, e.getCause());
-      return null;
-    } catch (RuntimeException re) {
-      Log.w(TAG, "Unexpected error while invoking " + method, re);
-      return null;
-    }
-  }
-
   private static Class<?> maybeForName(String name) {
     try {
       return Class.forName(name);
@@ -138,13 +126,25 @@ final class FlashlightManager {
     }
   }
 
+  private static Object invoke(Method method, Object instance, Object... args) {
+    try {
+      return method.invoke(instance, args);
+    } catch (IllegalAccessException e) {
+      Log.w(TAG, "Unexpected error while invoking " + method, e);
+      return null;
+    } catch (InvocationTargetException e) {
+      Log.w(TAG, "Unexpected error while invoking " + method, e.getCause());
+      return null;
+    } catch (RuntimeException re) {
+      Log.w(TAG, "Unexpected error while invoking " + method, re);
+      return null;
+    }
+  }
+
   private static void setFlashlight(boolean active) {
     if (iHardwareService != null) {
       invoke(setFlashEnabledMethod, iHardwareService, active);
     }
-  }
-
-  private FlashlightManager() {
   }
 
 }

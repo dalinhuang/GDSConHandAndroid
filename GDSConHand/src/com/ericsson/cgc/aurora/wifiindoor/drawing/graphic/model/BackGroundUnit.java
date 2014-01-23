@@ -5,51 +5,83 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.region.TextureRegion;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
-
 import com.ericsson.cgc.aurora.wifiindoor.MapViewerActivity;
+import com.ericsson.cgc.aurora.wifiindoor.R;
 import com.ericsson.cgc.aurora.wifiindoor.drawing.graphic.AndEngineGraphicsHelper;
 import com.ericsson.cgc.aurora.wifiindoor.runtime.RuntimeIndoorMap;
 import com.ericsson.cgc.aurora.wifiindoor.util.Util;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+
 public class BackGroundUnit extends Unit {
 
-	private static Bitmap createBackground(RuntimeIndoorMap runtimeIndoorMap) {	
+	TextureRegion backgroundTextureRegion;
+	
+	@Override
+	public void clearCache() {
+		super.clearCache();
+		backgroundTextureRegion = null;
+	}
+	
+	public Sprite load(MapViewerActivity activity, RuntimeIndoorMap runtimeIndoorMap) {		
+		int rowCount = runtimeIndoorMap.getRowNum();
+		int colCount = runtimeIndoorMap.getColNum();		
+		int mapWidth = colCount * Util.getCurrentCellPixel();
+		int mapHeight = rowCount * Util.getCurrentCellPixel();
+		
+		if (backgroundTextureRegion==null){
+			BitmapTextureAtlas textureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), getNearestPowerOfTwo(mapWidth), getNearestPowerOfTwo(mapHeight), TextureOptions.BILINEAR);
+			backgroundTextureRegion = AndEngineGraphicsHelper.createFromBitmap(textureAtlas, createBackground(activity, runtimeIndoorMap));
+			textureAtlas.load();
+		}
+		return new Sprite(0, 0, backgroundTextureRegion, activity.getVertexBufferObjectManager());
+	}
+
+	private static Bitmap createBackground(MapViewerActivity activity, RuntimeIndoorMap runtimeIndoorMap) {	
 		int rowCount = runtimeIndoorMap.getRowNum();
 		int colCount = runtimeIndoorMap.getColNum();
 		int cellPixel = runtimeIndoorMap.getCellPixel();
 		int mapWidth = colCount * cellPixel;
 		int mapHeight = rowCount * cellPixel;
 		
-		Paint paint = new Paint();
-
-		paint.setAntiAlias(true);
-				
 		// Draw the background's background
+		Paint paint_background = new Paint();
+		paint_background.setAntiAlias(true);
+		paint_background.setColor(activity.getResources().getColor(R.color.map_background));
+		paint_background.setStyle(Style.FILL_AND_STROKE);
+				
 		Bitmap bitmap = Bitmap.createBitmap(mapWidth, mapHeight, Bitmap.Config.ARGB_4444); // Change from ARGB_8888 to fix the Out of Memory problem
 
 		Canvas canvas = new Canvas(bitmap);
-		
-		paint.setColor(Color.WHITE);
-		paint.setStyle(Style.FILL_AND_STROKE);
-		canvas.drawRect(0, 0, mapWidth, mapHeight, paint);
-		// Picture of the map
-		//Bitmap bitmapPic = ImageLoader.loadAssetAsBitmap("maps/"+runtimeIndoorMap.getId()+".png", mapWidth, mapHeight);
-		//canvas.drawBitmap(bitmapPic, offsetX, offsetY, paint);
+
+		canvas.drawRect(0, 0, mapWidth, mapHeight, paint_background);
 
 		// Draw the background's lines
-		paint.setStyle(Style.STROKE);
-		paint.setStrokeWidth(2f);
-		paint.setColor(Color.BLUE);
-		//draw borders
-		canvas.drawRect(0, 0, mapWidth, mapHeight, paint);		
+		Paint paint_line_1 = new Paint();
+		paint_line_1.setAntiAlias(true);
+		paint_line_1.setStyle(Style.STROKE);
+		paint_line_1.setStrokeWidth(2f);
+		paint_line_1.setColor(activity.getResources().getColor(R.color.map_dark));
 		
 		// Draw inner lines
-		paint.setStrokeWidth(1f);
+		Paint paint_line_2 = new Paint();
+		paint_line_2.setAntiAlias(true);
+		paint_line_2.setStyle(Style.FILL);
+		paint_line_2.setStrokeWidth(1f);
+		paint_line_2.setColor(activity.getResources().getColor(R.color.map_light));
+		
+		// Draw inner lines, every 10th one
+		Paint paint_line_3 = new Paint();
+		paint_line_3.setAntiAlias(true);
+		paint_line_3.setStyle(Style.FILL);
+		paint_line_3.setStrokeWidth(1f);
+		paint_line_3.setColor(activity.getResources().getColor(R.color.map_dark));
+		
+		//draw borders
+		canvas.drawRect(0, 0, mapWidth, mapHeight, paint_line_1);		
 
 		for (int i = 1; i < rowCount; i++) {
 			int startX = 0;
@@ -58,12 +90,10 @@ public class BackGroundUnit extends Unit {
 			int stopY = startY;
 			
 			if (i % 10 == 0) {
-				paint.setColor(Color.RED);
+				canvas.drawLine(startX, startY, stopX, stopY, paint_line_3);
 			} else {
-				paint.setColor(Color.BLUE);
+				canvas.drawLine(startX, startY, stopX, stopY, paint_line_2);
 			}
-			
-			canvas.drawLine(startX, startY, stopX, stopY, paint);
 		}
 
 		for (int i = 1; i < colCount; i++) {
@@ -73,40 +103,19 @@ public class BackGroundUnit extends Unit {
 			int stopY = mapHeight;
 			
 			if (i % 10 == 0) {
-				paint.setColor(Color.RED);
+				canvas.drawLine(startX, startY, stopX, stopY, paint_line_3);
 			} else {
-				paint.setColor(Color.BLUE);
+				canvas.drawLine(startX, startY, stopX, stopY, paint_line_2);
 			}
-			
-			canvas.drawLine(startX, startY, stopX, stopY, paint);
 		}
 		
-	    paint = null;
+		paint_background = null;
+		paint_line_1 = null;
+		paint_line_2 = null;
+		paint_line_3 = null;
 	    canvas = null;
 	    System.gc();
 
 		return bitmap;
-	}
-	
-	TextureRegion backgroundTextureRegion;
-	
-	@Override
-	public void clearCache() {
-		super.clearCache();
-		backgroundTextureRegion = null;
-	}
-
-	public Sprite load(MapViewerActivity activity, RuntimeIndoorMap runtimeIndoorMap) {		
-		int rowCount = runtimeIndoorMap.getRowNum();
-		int colCount = runtimeIndoorMap.getColNum();		
-		int mapWidth = colCount * Util.getCurrentCellPixel();
-		int mapHeight = rowCount * Util.getCurrentCellPixel();
-		
-		if (backgroundTextureRegion==null){
-			BitmapTextureAtlas textureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), getNearestPowerOfTwo(mapWidth), getNearestPowerOfTwo(mapHeight), TextureOptions.BILINEAR);
-			backgroundTextureRegion = AndEngineGraphicsHelper.createFromBitmap(textureAtlas, createBackground(runtimeIndoorMap));
-			textureAtlas.load();
-		}
-		return new Sprite(0, 0, backgroundTextureRegion, activity.getVertexBufferObjectManager());
 	}
 }

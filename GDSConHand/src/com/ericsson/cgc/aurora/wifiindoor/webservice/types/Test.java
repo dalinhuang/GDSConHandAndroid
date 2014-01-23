@@ -22,18 +22,18 @@ public class Test implements IType {
 	}
 
 	/**
-	 * @return the note
-	 */
-	public String getNote() {
-		return mNote;
-	}
-
-	/**
 	 * @param name
 	 *            the name to set
 	 */
 	public void setName(String name) {
 		mName = name;
+	}
+
+	/**
+	 * @return the note
+	 */
+	public String getNote() {
+		return mNote;
 	}
 
 	/**

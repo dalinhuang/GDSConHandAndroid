@@ -14,45 +14,48 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import com.ericsson.cgc.aurora.wifiindoor.R;
+import com.ericsson.cgc.aurora.wifiindoor.ads.AdMessageHandler;
+
 import android.app.Activity;
 import android.os.Environment;
 import android.util.Log;
-
-import com.ericsson.cgc.aurora.wifiindoor.R;
-import com.ericsson.cgc.aurora.wifiindoor.ads.AdMessageHandler;
 
 public class AdUtil {
 	
 	private static boolean addownloadOngoing = false;
 	private static AdMessageHandler adMessageHandler = null;
 	
-	public static File createFileFromInputStream(InputStream inputStream, String my_file_name) {
+	public static String getFilePath(String relativePath) {
+		String filePath = WifiIpsSettings.FILE_CACHE_FOLDER + relativePath;
+    	String sdStatus = Environment.getExternalStorageState();
 
-		   try{
-			   File f = new File(Environment.getExternalStorageDirectory() + File.separator + "test.txt");
-			   f.createNewFile();
-		      //File f = new File("temp","temp");
-		      //if(!f.exists()){
-		    //	  f.createNewFile();
-		     // }
-		      OutputStream outputStream = new FileOutputStream(f);
-		      byte buffer[] = new byte[1024];
-		      int length = 0;
-
-		      while((length=inputStream.read(buffer)) > 0) {
-		        outputStream.write(buffer,0,length);
-		      }
-
-		      outputStream.close();
-		      inputStream.close();
-
-		      return f;
-		   }catch (IOException e) {
-		         //Logging exception
-		   }
-
-		return null;
+		if(!sdStatus.equals(Environment.MEDIA_MOUNTED)) {
+			return filePath;
+		} else {
+			return Environment.getExternalStorageDirectory().getPath() + filePath;
 		}
+	}
+	
+	
+	public static String getAdPicturePathName(String mapId, String pictureName) {
+		return getFilePath(AdData.AD_FILE_PATH_LOCAL) + mapId + "/" + pictureName;
+	}
+	
+	
+	public static boolean isADDownloadOngoing() {
+		return addownloadOngoing;
+	}
+	
+	public static void downloadAd(Activity activity, String mapId, String url) {
+		 downFile(activity,// WifiIpsSettings.URL_PREFIX +"146.11.0.117:8081"+url,
+        		WifiIpsSettings.URL_PREFIX + WifiIpsSettings.SERVER + "/" + AdData.AD_FILE_PATH_REMOTE + GetFileName(url),
+        		AdData.AD_FILE_PATH_REMOTE + mapId + "/",
+        		GetFileName(url),
+        		false,   // No need to open after download
+        		"",
+        		true);  // always use a thread, wait for finish
+	}
 	
 	
 	private static void downFile(final Activity activity, final String url, final String localRelativePath, final String localFileName, final boolean openAfterDone, final String mimeType, final boolean useThread) {
@@ -74,17 +77,6 @@ public class AdUtil {
 		    }.start(); 
 		}
 
-	}
-	
-	
-	public static void downloadAd(Activity activity, String mapId, String url) {
-		 downFile(activity,// WifiIpsSettings.URL_PREFIX +"146.11.0.117:8081"+url,
-        		WifiIpsSettings.URL_PREFIX + WifiIpsSettings.SERVER + "/" + AdData.AD_FILE_PATH_REMOTE + GetFileName(url),
-        		AdData.AD_FILE_PATH_REMOTE + mapId + "/",
-        		GetFileName(url),
-        		false,   // No need to open after download
-        		"",
-        		true);  // always use a thread, wait for finish
 	}
 	
 	private static void downloadFile(Activity activity, String url,
@@ -140,49 +132,7 @@ public class AdUtil {
 	}
 	
 	
-	public static String getAdPicturePathName(String mapId, String pictureName) {
-		return getFilePath(AdData.AD_FILE_PATH_LOCAL) + mapId + "/" + pictureName;
-	}
-	
-	public static String GetFileName(String file){
-    	
-	    StringTokenizer st=new StringTokenizer(file,"/");
-	    while(st.hasMoreTokens())
-	    {
-	      file=st.nextToken();
-	    }
-	    return file;
-    }
-	
-	
-	public static String getFilePath(String relativePath) {
-		String filePath = WifiIpsSettings.SERVER_SUB_DOMAIN + relativePath;
-    	String sdStatus = Environment.getExternalStorageState();
-
-		if(!sdStatus.equals(Environment.MEDIA_MOUNTED)) {
-			return filePath;
-		} else {
-			return Environment.getExternalStorageDirectory().getPath() + filePath;
-		}
-	}
-	
-	public static void initialAdSystem(Activity activity){
-		if (adMessageHandler == null){
-			setAdMessageHandler(new AdMessageHandler());
-			   //adMessageHandler.setActivity(activity);
-		}
-	}
-
-	
-	public static boolean isAdDownloadOngoing() {
-		return addownloadOngoing;
-	}
-	
-	public static boolean isADDownloadOngoing() {
-		return addownloadOngoing;
-	}
-	
-    public static File openOrCreateFileInPath(String relativePath, String fileName, boolean deleteOldFile) {
+	public static File openOrCreateFileInPath(String relativePath, String fileName, boolean deleteOldFile) {
 		//create the path & file if not exist
 		File dir = null;
 		File file = null;
@@ -226,9 +176,59 @@ public class AdUtil {
 		
 		return file;
 	}
-    
+	
+	public static boolean isAdDownloadOngoing() {
+		return addownloadOngoing;
+	}
+
+	
+	public static void initialAdSystem(Activity activity){
+		if (adMessageHandler == null){
+			setAdMessageHandler(new AdMessageHandler());
+			   //adMessageHandler.setActivity(activity);
+		}
+	}
+	
 	public static void setAdMessageHandler(AdMessageHandler adMessageHandler) {
 		AdUtil.adMessageHandler = adMessageHandler;
 	}
+	
+    public static String GetFileName(String file){
+    	
+	    StringTokenizer st=new StringTokenizer(file,"/");
+	    while(st.hasMoreTokens())
+	    {
+	      file=st.nextToken();
+	    }
+	    return file;
+    }
+    
+	public static File createFileFromInputStream(InputStream inputStream, String my_file_name) {
+
+		   try{
+			   File f = new File(Environment.getExternalStorageDirectory() + File.separator + "test.txt");
+			   f.createNewFile();
+		      //File f = new File("temp","temp");
+		      //if(!f.exists()){
+		    //	  f.createNewFile();
+		     // }
+		      OutputStream outputStream = new FileOutputStream(f);
+		      byte buffer[] = new byte[1024];
+		      int length = 0;
+
+		      while((length=inputStream.read(buffer)) > 0) {
+		        outputStream.write(buffer,0,length);
+		      }
+
+		      outputStream.close();
+		      inputStream.close();
+
+		      return f;
+		   }catch (IOException e) {
+		         //Logging exception
+		   }
+
+		return null;
+		}
 
 }

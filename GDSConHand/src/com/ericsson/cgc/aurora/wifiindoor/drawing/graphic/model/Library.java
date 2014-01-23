@@ -6,11 +6,11 @@ import java.lang.reflect.Modifier;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.opengl.texture.TextureManager;
 
-import android.content.res.AssetManager;
-
 import com.ericsson.cgc.aurora.wifiindoor.MapViewerActivity;
 import com.ericsson.cgc.aurora.wifiindoor.ads.AdvertiseUnit;
 import com.ericsson.cgc.aurora.wifiindoor.util.Constants;
+
+import android.content.res.AssetManager;
 
 /**
  * @author haleyshi
@@ -18,12 +18,32 @@ import com.ericsson.cgc.aurora.wifiindoor.util.Constants;
  */
 public class Library {
 	
-	public static final BackGroundUnit BACKGROUND = new BackGroundUnit();
+	public static void initial(TextureManager textureManager,
+			AssetManager assetManager){
+		
+		Unit.setAssetManager(assetManager);
+		Unit.setTextureManager(textureManager);
+		
+		Field[] fields = Library.class.getFields();
+		
+		for (Field field : fields){
+			if (Modifier.isStatic(field.getModifiers()) && Unit.class.isAssignableFrom(field.getType())){
+				try {
+					Unit unit = (Unit) field.get(null);
+					unit.clearCache();
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}
+	}
 	
 
+	public static final BackGroundUnit BACKGROUND = new BackGroundUnit();
 	public static final BackGroundUnit2 BACKGROUND2 = new BackGroundUnit2();
 	public static final MapPictureUnit MAP_PICTURE = new MapPictureUnit();
 	public static final AdvertiseUnit ADVERTISE = new AdvertiseUnit();
+	
 	/**
 	 * Control
 	 */
@@ -71,10 +91,10 @@ public class Library {
 	/**
 	 * User, occupy 1 * 1 Cells
 	 */
-	public static final AnimatedUnit LOCATION_USER = new AnimatedUnit(new String[] { "svg/location.svg" }, 0);
-	
-	public static final AnimatedUnit TARGET_USER = new AnimatedUnit(new String[] { "svg/target.svg" }, 0);	
+	public static final AnimatedUnit LOCATION_USER = new AnimatedUnit(new String[] { "svg/location.svg" }, 0);	
+	public static final AnimatedUnit TARGET_USER = new AnimatedUnit(new String[] { "svg/target.svg" }, 0);
 	public static final AnimatedUnit TRACK_USER = new AnimatedUnit(new String[] { "svg/point.svg" }, 0);
+	
 	public static AnimatedSprite genUser(MapViewerActivity activity, int userType, int cellPixel){
 		AnimatedSprite sprite = null;
 		
@@ -94,25 +114,10 @@ public class Library {
 		return sprite;
 	}
 	
-	public static void initial(TextureManager textureManager,
-			AssetManager assetManager){
-		
-		Unit.setAssetManager(assetManager);
-		Unit.setTextureManager(textureManager);
-		
-		Field[] fields = Library.class.getFields();
-		
-		for (Field field : fields){
-			if (Modifier.isStatic(field.getModifiers()) && Unit.class.isAssignableFrom(field.getType())){
-				try {
-					Unit unit = (Unit) field.get(null);
-					unit.clearCache();
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-			}
-		}
-	}
+	/**
+	 * Interest Place, occupy 1 * 1 Cells
+	 */
+	public static final AnimatedUnit INTEREST_PLACE = new AnimatedUnit(new String[] { "svg/star.svg" }, 0);
 	
 	/**
 	 * Map CELL

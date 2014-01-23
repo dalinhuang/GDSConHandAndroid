@@ -16,40 +16,40 @@ public class NaviPath {
 		}
 	}
 
-	public void addEnd(int endNode, float distAdd) {
-		steps[stepSize] = endNode;
-		stepSize++;
-		
-		dist += distAdd;
-	}
-
-	public void addFirstStep(int endNode, float distAdd) {
-		steps[0] = endNode;
-		stepSize = 1;	
-		dist = distAdd;
-	}
-
 	public float getDist() {
 		return dist;
 	}
 
-	public int[] getSteps() {
-		return steps;
+	public void setDist(float dist) {
+		this.dist = dist;
 	}
 
 	public int getStepSize() {
 		return stepSize;
 	}
 
-	public void setDist(float dist) {
-		this.dist = dist;
+	public void setStepSize(int stepSize) {
+		this.stepSize = stepSize;
 	}
-	
+
+	public int[] getSteps() {
+		return steps;
+	}
+
 	public void setSteps(int[] steps) {
 		this.steps = steps;
 	}
 	
-	public void setStepSize(int stepSize) {
-		this.stepSize = stepSize;
+	public void addEnd(int endNode, float distAdd) {
+		steps[stepSize] = endNode;
+		stepSize++;
+		
+		dist += distAdd;
+	}
+	
+	public void addFirstStep(int endNode, float distAdd) {
+		steps[0] = endNode;
+		stepSize = 1;	
+		dist = distAdd;
 	}
 }

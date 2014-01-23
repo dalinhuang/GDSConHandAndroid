@@ -20,11 +20,14 @@ import android.text.TextUtils;
  */
 public class WifiIpsSettings {
 	public static boolean PLANNING_MODE = true;
+	public static boolean AUTO_GUIDE = true;
+	public static String FILE_CACHE_FOLDER = "/GDSConHand/";
+	
 	public static boolean DEBUG = true;
 	public static boolean USE_DOMAIN_NAME = false;
 	public static String SERVER_DOMAIN_NAME = "192.168.11.5";
 	public static String SERVER_IP = "192.168.11.5";
-	public static String SERVER_PORT = "8081";
+	public static String SERVER_PORT = "8080";
 	public static String SERVER_SUB_DOMAIN = "/GDSCAppServer"; //"/wifiips", "/WifiIpsServer";
 	public static String SERVER = null;
 	public static int CONNECTION_TIMEOUT = 60000; //30000; // 30 s
@@ -33,7 +36,7 @@ public class WifiIpsSettings {
 	public static boolean SERVER_RUNNING_IN_LINUX = false; // Cloud Server
 	public static String LINUX_SERVER_IP = "192.168.11.5"; //Cloud:"58.221.67.59";  New Powerful:"58.221.62.210"
 	public static String LINUX_SERVER_PORT = "8080";
-
+	
 	public static String URL_PREFIX = "http://";
 	public static String URL_API_TEST = "/Test";
 	public static String URL_API_LOCATE = "/locate";
@@ -51,35 +54,7 @@ public class WifiIpsSettings {
 	public static String URL_API_QUERY_MAP_INFO = "/queryMapInfo";
 	public static String URL_API_QUERY_NAVI_INFO = "/queryNaviInfo";
 	public static String URL_API_QUERY_ADVERTISE_INFO = "/queryAd";
-
-	public static boolean getServerAddress(boolean force_retry) {
-		if (force_retry) {
-			SERVER = null;
-		}
-
-		if (SERVER != null) {
-			return true;
-		}
-
-		if (!SERVER_RUNNING_IN_LINUX)
-			if (USE_DOMAIN_NAME) {
-				if (!getServerIpByDomainName()) {
-					return false;
-				}
-			}
-
-		if (SERVER_IP == null) {
-			return false;
-		}
-
-		if (SERVER_RUNNING_IN_LINUX)
-			SERVER = LINUX_SERVER_IP + ":" + LINUX_SERVER_PORT
-					+ SERVER_SUB_DOMAIN;
-		else
-			SERVER = SERVER_IP + ":" + SERVER_PORT + SERVER_SUB_DOMAIN;
-
-		return true;
-	}
+	public static String URL_API_QUERY_INTEREST_PLACES = "/queryInterestPlaces";
 
 	private static boolean getServerIpByDomainName() {
 		// Spawns a 'sh' process first, and then execute 'ping' in that shell
@@ -172,5 +147,34 @@ public class WifiIpsSettings {
 		} else {
 			return false;
 		}
+	}
+
+	public static boolean getServerAddress(boolean force_retry) {
+		if (force_retry) {
+			SERVER = null;
+		}
+
+		if (SERVER != null) {
+			return true;
+		}
+
+		if (!SERVER_RUNNING_IN_LINUX)
+			if (USE_DOMAIN_NAME) {
+				if (!getServerIpByDomainName()) {
+					return false;
+				}
+			}
+
+		if (SERVER_IP == null) {
+			return false;
+		}
+
+		if (SERVER_RUNNING_IN_LINUX)
+			SERVER = LINUX_SERVER_IP + ":" + LINUX_SERVER_PORT
+					+ SERVER_SUB_DOMAIN;
+		else
+			SERVER = SERVER_IP + ":" + SERVER_PORT + SERVER_SUB_DOMAIN;
+
+		return true;
 	}
 }

@@ -61,61 +61,15 @@ public class RuntimeIndoorMap {
 		setInfoPushTime(0);
 	}
 
-	public void addListener(RuntimeIndoorMapListener listener) {
-		this.listeners.add(listener);
+	public Cell[][] getCells() {
+		return cells;
 	}
 
 
-	public void addTrack(RuntimeUser track) {
-		if (tracks == null){
-			tracks = new ArrayList<RuntimeUser>();
+	public void initial(){
+		for (RuntimeIndoorMapListener l : listeners) {
+			l.initial(this);
 		}
-		
-		tracks.add(track);
-	}
-	
-	public void changeMode(AnimatedSprite sprite, int mode){
-		for (RuntimeIndoorMapListener l : listeners){
-			l.modeChanged(sprite, mode);
-		}
-	}
-	
-	private List<Cell> findPath(Cell startPosition, Cell targetPosition) {
-		List<Cell> findPath = PathSearcher.findPath(getPassableMatrix(),
-				startPosition, targetPosition);
-
-		return findPath;
-	}
-
-	@SuppressWarnings("unused")
-	private List<Cell> findPath(int rowNo1, int colNo1, int rowNo2, int colNo2) {
-		return findPath(getCellAt(rowNo1, colNo1), getCellAt(rowNo2, colNo2));
-	}
-	
-	List<Cell> findPathFromParticularPosition(Cell startPosition) {
-		List<Cell> findPath = PathSearcher.findPath(getPassableMatrix(),
-				startPosition, targetPosition);
-
-		return findPath;
-	}
-
-	@SuppressWarnings("unused")
-	private List<Cell> findPathFromParticularPosition(int rowNo, int colNo) {
-		return findPathFromParticularPosition(getCellAt(rowNo, colNo));
-	}
-	
-	@SuppressWarnings("unused")
-	private void findPathFromStartPositionAndCachePath() {
-
-		List<Cell> path = PathSearcher.findPath(getPassableMatrix(), startingPosition, targetPosition);
-
-		if (path == null) {
-			throw new IllegalStateException("Bad Map there is no path");
-		}
-
-		cachedPathFromStartingPosition = path;
-
-		keyCellsMap.clear();
 	}
 	
 	public Cell getCellAt(int rowNo, int colNo) {
@@ -128,46 +82,22 @@ public class RuntimeIndoorMap {
 		return cells[rowNo][colNo]; // x,y, Cells has the revert x, y as colNo, rowNo
 	}
 	
-	public int getCellPixel() {
-		return cellPixel;
+	public void addListener(RuntimeIndoorMapListener listener) {
+		this.listeners.add(listener);
+	}
+
+	public boolean removeListener(RuntimeIndoorMapListener listener) {
+		return this.listeners.remove(listener);
 	}
 	
-	public Cell[][] getCells() {
-		return cells;
+	public int getRowNum() {
+		return rowNum;
 	}
 
 	public int getColNum() {
 		return colNum;
 	}
-
-	public long getInfoPushTime() {
-		return infoPushTime;
-	}
 	
-	public ArrayList<String> getInformations() {
-		return informations;
-	}
-
-	public List<RuntimeIndoorMapListener> getListeners(){
-		return listeners;
-	}
-
-	public int getMapId() {
-		return mapId;
-	}
-	
-	public String getMapName() {
-		return mapName;
-	}
-	
-	public String getMapPictureName() {
-		return mapPictureName;
-	}
-
-	public String getMapVersion() {
-		return mapVersion;
-	}
-
 	public boolean[][] getPassableMatrix() {
 
 		// TODO to cache the boolean matrix
@@ -185,154 +115,67 @@ public class RuntimeIndoorMap {
 
 		return bMatrix;
 	}
-
-	public int getRowNum() {
-		return rowNum;
+	
+	public List<RuntimeIndoorMapListener> getListeners(){
+		return listeners;
 	}
 	
-	public RuntimeUser getTarget() {
-		return target;
+	public void changeMode(AnimatedSprite sprite, int mode){
+		for (RuntimeIndoorMapListener l : listeners){
+			l.modeChanged(sprite, mode);
+		}
 	}
+	
+	@SuppressWarnings("unused")
+	private void findPathFromStartPositionAndCachePath() {
 
-	public RuntimeUser getTrack(int i) {
-		if (tracks != null){
-			return tracks.get(i);
-		}
-		
-		return null;
-	}
+		List<Cell> path = PathSearcher.findPath(getPassableMatrix(), startingPosition, targetPosition);
 
-	public int getTracksNum() {
-		if (tracks == null) {
-			return -1;
+		if (path == null) {
+			throw new IllegalStateException("Bad Map there is no path");
 		}
-		
-		return tracks.size();
-	}
 
-	public RuntimeUser getUser() {
-		return user;
-	}
+		cachedPathFromStartingPosition = path;
 
-	public int getVersionCode() {
-		return versionCode;
-	}
-
-	public String informationsToString(){
-		if ((informations==null) || (informations.isEmpty())){
-			return null;
-		}
-		
-		String text = getMapName() + "\n";
-		
-		for (String information : informations){
-			text += information + "\n";
-		}
-		
-		return text;
-	}
-
-	public String informationsToString(ArrayList<String> informations){
-		if ((informations==null) || (informations.isEmpty())){
-			return null;
-		}
-		
-		String text = getMapName() + "\n";
-		
-		for (String information : informations){
-			text += information + "\n";
-		}
-		
-		return text;
-	}
-
-	public String informationsToStringForLocations(){
-		if ((cells==null) || (cells.length==0)){
-			return Util.getResources().getText(R.string.none).toString();
-		}
-		
-		String text = "";
-		
-		for (Cell[] cell_i : cells){
-			for (Cell cell_i_j : cell_i){
-				String info = cell_i_j.informationsToString();
-				if (info != null) {
-					text += info + "\n";	
-				}
-			}
-		}
-		
-		if (text.length() == 0) {
-			return Util.getResources().getText(R.string.none).toString();
-		}
-		
-		return text;
-	}
-
-	public void initial(){
-		for (RuntimeIndoorMapListener l : listeners) {
-			l.initial(this);
-		}
+		keyCellsMap.clear();
 	}
 
 	@SuppressWarnings("unused")
-	private boolean inSameCellWithUser(Cell currentCell) {
-		
-		if (user == null) {
-			return false;
-		}
-		
-		Cell cell2 = user.getCurrentCell();
-		if (cell2 == null) {
-			return false;
-		}
+	private List<Cell> findPathFromParticularPosition(int rowNo, int colNo) {
+		return findPathFromParticularPosition(getCellAt(rowNo, colNo));
+	}
 
-		if (currentCell == null) {
-			return false;
-		}
-		
-		if ((currentCell.getColNo() == cell2.getColNo()) && (currentCell.getRowNo() == cell2.getRowNo())) {
-			return true;
-		}
-		
-		return false;
+	List<Cell> findPathFromParticularPosition(Cell startPosition) {
+		List<Cell> findPath = PathSearcher.findPath(getPassableMatrix(),
+				startPosition, targetPosition);
+
+		return findPath;
 	}
 	
-	public boolean isInfoPushed() {
-		return infoPushed;
+	@SuppressWarnings("unused")
+	private List<Cell> findPath(int rowNo1, int colNo1, int rowNo2, int colNo2) {
+		return findPath(getCellAt(rowNo1, colNo1), getCellAt(rowNo2, colNo2));
 	}
 
-	public boolean isRefreshInfoNeeded(){
-		if (!isInfoPushed()) {
-			setInfoPushed(true);
-			infoPushTime = System.currentTimeMillis();
-			return true;
-		}
-		
-		// Refresh if more than 30 minutes
-		if (System.currentTimeMillis() - infoPushTime > 1800000) {
-			infoPushTime = System.currentTimeMillis();
-			return true;
-		}
-		
-		return false;
+	private List<Cell> findPath(Cell startPosition, Cell targetPosition) {
+		List<Cell> findPath = PathSearcher.findPath(getPassableMatrix(),
+				startPosition, targetPosition);
+
+		return findPath;
 	}
 
-	public boolean isSameInfo(ArrayList<String> informations){
-		String sample = informationsToString(informations);
-		String myInfo = informationsToString(this.informations);
-		
-		if (sample==null) {
-			return true;
-		}
-		
-		if (sample.equals(myInfo)){
-			return true;
-		}
-		
-		return false;
-	}
+	public boolean locateUser(int colNo, int rowNo) {
 
+		Cell currentCell = getCellAt(rowNo, colNo); // The map has a revert x,y, so revert the incoming x,y here to get the right cell
+		user.setCurrentCell(currentCell);
+
+		for (RuntimeIndoorMapListener l : listeners) {
+			l.appear(user);
+		}
+
+		return true;
+	}
+	
 	public boolean locateTarget(int colNo, int rowNo) {
 		if (target != null) {
 			Cell currentCell = getCellAt(rowNo, colNo); // The map has a revert x,y, so revert the incoming x,y here to get the right cell
@@ -347,7 +190,7 @@ public class RuntimeIndoorMap {
 		
 		return false;
 	}
-
+	
 	public boolean locateTrack(int colNo, int rowNo, int idx) {
 		if (tracks == null) {
 			return false;
@@ -379,24 +222,99 @@ public class RuntimeIndoorMap {
 		return false;
 	}
 
-	public boolean locateUser(int colNo, int rowNo) {
-
-		Cell currentCell = getCellAt(rowNo, colNo); // The map has a revert x,y, so revert the incoming x,y here to get the right cell
-		user.setCurrentCell(currentCell);
-
-		for (RuntimeIndoorMapListener l : listeners) {
-			l.appear(user);
+	@SuppressWarnings("unused")
+	private boolean inSameCellWithUser(Cell currentCell) {
+		
+		if (user == null) {
+			return false;
+		}
+		
+		Cell cell2 = user.getCurrentCell();
+		if (cell2 == null) {
+			return false;
 		}
 
-		return true;
+		if (currentCell == null) {
+			return false;
+		}
+		
+		if ((currentCell.getColNo() == cell2.getColNo()) && (currentCell.getRowNo() == cell2.getRowNo())) {
+			return true;
+		}
+		
+		return false;
+	}
+
+	public RuntimeUser getUser() {
+		return user;
+	}
+
+	public void setUser(RuntimeUser user) {
+		this.user = user;
 	}
 	
-	public boolean removeListener(RuntimeIndoorMapListener listener) {
-		return this.listeners.remove(listener);
+	public RuntimeUser getTarget() {
+		return target;
+	}
+
+	public void setTarget(RuntimeUser target) {
+		this.target = target;
+	}
+
+	public String getMapName() {
+		return mapName;
+	}
+
+	public void setMapName(String mapName) {
+		this.mapName = mapName;
+	}
+
+	public int getMapId() {
+		return mapId;
+	}
+
+	public void setMapId(int mapId) {
+		this.mapId = mapId;
+	}
+
+	public String getMapVersion() {
+		return mapVersion;
+	}
+
+	public void setMapVersion(String mapVersion) {
+		this.mapVersion = mapVersion;
+	}
+
+	public String getMapPictureName() {
+		return mapPictureName;
+	}
+
+	public void setMapPictureName(String mapPictureName) {
+		this.mapPictureName = mapPictureName;
 	}
 	
-	public void setCellPixel(int cellPixel) {
-		this.cellPixel = cellPixel;
+	public boolean isInfoPushed() {
+		return infoPushed;
+	}
+
+	public void setInfoPushed(boolean infoPushed) {
+		this.infoPushed = infoPushed;
+	}
+
+	public ArrayList<String> getInformations() {
+		return informations;
+	}
+
+	public void setInformations(ArrayList<String> informations) {
+		this.informations = informations;
+	}
+
+	public long getInfoPushTime() {
+		return infoPushTime;
+	}
+
+	public void setInfoPushTime(long infoPushTime) {
+		this.infoPushTime = infoPushTime;
 	}
 	
 	public void setInfo(ArrayList<String> informations) {
@@ -405,44 +323,126 @@ public class RuntimeIndoorMap {
 		setInfoPushTime(System.currentTimeMillis());
 	}
 	
-	public void setInfoPushed(boolean infoPushed) {
-		this.infoPushed = infoPushed;
+	public String informationsToString(ArrayList<String> informations){
+		if ((informations==null) || (informations.isEmpty())){
+			return null;
+		}
+		
+		String text = getMapName() + "\n";
+		
+		for (String information : informations){
+			text += information + "\n";
+		}
+		
+		return text;
 	}
 	
-	public void setInfoPushTime(long infoPushTime) {
-		this.infoPushTime = infoPushTime;
+	public String informationsToString(){
+		if ((informations==null) || (informations.isEmpty())){
+			return null;
+		}
+		
+		String text = getMapName() + "\n";
+		
+		for (String information : informations){
+			text += information + "\n";
+		}
+		
+		return text;
 	}
 	
-	public void setInformations(ArrayList<String> informations) {
-		this.informations = informations;
-	}
-
-	public void setMapId(int mapId) {
-		this.mapId = mapId;
-	}
-
-	public void setMapName(String mapName) {
-		this.mapName = mapName;
-	}
-
-	public void setMapPictureName(String mapPictureName) {
-		this.mapPictureName = mapPictureName;
-	}
-
-	public void setMapVersion(String mapVersion) {
-		this.mapVersion = mapVersion;
-	}
-
-	public void setTarget(RuntimeUser target) {
-		this.target = target;
-	}
-
-	public void setUser(RuntimeUser user) {
-		this.user = user;
+	public String informationsToStringForLocations(){
+		if ((cells==null) || (cells.length==0)){
+			return Util.getResources().getText(R.string.none).toString();
+		}
+		
+		String text = "";
+		
+		for (Cell[] cell_i : cells){
+			for (Cell cell_i_j : cell_i){
+				String info = cell_i_j.informationsToString();
+				if (info != null) {
+					text += info + "\n";	
+				}
+			}
+		}
+		
+		if (text.length() == 0) {
+			return Util.getResources().getText(R.string.none).toString();
+		}
+		
+		return text;
 	}
 	
+	public boolean isSameInfo(ArrayList<String> informations){
+		String sample = informationsToString(informations);
+		String myInfo = informationsToString(this.informations);
+		
+		if (sample==null) {
+			return true;
+		}
+		
+		if (sample.equals(myInfo)){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean isRefreshInfoNeeded(){
+		if (!isInfoPushed()) {
+			setInfoPushed(true);
+			infoPushTime = System.currentTimeMillis();
+			return true;
+		}
+		
+		// Refresh if more than 30 minutes
+		if (System.currentTimeMillis() - infoPushTime > 1800000) {
+			infoPushTime = System.currentTimeMillis();
+			return true;
+		}
+		
+		return false;
+	}
+
+	public int getVersionCode() {
+		return versionCode;
+	}
+
 	public void setVersionCode(int versionCode) {
 		this.versionCode = versionCode;
+	}
+
+	public int getCellPixel() {
+		return cellPixel;
+	}
+
+	public void setCellPixel(int cellPixel) {
+		this.cellPixel = cellPixel;
+	}
+
+	public RuntimeUser getTrack(int i) {
+		if (tracks != null){
+			return tracks.get(i);
+		}
+		
+		return null;
+	}
+
+	public void addTrack(RuntimeUser track) {
+		if (tracks == null){
+			tracks = new ArrayList<RuntimeUser>();
+		}
+		
+		tracks.add(track);
+	}
+	
+	public int getTracksNum() {
+		if (tracks == null) {
+			return -1;
+		}
+		
+		return tracks.size();
 	}
 
 }

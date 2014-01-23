@@ -1,23 +1,29 @@
 package com.ericsson.cgc.aurora.wifiindoor;
 
+import com.ericsson.cgc.aurora.wifiindoor.util.IndoorMapData;
+import com.ericsson.cgc.aurora.wifiindoor.util.Util;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.ericsson.cgc.aurora.wifiindoor.util.IndoorMapData;
-import com.ericsson.cgc.aurora.wifiindoor.util.Util;
-
-public class InfoPusherActivity  extends Activity {
+public class InfoPusherActivity extends Activity {
 	private TextView mapInfo;
 	private TextView locationInfo;
 	
 	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		finish();
+	protected void onResume() {
+		super.onResume();
+		Util.setEnergySave(false);
 	}
 	
-	/** Called when the activity is first created. */
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Util.setEnergySave(true);
+	}
+	
+    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,16 +47,10 @@ public class InfoPusherActivity  extends Activity {
 		}
 		
     }
-	
-    @Override
-	protected void onPause() {
-		super.onPause();
-		Util.setEnergySave(true);
-	}
     
     @Override
-	protected void onResume() {
-		super.onResume();
-		Util.setEnergySave(false);
+	public void onBackPressed() {
+		super.onBackPressed();
+		finish();
 	}
 }

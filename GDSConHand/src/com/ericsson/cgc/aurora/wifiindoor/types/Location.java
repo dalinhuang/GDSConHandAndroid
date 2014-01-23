@@ -18,15 +18,15 @@ public class Location implements IType {
 	private int x;
 	private int y;
 	
-	public Location() {
-		
-	}
-	
 	public Location(int mapId, int x, int y, int mapVersion) {
 		this.mapId = mapId;
 		this.x = x;
 		this.y = y;
 		this.mapVersion = mapVersion;
+	}
+	
+	public Location() {
+		
 	}
 	
 	/**
@@ -35,8 +35,11 @@ public class Location implements IType {
 	public int getMapId() {
 		return mapId;
 	}
-	public int getMapVersion() {
-		return mapVersion;
+	/**
+	 * @param mapId the mapId to set
+	 */
+	public void setMapId(int mapId) {
+		this.mapId = mapId;
 	}
 	/**
 	 * @return the x
@@ -45,33 +48,30 @@ public class Location implements IType {
 		return x;
 	}
 	/**
+	 * @param x the x to set
+	 */
+	public void setX(int x) {
+		this.x = x;
+	}
+	/**
 	 * @return the y
 	 */
 	public int getY() {
 		return y;
 	}
 	/**
-	 * @param mapId the mapId to set
-	 */
-	public void setMapId(int mapId) {
-		this.mapId = mapId;
-	}
-	public void setMapVersion(int mapVersion) {
-		this.mapVersion = mapVersion;
-	}
-
-	/**
-	 * @param x the x to set
-	 */
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	/**
 	 * @param y the y to set
 	 */
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public int getMapVersion() {
+		return mapVersion;
+	}
+
+	public void setMapVersion(int mapVersion) {
+		this.mapVersion = mapVersion;
 	}
 	
 	@Override

@@ -593,6 +593,42 @@
 	            android:gravity="center"
 	            android:paddingBottom="10dp"
 	            android:paddingTop="10dp"
+	            android:text="@string/setting_visual_parameters"
+	            android:textColor="@android:color/white"
+	            android:textSize="18sp"
+	            android:textStyle="bold" />
+	    
+	    <CheckBox
+	           android:id="@+id/ADS_ENABLED"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="ADS_ENABLED" />
+	    
+	    <CheckBox
+	           android:id="@+id/BANNERS_ENABLED"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="BANNERS_ENABLED" />
+	    
+	    <CheckBox
+	           android:id="@+id/ENTRY_NEEDED"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="ENTRY_NEEDED" />
+	    
+	    <CheckBox
+	           android:id="@+id/GOOGLE_MAP_EMBEDDED"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="GOOGLE_MAP_EMBEDDED" />
+		
+		<TextView
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:background="@drawable/navbar"
+	            android:gravity="center"
+	            android:paddingBottom="10dp"
+	            android:paddingTop="10dp"
 	            android:text="@string/team"
 	            android:textColor="@android:color/white"
 	            android:textSize="18sp"

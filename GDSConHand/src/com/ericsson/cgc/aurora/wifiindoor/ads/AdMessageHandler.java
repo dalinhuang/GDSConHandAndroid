@@ -27,10 +27,6 @@ public class AdMessageHandler {
 		}
 	};
 	
-	private void handleAdMessage(IType object) {
-		
-	}
-	
 	private void handleAdvertiseFinishingRequest() {
 		// dismissProgressDialog();
 	}
@@ -40,6 +36,10 @@ public class AdMessageHandler {
 		
 		IType object = ResponseBlockingQueue.take();
 		handleAdMessage(object);
+	}
+	
+	private void handleAdMessage(IType object) {
+		
 	}
 
 }

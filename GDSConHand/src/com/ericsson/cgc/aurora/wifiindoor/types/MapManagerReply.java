@@ -9,20 +9,20 @@ public class MapManagerReply implements IType {
 	private int versionCode;
 	private ArrayList<MapManagerItemReply> mapItems;
 	
-	public ArrayList<MapManagerItemReply> getMapItems() {
-		return mapItems;
-	}
-	
 	public int getVersionCode() {
 		return versionCode;
+	}
+	
+	public void setVersionCode(int versionCode) {
+		this.versionCode = versionCode;
+	}
+
+	public ArrayList<MapManagerItemReply> getMapItems() {
+		return mapItems;
 	}
 
 	public void setMapItems(ArrayList<MapManagerItemReply> mapItems) {
 		this.mapItems = mapItems;
-	}
-
-	public void setVersionCode(int versionCode) {
-		this.versionCode = versionCode;
 	}
 
 	public ArrayList<MapManagerItem> toMapItems() {

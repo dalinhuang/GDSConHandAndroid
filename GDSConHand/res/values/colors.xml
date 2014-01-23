@@ -28,5 +28,12 @@
   <color name="viewfinder_mask">#60000000</color>
   <color name="header">#58567D</color>
   <color name="grgray">#686868</color>
-      
+  <color name="map_background">#ffd9ffff</color>
+  <color name="map_white">#FFE6CAFF</color>
+  <color name="map_light">#64FFECEC</color>
+  <color name="map_dark">#64003E3E</color>
+  <color name="map_font_color_1">#6456648f</color>
+  <color name="map_font_color_2">#FF003E3E</color>
+  <color name="map_font_color_3">#FFFF7575</color>
+  <color name="map_font_color_4">#FF007500</color>
 </resources>

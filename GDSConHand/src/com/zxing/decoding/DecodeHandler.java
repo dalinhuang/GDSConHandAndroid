@@ -47,6 +47,17 @@ final class DecodeHandler extends Handler {
     this.activity = activity;
   }
 
+  @Override
+  public void handleMessage(Message message) {
+    if (message.what == R.id.decode ){
+        //Log.d(TAG, "Got decode message");
+        decode((byte[]) message.obj, message.arg1, message.arg2);
+    }
+    else if (message.what == R.id.quit) {
+        Looper.myLooper().quit();        
+    }
+  }
+
   /**
    * Decode the data within the viewfinder rectangle, and time how long it took. For efficiency,
    * reuse the same reader objects from one decode to the next.
@@ -91,17 +102,6 @@ final class DecodeHandler extends Handler {
     } else {
       Message message = Message.obtain(activity.getHandler(), R.id.decode_failed);
       message.sendToTarget();
-    }
-  }
-
-  @Override
-  public void handleMessage(Message message) {
-    if (message.what == R.id.decode ){
-        //Log.d(TAG, "Got decode message");
-        decode((byte[]) message.obj, message.arg1, message.arg2);
-    }
-    else if (message.what == R.id.quit) {
-        Looper.myLooper().quit();        
     }
   }
 

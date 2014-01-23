@@ -30,6 +30,32 @@ public class Cell {
 		setInfoPushTime(0);
 	}
 
+	public int getRowNo() {
+		return rowNo;
+	}
+
+	public int getColNo() {
+		return colNo;
+	}
+
+
+	public void setPassable(boolean passable) {
+		this.passable = passable;
+	}
+	
+	public boolean isPassable() {
+		return passable;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + colNo;
+		result = prime * result + rowNo;
+		return result;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -46,50 +72,53 @@ public class Cell {
 		return true;
 	}
 
+	public void setColNo(int colNo) {
+		this.colNo = colNo;
+	}
+
+	@Override
+	public String toString() {
+		return "Cell [rowNo=" + rowNo + ", colNo=" + colNo + "]";
+	}
+
 	public AnimatedSprite getBackgroundSprite() {
 		return backgroundSprite;
 	}
 
+	public void setBackgroundSprite(AnimatedSprite backgroundSprite) {
+		this.backgroundSprite = backgroundSprite;
+	}
 
-	public int getColNo() {
-		return colNo;
+	public boolean isInfoPushed() {
+		return infoPushed;
 	}
-	
-	public long getInfoPushTime() {
-		return infoPushTime;
+
+	public void setInfoPushed(boolean infoPushed) {
+		this.infoPushed = infoPushed;
 	}
-	
+
 	public ArrayList<String> getInformations() {
 		return informations;
 	}
 
-	public int getRowNo() {
-		return rowNo;
+	public void setInformations(ArrayList<String> informations) {
+		this.informations = informations;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + colNo;
-		result = prime * result + rowNo;
-		return result;
+	public long getInfoPushTime() {
+		return infoPushTime;
 	}
 
-	public String informationsToString(){
-		if ((informations==null) || (informations.isEmpty())){
-			return null;
-		}
-		
-		String text = "";
-		
-		for (String information : informations){
-			text += information + "\n";
-		}
-		
-		return text;
+	public void setInfoPushTime(long infoPushTime) {
+		this.infoPushTime = infoPushTime;
 	}
-
+	
+	public void setInfo(ArrayList<String> informations) {
+		setInfoPushed(true);
+		setInformations(informations);
+		setInfoPushTime(System.currentTimeMillis());
+	}
+	
 	public String informationsToString(ArrayList<String> informations){
 		if ((informations==null) || (informations.isEmpty())){
 			return null;
@@ -103,31 +132,21 @@ public class Cell {
 		
 		return text;
 	}
-
-	public boolean isInfoPushed() {
-		return infoPushed;
-	}
-
-	public boolean isPassable() {
-		return passable;
-	}
-
-	public boolean isRefreshInfoNeeded(){
-		if (!isInfoPushed()) {
-			setInfoPushed(true);
-			infoPushTime = System.currentTimeMillis();
-			return true;
+	
+	public String informationsToString(){
+		if ((informations==null) || (informations.isEmpty())){
+			return null;
 		}
 		
-		// Refresh if more than 30 minutes
-		if (System.currentTimeMillis() - infoPushTime > 1800000) {
-			infoPushTime = System.currentTimeMillis();
-			return true;
+		String text = "";
+		
+		for (String information : informations){
+			text += information + "\n";
 		}
 		
-		return false;
+		return text;
 	}
-
+	
 	public boolean isSameInfo(ArrayList<String> informations){
 		String sample = informationsToString(informations);
 		String myInfo = informationsToString(this.informations);
@@ -142,40 +161,21 @@ public class Cell {
 		
 		return false;
 	}
-
-	public void setBackgroundSprite(AnimatedSprite backgroundSprite) {
-		this.backgroundSprite = backgroundSprite;
-	}
-
-	public void setColNo(int colNo) {
-		this.colNo = colNo;
-	}
-
-	public void setInfo(ArrayList<String> informations) {
-		setInfoPushed(true);
-		setInformations(informations);
-		setInfoPushTime(System.currentTimeMillis());
-	}
 	
-	public void setInfoPushed(boolean infoPushed) {
-		this.infoPushed = infoPushed;
-	}
-	
-	public void setInfoPushTime(long infoPushTime) {
-		this.infoPushTime = infoPushTime;
-	}
-	
-	public void setInformations(ArrayList<String> informations) {
-		this.informations = informations;
-	}
-	
-	public void setPassable(boolean passable) {
-		this.passable = passable;
-	}
-	
-	@Override
-	public String toString() {
-		return "Cell [rowNo=" + rowNo + ", colNo=" + colNo + "]";
+	public boolean isRefreshInfoNeeded(){
+		if (!isInfoPushed()) {
+			setInfoPushed(true);
+			infoPushTime = System.currentTimeMillis();
+			return true;
+		}
+		
+		// Refresh if more than 30 minutes
+		if (System.currentTimeMillis() - infoPushTime > 1800000) {
+			infoPushTime = System.currentTimeMillis();
+			return true;
+		}
+		
+		return false;
 	}
 	
 }

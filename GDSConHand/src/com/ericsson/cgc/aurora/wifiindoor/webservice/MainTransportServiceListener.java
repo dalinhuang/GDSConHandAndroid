@@ -34,20 +34,15 @@ public class MainTransportServiceListener implements TransportServiceListener {
 	 * 
 	 * @see
 	 * com.ericsson.cgc.aurora.wifiindoor.webservice.TransportServiceThread.
-	 * TransportServiceListener#onError(java.lang.String)
+	 * TransportServiceListener#onStartingRequest()
 	 */
 	@Override
-	public void onError(String error) {
+	public void onStartingRequest() {
 		// TODO Auto-generated method stub
-		if (mHandler != null) {
-			Message message = mHandler
-					.obtainMessage(IndoorMapData.HANDLER_ERROR_REPORTED);
-			Bundle bundle = new Bundle();
-			bundle.putString("error", error);
-			message.setData(bundle);
 
-			message.sendToTarget();
-		}
+		if (mHandler != null)
+			mHandler.obtainMessage(IndoorMapData.HANDLER_STARTING_REQUEST)
+					.sendToTarget();
 	}
 
 	/*
@@ -91,15 +86,20 @@ public class MainTransportServiceListener implements TransportServiceListener {
 	 * 
 	 * @see
 	 * com.ericsson.cgc.aurora.wifiindoor.webservice.TransportServiceThread.
-	 * TransportServiceListener#onStartingRequest()
+	 * TransportServiceListener#onError(java.lang.String)
 	 */
 	@Override
-	public void onStartingRequest() {
+	public void onError(String error) {
 		// TODO Auto-generated method stub
+		if (mHandler != null) {
+			Message message = mHandler
+					.obtainMessage(IndoorMapData.HANDLER_ERROR_REPORTED);
+			Bundle bundle = new Bundle();
+			bundle.putString("error", error);
+			message.setData(bundle);
 
-		if (mHandler != null)
-			mHandler.obtainMessage(IndoorMapData.HANDLER_STARTING_REQUEST)
-					.sendToTarget();
+			message.sendToTarget();
+		}
 	}
 
 }

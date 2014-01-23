@@ -39,6 +39,29 @@ public abstract class AbstractXmlParser<T extends IType> implements
 		}
 	}
 
+	abstract protected T parseInner(final XmlPullParser parser)
+			throws IOException, XmlPullParserException, WifiIpsError,
+			WifiIpsParseException;
+
+	public final T parse(XmlPullParser parser) throws WifiIpsParseException,
+			WifiIpsError {
+		try {
+			if (parser.getEventType() == XmlPullParser.START_DOCUMENT) {
+				parser.nextTag();
+				if (parser.getName().equals("error")) {
+					throw new WifiIpsError(parser.nextText());
+				}
+			}
+			return parseInner(parser);
+		} catch (IOException e) {
+			Log.e(TAG, "IOException", e);
+			throw new WifiIpsParseException(e.getMessage());
+		} catch (XmlPullParserException e) {
+			Log.e(TAG, "XmlPullParserException", e);
+			throw new WifiIpsParseException(e.getMessage());
+		}
+	}
+
 	public static final XmlPullParser createXmlPullParser(InputStream is) {
 		XmlPullParser parser;
 		try {
@@ -84,28 +107,5 @@ public abstract class AbstractXmlParser<T extends IType> implements
 			}
 		}
 	}
-
-	public final T parse(XmlPullParser parser) throws WifiIpsParseException,
-			WifiIpsError {
-		try {
-			if (parser.getEventType() == XmlPullParser.START_DOCUMENT) {
-				parser.nextTag();
-				if (parser.getName().equals("error")) {
-					throw new WifiIpsError(parser.nextText());
-				}
-			}
-			return parseInner(parser);
-		} catch (IOException e) {
-			Log.e(TAG, "IOException", e);
-			throw new WifiIpsParseException(e.getMessage());
-		} catch (XmlPullParserException e) {
-			Log.e(TAG, "XmlPullParserException", e);
-			throw new WifiIpsParseException(e.getMessage());
-		}
-	}
-
-	abstract protected T parseInner(final XmlPullParser parser)
-			throws IOException, XmlPullParserException, WifiIpsError,
-			WifiIpsParseException;
 
 }

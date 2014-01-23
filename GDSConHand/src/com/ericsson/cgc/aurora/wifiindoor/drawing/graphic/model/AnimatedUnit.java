@@ -7,43 +7,43 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.BaseGameActivity;
 
-import android.graphics.Bitmap;
-
 import com.ericsson.cgc.aurora.wifiindoor.drawing.graphic.AndEngineGraphicsHelper;
 import com.ericsson.cgc.aurora.wifiindoor.drawing.graphic.ImageLoader;
+
+import android.graphics.Bitmap;
 
 public class AnimatedUnit extends Unit {
 
 	private AnimatedSprite sprite;
 	
-	private String[] images;
-	
-	private TiledTextureRegion tiledTextureRegion;
-
-	public AnimatedUnit(String[] images, int initialRotation) {
-		super(initialRotation);
-		setImages(images);
-	}
-
 	public AnimatedUnit(String[] images, int width, int height,
 			int initialRotation) {
 		super(width, height, initialRotation);
 		setImages(images);
 	}
+	
+	public AnimatedUnit(String[] images, int initialRotation) {
+		super(initialRotation);
+		setImages(images);
+	}
+
+	private String[] images;
+
+	public String[] getImages() {
+		return images;
+	}
+
+	public void setImages(String[] images) {
+		this.images = images;
+	}
+
+	private TiledTextureRegion tiledTextureRegion;
 
 	@Override
 	public void clearCache() {
 		super.clearCache();
 
 		tiledTextureRegion = null;
-	}
-
-	public String[] getImages() {
-		return images;
-	}
-
-	public AnimatedSprite getSprite() {
-		return sprite;
 	}
 
 	public AnimatedSprite load(BaseGameActivity activity) {
@@ -55,6 +55,12 @@ public class AnimatedUnit extends Unit {
 		setHeight(heightPixels);
 		
 		return load(activity, null);
+	}
+	
+	public AnimatedSprite load(BaseGameActivity activity, final SpriteListener spriteListener, int widthPixels, int heightPixels) {
+		setWidth(widthPixels);
+		setHeight(heightPixels);
+		return load(activity, spriteListener);
 	}
 
 	public AnimatedSprite load(BaseGameActivity activity, final SpriteListener spriteListener) {
@@ -94,8 +100,8 @@ public class AnimatedUnit extends Unit {
 		return sprite;
 	}
 
-	public void setImages(String[] images) {
-		this.images = images;
+	public AnimatedSprite getSprite() {
+		return sprite;
 	}
 
 	public void setSprite(AnimatedSprite sprite) {

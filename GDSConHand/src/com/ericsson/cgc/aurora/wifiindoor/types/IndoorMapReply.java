@@ -12,60 +12,60 @@ public class IndoorMapReply implements IType {
 	private String pictureName;	
 	private InitialMapReply initialMap;
 
-	public String getEditTime() {
-		return editTime;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public InitialMapReply getInitialMap() {
-		return initialMap;
-	}
-
 	public String getName() {
 		return name;
-	}
-
-	public String getPictureName() {
-		return pictureName;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public int getVersionCode() {
-		return versionCode;
-	}
-
-	public void setEditTime(String editTime) {
-		this.editTime = editTime;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public void setInitialMap(InitialMapReply initialMap) {
-		this.initialMap = initialMap;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public void setPictureName(String pictureName) {
-		this.pictureName = pictureName;
+	public String getVersion() {
+		return version;
 	}
 
 	public void setVersion(String version) {
 		this.version = version;
 	}
 
+	public int getVersionCode() {
+		return versionCode;
+	}
+
 	public void setVersionCode(int versionCode) {
 		this.versionCode = versionCode;
+	}
+
+	public String getEditTime() {
+		return editTime;
+	}
+
+	public void setEditTime(String editTime) {
+		this.editTime = editTime;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getPictureName() {
+		return pictureName;
+	}
+
+	public void setPictureName(String pictureName) {
+		this.pictureName = pictureName;
+	}
+
+	public InitialMapReply getInitialMap() {
+		return initialMap;
+	}
+
+	public void setInitialMap(InitialMapReply initialMap) {
+		this.initialMap = initialMap;
 	}
 	
 	public IndoorMap toIndoorMap() {

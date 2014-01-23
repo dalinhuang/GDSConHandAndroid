@@ -28,17 +28,17 @@ import com.ericsson.cgc.aurora.wifiindoor.webservice.types.IType;
  *
  */
 public interface IHttpApi {
-    abstract public HttpGet createHttpGet(String url, NameValuePair... nameValuePairs);
-
-    abstract public HttpPost createHttpPost(String url, JSONObject json);
-    
-    abstract public HttpPost createHttpPost(String url, NameValuePair... nameValuePairs);
+    abstract public IType doHttpRequest(HttpRequestBase httpRequest,
+            IXmlParser<? extends IType> parser) throws WifiIpsCredentialsException,
+            WifiIpsParseException, WifiIpsException, IOException;
 
     abstract public IType doHttpRequest(HttpRequestBase httpRequest,
             IJsonParser<? extends IType> parser) throws WifiIpsCredentialsException,
             WifiIpsParseException, WifiIpsException, IOException;
     
-    abstract public IType doHttpRequest(HttpRequestBase httpRequest,
-            IXmlParser<? extends IType> parser) throws WifiIpsCredentialsException,
-            WifiIpsParseException, WifiIpsException, IOException;
+    abstract public HttpGet createHttpGet(String url, NameValuePair... nameValuePairs);
+
+    abstract public HttpPost createHttpPost(String url, NameValuePair... nameValuePairs);
+    
+    abstract public HttpPost createHttpPost(String url, JSONObject json);
 }

@@ -10,44 +10,44 @@ public class MapManagerItemReply implements IType{
 		private int rows;      
 		private int columns; 
 
-		public int getColumns(){
-			return columns;
+		public String getTitle(){
+			return title;
 		}
 		
-		public int getMapId() {
-			return mapId;
+		public void setTitle(String title){
+			this.title = title;
 		}
 		
 		public int getRows(){
 			return rows;
 		}
 		
-		public String getTitle(){
-			return title;
+		public void setRows(int rows){
+			this.rows = rows;
 		}
 		
-		public String getVersion() {
-			return version;
+		public int getColumns(){
+			return columns;
 		}
 		
 		public void setColumns(int columns){
 			this.columns = columns;
 		}
 
-		public void setMapId(int mapId) {
-			this.mapId = mapId;
-		}
-
-		public void setRows(int rows){
-			this.rows = rows;
-		}
-
-		public void setTitle(String title){
-			this.title = title;
+		public String getVersion() {
+			return version;
 		}
 
 		public void setVersion(String version) {
 			this.version = version;
+		}
+
+		public int getMapId() {
+			return mapId;
+		}
+
+		public void setMapId(int mapId) {
+			this.mapId = mapId;
 		}
 
 		public MapManagerItem toMapItem() {

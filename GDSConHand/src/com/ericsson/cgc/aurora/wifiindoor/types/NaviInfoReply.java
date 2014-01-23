@@ -13,36 +13,36 @@ public class NaviInfoReply implements IType {
 	private ArrayList<NaviNodeReply> nodes;
 	private ArrayList<NaviDataReply> paths;
 
-	public int getId() {
-		return id;
-	}
-
-	public ArrayList<NaviNodeReply> getNodes() {
-		return nodes;
-	}
-
-	public ArrayList<NaviDataReply> getPaths() {
-		return paths;
-	}
-
 	public int getVersionCode() {
 		return versionCode;
+	}
+
+	public void setVersionCode(int versionCode) {
+		this.versionCode = versionCode;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	public ArrayList<NaviNodeReply> getNodes() {
+		return nodes;
+	}
+
 	public void setNodes(ArrayList<NaviNodeReply> nodes) {
 		this.nodes = nodes;
 	}
 	
-	public void setPaths(ArrayList<NaviDataReply> paths) {
-		this.paths = paths;
+	public ArrayList<NaviDataReply> getPaths() {
+		return paths;
 	}
 
-	public void setVersionCode(int versionCode) {
-		this.versionCode = versionCode;
+	public void setPaths(ArrayList<NaviDataReply> paths) {
+		this.paths = paths;
 	}
 	
 	public NaviInfo toNaviInfo() {

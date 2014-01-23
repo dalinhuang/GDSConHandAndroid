@@ -12,12 +12,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
-import android.util.Log;
-
 import com.ericsson.cgc.aurora.wifiindoor.util.WifiIpsSettings;
 import com.ericsson.cgc.aurora.wifiindoor.webservice.error.WifiIpsError;
 import com.ericsson.cgc.aurora.wifiindoor.webservice.error.WifiIpsParseException;
 import com.ericsson.cgc.aurora.wifiindoor.webservice.types.IType;
+
+import android.util.Log;
 
 
 
@@ -29,6 +29,19 @@ public abstract class AbstractJsonParser<T extends IType> implements
 		IJsonParser<T> {
 	public static final String TAG = "AbstractJsonParser";
 	public static final boolean DEBUG = WifiIpsSettings.DEBUG;
+
+	abstract protected T parseInner(JsonPullParser parser) throws IOException,
+			WifiIpsError, WifiIpsParseException;
+
+	public final T parse(JsonPullParser parser) throws WifiIpsParseException,
+			WifiIpsError {
+		try {
+			return parseInner(parser);
+		} catch (IOException e) {
+			Log.e(TAG, "IOException", e);
+			throw new WifiIpsParseException(e.getMessage());
+		}
+	}
 
 	public static final JsonPullParser createJsonPullParser(InputStream is) {
 		JsonPullParser parser = new JsonPullParser();
@@ -50,60 +63,9 @@ public abstract class AbstractJsonParser<T extends IType> implements
 
 		return parser;
 	}
-
+	
 	private static String preParseJsonString(InputStream is) {
 		return preParseJsonString$2(is);
-	}
-
-	@SuppressWarnings("unused")
-	private static String preParseJsonString$1(InputStream is) {
-		StringBuffer sb = new StringBuffer();
-
-		while (true) {
-			int ch;
-			try {
-				ch = is.read();
-				if (ch < 0) {
-					break;
-				} else {
-					sb.append((char) ch);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} 
-		
-		return sb.toString();
-	}
-	
-	private static String preParseJsonString$2(InputStream is) {	
-		try {
-			if (is == null) {
-				return "";
-			}
-			
-			BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-						
-			String replyStr = br.readLine();
-			
-			if (replyStr == null) {
-				return "";
-			}
-			
-			if (replyStr.isEmpty()) {
-				return "";
-			}
-			
-			return new String(replyStr.getBytes("UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-        return "";
 	}
 	
 	@SuppressWarnings("unused")
@@ -147,16 +109,54 @@ public abstract class AbstractJsonParser<T extends IType> implements
 		return sb.toString();
 	}
 
-	public final T parse(JsonPullParser parser) throws WifiIpsParseException,
-			WifiIpsError {
+	private static String preParseJsonString$2(InputStream is) {	
 		try {
-			return parseInner(parser);
+			if (is == null) {
+				return "";
+			}
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+						
+			String replyStr = br.readLine();
+			
+			if (replyStr == null) {
+				return "";
+			}
+			
+			if (replyStr.isEmpty()) {
+				return "";
+			}
+			
+			return new String(replyStr.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
-			Log.e(TAG, "IOException", e);
-			throw new WifiIpsParseException(e.getMessage());
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		
+        return "";
 	}
 
-	abstract protected T parseInner(JsonPullParser parser) throws IOException,
-			WifiIpsError, WifiIpsParseException;
+	@SuppressWarnings("unused")
+	private static String preParseJsonString$1(InputStream is) {
+		StringBuffer sb = new StringBuffer();
+
+		while (true) {
+			int ch;
+			try {
+				ch = is.read();
+				if (ch < 0) {
+					break;
+				} else {
+					sb.append((char) ch);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} 
+		
+		return sb.toString();
+	}
 }

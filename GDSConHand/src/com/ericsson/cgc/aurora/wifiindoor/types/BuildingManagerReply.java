@@ -9,20 +9,20 @@ public class BuildingManagerReply implements IType {
 	private int versionCode;
 	private ArrayList<BuildingReply> buildings;
 	
-	public ArrayList<BuildingReply> getBuildings() {
-		return buildings;
-	}
-	
 	public int getVersionCode() {
 		return versionCode;
+	}
+	
+	public void setVersionCode(int versionCode) {
+		this.versionCode = versionCode;
+	}
+
+	public ArrayList<BuildingReply> getBuildings() {
+		return buildings;
 	}
 
 	public void setBuildings(ArrayList<BuildingReply> buildings) {
 		this.buildings = buildings;
-	}
-
-	public void setVersionCode(int versionCode) {
-		this.versionCode = versionCode;
 	}
 	
 	public ArrayList<Building> toBuildings() {

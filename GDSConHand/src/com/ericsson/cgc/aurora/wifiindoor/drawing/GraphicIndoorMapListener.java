@@ -25,31 +25,12 @@ public class GraphicIndoorMapListener implements RuntimeIndoorMapListener {
 	private String mapName;
 	private Activity activity;
 
-	private int offsetX;
-
-	private int offsetY;
-
 	public GraphicIndoorMapListener(Activity activity, Scene mainScene, Text mMapText) {
 		this.activity = activity;
 		this.mainScene = mainScene;
 		this.mMapText = mMapText;
 	}
 
-	@Override
-	public void appear(RuntimeUser user) {
-		setPosition(user);
-		if (user.getSprite().hasParent()){
-			
-		} else {
-			mainScene.getChildByIndex(Constants.LAYER_USER).attachChild(user.getSprite());
-		}
-	}
-
-	@Override
-	public void edit(Cell cell) {
-		// TODO Auto-generated method stub
-		
-	}
 	@Override
 	public void initial(RuntimeIndoorMap runtimeIndoorMap) {
 		// No need to draw the background Sprite
@@ -90,13 +71,6 @@ public class GraphicIndoorMapListener implements RuntimeIndoorMapListener {
 		} 
 	}
 
-	public Cell locateCell(float x, float y) {
-		int colNo = (int) ((x - offsetX) / Util.getCurrentCellPixel());
-		int rowNo = (int) ((y - offsetY) / Util.getCurrentCellPixel());
-
-		return new Cell(rowNo, colNo);
-	}
-	
 	@Override
 	public void modeChanged(AnimatedSprite sprite, int mode) {
 
@@ -140,12 +114,19 @@ public class GraphicIndoorMapListener implements RuntimeIndoorMapListener {
 		Util.showToast(activity, Util.getResources().getString(R.string.mode_change_to) + ": " + modeStr, Toast.LENGTH_SHORT);
 	}
 
+	private int offsetX;
+	private int offsetY;
+
 	public void setOffsetX(int offsetX) {
 		this.offsetX = offsetX;
 	}
 
 	public void setOffsetY(int offsetY) {
 		this.offsetY = offsetY;
+	}
+	
+	private void setPosition(RuntimeUser user) {
+		setPosition(user.getPreciseCellLocation(), user.getSprite());
 	}
 
 	public void setPosition(Cell cell, Sprite sprite) {
@@ -160,8 +141,27 @@ public class GraphicIndoorMapListener implements RuntimeIndoorMapListener {
 				* Util.getCurrentCellPixel());
 	}
 
-	private void setPosition(RuntimeUser user) {
-		setPosition(user.getPreciseCellLocation(), user.getSprite());
+	public Cell locateCell(float x, float y) {
+		int colNo = (int) ((x - offsetX) / Util.getCurrentCellPixel());
+		int rowNo = (int) ((y - offsetY) / Util.getCurrentCellPixel());
+
+		return new Cell(rowNo, colNo);
+	}
+
+	@Override
+	public void edit(Cell cell) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void appear(RuntimeUser user) {
+		setPosition(user);
+		if (user.getSprite().hasParent()){
+			
+		} else {
+			mainScene.getChildByIndex(Constants.LAYER_USER).attachChild(user.getSprite());
+		}
 	}
 }
 

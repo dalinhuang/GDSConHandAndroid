@@ -15,12 +15,12 @@ public class LocationQueryInfo {
 		return mLocation;
 	}
 
-	public ArrayList<String> getMessages() {
-		return mMessages;
-	}
-
 	public void setLocation(Location location) {
 		this.mLocation = location;
+	}
+
+	public ArrayList<String> getMessages() {
+		return mMessages;
 	}
 
 	public void setMessages(ArrayList<String> messages) {

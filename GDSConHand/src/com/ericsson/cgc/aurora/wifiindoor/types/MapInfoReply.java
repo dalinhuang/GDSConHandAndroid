@@ -15,24 +15,24 @@ public class MapInfoReply implements IType {
 		return fields;
 	}
 
-	public int getId() {
-		return id;
+	public void setFields(ArrayList<FieldInfoReply> fields) {
+		this.fields = fields;
 	}
 
 	public int getVersionCode() {
 		return versionCode;
 	}
 
-	public void setFields(ArrayList<FieldInfoReply> fields) {
-		this.fields = fields;
+	public void setVersionCode(int versionCode) {
+		this.versionCode = versionCode;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public void setVersionCode(int versionCode) {
-		this.versionCode = versionCode;
 	}
 	
 	public MapInfo toMapInfo() {

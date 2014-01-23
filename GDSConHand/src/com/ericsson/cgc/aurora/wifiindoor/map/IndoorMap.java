@@ -26,6 +26,90 @@ public class IndoorMap implements Serializable{
 	
 	private InitialMap initialMap;
 	
+	public String getName(){
+		return name;
+	}
+	
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	public String getVersion(){
+		return version;
+	}
+	
+	public void setVersion(String version){
+		this.version = version;
+	}
+	
+	public String getEditTime(){
+		return editTime;
+	}
+	
+	public void setEditTime(String editTime){
+		this.editTime = editTime;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getPictureName() {
+		return pictureName;
+	}
+
+	public void setPictureName(String pictureName) {
+		this.pictureName = pictureName;
+	}
+	
+	public InitialMap getInitialMap(){
+		return initialMap;
+	}
+	
+	public void setInitialMap(InitialMap initialMap){
+		this.initialMap = initialMap;
+	}
+	
+	//Set Alias for the XML serialization
+	private void setAlias(XStream xs){
+		xs.alias("IndoorMap", com.ericsson.cgc.aurora.wifiindoor.map.IndoorMap.class);
+		//Invoke other objects' setAlias methods here
+	}
+	
+	public boolean toXML(){
+		return toXML(id);
+	}
+	
+	//Serialize current IndoorMap to XML file
+	private boolean toXML(int mapId){
+		//Serialize this object
+		XStream xs = new XStream();
+		setAlias(xs);
+		
+		File file = Util.openOrCreateFileInPath(IndoorMapData.MAP_FILE_PATH_LOCAL+mapId+"/", IndoorMapData.MAP_XML_NAME, false);
+		
+		if (file == null) {
+			return false;
+		}
+		
+		//Write to the map file
+		try{
+			FileOutputStream fos = new FileOutputStream(file);
+			xs.toXML(this, fos);
+			
+			fos.close();
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+	
 	//Set current InoorMap from XML file
 	public boolean fromXML(InputStream map_file_is){
 		XStream xs = new XStream();
@@ -61,68 +145,6 @@ public class IndoorMap implements Serializable{
 		return false;
 	}
 	
-	public String getEditTime(){
-		return editTime;
-	}
-	
-	public int getId() {
-		return id;
-	}
-	
-	public InitialMap getInitialMap(){
-		return initialMap;
-	}
-	
-	public String getName(){
-		return name;
-	}
-	
-	public String getPictureName() {
-		return pictureName;
-	}
-
-	public String getVersion(){
-		return version;
-	}
-
-	public int getVersionCode() {
-		return versionCode;
-	}
-
-	//Set Alias for the XML serialization
-	private void setAlias(XStream xs){
-		xs.alias("IndoorMap", com.ericsson.cgc.aurora.wifiindoor.map.IndoorMap.class);
-		//Invoke other objects' setAlias methods here
-	}
-	
-	public void setEditTime(String editTime){
-		this.editTime = editTime;
-	}
-	
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public void setInitialMap(InitialMap initialMap){
-		this.initialMap = initialMap;
-	}
-	
-	public void setName(String name){
-		this.name = name;
-	}
-	
-	public void setPictureName(String pictureName) {
-		this.pictureName = pictureName;
-	}
-	
-	public void setVersion(String version){
-		this.version = version;
-	}
-	
-	public void setVersionCode(int versionCode) {
-		this.versionCode = versionCode;
-	}
-	
 	//test
 	public String toString(){
 		//Serialize this object
@@ -131,34 +153,12 @@ public class IndoorMap implements Serializable{
 		return xs.toXML(this);
 	}
 
-	public boolean toXML(){
-		return toXML(id);
+	public int getVersionCode() {
+		return versionCode;
 	}
 
-	//Serialize current IndoorMap to XML file
-	private boolean toXML(int mapId){
-		//Serialize this object
-		XStream xs = new XStream();
-		setAlias(xs);
-		
-		File file = Util.openOrCreateFileInPath(IndoorMapData.MAP_FILE_PATH_LOCAL+mapId+"/", IndoorMapData.MAP_XML_NAME, false);
-		
-		if (file == null) {
-			return false;
-		}
-		
-		//Write to the map file
-		try{
-			FileOutputStream fos = new FileOutputStream(file);
-			xs.toXML(this, fos);
-			
-			fos.close();
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return false;
-		}
-		
-		return true;
+	public void setVersionCode(int versionCode) {
+		this.versionCode = versionCode;
 	}
 
 }

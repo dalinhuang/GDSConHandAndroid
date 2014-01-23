@@ -21,35 +21,7 @@ package com.zxing.decoding;
  * These strings are effectively API and cannot be changed.
  */
 public final class Intents {
-  public static final class Encode {
-    /**
-     * Send this intent to encode a piece of data as a QR code and display it full screen, so
-     * that another person can scan the barcode from your screen.
-     */
-    public static final String ACTION = "com.google.zxing.client.android.ENCODE";
-
-    /**
-     * The data to encode. Use Intent.putExtra(DATA, data) where data is either a String or a
-     * Bundle, depending on the type and format specified. Non-QR Code formats should
-     * just use a String here. For QR Code, see Contents for details.
-     */
-    public static final String DATA = "ENCODE_DATA";
-
-    /**
-     * The type of data being supplied if the format is QR Code. Use
-     * Intent.putExtra(TYPE, type) with one of Contents.Type.
-     */
-    public static final String TYPE = "ENCODE_TYPE";
-    
-    /**
-     * The barcode format to be displayed. If this isn't specified or is blank, 
-     * it defaults to QR Code. Use Intent.putExtra(FORMAT, format), where
-     * format is one of Contents.Format. 
-     */
-    public static final String FORMAT = "ENCODE_FORMAT";
-
-    private Encode() {
-    }
+  private Intents() {
   }
 
   public static final class Scan {
@@ -128,6 +100,37 @@ public final class Intents {
     }
   }
 
+  public static final class Encode {
+    /**
+     * Send this intent to encode a piece of data as a QR code and display it full screen, so
+     * that another person can scan the barcode from your screen.
+     */
+    public static final String ACTION = "com.google.zxing.client.android.ENCODE";
+
+    /**
+     * The data to encode. Use Intent.putExtra(DATA, data) where data is either a String or a
+     * Bundle, depending on the type and format specified. Non-QR Code formats should
+     * just use a String here. For QR Code, see Contents for details.
+     */
+    public static final String DATA = "ENCODE_DATA";
+
+    /**
+     * The type of data being supplied if the format is QR Code. Use
+     * Intent.putExtra(TYPE, type) with one of Contents.Type.
+     */
+    public static final String TYPE = "ENCODE_TYPE";
+    
+    /**
+     * The barcode format to be displayed. If this isn't specified or is blank, 
+     * it defaults to QR Code. Use Intent.putExtra(FORMAT, format), where
+     * format is one of Contents.Format. 
+     */
+    public static final String FORMAT = "ENCODE_FORMAT";
+
+    private Encode() {
+    }
+  }
+
   public static final class SearchBookContents {
     /**
      * Use Google Book Search to search the contents of the book provided.
@@ -145,17 +148,6 @@ public final class Intents {
     public static final String QUERY = "QUERY";
 
     private SearchBookContents() {
-    }
-  }
-
-  public static final class Share {
-    /**
-     * Give the user a choice of items to encode as a barcode, then render it as a QR Code and
-     * display onscreen for a friend to scan with their phone.
-     */
-    public static final String ACTION = "com.google.zxing.client.android.SHARE";
-
-    private Share() {
     }
   }
 
@@ -185,6 +177,14 @@ public final class Intents {
 	  }
 
 
-  private Intents() {
+  public static final class Share {
+    /**
+     * Give the user a choice of items to encode as a barcode, then render it as a QR Code and
+     * display onscreen for a friend to scan with their phone.
+     */
+    public static final String ACTION = "com.google.zxing.client.android.SHARE";
+
+    private Share() {
+    }
   }
 }

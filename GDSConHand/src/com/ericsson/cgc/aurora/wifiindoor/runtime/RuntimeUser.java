@@ -1,7 +1,6 @@
 package com.ericsson.cgc.aurora.wifiindoor.runtime;
 
 import java.util.List;
-
 import org.andengine.entity.sprite.Sprite;
 
 import com.ericsson.cgc.aurora.wifiindoor.drawing.runtime.PreciseCellLocation;
@@ -24,17 +23,27 @@ public class RuntimeUser {
 	private boolean stopping;
 	private boolean enableRotation;
 	
-	private Sprite sprite;
-
 	public RuntimeUser() {
 	}
-	
-	public Cell getCurrentCell() {
-		return this.currentCell;
+
+	public void setCurrentCell(Cell currentCell) {
+		this.currentCell = currentCell;
 	}
 	
-	public String getId() {
-		return id;
+	public Cell getStartCell() {
+		return startCell;
+	}
+	
+	public void setStartCell(Cell startCell) {
+		this.startCell = startCell;
+	}
+
+	public void setPath(List<Cell> path) {
+		this.path = path;
+
+		if (currentCell != null) {
+			headingForNextCell();
+		}
 	}
 
 	private Cell getNextStep() {
@@ -46,32 +55,56 @@ public class RuntimeUser {
 		return path.remove(0);
 	}
 
-	public List<Cell> getPath() {
-		return this.path;
-	}
-
-	public PreciseCellLocation getPreciseCellLocation() {
-		if (nextCell == null) {
-			return new PreciseCellLocation(currentCell.getRowNo(), currentCell.getColNo());
-		}
-		
-		float rowPosition = currentCell.getRowNo() * (1 - currentProcessOfCell)
-				+ nextCell.getRowNo() * currentProcessOfCell;
-		float colPosition = currentCell.getColNo() * (1 - currentProcessOfCell)
-				+ nextCell.getColNo() * currentProcessOfCell;
-		return new PreciseCellLocation(rowPosition, colPosition);
+	public Cell getCurrentCell() {
+		return this.currentCell;
 	}
 
 	public float getSpeed() {
 		return speed;
 	}
 
-	public Sprite getSprite() {
-		return sprite;
+	public void setSpeed(float speed) {
+		// the speed should be less than 1
+		if (speed > 1) {
+			throw new IllegalArgumentException("speed should be less than 1");
+		}
+		this.speed = speed;
 	}
 
-	public Cell getStartCell() {
-		return startCell;
+	public void initialNavigating(RuntimeIndoorMap runtimeIndoorMap, Cell startCell) {
+		setStartCell(startCell);
+		setPath(runtimeIndoorMap.findPathFromParticularPosition(startCell));
+		currentCell = startCell;
+		headingForNextCell();
+	}
+
+	public boolean moving() {
+
+		if (stopping) {
+			return true;
+		}
+
+		// according to its speed
+		currentProcessOfCell += (speed * 1);
+
+		if (currentProcessOfCell >= 1) {
+			// move into the next cell
+			currentProcessOfCell--;
+			previousCell = currentCell;
+			currentCell = nextCell;
+
+			headingForNextCell();
+		}
+
+		if (nextCell == null) {
+			return false;
+		}
+
+		return true;
+	}
+	
+	public void setEnableRotation(boolean enableRotation) {
+		this.enableRotation = enableRotation;
 	}
 
 	private void headingForNextCell() {
@@ -148,73 +181,39 @@ public class RuntimeUser {
 
 		sprite.setRotation(sprite.getRotation() + rotation);
 	}
-	
-	public void initialNavigating(RuntimeIndoorMap runtimeIndoorMap, Cell startCell) {
-		setStartCell(startCell);
-		setPath(runtimeIndoorMap.findPathFromParticularPosition(startCell));
-		currentCell = startCell;
-		headingForNextCell();
-	}
 
-	public boolean moving() {
-
-		if (stopping) {
-			return true;
-		}
-
-		// according to its speed
-		currentProcessOfCell += (speed * 1);
-
-		if (currentProcessOfCell >= 1) {
-			// move into the next cell
-			currentProcessOfCell--;
-			previousCell = currentCell;
-			currentCell = nextCell;
-
-			headingForNextCell();
-		}
-
+	public PreciseCellLocation getPreciseCellLocation() {
 		if (nextCell == null) {
-			return false;
+			return new PreciseCellLocation(currentCell.getRowNo(), currentCell.getColNo());
 		}
-
-		return true;
+		
+		float rowPosition = currentCell.getRowNo() * (1 - currentProcessOfCell)
+				+ nextCell.getRowNo() * currentProcessOfCell;
+		float colPosition = currentCell.getColNo() * (1 - currentProcessOfCell)
+				+ nextCell.getColNo() * currentProcessOfCell;
+		return new PreciseCellLocation(rowPosition, colPosition);
 	}
 
-	public void setCurrentCell(Cell currentCell) {
-		this.currentCell = currentCell;
-	}
+	private Sprite sprite;
 
-	public void setEnableRotation(boolean enableRotation) {
-		this.enableRotation = enableRotation;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public void setPath(List<Cell> path) {
-		this.path = path;
-
-		if (currentCell != null) {
-			headingForNextCell();
-		}
-	}
-
-	public void setSpeed(float speed) {
-		// the speed should be less than 1
-		if (speed > 1) {
-			throw new IllegalArgumentException("speed should be less than 1");
-		}
-		this.speed = speed;
+	public Sprite getSprite() {
+		return sprite;
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public void setStartCell(Cell startCell) {
-		this.startCell = startCell;
+	public List<Cell> getPath() {
+		return this.path;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getId() {
+		return id;
 	}
 }
 

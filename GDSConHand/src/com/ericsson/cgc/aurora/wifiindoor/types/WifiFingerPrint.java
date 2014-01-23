@@ -28,20 +28,20 @@ public class WifiFingerPrint {
 	private String deviceName;
 	private ArrayList<WifiFingerPrintSample> samples;
 
-	public WifiFingerPrint(ArrayList<WifiFingerPrintSample> samples) {
-		setAccountName(Util.getAccountName());
-		setMyWifiMac(Util.getWifiInfoManager().getMyMac());
-		setDeviceName(Util.getDeviceName());
-		
-		setSamples(samples);
-	}
-	
 	public WifiFingerPrint(int req) {
 		setAccountName(Util.getAccountName());
 		setMyWifiMac(Util.getWifiInfoManager().getMyMac());
 		setDeviceName(Util.getDeviceName());
 		
 		captureSamples(Util.getWifiInfoManager(), req);
+	}
+	
+	public WifiFingerPrint(ArrayList<WifiFingerPrintSample> samples) {
+		setAccountName(Util.getAccountName());
+		setMyWifiMac(Util.getWifiInfoManager().getMyMac());
+		setDeviceName(Util.getDeviceName());
+		
+		setSamples(samples);
 	}
 
 	private void captureSamples(WifiInfoManager wifiInfoManager, int req) {
@@ -62,22 +62,38 @@ public class WifiFingerPrint {
 		setSamples(wifiInfoManager.getWifiFingerPrintList(times, timeout));
 	}
 
-	public String getAccountName() {
-		return accountName;
+	public String getMyWifiMac() {
+		return myWifiMac;
+	}
+
+	public void setMyWifiMac(String myWifiMac) {
+		this.myWifiMac = myWifiMac;
 	}
 
 	public String getDeviceName() {
 		return deviceName;
 	}
 
-	public String getMyWifiMac() {
-		return myWifiMac;
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
+	}
+
+	public String getAccountName() {
+		return accountName;
+	}
+
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
 	}
 
 	public ArrayList<WifiFingerPrintSample> getSamples() {
 		return samples;
 	}
 
+	public void setSamples(ArrayList<WifiFingerPrintSample> samples) {
+		this.samples = samples;
+	}
+	
 	@SuppressLint("SimpleDateFormat")
 	public void log() {
 		if (samples == null) {
@@ -110,21 +126,5 @@ public class WifiFingerPrint {
 				Log.e("----AP", ap.getMac()+","+ap.getDbm());
 			}			
 		}
-	}
-
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
-	}
-
-	public void setDeviceName(String deviceName) {
-		this.deviceName = deviceName;
-	}
-
-	public void setMyWifiMac(String myWifiMac) {
-		this.myWifiMac = myWifiMac;
-	}
-	
-	public void setSamples(ArrayList<WifiFingerPrintSample> samples) {
-		this.samples = samples;
 	}
 }

@@ -21,6 +21,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.ericsson.cgc.aurora.wifiindoor.R;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.zxing.camera.CameraManager;
@@ -45,91 +46,6 @@ public class QrScannerActivity extends Activity implements Callback {
 	private boolean vibrate;
 	private Button cancelScanButton;
 
-	private static final long VIBRATE_DURATION = 200L;
-
-	/**
-	 * When the beep has finished playing, rewind to queue up another one.
-	 */
-	private final OnCompletionListener beepListener = new OnCompletionListener() {
-		public void onCompletion(MediaPlayer mediaPlayer) {
-			mediaPlayer.seekTo(0);
-		}
-	};
-
-	public void drawViewfinder() {
-		viewfinderView.drawViewfinder();
-
-	}
-
-	public Handler getHandler() {
-		return handler;
-	}
-	
-	public ViewfinderView getViewfinderView() {
-		return viewfinderView;
-	}
-	
-	/**
-	 * Handler scan result
-	 * @param result
-	 * @param barcode
-	 */
-	public void handleDecode(Result result, Bitmap barcode) {
-		inactivityTimer.onActivity();
-		playBeepSoundAndVibrate();
-		String resultString = result.getText();
-		//FIXME
-		if (resultString.equals("")) {
-			Toast.makeText(QrScannerActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
-		}else {
-//			System.out.println("Result:"+resultString);
-			Intent resultIntent = new Intent();
-			Bundle bundle = new Bundle();
-			bundle.putString("result", resultString);
-			resultIntent.putExtras(bundle);
-			this.setResult(RESULT_OK, resultIntent);
-		}
-		QrScannerActivity.this.finish();
-	}
-
-	private void initBeepSound() {
-		if (playBeep && mediaPlayer == null) {
-			// The volume on STREAM_SYSTEM is not adjustable, and users found it
-			// too loud,
-			// so we now play on the music stream.
-			setVolumeControlStream(AudioManager.STREAM_MUSIC);
-			mediaPlayer = new MediaPlayer();
-			mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-			mediaPlayer.setOnCompletionListener(beepListener);
-
-			AssetFileDescriptor file = getResources().openRawResourceFd(
-					R.raw.beep);
-			try {
-				mediaPlayer.setDataSource(file.getFileDescriptor(),
-						file.getStartOffset(), file.getLength());
-				file.close();
-				mediaPlayer.setVolume(BEEP_VOLUME, BEEP_VOLUME);
-				mediaPlayer.prepare();
-			} catch (IOException e) {
-				mediaPlayer = null;
-			}
-		}
-	}
-
-	private void initCamera(SurfaceHolder surfaceHolder) {
-		try {
-			CameraManager.get().openDriver(surfaceHolder);
-		} catch (IOException ioe) {
-			return;
-		} catch (RuntimeException e) {
-			return;
-		}
-		if (handler == null) {
-			handler = new CaptureActivityHandler(this, decodeFormats,
-					characterSet);
-		}
-	}
-
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -141,22 +57,6 @@ public class QrScannerActivity extends Activity implements Callback {
 		cancelScanButton = (Button) this.findViewById(R.id.btn_cancel_scan);
 		hasSurface = false;
 		inactivityTimer = new InactivityTimer(this);
-	}
-
-	@Override
-	protected void onDestroy() {
-		inactivityTimer.shutdown();
-		super.onDestroy();
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if (handler != null) {
-			handler.quitSynchronously();
-			handler = null;
-		}
-		CameraManager.get().closeDriver();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -192,13 +92,56 @@ public class QrScannerActivity extends Activity implements Callback {
 		});
 	}
 
-	private void playBeepSoundAndVibrate() {
-		if (playBeep && mediaPlayer != null) {
-			mediaPlayer.start();
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (handler != null) {
+			handler.quitSynchronously();
+			handler = null;
 		}
-		if (vibrate) {
-			Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-			vibrator.vibrate(VIBRATE_DURATION);
+		CameraManager.get().closeDriver();
+	}
+
+	@Override
+	protected void onDestroy() {
+		inactivityTimer.shutdown();
+		super.onDestroy();
+	}
+	
+	/**
+	 * Handler scan result
+	 * @param result
+	 * @param barcode
+	 */
+	public void handleDecode(Result result, Bitmap barcode) {
+		inactivityTimer.onActivity();
+		playBeepSoundAndVibrate();
+		String resultString = result.getText();
+		//FIXME
+		if (resultString.equals("")) {
+			Toast.makeText(QrScannerActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
+		}else {
+//			System.out.println("Result:"+resultString);
+			Intent resultIntent = new Intent();
+			Bundle bundle = new Bundle();
+			bundle.putString("result", resultString);
+			resultIntent.putExtras(bundle);
+			this.setResult(RESULT_OK, resultIntent);
+		}
+		QrScannerActivity.this.finish();
+	}
+	
+	private void initCamera(SurfaceHolder surfaceHolder) {
+		try {
+			CameraManager.get().openDriver(surfaceHolder);
+		} catch (IOException ioe) {
+			return;
+		} catch (RuntimeException e) {
+			return;
+		}
+		if (handler == null) {
+			handler = new CaptureActivityHandler(this, decodeFormats,
+					characterSet);
 		}
 	}
 
@@ -222,5 +165,63 @@ public class QrScannerActivity extends Activity implements Callback {
 		hasSurface = false;
 
 	}
+
+	public ViewfinderView getViewfinderView() {
+		return viewfinderView;
+	}
+
+	public Handler getHandler() {
+		return handler;
+	}
+
+	public void drawViewfinder() {
+		viewfinderView.drawViewfinder();
+
+	}
+
+	private void initBeepSound() {
+		if (playBeep && mediaPlayer == null) {
+			// The volume on STREAM_SYSTEM is not adjustable, and users found it
+			// too loud,
+			// so we now play on the music stream.
+			setVolumeControlStream(AudioManager.STREAM_MUSIC);
+			mediaPlayer = new MediaPlayer();
+			mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+			mediaPlayer.setOnCompletionListener(beepListener);
+
+			AssetFileDescriptor file = getResources().openRawResourceFd(
+					R.raw.beep);
+			try {
+				mediaPlayer.setDataSource(file.getFileDescriptor(),
+						file.getStartOffset(), file.getLength());
+				file.close();
+				mediaPlayer.setVolume(BEEP_VOLUME, BEEP_VOLUME);
+				mediaPlayer.prepare();
+			} catch (IOException e) {
+				mediaPlayer = null;
+			}
+		}
+	}
+
+	private static final long VIBRATE_DURATION = 200L;
+
+	private void playBeepSoundAndVibrate() {
+		if (playBeep && mediaPlayer != null) {
+			mediaPlayer.start();
+		}
+		if (vibrate) {
+			Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+			vibrator.vibrate(VIBRATE_DURATION);
+		}
+	}
+
+	/**
+	 * When the beep has finished playing, rewind to queue up another one.
+	 */
+	private final OnCompletionListener beepListener = new OnCompletionListener() {
+		public void onCompletion(MediaPlayer mediaPlayer) {
+			mediaPlayer.seekTo(0);
+		}
+	};
 
 }

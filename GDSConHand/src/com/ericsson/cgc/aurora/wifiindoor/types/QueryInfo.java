@@ -28,13 +28,8 @@ public class QueryInfo implements IType, Parcelable {
 		mInfos.add(info);
 	}
 	
-	/* (non-Javadoc)
-	 * @see android.os.Parcelable#describeContents()
-	 */
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int size() {
+		return mInfos.size();
 	}
 
 	public ArrayList<LocationQueryInfo> getInfos() {
@@ -45,8 +40,13 @@ public class QueryInfo implements IType, Parcelable {
 		mInfos = infos;
 	}
 	
-	public int size() {
-		return mInfos.size();
+	/* (non-Javadoc)
+	 * @see android.os.Parcelable#describeContents()
+	 */
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	/* (non-Javadoc)

@@ -20,6 +20,7 @@ import com.ericsson.cgc.aurora.wifiindoor.ads.AdGroup;
 import com.ericsson.cgc.aurora.wifiindoor.types.ApkVersionReply;
 import com.ericsson.cgc.aurora.wifiindoor.types.BuildingManagerReply;
 import com.ericsson.cgc.aurora.wifiindoor.types.IndoorMapReply;
+import com.ericsson.cgc.aurora.wifiindoor.types.InterestPlacesInfoReply;
 import com.ericsson.cgc.aurora.wifiindoor.types.Location;
 import com.ericsson.cgc.aurora.wifiindoor.types.LocationSet;
 import com.ericsson.cgc.aurora.wifiindoor.types.MapInfoReply;
@@ -38,22 +39,12 @@ import com.ericsson.cgc.aurora.wifiindoor.webservice.types.IType;
  * 
  */
 public class TransportServiceThread extends Thread {
-	public static interface TransportServiceListener {
-		public void onError(String error);
-
-		public void onFinishingRequest();
-
-		public void onResponseReceived(IType object);
-
-		public void onStartingRequest();
-	}
 	public static final String TAG = "TransportServiceThread";
-
 	public static final boolean DEBUG = WifiIpsSettings.DEBUG;
-	private TransportServiceListener mTransportServiceListener;
-	
-	private Context paramContext;
 
+	private TransportServiceListener mTransportServiceListener;
+	private Context paramContext;
+	
 	private boolean mIsThreadRunToCompletion;
 
 	public TransportServiceThread(TransportServiceListener listener, Context paramContext) {
@@ -62,8 +53,32 @@ public class TransportServiceThread extends Thread {
 		this.paramContext = paramContext;
 	}
 
-	public boolean isThreadRunToCompletion() {
-		return mIsThreadRunToCompletion;
+	@Override
+	public void run() {
+		Looper.prepare();
+		
+		while (true) {
+			while (OutgoingMessageQueue.isEmpty()) {
+				try {
+					// sleep 200ms
+					Thread.sleep(200);
+				} catch (InterruptedException e) {
+					Log.e(TAG, "OutgoingMessageQueue is empty.", e);
+				}
+			}
+
+			JSONObject json = OutgoingMessageQueue.take();
+
+			try {
+				int requestCode = json.getInt("RequestCode");
+				JSONObject requestPayload = json
+						.getJSONObject("RequestPayload");
+				processRequest(requestCode, requestPayload);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void processRequest(int requestCode, JSONObject requestPayload) {
@@ -193,6 +208,12 @@ public class TransportServiceThread extends Thread {
 				mTransportServiceListener.onResponseReceived(advertiseList);
 				break;		
 				
+			case MsgConstants.MT_INTEREST_PLACES_QUERY:
+				mTransportServiceListener.onStartingRequest();
+				InterestPlacesInfoReply interestPlacesInfo = webServiceInstance.queryInterestPlacesInfo(requestPayload);
+				mTransportServiceListener.onFinishingRequest();
+				mTransportServiceListener.onResponseReceived(interestPlacesInfo);
+				break;	
 				
 			default:
 				mTransportServiceListener
@@ -219,32 +240,18 @@ public class TransportServiceThread extends Thread {
 			e.printStackTrace();
 		}
 	}
+
+	public boolean isThreadRunToCompletion() {
+		return mIsThreadRunToCompletion;
+	}
 	
-	@Override
-	public void run() {
-		Looper.prepare();
-		
-		while (true) {
-			while (OutgoingMessageQueue.isEmpty()) {
-				try {
-					// sleep 200ms
-					Thread.sleep(200);
-				} catch (InterruptedException e) {
-					Log.e(TAG, "OutgoingMessageQueue is empty.", e);
-				}
-			}
+	public static interface TransportServiceListener {
+		public void onStartingRequest();
 
-			JSONObject json = OutgoingMessageQueue.take();
+		public void onFinishingRequest();
 
-			try {
-				int requestCode = json.getInt("RequestCode");
-				JSONObject requestPayload = json
-						.getJSONObject("RequestPayload");
-				processRequest(requestCode, requestPayload);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		public void onResponseReceived(IType object);
+
+		public void onError(String error);
 	}
 }

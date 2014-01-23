@@ -2,33 +2,34 @@ package com.ericsson.cgc.aurora.wifiindoor.drawing.graphic;
 
 import java.io.InputStream;
 
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
-
-import android.graphics.Bitmap;
+import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
 
 import com.ericsson.cgc.aurora.wifiindoor.drawing.graphic.svg.SVGImageBuilder;
 
+
+import android.graphics.Bitmap;
+
 public class AndEngineGraphicsHelper {
 
-	public static TextureRegion createFromBitmap(final BitmapTextureAtlas pTexture,
-			Bitmap bitmap) {
-		final IBitmapTextureAtlasSource textureSource = new BitmapTextureSource(bitmap);
-				
-		return (TextureRegion) BitmapTextureAtlasTextureRegionFactory.createFromSource(pTexture, textureSource,
-				0, 0);
-	}
-	
 	public static TextureRegion createFromSVG(final BitmapTextureAtlas pTexture, int width, int height, 
 			InputStream inputStream) {
 		Bitmap bitmap = SVGImageBuilder.instance.generateFromFile(inputStream, width,
 				height);
 
 		return createFromBitmap(pTexture, bitmap);		
+	}
+	
+	public static TextureRegion createFromBitmap(final BitmapTextureAtlas pTexture,
+			Bitmap bitmap) {
+		final IBitmapTextureAtlasSource textureSource = new BitmapTextureSource(bitmap);
+				
+		return (TextureRegion) BitmapTextureAtlasTextureRegionFactory.createFromSource(pTexture, textureSource,
+				0, 0);
 	}
 
 	public static TiledTextureRegion createTiledFromBitmap(

@@ -12,24 +12,24 @@ public class InitialMapReply implements IType {
 		return cellPixel;
 	}
 	
-	public int getColumns() {
-		return columns;
+	public void setCellPixel(int cellPixel) {
+		this.cellPixel = cellPixel;
 	}
 
 	public int getRows() {
 		return rows;
 	}
 
-	public void setCellPixel(int cellPixel) {
-		this.cellPixel = cellPixel;
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
+
+	public int getColumns() {
+		return columns;
 	}
 
 	public void setColumns(int columns) {
 		this.columns = columns;
-	}
-
-	public void setRows(int rows) {
-		this.rows = rows;
 	}
 	
 	public InitialMap toInitialMap() {

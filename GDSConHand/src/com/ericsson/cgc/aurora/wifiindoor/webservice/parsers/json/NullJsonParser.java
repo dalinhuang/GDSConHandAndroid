@@ -8,6 +8,8 @@ package com.ericsson.cgc.aurora.wifiindoor.webservice.parsers.json;
 
 import java.io.IOException;
 
+
+
 import com.ericsson.cgc.aurora.wifiindoor.webservice.error.WifiIpsError;
 import com.ericsson.cgc.aurora.wifiindoor.webservice.error.WifiIpsParseException;
 import com.ericsson.cgc.aurora.wifiindoor.webservice.types.IType;

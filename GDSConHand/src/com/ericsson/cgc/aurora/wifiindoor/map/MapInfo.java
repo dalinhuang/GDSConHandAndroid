@@ -23,78 +23,35 @@ public class MapInfo implements Serializable{
 	private int versionCode;  // Reuse the map's versionCode, will cause re-download Map attributes and picture even only filed info changes. But I do not want to restructure the DB & runtimeIndoorMap
 	private ArrayList<FieldInfo> fields;
 
-	//Set current InoorMap from XML file
-	public boolean fromXML(InputStream map_file_is){
-		XStream xs = new XStream();
-		setAlias(xs);
-
-		try {
-			xs.fromXML(map_file_is, this);
-			
-			map_file_is.close();
-			return true;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		
-		return false;
-	}
-
-	//Set current IndoorMap from XML file
-	public boolean fromXML(String map_file_path){
-		XStream xs = new XStream();
-		setAlias(xs);
-
-		try {
-			FileInputStream fis = new FileInputStream(map_file_path);
-			xs.fromXML(fis, this);
-			
-			fis.close();
-			return true;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		
-		return false;
-	}
-
 	public ArrayList<FieldInfo> getFields() {
 		return fields;
 	}
 
-	public int getId() {
-		return id;
+	public void setFields(ArrayList<FieldInfo> fields) {
+		this.fields = fields;
 	}
 
 	public int getVersionCode() {
 		return versionCode;
 	}
 
+	public void setVersionCode(int versionCode) {
+		this.versionCode = versionCode;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	//Set Alias for the XML serialization
 	private void setAlias(XStream xs){
 		xs.alias("MapInfo", com.ericsson.cgc.aurora.wifiindoor.map.MapInfo.class);
 		xs.alias("FieldInfo", com.ericsson.cgc.aurora.wifiindoor.map.FieldInfo.class);
 		//Invoke other objects' setAlias methods here
-	}
-	
-	public void setFields(ArrayList<FieldInfo> fields) {
-		this.fields = fields;
-	}
-	
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public void setVersionCode(int versionCode) {
-		this.versionCode = versionCode;
-	}
-	
-	//test
-	public String toString(){
-		//Serialize this object
-		XStream xs = new XStream();
-		setAlias(xs);
-		return xs.toXML(this);
 	}
 	
 	public boolean toXML(){
@@ -125,6 +82,49 @@ public class MapInfo implements Serializable{
 		}
 		
 		return true;
+	}
+	
+	//Set current InoorMap from XML file
+	public boolean fromXML(InputStream map_file_is){
+		XStream xs = new XStream();
+		setAlias(xs);
+
+		try {
+			xs.fromXML(map_file_is, this);
+			
+			map_file_is.close();
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	//Set current IndoorMap from XML file
+	public boolean fromXML(String map_file_path){
+		XStream xs = new XStream();
+		setAlias(xs);
+
+		try {
+			FileInputStream fis = new FileInputStream(map_file_path);
+			xs.fromXML(fis, this);
+			
+			fis.close();
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	//test
+	public String toString(){
+		//Serialize this object
+		XStream xs = new XStream();
+		setAlias(xs);
+		return xs.toXML(this);
 	}	
 	
 }

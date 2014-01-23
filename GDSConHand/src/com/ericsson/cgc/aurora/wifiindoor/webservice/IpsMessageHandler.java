@@ -1,15 +1,7 @@
 package com.ericsson.cgc.aurora.wifiindoor.webservice;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
-import android.util.Log;
-import android.widget.Toast;
-
 import com.ericsson.cgc.aurora.wifiindoor.EntryActivity;
+import com.ericsson.cgc.aurora.wifiindoor.GMapEntryActivity;
 import com.ericsson.cgc.aurora.wifiindoor.MapLocatorActivity;
 import com.ericsson.cgc.aurora.wifiindoor.MapSelectorActivity;
 import com.ericsson.cgc.aurora.wifiindoor.MapViewerActivity;
@@ -17,6 +9,7 @@ import com.ericsson.cgc.aurora.wifiindoor.ads.AdGroup;
 import com.ericsson.cgc.aurora.wifiindoor.types.ApkVersionReply;
 import com.ericsson.cgc.aurora.wifiindoor.types.BuildingManagerReply;
 import com.ericsson.cgc.aurora.wifiindoor.types.IndoorMapReply;
+import com.ericsson.cgc.aurora.wifiindoor.types.InterestPlacesInfoReply;
 import com.ericsson.cgc.aurora.wifiindoor.types.Location;
 import com.ericsson.cgc.aurora.wifiindoor.types.LocationSet;
 import com.ericsson.cgc.aurora.wifiindoor.types.MapInfoReply;
@@ -27,10 +20,25 @@ import com.ericsson.cgc.aurora.wifiindoor.types.TestLocateCollectReply;
 import com.ericsson.cgc.aurora.wifiindoor.util.IndoorMapData;
 import com.ericsson.cgc.aurora.wifiindoor.util.Util;
 import com.ericsson.cgc.aurora.wifiindoor.webservice.types.IType;
+import com.ericsson.cgc.aurora.wifiindoor.webservice.MainTransportServiceListener;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
 
 public class IpsMessageHandler {
 	private Activity activity;
 	private TransportServiceThread mTransportServiceThread;
+
+	public void setActivity(Activity activity) {
+		Log.e("IpsMessageHandler", activity.toString());
+		this.activity = activity;
+	}
 
 	@SuppressLint("HandlerLeak")
 	private Handler mHandler = new Handler() {
@@ -56,6 +64,20 @@ public class IpsMessageHandler {
 		}
 	};
 
+	private void handleStartingRequest() {
+		// showProgressDialog();
+	}
+
+	private void handleFinishingRequest() {
+		// dismissProgressDialog();
+	}
+
+	private void handleResponseReceived() {
+		IType object = ResponseBlockingQueue.take();
+
+		handleMessage(object);
+	}
+
 	private void handleErrorReported(String error) {
 		if ((error != null) && !TextUtils.isEmpty(error)) {
 			Util.showToast(activity, error, Toast.LENGTH_LONG);
@@ -65,10 +87,6 @@ public class IpsMessageHandler {
 				MapLocatorActivity locator = (MapLocatorActivity) activity;
 				locator.connectionFailed();
 		}
-	}
-
-	private void handleFinishingRequest() {
-		// dismissProgressDialog();
 	}
 
 	private void handleMessage(IType object) {
@@ -96,13 +114,13 @@ public class IpsMessageHandler {
 				return;
 			}
 			
-/*			if (activity instanceof GMapEntryActivity) {
+			if (activity instanceof GMapEntryActivity) {
 				//Log.e("IpsMessageHandler", "entry.updateLocation");
 				GMapEntryActivity entry = (GMapEntryActivity) activity;
 				entry.updateLocation(locations);
 
 				return;
-			}*/
+			}
 			
 			if (activity instanceof EntryActivity) {
 				//Log.e("IpsMessageHandler", "entry.updateLocation");
@@ -126,13 +144,13 @@ public class IpsMessageHandler {
 		if (object instanceof Location) {
 			Location location = (Location) object;
 			
-/*			if (activity instanceof GMapEntryActivity) {
+			if (activity instanceof GMapEntryActivity) {
 				//Log.e("IpsMessageHandler", "entry.updateLocation");
 				GMapEntryActivity entry = (GMapEntryActivity) activity;
 				entry.updateLocation(location);
 
 				return;
-			}*/
+			}
 			
 			if (activity instanceof EntryActivity) {
 				//Log.e("IpsMessageHandler", "entry.updateLocation");
@@ -185,13 +203,13 @@ public class IpsMessageHandler {
 		if (object instanceof ApkVersionReply) {
 			ApkVersionReply version = (ApkVersionReply) object;
 			
-/*			if (activity instanceof GMapEntryActivity) {
+			if (activity instanceof GMapEntryActivity) {
 				//Log.e("IpsMessageHandler", "entry.updateLocation");
 				GMapEntryActivity entry = (GMapEntryActivity) activity;
 				entry.handleApkVersionReply(version);
 
 				return;
-			}*/
+			}
 			
 			if (activity instanceof EntryActivity) {
 				//Log.e("IpsMessageHandler", "entry.updateLocation");
@@ -207,13 +225,13 @@ public class IpsMessageHandler {
 		if (object instanceof BuildingManagerReply) {
 			BuildingManagerReply manager = (BuildingManagerReply) object;
 			
-/*			if (activity instanceof GMapEntryActivity) {
+			if (activity instanceof GMapEntryActivity) {
 				//Log.e("IpsMessageHandler", "entry.updateLocation");
 				GMapEntryActivity entry = (GMapEntryActivity) activity;
 				entry.handleBuildingReply(manager);
 
 				return;
-			}*/
+			}
 			
 			return;
 		} 
@@ -288,22 +306,21 @@ public class IpsMessageHandler {
 			
 			return;
 		}
+		
+		if (object instanceof InterestPlacesInfoReply) {
+			InterestPlacesInfoReply interestPlacesInfo = (InterestPlacesInfoReply) object;			
+			
+			if (activity instanceof MapViewerActivity) {
+				MapViewerActivity viewer1 = (MapViewerActivity) activity;
+				
+				viewer1.showInterestPlacesInfo(interestPlacesInfo.toInterestPlacesInfo(), true);
 
-	}
+				return;
+			}
+			
+			return;
+		}
 
-	private void handleResponseReceived() {
-		IType object = ResponseBlockingQueue.take();
-
-		handleMessage(object);
-	}
-
-	private void handleStartingRequest() {
-		// showProgressDialog();
-	}
-
-	public void setActivity(Activity activity) {
-		Log.e("IpsMessageHandler", activity.toString());
-		this.activity = activity;
 	}
 
 	public void startTransportServiceThread() {

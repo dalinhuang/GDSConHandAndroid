@@ -15,15 +15,15 @@ import java.io.InputStream;
 public class JsonPullParser {
 	private String content;
 	
-	public String getContent() {
-		return content;
+	public void setInput(String reader) {
+		content = reader;
 	}
 	
 	public void setInput(InputStream is, String input) {
 		
 	}
 	
-	public void setInput(String reader) {
-		content = reader;
+	public String getContent() {
+		return content;
 	}
 }

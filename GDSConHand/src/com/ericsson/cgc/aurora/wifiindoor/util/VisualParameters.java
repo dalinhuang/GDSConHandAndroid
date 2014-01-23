@@ -4,7 +4,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 import android.app.Activity;
+import android.util.DisplayMetrics;
+import android.view.Display;
 
+@SuppressWarnings("unused")
 public class VisualParameters {
 
 	// Cancel these definition for flexible per Map defined CELL_WIDTH=CELL_HEIGHT
@@ -23,8 +26,16 @@ public class VisualParameters {
 	public static int FONT_CHAR_WIDTH_HINTS = 16;
 	
 	// Left Margins for ADS 
-	public static int BOTTOM_SPACE_FOR_ADS_PORTRAIT = 120;  
-	public static int RIGHT_SPACE_FOR_ADS_LANDSCAPE = 120;
+	public static int BOTTOM_SPACE_FOR_ADS_PORTRAIT = 0; //120;  
+	public static int RIGHT_SPACE_FOR_ADS_LANDSCAPE = 0; //120;
+	
+	// SOC for ADS
+	public static boolean ADS_ENABLED = false;
+	// SOC for TABS BANNER
+	public static boolean BANNERS_ENABLED = false;
+	// SOC for ENTRY & GOOGLEMAP
+	public static boolean GOOGLE_MAP_EMBEDDED = true;
+	public static boolean ENTRY_NEEDED = true;
 	
 	//public static int BOTTOM_SPACE_FOR_ADS_PORTRAIT = 120;
 	//public static int BOTTOM_SPACE_FOR_TABHOST_BAR = 60;
@@ -32,7 +43,7 @@ public class VisualParameters {
 
 	private static boolean initialed = false;
 
-	public static float density = 1.0f;
+	private static float density = 1.0f;
 
 	public static void initial(Activity activity) {
 
@@ -42,15 +53,16 @@ public class VisualParameters {
 
 		initialed = true;
 		
-		//cancel the density (hardcode to 1.5f) so support the data be easy re-used between different devices/screens
-		// DENSITY_HIGH 240 (dpi)
-		// DENSITY_MEDIUM 160
-		// DENSITY_LOW 120
-		// DENSITY_DEFAULT 160
-		//DisplayMetrics dm = new DisplayMetrics();
-		//activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-		//density = dm.density;			
-		//density = 1.5f;
+		/*
+		Display display = activity.getWindowManager().getDefaultDisplay();
+		DisplayMetrics outMetrics = new DisplayMetrics();
+		
+		display.getMetrics(outMetrics);
+		
+		int cameraWidth = outMetrics.widthPixels;
+		int cameraHeight = outMetrics.heightPixels;
+		
+		density = Math.min(cameraWidth, cameraHeight) / 480;
 
 		if (density <= 0) {
 			density = 1;
@@ -75,5 +87,6 @@ public class VisualParameters {
 				}
 			}
 		}
+		*/
 	}
 }

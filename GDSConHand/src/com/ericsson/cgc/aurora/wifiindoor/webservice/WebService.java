@@ -14,6 +14,7 @@ import com.ericsson.cgc.aurora.wifiindoor.ads.AdGroup;
 import com.ericsson.cgc.aurora.wifiindoor.types.ApkVersionReply;
 import com.ericsson.cgc.aurora.wifiindoor.types.BuildingManagerReply;
 import com.ericsson.cgc.aurora.wifiindoor.types.IndoorMapReply;
+import com.ericsson.cgc.aurora.wifiindoor.types.InterestPlacesInfoReply;
 import com.ericsson.cgc.aurora.wifiindoor.types.Location;
 import com.ericsson.cgc.aurora.wifiindoor.types.LocationSet;
 import com.ericsson.cgc.aurora.wifiindoor.types.MapInfoReply;
@@ -32,13 +33,13 @@ import com.ericsson.cgc.aurora.wifiindoor.webservice.types.Test;
  * 
  */
 public class WebService {
-	/**
-	 * This api is supported in the V1 API
-	 */
-	@interface V1 {
-	}
-
 	private static WebService mSingletonInstance = null;
+
+	private WifiIpsHttpApi mWifiIpsHttpApi;
+
+	private WebService() {
+
+	}
 
 	public static WebService getInstance() {
 		if (mSingletonInstance == null)
@@ -47,24 +48,15 @@ public class WebService {
 		return mSingletonInstance;
 	}
 
-	private WifiIpsHttpApi mWifiIpsHttpApi;
+	public boolean initialize(String domain, String clientVersion) {
+		mWifiIpsHttpApi = new WifiIpsHttpApi(domain, clientVersion);
 
-	private WebService() {
-
+		return true;
 	}
 	
-	/*
-	 * locate
-	 */
-	@V1
-	public void collect(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
-		
-		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
-		}
-		
-		mWifiIpsHttpApi.collect(json);
+	public boolean reInitialize(String domain, String clientVersion) {
+		mWifiIpsHttpApi = null;
+		return initialize(domain, clientVersion);
 	}
 	
 	/*public void setProxy(){
@@ -75,53 +67,33 @@ public class WebService {
 	}*/
 
 	/*
-	 * collectNfc
+	 * 
 	 */
 	@V1
-	public void collectNfc(JSONObject json) throws WifiIpsException,
+	public Test testPostXml(String parameter) throws WifiIpsException,
 			WifiIpsCredentialsException, WifiIpsError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
 			throw new WifiIpsException("IPS HTTP API is null!");			
 		}
 		
-		mWifiIpsHttpApi.collectNfc(json);
+		return mWifiIpsHttpApi.testPostXml(parameter);
 	}
 
 	/*
-	 * collect_test
+	 * 
 	 */
 	@V1
-	public TestLocateCollectReply collectTest(JSONObject json) throws WifiIpsException,
+	public Test testPostJson(JSONObject json) throws WifiIpsException,
 			WifiIpsCredentialsException, WifiIpsError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
 			throw new WifiIpsException("IPS HTTP API is null!");			
 		}
 		
-		return mWifiIpsHttpApi.collectTest(json);
+		return mWifiIpsHttpApi.testPostJson(json);
 	}
 
-	/*
-	 * deleteFingerprint, no response
-	 */
-	@V1
-	public void deleteFingerprint(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
-		
-		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
-		}
-		
-		mWifiIpsHttpApi.deleteFingerprint(json);
-	}
-
-	public boolean initialize(String domain, String clientVersion) {
-		mWifiIpsHttpApi = new WifiIpsHttpApi(domain, clientVersion);
-
-		return true;
-	}
-	
 	/*
 	 * collect, no response
 	 */
@@ -135,33 +107,19 @@ public class WebService {
 		
 		return mWifiIpsHttpApi.locate(json);
 	}
-	
-	/*
-	 * locateBaseOnNfc
-	 */
-	@V1
-	public Location locateBaseOnNfc(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
-		
-		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
-		}
-		
-		return mWifiIpsHttpApi.locateBaseOnNfc(json);
-	}
 
 	/*
-	 * locate_test
+	 * locate
 	 */
 	@V1
-	public TestLocateCollectReply locateTest(JSONObject json) throws WifiIpsException,
+	public void collect(JSONObject json) throws WifiIpsException,
 			WifiIpsCredentialsException, WifiIpsError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
 			throw new WifiIpsException("IPS HTTP API is null!");			
 		}
 		
-		return mWifiIpsHttpApi.locateTest(json);
+		mWifiIpsHttpApi.collect(json);
 	}
 	
 	/*
@@ -179,18 +137,74 @@ public class WebService {
 	}
 	
 	/*
-	 * update advertise Info
+	 * collectNfc
 	 */
 	@V1
-	public AdGroup queryAdvertiseInfo(JSONObject json) throws WifiIpsException,
-	        WifiIpsCredentialsException, WifiIpsError, IOException {
+	public void collectNfc(JSONObject json) throws WifiIpsException,
+			WifiIpsCredentialsException, WifiIpsError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WifiIpsException("IPS HTTP API is null!");			
+		}
+		
+		mWifiIpsHttpApi.collectNfc(json);
+	}
 
-        if (mWifiIpsHttpApi == null) {			
-	        throw new WifiIpsException("IPS HTTP API is null!");			
-        }
-
-        return mWifiIpsHttpApi.queryAdvertiseInfo(json);
-    }
+	/*
+	 * locateBaseOnNfc
+	 */
+	@V1
+	public Location locateBaseOnNfc(JSONObject json) throws WifiIpsException,
+			WifiIpsCredentialsException, WifiIpsError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WifiIpsException("IPS HTTP API is null!");			
+		}
+		
+		return mWifiIpsHttpApi.locateBaseOnNfc(json);
+	}
+	
+	/*
+	 * deleteFingerprint, no response
+	 */
+	@V1
+	public void deleteFingerprint(JSONObject json) throws WifiIpsException,
+			WifiIpsCredentialsException, WifiIpsError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WifiIpsException("IPS HTTP API is null!");			
+		}
+		
+		mWifiIpsHttpApi.deleteFingerprint(json);
+	}
+	
+	/*
+	 * locate_test
+	 */
+	@V1
+	public TestLocateCollectReply locateTest(JSONObject json) throws WifiIpsException,
+			WifiIpsCredentialsException, WifiIpsError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WifiIpsException("IPS HTTP API is null!");			
+		}
+		
+		return mWifiIpsHttpApi.locateTest(json);
+	}
+	
+	/*
+	 * collect_test
+	 */
+	@V1
+	public TestLocateCollectReply collectTest(JSONObject json) throws WifiIpsException,
+			WifiIpsCredentialsException, WifiIpsError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WifiIpsException("IPS HTTP API is null!");			
+		}
+		
+		return mWifiIpsHttpApi.collectTest(json);
+	}
 	
 	/*
 	 * update Apk
@@ -218,6 +232,20 @@ public class WebService {
 		}
 		
 		return mWifiIpsHttpApi.queryBuilding(json);
+	}
+	
+	/*
+	 * update mapList
+	 */
+	@V1
+	public MapManagerReply queryMaps(JSONObject json) throws WifiIpsException,
+			WifiIpsCredentialsException, WifiIpsError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WifiIpsException("IPS HTTP API is null!");			
+		}
+		
+		return mWifiIpsHttpApi.queryMaps(json);
 	}
 	
 	/*
@@ -249,20 +277,6 @@ public class WebService {
 	}
 	
 	/*
-	 * update mapList
-	 */
-	@V1
-	public MapManagerReply queryMaps(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
-		
-		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
-		}
-		
-		return mWifiIpsHttpApi.queryMaps(json);
-	}
-	
-	/*
 	 * update Navi Info
 	 */
 	@V1
@@ -276,38 +290,39 @@ public class WebService {
 		return mWifiIpsHttpApi.queryNaviInfo(json);
 	}
 	
-	public boolean reInitialize(String domain, String clientVersion) {
-		mWifiIpsHttpApi = null;
-		return initialize(domain, clientVersion);
-	}
-	
 	
 	/*
-	 * 
+	 * update advertise Info
 	 */
 	@V1
-	public Test testPostJson(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
-		
-		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
-		}
-		
-		return mWifiIpsHttpApi.testPostJson(json);
-	}	
-		
+	public AdGroup queryAdvertiseInfo(JSONObject json) throws WifiIpsException,
+	        WifiIpsCredentialsException, WifiIpsError, IOException {
+
+        if (mWifiIpsHttpApi == null) {			
+	        throw new WifiIpsException("IPS HTTP API is null!");			
+        }
+
+        return mWifiIpsHttpApi.queryAdvertiseInfo(json);
+    }
 	
 	/*
-	 * 
+	 * update Interest Places Info
 	 */
 	@V1
-	public Test testPostXml(String parameter) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
+	public InterestPlacesInfoReply queryInterestPlacesInfo(JSONObject json)  throws WifiIpsException,
+    		WifiIpsCredentialsException, WifiIpsError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
-		}
-		
-		return mWifiIpsHttpApi.testPostXml(parameter);
+	        throw new WifiIpsException("IPS HTTP API is null!");			
+        }
+
+        return mWifiIpsHttpApi.queryInterestPlacesInfo(json);
 	}
+	
+	/**
+	 * This api is supported in the V1 API
+	 */
+	@interface V1 {
+	}
+
 }
