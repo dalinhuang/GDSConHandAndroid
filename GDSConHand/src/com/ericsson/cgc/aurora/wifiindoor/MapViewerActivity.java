@@ -1668,6 +1668,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		// Enable ACCELEROMETER
 		Util.disableAcclerometer(this);
 		unregisterReceiver(batteryReceiver);
+		
+		Util.setCurrentForegroundActivity(null);
 	}
 
 	@Override
@@ -1724,6 +1726,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
         IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(batteryReceiver, filter);
+        
+        Util.setCurrentForegroundActivity(this);
 	}
 	
 	@Override

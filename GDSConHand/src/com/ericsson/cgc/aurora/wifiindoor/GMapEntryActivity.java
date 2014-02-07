@@ -132,6 +132,8 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 		
 		// Enable ACCELEROMETER
 		Util.enableAcclerometer(this);
+		
+		Util.setCurrentForegroundActivity(this);
 	}
 	
 	@Override
@@ -153,7 +155,9 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 		}
 	    
 	    //String tagId = tagFromIntent.getId().toString();
-		Util.nfcQrLocateMe(this, tagId);     
+		Util.nfcQrLocateMe(this, tagId);    
+		
+		Util.setCurrentForegroundActivity(null);
 	}
 	
 	@Override

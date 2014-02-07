@@ -43,6 +43,8 @@ public class EntryActivity extends Activity implements SensorEventListener {
 		
 		// Disable ACCELEROMETER
 		Util.enableAcclerometer(this);
+		
+		Util.setCurrentForegroundActivity(this);
 	}
 	
 	@Override
@@ -69,6 +71,8 @@ public class EntryActivity extends Activity implements SensorEventListener {
 		
 		// Disable ACCELEROMETER
 	    Util.disableAcclerometer(this);
+	    
+	    Util.setCurrentForegroundActivity(null);
 	}
 	
 	@Override

@@ -38,6 +38,14 @@ public class MapLocatorActivity extends Activity {
 
 		Util.getIpsMessageHandler().setActivity(this);
 		Util.getIpsMessageHandler().startTransportServiceThread();
+		
+		Util.setCurrentForegroundActivity(this);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Util.setCurrentForegroundActivity(null);
 	}
 	
 	/** Called when the activity is first created. */

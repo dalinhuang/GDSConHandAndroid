@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.ericsson.cgc.aurora.wifiindoor.R;
+import com.ericsson.cgc.aurora.wifiindoor.util.Util;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.zxing.camera.CameraManager;
@@ -90,6 +91,8 @@ public class QrScannerActivity extends Activity implements Callback {
 				QrScannerActivity.this.finish();
 			}
 		});
+		
+		Util.setCurrentForegroundActivity(this);
 	}
 
 	@Override
@@ -100,6 +103,8 @@ public class QrScannerActivity extends Activity implements Callback {
 			handler = null;
 		}
 		CameraManager.get().closeDriver();
+		
+		Util.setCurrentForegroundActivity(null);
 	}
 
 	@Override

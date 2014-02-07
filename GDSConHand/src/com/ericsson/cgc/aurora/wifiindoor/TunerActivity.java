@@ -65,12 +65,14 @@ public class TunerActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		Util.setEnergySave(false);
+		Util.setCurrentForegroundActivity(this);
 	}
 	
 	@Override
 	protected void onPause() {
 		super.onPause();
 		Util.setEnergySave(true);
+		Util.setCurrentForegroundActivity(null);
 	}
 	
     /** Called when the activity is first created. */

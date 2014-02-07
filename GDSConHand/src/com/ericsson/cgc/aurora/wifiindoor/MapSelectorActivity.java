@@ -143,6 +143,8 @@ public class MapSelectorActivity extends TabActivity{
 			Util.getIpsMessageHandler().startTransportServiceThread();
 		}
 		
+		Util.setCurrentForegroundActivity(this);
+		
 		System.gc();
 	}
 	
@@ -150,6 +152,8 @@ public class MapSelectorActivity extends TabActivity{
 	protected void onPause() {
 		super.onPause();
 		Util.setEnergySave(true);
+		
+		Util.setCurrentForegroundActivity(null);
 	}
 
 	/** Called when the activity is first created. */

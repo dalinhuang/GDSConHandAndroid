@@ -32,6 +32,7 @@ import com.google.gson.Gson;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -95,6 +96,8 @@ public class Util {
 	private static ProgressDialog pBar;
 	private static Handler handler = new Handler();
 	
+	private static Activity currentForegroundActivity = null;
+	
 	public static void initial(Activity activity){		
 		if (initialed) {
 			return;
@@ -111,6 +114,8 @@ public class Util {
 		setNetworkConfigShowing(false);
 		setHttpConnectionEstablished(false);
 		setServerReachable(false);
+		
+		setCurrentForegroundActivity(activity);
 		
 		if (wifiInfoManager == null){
 			setWifiInfoManager(new WifiInfoManager(activity.getApplicationContext()));
@@ -412,12 +417,21 @@ public class Util {
 		Util.apkVersionReply = apkVersionReply;
 	}
 	
-	public static void configWifiNetwork(final Activity activity) {	
+	@SuppressLint("NewApi")
+	public static void configWifiNetwork() {
 		if (isNetworkConfigShowing()) {
 			return;
 		}
 		
-		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+		if ((currentForegroundActivity == null) || (currentForegroundActivity.isFinishing())) {
+			return;
+		}
+		
+		if ((android.os.Build.VERSION.SDK_INT >= 17) && (currentForegroundActivity.isDestroyed())) {
+			return;
+		}
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(currentForegroundActivity);
 		setNetworkConfigPending(true);
 		
 		builder.setIcon(R.drawable.ic_launcher);
@@ -438,7 +452,7 @@ public class Util {
 					intent.setComponent(component);
 					intent.setAction("android.intent.action.VIEW");
 				}
-				activity.startActivity(intent);
+				currentForegroundActivity.startActivity(intent);
 				setNetworkConfigPending(false);
 				setNetworkConfigShowing(false);
 			}
@@ -450,7 +464,7 @@ public class Util {
 				setNetworkConfigPending(false);
 				setNetworkConfigShowing(false);
 				if (Util.isApkUpdatePending()) {
-					Util.doNewVersionUpdate(activity);
+					Util.doNewVersionUpdate(currentForegroundActivity);
 				}
 			}
 		});
@@ -460,12 +474,21 @@ public class Util {
 		setNetworkConfigShowing(true);
 	}
 	
-	public static void configWirelessNetwork(final Activity activity) {
+	@SuppressLint("NewApi")
+	public static void configWirelessNetwork() {
 		if (isNetworkConfigShowing()) {
 			return;
 		}
 		
-		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+		if ((currentForegroundActivity == null) || (currentForegroundActivity.isFinishing())) {
+			return;
+		}
+		
+		if ((android.os.Build.VERSION.SDK_INT >= 17) && (currentForegroundActivity.isDestroyed())) {
+			return;
+		}
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(currentForegroundActivity);
 		
 		builder.setIcon(R.drawable.ic_launcher);
 		builder.setTitle(R.string.config_network);
@@ -485,7 +508,7 @@ public class Util {
 					intent.setComponent(component);
 					intent.setAction("android.intent.action.VIEW");
 				}
-				activity.startActivity(intent);
+				currentForegroundActivity.startActivity(intent);
 				setNetworkConfigPending(false);
 				setNetworkConfigShowing(false);
 			}
@@ -499,7 +522,7 @@ public class Util {
 				if (isApkUpdatePending()) {
 					// This will never be true and also we can not do update without network connection
 					// but I just leave it here
-					Util.doNewVersionUpdate(activity);
+					Util.doNewVersionUpdate(currentForegroundActivity);
 				}
 			}
 		});
@@ -885,10 +908,10 @@ public class Util {
         // Configure network
         if (getNetworkInfoManager() != null) {
         	if (getNetworkInfoManager().is2G3GConnected()) {
-        		configWifiNetwork(activity);      		
+        		configWifiNetwork();      		
         	} else {
         		if (!getNetworkInfoManager().isConnected()) {
-        			configWirelessNetwork(activity);
+        			configWirelessNetwork();
         		}
         	}
         }
@@ -1092,6 +1115,15 @@ public class Util {
 	    	AutoGuideTTS.stop();
 	    	AutoGuideTTS.shutdown();
 	    }	    
+	}
+
+	public static Activity getCurrentForegroundActivity() {
+		return currentForegroundActivity;
+	}
+
+	public static void setCurrentForegroundActivity(
+			Activity currentForegroundActivity) {
+		Util.currentForegroundActivity = currentForegroundActivity;
 	}
 
 }
