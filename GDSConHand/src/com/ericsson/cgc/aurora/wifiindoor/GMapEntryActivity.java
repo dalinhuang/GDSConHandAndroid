@@ -68,7 +68,6 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 	
 	@Override
     protected void onPause(){
-		super.onPause();
 		locationManager.removeUpdates(myLocationListener);
 		
 		// Disable NFC Foreground Dispatch
@@ -78,6 +77,8 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 		Util.disableAcclerometer(this);
 				
 		Util.setEnergySave(true);
+		
+		super.onPause();
 	}
 	
 	@Override
@@ -96,9 +97,7 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 	}
 	
 	@Override
-	protected void onStop(){
-	    super.onStop();
-	  
+	protected void onStop(){    
 	    // Disable NFC Foreground Dispatch
 	    Util.disableNfc(this);
 			
@@ -107,6 +106,8 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 	    
 	    Util.setEnergySave(true);
 	    Util.cancelToast();
+	    
+	    super.onStop();
 	}
 	
 	@Override
@@ -122,7 +123,7 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 			Util.doNewVersionUpdate(this);
 		}
 		
-		locationManager.requestLocationUpdates(bestProvider, 3000l, 1f, myLocationListener);
+		locationManager.requestLocationUpdates(bestProvider, 10000l, 30f, myLocationListener); // 10s, 30m
 		
 		// Enable NFC Foreground Dispatch
 		Util.enableNfc(this);

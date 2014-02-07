@@ -38,10 +38,10 @@ public class Library {
 		}
 	}
 	
-
-	public static final BackGroundUnit BACKGROUND = new BackGroundUnit();
-	public static final BackGroundUnit2 BACKGROUND2 = new BackGroundUnit2();
-	public static final MapPictureUnit MAP_PICTURE = new MapPictureUnit();
+	//public static final BackGroundUnit BACKGROUND = new BackGroundUnit();
+	//public static final BackGroundUnit2 BACKGROUND2 = new BackGroundUnit2();
+	public static final BackGroundUnit3 BACKGROUND3 = new BackGroundUnit3();
+	//public static final MapPictureUnit MAP_PICTURE = new MapPictureUnit();
 	public static final AdvertiseUnit ADVERTISE = new AdvertiseUnit();
 	
 	/**

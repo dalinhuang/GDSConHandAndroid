@@ -73,15 +73,14 @@ public class MapSelectorActivity extends TabActivity{
             		break;
             	default:
             }
-            
-            
+                    
             map.put("ItemTitle", map_manager_item.getTitle());   
             map.put("ItemText", 
             		getResources().getString(R.string.map_size) + map_manager_item.getRows() + " * " + map_manager_item.getColumns() 
             		+ "    " + getResources().getString(R.string.version) + map_manager_item.getVersion());   
             listItem.add(map);   
-        }   
-
+        }  
+        
         //Generate Adaptor's Item
         SimpleAdapter listItemAdapter = new SimpleAdapter(
         	this, listItem, R.layout.map_list_items,       
@@ -106,7 +105,8 @@ public class MapSelectorActivity extends TabActivity{
 	    				intent_map_locator.putExtras(mBundle); 
 	            		startActivity(intent_map_locator);
 	            		
-	            		//finish();
+	            		// Finish this Activity
+	            		finish();
 	            		
 	            		break;
 	            	case IndoorMapData.MAP_FILE_OUTDATED:

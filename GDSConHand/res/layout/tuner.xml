@@ -622,6 +622,12 @@
 	           android:layout_height="wrap_content"
 	           android:text="GOOGLE_MAP_EMBEDDED" />
 		
+	    <CheckBox
+	           android:id="@+id/BACKGROUND_LINES_NEEDED"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="BACKGROUND_LINES_NEEDED" />
+	    
 		<TextView
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"

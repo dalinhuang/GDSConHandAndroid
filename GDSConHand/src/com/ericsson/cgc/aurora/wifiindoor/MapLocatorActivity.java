@@ -222,7 +222,9 @@ public class MapLocatorActivity extends Activity {
 			//load_map_rc = designMap.fromXML(IndoorMapData.map_file_path + map_file_name);
 			
 		} catch (Exception e) {
-			downloadMap(mapId);
+			if (!downloadMap(mapId)) {
+				finish();
+			}
 			withLocation = false;
 			return;
 		}
@@ -268,14 +270,16 @@ public class MapLocatorActivity extends Activity {
 			withLocation = true;
 			x = colNo;
 			y = rowNo;
-			downloadMap(mapId);
+			if (!downloadMap(mapId)) {
+				finish();
+			}
 			return;
 		}
 		
 		startNewIntent(indoorMap, colNo, rowNo);
 	}
 
-	private void downloadMap(int mapId) {
+	private boolean downloadMap(int mapId) {
 		VersionOrMapIdRequest id = new VersionOrMapIdRequest();
 		id.setCode(mapId);
 		
@@ -290,7 +294,7 @@ public class MapLocatorActivity extends Activity {
 			JSONObject data = new JSONObject(json);
 
 			if (Util.sendToServer(this, MsgConstants.MT_MAP_QUERY, data)) {
-				
+				return true;
 			} else {
 				// All errors should be handled in the sendToServer
 				// method
@@ -300,6 +304,8 @@ public class MapLocatorActivity extends Activity {
 			Util.showToast(this, "GET MAP ERROR: " + ex.getMessage(), Toast.LENGTH_LONG);
 			ex.printStackTrace();
 		}
+		
+		return false;
 	}
 	
 	public void handleMapReply(IndoorMapReply indoorMapReply) {
@@ -316,15 +322,6 @@ public class MapLocatorActivity extends Activity {
 		
 		indoorMap.toXML();
 		
-		while (Util.isDownloadOngoing()) {
-			//wait
-		}
-		// download Map Picture
-		Util.downloadMapPicture(this, ""+indoorMap.getId(), indoorMap.getPictureName());
-		while (Util.isDownloadOngoing()) {
-			//wait
-		}
-		
 		// go to Map Viewer
 		if (mapDownloadOngoing && withLocation) {
 			startNewIntent(indoorMap, x, y);
@@ -333,6 +330,5 @@ public class MapLocatorActivity extends Activity {
 				startNewIntent(indoorMap);
 			}
 		}
-	}
-	
+	}	
 }

@@ -351,6 +351,18 @@ public class Tuner {
 		} else {
 			properties.setProperty(key, String.valueOf(VisualParameters.GOOGLE_MAP_EMBEDDED));
 		}
+		
+		key = "BACKGROUND_LINES_NEEDED";
+		value = properties.getProperty(key);
+		if (value != null) {
+			if (value.trim().equalsIgnoreCase("true")){
+				VisualParameters.BACKGROUND_LINES_NEEDED = true;
+			} else {
+				VisualParameters.BACKGROUND_LINES_NEEDED = false;
+			}
+		} else {
+			properties.setProperty(key, String.valueOf(VisualParameters.BACKGROUND_LINES_NEEDED));
+		}
 	}
 
 	//Load Configuration from file

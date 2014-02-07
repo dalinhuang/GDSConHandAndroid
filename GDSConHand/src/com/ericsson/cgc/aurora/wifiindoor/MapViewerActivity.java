@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Set;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -84,6 +85,8 @@ import com.ericsson.cgc.aurora.wifiindoor.drawing.SoundIndoorMapListener;
 import com.ericsson.cgc.aurora.wifiindoor.drawing.ZoomControl;
 import com.ericsson.cgc.aurora.wifiindoor.drawing.graphic.model.AnimatedUnit;
 import com.ericsson.cgc.aurora.wifiindoor.drawing.graphic.model.Library;
+import com.ericsson.cgc.aurora.wifiindoor.drawing.graphic.model.MapPieceSprite;
+import com.ericsson.cgc.aurora.wifiindoor.drawing.graphic.model.MapPieceUnit;
 import com.ericsson.cgc.aurora.wifiindoor.drawing.graphic.model.SpriteListener;
 import com.ericsson.cgc.aurora.wifiindoor.map.FieldInfo;
 import com.ericsson.cgc.aurora.wifiindoor.map.IndoorMap;
@@ -94,7 +97,7 @@ import com.ericsson.cgc.aurora.wifiindoor.map.MapInfo;
 import com.ericsson.cgc.aurora.wifiindoor.map.NaviInfo;
 import com.ericsson.cgc.aurora.wifiindoor.map.NaviNode;
 import com.ericsson.cgc.aurora.wifiindoor.runtime.Cell;
-import com.ericsson.cgc.aurora.wifiindoor.runtime.RuntimeIndoorMap;
+import com.ericsson.cgc.aurora.wifiindoor.runtime.MapResource;
 import com.ericsson.cgc.aurora.wifiindoor.types.CollectInfo;
 import com.ericsson.cgc.aurora.wifiindoor.types.InfoQueryRequest;
 import com.ericsson.cgc.aurora.wifiindoor.types.Location;
@@ -110,6 +113,7 @@ import com.ericsson.cgc.aurora.wifiindoor.util.AdData;
 import com.ericsson.cgc.aurora.wifiindoor.util.AdUtil;
 import com.ericsson.cgc.aurora.wifiindoor.util.Constants;
 import com.ericsson.cgc.aurora.wifiindoor.util.IndoorMapData;
+import com.ericsson.cgc.aurora.wifiindoor.util.MathUtil;
 import com.ericsson.cgc.aurora.wifiindoor.util.Util;
 import com.ericsson.cgc.aurora.wifiindoor.util.VisualParameters;
 import com.ericsson.cgc.aurora.wifiindoor.util.WifiIpsSettings;
@@ -134,7 +138,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	private Scene mainScene;
 	private MenuScene mMenuScene;
 	private Sprite backgroundSprite;
-	private Sprite mapPicSprite;
+	//private Sprite mapPicSprite;
 	private ZoomControl zoomControl;
 	private ModeControl modeControl;
 	private int mMode;
@@ -147,13 +151,12 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	private ScreenAdvertisement mAdvertisement;
 	private Sprite mapADSprite;
 	//private TabHost mTabHost;
+	private BroadcastReceiver batteryReceiver;
 
 	private Bundle bundle;
 
 	private GraphicIndoorMapListener graphicListener;
-
 	private IndoorMapLoader indoorMapLoader;
-	private RuntimeIndoorMap runtimeIndoorMap;
 
 	private int currentCollectingX = -1;
 	private int currentCollectingY = -1;
@@ -204,7 +207,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	private float density = 1.5f;
 
-private AdvertisePeriodThread advertisePeriodThread;
+	private AdvertisePeriodThread advertisePeriodThread;
 
 	@SuppressLint("ShowToast")
 	private void initData() {
@@ -212,7 +215,9 @@ private AdvertisePeriodThread advertisePeriodThread;
 			Log.e(TAG, "Start initialData");
 
 		backgroundSprite = null;
-		mapPicSprite = null;		
+		//mapPicSprite = null;	
+		
+		batteryReceiver = null;
 
 		currentCollectingX = -1;
 		currentCollectingY = -1;
@@ -245,6 +250,14 @@ private AdvertisePeriodThread advertisePeriodThread;
 	}
 
 	private void exitApp() {
+		
+		this.gestureDetector = null;
+		this.graphicListener = null;
+		this.zoomControl = null;
+		this.zoomGestureDector = null;
+		//this.mapPicSprite = null;
+		this.backgroundSprite = null;
+
 		finish();
 	}
 
@@ -388,7 +401,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 		if (IndoorMapData.PERIODIC_WIFI_CAPTURE_ON_FOR_COLLECTER) {
 			if (Util.getWifiInfoManager().hasEnoughSavedSamples()) {			
 				CollectInfo collect = new CollectInfo();
-				Location location = new Location(runtimeIndoorMap.getMapId(), mTargetColNo, mTargetRowNo, runtimeIndoorMap.getVersionCode());
+				Location location = new Location(Util.getRuntimeIndoorMap().getMapId(), mTargetColNo, mTargetRowNo, Util.getRuntimeIndoorMap().getVersionCode());
 				collect.setLocation(location);
 	
 				WifiFingerPrint fingnerPrint = Util.getWifiInfoManager().mergeSamples();
@@ -460,7 +473,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 		new Thread() {
 			public void run() {
 				CollectInfo collect = new CollectInfo();
-				Location location = new Location(runtimeIndoorMap.getMapId(), currentCollectingX, currentCollectingY, runtimeIndoorMap.getVersionCode());
+				Location location = new Location(Util.getRuntimeIndoorMap().getMapId(), currentCollectingX, currentCollectingY, Util.getRuntimeIndoorMap().getVersionCode());
 				collect.setLocation(location);
 
 				WifiFingerPrint fingnerPrint = new WifiFingerPrint(IndoorMapData.REQUEST_COLLECT);
@@ -518,8 +531,8 @@ private AdvertisePeriodThread advertisePeriodThread;
 		//infoQueryToast.show();
 		Intent intent_pusher = new Intent(MapViewerActivity.this, InfoPusherActivity.class); 
 		Bundle mBundle = new Bundle(); 
-		String info1 = runtimeIndoorMap.informationsToString();
-		String info2 = runtimeIndoorMap.informationsToStringForLocations();
+		String info1 = Util.getRuntimeIndoorMap().informationsToString();
+		String info2 = Util.getRuntimeIndoorMap().informationsToStringForLocations();
 		
 		mBundle.putString(IndoorMapData.BUNDLE_KEY_MAP_INFO, info1);
 		mBundle.putString(IndoorMapData.BUNDLE_KEY_LOCATION_INFO, info2);
@@ -544,7 +557,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 			int row = loc.getY();
 
 			// Not for this map
-			if (loc.getMapId() != runtimeIndoorMap.getMapId()) {
+			if (loc.getMapId() != Util.getRuntimeIndoorMap().getMapId()) {
 				continue;
 			}
 
@@ -555,23 +568,23 @@ private AdvertisePeriodThread advertisePeriodThread;
 
 			if ((col == -1) || (row == -1)) {
 				// For map overall
-				if (runtimeIndoorMap.isSameInfo(messages)) {
+				if (Util.getRuntimeIndoorMap().isSameInfo(messages)) {
 					continue;
 				} else {
-					text += runtimeIndoorMap.informationsToString(messages);
-					runtimeIndoorMap.setInfo(messages);
+					text += Util.getRuntimeIndoorMap().informationsToString(messages);
+					Util.getRuntimeIndoorMap().setInfo(messages);
 				}
 			} else {
 				// For cell
 
 				// Out of bound
-				if ((col > runtimeIndoorMap.getColNum())
-						|| (row > runtimeIndoorMap.getRowNum()) || (col < 0)
+				if ((col > Util.getRuntimeIndoorMap().getColNum())
+						|| (row > Util.getRuntimeIndoorMap().getRowNum()) || (col < 0)
 						|| (row < 0)) {
 					continue;
 				}
 
-				Cell cell = runtimeIndoorMap.getCellAt(row, col);
+				Cell cell = Util.getRuntimeIndoorMap().getCellAt(row, col);
 
 				if (cell.isSameInfo(messages)) {
 					continue;
@@ -594,8 +607,8 @@ private AdvertisePeriodThread advertisePeriodThread;
 		InfoQueryRequest infoQueryReq = new InfoQueryRequest();
 		ArrayList<Location> locations = new ArrayList<Location>();
 
-		if (runtimeIndoorMap.isRefreshInfoNeeded()) {
-			locations.add(new Location(runtimeIndoorMap.getMapId(), -1, -1, runtimeIndoorMap.getVersionCode()));
+		if (Util.getRuntimeIndoorMap().isRefreshInfoNeeded()) {
+			locations.add(new Location(Util.getRuntimeIndoorMap().getMapId(), -1, -1, Util.getRuntimeIndoorMap().getVersionCode()));
 		}
 
 		if ((colNo != -1) && (rowNo != -1)) {
@@ -604,13 +617,13 @@ private AdvertisePeriodThread advertisePeriodThread;
 			int fromCol = Math.max(0, colNo - areaSize);
 			int fromRow = Math.max(0, rowNo - areaSize);
 			int toCol = Math.min(colNo + areaSize,
-					runtimeIndoorMap.getColNum() - 1);
+					Util.getRuntimeIndoorMap().getColNum() - 1);
 			int toRow = Math.min(rowNo + areaSize,
-					runtimeIndoorMap.getRowNum() - 1);
+					Util.getRuntimeIndoorMap().getRowNum() - 1);
 
 			for (int col = fromCol; col <= toCol; col++) {
 				for (int row = fromRow; row <= toRow; row++) {
-					Cell cell = runtimeIndoorMap.getCellAt(row, col); // y, x:
+					Cell cell = Util.getRuntimeIndoorMap().getCellAt(row, col); // y, x:
 																		// Cells
 																		// has
 																		// the
@@ -621,8 +634,8 @@ private AdvertisePeriodThread advertisePeriodThread;
 																		// rowNo
 					if (cell != null) {
 						if (cell.isRefreshInfoNeeded()) {
-							locations.add(new Location(runtimeIndoorMap
-									.getMapId(), col, row, runtimeIndoorMap.getVersionCode()));
+							locations.add(new Location(Util.getRuntimeIndoorMap()
+									.getMapId(), col, row, Util.getRuntimeIndoorMap().getVersionCode()));
 						}
 					}
 				}
@@ -681,7 +694,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 	private void editNfcQrTagInMap(String tagId) {
 		// send Nfc/Qr Locate messsage to server
 		NfcLocation nfcLoc = new NfcLocation(tagId,
-				runtimeIndoorMap.getMapId(), mTargetColNo, mTargetRowNo, runtimeIndoorMap.getVersionCode());
+				Util.getRuntimeIndoorMap().getMapId(), mTargetColNo, mTargetRowNo, Util.getRuntimeIndoorMap().getVersionCode());
 
 		//Util.showShortToast(this, R.string.store_nfc_info_into_map);
 		updateHintText(R.string.store_nfc_info_into_map);
@@ -706,7 +719,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 	}
 	
 	private void deleteFingerprint() {
-		Location location = new Location(runtimeIndoorMap.getMapId(), mTargetColNo, mTargetRowNo, runtimeIndoorMap.getVersionCode());
+		Location location = new Location(Util.getRuntimeIndoorMap().getMapId(), mTargetColNo, mTargetRowNo, Util.getRuntimeIndoorMap().getVersionCode());
 		
 		try {
 			Gson gson = new Gson();
@@ -747,7 +760,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 			if (Util.getWifiInfoManager().hasEnoughSavedSamples()) {
 				try {
 					TestLocateCollectRequest testPosition = new TestLocateCollectRequest();
-					testPosition.setLocation(new Location(runtimeIndoorMap.getMapId(), mTargetColNo, mTargetRowNo, runtimeIndoorMap.getVersionCode()));
+					testPosition.setLocation(new Location(Util.getRuntimeIndoorMap().getMapId(), mTargetColNo, mTargetRowNo, Util.getRuntimeIndoorMap().getVersionCode()));
 					WifiFingerPrint fingnerPrint = Util.getWifiInfoManager().mergeSamples();
 					fingnerPrint.log();
 					
@@ -808,7 +821,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 			public void run() {
 				try {
 					TestLocateCollectRequest testPosition = new TestLocateCollectRequest();
-					testPosition.setLocation(new Location(runtimeIndoorMap.getMapId(), currentCollectingX, currentCollectingY, runtimeIndoorMap.getVersionCode()));
+					testPosition.setLocation(new Location(Util.getRuntimeIndoorMap().getMapId(), currentCollectingX, currentCollectingY, Util.getRuntimeIndoorMap().getVersionCode()));
 					WifiFingerPrint fingnerPrint = new WifiFingerPrint(IndoorMapData.REQUEST_LOCATE);
 					fingnerPrint.log();
 					testPosition.setFignerPrint(fingnerPrint);
@@ -877,7 +890,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 		if (IndoorMapData.PERIODIC_WIFI_CAPTURE_ON_FOR_COLLECTER) {
 			if (Util.getWifiInfoManager().hasEnoughSavedSamples()) {
 				TestLocateCollectRequest testPosition = new TestLocateCollectRequest();
-				testPosition.setLocation(new Location(runtimeIndoorMap.getMapId(), mTargetColNo, mTargetRowNo, runtimeIndoorMap.getVersionCode()));
+				testPosition.setLocation(new Location(Util.getRuntimeIndoorMap().getMapId(), mTargetColNo, mTargetRowNo, Util.getRuntimeIndoorMap().getVersionCode()));
 				WifiFingerPrint fingnerPrint = Util.getWifiInfoManager().mergeSamples();
 				fingnerPrint.log();
 				testPosition.setFignerPrint(fingnerPrint);
@@ -943,7 +956,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 		new Thread() {
 			public void run() {
 				TestLocateCollectRequest testPosition = new TestLocateCollectRequest();
-				testPosition.setLocation(new Location(runtimeIndoorMap.getMapId(), currentCollectingX, currentCollectingY, runtimeIndoorMap.getVersionCode()));
+				testPosition.setLocation(new Location(Util.getRuntimeIndoorMap().getMapId(), currentCollectingX, currentCollectingY, Util.getRuntimeIndoorMap().getVersionCode()));
 				WifiFingerPrint fingnerPrint = new WifiFingerPrint(IndoorMapData.REQUEST_COLLECT);
 				fingnerPrint.log();
 				testPosition.setFignerPrint(fingnerPrint);
@@ -1151,7 +1164,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 					
 					mTargetColNo = -1;
 					mTargetRowNo = -1;
-					mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(runtimeIndoorMap.getTarget().getSprite());
+					mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(Util.getRuntimeIndoorMap().getTarget().getSprite());
 
 					modeControl.changeMode(sprite, mMode);
 				}
@@ -1247,8 +1260,8 @@ private AdvertisePeriodThread advertisePeriodThread;
 
 				Intent intent_pusher = new Intent(MapViewerActivity.this, InfoPusherActivity.class); 
 				Bundle mBundle = new Bundle(); 
-				String info1 = runtimeIndoorMap.informationsToString();
-				String info2 = runtimeIndoorMap.informationsToStringForLocations();
+				String info1 = Util.getRuntimeIndoorMap().informationsToString();
+				String info2 = Util.getRuntimeIndoorMap().informationsToStringForLocations();
 				
 				mBundle.putString(IndoorMapData.BUNDLE_KEY_MAP_INFO, info1);
 				mBundle.putString(IndoorMapData.BUNDLE_KEY_LOCATION_INFO, info2);
@@ -1265,7 +1278,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append(getResources().getString(R.string.map))
-		.append(runtimeIndoorMap.getMapName()).append(" - ").append(modeStr); 
+		.append(Util.getRuntimeIndoorMap().getMapName()).append(" - ").append(modeStr); 
 		
 		// There is a bug that the future text can not be longer than the start one and that's why I appends some spaces here
 		builder.append("                              ");
@@ -1488,12 +1501,12 @@ private AdvertisePeriodThread advertisePeriodThread;
 			return;
 		}
 
-		int colNo = (int) ((x - LEFT_SPACE) / runtimeIndoorMap.getCellPixel());
-		int rowNo = (int) ((y - TOP_SPACE) / runtimeIndoorMap.getCellPixel());
+		int colNo = (int) ((x - LEFT_SPACE) / Util.getRuntimeIndoorMap().getCellPixel());
+		int rowNo = (int) ((y - TOP_SPACE) / Util.getRuntimeIndoorMap().getCellPixel());
 
 		// Out of Upper Bound
-		if ((colNo >= runtimeIndoorMap.getColNum())
-				|| (rowNo >= runtimeIndoorMap.getRowNum())) {
+		if ((colNo >= Util.getRuntimeIndoorMap().getColNum())
+				|| (rowNo >= Util.getRuntimeIndoorMap().getRowNum())) {
 			//Util.showShortToast(this, R.string.out_of_map_bound);
 			updateHintText(R.string.out_of_map_bound);
 			return;
@@ -1516,7 +1529,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 		}
 		
 		// Put a flag on the chosen cell
-		graphicListener.locate(runtimeIndoorMap, colNo, rowNo, Constants.TARGET_USER, 0);
+		graphicListener.locate(Util.getRuntimeIndoorMap(), colNo, rowNo, Constants.TARGET_USER, 0);
 		updateHintText(getResources().getString(R.string.current_selected_location) + " @[" + colNo + "," + rowNo + "]");
 		
 		// Set for next Action
@@ -1603,25 +1616,25 @@ private AdvertisePeriodThread advertisePeriodThread;
 	}
 	
 	private void setCurrentLocation() {
-		updateLocation(runtimeIndoorMap.getMapId(), runtimeIndoorMap.getVersionCode(), mTargetColNo, mTargetRowNo);
+		updateLocation(Util.getRuntimeIndoorMap().getMapId(), Util.getRuntimeIndoorMap().getVersionCode(), mTargetColNo, mTargetRowNo);
 	}
 
 	private void setCameraCenterTo(int colNo, int rowNo) {
 		float x = colNo; 
 		float y = rowNo;
 					
-		if (colNo < runtimeIndoorMap.getColNum()) {
+		if (colNo < Util.getRuntimeIndoorMap().getColNum()) {
 			x += 0.5f;
 		}
 		
-		if (rowNo < runtimeIndoorMap.getRowNum()) {
+		if (rowNo < Util.getRuntimeIndoorMap().getRowNum()) {
 			y += 0.5f;
 		}
 		
-		float pCenterX = (x * runtimeIndoorMap.getCellPixel() + LEFT_SPACE);
-		float pCenterY = (y * runtimeIndoorMap.getCellPixel() + TOP_SPACE);
+		float pCenterX = (x * Util.getRuntimeIndoorMap().getCellPixel() + LEFT_SPACE);
+		float pCenterY = (y * Util.getRuntimeIndoorMap().getCellPixel() + TOP_SPACE);
 
-		mCamera.setCenter(pCenterX, pCenterY);
+		setCameraCenterAndReloadMapPieces(pCenterX, pCenterY);
 	}
 
 	@Override
@@ -1654,7 +1667,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 		
 		// Enable ACCELEROMETER
 		Util.disableAcclerometer(this);
-	
+		unregisterReceiver(batteryReceiver);
 	}
 
 	@Override
@@ -1689,22 +1702,26 @@ private AdvertisePeriodThread advertisePeriodThread;
 		Util.enableAcclerometer(this);
 		
 		// Listen on Battery
-		BroadcastReceiver batteryReceiver = new BroadcastReceiver() {
-
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				if (Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())) {
-		            if (mBatteryText != null) {
-		            	// 获取当前电量
-			            int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
-			            // 获取总电量
-			            int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 100);
-		            	mBatteryText.setText(level * 100 / scale + "%");  
-		            }
-		        }
-			}
-			
-		}; 
+		
+		if (batteryReceiver == null) {
+			batteryReceiver = new BroadcastReceiver() {
+	
+				@Override
+				public void onReceive(Context context, Intent intent) {
+					if (Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())) {
+			            if (mBatteryText != null) {
+			            	// 获取当前电量
+				            int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+				            // 获取总电量
+				            int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 100);
+			            	mBatteryText.setText(level * 100 / scale + "%");  
+			            }
+			        }
+				}
+				
+			};
+		}
+		
         IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(batteryReceiver, filter);
 	}
@@ -1764,14 +1781,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 			lastBackTime = System.currentTimeMillis();
 			Util.showShortToast(this, R.string.press_back_more);
 		} else {
-			finish();
-			
-			System.gc();
-			try {
-				finalize();
-			} catch (Throwable e) {
-				e.printStackTrace();
-			}
+			exitApp();
 		}
 	}
 
@@ -1797,10 +1807,10 @@ private AdvertisePeriodThread advertisePeriodThread;
 		}
 		
 		if (advertisePeriodThread == null){
-		advertisePeriodThread = new AdvertisePeriodThread();
-		advertisePeriodThread.isRunning = true;
-		advertisePeriodThread.isInit = false;
-		advertisePeriodThread.start();
+			advertisePeriodThread = new AdvertisePeriodThread();
+			advertisePeriodThread.isRunning = true;
+			advertisePeriodThread.isInit = false;
+			advertisePeriodThread.start();
 		}else {		
 			if (DEBUG)
 				Log.d(TAG, "PeriodicLocateMeThread already starts.");
@@ -1977,23 +1987,23 @@ private AdvertisePeriodThread advertisePeriodThread;
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
+		Log.i("MapViewer", "onCreateEngineOptions...");
+		
 		// This should be done before everything since we need some data set in
 		// this step to set the width, camera etc.
-
 		initData();
 
 		// Get MapID from the Map Chooser/Locator
 		bundle = getIntent().getExtras();
 		IndoorMap indoorMap = (IndoorMap) bundle.getSerializable(IndoorMapData.BUNDLE_KEY_MAP_INSTANCE);
 		indoorMapLoader = new IndoorMapLoader(this, indoorMap);
-		runtimeIndoorMap = indoorMapLoader.getRuntimeIndoorMap();
-		Util.setRuntimeIndoorMap(runtimeIndoorMap); // To avoid pass the map in parameter everywhere
+		Util.setRuntimeIndoorMap(indoorMapLoader.getRuntimeIndoorMap()); // To avoid pass the map in parameter everywhere
 		
 		// Initialize and Set Camera
 		initCamera();
 		
-		int mapWidth = runtimeIndoorMap.getColNum() * runtimeIndoorMap.getCellPixel();
-		int mapHeight = runtimeIndoorMap.getRowNum() * runtimeIndoorMap.getCellPixel();
+		int mapWidth = Util.getRuntimeIndoorMap().getColNum() * Util.getRuntimeIndoorMap().getCellPixel();
+		int mapHeight = Util.getRuntimeIndoorMap().getRowNum() * Util.getRuntimeIndoorMap().getCellPixel();
 
 		totalWidth = mapWidth + LEFT_SPACE + RIGHT_SPACE;
 		totalHeight = mapHeight + TOP_SPACE + BOTTOM_SPACE;
@@ -2007,41 +2017,27 @@ private AdvertisePeriodThread advertisePeriodThread;
 			totalHeight = cameraHeight;
 		}
 
-		// Cancel Align with the big size but use the real one
-		/*
-		float xMulti = 1f * totalWidth / cameraWidth;
-		float yMulti = 1f * totalHeight / cameraHeight;
-
-		// Align with the big one but not small one
-		if (xMulti > yMulti) {
-			totalHeight = (int) (cameraHeight * xMulti);
-		} else if (xMulti < yMulti) {
-			totalWidth = (int) (cameraWidth * yMulti);
-		}
-		*/
-
-		//Change to: Calculate the Zoom Out rate that the less scaled width or height can be displayed in the screen.
-		float min_zoom_factor = 1f * cameraWidth / totalWidth;
-		float height_min_zoom_factor = 1f * cameraHeight / totalHeight;
-		if (min_zoom_factor < height_min_zoom_factor) {
-			min_zoom_factor = height_min_zoom_factor;
-		}	
+		//Obsoleted: Change to: Calculate the Zoom Out rate that the less scaled width or height can be displayed in the screen.
+		//float min_zoom_factor = 1f * cameraWidth / totalWidth;
+		//float height_min_zoom_factor = 1f * cameraHeight / totalHeight;
+		//if (min_zoom_factor < height_min_zoom_factor) {
+		//	min_zoom_factor = height_min_zoom_factor;
+		//}	
+		//float max_zoom_factor = Math.max(min_zoom_factor * 2, 10.0f);
+		//float current_zoom_factor = Math.min(min_zoom_factor * 3, 5.0f);
 		
-		float max_zoom_factor = Math.max(min_zoom_factor * 2, 10.0f);
+		// Change to: do not allow zoomFactor too small, to avoid all or too much map pieces be displayed in the Screen and cause the OOM issue 
+		float min_zoom_factor = 1f;		
+		float max_zoom_factor = 10f;		
+		float current_zoom_factor = 3;
 		
 		// Original zoom factor
-		float current_zoom_factor = Math.min(min_zoom_factor * 3, 5.0f);
 		mCamera.setZoomFactor(current_zoom_factor);
-		
+		// Allowed zoom Factors
 		zoomControl = new ZoomControl(mCamera, max_zoom_factor, min_zoom_factor, density);
-		/*
-		// Calculate the Zoom In rate that the whole map can be displayed in the
-		// screen.
-		zoomControl = new ZoomControl(mCamera, 1, 1f * cameraWidth / totalWidth);
-		*/
-		
+
 		// Control the Map Mode
-		modeControl = new ModeControl(runtimeIndoorMap);
+		modeControl = new ModeControl(Util.getRuntimeIndoorMap());
 
 		mCamera.setBounds(0, 0, totalWidth, totalHeight);
 		mCamera.setBoundsEnabled(true);
@@ -2086,16 +2082,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 		cameraHeight = outMetrics.heightPixels;
 		
 		density = Math.min(cameraWidth, cameraHeight) / 480;
-		
-		// Left white but not black
-		/*cameraHeight -= VisualParameters.BOTTOM_SPACE_FOR_TABHOST_BAR;
-		
-		if (mOrientation == Configuration.ORIENTATION_PORTRAIT) {
-			cameraHeight -= VisualParameters.BOTTOM_SPACE_FOR_ADS_PORTRAIT;
-		} else if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-			cameraWidth -= VisualParameters.RIGHT_SPACE_FOR_ADS_LANDSCAPE;
-		}*/
-		
+
 		int CONTROL_BUTTON_NUMBER = Library.CONTROL_BUTTON_NUMBER;
 		int TAB_BUTTON_NUMBER = Library.TAB_BUTTON_NUMBER;
 		
@@ -2132,21 +2119,6 @@ private AdvertisePeriodThread advertisePeriodThread;
 		
 		BOTTOM_SPACE += TAB_BUTTON_HEIGHT;
 		RIGHT_SPACE += CONTROL_BUTTON_WIDTH;
-		
-		/* Not work
-		// Title Bar + Status Bar
-		int contentTop = getWindow().findViewById(Window.ID_ANDROID_CONTENT).getTop();	
-		
-		// Status Bar
-		Rect frame = new Rect();    
-        getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);    
-        int statusBarHeight = frame.top; 
-        
-        // Title Bar
-        int titleBarHeight = contentTop - statusBarHeight;
-        */
-
-		//Log.e("Camera", cameraWidth+","+cameraHeight);
 
 		mCamera = new ZoomCamera(0, 0, cameraWidth, cameraHeight);
 	}
@@ -2155,6 +2127,8 @@ private AdvertisePeriodThread advertisePeriodThread;
 	public void onCreateResources(
 			OnCreateResourcesCallback pOnCreateResourcesCallback)
 			throws Exception {
+		
+		Log.i("MapViewer", "onCreateResources...");
 
 		FontFactory.setAssetBasePath("font/");
 
@@ -2193,15 +2167,6 @@ private AdvertisePeriodThread advertisePeriodThread;
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
-		/* Load all the textures this map needs. */
-		// Background
-		backgroundSprite = Library.BACKGROUND.load(this, runtimeIndoorMap);
-		backgroundSprite.setPosition(LEFT_SPACE, TOP_SPACE);
-
-		// Background - Pic
-		mapPicSprite = Library.MAP_PICTURE.load(this, runtimeIndoorMap);
-		mapPicSprite.setPosition(LEFT_SPACE, TOP_SPACE);
-
 		SoundFactory.setAssetBasePath("mfx/");
 		/* Load all the sounds this map needs. */
 		try {
@@ -2209,7 +2174,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
-
+		
 		pOnCreateResourcesCallback.onCreateResourcesFinished();
 	}
 
@@ -2217,22 +2182,32 @@ private AdvertisePeriodThread advertisePeriodThread;
 	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback)
 			throws Exception {
 		// mEngine.registerUpdateHandler(new FPSLogger()); // FPS Logger
+		Log.i("MapViewer", "onCreateScene...");
 
 		// Main Scene
 		mainScene = new Scene();
 		for (int i = 0; i < Constants.LAYER_INDEX; i++) {
 			mainScene.attachChild(new Entity());
 		}
-
+		
 		Library.initial(mEngine.getTextureManager(), getAssets());
 		
+		// Draw the original in Map units, e.g. user
+		indoorMapLoader.initialMap();
+
 		// No background color needed as we have a fullscreen background sprite.
 		mainScene.setBackgroundEnabled(true);
 		mainScene.setBackground(new Background(255,255,255));
-		mainScene.getChildByIndex(Constants.LAYER_BACKGROUND).attachChild(backgroundSprite);
+		// Background lines
+		if (VisualParameters.BACKGROUND_LINES_NEEDED) {
+			backgroundSprite = Library.BACKGROUND3.load(this, cameraWidth, cameraHeight);
+			backgroundSprite.setPosition(LEFT_SPACE, TOP_SPACE);
+			mainScene.getChildByIndex(Constants.LAYER_BACKGROUND).attachChild(backgroundSprite);
+		}
 
-		mainScene.getChildByIndex(Constants.LAYER_MAP).attachChild(mapPicSprite);
-		mainScene.registerTouchArea(mapPicSprite);
+		// Create Map pieces on demands
+		//mainScene.getChildByIndex(Constants.LAYER_MAP).attachChild(mapPicSprite);
+		//mainScene.registerTouchArea(mapPicSprite);
 
 		mainScene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 
@@ -2246,9 +2221,6 @@ private AdvertisePeriodThread advertisePeriodThread;
 
 		// Menu
 		mMenuScene = createMenuScene();
-
-		// Draw the original in Map units, e.g. user
-		indoorMapLoader.initialMap();
 
 		// HUDs
 		hud = new HUD();
@@ -2267,14 +2239,14 @@ private AdvertisePeriodThread advertisePeriodThread;
 		graphicListener = new GraphicIndoorMapListener(this, mainScene, mMapText);
 		graphicListener.setOffsetX(LEFT_SPACE);
 		graphicListener.setOffsetY(TOP_SPACE);
-		runtimeIndoorMap.addListener(graphicListener);
-		runtimeIndoorMap.addListener(new SoundIndoorMapListener());
+		Util.getRuntimeIndoorMap().addListener(graphicListener);
+		Util.getRuntimeIndoorMap().addListener(new SoundIndoorMapListener());
 
 		// Initial in map listeners
-		runtimeIndoorMap.initial();
+		Util.getRuntimeIndoorMap().initial();
 
 		// Set User ID
-		runtimeIndoorMap.getUser().setId(Util.getWifiInfoManager().getMyMac());
+		Util.getRuntimeIndoorMap().getUser().setId(Util.getWifiInfoManager().getMyMac());
 
 		// The 1st action
 		int req = bundle.getInt(IndoorMapData.BUNDLE_KEY_REQ_FROM);
@@ -2285,7 +2257,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 			int colNo = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_COL);
 			int rowNo = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_ROW);
 
-			updateLocation(runtimeIndoorMap.getMapId(), runtimeIndoorMap.getVersionCode(), colNo, rowNo);
+			updateLocation(Util.getRuntimeIndoorMap().getMapId(), Util.getRuntimeIndoorMap().getVersionCode(), colNo, rowNo);
 
 			break;
 		case IndoorMapData.BUNDLE_VALUE_REQ_FROM_SELECTOR:
@@ -2310,7 +2282,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 		
 		if (VisualParameters.BANNERS_ENABLED) {
 			//here just need to display default advertise. 
-			mAdvertisement = new ScreenAdvertisement(this,runtimeIndoorMap);
+			mAdvertisement = new ScreenAdvertisement(this,Util.getRuntimeIndoorMap());
 			mAdvertisement.initAdvertiseData();
 			
 			try {
@@ -2392,7 +2364,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 
 		updateLocation(banlanceLocation);
 		
-		if (banlanceLocation.getMapId() == runtimeIndoorMap.getMapId()) {
+		if (banlanceLocation.getMapId() == Util.getRuntimeIndoorMap().getMapId()) {
 			updateTrack(locationSet.getLocations());
 		}
 	
@@ -2422,15 +2394,15 @@ private AdvertisePeriodThread advertisePeriodThread;
 				continue;
 			}
 
-			if ( (mapId == runtimeIndoorMap.getMapId()) && (version == runtimeIndoorMap.getVersionCode()) ) {
+			if ( (mapId == Util.getRuntimeIndoorMap().getMapId()) && (version == Util.getRuntimeIndoorMap().getVersionCode()) ) {
 				// Inner same Map with same Version
 				
 				// Out of bound
-				if ((rowNo >= runtimeIndoorMap.getRowNum()) || (colNo >= runtimeIndoorMap.getColNum())) {
+				if ((rowNo >= Util.getRuntimeIndoorMap().getRowNum()) || (colNo >= Util.getRuntimeIndoorMap().getColNum())) {
 					continue;
 				}
 				
-				graphicListener.locate(runtimeIndoorMap, colNo, rowNo, Constants.LAYER_USER, idx);
+				graphicListener.locate(Util.getRuntimeIndoorMap(), colNo, rowNo, Constants.LAYER_USER, idx);
 				idx++;
 			} else {
 				// ignore if mapId or version changed
@@ -2453,19 +2425,19 @@ private AdvertisePeriodThread advertisePeriodThread;
 			return false;
 		}
 
-		if ( (mapId == runtimeIndoorMap.getMapId()) && (mapVersion == runtimeIndoorMap.getVersionCode()) ) {
+		if ( (mapId == Util.getRuntimeIndoorMap().getMapId()) && (mapVersion == Util.getRuntimeIndoorMap().getVersionCode()) ) {
 			// Inner same Map with same version
 			//Util.showShortToast(this, R.string.located);
 			updateHintText(R.string.located);
 			
 			// Out of bound
-			if ((rowNo >= runtimeIndoorMap.getRowNum()) || (colNo >= runtimeIndoorMap.getColNum())) {
+			if ((rowNo >= Util.getRuntimeIndoorMap().getRowNum()) || (colNo >= Util.getRuntimeIndoorMap().getColNum())) {
 				//Util.showLongToast(this, R.string.map_out_of_date);
 				updateHintText(R.string.out_of_map_bound);
 				return false;
 			}
 
-			graphicListener.locate(runtimeIndoorMap, colNo, rowNo, Constants.LOCATION_USER, 0);
+			graphicListener.locate(Util.getRuntimeIndoorMap(), colNo, rowNo, Constants.LOCATION_USER, 0);
 
 			setCameraCenterTo(colNo, rowNo); // x,y
 			
@@ -2482,12 +2454,12 @@ private AdvertisePeriodThread advertisePeriodThread;
 				// Not Load new Map automatically when in EditMode or Periodic
 				// Location Update if not the same MapId
 				// If only version changes, load/upgrade new map in all scenarios
-				if (mapId != runtimeIndoorMap.getMapId()) {
+				if (mapId != Util.getRuntimeIndoorMap().getMapId()) {
 					updateHintText(R.string.location_not_in_this_map);
 	
 					// Not display the user
 					mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(
-							runtimeIndoorMap.getUser().getSprite());
+							Util.getRuntimeIndoorMap().getUser().getSprite());
 					
 					return true;
 				}
@@ -2524,9 +2496,9 @@ private AdvertisePeriodThread advertisePeriodThread;
 
 	public void updateLocation(Location location) {
 		// Not display the user		
-		mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(runtimeIndoorMap.getUser().getSprite());
-		for (int i=0; i<runtimeIndoorMap.getTracksNum();i++){
-			mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(runtimeIndoorMap.getTrack(i).getSprite());
+		mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(Util.getRuntimeIndoorMap().getUser().getSprite());
+		for (int i=0; i<Util.getRuntimeIndoorMap().getTracksNum();i++){
+			mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(Util.getRuntimeIndoorMap().getTrack(i).getSprite());
 		}
 		
 		updateLocation(location.getMapId(), location.getMapVersion(), location.getX(), location.getY());
@@ -2537,7 +2509,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 
 		updateLocation(banlanceLocation);
 		
-		if (banlanceLocation.getMapId() == runtimeIndoorMap.getMapId()) {
+		if (banlanceLocation.getMapId() == Util.getRuntimeIndoorMap().getMapId()) {
 			updateTrack(locationSet.getLocations());
 		}
         
@@ -2649,7 +2621,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 			}
 		};
 		
-		mapADSprite = Library.ADVERTISE.load(MapViewerActivity.this, runtimeIndoorMap, spriteListener, default_ad);
+		mapADSprite = Library.ADVERTISE.load(MapViewerActivity.this, Util.getRuntimeIndoorMap(), spriteListener, default_ad);
 		
 		float adWidth = mapADSprite.getWidth();
 		float adHeight = mapADSprite.getHeight();		
@@ -2678,14 +2650,15 @@ private AdvertisePeriodThread advertisePeriodThread;
 	}
 	
 	public void checkAndDownloadAd(AdGroup adGroup){ 
-		if (advertisePeriodThread.isInit == true)
-		{advertisePeriodThread.isInit = false;}
+		if (advertisePeriodThread.isInit == true){
+			advertisePeriodThread.isInit = false;
+		}
 		
 		mAdvertisement.setadGroup(adGroup);
 		mAdvertisement.checkAndDownloadAds();
-		if (advertisePeriodThread.isInit == false)
-		{advertisePeriodThread.isInit = true;}
-		
+		if (advertisePeriodThread.isInit == false){
+			advertisePeriodThread.isInit = true;
+		}		
 	}
 	
     class AdvertisePeriodThread extends Thread{
@@ -2694,27 +2667,25 @@ private AdvertisePeriodThread advertisePeriodThread;
         public boolean isInit = false;
         public void run() {
             while(isRunning){
-                try {
+               try {
                   if (isInit){	 
                     
-                    mAdvertisement.refreshAdvertise();
-                    hud.detachChild(mapADSprite);
-                    hud.unregisterTouchArea(mapADSprite);
-                    mapADSprite.dispose();
-                    mapADSprite = null;
-                   // mapADSprite.reset();
-                    Library.ADVERTISE.resetAdUnit();
-                    showAd(false);
-                    sleep(AdData.AD_PERIDOIC_SLEEP_TIME);
+                     mAdvertisement.refreshAdvertise();
+                     hud.detachChild(mapADSprite);
+                     hud.unregisterTouchArea(mapADSprite);
+                     mapADSprite.dispose();
+                     mapADSprite = null;
+                    // mapADSprite.reset();
+                     Library.ADVERTISE.resetAdUnit();
+                     showAd(false);
+                     sleep(AdData.AD_PERIDOIC_SLEEP_TIME);
 
-                  }
-                  
-                    
-           } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+                  }       
+	           } catch (InterruptedException e) {
+	                e.printStackTrace();
+	            }
+	        }
         }
-    }
     }
 
 
@@ -2727,7 +2698,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 		boolean updateNeeded = false;
 
 		try {
-			InputStream map_file_is = new FileInputStream(Util.getNaviInfoFilePathName(""+runtimeIndoorMap.getMapId()));
+			InputStream map_file_is = new FileInputStream(Util.getNaviInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
 			
 			naviInfo.fromXML(map_file_is);
 			// file has already been closed
@@ -2736,7 +2707,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 			// For Files in SD Card but not
 			//load_map_rc = designMap.fromXML(IndoorMapData.map_file_path + map_file_name);
 			
-			if (naviInfo.getVersionCode() != runtimeIndoorMap.getVersionCode()) {
+			if (naviInfo.getVersionCode() != Util.getRuntimeIndoorMap().getVersionCode()) {
 				updateNeeded = true;
 			}
 		} catch (Exception e) {
@@ -2744,7 +2715,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 		}
 		
 		if (updateNeeded) {
-			downloadNaviInfo(runtimeIndoorMap.getMapId());
+			downloadNaviInfo(Util.getRuntimeIndoorMap().getMapId());
 		}	
 	}
 	
@@ -2753,7 +2724,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 		boolean updateNeeded = false;
 
 		try {
-			InputStream map_file_is = new FileInputStream(Util.getMapInfoFilePathName(""+runtimeIndoorMap.getMapId()));
+			InputStream map_file_is = new FileInputStream(Util.getMapInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
 			
 			mapInfo.fromXML(map_file_is);
 			// file has already been closed
@@ -2762,7 +2733,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 			// For Files in SD Card but not
 			//load_map_rc = designMap.fromXML(IndoorMapData.map_file_path + map_file_name);
 			
-			if (mapInfo.getVersionCode() != runtimeIndoorMap.getVersionCode()) {
+			if (mapInfo.getVersionCode() != Util.getRuntimeIndoorMap().getVersionCode()) {
 				updateNeeded = true;
 			}
 		} catch (Exception e) {
@@ -2770,7 +2741,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 		}
 		
 		if (updateNeeded) {
-			downloadMapInfo(runtimeIndoorMap.getMapId());
+			downloadMapInfo(Util.getRuntimeIndoorMap().getMapId());
 			return;
 		}
 		
@@ -2870,8 +2841,8 @@ private AdvertisePeriodThread advertisePeriodThread;
 	}
 
 	private void addTextTag(FieldInfo fieldInfo) {
-		float pX = fieldInfo.getX() * runtimeIndoorMap.getCellPixel();
-		float pY = fieldInfo.getY() * runtimeIndoorMap.getCellPixel();
+		float pX = fieldInfo.getX() * Util.getRuntimeIndoorMap().getCellPixel();
+		float pY = fieldInfo.getY() * Util.getRuntimeIndoorMap().getCellPixel();
 		
 		/* Sometimes it cause problem: include: 字符串显示叠加, 闪屏
 		Text text = new TickerText(pX, pY, mFont, textStr, 
@@ -3125,7 +3096,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 		int delta = Integer.MAX_VALUE;
 		for (NaviNode node: naviInfo.getNodes()) {
 			if (node != null) {
-				if (node.getMapId() == runtimeIndoorMap.getMapId()) { // Same Map
+				if (node.getMapId() == Util.getRuntimeIndoorMap().getMapId()) { // Same Map
 					int delta2 = Math.abs(naviMyPlaceX - node.getX()) + Math.abs(naviMyPlaceY - node.getY());
 					
 					if (delta2 < delta) {
@@ -3148,7 +3119,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 		boolean updateNeeded = false;
 
 		try {
-			InputStream map_file_is = new FileInputStream(Util.getInterestPlacesInfoFilePathName(""+runtimeIndoorMap.getMapId()));
+			InputStream map_file_is = new FileInputStream(Util.getInterestPlacesInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
 			
 			interestPlacesInfo.fromXML(map_file_is);
 			// file has already been closed
@@ -3157,7 +3128,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 			// For Files in SD Card but not
 			//load_map_rc = designMap.fromXML(IndoorMapData.map_file_path + map_file_name);
 			
-			if (interestPlacesInfo.getVersionCode() != runtimeIndoorMap.getVersionCode()) {
+			if (interestPlacesInfo.getVersionCode() != Util.getRuntimeIndoorMap().getVersionCode()) {
 				updateNeeded = true;
 			}
 		} catch (Exception e) {
@@ -3165,7 +3136,7 @@ private AdvertisePeriodThread advertisePeriodThread;
 		}
 		
 		if (updateNeeded) {
-			downloadInterestPlaces(runtimeIndoorMap.getMapId());
+			downloadInterestPlaces(Util.getRuntimeIndoorMap().getMapId());
 			return;
 		}
 		
@@ -3244,10 +3215,10 @@ private AdvertisePeriodThread advertisePeriodThread;
 
 				return true;
 			}
-		}, runtimeIndoorMap.getCellPixel(), runtimeIndoorMap.getCellPixel());
+		}, Util.getRuntimeIndoorMap().getCellPixel(), Util.getRuntimeIndoorMap().getCellPixel());
 		
-		float pX = place.getX() * runtimeIndoorMap.getCellPixel();
-		float pY = place.getY() * runtimeIndoorMap.getCellPixel();
+		float pX = place.getX() * Util.getRuntimeIndoorMap().getCellPixel();
+		float pY = place.getY() * Util.getRuntimeIndoorMap().getCellPixel();
 		placeSprite.setPosition(pX, pY);
 		
 		mainScene.getChildByIndex(Constants.LAYER_USER).attachChild(placeSprite);
@@ -3288,6 +3259,138 @@ private AdvertisePeriodThread advertisePeriodThread;
 	public void onSensorChanged(SensorEvent event) {
 		if (Util.isShakeDetected(event)) {
 		        locateMe(false);
+		}
+	}
+
+	public void setCameraCenterAndReloadMapPieces(float pCenterX, float pCenterY) {
+		mCamera.setCenter(pCenterX, pCenterY);
+		
+		//float zoomFactor = mCamera.getZoomFactor();
+		float centerX = mCamera.getCenterX();  // re-calc for Center may not be the one passed in for the edge zones, already count in the zoomFactor
+		float centerY = mCamera.getCenterY();  // re-calc for Center may not be the one passed in for the edge zones, already count in the zoomFactor
+		float width = mCamera.getWidth();     // = cameraWidth / zoomFactor
+		float height = mCamera.getHeight();   // = cameraWidth / zoomFactor
+		
+		//Log.i("Screen Passed in", pCenterX + "," + pCenterY + "," + cameraWidth + "," + cameraHeight);
+		//Log.i("Screen Factors", centerX + "," + centerY + "," + width + "," + height + "," + zoomFactor);
+		
+		final float map_left = centerX - width / 2;
+		final float map_top = centerY - height / 2;
+		final float map_right = centerX + width / 2;
+		final float map_bottom = centerY + height / 2;
+		
+		// Background follow the screen
+		if (VisualParameters.BACKGROUND_LINES_NEEDED) {
+			int colNo = (int) (map_left - LEFT_SPACE) / Util.getCurrentCellPixel();
+			int rowNo = (int) (map_top - TOP_SPACE) / Util.getCurrentCellPixel();
+			float background_left = colNo * Util.getCurrentCellPixel() + LEFT_SPACE;
+		    float background_top = rowNo * Util.getCurrentCellPixel() + TOP_SPACE;
+		    //Log.i("Backgorund", colNo + "," + rowNo + "," + background_left + "," + background_top);
+			backgroundSprite.setPosition(background_left, background_top);
+		}
+		
+		Set<MapResource> resources = Util.getRuntimeIndoorMap().getResources().keySet();
+		
+		//Log.i("setCameraCenterAndReloadMapPieces", "Checking " + resources.size() + " map pieces");
+		//Log.i("Screen", map_left + "," + map_top + "," + map_right + "," + map_bottom);
+		
+		for (final MapResource resource : resources) {
+			if (resource == null) {
+				Log.e("ERROR", "Piece with key=null");
+				continue;
+			}
+			
+			final float left = resource.getLeft() + LEFT_SPACE;
+			final float top = resource.getTop() + TOP_SPACE;
+			final float pic_width = resource.getWidth();
+			final float pic_height = resource.getHeight();
+			final float right = left + pic_width;
+			final float bottom = top + pic_height;
+			final String name = resource.getName();
+			
+			//Log.i("MapPiece", left + "," + top + "," + right + "," + bottom + "," + name);
+			
+			if ((name == null) || (name.isEmpty())){
+				Log.e("ERROR", "Piece with name=" + name);
+			}
+			
+			// Create bitmaps and Attach Spites on demand
+			// 2 Rects has cross area
+			MapPieceSprite mapPieceSprite = Util.getRuntimeIndoorMap().getResources().get(resource);
+			if (MathUtil.hasCrossArea(map_left, map_top, map_right, map_bottom, left, top, right, bottom)) { // This peice should be displayed	
+				if (mapPieceSprite == null) { // Create bitmap and sprite on-demand	
+					mapPieceSprite = new MapPieceSprite();
+					mapPieceSprite.setState(MapPieceSprite.PREPAREING);
+					Util.getRuntimeIndoorMap().getResources().put(resource, mapPieceSprite); // Let the next round will not try to download/load this Sprite again
+					
+					new Thread() {
+						@Override
+						public void run() {
+							MapPieceSprite currentPieceSprite = Util.getRuntimeIndoorMap().getResources().get(resource);						
+							Sprite loadedMapPieceSprite = new MapPieceUnit().load(MapViewerActivity.this, name, pic_width, pic_height);
+							
+							if (loadedMapPieceSprite == null) {
+								Log.e("ERROR", "Fail to load piece, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+								Util.getRuntimeIndoorMap().getResources().put(resource, null);
+								return;
+							}
+							
+							Log.i("Screen", map_left + "," + map_top + "," + map_right + "," + map_bottom);
+							Log.i("MapPiece", "Load map piece, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+							loadedMapPieceSprite.setPosition(left, top);
+							
+							currentPieceSprite.setSprite(loadedMapPieceSprite);			
+							Util.getRuntimeIndoorMap().getResources().put(resource, currentPieceSprite);
+							currentPieceSprite.setState(MapPieceSprite.READY);						
+							
+							runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									MapPieceSprite currentPieceSprite = Util.getRuntimeIndoorMap().getResources().get(resource);
+									if ((currentPieceSprite != null) && (currentPieceSprite.getState() == MapPieceSprite.READY)) {
+										Sprite sprite = currentPieceSprite.getSprite();
+										if (sprite != null) {
+											if (!sprite.hasParent()) {  // For race-conditions, this sprite may be attached twice
+												Log.i("MapPiece", "Attach map piece, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+												mainScene.getChildByIndex(Constants.LAYER_MAP).attachChild(sprite);
+											} else {
+												Log.e("MapPiece", "Map piece has already been attahed, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+											}
+																						
+											mainScene.registerTouchArea(sprite);
+											currentPieceSprite.setState(MapPieceSprite.ATTACHED);	
+										}
+									} else {
+										Log.e("ERROR", "Fail to attach piece, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+									}
+								}								
+							});	
+						}
+					}.start();
+				}
+			} else {
+				if ( mapPieceSprite != null && mapPieceSprite.getState() == MapPieceSprite.ATTACHED) { // destroy un-needed bitmaps / sprite
+					Log.i("Screen", map_left + "," + map_top + "," + map_right + "," + map_bottom);
+					Log.i("MapPiece", "Destory map piece [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));				
+					
+					Sprite sprite = mapPieceSprite.getSprite();					
+					if (sprite != null) {
+						if (sprite.hasParent()) {
+							Log.i("MapPiece", "Detach map piece [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+							mainScene.getChildByIndex(Constants.LAYER_MAP).detachChild(sprite);
+							mainScene.unregisterTouchArea(sprite);
+							sprite.dispose();
+							Util.getRuntimeIndoorMap().getResources().put(resource, null);
+							mapPieceSprite = null;
+							sprite = null;
+						} else {
+							Log.e("ERROR", "Piece has already been detached, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+						}
+					} else {
+						Log.e("ERROR", "Fail to detach a null piece, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+					}
+				}
+			}
 		}
 	}
 }

@@ -56,7 +56,8 @@ public class TunerActivity extends Activity {
 	private CheckBox ADS_ENABLED;
 	private CheckBox BANNERS_ENABLED;
 	private CheckBox ENTRY_NEEDED;
-	private CheckBox GOOGLE_MAP_EMBEDDED;	
+	private CheckBox GOOGLE_MAP_EMBEDDED;
+	private CheckBox BACKGROUND_LINES_NEEDED;
 	
 	@Override
 	protected void onResume() {
@@ -142,6 +143,7 @@ public class TunerActivity extends Activity {
     	BANNERS_ENABLED = (CheckBox) findViewById(R.id.BANNERS_ENABLED);
     	ENTRY_NEEDED = (CheckBox) findViewById(R.id.ENTRY_NEEDED);
     	GOOGLE_MAP_EMBEDDED = (CheckBox) findViewById(R.id.GOOGLE_MAP_EMBEDDED);
+    	BACKGROUND_LINES_NEEDED = (CheckBox) findViewById(R.id.BACKGROUND_LINES_NEEDED);
     	
     	resetToSavedValues();
     }
@@ -290,6 +292,10 @@ public class TunerActivity extends Activity {
     	name = "GOOGLE_MAP_EMBEDDED";
     	value = String.valueOf(GOOGLE_MAP_EMBEDDED.isChecked());
     	Tuner.getProperties().setProperty(name, value);
+    	
+    	name = "BACKGROUND_LINES_NEEDED";
+    	value = String.valueOf(BACKGROUND_LINES_NEEDED.isChecked());
+    	Tuner.getProperties().setProperty(name, value);
  
     	Tuner.saveConfig();
 		Tuner.syncToConfig();
@@ -331,5 +337,6 @@ public class TunerActivity extends Activity {
     	BANNERS_ENABLED.setChecked(VisualParameters.BANNERS_ENABLED);
     	ENTRY_NEEDED.setChecked(VisualParameters.ENTRY_NEEDED);
     	GOOGLE_MAP_EMBEDDED.setChecked(VisualParameters.GOOGLE_MAP_EMBEDDED);
+    	BACKGROUND_LINES_NEEDED.setChecked(VisualParameters.BACKGROUND_LINES_NEEDED);
 	}
 }

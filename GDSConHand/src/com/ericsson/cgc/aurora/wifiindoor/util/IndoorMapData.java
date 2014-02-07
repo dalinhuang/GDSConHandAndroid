@@ -43,12 +43,20 @@ public final class IndoorMapData {
 	public static final int MAP_FILE_UPDATED = 1;
 	public static final int MAP_FILE_OUTDATED = 2;
 	
+	public static final int ATTR_NUMBER_PER_MAP_PIECE = 5; // left, top, right, bottom, name
+	public static final int MAP_PIECE_ATTR_LEFT = 0;
+	public static final int MAP_PIECE_ATTR_TOP = 1;
+	public static final int MAP_PIECE_ATTR_WIDTH = 2;
+	public static final int MAP_PIECE_ATTR_HEIGHT = 3;
+	public static final int MAP_PIECE_ATTR_NAME = 4;
 	
 	public static final String CONFIG_FILE_PATH = "";
 	public static final String APK_FILE_PATH_LOCAL = "apks/";
 	public static final String MAP_FILE_PATH_LOCAL = "maps/";
+	public static final String IMG_FILE_PATH_LOCAL = "img/";
 	public static final String APK_FILE_PATH_REMOTE = APK_FILE_PATH_LOCAL;
 	public static final String MAP_FILE_PATH_REMOTE = MAP_FILE_PATH_LOCAL;
+	public static final String IMG_FILE_PATH_REMOTE = IMG_FILE_PATH_LOCAL;
 		
 	public static final String CONFIG_FILE_NAME = "config.properties";	
 	public static final String MAP_XML_NAME = "map.xml";

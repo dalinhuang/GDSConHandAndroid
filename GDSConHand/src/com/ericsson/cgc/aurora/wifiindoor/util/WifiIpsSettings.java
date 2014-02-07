@@ -65,7 +65,7 @@ public class WifiIpsSettings {
 			Process p = new ProcessBuilder("sh").redirectErrorStream(true)
 					.start();
 			DataOutputStream os = new DataOutputStream(p.getOutputStream());
-			os.writeBytes("ping -c 4 -w 100 " + SERVER_DOMAIN_NAME + '\n');
+			os.writeBytes("ping -c 4 -w 30 " + SERVER_DOMAIN_NAME + '\n');
 			os.flush();
 
 			// Close the terminal
@@ -174,6 +174,53 @@ public class WifiIpsSettings {
 					+ SERVER_SUB_DOMAIN;
 		else
 			SERVER = SERVER_IP + ":" + SERVER_PORT + SERVER_SUB_DOMAIN;
+
+		return true;
+	}
+	
+	public static boolean isPingable() {
+		String ip;
+		if (SERVER_RUNNING_IN_LINUX)
+			ip = LINUX_SERVER_IP;
+		else
+			ip = SERVER_IP;
+		
+		try {
+			Process p = new ProcessBuilder("sh").redirectErrorStream(true)
+					.start();
+			DataOutputStream os = new DataOutputStream(p.getOutputStream());
+			os.writeBytes("ping -c 1 -w 30 " + ip + '\n');
+			os.flush();
+
+			// Close the terminal
+			os.writeBytes("exit\n");
+			os.flush();
+
+			// read ping replys
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					p.getInputStream()));
+			String line;
+
+			/*
+			 * ping -c 4 -w 30 10.178.255.124
+			 * PING 10.178.255.124 (10.178.255.124) 56(84) bytes of data.
+			 * 64 bytes from 10.178.255.124: icmp_req=1 ttl=64 time=0.039 ms
+			 * 64 bytes from 10.178.255.124: icmp_req=2 ttl=64 time=0.029 ms
+			 * 64 bytes from 10.178.255.124: icmp_req=3 ttl=64 time=0.028 ms
+			 * 64 bytes from 10.178.255.124: icmp_req=4 ttl=64 time=0.036 ms
+			 * 
+			 * --- 10.178.255.124 ping statistics ---
+			 * 4 packets transmitted, 4 received, 0% packet loss, time 3000ms
+			 * rtt min/avg/max/mdev = 0.028/0.033/0.039/0.004 ms
+			 */
+			while ((line = reader.readLine()) != null) {
+				if (line.contains("0 received")) {
+					return false;
+				}
+			}
+		} catch (IOException e) {
+			return false;
+		}	
 
 		return true;
 	}

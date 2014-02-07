@@ -60,13 +60,10 @@ public final class MapCameraViewGestureListener implements OnGestureListener {
 
 		if (isMovingCamera){
 			float ratio = getMoveRatio();
-			camera.setCenter(camera.getCenterX() + ratio * distanceX
-					* Util.getCurrentCellPixel(), camera.getCenterY() + ratio
-					* distanceY * Util.getCurrentCellPixel());
-
-			//Log.e("onScroll", "distance[" + distanceX + "," + distanceY + "]");
-			return true;
-		}else{
+			
+			activity.setCameraCenterAndReloadMapPieces(
+					camera.getCenterX() + ratio * distanceX * Util.getCurrentCellPixel(), 
+					camera.getCenterY() + ratio * distanceY * Util.getCurrentCellPixel());
 		}
 		
 		return true;

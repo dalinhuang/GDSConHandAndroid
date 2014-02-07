@@ -81,10 +81,10 @@ public class Util {
 	private static boolean networkConfigPending;
 	private static boolean networkConfigShowing;
 	private static boolean httpConnectionEstablished;
+	private static boolean serverReachable;
 	
 	private static boolean initialed = false;
 	private static boolean saveEnergy = true;
-	private static boolean downloadOngoing = false;
 	
 	private static RuntimeIndoorMap runtimeIndoorMap = null;
 	
@@ -95,13 +95,10 @@ public class Util {
 	private static ProgressDialog pBar;
 	private static Handler handler = new Handler();
 	
-	public static void initial(Activity activity){
-		
+	public static void initial(Activity activity){		
 		if (initialed) {
 			return;
 		}
-
-		initialed = true;
 		
 		// Change the configuration from configuration file
         Tuner.initial();
@@ -113,7 +110,8 @@ public class Util {
 		setNetworkConfigPending(false);
 		setNetworkConfigShowing(false);
 		setHttpConnectionEstablished(false);
-
+		setServerReachable(false);
+		
 		if (wifiInfoManager == null){
 			setWifiInfoManager(new WifiInfoManager(activity.getApplicationContext()));
 			if (wifiInfoManager.isWifiEnabled()) { // Try to open WIFI if it is not enabled			
@@ -176,10 +174,7 @@ public class Util {
         	AutoGuideTTS = new TextToSpeech(activity, null);
         }
 		
-		//Log.e("MODEL", deviceName);
-		//Log.e("MAC", wifiInfoManager.getMyMac());
-		//Log.e("AccountName", accountName);
-		//Log.e("ApkVersion", ""+apkVersionCode);
+		initialed = true;
 	}
 	
 	private static void keepScannning() {		
@@ -514,6 +509,10 @@ public class Util {
 		setNetworkConfigShowing(true);
 	}
 	
+	public static String fullUrl(String short_path, String file_name) {
+		return WifiIpsSettings.URL_PREFIX + WifiIpsSettings.SERVER + "/" + short_path + file_name;
+	}
+	
 	public static void doNewVersionUpdate(final Activity activity) {
 
 		if (apkVersionReply == null) {
@@ -544,12 +543,13 @@ public class Util {
                 public void onClick(DialogInterface dialog,  
                         int which) { 
                     downFile(activity, 
-                    		WifiIpsSettings.URL_PREFIX + WifiIpsSettings.SERVER + "/" + IndoorMapData.APK_FILE_PATH_REMOTE + apkVersionReply.getApkUrl(),
+                    		fullUrl(IndoorMapData.APK_FILE_PATH_REMOTE, apkVersionReply.getApkUrl()),
                     		IndoorMapData.APK_FILE_PATH_LOCAL,
                     		"WifiIPS_"+apkVersionReply.getVersionName()+".apk",
                     		true,             // Open after download
                     		"application/vnd.android.package-archive",
-                    		true);            // Use Thread
+                    		true,           // Use Handler
+                    		true); 			// Use Thread
                 }  
             });
 	    
@@ -590,8 +590,7 @@ public class Util {
 	
 	public static String getInterestPlacesInfoFilePathName(String mapId) {
 		return getFilePath(IndoorMapData.MAP_FILE_PATH_LOCAL) + mapId + "/" + IndoorMapData.INTEREST_PLACE_INFO_FILE_NAME;
-	}
-	
+	}	
 	
 	public static String getNaviInfoFilePathName(String mapId) {
 		return getFilePath(IndoorMapData.MAP_FILE_PATH_LOCAL) + mapId + "/" + IndoorMapData.NAVI_INFO_FILE_NAME;
@@ -601,28 +600,26 @@ public class Util {
 		return getFilePath(IndoorMapData.MAP_FILE_PATH_LOCAL) + mapId + "/" + pictureName;
 	}
 
-	private static boolean downFile(final Activity activity, final String url, final String localRelativePath, final String localFileName, final boolean openAfterDone, final String mimeType, final boolean useThread) {
-		if (downloadOngoing) {
-			Util.showLongToast(activity, R.string.another_download_ongoing);
-			return false;
+	private static boolean downFile(final Activity activity, final String url, final String localRelativePath, final String localFileName, 
+			final boolean openAfterDone, final String mimeType, 
+			final boolean useHandler, final boolean useThread) {
+		
+		if (useHandler) {
+			pBar = new ProgressDialog(activity);  
+	        
+			pBar.setTitle(R.string.download_ongoing);  
+	        pBar.setMessage(activity.getResources().getText(R.string.please_wait));  
+	        pBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);  
+	        pBar.setCanceledOnTouchOutside(false);
+			pBar.show(); 
 		}
 		
-		downloadOngoing = true;
-		
-		pBar = new ProgressDialog(activity);  
-        
-		pBar.setTitle(R.string.download_ongoing);  
-        pBar.setMessage(activity.getResources().getText(R.string.please_wait));  
-        pBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);  
-        pBar.setCanceledOnTouchOutside(false);
-		pBar.show(); 
-		
 		if (!useThread) {
-			return downloadFile(activity, url, localRelativePath, localFileName, openAfterDone, mimeType);
+			return downloadFile(activity, url, localRelativePath, localFileName, openAfterDone, mimeType, useHandler);
 		} else {
 			new Thread() {  
 		        public void run() {  
-		        	downloadFile(activity, url, localRelativePath, localFileName, openAfterDone, mimeType);
+		        	downloadFile(activity, url, localRelativePath, localFileName, openAfterDone, mimeType, useHandler);
 		        }  
 		    }.start(); 
 		}
@@ -632,7 +629,7 @@ public class Util {
 	
 	private static boolean downloadFile(Activity activity, String url,
 			String localRelativePath, String localFileName,
-			boolean openAfterDone, String mimeType) {
+			boolean openAfterDone, String mimeType, boolean useHandler) {
 		
 		HttpClient client = new DefaultHttpClient();  
         HttpGet get = new HttpGet(url);  
@@ -640,18 +637,26 @@ public class Util {
         
         try {  
             response = client.execute(get);  
+            
+            // In case the status code is not 200 OK
+            if (response.getStatusLine().getStatusCode() != 200) {
+            	Log.i("Download File", "Download file " + url + " failed with reason code: " + response.getStatusLine().getStatusCode());
+            	showLongToast(activity, R.string.download_file_failed);
+            	return false;
+            }
+            
             HttpEntity entity = response.getEntity();  
             long length = entity.getContentLength();  
             InputStream is = entity.getContent();  
             FileOutputStream fileOutputStream = null;
-            
+
             Log.i("Download File", url);
             
             if (is != null) {	                    
             	File file = openOrCreateFileInPath(localRelativePath, localFileName+"_download", true);
             	
             	if (file == null) {
-            		downloadOngoing = false;
+            		showLongToast(activity, R.string.download_file_failed);
             		return false;
             	}
             	
@@ -667,7 +672,7 @@ public class Util {
                     //Log.i("Write", ch+"");
                     update_count++;
                     if (update_count >= 512) {
-                    	updateProgress(count, length);
+                    	updateProgress(count, length, useHandler);
                     	update_count = 0;
                     	fileOutputStream.flush(); 
                     }
@@ -682,20 +687,22 @@ public class Util {
 	            file.renameTo(new File(getFilePath(localRelativePath), localFileName));
             } 
             
-            doneDownload(activity, getFilePath(localRelativePath), localFileName, openAfterDone, mimeType); 
-            downloadOngoing = false;
+            doneDownload(activity, getFilePath(localRelativePath), localFileName, openAfterDone, mimeType, useHandler); 
             return true;
         } catch (ClientProtocolException e) {
             e.printStackTrace();  
         } catch (IOException e) {
             e.printStackTrace();  
         }  
-        
-        downloadOngoing = false;
+
         return false;
 	}
 	
-	private static void updateProgress(final int count, final long length) {
+	private static void updateProgress(final int count, final long length, boolean useHandler) {
+		if (!useHandler) {
+			return;
+		}
+		
         handler.post(new Runnable() {
             public void run() {
             	long percent = (long) count * 100 / length;
@@ -709,10 +716,13 @@ public class Util {
 	   });
 	}
 
-	private static void doneDownload(final Activity activity, final String filePath, final String fileName, final boolean openAfterDone, final String mimeType) {
+	private static void doneDownload(final Activity activity, final String filePath, final String fileName, final boolean openAfterDone, final String mimeType, final boolean useHandler) {
         handler.post(new Runnable() {
             public void run() {
-                pBar.cancel();
+            	if (useHandler) {
+            		pBar.cancel();
+            	}
+            	
                 if (openAfterDone) {
                 	update(activity, filePath, fileName, mimeType);
                 }
@@ -792,67 +802,73 @@ public class Util {
 		
 		Log.e("Request", "Code: " + requestCode + ", Data" + data.toString());
 		
-		if (getNetworkInfoManager().isConnected()) {
-			JSONObject json = new JSONObject();
-			try {
-				json.put("RequestCode", requestCode);
-				json.put("RequestPayload", data);
-				if (Util.isHttpConnectionEstablished()) {
-					OutgoingMessageQueue.offer(json);
-				} else {
-					final JSONObject json1 = json;
-					
-					// Use a Thread to wait for 1 more minute if the HTTP connection is not ready
-					new Thread() {
-						public void run() {
-							for (int counter=0;counter<60;counter++) { // Run 60 * 1 s
-								if (Util.isHttpConnectionEstablished()) {
-									OutgoingMessageQueue.offer(json1);
-									break;
-								}
-								
-								try {
-									sleep(1000);
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
+		if (!isServerReachable()) {
+			showLongToast(activity, R.string.server_unreachable);
+			return false;
+		}
+		
+		if (!isHttpConnectionEstablished()) {
+			showLongToast(activity, R.string.no_http_connection);
+			return false;
+		}
+		
+		if (!getNetworkInfoManager().isConnected()) {
+			showLongToast(activity, R.string.no_data_connection);
+			return false;
+		}
+		
+		JSONObject json = new JSONObject();
+		try {
+			json.put("RequestCode", requestCode);
+			json.put("RequestPayload", data);
+			if (Util.isHttpConnectionEstablished()) {
+				OutgoingMessageQueue.offer(json);
+			} else {
+				final JSONObject json1 = json;
+				
+				// Use a Thread to wait for 1 more minute if the HTTP connection is not ready
+				new Thread() {
+					public void run() {
+						for (int counter=0;counter<60;counter++) { // Run 60 * 1 s
+							if (Util.isHttpConnectionEstablished()) {
+								OutgoingMessageQueue.offer(json1);
+								break;
+							}
+							
+							try {
+								sleep(1000);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
 							}
 						}
-					}.start();
-				}
-
-				return true;
-			} catch (JSONException e) {
-				showToast(activity, "031 " + e.toString(), Toast.LENGTH_LONG);
+					}
+				}.start();
 			}
-		} else {
-			showLongToast(activity, R.string.no_data_connection);
+
+			return true;
+		} catch (JSONException e) {
+			showToast(activity, "031 " + e.toString(), Toast.LENGTH_LONG);
 		}
+		
 
 		return false;
 	}
 
 	public static void downloadMapPicture(Activity activity, String mapId, String pictureName) {
 		 downFile(activity, 
-         		WifiIpsSettings.URL_PREFIX + WifiIpsSettings.SERVER + "/" + IndoorMapData.MAP_FILE_PATH_REMOTE + mapId + "/" + pictureName,
+				fullUrl(IndoorMapData.MAP_FILE_PATH_REMOTE + mapId + "/", pictureName),
          		IndoorMapData.MAP_FILE_PATH_REMOTE + mapId + "/",
          		pictureName,
          		false,   // No need to open after download
          		"",
-         		true);  // always use a thread, wait for finish
-	}
-
-	public static boolean isDownloadOngoing() {
-		return downloadOngoing;
-	}
-
-	public static void setDownloadOngoing(boolean downloadOngoing) {
-		Util.downloadOngoing = downloadOngoing;
+         		false,   // Not need Handler
+         		false);  // Not Use Thread, already inner a Thread
 	}
 	
 	public static void initApp(final Activity activity) {				
 		VisualParameters.initial(activity);
         ImageLoader.initial(activity);
+        initialed = false;
         initial(activity);
         
         if (!getWifiInfoManager().isWifiEmbeded()) {
@@ -876,7 +892,7 @@ public class Util {
         		}
         	}
         }
-               
+
 		// Time-cosuming job
         new Thread(){
 			 public void run(){
@@ -908,6 +924,7 @@ public class Util {
 				getIpsMessageHandler().startTransportServiceThread();
 				
 				setHttpConnectionEstablished(true);
+				setServerReachable(WifiIpsSettings.isPingable());
 				
 				// Check latest version
 				getServerVersion(activity);
@@ -945,7 +962,6 @@ public class Util {
 			ex.printStackTrace();
 		}
 	}
-	
 
 	public static SensorManager getSensorManager() {
 		return sensorManager;
@@ -990,7 +1006,7 @@ public class Util {
 			try {
 				mNfcAdapter.disableForegroundDispatch(activity);
 			} catch (IllegalStateException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 	}
@@ -1053,7 +1069,15 @@ public class Util {
 		
 		return false;
 	}
-	
+
+	public static boolean isServerReachable() {
+		return serverReachable;
+	}
+
+	public static void setServerReachable(boolean serverReachable) {
+		Util.serverReachable = serverReachable;
+	}
+		
 	public static void AutoGuideTTSSpeak(String text ){
 		
 		if (AutoGuideTTS != null) {

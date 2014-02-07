@@ -33,7 +33,7 @@ public final class EncodingHandler {
 			}
 		}
 		Bitmap bitmap = Bitmap.createBitmap(width, height,
-				Bitmap.Config.ARGB_8888);
+				Bitmap.Config.ARGB_4444); // Hoare; change from ARGB8888
 		bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
 		return bitmap;
 	}

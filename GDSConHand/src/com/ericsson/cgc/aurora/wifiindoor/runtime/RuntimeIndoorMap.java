@@ -9,6 +9,8 @@ import org.andengine.entity.sprite.AnimatedSprite;
 
 import com.ericsson.cgc.aurora.wifiindoor.R;
 import com.ericsson.cgc.aurora.wifiindoor.algorithm.PathSearcher;
+import com.ericsson.cgc.aurora.wifiindoor.drawing.graphic.model.MapPieceSprite;
+import com.ericsson.cgc.aurora.wifiindoor.util.IndoorMapData;
 import com.ericsson.cgc.aurora.wifiindoor.util.Util;
 
 public class RuntimeIndoorMap {
@@ -38,6 +40,8 @@ public class RuntimeIndoorMap {
 	private ArrayList<String> informations;
 	private boolean infoPushed;
 	private long infoPushTime;
+	
+	private HashMap<MapResource, MapPieceSprite> resources;
 
 	public RuntimeIndoorMap(Cell[][] cellMatrix, String mapName, 
 			int mapId, String mapVersion, String mapPictureName, int cellPixel, int versionCode) {
@@ -59,6 +63,38 @@ public class RuntimeIndoorMap {
 		setInfoPushed(false);
 		setInformations(null);
 		setInfoPushTime(0);
+		
+		if ((mapPictureName != null) && (!mapPictureName.isEmpty())) {
+			resources = new HashMap<MapResource, MapPieceSprite>();
+			String pieces[] = mapPictureName.trim().split(";");
+			for (int i=0; i<pieces.length; i++) {
+				String piece = pieces[i].trim();
+				if (piece.isEmpty()) {
+					continue;
+				}
+				
+				String attrs[] = piece.split(",");
+				if (attrs.length == IndoorMapData.ATTR_NUMBER_PER_MAP_PIECE) {
+					try {
+						int left = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_LEFT].trim());
+						int top = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_TOP].trim());
+						int width = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_WIDTH].trim());
+						int height = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_HEIGHT].trim());
+						String name = attrs[IndoorMapData.MAP_PIECE_ATTR_NAME].trim();
+						
+						MapResource resource = new MapResource();
+						resource.setLeft(left);
+						resource.setTop(top);
+						resource.setWidth(width);
+						resource.setHeight(height);
+						resource.setName(name);
+						resources.put(resource, null);
+					} catch (Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 
 	public Cell[][] getCells() {
@@ -445,4 +481,11 @@ public class RuntimeIndoorMap {
 		return tracks.size();
 	}
 
+	public HashMap<MapResource, MapPieceSprite> getResources() {
+		return resources;
+	}
+
+	public void setResources(HashMap<MapResource, MapPieceSprite> resources) {
+		this.resources = resources;
+	}
 }

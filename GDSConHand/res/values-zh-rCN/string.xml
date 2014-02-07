@@ -28,6 +28,8 @@
     <string name="no_nfc_embeded">该设备不支持NFC！</string>
     <string name="no_nfc_enabled">请在设置中打开NFC功能！</string>
     <string name="no_data_connection">没有数据网络连接！</string>
+    <string name="server_unreachable">无法连接到服务器！</string>
+    <string name="no_http_connection">无法建立到服务器的HTTP连接</string>
     <string name="wifi_connected_without_data_connection">没有因特网连接！尝试通过验证当前的连接的WIFI或者改用移动网络！你可能需要在设置中选择忘记当前连接的WIFI路由器来保证在打开WIFI的情况下连接无线网络！</string>
     <string name="connected_without_data_connection">无法连接到服务器！</string>
     <string name="map">地图：</string>
@@ -136,5 +138,8 @@
     <string name="apk_new_version_available">有新版本</string>
     <string name="apk_update_or_not">是否升级？</string>
     <string name="latest_apk_version">太好了，你已安装了最新版本！</string>
+    <string name="no_description">没有描述信息!</string>
+    <string name="show_pic">显示图片</string>
+    <string name="download_file_failed">文件下载失败！</string>
     
 </resources>

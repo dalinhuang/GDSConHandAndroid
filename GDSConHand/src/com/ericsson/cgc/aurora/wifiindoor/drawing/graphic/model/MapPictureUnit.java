@@ -1,8 +1,6 @@
 package com.ericsson.cgc.aurora.wifiindoor.drawing.graphic.model;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.TextureOptions;
@@ -11,21 +9,10 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.opengl.texture.atlas.bitmap.source.FileBitmapTextureAtlasSource;
 import org.andengine.opengl.texture.region.TextureRegion;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
-
 import com.ericsson.cgc.aurora.wifiindoor.MapViewerActivity;
-import com.ericsson.cgc.aurora.wifiindoor.drawing.graphic.AndEngineGraphicsHelper;
-import com.ericsson.cgc.aurora.wifiindoor.runtime.RuntimeIndoorMap;
-import com.ericsson.cgc.aurora.wifiindoor.util.IndoorMapData;
 import com.ericsson.cgc.aurora.wifiindoor.util.Util;
 import com.ericsson.cgc.aurora.wifiindoor.util.VisualParameters;
 
-
-
-@SuppressWarnings("unused")
 public class MapPictureUnit extends Unit {
 
 	public MapPictureUnit(){
@@ -40,9 +27,9 @@ public class MapPictureUnit extends Unit {
 		textureRegion = null;
 	}
 
-	public Sprite load(MapViewerActivity activity, RuntimeIndoorMap runtimeIndoorMap) {
-		int rowCount = runtimeIndoorMap.getRowNum();
-		int colCount = runtimeIndoorMap.getColNum();		
+	public Sprite load(MapViewerActivity activity) {
+		int rowCount = Util.getRuntimeIndoorMap().getRowNum();
+		int colCount = Util.getRuntimeIndoorMap().getColNum();		
 		int mapWidth = colCount * Util.getCurrentCellPixel();
 		int mapHeight = rowCount * Util.getCurrentCellPixel();
 		
@@ -59,16 +46,10 @@ public class MapPictureUnit extends Unit {
 
 		// From External File
 		if (textureRegion == null) {
-			File file = new File(Util.getMapPicturePathName(""+runtimeIndoorMap.getMapId(), runtimeIndoorMap.getMapPictureName()));	
+			File file = new File(Util.getMapPicturePathName(""+Util.getRuntimeIndoorMap().getMapId(), Util.getRuntimeIndoorMap().getMapPictureName()));	
 			
 			if (!file.exists()) {
-				while (Util.isDownloadOngoing()) {
-					//wait
-				}
-				Util.downloadMapPicture(activity, ""+runtimeIndoorMap.getMapId(), runtimeIndoorMap.getMapPictureName());
-				while (Util.isDownloadOngoing()) {
-					//wait for download finish
-				}
+				Util.downloadMapPicture(activity, ""+Util.getRuntimeIndoorMap().getMapId(), Util.getRuntimeIndoorMap().getMapPictureName());
 			}
 			
 			BitmapTextureAtlas textureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), getNearestPowerOfTwo(mapWidth), getNearestPowerOfTwo(mapHeight), TextureOptions.BILINEAR);
@@ -86,7 +67,7 @@ public class MapPictureUnit extends Unit {
 		}
 		*/
 	        
-	    Sprite sprite=new Sprite(mapWidth,mapHeight,textureRegion, activity.getVertexBufferObjectManager());
+	    Sprite sprite=new Sprite(0, 0, textureRegion, activity.getVertexBufferObjectManager());
 	    sprite.setAlpha(VisualParameters.MAP_PIC_ALPHA);
 
 		return sprite;
