@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">WiFi IPS</string>
+    <string name="app_name">GDSC</string>
     <string name="menu_back">Back</string>
     <string name="menu_info">Show Information</string>
     <string name="menu_help">Help</string>
