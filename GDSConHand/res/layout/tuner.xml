@@ -628,6 +628,26 @@
 	           android:layout_height="wrap_content"
 	           android:text="BACKGROUND_LINES_NEEDED" />
 	    
+	    <LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+
+		    <TextView
+		        android:id="@+id/textView51"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="VERSION_NAME"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <EditText
+		        android:id="@+id/VERSION_NAME"
+		        android:layout_width="150dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.24"
+		        android:ems="10"
+		        android:inputType="text" />
+		</LinearLayout>		
+		
 		<TextView
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"

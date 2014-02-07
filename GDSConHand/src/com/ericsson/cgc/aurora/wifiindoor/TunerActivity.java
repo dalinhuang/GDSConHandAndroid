@@ -1,6 +1,7 @@
 package com.ericsson.cgc.aurora.wifiindoor;
 
 import com.ericsson.cgc.aurora.wifiindoor.util.IndoorMapData;
+import com.ericsson.cgc.aurora.wifiindoor.util.SoftwareVersionData;
 import com.ericsson.cgc.aurora.wifiindoor.util.Tuner;
 import com.ericsson.cgc.aurora.wifiindoor.util.Util;
 import com.ericsson.cgc.aurora.wifiindoor.util.VisualParameters;
@@ -58,6 +59,7 @@ public class TunerActivity extends Activity {
 	private CheckBox ENTRY_NEEDED;
 	private CheckBox GOOGLE_MAP_EMBEDDED;
 	private CheckBox BACKGROUND_LINES_NEEDED;
+	private EditText VERSION_NAME;
 	
 	@Override
 	protected void onResume() {
@@ -144,6 +146,7 @@ public class TunerActivity extends Activity {
     	ENTRY_NEEDED = (CheckBox) findViewById(R.id.ENTRY_NEEDED);
     	GOOGLE_MAP_EMBEDDED = (CheckBox) findViewById(R.id.GOOGLE_MAP_EMBEDDED);
     	BACKGROUND_LINES_NEEDED = (CheckBox) findViewById(R.id.BACKGROUND_LINES_NEEDED);
+    	VERSION_NAME = (EditText) findViewById(R.id.VERSION_NAME);
     	
     	resetToSavedValues();
     }
@@ -296,6 +299,10 @@ public class TunerActivity extends Activity {
     	name = "BACKGROUND_LINES_NEEDED";
     	value = String.valueOf(BACKGROUND_LINES_NEEDED.isChecked());
     	Tuner.getProperties().setProperty(name, value);
+    	
+    	name = "VERSION_NAME";
+    	value = VERSION_NAME.getText().toString();
+    	Tuner.getProperties().setProperty(name, value);
  
     	Tuner.saveConfig();
 		Tuner.syncToConfig();
@@ -338,5 +345,6 @@ public class TunerActivity extends Activity {
     	ENTRY_NEEDED.setChecked(VisualParameters.ENTRY_NEEDED);
     	GOOGLE_MAP_EMBEDDED.setChecked(VisualParameters.GOOGLE_MAP_EMBEDDED);
     	BACKGROUND_LINES_NEEDED.setChecked(VisualParameters.BACKGROUND_LINES_NEEDED);
+    	VERSION_NAME.setText(String.valueOf(SoftwareVersionData.VERSION_NAME));
 	}
 }

@@ -13,7 +13,9 @@ import com.ericsson.cgc.aurora.wifiindoor.types.ApkVersionReply;
 import com.ericsson.cgc.aurora.wifiindoor.types.BuildingManagerReply;
 import com.ericsson.cgc.aurora.wifiindoor.types.LocationSet;
 import com.ericsson.cgc.aurora.wifiindoor.types.VersionOrMapIdRequest;
+import com.ericsson.cgc.aurora.wifiindoor.util.ISoftwareVersions;
 import com.ericsson.cgc.aurora.wifiindoor.util.IndoorMapData;
+import com.ericsson.cgc.aurora.wifiindoor.util.SoftwareVersionData;
 import com.ericsson.cgc.aurora.wifiindoor.util.Util;
 import com.ericsson.cgc.aurora.wifiindoor.util.VisualParameters;
 import com.ericsson.cgc.aurora.wifiindoor.webservice.MsgConstants;
@@ -175,6 +177,21 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
         Log.i("GMapEntryActivity", "onCreate");
         
         Util.initApp(this);
+        
+        if (SoftwareVersionData.VERSION_NAME == null) {
+        	SoftwareVersionData.VERSION_NAME = ISoftwareVersions.PUBLIC_VERSION_NAME;
+        }
+        
+        if (SoftwareVersionData.VERSION_NAME.trim().equalsIgnoreCase(ISoftwareVersions.GDSC_VERSION_NAME)) {
+        	Intent intent_map_locator = new Intent(GMapEntryActivity.this, MapLocatorActivity.class);
+			Bundle mBundle = new Bundle(); 
+			mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM, IndoorMapData.BUNDLE_VALUE_REQ_FROM_SELECTOR);
+			mBundle.putInt(IndoorMapData.BUNDLE_KEY_LOCATION_MAP, ISoftwareVersions.GDSC_MAP_ID);
+			intent_map_locator.putExtras(mBundle); 
+    		startActivity(intent_map_locator);
+        	finish();
+        	return;
+        }
         
         if (!VisualParameters.ENTRY_NEEDED) {
         	Log.i("GMapEntryActivity", "No Entry is needed!");

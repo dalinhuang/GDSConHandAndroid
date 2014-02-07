@@ -363,6 +363,14 @@ public class Tuner {
 		} else {
 			properties.setProperty(key, String.valueOf(VisualParameters.BACKGROUND_LINES_NEEDED));
 		}
+		
+		key = "VERSION_NAME";
+		value = properties.getProperty(key);
+		if (value != null) {
+			SoftwareVersionData.VERSION_NAME = value.trim();
+		} else {
+			properties.setProperty(key, SoftwareVersionData.VERSION_NAME);
+		}
 	}
 
 	//Load Configuration from file

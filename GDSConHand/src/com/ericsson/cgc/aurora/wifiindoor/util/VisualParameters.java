@@ -41,7 +41,6 @@ public class VisualParameters {
 	public static boolean BACKGROUND_LINES_NEEDED = false;
 	public static int BACKROUND_LINES_BUFFER_SIZE = 2;
 	
-	
 	//public static int BOTTOM_SPACE_FOR_ADS_PORTRAIT = 120;
 	//public static int BOTTOM_SPACE_FOR_TABHOST_BAR = 60;
 	//public static int RIGHT_SPACE_FOR_ADS_LANDSCAPE = BOTTOM_SPACE_FOR_ADS_PORTRAIT;
