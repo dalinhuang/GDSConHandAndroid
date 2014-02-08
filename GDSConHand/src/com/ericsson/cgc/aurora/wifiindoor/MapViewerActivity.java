@@ -3474,7 +3474,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 								Log.e("ERROR", "Piece has already been detached, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
 							}
 						} else {
-							Log.e("ERROR", "Fail to detach a null piece, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+							if (currentPieceSprite != null) {
+								Util.getRuntimeIndoorMap().getResources().put(resource, null);
+								currentPieceSprite = null;
+								Log.e("WARNING", "Try to detach a piece has not been attached, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+							}
 						}
 					}
 				});
