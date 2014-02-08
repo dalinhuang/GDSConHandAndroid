@@ -3485,6 +3485,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			}
 		}
 		
+		System.gc();
+		
 		reDrawOngoing = false;
 	}
 }
