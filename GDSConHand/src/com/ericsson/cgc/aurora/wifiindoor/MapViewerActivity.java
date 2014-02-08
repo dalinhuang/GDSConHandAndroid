@@ -180,6 +180,10 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	private long lastBackTime;
 	private long lastManualLocateTime;
+	private boolean reDrawPending;
+	private Thread reDrawThread;
+	private boolean reDrawOn;
+	private boolean reDrawOngoing;
 	
 	private Thread mUpdateClockThread;
 	private boolean updateClockOn;
@@ -238,6 +242,10 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		lastManualLocateTime = System.currentTimeMillis();
 		lastBackTime = lastManualLocateTime - 6000;
+		
+		reDrawPending = false;
+		reDrawOn = true;
+		reDrawOngoing = false;
 
 		infoQueryToast = Toast.makeText(this,
 				getResources().getString(R.string.no_latest_info),
@@ -1619,7 +1627,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		updateLocation(Util.getRuntimeIndoorMap().getMapId(), Util.getRuntimeIndoorMap().getVersionCode(), mTargetColNo, mTargetRowNo);
 	}
 
-	private void setCameraCenterTo(int colNo, int rowNo) {
+	private void setCameraCenterTo(int colNo, int rowNo, boolean fromMove) {
 		float x = colNo; 
 		float y = rowNo;
 					
@@ -1634,7 +1642,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		float pCenterX = (x * Util.getRuntimeIndoorMap().getCellPixel() + LEFT_SPACE);
 		float pCenterY = (y * Util.getRuntimeIndoorMap().getCellPixel() + TOP_SPACE);
 
-		setCameraCenterAndReloadMapPieces(pCenterX, pCenterY);
+		setCameraCenterAndReloadMapPieces(pCenterX, pCenterY, fromMove);
 	}
 
 	@Override
@@ -1661,6 +1669,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			advertisePeriodThread.isRunning = false;
 			advertisePeriodThread = null;
 		}
+		
+		if (reDrawThread != null){
+			reDrawOn = false;
+			reDrawThread = null;
+		}
 
 		// Disable NFC Foreground Dispatch
 		Util.disableNfc(this);
@@ -1683,6 +1696,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		Util.setEnergySave(false);
 		periodicLocateMeOn = true;
 		updateClockOn = true;
+		reDrawOn = true;
 
 		Log.e("ViewerActivity", "Start IpsMessageHandler");
 		
@@ -1696,6 +1710,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		startPeriodicLocateMeThread();
 		startUpdateClockThread();
 		startPeriodicAdvertiseThread();
+		startRedrawThread();
 
 		// Enable NFC Foreground Dispatch
 		Util.enableNfc(this);
@@ -1903,6 +1918,35 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		} else {
 			if (DEBUG)
 				Log.d(TAG, "mUpdateClockThread already starts.");
+		}
+	}
+	
+	private void startRedrawThread() {
+		if (reDrawThread == null) {
+
+			// Redraw Periodically
+			reDrawThread = new Thread() {
+				public void run() {
+					while (true) { // Run forever
+						if (!reDrawOn) {
+							break;
+						}
+						
+						try {
+							sleep(2000);
+						} catch (InterruptedException e) {
+							continue;
+						}
+
+						drawMap();
+					}
+				}
+			};
+
+			reDrawThread.start();
+		} else {
+			if (DEBUG)
+				Log.d(TAG, "reDrawThread already starts.");
 		}
 	}
 	
@@ -2265,7 +2309,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 			break;
 		case IndoorMapData.BUNDLE_VALUE_REQ_FROM_SELECTOR:
-			setCameraCenterTo(0, 0); // set Center to left_top cell
+			setCameraCenterTo(0, 0, false); // set Center to left_top cell
 			infoMe(-1, -1); // For map-wide Info
 			break;
 		default:
@@ -2443,7 +2487,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 			graphicListener.locate(Util.getRuntimeIndoorMap(), colNo, rowNo, Constants.LOCATION_USER, 0);
 
-			setCameraCenterTo(colNo, rowNo); // x,y
+			setCameraCenterTo(colNo, rowNo, false); // x,y
 			
 			// Set last known good location
 			naviMyPlaceX = colNo;
@@ -3266,7 +3310,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		}
 	}
 
-	public void setCameraCenterAndReloadMapPieces(float pCenterX, float pCenterY) {
+	public void setCameraCenterAndReloadMapPieces(float pCenterX, float pCenterY, boolean fromMove) {
 		mCamera.setCenter(pCenterX, pCenterY);
 		
 		//float zoomFactor = mCamera.getZoomFactor();
@@ -3280,8 +3324,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		final float map_left = centerX - width / 2;
 		final float map_top = centerY - height / 2;
-		final float map_right = centerX + width / 2;
-		final float map_bottom = centerY + height / 2;
 		
 		// Background follow the screen
 		if (VisualParameters.BACKGROUND_LINES_NEEDED) {
@@ -3292,6 +3334,43 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		    //Log.i("Backgorund", colNo + "," + rowNo + "," + background_left + "," + background_top);
 			backgroundSprite.setPosition(background_left, background_top);
 		}
+		
+		// Slow down the reDraw request from Move event
+		if (fromMove) {
+			reDrawPending = true;
+			return;
+		}
+		
+		reDrawPending = true;
+		drawMap();
+	}
+	
+	private void drawMap() {		
+		if (!reDrawPending) {
+			return;
+		}
+		
+		if (reDrawOngoing) {
+			reDrawPending = false;
+			return;
+		}
+		
+		reDrawOngoing = true;		
+		reDrawPending = false;
+		
+		//float zoomFactor = mCamera.getZoomFactor();
+		float centerX = mCamera.getCenterX();  // re-calc for Center may not be the one passed in for the edge zones, already count in the zoomFactor
+		float centerY = mCamera.getCenterY();  // re-calc for Center may not be the one passed in for the edge zones, already count in the zoomFactor
+		float width = mCamera.getWidth();     // = cameraWidth / zoomFactor
+		float height = mCamera.getHeight();   // = cameraWidth / zoomFactor
+		
+		//Log.i("Screen Passed in", pCenterX + "," + pCenterY + "," + cameraWidth + "," + cameraHeight);
+		//Log.i("Screen Factors", centerX + "," + centerY + "," + width + "," + height + "," + zoomFactor);
+		
+		final float map_left = centerX - width / 2;
+		final float map_top = centerY - height / 2;
+		final float map_right = centerX + width / 2;
+		final float map_bottom = centerY + height / 2;			
 		
 		Set<MapResource> resources = Util.getRuntimeIndoorMap().getResources().keySet();
 		
@@ -3347,7 +3426,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 							Util.getRuntimeIndoorMap().getResources().put(resource, currentPieceSprite);
 							currentPieceSprite.setState(MapPieceSprite.READY);						
 							
-							runOnUiThread(new Runnable() {
+							runOnUpdateThread(new Runnable() {
 								@Override
 								public void run() {
 									MapPieceSprite currentPieceSprite = Util.getRuntimeIndoorMap().getResources().get(resource);
@@ -3357,12 +3436,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 											if (!sprite.hasParent()) {  // For race-conditions, this sprite may be attached twice
 												Log.i("MapPiece", "Attach map piece, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
 												mainScene.getChildByIndex(Constants.LAYER_MAP).attachChild(sprite);
+												mainScene.registerTouchArea(sprite);
+												currentPieceSprite.setState(MapPieceSprite.ATTACHED);
 											} else {
 												Log.e("MapPiece", "Map piece has already been attahed, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
-											}
-																						
-											mainScene.registerTouchArea(sprite);
-											currentPieceSprite.setState(MapPieceSprite.ATTACHED);	
+											}	
 										}
 									} else {
 										Log.e("ERROR", "Fail to attach piece, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
@@ -3373,28 +3451,36 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 					}.start();
 				}
 			} else {
-				if ( mapPieceSprite != null && mapPieceSprite.getState() == MapPieceSprite.ATTACHED) { // destroy un-needed bitmaps / sprite
-					Log.i("Screen", map_left + "," + map_top + "," + map_right + "," + map_bottom);
-					Log.i("MapPiece", "Destory map piece [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));				
-					
-					Sprite sprite = mapPieceSprite.getSprite();					
-					if (sprite != null) {
-						if (sprite.hasParent()) {
-							Log.i("MapPiece", "Detach map piece [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
-							mainScene.getChildByIndex(Constants.LAYER_MAP).detachChild(sprite);
-							mainScene.unregisterTouchArea(sprite);
-							sprite.dispose();
-							Util.getRuntimeIndoorMap().getResources().put(resource, null);
-							mapPieceSprite = null;
-							sprite = null;
+				runOnUpdateThread(new Runnable() {
+					@Override
+					public void run() {
+						MapPieceSprite currentPieceSprite = Util.getRuntimeIndoorMap().getResources().get(resource);
+						if ( currentPieceSprite != null && currentPieceSprite.getState() == MapPieceSprite.ATTACHED) { // destroy un-needed bitmaps / sprite
+							Log.i("Screen", map_left + "," + map_top + "," + map_right + "," + map_bottom);
+							Log.i("MapPiece", "Destory map piece [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));				
+							
+							Sprite sprite = currentPieceSprite.getSprite();					
+							if (sprite != null) {
+								if (sprite.hasParent()) {
+									Log.i("MapPiece", "Detach map piece [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+									mainScene.getChildByIndex(Constants.LAYER_MAP).detachChild(sprite);
+									mainScene.unregisterTouchArea(sprite);
+									sprite.dispose();
+									Util.getRuntimeIndoorMap().getResources().put(resource, null);
+									currentPieceSprite = null;
+									sprite = null;
+								}
+							} else {
+								Log.e("ERROR", "Piece has already been detached, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+							}
 						} else {
-							Log.e("ERROR", "Piece has already been detached, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+							Log.e("ERROR", "Fail to detach a null piece, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
 						}
-					} else {
-						Log.e("ERROR", "Fail to detach a null piece, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
 					}
-				}
+				});
 			}
 		}
+		
+		reDrawOngoing = false;
 	}
 }

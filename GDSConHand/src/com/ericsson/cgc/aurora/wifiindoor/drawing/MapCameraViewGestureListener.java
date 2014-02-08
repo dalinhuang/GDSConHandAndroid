@@ -19,19 +19,19 @@ public final class MapCameraViewGestureListener implements OnGestureListener {
 	
 	private boolean isMovingCamera;
 
-	// ÓÃ»§Çá´¥´¥ÃþÆÁ£¬ÓÉ1¸öMotionEvent ACTION_DOWN´¥·¢
+	// ï¿½Ã»ï¿½ï¿½á´¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½MotionEvent ACTION_DOWNï¿½ï¿½ï¿½ï¿½
 	public boolean onDown(MotionEvent e) {
 		//Log.e("onDown", "[isMovingCamera=true]");
 		isMovingCamera = true;
 		return true;
 	}
 
-	// ÓÃ»§°´ÏÂ´¥ÃþÆÁ¡¢¿ìËÙÒÆ¶¯ºóËÉ¿ª,ÓÉ1¸öMotionEvent ACTION_DOWN,
-	// ¶à¸öACTION_MOVE, 1¸öACTION_UP´¥·¢
-	// e1£ºµÚ1¸öACTION_DOWN MotionEvent
-	// e2£º×îºóÒ»¸öACTION_MOVE MotionEvent
-	// velocityX£ºXÖáÉÏµÄÒÆ¶¯ËÙ¶È£¬ÏñËØ/Ãë
-	// velocityY£ºYÖáÉÏµÄÒÆ¶¯ËÙ¶È£¬ÏñËØ/Ãë
+	// ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Â´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½É¿ï¿½,ï¿½ï¿½1ï¿½ï¿½MotionEvent ACTION_DOWN,
+	// ï¿½ï¿½ï¿½ACTION_MOVE, 1ï¿½ï¿½ACTION_UPï¿½ï¿½ï¿½ï¿½
+	// e1ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ACTION_DOWN MotionEvent
+	// e2ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ACTION_MOVE MotionEvent
+	// velocityXï¿½ï¿½Xï¿½ï¿½ï¿½Ïµï¿½ï¿½Æ¶ï¿½ï¿½Ù¶È£ï¿½ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½
+	// velocityYï¿½ï¿½Yï¿½ï¿½ï¿½Ïµï¿½ï¿½Æ¶ï¿½ï¿½Ù¶È£ï¿½ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
 		//Log.e("onFling", "[set isMovingCamera to false]");
@@ -45,13 +45,13 @@ public final class MapCameraViewGestureListener implements OnGestureListener {
 		return true;
 	}
 
-	// ÓÃ»§³¤°´´¥ÃþÆÁ£¬ÓÉ¶à¸öMotionEvent ACTION_DOWN´¥·¢
+	// ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¶ï¿½ï¿½MotionEvent ACTION_DOWNï¿½ï¿½ï¿½ï¿½
 	public void onLongPress(MotionEvent e) {
 		//Log.e("onLongPress", "[onLongPress]"+e.getX()+","+e.getY());
 		activity.handleLongPress(e);
 	}
 
-	// ÓÃ»§°´ÏÂ´¥ÃþÆÁ£¬²¢ÍÏ¶¯£¬ÓÉ1¸öMotionEvent ACTION_DOWN, ¶à¸öACTION_MOVE´¥·¢
+	// ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Â´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½MotionEvent ACTION_DOWN, ï¿½ï¿½ï¿½ACTION_MOVEï¿½ï¿½ï¿½ï¿½
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY) {
 		//Log.e("onScroll", "[isMovingCamera]="+isMovingCamera);
@@ -63,20 +63,21 @@ public final class MapCameraViewGestureListener implements OnGestureListener {
 			
 			activity.setCameraCenterAndReloadMapPieces(
 					camera.getCenterX() + ratio * distanceX * Util.getCurrentCellPixel(), 
-					camera.getCenterY() + ratio * distanceY * Util.getCurrentCellPixel());
+					camera.getCenterY() + ratio * distanceY * Util.getCurrentCellPixel(),
+					true);
 		}
 		
 		return true;
 	}
 
-	// ÓÃ»§Çá´¥´¥ÃþÆÁ£¬ÉÐÎ´ËÉ¿ª»òÍÏ¶¯£¬ÓÉÒ»¸ö1¸öMotionEvent ACTION_DOWN´¥·¢
-	// ×¢ÒâºÍonDown()µÄÇø±ð£¬Ç¿µ÷µÄÊÇÃ»ÓÐËÉ¿ª»òÕßÍÏ¶¯µÄ×´Ì¬
+	// ï¿½Ã»ï¿½ï¿½á´¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½É¿ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½1ï¿½ï¿½MotionEvent ACTION_DOWNï¿½ï¿½ï¿½ï¿½
+	// ×¢ï¿½ï¿½ï¿½onDown()ï¿½ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½É¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½×´Ì¬
 	public void onShowPress(MotionEvent e) {
 		//Log.e("onShowPress", "[onShowPress]");
 
 	}
 
-	// ÓÃ»§£¨Çá´¥´¥ÃþÆÁºó£©ËÉ¿ª£¬ÓÉÒ»¸ö1¸öMotionEvent ACTION_UP´¥·¢
+	// ï¿½Ã»ï¿½ï¿½ï¿½ï¿½á´¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¿ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½1ï¿½ï¿½MotionEvent ACTION_UPï¿½ï¿½ï¿½ï¿½
 	public boolean onSingleTapUp(MotionEvent e) {
 		//Log.e("onSingleTapUp", "[onSingleTapUp]");
 		return true;
