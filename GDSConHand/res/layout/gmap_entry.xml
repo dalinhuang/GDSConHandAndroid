@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"	
     xmlns:map="http://schemas.android.com/apk/res-auto" 
-	android:id="@+id/map"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	class="com.google.android.gms.maps.SupportMapFragment"
 	map:cameraBearing="112.5"  
 	map:cameraTargetLat="23.125526"  
 	map:cameraTargetLng="113.373874"  
@@ -17,4 +14,33 @@
 	map:uiScrollGestures="true"  
 	map:uiTiltGestures="true"  
 	map:uiZoomControls="true"  
-	map:uiZoomGestures="true" />  
+	map:uiZoomGestures="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GMapEntryActivity" >  
+	
+    
+    <FrameLayout        
+        android:id="@+id/startup_container"        
+        android:layout_width="match_parent"        
+        android:layout_height="match_parent" 
+        tools:context=".GMapEntryActivity"
+        tools:ignore="MergeRootFrame" >
+        
+         <ImageView
+	        android:id="@+id/startup"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:src="@drawable/gdsc_start"
+	        android:scaleType="centerCrop" />
+        
+    </FrameLayout>
+
+    <fragment 
+		class="com.google.android.gms.maps.SupportMapFragment"
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/startup_container" />
+    
+</RelativeLayout>

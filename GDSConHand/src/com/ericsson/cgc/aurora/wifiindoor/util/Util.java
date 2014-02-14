@@ -916,21 +916,21 @@ public class Util {
         	}
         }
 
-		// Time-cosuming job
-        new Thread(){
-			 public void run(){
+		// Time-cosuming job, move to connectToServer()
+        /* new Thread(){
+		//	 public void run(){
 			    int counter = 0;
 				 
 				while (!WifiIpsSettings.getServerAddress(true)) 
 			    { 
-			    	if (counter >= 10) { // Max wait for 1 minutes for the network
+			    	if (counter >= 5) { // Max wait for 30 seconds for the network
 			    		showLongToast(activity, R.string.wrong_server);
 			    		return;
 			    	}
 					
 					counter++;
 					try {
-						sleep(6000);  // wait 6 seconds
+						Thread.sleep(6000);  // wait 6 seconds
 					} catch (InterruptedException e) {
 						continue;
 					}
@@ -952,7 +952,44 @@ public class Util {
 				// Check latest version
 				getServerVersion(activity);
 			}
-		 }.start();	 
+		 }.start(); */	 
+	}
+	
+	public static void connetcToServer(final Activity activity) {
+		int counter = 0;
+		 
+		while (!WifiIpsSettings.getServerAddress(true)) 
+	    { 
+	    	if (counter >= 5) { // Max wait for 30 seconds for the network
+	    		showLongToast(activity, R.string.wrong_server);
+	    		return;
+	    	}
+			
+			counter++;
+			try {
+				Thread.sleep(500);  // wait 500ms
+			} catch (InterruptedException e) {
+				continue;
+			}
+	    }
+	    	
+		loadWebService();
+		
+		if (getIpsMessageHandler() == null) {
+			// showLongToast(activity, R.string.wrong_server);
+			return;
+		}
+		
+		// Start the Ips Message Handler Thread if it has not been started yet.
+		getIpsMessageHandler().startTransportServiceThread();
+		
+		setHttpConnectionEstablished(true);
+		setServerReachable(WifiIpsSettings.isPingable());
+		
+		// Check latest version
+		getServerVersion(activity);
+		
+		return;
 	}
 	
 	private static void loadWebService() {

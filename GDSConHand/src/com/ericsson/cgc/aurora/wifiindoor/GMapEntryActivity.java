@@ -42,7 +42,9 @@ import android.content.res.Resources;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -70,7 +72,9 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 	
 	@Override
     protected void onPause(){
-		locationManager.removeUpdates(myLocationListener);
+
+		// Comment out as GMap function is blocked.
+		// locationManager.removeUpdates(myLocationListener);
 		
 		// Disable NFC Foreground Dispatch
 		Util.disableNfc(this);
@@ -119,13 +123,15 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 		System.gc();
 		
 		Util.getIpsMessageHandler().setActivity(this);
+
 		Util.setEnergySave(false);
 		
 		if (Util.isApkUpdatePending()) {
 			Util.doNewVersionUpdate(this);
 		}
 		
-		locationManager.requestLocationUpdates(bestProvider, 10000l, 30f, myLocationListener); // 10s, 30m
+		// Comment out as GMap function is blocked
+		// locationManager.requestLocationUpdates(bestProvider, 10000l, 30f, myLocationListener); // 10s, 30m
 		
 		// Enable NFC Foreground Dispatch
 		Util.enableNfc(this);
@@ -133,7 +139,7 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 		// Enable ACCELEROMETER
 		Util.enableAcclerometer(this);
 		
-		Util.setCurrentForegroundActivity(this);
+		Util.setCurrentForegroundActivity(this); 
 	}
 	
 	@Override
@@ -180,8 +186,41 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
         
         Log.i("GMapEntryActivity", "onCreate");
         
+        setContentView(R.layout.gmap_entry);
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.map);
+        f.setUserVisibleHint(false); // Set invisible for the GMap fragment
+        
         Util.initApp(this);
         
+        new AsyncTask<Void, Void, Integer> () {
+
+			@Override
+			protected void onPreExecute() {
+
+			}
+        	
+        	@Override
+			protected Integer doInBackground(Void... params) {
+				// TODO Auto-generated method stub
+        		appStartUp();
+        		return null;
+			}
+
+			@Override
+            protected void onPostExecute(Integer result) {
+				jumpToRightEntry();
+
+            }
+        	
+        }.execute(new Void[]{});
+        
+        // Block the Google Map function so far
+        // GMapInit();
+
+    }
+	
+	// Called in the onPostExecute of AsyncTask
+	private void jumpToRightEntry() {
         if (SoftwareVersionData.VERSION_NAME == null) {
         	SoftwareVersionData.VERSION_NAME = ISoftwareVersions.PUBLIC_VERSION_NAME;
         }
@@ -224,9 +263,14 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
         	return;
         }
         
+        return;
+	}
+	
+	// Initial method for Google Map 
+	private void GMapInit() {
+        
         Log.i("GMapEntryActivity", "Google Map Embedded!");
 
-        setContentView(R.layout.gmap_entry);
         resources = getResources();
         
         mMap = ((SupportMapFragment)  getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
@@ -292,7 +336,8 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
         };
         
         locationManager.requestLocationUpdates(bestProvider, 3000l, 8f, myLocationListener);
-    }
+        
+	}
 	
 	private void addBuildingMarkers() {
 		// Read from File for the building items
@@ -395,20 +440,27 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 	private void exitApp() {
 		finish();
 	}
+	
+	// Called in AsyncTask when the APP starts up. It should only include the time consuming tasks.
+	private void appStartUp() {
+		
+		Util.connetcToServer(this);
+		
+	}
     
     private String getBestProvider(){ 
         Criteria criteria = new Criteria(); 
-        criteria.setAccuracy(Criteria.ACCURACY_COARSE); // ���þ���
-        criteria.setAltitudeRequired(false); // �����Ƿ���Ҫ�ṩ������Ϣ
-        criteria.setBearingRequired(false); // �Ƿ���Ҫ������Ϣ
-        criteria.setCostAllowed(false); // �����ҵ��� Provider �Ƿ�����������
-        criteria.setPowerRequirement(Criteria.POWER_LOW); // ���úĵ�
+        criteria.setAccuracy(Criteria.ACCURACY_COARSE); // 锟斤拷锟矫撅拷锟斤拷
+        criteria.setAltitudeRequired(false); // 锟斤拷锟斤拷锟角凤拷锟斤拷要锟结供锟斤拷锟斤拷锟斤拷息
+        criteria.setBearingRequired(false); // 锟角凤拷锟斤拷要锟斤拷锟斤拷锟斤拷息
+        criteria.setCostAllowed(false); // 锟斤拷锟斤拷锟揭碉拷锟斤拷 Provider 锟角凤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
+        criteria.setPowerRequirement(Criteria.POWER_LOW); // 锟斤拷锟矫耗碉拷
         
         String provider=locationManager.getBestProvider(criteria, true); 
         
         Log.e("getBestProvider", provider);
         
-        // ������ܷ��� null, ����λ����Ϣ����δ����
+        // 锟斤拷锟斤拷锟斤拷芊锟斤拷锟�null, 锟斤拷锟斤拷位锟斤拷锟斤拷息锟斤拷锟斤拷未锟斤拷锟斤拷
         return provider; 
     }  
 
@@ -425,8 +477,7 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 			// Try to get from Network
 			ret = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		}
-		// ������ܻ᷵�� null, ��ʾ���յ�ǰ�Ĳ�ѯ�����޷���ȡϵͳ���һ�θ��µĵ���λ����Ϣ
-		
+		// 锟斤拷锟斤拷锟斤拷芑岱碉拷锟�null, 锟斤拷示锟斤拷锟秸碉拷前锟侥诧拷询锟斤拷锟斤拷锟睫凤拷锟斤拷取系统锟斤拷锟揭伙拷胃锟斤拷碌牡锟斤拷锟轿伙拷锟斤拷锟较�		
 		if (ret == null) {
 			Log.e("getLastKnownLocation", "null");
 		} else {
@@ -440,9 +491,9 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 	    if(location == null){
 	    	return;
 	    }
-		//��ȡ����
+		//锟斤拷取锟斤拷锟斤拷
 		double dLong = location.getLongitude();
-		//��ȡγ��
+		//锟斤拷取纬锟斤拷
 		double dLat = location.getLatitude();
 		
 		//Log.e("updateToNewLocation", dLong+","+dLat);
@@ -452,10 +503,10 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 			zoomLevel = mMap.getCameraPosition().zoom;
 		}
 	    
-	    //����Ӱ���ƶ���ָ���ĵ���λ��
+	    //锟斤拷锟斤拷影锟斤拷锟狡讹拷锟斤拷指锟斤拷锟侥碉拷锟斤拷位锟斤拷
 		CameraPosition cameraPosition = new CameraPosition.Builder()
 	        .target(new LatLng(dLat, dLong))              // Sets the center of the map to ZINTUN
-	        .zoom(zoomLevel)          // ���ű���
+	        .zoom(zoomLevel)          // 锟斤拷锟脚憋拷锟斤拷
 	        .bearing(0)                // Sets the orientation of the camera to east
 	        .tilt(30)                   // Sets the tilt of the camera to 30 degrees
 	        .build();                   // Creates a CameraPosition from the builder

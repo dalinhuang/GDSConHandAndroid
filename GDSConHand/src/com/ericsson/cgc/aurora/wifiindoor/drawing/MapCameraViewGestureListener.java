@@ -19,19 +19,19 @@ public final class MapCameraViewGestureListener implements OnGestureListener {
 	
 	private boolean isMovingCamera;
 
-	// �û��ᴥ����������1��MotionEvent ACTION_DOWN����
+	// 锟矫伙拷锟结触锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷1锟斤拷MotionEvent ACTION_DOWN锟斤拷锟斤拷
 	public boolean onDown(MotionEvent e) {
 		//Log.e("onDown", "[isMovingCamera=true]");
 		isMovingCamera = true;
 		return true;
 	}
 
-	// �û����´������������ƶ����ɿ�,��1��MotionEvent ACTION_DOWN,
-	// ���ACTION_MOVE, 1��ACTION_UP����
-	// e1����1��ACTION_DOWN MotionEvent
-	// e2�����һ��ACTION_MOVE MotionEvent
-	// velocityX��X���ϵ��ƶ��ٶȣ�����/��
-	// velocityY��Y���ϵ��ƶ��ٶȣ�����/��
+	// 锟矫伙拷锟斤拷锟铰达拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟狡讹拷锟斤拷锟缴匡拷,锟斤拷1锟斤拷MotionEvent ACTION_DOWN,
+	// 锟斤拷锟紸CTION_MOVE, 1锟斤拷ACTION_UP锟斤拷锟斤拷
+	// e1锟斤拷锟斤拷1锟斤拷ACTION_DOWN MotionEvent
+	// e2锟斤拷锟斤拷锟揭伙拷锟紸CTION_MOVE MotionEvent
+	// velocityX锟斤拷X锟斤拷锟较碉拷锟狡讹拷锟劫度ｏ拷锟斤拷锟斤拷/锟斤拷
+	// velocityY锟斤拷Y锟斤拷锟较碉拷锟狡讹拷锟劫度ｏ拷锟斤拷锟斤拷/锟斤拷
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
 		//Log.e("onFling", "[set isMovingCamera to false]");
@@ -45,13 +45,13 @@ public final class MapCameraViewGestureListener implements OnGestureListener {
 		return true;
 	}
 
-	// �û��������������ɶ��MotionEvent ACTION_DOWN����
+	// 锟矫伙拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟缴讹拷锟組otionEvent ACTION_DOWN锟斤拷锟斤拷
 	public void onLongPress(MotionEvent e) {
 		//Log.e("onLongPress", "[onLongPress]"+e.getX()+","+e.getY());
 		activity.handleLongPress(e);
 	}
 
-	// �û����´����������϶�����1��MotionEvent ACTION_DOWN, ���ACTION_MOVE����
+	// 锟矫伙拷锟斤拷锟铰达拷锟斤拷锟斤拷锟斤拷锟斤拷锟较讹拷锟斤拷锟斤拷1锟斤拷MotionEvent ACTION_DOWN, 锟斤拷锟紸CTION_MOVE锟斤拷锟斤拷
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY) {
 		//Log.e("onScroll", "[isMovingCamera]="+isMovingCamera);
@@ -70,14 +70,14 @@ public final class MapCameraViewGestureListener implements OnGestureListener {
 		return true;
 	}
 
-	// �û��ᴥ����������δ�ɿ����϶�����һ��1��MotionEvent ACTION_DOWN����
-	// ע���onDown()�����ǿ������û���ɿ������϶���״̬
+	// 锟矫伙拷锟结触锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷未锟缴匡拷锟斤拷锟较讹拷锟斤拷锟斤拷一锟斤拷1锟斤拷MotionEvent ACTION_DOWN锟斤拷锟斤拷
+	// 注锟斤拷锟給nDown()锟斤拷锟斤拷锟角匡拷锟斤拷锟斤拷锟矫伙拷锟斤拷煽锟斤拷锟斤拷锟斤拷隙锟斤拷锟阶刺�	
 	public void onShowPress(MotionEvent e) {
 		//Log.e("onShowPress", "[onShowPress]");
-
 	}
+	
 
-	// �û����ᴥ���������ɿ�����һ��1��MotionEvent ACTION_UP����
+	// 锟矫伙拷锟斤拷锟结触锟斤拷锟斤拷锟斤拷锟斤拷锟缴匡拷锟斤拷锟斤拷一锟斤拷1锟斤拷MotionEvent ACTION_UP锟斤拷锟斤拷
 	public boolean onSingleTapUp(MotionEvent e) {
 		//Log.e("onSingleTapUp", "[onSingleTapUp]");
 		return true;
