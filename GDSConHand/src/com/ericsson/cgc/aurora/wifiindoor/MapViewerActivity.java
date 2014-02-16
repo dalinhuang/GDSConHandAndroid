@@ -41,6 +41,7 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -70,6 +71,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -119,6 +121,7 @@ import com.ericsson.cgc.aurora.wifiindoor.util.VisualParameters;
 import com.ericsson.cgc.aurora.wifiindoor.util.WifiIpsSettings;
 import com.ericsson.cgc.aurora.wifiindoor.webservice.MsgConstants;
 import com.google.gson.Gson;
+
 
 public class MapViewerActivity extends LayoutGameActivity implements SensorEventListener {
 
@@ -208,6 +211,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	private int TAB_BUTTON_WIDTH;
 	private int TAB_BUTTON_HEIGHT;	
 	private int TAB_BUTTON_MARGIN;
+	
 	
 	private float density = 1.5f;
 
@@ -1122,24 +1126,30 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		Library.MENU_ZOOM.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
 		putHUDControlUnit(Library.MENU_ZOOM, x, y, new SpriteListener() {
 
-			private boolean zoomMostIn = true;
+			//private boolean zoomMostIn = true;
 
 			@Override
 			public boolean onAreaTouched(AnimatedSprite sprite,
 					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
 					float pTouchAreaLocalY) {
-
+				
+				
+				
 				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+					//Hoare:
+					showGuideAudioBar();
+					/* 
 					if (zoomMostIn) {
-						zoomControl.zoomMostOut();
+						zoomControl.zoomMostOut();//Hoare
 						zoomMostIn = false;
 						sprite.setCurrentTileIndex(1);
 					} else {
-						zoomControl.zoomMostIn();
+						zoomControl.zoomMostIn();//Hoare
 						zoomMostIn = true;
 						sprite.setCurrentTileIndex(0);
 
 					}
+					*/
 				}
 
 				return true;
@@ -1463,11 +1473,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 		if (pKeyCode == KeyEvent.KEYCODE_DPAD_UP
 				&& pEvent.getAction() == KeyEvent.ACTION_DOWN) {
-			zoomControl.zoomIn();
+			zoomControl.zoomIn();//Hoare
 			return true;
 		} else if (pKeyCode == KeyEvent.KEYCODE_DPAD_DOWN
 				&& pEvent.getAction() == KeyEvent.ACTION_DOWN) {
-			zoomControl.zoomOut();
+			zoomControl.zoomOut();//Hoare
 			return true;
 		} else if (pKeyCode == KeyEvent.KEYCODE_MENU
 				&& pEvent.getAction() == KeyEvent.ACTION_DOWN) {
@@ -1796,12 +1806,21 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	@Override
 	public void onBackPressed() {
-		if (System.currentTimeMillis() - lastBackTime > 5000){
+		//Hoare: finish current activity and back to home
+		
+		exitApp();
+		
+		Intent i= new Intent(Intent.ACTION_MAIN);
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		i.addCategory(Intent.CATEGORY_HOME);
+		startActivity(i);
+		
+/*		if (System.currentTimeMillis() - lastBackTime > 5000){
 			lastBackTime = System.currentTimeMillis();
 			Util.showShortToast(this, R.string.press_back_more);
 		} else {
 			exitApp();
-		}
+		}*/
 	}
 
 	@Override
@@ -1951,14 +1970,14 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	}
 	
 	@SuppressLint("SimpleDateFormat")
-	private void updateHintText(String text) {
+	public void updateHintText(String text) {
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); 
 		String clockStr = sdf.format(new Date(System.currentTimeMillis()));
 		mHintText.setText(clockStr + " " + text);
 	}
 	
 	@SuppressLint("SimpleDateFormat")
-	private void updateHintText(int textId) {
+	public void updateHintText(int textId) {
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); 
 		String clockStr = sdf.format(new Date(System.currentTimeMillis()));
 		mHintText.setText(clockStr + " " + getResources().getString(textId));
@@ -2075,14 +2094,14 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		//float current_zoom_factor = Math.min(min_zoom_factor * 3, 5.0f);
 		
 		// Change to: do not allow zoomFactor too small, to avoid all or too much map pieces be displayed in the Screen and cause the OOM issue 
-		float min_zoom_factor = 1f;		
-		float max_zoom_factor = 10f;		
+		float min_zoom_factor = 0.8f;		
+		float max_zoom_factor = 6f;		
 		float current_zoom_factor = 3;
 		
 		// Original zoom factor
 		mCamera.setZoomFactor(current_zoom_factor);
 		// Allowed zoom Factors
-		zoomControl = new ZoomControl(mCamera, max_zoom_factor, min_zoom_factor, density);
+		zoomControl = new ZoomControl(this, mCamera, max_zoom_factor, min_zoom_factor, density);
 
 		// Control the Map Mode
 		modeControl = new ModeControl(Util.getRuntimeIndoorMap());
@@ -2096,7 +2115,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 		// zoom when multi-touchs
 		zoomGestureDector = new ScaleGestureDetector(this,
-				zoomControl.getScaleGestureListner());
+				zoomControl.getScaleGestureListner());//Hoare
 
 		// FullScreen? Landscape? & Camera?
 		ScreenOrientation pScreenOrientation = ScreenOrientation.PORTRAIT_SENSOR;
@@ -2309,7 +2328,12 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 			break;
 		case IndoorMapData.BUNDLE_VALUE_REQ_FROM_SELECTOR:
-			setCameraCenterTo(0, 0, false); // set Center to left_top cell
+			//Hoare: to do: entry can be configured in database
+			if (( Util.getRuntimeIndoorMap().getMapId() == 1) |
+				(Util.getRuntimeIndoorMap().getMapId() == 2)){
+				setCameraCenterTo(39, 77, false); // set Center to left_top cell
+			}
+			
 			infoMe(-1, -1); // For map-wide Info
 			break;
 		default:
@@ -2743,7 +2767,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	private void loadNaviInfo() {
 		naviInfo = new NaviInfo();
-		boolean updateNeeded = false;
+		boolean updateNeeded = true; //Hoare: update every time regardless map versionn, for test only
 
 		try {
 			InputStream map_file_is = new FileInputStream(Util.getNaviInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
@@ -2769,7 +2793,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	private void loadMapInfo() {
 		MapInfo mapInfo = new MapInfo();
-		boolean updateNeeded = false;
+		boolean updateNeeded = true; //Hoare: update every time regardless map versionn, for test only
 
 		try {
 			InputStream map_file_is = new FileInputStream(Util.getMapInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
@@ -2929,6 +2953,49 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		mapInfos.add(text);
 	}
+	
+	private void showGuideAudioBar() {	
+		runOnUiThread(new Runnable() {
+			  public void run() {
+				    
+				    final AlertDialog.Builder builder = new AlertDialog.Builder(MapViewerActivity.this);
+					
+				    builder.setIcon(R.drawable.ic_launcher);
+				    builder.setTitle(R.string.audio_guide_title);
+					
+					LayoutInflater inflater = getLayoutInflater();
+					final View layout = inflater.inflate(R.layout.guide_audio_input, (ViewGroup) findViewById(R.id.audio_guide_input));
+					builder.setView(layout);
+					
+					builder.setPositiveButton(R.string.play_audio_guide, new OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							 EditText inputAudioNoText = (EditText) layout.findViewById(R.id.audio_no_input_result);
+							 String inputAudioNoStr = inputAudioNoText.getText().toString();
+							 
+							
+							 
+							 if (inputAudioNoStr != null) {
+								 Util.showToast(MapViewerActivity.this, inputAudioNoStr, Toast.LENGTH_LONG);
+							 }else{
+								 builder.setMessage(R.string.audio_no_not_exist);
+							 }
+							 dialog.dismiss();
+						}
+					});
+
+					builder.setNegativeButton(R.string.cancel, new OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+						}
+					});
+					
+					builder.create();
+					builder.show();
+			  }
+		});
+	}	
 	
 	private void showNaviBar() {	
 		runOnUiThread(new Runnable() {
@@ -3164,7 +3231,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 	private void loadInterestPlaces() {
 		InterestPlacesInfo interestPlacesInfo = new InterestPlacesInfo();
-		boolean updateNeeded = false;
+		boolean updateNeeded = true; //Hoare: update every time regardless map version, for test only
 
 		try {
 			InputStream map_file_is = new FileInputStream(Util.getInterestPlacesInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
@@ -3309,10 +3376,32 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		        locateMe(false);
 		}
 	}
+	
+	public int getCenterColNo(){
+		int colNo;
+		
+		float centerX = mCamera.getCenterX();  
+
+		colNo = (int) centerX / Util.getCurrentCellPixel();
+
+		return colNo;	
+	}
+	
+	public int getCenterRowNo(){
+		int rowNo;
+		
+		float centerY = mCamera.getCenterY(); 
+		
+		rowNo = (int) centerY / Util.getCurrentCellPixel();
+		
+		return rowNo;
+	}
+		
+		
 
 	public void setCameraCenterAndReloadMapPieces(float pCenterX, float pCenterY, boolean fromMove) {
 		mCamera.setCenter(pCenterX, pCenterY);
-		
+
 		//float zoomFactor = mCamera.getZoomFactor();
 		float centerX = mCamera.getCenterX();  // re-calc for Center may not be the one passed in for the edge zones, already count in the zoomFactor
 		float centerY = mCamera.getCenterY();  // re-calc for Center may not be the one passed in for the edge zones, already count in the zoomFactor
@@ -3324,6 +3413,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		final float map_left = centerX - width / 2;
 		final float map_top = centerY - height / 2;
+		final float map_right = centerX + width / 2;
+		final float map_bottom = centerY + height / 2;
 		
 		// Background follow the screen
 		if (VisualParameters.BACKGROUND_LINES_NEEDED) {

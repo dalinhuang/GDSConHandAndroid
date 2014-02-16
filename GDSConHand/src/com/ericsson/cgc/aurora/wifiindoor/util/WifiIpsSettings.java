@@ -19,6 +19,8 @@ import android.text.TextUtils;
  * 
  */
 public class WifiIpsSettings {
+	
+	public static boolean ZOOM_SWITCH = true;
 	public static boolean PLANNING_MODE = true;
 	public static boolean AUTO_GUIDE = true;
 	public static String FILE_CACHE_FOLDER = "/GDSConHand/";
@@ -215,7 +217,7 @@ public class WifiIpsSettings {
 			 */
 			while ((line = reader.readLine()) != null) {
 				if (line.contains("0 received")) {
-					return false;
+					return false; 
 				}
 			}
 		} catch (IOException e) {

@@ -26,6 +26,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.location.LocationListener;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
@@ -203,6 +204,14 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 			protected Integer doInBackground(Void... params) {
 				// TODO Auto-generated method stub
         		appStartUp();
+        		
+        		//Hoare: give more time to show backgroud picture
+        		try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
         		return null;
 			}
 

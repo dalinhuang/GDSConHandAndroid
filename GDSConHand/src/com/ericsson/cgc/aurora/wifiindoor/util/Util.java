@@ -984,7 +984,9 @@ public class Util {
 		getIpsMessageHandler().startTransportServiceThread();
 		
 		setHttpConnectionEstablished(true);
-		setServerReachable(WifiIpsSettings.isPingable());
+		//Hoare: bypass ping check since it doesn't work in some mobiles
+		setServerReachable(true);
+		//setServerReachable(WifiIpsSettings.isPingable());
 		
 		// Check latest version
 		getServerVersion(activity);

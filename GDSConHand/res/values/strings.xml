@@ -118,6 +118,10 @@
     <string name="download_ongoing">Download is ongoing...</string>
     <string name="please_wait">Please wait...</string>
     <string name="wrong_server">Wrong Server Configuration or the Server is currently not Reachable!</string>
+    <string name="audio_guide_title">Input auto guide audio no.</string>
+    <string name="audio_guide_no">Audio Number</string>
+    <string name="audio_no_not_exist">Audio number doesnt exist</string>
+    <string name="play_audio_guide">Play</string>
     <string name="navi_from_to">Set Navigator</string>
     <string name="navi_from">FROM</string>
     <string name="navi_to">-TO-</string>
