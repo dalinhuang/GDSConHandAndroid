@@ -1,6 +1,7 @@
 package com.ericsson.cgc.aurora.wifiindoor;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -12,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -172,9 +174,14 @@ public class InterestPlaceViewerActivity extends Activity {
 				};
 				
 				for (int i=0; i<pictures.length; i++) {
-					if (pictures[i].trim().isEmpty()) {
+					String picFilName = pictures[i];
+					
+					if (picFilName.trim().isEmpty()) {
 						continue;
 					}
+					
+					//Cache this picture locally if needed
+					
 
 					RelativeLayout pictureLayout = new RelativeLayout(getApplicationContext());
 					
@@ -183,14 +190,17 @@ public class InterestPlaceViewerActivity extends Activity {
 			                ViewGroup.LayoutParams.FILL_PARENT,  
 			                ViewGroup.LayoutParams.FILL_PARENT);
 			        // 在父布局的右边（相当于android:alignParentRight="true"）  
-					//imageViewParams.addRule(RelativeLayout.ALIGN_PARENT));  
 			        // 垂直居中显示  
 					pictureLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT); 
 					pictureLayoutParams.topMargin = (int) (20 * scale + 0.5f); 					
 					
 					imageInfo.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
-					final String IMG_URL= Util.fullUrl(IndoorMapData.IMG_FILE_PATH_REMOTE, pictures[i]);
-					getBitmapFromUrl(imageInfo, IMG_URL);
+
+					//Hoare: cache the file in local folder first
+					loadCachedOrDownloadIMG(imageInfo, picFilName);
+					//final String IMG_URL= Util.fullUrl(IndoorMapData.IMG_FILE_PATH_REMOTE, pictures[i]);
+					//getBitmapFromUrl(imageInfo, IMG_URL);
+					
 					imageInfo.setScaleType(ImageView.ScaleType.FIT_CENTER);
 					
 					pictureLayout.addView(imageInfo, pictureLayoutParams);
@@ -290,7 +300,43 @@ public class InterestPlaceViewerActivity extends Activity {
 	        	AudioStop();
 	        }
         }
-    }    
+    }
+    
+    private  void loadCachedOrDownloadIMG(final ImageView imageInfo, final String imgFileName){
+       	new Thread() {
+    		public void run() {   			
+    	    	String localFilePath = Util.getFilePath(IndoorMapData.IMG_FILE_PATH_LOCAL);
+    	    	String fullFileName = localFilePath + imgFileName;
+    	    	final String imgURL= Util.fullUrl(IndoorMapData.IMG_FILE_PATH_LOCAL, imgFileName);
+    			File   file = new File (fullFileName);
+    			 
+    	    	if (!file.exists()) {
+    	    		//The file doesn't exist, download the file to the cache folder
+    	    		
+    	    		Util.downFile(InterestPlaceViewerActivity.this, imgURL, IndoorMapData.IMG_FILE_PATH_LOCAL, imgFileName,                     		
+    	    							false,      // Open after download
+    	    							"",
+    	    							false, //useHandler
+    	    							false);// Use Thread	
+
+    			 }
+    	    	
+    	    	final Bitmap bitmap = BitmapFactory.decodeFile(fullFileName);
+    				        
+		        runOnUiThread(new Runnable() {
+					public void run() {
+						if (bitmap == null) {
+							imageInfo.setImageResource(R.drawable.no_pic);	
+						} else {
+							imageInfo.setImageBitmap(bitmap);
+							imageInfo.setOnClickListener(listener2);
+						}
+						imageInfo.invalidate();		    
+					}
+				});		        
+    		}
+    	}.start();
+    }
     
     private void getBitmapFromUrl(final ImageView imageInfo, final String imgUrl) {
     	new Thread() {

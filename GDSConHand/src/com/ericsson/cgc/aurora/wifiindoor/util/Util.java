@@ -623,7 +623,7 @@ public class Util {
 		return getFilePath(IndoorMapData.MAP_FILE_PATH_LOCAL) + mapId + "/" + pictureName;
 	}
 
-	private static boolean downFile(final Activity activity, final String url, final String localRelativePath, final String localFileName, 
+	public static boolean downFile(final Activity activity, final String url, final String localRelativePath, final String localFileName, 
 			final boolean openAfterDone, final String mimeType, 
 			final boolean useHandler, final boolean useThread) {
 		
