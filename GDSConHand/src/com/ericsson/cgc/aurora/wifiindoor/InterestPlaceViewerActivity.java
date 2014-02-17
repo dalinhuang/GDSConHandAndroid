@@ -57,10 +57,15 @@ public class InterestPlaceViewerActivity extends Activity {
     @SuppressWarnings("deprecation")
 	@Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    	InterestPlace place = null;
+    	String text = null;
+    	String picture = null;
+    	String audio = null;
+    	
+    	super.onCreate(savedInstanceState);
         
         requestWindowFeature(Window.FEATURE_NO_TITLE);  
-        // 获取密度（用于dp转换成px值）  
+        // get the screen attr for conversion between dp and px  
         float scale = this.getResources().getDisplayMetrics().density;  
         
         ScrollView scroll = new ScrollView(getApplicationContext());
@@ -77,13 +82,23 @@ public class InterestPlaceViewerActivity extends Activity {
         textInfo.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_Large);        
         
         Bundle bundle = getIntent().getExtras();
-		InterestPlace place = (InterestPlace) bundle.getSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE);
+        int req = bundle.getInt(IndoorMapData.BUNDLE_KEY_REQ_FROM);
+        
+        if (req == IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_TOUCH) {
+        	place = (InterestPlace) bundle.getSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE);
+        	
+        	if (place != null) {        	        
+    			text = place.getInfo();
+    			picture = place.getUrlPic();
+    			audio = place.getUrlAudio();
+        	}
+        }
+        	
+        else {
+        	 
+        	
+        }
 		
-		if (place != null) {
-			String text = place.getInfo();
-			String picture = place.getUrlPic();
-			String audio = place.getUrlAudio();
-			
 			// Display Text
 			if ( text != null) {
 				textInfo.setText(text);
@@ -104,7 +119,7 @@ public class InterestPlaceViewerActivity extends Activity {
 				audioPlayButton.setEnabled(false);
 		        audioStopButton.setEnabled(false);
 				
-		        // 定义两个ImageButton的高和宽  
+		        // define image button  
 		        RelativeLayout.LayoutParams playButtonParams = new RelativeLayout.LayoutParams(  
 		                ViewGroup.LayoutParams.WRAP_CONTENT,  
 		                ViewGroup.LayoutParams.WRAP_CONTENT);  
@@ -112,16 +127,12 @@ public class InterestPlaceViewerActivity extends Activity {
 		                ViewGroup.LayoutParams.WRAP_CONTENT,  
 		                ViewGroup.LayoutParams.WRAP_CONTENT); 
 		        
-		        // 为两个ImageButton添加规则  
-		        // 在父布局的右边（相当于android:alignParentRight="true"）  
-		        playButtonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);  
-		        // 垂直居中显示  
+		        // setup rules for image buttons  
+		        playButtonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);  		        // 
 		        playButtonParams.addRule(RelativeLayout.CENTER_VERTICAL); 
-		        playButtonParams.leftMargin = (int) (50 * scale + 0.5f); 
-		        // 在父布局的左边（android:alignParentLeft="false"）  
+		        playButtonParams.leftMargin = (int) (50 * scale + 0.5f); 		   
 		        stopButtonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);  
 		        stopButtonParams.addRule(RelativeLayout.CENTER_VERTICAL);  
-		        // layout_marginLeft="10dp"（这里dp转换成像素）  
 		        stopButtonParams.rightMargin = (int) (50 * scale + 0.5f); 
 		         		        				
 				audioPlayButton.setBackgroundResource(R.drawable.play_enable);
@@ -134,11 +145,9 @@ public class InterestPlaceViewerActivity extends Activity {
 				
 				initMediaPlayer();
 				
-		        // 定义单击监听器
 		        OnClickListener audioPlayOCL = new View.OnClickListener() {		 
 		            @Override
 		            public void onClick(View v) {		                
-		                    // 播放
 		                    //Toast.makeText(MainMusic.this, "点击播放", Toast.LENGTH_SHORT).show();
 		                    AudioPlay();
 		                    		               
@@ -148,14 +157,12 @@ public class InterestPlaceViewerActivity extends Activity {
 		        OnClickListener audioStopOCL = new View.OnClickListener() {		 
 		            @Override
 		            public void onClick(View v) {		                
-		                    // 播放
 		                    //Toast.makeText(MainMusic.this, "点击播放", Toast.LENGTH_SHORT).show();
 		                    AudioStop();
 		                    		               
 		            }
 		        };		        
-		 
-		        // 绑定单击监听
+		  
 		        audioPlayButton.setOnClickListener(audioPlayOCL);
 		        audioStopButton.setOnClickListener(audioStopOCL);
 				
@@ -189,8 +196,6 @@ public class InterestPlaceViewerActivity extends Activity {
 					RelativeLayout.LayoutParams pictureLayoutParams = new RelativeLayout.LayoutParams(  
 			                ViewGroup.LayoutParams.FILL_PARENT,  
 			                ViewGroup.LayoutParams.FILL_PARENT);
-			        // 在父布局的右边（相当于android:alignParentRight="true"）  
-			        // 垂直居中显示  
 					pictureLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT); 
 					pictureLayoutParams.topMargin = (int) (20 * scale + 0.5f); 					
 					
@@ -221,8 +226,7 @@ public class InterestPlaceViewerActivity extends Activity {
 					imageInfo.setOnClickListener(listener1);*/
 										  					
 					mainLayout.addView(pictureLayout);
-				}
-			}
+				}		
 		} else {
 			textInfo.setText(R.string.no_description);
 			mainLayout.addView(textInfo);
@@ -233,21 +237,19 @@ public class InterestPlaceViewerActivity extends Activity {
 		
     }
     
-    // 初始化播放器
+
     private void initMediaPlayer() {
  
     	mPlayer = new MediaPlayer();
-        // 定义播放器
         mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sample_bicycle);
 
-        //mPlayer.setDataSource(PATH_TO_FILE); //设置数据源
+        //mPlayer.setDataSource(PATH_TO_FILE); //set data source
         //mPlayer.prepare();        
         
-        // 定义资源准备好的监听器
         mPlayer.setOnPreparedListener (new OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer arg0) {
-                // 资源准备好了再让播放器按钮有效
+                // enable player button
                 //Toast.makeText(MainMusic.this, "onPrepared", Toast.LENGTH_SHORT).show();
                 audioPlayButton.setEnabled(true);
             }
@@ -281,7 +283,6 @@ public class InterestPlaceViewerActivity extends Activity {
  
     }
  
-    // 播放
     private void AudioPlay() {
  
         mPlayer.start();
@@ -290,7 +291,7 @@ public class InterestPlaceViewerActivity extends Activity {
     }
  
 
-    // Activity销毁前停止播放
+    // Need to stop the audio
     @Override
     protected void onDestroy() {
         super.onDestroy();

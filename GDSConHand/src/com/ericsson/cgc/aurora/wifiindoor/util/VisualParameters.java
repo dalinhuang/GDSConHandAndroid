@@ -21,7 +21,7 @@ public class VisualParameters {
 	public static float MAP_FONT_ALPHA = 0.5f;
 	public static float AD_PIC_ALPHA = 0.7f;
 	
-	public static int FONT_CHAR_WIDTH_MAPINFO = 12;
+	public static int FONT_CHAR_WIDTH_MAPINFO = 6;
 	public static int FONT_CHAR_WIDTH_MENU = 40;
 	public static int FONT_CHAR_WIDTH_HINTS = 16;
 	

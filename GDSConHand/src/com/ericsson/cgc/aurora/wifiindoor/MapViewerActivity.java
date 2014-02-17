@@ -2972,11 +2972,16 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 						public void onClick(DialogInterface dialog, int which) {
 							 EditText inputAudioNoText = (EditText) layout.findViewById(R.id.audio_no_input_result);
 							 String inputAudioNoStr = inputAudioNoText.getText().toString();
-							 
-							
-							 
+																					 
 							 if (inputAudioNoStr != null) {
 								 Util.showToast(MapViewerActivity.this, inputAudioNoStr, Toast.LENGTH_LONG);
+								
+								 Intent intent_show_interest_place = new Intent(MapViewerActivity.this, InterestPlaceViewerActivity.class); 
+								 Bundle mBundle = new Bundle(); 
+								 mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM,
+										 IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_INPUT);
+				    			 intent_show_interest_place.putExtras(mBundle); 
+				            	 startActivity(intent_show_interest_place);								 
 							 }else{
 								 builder.setMessage(R.string.audio_no_not_exist);
 							 }
@@ -3323,6 +3328,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
 					Intent intent_show_interest_place = new Intent(MapViewerActivity.this, InterestPlaceViewerActivity.class); 
     				Bundle mBundle = new Bundle(); 
+    				mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM,
+    						IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_TOUCH);
     				mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
     				intent_show_interest_place.putExtras(mBundle); 
             		startActivity(intent_show_interest_place);
