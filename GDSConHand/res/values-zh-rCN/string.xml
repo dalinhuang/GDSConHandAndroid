@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">掌上广东科学中心</string>
+    <string name="app_name">室内定位</string>
     <string name="menu_back">返回</string>
     <string name="menu_info">显示公告信息</string>
     <string name="menu_help">帮助</string>

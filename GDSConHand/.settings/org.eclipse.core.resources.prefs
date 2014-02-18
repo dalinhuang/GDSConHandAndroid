@@ -1,4 +1,4 @@
 eclipse.preferences.version=1
-encoding//src/com/ericsson/cgc/aurora/wifiindoor/GMapEntryActivity.java=UTF-8
-encoding//src/com/ericsson/cgc/aurora/wifiindoor/MapViewerActivity.java=UTF-8
-encoding//src/com/ericsson/cgc/aurora/wifiindoor/drawing/MapCameraViewGestureListener.java=UTF-8
+encoding//src/com/winjune/wifiindoor/GMapEntryActivity.java=UTF-8
+encoding//src/com/winjune/wifiindoor/MapViewerActivity.java=UTF-8
+encoding//src/com/winjune/wifiindoor/drawing/MapCameraViewGestureListener.java=UTF-8

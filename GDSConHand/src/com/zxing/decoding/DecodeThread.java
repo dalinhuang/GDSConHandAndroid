@@ -23,14 +23,14 @@ import java.util.concurrent.CountDownLatch;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.ericsson.cgc.aurora.wifiindoor.QrScannerActivity;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;
+import com.winjune.wifiindoor.QrScannerActivity;
 
 /**
  * This thread does all the heavy lifting of decoding the images.
- * ½âÂëÏß³Ì
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½
  */
 final class DecodeThread extends Thread {
 

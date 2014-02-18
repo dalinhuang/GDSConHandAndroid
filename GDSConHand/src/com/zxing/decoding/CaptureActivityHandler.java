@@ -27,10 +27,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.ericsson.cgc.aurora.wifiindoor.QrScannerActivity;
 import com.ericsson.cgc.aurora.wifiindoor.R;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
+import com.winjune.wifiindoor.QrScannerActivity;
 import com.zxing.camera.CameraManager;
 import com.zxing.view.ViewfinderResultPointCallback;
 
