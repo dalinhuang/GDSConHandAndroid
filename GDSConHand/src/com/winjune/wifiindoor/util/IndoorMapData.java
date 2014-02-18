@@ -58,9 +58,11 @@ public final class IndoorMapData {
 	public static final String APK_FILE_PATH_LOCAL = "apks/";
 	public static final String MAP_FILE_PATH_LOCAL = "maps/";
 	public static final String IMG_FILE_PATH_LOCAL = "img/";
+	public static final String AUDIO_FILE_PATH_LOCAL = "audio/";
 	public static final String APK_FILE_PATH_REMOTE = APK_FILE_PATH_LOCAL;
 	public static final String MAP_FILE_PATH_REMOTE = MAP_FILE_PATH_LOCAL;
 	public static final String IMG_FILE_PATH_REMOTE = IMG_FILE_PATH_LOCAL;
+	public static final String AUDIO_FILE_PATH_REMOTE = AUDIO_FILE_PATH_LOCAL;
 		
 	public static final String CONFIG_FILE_NAME = "config.properties";	
 	public static final String MAP_XML_NAME = "map.xml";

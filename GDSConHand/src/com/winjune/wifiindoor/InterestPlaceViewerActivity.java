@@ -12,8 +12,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.util.Linkify;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -24,6 +27,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.MediaController;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -39,6 +44,7 @@ public class InterestPlaceViewerActivity extends Activity {
 	private MediaPlayer mPlayer = null;
 	private ImageButton audioPlayButton = null;
 	private ImageButton audioStopButton = null;
+	private SeekBar audioSeekbar = null; 
 	
 	@Override
 	protected void onResume() {
@@ -70,10 +76,10 @@ public class InterestPlaceViewerActivity extends Activity {
         float scale = this.getResources().getDisplayMetrics().density;  
         
         ScrollView scroll = new ScrollView(getApplicationContext());
-        scroll.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+        scroll.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         
         LinearLayout mainLayout = new LinearLayout(getApplicationContext());
-        LayoutParams layout_text_parm = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams layout_text_parm = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         mainLayout.setLayoutParams(layout_text_parm);
         mainLayout.setOrientation(LinearLayout.VERTICAL);      
 
@@ -93,173 +99,175 @@ public class InterestPlaceViewerActivity extends Activity {
     			picture = place.getUrlPic();
     			audio = place.getUrlAudio();
         	}
-        }
-        	
+        }    	
+        else if (req == IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_INPUT) {
+        	audio = "sample_bicycle.mp3";
+        } 
         else {
-        	 
-        	
+        	return;
         }
-		
-			// Display Text
-			if ( text != null) {
-				textInfo.setText(text);
-				mainLayout.addView(textInfo);
-			}
+				
+		//Play audio
+		if ((audio !=null) && (!audio.trim().isEmpty())) {
+			LinearLayout audioLayout = new LinearLayout(getApplicationContext());
 			
-			//Play audio
-			/*if ((audio !=null) && (!audio.trim().isEmpty()))*/ 
-			{
-		 
-				
-		        RelativeLayout audioLayout = new RelativeLayout(getApplicationContext());
+			audioLayout.setGravity(Gravity.CENTER);
 		        
-				audioPlayButton = new ImageButton(this);
-				//final ImageView PauseButton = new ImageButton(this);
-				audioStopButton = new ImageButton(this);
+		    audioPlayButton = new ImageButton(this);
+			audioStopButton = new ImageButton(this);
+			audioSeekbar = new SeekBar(this);
+			audioSeekbar.setOnSeekBarChangeListener(new AudioSeekbarCL()); 
 		        
-				audioPlayButton.setEnabled(false);
-		        audioStopButton.setEnabled(false);
+			audioPlayButton.setEnabled(false);
+		    audioStopButton.setEnabled(false);
 				
-		        // define image button  
-		        RelativeLayout.LayoutParams playButtonParams = new RelativeLayout.LayoutParams(  
-		                ViewGroup.LayoutParams.WRAP_CONTENT,  
-		                ViewGroup.LayoutParams.WRAP_CONTENT);  
-		        RelativeLayout.LayoutParams stopButtonParams = new RelativeLayout.LayoutParams(  
-		                ViewGroup.LayoutParams.WRAP_CONTENT,  
-		                ViewGroup.LayoutParams.WRAP_CONTENT); 
+		    // define image button  
+		    LinearLayout.LayoutParams playButtonParams = new LinearLayout.LayoutParams(  
+		    								ViewGroup.LayoutParams.WRAP_CONTENT,  
+		    								ViewGroup.LayoutParams.WRAP_CONTENT);
+		    
+		    playButtonParams.leftMargin = (int) (6 * scale + 0.5f);
+		   		   
+		    LinearLayout.LayoutParams stopButtonParams = new LinearLayout.LayoutParams(  
+		    								ViewGroup.LayoutParams.WRAP_CONTENT,  
+		    								ViewGroup.LayoutParams.WRAP_CONTENT); 
+		    
+		    stopButtonParams.leftMargin = (int) (6 * scale + 0.5f);
+		   
+		    LinearLayout.LayoutParams seekBarParams = new LinearLayout.LayoutParams(  
+	                						ViewGroup.LayoutParams.MATCH_PARENT,  
+	                						ViewGroup.LayoutParams.WRAP_CONTENT); 
+		    seekBarParams.leftMargin = (int) (6 * scale + 0.5f);
+		    seekBarParams.rightMargin = (int) (6 * scale + 0.5f);
+		    		         		        				
+		    audioPlayButton.setBackgroundResource(R.drawable.play_enable);
+		    audioStopButton.setBackgroundResource(R.drawable.stop_enable);
+				
+		    audioLayout.addView(audioPlayButton, playButtonParams);
+		    audioLayout.addView(audioStopButton, stopButtonParams);
+		    audioLayout.addView(audioSeekbar, seekBarParams);
+		    mainLayout.addView(audioLayout);
+				
+		    initMediaPlayer(audio);
+				
+		    OnClickListener audioPlayOCL = new View.OnClickListener() {		 
+			   @Override
+		       public void onClick(View v) {
+				   
+				   //switch play and pause 
+				   if (mPlayer.isPlaying()) {
+					   AudioPause();
+				   } else {
+					   AudioPlay(); 
+				   }
+		       }
+		    };
 		        
-		        // setup rules for image buttons  
-		        playButtonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);  		        // 
-		        playButtonParams.addRule(RelativeLayout.CENTER_VERTICAL); 
-		        playButtonParams.leftMargin = (int) (50 * scale + 0.5f); 		   
-		        stopButtonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);  
-		        stopButtonParams.addRule(RelativeLayout.CENTER_VERTICAL);  
-		        stopButtonParams.rightMargin = (int) (50 * scale + 0.5f); 
-		         		        				
-				audioPlayButton.setBackgroundResource(R.drawable.play_enable);
-				
-				audioStopButton.setBackgroundResource(R.drawable.stop_enable);
-				
-				audioLayout.addView(audioPlayButton, playButtonParams);
-				audioLayout.addView(audioStopButton, stopButtonParams);
-				mainLayout.addView(audioLayout);
-				
-				initMediaPlayer();
-				
-		        OnClickListener audioPlayOCL = new View.OnClickListener() {		 
-		            @Override
-		            public void onClick(View v) {		                
-		                    //Toast.makeText(MainMusic.this, "点击播放", Toast.LENGTH_SHORT).show();
-		                    AudioPlay();
-		                    		               
-		            }
-		        };
-		        
-		        OnClickListener audioStopOCL = new View.OnClickListener() {		 
-		            @Override
-		            public void onClick(View v) {		                
-		                    //Toast.makeText(MainMusic.this, "点击播放", Toast.LENGTH_SHORT).show();
-		                    AudioStop();
-		                    		               
-		            }
-		        };		        
+		    OnClickListener audioStopOCL = new View.OnClickListener() {		 
+		       @Override
+		       public void onClick(View v) {		                
+		           AudioStop();
+		       }
+		   };		        
 		  
-		        audioPlayButton.setOnClickListener(audioPlayOCL);
-		        audioStopButton.setOnClickListener(audioStopOCL);
-				
-			}
+		   audioPlayButton.setOnClickListener(audioPlayOCL);
+		   audioStopButton.setOnClickListener(audioStopOCL);				
+		} // audio play
 			
-
-			//Display picture
-			if ((picture != null) && (!picture.trim().isEmpty())) {
-				String[] pictures = picture.split(";");
-				
-				listener2 = new OnClickListener() {
-					@Override
-					public void onClick(View arg0) {
-						return;
-					}					
-				};
-				
-				for (int i=0; i<pictures.length; i++) {
-					String picFilName = pictures[i];
-					
-					if (picFilName.trim().isEmpty()) {
-						continue;
-					}
-					
-					//Cache this picture locally if needed
-					
-
-					RelativeLayout pictureLayout = new RelativeLayout(getApplicationContext());
-					
-					final ImageView imageInfo = new ImageView(getApplicationContext());
-					RelativeLayout.LayoutParams pictureLayoutParams = new RelativeLayout.LayoutParams(  
-			                ViewGroup.LayoutParams.FILL_PARENT,  
-			                ViewGroup.LayoutParams.FILL_PARENT);
-					pictureLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT); 
-					pictureLayoutParams.topMargin = (int) (20 * scale + 0.5f); 					
-					
-					imageInfo.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
-
-					//Hoare: cache the file in local folder first
-					loadCachedOrDownloadIMG(imageInfo, picFilName);
-					//final String IMG_URL= Util.fullUrl(IndoorMapData.IMG_FILE_PATH_REMOTE, pictures[i]);
-					//getBitmapFromUrl(imageInfo, IMG_URL);
-					
-					imageInfo.setScaleType(ImageView.ScaleType.FIT_CENTER);
-					
-					pictureLayout.addView(imageInfo, pictureLayoutParams);
-					
-/*					imageInfo.setImageResource(R.drawable.click_here);
-					
-					final String IMG_URL= Util.fullUrl(IndoorMapData.IMG_FILE_PATH_REMOTE, pictures[i]);
-					
-					OnClickListener listener1 = new OnClickListener() {
-
-						@Override
-						public void onClick(View arg0) {
-							getBitmapFromUrl(imageInfo, IMG_URL);
-						}
-						
-					};
-					
-					imageInfo.setOnClickListener(listener1);*/
-										  					
-					mainLayout.addView(pictureLayout);
-				}		
-		} else {
-			textInfo.setText(R.string.no_description);
+		// Display Text
+		if ( text != null) {
+			textInfo.setText(text);
 			mainLayout.addView(textInfo);
-		}		
+		}
+
+		//Display picture
+		if ((picture != null) && (!picture.trim().isEmpty())) {
+			
+			String[] pictures = picture.split(";");
+			
+			listener2 = new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					return;
+				}					
+			};
+				
+			for (int i=0; i<pictures.length; i++) {
+				String picFilName = pictures[i];
+					
+				if (picFilName.trim().isEmpty()) {
+					continue;
+				}
+								
+				RelativeLayout pictureLayout = new RelativeLayout(getApplicationContext());
+					
+				final ImageView imageInfo = new ImageView(getApplicationContext());
+				RelativeLayout.LayoutParams pictureLayoutParams = new RelativeLayout.LayoutParams(  
+			                ViewGroup.LayoutParams.MATCH_PARENT,  
+			                ViewGroup.LayoutParams.MATCH_PARENT);
+				pictureLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT); 
+				pictureLayoutParams.topMargin = (int) (10 * scale + 0.5f); 					
+					
+				imageInfo.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.FILL_PARENT));
+
+				//Hoare: cache the file in local folder first
+				loadCachedOrDownloadIMG(imageInfo, picFilName);
+					
+				imageInfo.setScaleType(ImageView.ScaleType.FIT_CENTER);
+					
+				pictureLayout.addView(imageInfo, pictureLayoutParams);
+										  					
+				mainLayout.addView(pictureLayout);
+			}
+		}// Display picture	
 		
 		scroll.addView(mainLayout);
 		setContentView(scroll);				
-		
     }
     
 
-    private void initMediaPlayer() {
- 
+    private void initMediaPlayer(String audioFile) {
+    	
+    	final String audioURL= Util.fullUrl(IndoorMapData.AUDIO_FILE_PATH_REMOTE, audioFile);
+	    	
     	mPlayer = new MediaPlayer();
-        mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sample_bicycle);
+        
+    	mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sample_bicycle);
 
-        //mPlayer.setDataSource(PATH_TO_FILE); //set data source
-        //mPlayer.prepare();        
+//        try {
+//			mPlayer.setDataSource(audioURL);
+//			mPlayer.prepare();
+//		} catch (IllegalArgumentException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (SecurityException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IllegalStateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} //set data source
+        
+
         
         mPlayer.setOnPreparedListener (new OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer arg0) {
                 // enable player button
-                //Toast.makeText(MainMusic.this, "onPrepared", Toast.LENGTH_SHORT).show();
                 audioPlayButton.setEnabled(true);
+               
+                //get the length of the audio and setup the seekbar, default is 100
+                //audioSeekbar.setMax(mPlayer.getDuration());
             }
         });
                        
- 
-        // 定义播放完成监听器
+        new Thread(new AudioSeekBarRefresh()).start();
+        
+        // Detect the completetion event
         mPlayer.setOnCompletionListener(new OnCompletionListener() {
- 
             @Override
             public void onCompletion(MediaPlayer mp) {
                 //Toast.makeText(MainMusic.this, "onCompletion", Toast.LENGTH_SHORT).show();
@@ -268,9 +276,9 @@ public class InterestPlaceViewerActivity extends Activity {
         });
     }
  
-    // 停止播放
     private void AudioStop() {
         mPlayer.stop();
+        audioPlayButton.setBackgroundResource(R.drawable.play_enable);
         audioStopButton.setEnabled(false);
         try {
             mPlayer.prepare();
@@ -287,8 +295,13 @@ public class InterestPlaceViewerActivity extends Activity {
     private void AudioPlay() {
  
         mPlayer.start();
-        audioPlayButton.setEnabled(false);
+        audioPlayButton.setBackgroundResource(R.drawable.pause_enable);
         audioStopButton.setEnabled(true);
+    }
+    
+    private void AudioPause(){
+    	mPlayer.pause();
+    	audioPlayButton.setBackgroundResource(R.drawable.pause_enable);
     }
  
 
@@ -296,7 +309,7 @@ public class InterestPlaceViewerActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        
+     // stop the audio first
         if (audioStopButton != null) {
 	        if (audioStopButton.isEnabled()) {
 	        	AudioStop();
@@ -340,6 +353,7 @@ public class InterestPlaceViewerActivity extends Activity {
     	}.start();
     }
     
+    // obsolete since we will cache the img first for weibo share
     private void getBitmapFromUrl(final ImageView imageInfo, final String imgUrl) {
     	new Thread() {
     		public void run() {   			
@@ -378,6 +392,68 @@ public class InterestPlaceViewerActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
+        
+		// stop the audio first
+		if (audioStopButton != null) {
+	        if (audioStopButton.isEnabled()) {
+	        	AudioStop();
+	        }
+        }		
 		finish();
+	}	
+    
+	class AudioSeekbarCL implements OnSeekBarChangeListener {  
+		int progress;  
+		
+		@Override
+        public void onStopTrackingTouch(SeekBar seekBar) { 
+	            mPlayer.seekTo(progress);  
+        }
+
+		@Override
+		public void onProgressChanged(SeekBar seekBar, int progress,
+				boolean fromUser) {
+			// TODO Auto-generated method stub
+			this.progress = progress * mPlayer.getDuration()  
+                    / audioSeekbar.getMax();  
+		}
+
+		@Override
+		public void onStartTrackingTouch(SeekBar seekBar) {
+			// TODO Auto-generated method stub
+			
+		}  
+    }  	
+	
+	private Handler audioSeekBarHandler = new Handler() {
+
+    	public void handleMessage(Message msg) {
+            int position = mPlayer.getCurrentPosition();  
+            int duration = mPlayer.getDuration();  
+              
+            if (duration > 0) {  
+                long pos = audioSeekbar.getMax() * position / duration;  
+                audioSeekbar.setProgress((int) pos);  
+            }  
+    	};
+	};
+	
+	class AudioSeekBarRefresh implements Runnable{
+	    @Override
+	    public void run() {
+	        while(true){
+	        	if (mPlayer.isPlaying() && !(audioSeekbar.isPressed())) {
+	        		audioSeekBarHandler.sendMessage(audioSeekBarHandler.obtainMessage());
+	        	}
+	        	
+	            try {
+					Thread.sleep(200);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        }
+
+	    }
 	}
 }
