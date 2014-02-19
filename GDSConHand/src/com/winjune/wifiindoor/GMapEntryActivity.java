@@ -206,7 +206,7 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 				// TODO Auto-generated method stub
         		appStartUp();
         		
-        		//Hoare: give more time to show backgroud picture
+        		//Hoare: give more time to show background picture
         		try {
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
