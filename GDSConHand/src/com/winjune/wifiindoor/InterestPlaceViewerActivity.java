@@ -235,6 +235,8 @@ public class InterestPlaceViewerActivity extends Activity {
 			shareButton.setText(R.string.share);
 			mainLayout.addView(shareButton);
 			
+			final String weiboContent = text;
+			
 			shareButton.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
@@ -245,7 +247,7 @@ public class InterestPlaceViewerActivity extends Activity {
 	    			intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share);
 	    			
 	    			// Add the text content to the intent
-	    			String content = (String) textInfo.getText();
+	    			String content = weiboContent;
 	    			if (content.length() > 280) {
 	    				content = content.substring(0, 277); // cut to match 140 Chinese character for Sina Weibo 
 	    			}
@@ -369,7 +371,7 @@ public class InterestPlaceViewerActivity extends Activity {
     
     private void AudioPause(){
     	mPlayer.pause();
-    	audioPlayButton.setBackgroundResource(R.drawable.pause_enable);
+    	audioPlayButton.setBackgroundResource(R.drawable.play_enable);
     }
  
 
