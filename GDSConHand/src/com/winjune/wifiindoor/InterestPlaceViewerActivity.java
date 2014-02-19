@@ -6,8 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
@@ -22,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,6 +38,7 @@ import android.widget.TextView;
 import android.widget.MediaController;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnPreparedListener;
+import android.net.Uri;
 
 import com.ericsson.cgc.aurora.wifiindoor.R;
 import com.winjune.wifiindoor.map.InterestPlace;
@@ -45,6 +51,7 @@ public class InterestPlaceViewerActivity extends Activity {
 	private ImageButton audioPlayButton = null;
 	private ImageButton audioStopButton = null;
 	private SeekBar audioSeekbar = null; 
+	private Button shareButton = null; //Button for sharing the content to social media
 	
 	@Override
 	protected void onResume() {
@@ -83,7 +90,7 @@ public class InterestPlaceViewerActivity extends Activity {
         mainLayout.setLayoutParams(layout_text_parm);
         mainLayout.setOrientation(LinearLayout.VERTICAL);      
 
-        TextView textInfo = new TextView(getApplicationContext());
+        final TextView textInfo = new TextView(getApplicationContext());
         textInfo.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         textInfo.setAutoLinkMask(Linkify.ALL);
         textInfo.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_Large);        
@@ -183,7 +190,7 @@ public class InterestPlaceViewerActivity extends Activity {
 		//Display picture
 		if ((picture != null) && (!picture.trim().isEmpty())) {
 			
-			String[] pictures = picture.split(";");
+			final String[] pictures = picture.split(";");
 			
 			listener2 = new OnClickListener() {
 				@Override
@@ -219,6 +226,67 @@ public class InterestPlaceViewerActivity extends Activity {
 										  					
 				mainLayout.addView(pictureLayout);
 			}
+			
+			// Add the button to share the content
+			shareButton = new Button(this);
+			shareButton.setEnabled(true);	        
+	        shareButton.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+	        
+			shareButton.setText(R.string.share);
+			mainLayout.addView(shareButton);
+			
+			shareButton.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					  			
+	    			Intent intent = new Intent(Intent.ACTION_SEND); // Intent to be sent to Sina Weibo APP
+	    			intent.setType("image/*");
+	    			intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share);
+	    			
+	    			// Add the text content to the intent
+	    			String content = (String) textInfo.getText();
+	    			if (content.length() > 280) {
+	    				content = content.substring(0, 277); // cut to match 140 Chinese character for Sina Weibo 
+	    			}
+	    			intent.putExtra(Intent.EXTRA_TEXT,content);
+	    			
+	    			// Add the stream of the picture to the intent
+					String localFilePath = Util.getFilePath(IndoorMapData.IMG_FILE_PATH_LOCAL);
+	    	    	String fullFileName = localFilePath + pictures[0]; // By default share the first picture
+	    			File f = new File (fullFileName);
+	    			Uri uri = Uri.fromFile(f);
+	    			intent.putExtra(Intent.EXTRA_STREAM, uri);
+	    			
+	    			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	    			
+	    			String sinaPackage = "com.sina.weibo";
+	    			
+	    			// Check whether sina weibo is installed
+	    			PackageManager pm = getPackageManager();
+	    			List<ResolveInfo> matches = pm.queryIntentActivities(intent,
+	    					PackageManager.MATCH_DEFAULT_ONLY);
+	    			if (!matches.isEmpty()) {
+	    					    				
+	    				ResolveInfo info = null;
+	    				for (ResolveInfo each : matches) {	    					
+	    					String pkgName = each.activityInfo.applicationInfo.packageName;
+	    					if (sinaPackage.equals(pkgName)) {
+	    						info = each;
+	    						break;				
+	    					}
+	    				}
+	    				
+	    				if (info == null) { // if sina weibo is NOT installed
+	    					Util.showLongToast(InterestPlaceViewerActivity.this, R.string.no_weibo_installed);
+	    					return;
+	    				} else {
+	    					intent.setClassName(sinaPackage, info.activityInfo.name);
+	    					startActivity(intent);
+	    				}
+	    			} // !matches.isEmpty()
+				} // onClick(View v)
+			});
 		}// Display picture	
 		
 		scroll.addView(mainLayout);
