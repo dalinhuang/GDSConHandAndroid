@@ -204,15 +204,23 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
         	@Override
 			protected Integer doInBackground(Void... params) {
 				// TODO Auto-generated method stub
+        		long startTime = System.currentTimeMillis();
         		appStartUp();
+        		long completeTime = System.currentTimeMillis();
+        		long runTime = completeTime - startTime;
         		
-        		//Hoare: give more time to show background picture
-        		try {
-					Thread.sleep(3000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+        		if (runTime < 3000) {
+        			
+        			long sleepTime = 3000 - runTime;
+        			//Hoare: give more time to show background picture
+            		try {
+    					Thread.sleep(sleepTime);
+    				} catch (InterruptedException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+        		}
+        		
         		return null;
 			}
 

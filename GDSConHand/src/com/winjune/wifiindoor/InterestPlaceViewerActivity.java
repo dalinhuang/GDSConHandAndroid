@@ -231,9 +231,16 @@ public class InterestPlaceViewerActivity extends Activity {
 			shareButton = new Button(this);
 			shareButton.setEnabled(true);	        
 	        shareButton.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-	        
 			shareButton.setText(R.string.share);
-			mainLayout.addView(shareButton);
+			
+			RelativeLayout shareLayout = new RelativeLayout(getApplicationContext());
+			RelativeLayout.LayoutParams shareLayoutParams = new RelativeLayout.LayoutParams(  
+	                ViewGroup.LayoutParams.MATCH_PARENT,  
+	                ViewGroup.LayoutParams.MATCH_PARENT);
+			shareLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+			
+			shareLayout.addView(shareButton);
+			mainLayout.addView(shareLayout);
 			
 			final String weiboContent = text;
 			
