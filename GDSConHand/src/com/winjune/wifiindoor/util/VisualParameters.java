@@ -21,13 +21,16 @@ public class VisualParameters {
 	public static float MAP_FONT_ALPHA = 0.5f;
 	public static float AD_PIC_ALPHA = 0.7f;
 	
-	public static int FONT_CHAR_WIDTH_MAPINFO = 6;
+	public static int FONT_CHAR_ABS_WIDTH_MAPINFO = 16;
 	public static int FONT_CHAR_WIDTH_MENU = 40;
 	public static int FONT_CHAR_WIDTH_HINTS = 16;
 	
 	// Left Margins for ADS 
 	public static int BOTTOM_SPACE_FOR_ADS_PORTRAIT = 0; //120;  
 	public static int RIGHT_SPACE_FOR_ADS_LANDSCAPE = 0; //120;
+	
+	//SOC for planning/debug mode
+	public static boolean PLANNING_MODE = false;
 	
 	// SOC for ADS
 	public static boolean ADS_ENABLED = false;
@@ -38,7 +41,7 @@ public class VisualParameters {
 	public static boolean ENTRY_NEEDED = true;
 	
 	// SOC for background lines
-	public static boolean BACKGROUND_LINES_NEEDED = false;
+	public static boolean BACKGROUND_LINES_NEEDED = true;
 	public static int BACKROUND_LINES_BUFFER_SIZE = 2;
 	
 	//public static int BOTTOM_SPACE_FOR_ADS_PORTRAIT = 120;

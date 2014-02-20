@@ -152,7 +152,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	private Text mClockText;
 	private Text mBatteryText;
 	private Text mHintText;
-	private Sound mLongPressedSound;
+	private Sound medSound;
 	private ScreenAdvertisement mAdvertisement;
 	private Sprite mapADSprite;
 	//private TabHost mTabHost;
@@ -1071,7 +1071,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			Log.d(TAG, "Start initialHUDMenuBar");
 
 		int x = cameraWidth - CONTROL_BUTTON_WIDTH;
-		int y = CONTROL_BUTTON_MARGIN;		
+		int y = cameraHeight - CONTROL_BUTTON_MARGIN - CONTROL_BUTTON_HEIGHT;		
 		Library.MENU_LOCATE.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
 		putHUDControlUnit(Library.MENU_LOCATE, x, y, new SpriteListener() {
 
@@ -1089,7 +1089,42 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			}
 		});
 		
-		y += CONTROL_BUTTON_HEIGHT + CONTROL_BUTTON_MARGIN * 2;
+		y -= CONTROL_BUTTON_HEIGHT + CONTROL_BUTTON_MARGIN * 2;
+		Library.MENU_ZOOM.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
+		putHUDControlUnit(Library.MENU_ZOOM, x, y, new SpriteListener() {
+
+			//private boolean zoomMostIn = true;
+
+			@Override
+			public boolean onAreaTouched(AnimatedSprite sprite,
+					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
+					float pTouchAreaLocalY) {
+				
+				
+				
+				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+					// Interest place quick entry :
+					showGuideAudioBar();
+					
+					/* 
+					if (zoomMostIn) {
+						zoomControl.zoomMostOut();//Hoare
+						zoomMostIn = false;
+						sprite.setCurrentTileIndex(1);
+					} else {
+						zoomControl.zoomMostIn();//Hoare
+						zoomMostIn = true;
+						sprite.setCurrentTileIndex(0);
+
+					}
+					*/
+				}
+
+				return true;
+			}
+		});		
+		
+		y -= CONTROL_BUTTON_HEIGHT + CONTROL_BUTTON_MARGIN * 2;
 		Library.MENU_SCAN_QR.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
 		putHUDControlUnit(Library.MENU_SCAN_QR, x, y, new SpriteListener() {
 
@@ -1107,7 +1142,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			}
 		});
 		
-		y += CONTROL_BUTTON_HEIGHT + CONTROL_BUTTON_MARGIN * 2;
+		y -= CONTROL_BUTTON_HEIGHT + CONTROL_BUTTON_MARGIN * 2;
 		Library.MENU_NAVI.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
 		putHUDControlUnit(Library.MENU_NAVI, x, y, new SpriteListener() {
 
@@ -1124,91 +1159,60 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			}
 		});
 
-		y += CONTROL_BUTTON_HEIGHT + CONTROL_BUTTON_MARGIN * 2;
-		Library.MENU_ZOOM.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
-		putHUDControlUnit(Library.MENU_ZOOM, x, y, new SpriteListener() {
 
-			//private boolean zoomMostIn = true;
-
-			@Override
-			public boolean onAreaTouched(AnimatedSprite sprite,
-					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
-					float pTouchAreaLocalY) {
-				
-				
-				
-				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
-					//Hoare:
-					showGuideAudioBar();
-					/* 
-					if (zoomMostIn) {
-						zoomControl.zoomMostOut();//Hoare
-						zoomMostIn = false;
-						sprite.setCurrentTileIndex(1);
-					} else {
-						zoomControl.zoomMostIn();//Hoare
-						zoomMostIn = true;
-						sprite.setCurrentTileIndex(0);
-
+		if (VisualParameters.PLANNING_MODE) {
+			y -= CONTROL_BUTTON_HEIGHT + CONTROL_BUTTON_MARGIN * 2;
+			Library.MENU_MODE.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
+			putHUDControlUnit(Library.MENU_MODE, x, y, new SpriteListener() {
+	
+				@Override
+				public boolean onAreaTouched(AnimatedSprite sprite,
+						TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
+						float pTouchAreaLocalY) {
+	
+					if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+						mMode++; // Put this line inner this check or it will cause
+									// big problem
+						if (mMode == IndoorMapData.MAP_MODE_MAX) {
+							mMode = 0;
+						}
+						
+						switch (mMode) {
+							case IndoorMapData.MAP_MODE_VIEW:
+								showAd(false);
+								break;
+							default:
+								hideAd();
+						}
+						
+						mTargetColNo = -1;
+						mTargetRowNo = -1;
+						mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(Util.getRuntimeIndoorMap().getTarget().getSprite());
+	
+						modeControl.changeMode(sprite, mMode);
 					}
-					*/
+	
+					return true;
 				}
-
-				return true;
-			}
-		});
-		
-		y += CONTROL_BUTTON_HEIGHT + CONTROL_BUTTON_MARGIN * 2;
-		Library.MENU_MODE.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
-		putHUDControlUnit(Library.MENU_MODE, x, y, new SpriteListener() {
-
-			@Override
-			public boolean onAreaTouched(AnimatedSprite sprite,
-					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
-					float pTouchAreaLocalY) {
-
-				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
-					mMode++; // Put this line inner this check or it will cause
-								// big problem
-					if (mMode == IndoorMapData.MAP_MODE_MAX) {
-						mMode = 0;
+			});
+	
+			y -= CONTROL_BUTTON_HEIGHT + CONTROL_BUTTON_MARGIN * 2;
+			Library.MENU_ACTION.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
+			putHUDControlUnit(Library.MENU_ACTION, x, y, new SpriteListener() {
+	
+				@Override
+				public boolean onAreaTouched(AnimatedSprite sprite,
+						TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
+						float pTouchAreaLocalY) {
+	
+					if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+						decideNextActionAfter();
 					}
-					
-					switch (mMode) {
-						case IndoorMapData.MAP_MODE_VIEW:
-							showAd(false);
-							break;
-						default:
-							hideAd();
-					}
-					
-					mTargetColNo = -1;
-					mTargetRowNo = -1;
-					mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(Util.getRuntimeIndoorMap().getTarget().getSprite());
-
-					modeControl.changeMode(sprite, mMode);
+	
+					return true;
 				}
-
-				return true;
-			}
-		});
-
-		y += CONTROL_BUTTON_HEIGHT + CONTROL_BUTTON_MARGIN * 2;
-		Library.MENU_ACTION.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
-		putHUDControlUnit(Library.MENU_ACTION, x, y, new SpriteListener() {
-
-			@Override
-			public boolean onAreaTouched(AnimatedSprite sprite,
-					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
-					float pTouchAreaLocalY) {
-
-				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
-					decideNextActionAfterLongPress();
-				}
-
-				return true;
-			}
-		});
+			});
+		}// planning mode
 
 		if (DEBUG)
 			Log.d(TAG, "End initialHUDMenuBar");
@@ -1475,11 +1479,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 		if (pKeyCode == KeyEvent.KEYCODE_DPAD_UP
 				&& pEvent.getAction() == KeyEvent.ACTION_DOWN) {
-			zoomControl.zoomIn();//Hoare
+			zoomControl.zoomIn();
 			return true;
 		} else if (pKeyCode == KeyEvent.KEYCODE_DPAD_DOWN
 				&& pEvent.getAction() == KeyEvent.ACTION_DOWN) {
-			zoomControl.zoomOut();//Hoare
+			zoomControl.zoomOut();
 			return true;
 		} else if (pKeyCode == KeyEvent.KEYCODE_MENU
 				&& pEvent.getAction() == KeyEvent.ACTION_DOWN) {
@@ -1505,6 +1509,12 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	}
 
 	public void handleLongPress(MotionEvent e) {
+		
+		//long press is only enable in planning/debug mode
+		if (!VisualParameters.PLANNING_MODE) {
+			return;
+		}
+		
 		float zoomFactor = mCamera.getZoomFactor();
 		float centerX = mCamera.getCenterX();
 		float centerY = mCamera.getCenterY();
@@ -1537,15 +1547,15 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			// Nexus7 does not has a Vibrator but it get into our codes, let it play sounds
 			if (Util.getDeviceName().trim().equalsIgnoreCase("Nexus 7")) {
 				// Play sound, repeat 1 time
-				mLongPressedSound.setLoopCount(1);
-				mLongPressedSound.play();
+				medSound.setLoopCount(1);
+				medSound.play();
 			} else {
 				Util.getVibrator().vibrate(500);
 			}
 		} else {
 			// Play sound, repeat 1 time
-			mLongPressedSound.setLoopCount(1);
-			mLongPressedSound.play();
+			medSound.setLoopCount(1);
+			medSound.play();
 		}
 		
 		// Put a flag on the chosen cell
@@ -1557,7 +1567,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		mTargetRowNo = rowNo;
 	}
 	
-	private void decideNextActionAfterLongPress() {
+	private void decideNextActionAfter() {
 		if ((mTargetColNo==-1) || (mTargetRowNo==-1)) {
 			//Util.showLongToast(this, R.string.need_a_selected_location);
 			updateHintText(R.string.need_a_selected_location);
@@ -2212,6 +2222,13 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 						true, Color.BLUE);
 		mFont_hints.load();
 		
+		
+		// Ensure the map info font is not too small on large screen
+		// float mapInfoFontSize = Math.round(Math.min(cameraWidth, cameraHeight)/72);
+	
+		//not like other font, the map info font size is an absolute size, 
+		//the exact size should be defined in database as its scale
+		// the reason is that the font size is related the picture density
 		BitmapTextureAtlas fontTexture_mapInfo = new BitmapTextureAtlas(
 				getTextureManager(), 512, 512, TextureOptions.BILINEAR);
 		mFont_mapinfo = FontFactory.createFromAsset(
@@ -2219,7 +2236,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 						fontTexture_mapInfo,
 						getAssets(),
 						"comic.ttf",
-						density * VisualParameters.FONT_CHAR_WIDTH_MAPINFO,
+						VisualParameters.FONT_CHAR_ABS_WIDTH_MAPINFO,
 						true, Color.BLACK);
 		mFont_mapinfo.load();
 		
@@ -2239,7 +2256,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		SoundFactory.setAssetBasePath("mfx/");
 		/* Load all the sounds this map needs. */
 		try {
-			mLongPressedSound = SoundFactory.createSoundFromAsset(getSoundManager(), this, "cell_collected.ogg");
+			medSound = SoundFactory.createSoundFromAsset(getSoundManager(), this, "cell_collected.ogg");
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}

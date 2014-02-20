@@ -62,7 +62,7 @@ public class Library {
 			new String[] { "svg/view.svg", "svg/edit.svg", "svg/nfc_edit.svg", "svg/delete.svg", "svg/test_locate.svg", "svg/test_collect.svg" }, 0);
 	
 	public static final AnimatedUnit MENU_ZOOM = new AnimatedUnit(
-			new String[] { "svg/zoomMostOut.svg", "svg/zoomMostIn.svg" }, 0);
+			new String[] { "svg/zoomMostIn.svg", "svg/zoomMostOut.svg" }, 0);
 	
 	public static final AnimatedUnit MENU_ACTION = new AnimatedUnit(
 			new String[] { "svg/action.svg" }, 0);

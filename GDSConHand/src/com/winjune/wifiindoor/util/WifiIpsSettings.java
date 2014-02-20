@@ -20,9 +20,7 @@ import android.text.TextUtils;
  */
 public class WifiIpsSettings {
 	
-	public static boolean ZOOM_SWITCH = true;
-	public static boolean PLANNING_MODE = true;
-	public static boolean AUTO_GUIDE = true;
+	public static boolean ZOOM_SWITCH_MAP = true;
 	public static String FILE_CACHE_FOLDER = "/GDSConHand/";
 	
 	public static boolean DEBUG = true;

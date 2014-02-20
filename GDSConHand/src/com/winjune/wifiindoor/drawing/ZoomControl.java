@@ -92,7 +92,7 @@ public class ZoomControl {
 			mCamera.setZoomFactor(target);
 		}else{			
 			//Hoare: for test, mapid is harcoded		
-			if (WifiIpsSettings.ZOOM_SWITCH ) {
+			if (WifiIpsSettings.ZOOM_SWITCH_MAP ) {
 				if (Util.getRuntimeIndoorMap().getMapId() == 2) {
 					int colNo = activity.getCenterColNo();
 					int rowNo = activity.getCenterRowNo();
@@ -132,7 +132,7 @@ public class ZoomControl {
 					true);
 		} else {
 			//Hoare: for test
-			if (WifiIpsSettings.ZOOM_SWITCH) {
+			if (WifiIpsSettings.ZOOM_SWITCH_MAP) {
 				if (Util.getRuntimeIndoorMap().getMapId() == 1) {
 					
 					int colNo = activity.getCenterColNo();
