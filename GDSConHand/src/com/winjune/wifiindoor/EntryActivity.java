@@ -161,6 +161,11 @@ public class EntryActivity extends Activity implements SensorEventListener {
         		if (!Util.isHttpConnectionEstablished()) {
         			Util.showLongToast(EntryActivity.this, R.string.retry_ip);
         			Util.initApp(EntryActivity.this);
+        			new Thread() {
+        				public void run() {
+        					Util.connetcToServer(EntryActivity.this);
+        				}
+        			}.start();
         			return;
         		}
         		
@@ -260,6 +265,11 @@ public class EntryActivity extends Activity implements SensorEventListener {
 		if (!Util.isHttpConnectionEstablished()) {
 			Util.showLongToast(EntryActivity.this, R.string.retry_ip);
 			Util.initApp(EntryActivity.this);
+			new Thread() {
+				public void run() {
+					Util.connetcToServer(EntryActivity.this);
+				}
+			}.start();
 			return;
 		}
 		

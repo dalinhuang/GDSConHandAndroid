@@ -445,6 +445,11 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 		if (!Util.isHttpConnectionEstablished()) {
 			Util.showLongToast(this, R.string.retry_ip);
 			Util.initApp(this);
+			new Thread() {
+				public void run() {
+					Util.connetcToServer(GMapEntryActivity.this);
+				}
+			}.start();
 			return;
 		}
 		
