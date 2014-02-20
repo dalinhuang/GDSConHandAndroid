@@ -213,9 +213,9 @@ public class InterestPlaceViewerActivity extends Activity {
 			                ViewGroup.LayoutParams.MATCH_PARENT,  
 			                ViewGroup.LayoutParams.MATCH_PARENT);
 				pictureLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT); 
-				pictureLayoutParams.topMargin = (int) (10 * scale + 0.5f); 					
+				pictureLayoutParams.topMargin = (int) (2 * scale + 0.5f); 					
 					
-				imageInfo.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.FILL_PARENT));
+				imageInfo.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
 
 				//Hoare: cache the file in local folder first
 				loadCachedOrDownloadIMG(imageInfo, picFilName);

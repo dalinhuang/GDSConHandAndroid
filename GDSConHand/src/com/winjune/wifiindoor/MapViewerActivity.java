@@ -122,6 +122,7 @@ import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
 import com.winjune.wifiindoor.util.WifiIpsSettings;
 import com.winjune.wifiindoor.webservice.MsgConstants;
+import com.winjune.wifiindoor.InterestPlaceWebViewActivity;
 
 
 public class MapViewerActivity extends LayoutGameActivity implements SensorEventListener {
@@ -3327,13 +3328,25 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 				}
 
 				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
-					Intent intent_show_interest_place = new Intent(MapViewerActivity.this, InterestPlaceViewerActivity.class); 
-    				Bundle mBundle = new Bundle(); 
-    				mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM,
+					
+					// refine video URL as the general web page
+					// if the web page URL is defined, load web page from URL using web browswer
+					if (place.getUrlVideo() != null) {
+						Intent intent_show_interest_place = new Intent(MapViewerActivity.this, InterestPlaceWebViewActivity.class); 
+						Bundle mBundle = new Bundle(); 
+						mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
+						intent_show_interest_place.putExtras(mBundle); 
+						startActivity(intent_show_interest_place);
+						
+					} else {
+						Intent intent_show_interest_place = new Intent(MapViewerActivity.this, InterestPlaceViewerActivity.class); 
+						Bundle mBundle = new Bundle(); 
+						mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM,
     						IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_TOUCH);
-    				mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
-    				intent_show_interest_place.putExtras(mBundle); 
-            		startActivity(intent_show_interest_place);
+						mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
+						intent_show_interest_place.putExtras(mBundle); 
+						startActivity(intent_show_interest_place);
+					}
 				}
 
 				return true;
