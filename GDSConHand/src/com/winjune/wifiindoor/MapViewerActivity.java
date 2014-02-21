@@ -75,7 +75,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.ericsson.cgc.aurora.wifiindoor.R;
+import com.winjune.wifiindoor.R;
 import com.google.gson.Gson;
 import com.winjune.wifiindoor.ads.AdGroup;
 import com.winjune.wifiindoor.ads.AdSpriteListener;

@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.ericsson.cgc.aurora.wifiindoor.R;
+import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.map.IndoorMap;
 import com.winjune.wifiindoor.types.ApkVersionReply;
 import com.winjune.wifiindoor.types.LocationSet;

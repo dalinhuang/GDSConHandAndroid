@@ -8,7 +8,7 @@ import org.andengine.entity.text.Text;
 import android.app.Activity;
 import android.widget.Toast;
 
-import com.ericsson.cgc.aurora.wifiindoor.R;
+import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.drawing.runtime.PreciseCellLocation;
 import com.winjune.wifiindoor.runtime.Cell;
 import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;

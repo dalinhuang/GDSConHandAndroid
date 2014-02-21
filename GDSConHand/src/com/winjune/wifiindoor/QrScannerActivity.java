@@ -21,7 +21,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.ericsson.cgc.aurora.wifiindoor.R;
+import com.winjune.wifiindoor.R;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.winjune.wifiindoor.util.Util;

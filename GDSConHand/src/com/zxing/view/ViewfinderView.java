@@ -28,7 +28,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.ericsson.cgc.aurora.wifiindoor.R;
+import com.winjune.wifiindoor.R;
 import com.google.zxing.ResultPoint;
 import com.zxing.camera.CameraManager;
 

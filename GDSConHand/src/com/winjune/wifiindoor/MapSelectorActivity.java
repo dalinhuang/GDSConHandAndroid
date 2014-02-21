@@ -18,7 +18,7 @@ import java.util.HashMap;
 
 import org.json.JSONObject;
 
-import com.ericsson.cgc.aurora.wifiindoor.R;
+import com.winjune.wifiindoor.R;
 import com.google.gson.Gson;
 import com.winjune.wifiindoor.map.MapManager;
 import com.winjune.wifiindoor.map.MapManagerItem;

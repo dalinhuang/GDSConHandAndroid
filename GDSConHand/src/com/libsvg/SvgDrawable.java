@@ -28,7 +28,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.ImageView;
 
-import com.ericsson.cgc.aurora.wifiindoor.R;
+import com.winjune.wifiindoor.R;
 
 /**
  * A Drawable that wraps an Svg image and can be stretched or aligned. You can create a

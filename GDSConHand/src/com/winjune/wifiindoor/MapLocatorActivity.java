@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 import org.json.JSONObject;
 
-import com.ericsson.cgc.aurora.wifiindoor.R;
+import com.winjune.wifiindoor.R;
 import com.google.gson.Gson;
 import com.winjune.wifiindoor.map.IndoorMap;
 import com.winjune.wifiindoor.types.IndoorMapReply;

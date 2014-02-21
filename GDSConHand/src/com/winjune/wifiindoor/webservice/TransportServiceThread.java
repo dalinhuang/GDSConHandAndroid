@@ -15,7 +15,7 @@ import android.content.Context;
 import android.os.Looper;
 import android.util.Log;
 
-import com.ericsson.cgc.aurora.wifiindoor.R;
+import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.ads.AdGroup;
 import com.winjune.wifiindoor.types.ApkVersionReply;
 import com.winjune.wifiindoor.types.BuildingManagerReply;

@@ -2,7 +2,7 @@ package com.winjune.wifiindoor.drawing;
 
 import org.andengine.engine.camera.ZoomCamera;
 
-import com.ericsson.cgc.aurora.wifiindoor.R;
+import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.MapLocatorActivity;
 import com.winjune.wifiindoor.MapViewerActivity;
 import com.winjune.wifiindoor.util.IndoorMapData;

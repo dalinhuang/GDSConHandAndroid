@@ -5,7 +5,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.region.TextureRegion;
 
-import com.ericsson.cgc.aurora.wifiindoor.R;
+import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.MapViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.AndEngineGraphicsHelper;
 import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;

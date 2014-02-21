@@ -1,6 +1,6 @@
 package com.winjune.wifiindoor.util;
 
-import com.ericsson.cgc.aurora.wifiindoor.R;
+import com.winjune.wifiindoor.R;
 
 public final class IndoorMapData {
 	// Request Type send to Server, used to package the Fingerprint

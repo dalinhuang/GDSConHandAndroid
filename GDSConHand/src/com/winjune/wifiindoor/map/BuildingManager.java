@@ -14,7 +14,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 
-import com.ericsson.cgc.aurora.wifiindoor.R;
+import com.winjune.wifiindoor.R;
 import com.thoughtworks.xstream.XStream;
 import com.winjune.wifiindoor.types.BuildingManagerReply;
 import com.winjune.wifiindoor.util.IndoorMapData;

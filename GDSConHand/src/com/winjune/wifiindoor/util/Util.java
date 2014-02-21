@@ -14,7 +14,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.ericsson.cgc.aurora.wifiindoor.R;
+import com.winjune.wifiindoor.R;
 import com.google.gson.Gson;
 import com.winjune.wifiindoor.drawing.graphic.ImageLoader;
 import com.winjune.wifiindoor.network.CellInfoManager;

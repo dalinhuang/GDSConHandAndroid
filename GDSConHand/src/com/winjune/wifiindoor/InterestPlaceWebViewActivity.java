@@ -2,7 +2,7 @@ package com.winjune.wifiindoor;
 
 import java.util.List;
 
-import com.ericsson.cgc.aurora.wifiindoor.R;
+import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.util.Util;
 
 import android.app.Activity;
@@ -50,11 +50,11 @@ public class InterestPlaceWebViewActivity extends Activity {
     			intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share);
     			
     			// Add the text content to the intent
-    			String prefix = "ÎÒÓÐÒ»¸öÓÐÈ¤µÄÁ´½ÓÏë·ÖÏí¸øÄã£º";
+    			String prefix = "ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½È¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã£º";
     			
     			if ((prefix.length() + url.length()) < 280) {
     				// make sure the length of the content is no more than 140 Chinese words
-    				String content = "ÎÒÓÐÒ»¸öÓÐÈ¤µÄÁ´½ÓÏë·ÖÏí¸øÄã£º" + url;
+    				String content = "ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½È¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã£º" + url;
     				intent.putExtra(Intent.EXTRA_TEXT,content);
     			}
     			else {
