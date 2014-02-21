@@ -248,16 +248,23 @@ public class InterestPlaceViewerActivity extends Activity {
 				
 				@Override
 				public void onClick(View v) {
-					  			
+					String content; 
+					
 	    			Intent intent = new Intent(Intent.ACTION_SEND); // Intent to be sent to Sina Weibo APP
 	    			intent.setType("image/*");
 	    			intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share);
 	    			
 	    			// Add the text content to the intent
-	    			String content = weiboContent;
-	    			if (content.length() > 280) {
-	    				content = content.substring(0, 277); // cut to match 140 Chinese character for Sina Weibo 
+	    			if (weiboContent != null) {
+		    			content = weiboContent;	    	
+		    			if (content.length() > 280) {
+		    				content = content.substring(0, 277); // cut to match 140 Chinese character for Sina Weibo 
+		    			}
+	    			}else {
+	    				content  = getString(R.string.share_prefix);
 	    			}
+	    				
+	    		
 	    			intent.putExtra(Intent.EXTRA_TEXT,content);
 	    			
 	    			// Add the stream of the picture to the intent
