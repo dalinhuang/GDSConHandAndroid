@@ -293,7 +293,7 @@ public class Util {
 					  toast = Toast.makeText(activity, resId, Toast.LENGTH_SHORT);
 				  } else {
 					  toast.setText(resId);
-					  toast.setDuration(Toast.LENGTH_LONG);
+					  toast.setDuration(Toast.LENGTH_SHORT);
 				  }
 			  
 				  toast.show();
