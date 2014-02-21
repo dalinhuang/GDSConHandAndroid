@@ -147,5 +147,6 @@
     <string name="download_file_failed">文件下载失败！</string>
     <string name="share">分享</string>
     <string name="no_weibo_installed">没有找到新浪微博</string>
+    <string name="url_is_too_long">链接太长了！</string>
     
 </resources>
