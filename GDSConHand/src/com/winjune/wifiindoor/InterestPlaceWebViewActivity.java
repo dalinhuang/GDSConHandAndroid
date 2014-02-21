@@ -50,11 +50,11 @@ public class InterestPlaceWebViewActivity extends Activity {
     			intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share);
     			
     			// Add the text content to the intent
-    			String prefix = "����һ����Ȥ�������������㣺";
+    			String prefix = getString(R.string.share_prefix);
     			
     			if ((prefix.length() + url.length()) < 280) {
     				// make sure the length of the content is no more than 140 Chinese words
-    				String content = "����һ����Ȥ�������������㣺" + url;
+    				String content = prefix + url;
     				intent.putExtra(Intent.EXTRA_TEXT,content);
     			}
     			else {
