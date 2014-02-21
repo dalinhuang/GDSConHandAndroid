@@ -47,46 +47,37 @@ public class Library {
 	/**
 	 * Control
 	 */
+	//Menu
 	public static final int CONTROL_BUTTON_NUMBER = 5;
-	
-	public static final AnimatedUnit MENU_LOCATE = new AnimatedUnit(
-			new String[] { "svg/locate.svg" }, 0);
-	
-	public static final AnimatedUnit MENU_SCAN_QR = new AnimatedUnit(
-			new String[] { "svg/qr_scan.svg" }, 0);
-	
-	public static final AnimatedUnit MENU_NAVI = new AnimatedUnit(
-			new String[] { "svg/route.svg" }, 0);
-	
-	public static final AnimatedUnit MENU_MODE = new AnimatedUnit(
-			new String[] { "svg/view.svg", "svg/edit.svg", "svg/nfc_edit.svg", "svg/delete.svg", "svg/test_locate.svg", "svg/test_collect.svg" }, 0);
-	
-	public static final AnimatedUnit MENU_ZOOM = new AnimatedUnit(
-			new String[] { "svg/zoomMostIn.svg", "svg/zoomMostOut.svg" }, 0);
-	
-	public static final AnimatedUnit MENU_ACTION = new AnimatedUnit(
-			new String[] { "svg/action.svg" }, 0);
-	
 	// Tab	
 	public static final int TAB_BUTTON_NUMBER = 5;
 	
-	public static final AnimatedUnit TAB_LONG_DISTANCE = new AnimatedUnit(
-			new String[] { "svg/train.svg" }, 0);
+	public static final AnimatedUnit BUTTON_LOCATE = new AnimatedUnit(
+			new String[] { "svg/locate.svg" }, 0);
 	
-	public static final AnimatedUnit TAB_SHORT_DISTANCE = new AnimatedUnit(
-			new String[] { "svg/bus.svg" }, 0);
+	public static final AnimatedUnit BUTTON_SCAN_QR = new AnimatedUnit(
+			new String[] { "svg/qr_scan.svg" }, 0);
 	
-	public static final AnimatedUnit TAB_FAV = new AnimatedUnit(
+	public static final AnimatedUnit BUTTON_NAVI = new AnimatedUnit(
+			new String[] { "svg/route.svg" }, 0);
+	
+	public static final AnimatedUnit BUTTON_MODE = new AnimatedUnit(
+			new String[] { "svg/view.svg", "svg/edit.svg", "svg/nfc_edit.svg", "svg/delete.svg", "svg/test_locate.svg", "svg/test_collect.svg" }, 0);
+	
+	public static final AnimatedUnit BUTTON_ZOOM = new AnimatedUnit(
+			new String[] { "svg/zoomMostIn.svg", "svg/zoomMostOut.svg" }, 0);
+	
+	public static final AnimatedUnit BUTTON_ACTION = new AnimatedUnit(
+			new String[] { "svg/action.svg" }, 0);	
+		
+	public static final AnimatedUnit BUTTON_STAR = new AnimatedUnit(
 			new String[] { "svg/star.svg" }, 0);
 	
-	public static final AnimatedUnit TAB_MAP = new AnimatedUnit(
-			new String[] { "svg/map.svg" }, 0);
-	
-	public static final AnimatedUnit TAB_MSG = new AnimatedUnit(
-			new String[] { "svg/msg.svg" }, 0);
-	
-	public static final AnimatedUnit TAB_SWITCH = new AnimatedUnit(
+	public static final AnimatedUnit BUTTON_MAP = new AnimatedUnit(
 			new String[] { "svg/stairs.svg" }, 0);
+	
+	public static final AnimatedUnit BUTTON_MSG = new AnimatedUnit(
+			new String[] { "svg/msg.svg" }, 0);	
 	
 	/**
 	 * User, occupy 1 * 1 Cells

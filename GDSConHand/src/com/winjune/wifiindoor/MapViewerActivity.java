@@ -1071,99 +1071,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			Log.d(TAG, "Start initialHUDMenuBar");
 
 		int x = cameraWidth - CONTROL_BUTTON_WIDTH;
-		int y = cameraHeight - CONTROL_BUTTON_MARGIN - CONTROL_BUTTON_HEIGHT;		
-		Library.MENU_LOCATE.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
-		putHUDControlUnit(Library.MENU_LOCATE, x, y, new SpriteListener() {
-
-			@Override
-			public boolean onAreaTouched(AnimatedSprite sprite,
-					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
-					float pTouchAreaLocalY) {
-
-				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
-					lastManualLocateTime = System.currentTimeMillis();
-					locateMe(false);
-				}
-
-				return true;
-			}
-		});
-		
-		y -= CONTROL_BUTTON_HEIGHT + CONTROL_BUTTON_MARGIN * 2;
-		Library.MENU_ZOOM.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
-		putHUDControlUnit(Library.MENU_ZOOM, x, y, new SpriteListener() {
-
-			//private boolean zoomMostIn = true;
-
-			@Override
-			public boolean onAreaTouched(AnimatedSprite sprite,
-					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
-					float pTouchAreaLocalY) {
-				
-				
-				
-				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
-					// Interest place quick entry :
-					showGuideAudioBar();
-					
-					/* 
-					if (zoomMostIn) {
-						zoomControl.zoomMostOut();//Hoare
-						zoomMostIn = false;
-						sprite.setCurrentTileIndex(1);
-					} else {
-						zoomControl.zoomMostIn();//Hoare
-						zoomMostIn = true;
-						sprite.setCurrentTileIndex(0);
-
-					}
-					*/
-				}
-
-				return true;
-			}
-		});		
-		
-		y -= CONTROL_BUTTON_HEIGHT + CONTROL_BUTTON_MARGIN * 2;
-		Library.MENU_SCAN_QR.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
-		putHUDControlUnit(Library.MENU_SCAN_QR, x, y, new SpriteListener() {
-
-			@Override
-			public boolean onAreaTouched(AnimatedSprite sprite,
-					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
-					float pTouchAreaLocalY) {
-
-				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
-					Intent openCameraIntent = new Intent(MapViewerActivity.this, QrScannerActivity.class);
-					startActivityForResult(openCameraIntent, 0);
-				}
-
-				return true;
-			}
-		});
-		
-		y -= CONTROL_BUTTON_HEIGHT + CONTROL_BUTTON_MARGIN * 2;
-		Library.MENU_NAVI.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
-		putHUDControlUnit(Library.MENU_NAVI, x, y, new SpriteListener() {
-
-			@Override
-			public boolean onAreaTouched(AnimatedSprite sprite,
-					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
-					float pTouchAreaLocalY) {
-
-				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
-					showNaviBar();
-				}
-
-				return true;
-			}
-		});
-
+		int y = CONTROL_BUTTON_HEIGHT;						
 
 		if (VisualParameters.PLANNING_MODE) {
-			y -= CONTROL_BUTTON_HEIGHT + CONTROL_BUTTON_MARGIN * 2;
-			Library.MENU_MODE.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
-			putHUDControlUnit(Library.MENU_MODE, x, y, new SpriteListener() {
+			Library.BUTTON_MODE.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
+			putHUDControlUnit(Library.BUTTON_MODE, x, y, new SpriteListener() {
 	
 				@Override
 				public boolean onAreaTouched(AnimatedSprite sprite,
@@ -1196,9 +1108,9 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 				}
 			});
 	
-			y -= CONTROL_BUTTON_HEIGHT + CONTROL_BUTTON_MARGIN * 2;
-			Library.MENU_ACTION.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
-			putHUDControlUnit(Library.MENU_ACTION, x, y, new SpriteListener() {
+			y += CONTROL_BUTTON_HEIGHT + CONTROL_BUTTON_MARGIN * 2;
+			Library.BUTTON_ACTION.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
+			putHUDControlUnit(Library.BUTTON_ACTION, x, y, new SpriteListener() {
 	
 				@Override
 				public boolean onAreaTouched(AnimatedSprite sprite,
@@ -1212,6 +1124,29 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 					return true;
 				}
 			});
+			
+			y += CONTROL_BUTTON_HEIGHT + CONTROL_BUTTON_MARGIN * 2;
+			Library.BUTTON_MAP.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
+			putHUDControlUnit(Library.BUTTON_MAP, x, y, new SpriteListener() {
+	
+				@Override
+				public boolean onAreaTouched(AnimatedSprite sprite,
+						TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
+						float pTouchAreaLocalY) {
+	
+					if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {						
+		        		Intent intent_map_selector = new Intent(MapViewerActivity.this, MapSelectorActivity.class);
+		        		
+		        		Bundle mBundle = new Bundle(); 
+						mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM, IndoorMapData.BUNDLE_VALUE_REQ_FROM_SELECTOR);
+						intent_map_selector.putExtras(mBundle); 
+		        		startActivity(intent_map_selector);							
+					}
+	
+					return true;
+				}
+			});		
+			
 		}// planning mode
 
 		if (DEBUG)
@@ -1222,60 +1157,82 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	private void initialHUDTabBar() {
 		int x = TAB_BUTTON_MARGIN;
 		int y = cameraHeight - TAB_BUTTON_HEIGHT;;		
-		Library.TAB_LONG_DISTANCE.load(this, TAB_BUTTON_WIDTH, TAB_BUTTON_HEIGHT);
-		putHUDControlUnit(Library.TAB_LONG_DISTANCE, x, y, new SpriteListener() {
+		
+		Library.BUTTON_NAVI.load(this, TAB_BUTTON_WIDTH, TAB_BUTTON_HEIGHT);	
+		putHUDControlUnit(Library.BUTTON_NAVI, x, y, new SpriteListener() {
 
 			@Override
 			public boolean onAreaTouched(AnimatedSprite sprite,
 					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
 					float pTouchAreaLocalY) {
 
+				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+					showNaviBar();
+				}
+				
 				return true;
 			}
 		});
 		
 		x += TAB_BUTTON_WIDTH + TAB_BUTTON_MARGIN * 2;
-		Library.TAB_SHORT_DISTANCE.load(this, TAB_BUTTON_WIDTH, TAB_BUTTON_HEIGHT);
-		putHUDControlUnit(Library.TAB_SHORT_DISTANCE, x, y, new SpriteListener() {
+		Library.BUTTON_SCAN_QR.load(this, TAB_BUTTON_WIDTH, TAB_BUTTON_HEIGHT);
+		putHUDControlUnit(Library.BUTTON_SCAN_QR, x, y, new SpriteListener() {
 
 			@Override
 			public boolean onAreaTouched(AnimatedSprite sprite,
 					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
 					float pTouchAreaLocalY) {
+
+				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+					Intent openCameraIntent = new Intent(MapViewerActivity.this, QrScannerActivity.class);
+					startActivityForResult(openCameraIntent, 0);
+				}
 
 				return true;
 			}
 		});
 
 		x += TAB_BUTTON_WIDTH + TAB_BUTTON_MARGIN * 2;
-		Library.TAB_FAV.load(this, TAB_BUTTON_WIDTH, TAB_BUTTON_HEIGHT);
-		putHUDControlUnit(Library.TAB_FAV, x, y, new SpriteListener() {
+		Library.BUTTON_LOCATE.load(this, TAB_BUTTON_WIDTH, TAB_BUTTON_HEIGHT);
+		putHUDControlUnit(Library.BUTTON_LOCATE, x, y, new SpriteListener() {
 
 			@Override
 			public boolean onAreaTouched(AnimatedSprite sprite,
 					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
 					float pTouchAreaLocalY) {
+				
+				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+					lastManualLocateTime = System.currentTimeMillis();
+					locateMe(false);
+				}
+				
+				return true;
+			}
+		});		
+		
+		x += TAB_BUTTON_WIDTH + TAB_BUTTON_MARGIN * 2;
+		Library.BUTTON_ZOOM.load(this, TAB_BUTTON_WIDTH, TAB_BUTTON_HEIGHT);
+		putHUDControlUnit(Library.BUTTON_ZOOM, x, y, new SpriteListener() {
+			
+			@Override
+			public boolean onAreaTouched(AnimatedSprite sprite,
+					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
+					float pTouchAreaLocalY) {
 
+					
+					
+					if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+						// Interest place quick entry :
+						showGuideAudioBar();
+					}
+				
 				return true;
 			}
 		});
 		
 		x += TAB_BUTTON_WIDTH + TAB_BUTTON_MARGIN * 2;
-		Library.TAB_MAP.load(this, TAB_BUTTON_WIDTH, TAB_BUTTON_HEIGHT);
-		putHUDControlUnit(Library.TAB_MAP, x, y, new SpriteListener() {
-
-			@Override
-			public boolean onAreaTouched(AnimatedSprite sprite,
-					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
-					float pTouchAreaLocalY) {
-
-				return true;
-			}
-		});
-
-		x += TAB_BUTTON_WIDTH + TAB_BUTTON_MARGIN * 2;
-		Library.TAB_MSG.load(this, TAB_BUTTON_WIDTH, TAB_BUTTON_HEIGHT);
-		putHUDControlUnit(Library.TAB_MSG, x, y, new SpriteListener() {
+		Library.BUTTON_MSG.load(this, TAB_BUTTON_WIDTH, TAB_BUTTON_HEIGHT);
+		putHUDControlUnit(Library.BUTTON_MSG, x, y, new SpriteListener() {
 
 			@Override
 			public boolean onAreaTouched(AnimatedSprite sprite,
@@ -1852,7 +1809,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	}
 	
 	private void startPeriodicAdvertiseThread(){
-		if (!VisualParameters.BANNERS_ENABLED) {
+		if (!VisualParameters.ADS_ENABLED) {
 			return;
 		}
 		
@@ -2171,13 +2128,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		// Ensure the ICON is not too small on large screen
 		int MIN_VALUE = Math.max(60, Math.round(Math.min(cameraWidth, cameraHeight)/10));
 
-		if (VisualParameters.BANNERS_ENABLED) {
-			TAB_BUTTON_WIDTH = TAB_BUTTON_HEIGHT
-					= Math.min(MIN_VALUE, Math.round(cameraWidth / TAB_BUTTON_NUMBER / 1.5f));
-			TAB_BUTTON_MARGIN = Math.round ((cameraWidth - TAB_BUTTON_WIDTH * TAB_BUTTON_NUMBER) / TAB_BUTTON_NUMBER / 2);  // Here use 2 to let the TAB fill the whole width
-		} else {
-			TAB_BUTTON_WIDTH = TAB_BUTTON_HEIGHT = TAB_BUTTON_MARGIN = 0;
-		}
+		TAB_BUTTON_WIDTH = TAB_BUTTON_HEIGHT
+			= Math.min(MIN_VALUE, Math.round(cameraWidth / TAB_BUTTON_NUMBER / 1.5f));
+		// Here use 2 to let the TAB fill the whole width
+		TAB_BUTTON_MARGIN = Math.round ((cameraWidth - TAB_BUTTON_WIDTH * TAB_BUTTON_NUMBER) / TAB_BUTTON_NUMBER / 2);  
+		
 		
 		TOP_SPACE = 0;
 		BOTTOM_SPACE = 0;
@@ -2283,9 +2238,9 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 		// No background color needed as we have a fullscreen background sprite.
 		mainScene.setBackgroundEnabled(true);
-		mainScene.setBackground(new Background(255,255,255));
+		mainScene.setBackground(new Background(255,255,255)); // white color
 		// Background lines
-		if (VisualParameters.BACKGROUND_LINES_NEEDED) {
+		if (VisualParameters.BACKGROUND_LINES_NEEDED && VisualParameters.PLANNING_MODE) {
 			backgroundSprite = Library.BACKGROUND3.load(this, cameraWidth, cameraHeight);
 			backgroundSprite.setPosition(LEFT_SPACE, TOP_SPACE);
 			mainScene.getChildByIndex(Constants.LAYER_BACKGROUND).attachChild(backgroundSprite);
@@ -2316,10 +2271,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		initailHUDBatteryBar();
 		initailHUDHintBar();
 		initialHUDMenuBar();
+		initialHUDTabBar();
 		
-		if (VisualParameters.BANNERS_ENABLED) {
-			initialHUDTabBar();
-		}
 
 		// Listeners
 		graphicListener = new GraphicIndoorMapListener(this, mainScene, mMapText);
@@ -2676,7 +2629,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	}
 	
 	private void showAd(boolean default_ad) {
-		if (!VisualParameters.BANNERS_ENABLED) {
+		if (!VisualParameters.ADS_ENABLED) {
 			return;
 		}
 		
@@ -3455,7 +3408,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		final float map_bottom = centerY + height / 2;
 		
 		// Background follow the screen
-		if (VisualParameters.BACKGROUND_LINES_NEEDED) {
+		if (VisualParameters.BACKGROUND_LINES_NEEDED && VisualParameters.PLANNING_MODE) {
 			int colNo = (int) (map_left - LEFT_SPACE) / Util.getCurrentCellPixel();
 			int rowNo = (int) (map_top - TOP_SPACE) / Util.getCurrentCellPixel();
 			float background_left = colNo * Util.getCurrentCellPixel() + LEFT_SPACE;

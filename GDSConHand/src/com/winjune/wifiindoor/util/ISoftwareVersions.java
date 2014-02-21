@@ -6,5 +6,5 @@ public interface ISoftwareVersions {
 	public final static String GDSC_VERSION_NAME = "GDSC";
 	
 	// MAP ID
-	public final static int GDSC_MAP_ID = 1;
+	public final static int GDSC_MAP_ID = 2;
 }

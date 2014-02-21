@@ -20,13 +20,13 @@ import android.text.TextUtils;
  */
 public class WifiIpsSettings {
 	
-	public static boolean ZOOM_SWITCH_MAP = true;
+	public static boolean ZOOM_SWITCH_MAP = false;
 	public static String FILE_CACHE_FOLDER = "/GDSConHand/";
 	
 	public static boolean DEBUG = true;
 	public static boolean USE_DOMAIN_NAME = false;
-	public static String SERVER_DOMAIN_NAME = "192.168.11.5";
-	public static String SERVER_IP = "192.168.11.5";
+	public static String SERVER_DOMAIN_NAME = "www.winjune.com";
+	public static String SERVER_IP = "14.18.207.183";
 	public static String SERVER_PORT = "8080";
 	public static String SERVER_SUB_DOMAIN = "/GDSCAppServer"; //"/wifiips", "/WifiIpsServer";
 	public static String SERVER = null;
@@ -34,7 +34,7 @@ public class WifiIpsSettings {
 	public static int SOCKET_TIMEOUT = 60000; //30000; // 30s
 
 	public static boolean SERVER_RUNNING_IN_LINUX = false; // Cloud Server
-	public static String LINUX_SERVER_IP = "192.168.11.5"; //Cloud:"58.221.67.59";  New Powerful:"58.221.62.210"
+	public static String LINUX_SERVER_IP = "14.18.207.183"; //Cloud:"58.221.67.59";  New Powerful:"58.221.62.210"
 	public static String LINUX_SERVER_PORT = "8080";
 	
 	public static String URL_PREFIX = "http://";
