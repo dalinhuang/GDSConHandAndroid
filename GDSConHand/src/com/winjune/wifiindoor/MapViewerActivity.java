@@ -2324,14 +2324,14 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		//mAdvertisement = new ScreenAdvertisement(this, R.id.map_ad);
 		
-		if (VisualParameters.BANNERS_ENABLED) {
+		if (VisualParameters.ADS_ENABLED) {
 			//here just need to display default advertise. 
 			mAdvertisement = new ScreenAdvertisement(this,Util.getRuntimeIndoorMap());
 			mAdvertisement.initAdvertiseData();
 			
 			try {
-				InputStream inputStream = getResources().getAssets().open("default_ad/ericsson_ad0.png");
-		        File file = AdUtil.createFileFromInputStream(inputStream,"ericsson_ad0.png");
+				InputStream inputStream = getResources().getAssets().open("default_ad/sample_ad1.png");
+		        File file = AdUtil.createFileFromInputStream(inputStream,"sample_ad1.png");
 		        AdData.FILE_DEFAULT_AD=file;
 		        if (file.exists()){
 		        	showAd(true);     	

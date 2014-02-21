@@ -17,7 +17,7 @@ public class TestLocationJsonParser extends AbstractJsonParser<TestLocateCollect
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.ericsson.cgc.aurora.wips.webservice.parsers.json.AbstractJsonParser
+	 * com.winjune.wips.webservice.parsers.json.AbstractJsonParser
 	 * #parseInner()
 	 */
 	@Override

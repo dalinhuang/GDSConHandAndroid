@@ -99,8 +99,8 @@ public class ScreenAdvertisement {
 	}
 	
 	public void initAdvertiseData(){
-		AdPicName = "ericsson_ad0.png";
-		AdUrl = "http://www.ericsson.com";
+		AdPicName = "sample_ad.png";
+		AdUrl = "http://gdsc.southcn.com";
 		AdID = 0;
 	}
 	

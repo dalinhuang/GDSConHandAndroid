@@ -31,7 +31,7 @@ public class TestXmlParser extends AbstractXmlParser<Test> {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.ericsson.cgc.aurora.wips.webservice.parsers.xml.AbstractXmlParser
+	 * com.winjune.wips.webservice.parsers.xml.AbstractXmlParser
 	 * #parseInner(org.xmlpull.v1.XmlPullParser)
 	 */
 	@Override
