@@ -2680,10 +2680,10 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			mapADSprite.setRotation(90.0f);
 		} else {
 			if (adWidth < cameraWidth) {
-				x = (cameraWidth - 1.5f * CONTROL_BUTTON_WIDTH - adWidth) * 0.5f;
+				x = (cameraWidth - adWidth) * 0.5f;
 			}
 			
-			y = cameraHeight - 2.5f * TAB_BUTTON_HEIGHT;
+			y = cameraHeight - 1.1f * TAB_BUTTON_HEIGHT - adHeight;
 		}
 		
 		mapADSprite.setPosition(x, y);		
