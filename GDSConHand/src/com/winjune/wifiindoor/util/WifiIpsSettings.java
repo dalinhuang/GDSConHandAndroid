@@ -20,7 +20,7 @@ import android.text.TextUtils;
  */
 public class WifiIpsSettings {
 	
-	public static boolean ZOOM_SWITCH_MAP = false;
+	
 	public static String FILE_CACHE_FOLDER = "/GDSConHand/";
 	
 	public static boolean DEBUG = true;

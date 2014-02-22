@@ -7,6 +7,7 @@ import com.winjune.wifiindoor.MapLocatorActivity;
 import com.winjune.wifiindoor.MapViewerActivity;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
+import com.winjune.wifiindoor.util.VisualParameters;
 import com.winjune.wifiindoor.util.WifiIpsSettings;
 
 import android.content.Intent;
@@ -92,7 +93,7 @@ public class ZoomControl {
 			mCamera.setZoomFactor(target);
 		}else{			
 			//Hoare: for test, mapid is harcoded		
-			if (WifiIpsSettings.ZOOM_SWITCH_MAP ) {
+			if (VisualParameters.ZOOM_SWITCH_ENABLED ) {
 				if (Util.getRuntimeIndoorMap().getMapId() == 2) {
 					int colNo = activity.getCenterColNo();
 					int rowNo = activity.getCenterRowNo();
@@ -132,7 +133,7 @@ public class ZoomControl {
 					true);
 		} else {
 			//Hoare: for test
-			if (WifiIpsSettings.ZOOM_SWITCH_MAP) {
+			if (VisualParameters.ZOOM_SWITCH_ENABLED) {
 				if (Util.getRuntimeIndoorMap().getMapId() == 1) {
 					
 					int colNo = activity.getCenterColNo();

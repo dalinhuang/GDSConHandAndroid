@@ -55,6 +55,8 @@ public class TunerActivity extends Activity {
 	private EditText URL_API_QUERY;
 	private EditText URL_API_NFC_COLLECT;
 	private EditText URL_API_LOCATE_BASE_NFC;
+	private CheckBox PLANNING_MODE_ENABLED;
+	private CheckBox ZOOM_SWITCH_ENABLED;
 	private CheckBox ADS_ENABLED;
 	private CheckBox BANNERS_ENABLED;
 	private CheckBox ENTRY_NEEDED;
@@ -144,6 +146,8 @@ public class TunerActivity extends Activity {
     	URL_API_QUERY = (EditText) findViewById(R.id.URL_API_QUERY);
     	URL_API_NFC_COLLECT = (EditText) findViewById(R.id.URL_API_NFC_COLLECT);
     	URL_API_LOCATE_BASE_NFC = (EditText) findViewById(R.id.URL_API_LOCATE_BASE_NFC);
+    	PLANNING_MODE_ENABLED = (CheckBox) findViewById(R.id.PLANNING_MODE_ENABLED);
+    	ZOOM_SWITCH_ENABLED = (CheckBox) findViewById(R.id.ZOOM_SWITCH_ENABLED);
     	ADS_ENABLED = (CheckBox) findViewById(R.id.ADS_ENABLED);
     	BANNERS_ENABLED = (CheckBox) findViewById(R.id.BANNERS_ENABLED);
     	ENTRY_NEEDED = (CheckBox) findViewById(R.id.ENTRY_NEEDED);
@@ -283,6 +287,14 @@ public class TunerActivity extends Activity {
     	value = URL_API_LOCATE_BASE_NFC.getText().toString();
     	Tuner.getProperties().setProperty(name, value);
     	
+    	name = "PLANNING_MODE_ENABLED";
+    	value = String.valueOf(PLANNING_MODE_ENABLED.isChecked());
+    	Tuner.getProperties().setProperty(name, value);  
+    	
+    	name = "ZOOM_SWITCH_ENABLED";
+    	value = String.valueOf(ZOOM_SWITCH_ENABLED.isChecked());
+    	Tuner.getProperties().setProperty(name, value);      	
+    	
     	name = "ADS_ENABLED";
     	value = String.valueOf(ADS_ENABLED.isChecked());
     	Tuner.getProperties().setProperty(name, value);
@@ -343,6 +355,8 @@ public class TunerActivity extends Activity {
     	URL_API_QUERY.setText(String.valueOf(WifiIpsSettings.URL_API_QUERY));
     	URL_API_NFC_COLLECT.setText(String.valueOf(WifiIpsSettings.URL_API_NFC_COLLECT));
     	URL_API_LOCATE_BASE_NFC.setText(String.valueOf(WifiIpsSettings.URL_API_LOCATE_BASE_NFC));  	
+    	PLANNING_MODE_ENABLED.setChecked(VisualParameters.PLANNING_MODE_ENABLED);
+    	ZOOM_SWITCH_ENABLED.setChecked(VisualParameters.ZOOM_SWITCH_ENABLED);
     	ADS_ENABLED.setChecked(VisualParameters.ADS_ENABLED);
     	BANNERS_ENABLED.setChecked(VisualParameters.BANNERS_ENABLED);
     	ENTRY_NEEDED.setChecked(VisualParameters.ENTRY_NEEDED);

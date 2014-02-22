@@ -30,7 +30,9 @@ public class VisualParameters {
 	public static int RIGHT_SPACE_FOR_ADS_LANDSCAPE = 0; //120;
 	
 	//SOC for planning/debug mode
-	public static boolean PLANNING_MODE = true;
+	public static boolean PLANNING_MODE_ENABLED = true;
+	
+	public static boolean ZOOM_SWITCH_ENABLED = false;
 	
 	// SOC for ADS
 	public static boolean ADS_ENABLED = false;

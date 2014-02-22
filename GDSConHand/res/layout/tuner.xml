@@ -597,7 +597,18 @@
 	            android:textColor="@android:color/white"
 	            android:textSize="18sp"
 	            android:textStyle="bold" />
+	    <CheckBox
+	           android:id="@+id/PLANNING_MODE_ENABLED"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="PLANNING_MODE_ENABLED" />
 	    
+	    <CheckBox
+	           android:id="@+id/ZOOM_SWITCH_ENABLED"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="ZOOM_SWITCH_ENABLED" />	    
+			    
 	    <CheckBox
 	           android:id="@+id/ADS_ENABLED"
 	           android:layout_width="wrap_content"

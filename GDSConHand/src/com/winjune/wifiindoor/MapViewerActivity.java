@@ -1073,7 +1073,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		int x = cameraWidth - CONTROL_BUTTON_WIDTH;
 		int y = CONTROL_BUTTON_HEIGHT;						
 
-		if (VisualParameters.PLANNING_MODE) {
+		if (VisualParameters.PLANNING_MODE_ENABLED) {
 			Library.BUTTON_MODE.load(this, CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT);
 			putHUDControlUnit(Library.BUTTON_MODE, x, y, new SpriteListener() {
 	
@@ -1468,7 +1468,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public void handleLongPress(MotionEvent e) {
 		
 		//long press is only enable in planning/debug mode
-		if (!VisualParameters.PLANNING_MODE) {
+		if (!VisualParameters.PLANNING_MODE_ENABLED) {
 			return;
 		}
 		
@@ -2240,7 +2240,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		mainScene.setBackgroundEnabled(true);
 		mainScene.setBackground(new Background(255,255,255)); // white color
 		// Background lines
-		if (VisualParameters.BACKGROUND_LINES_NEEDED && VisualParameters.PLANNING_MODE) {
+		if (VisualParameters.BACKGROUND_LINES_NEEDED && VisualParameters.PLANNING_MODE_ENABLED) {
 			backgroundSprite = Library.BACKGROUND3.load(this, cameraWidth, cameraHeight);
 			backgroundSprite.setPosition(LEFT_SPACE, TOP_SPACE);
 			mainScene.getChildByIndex(Constants.LAYER_BACKGROUND).attachChild(backgroundSprite);
@@ -3408,7 +3408,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		final float map_bottom = centerY + height / 2;
 		
 		// Background follow the screen
-		if (VisualParameters.BACKGROUND_LINES_NEEDED && VisualParameters.PLANNING_MODE) {
+		if (VisualParameters.BACKGROUND_LINES_NEEDED && VisualParameters.PLANNING_MODE_ENABLED) {
 			int colNo = (int) (map_left - LEFT_SPACE) / Util.getCurrentCellPixel();
 			int rowNo = (int) (map_top - TOP_SPACE) / Util.getCurrentCellPixel();
 			float background_left = colNo * Util.getCurrentCellPixel() + LEFT_SPACE;

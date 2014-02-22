@@ -304,6 +304,32 @@ public class Tuner {
 		}
 		
 		// Part VI:
+
+		key = "PLANNING_MODE_ENABLED";
+		value = properties.getProperty(key);
+		if (value != null) {
+			if (value.trim().equalsIgnoreCase("true")){
+				VisualParameters.PLANNING_MODE_ENABLED = true;
+			} else {
+				VisualParameters.PLANNING_MODE_ENABLED = false;
+			}
+		} else {
+			properties.setProperty(key, String.valueOf(VisualParameters.PLANNING_MODE_ENABLED));
+		}
+		
+		key = "ZOOM_SWITCH_ENABLED";
+		value = properties.getProperty(key);
+		if (value != null) {
+			if (value.trim().equalsIgnoreCase("true")){
+				VisualParameters.ZOOM_SWITCH_ENABLED = true;
+			} else {
+				VisualParameters.ZOOM_SWITCH_ENABLED = false;
+			}
+		} else {
+			properties.setProperty(key, String.valueOf(VisualParameters.ZOOM_SWITCH_ENABLED));
+		}		
+		
+		
 		key = "ADS_ENABLED";
 		value = properties.getProperty(key);
 		if (value != null) {
