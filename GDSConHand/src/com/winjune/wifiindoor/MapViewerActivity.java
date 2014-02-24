@@ -2759,7 +2759,14 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		}
 		
 		if (updateNeeded) {
-			downloadNaviInfo(Util.getRuntimeIndoorMap().getMapId());
+			// Hoare: harcode map_id 1 as the GDSC map
+			int mapid = Util.getRuntimeIndoorMap().getMapId();
+			
+			if (mapid == 1 ) {
+				mapid = 2;
+			}				
+			
+			downloadNaviInfo(mapid);
 		}	
 	}
 	
@@ -2785,7 +2792,14 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		}
 		
 		if (updateNeeded) {
-			downloadMapInfo(Util.getRuntimeIndoorMap().getMapId());
+			// Hoare: harcode map_id 1 as the GDSC map
+			int mapid = Util.getRuntimeIndoorMap().getMapId();
+			
+			if (mapid == 1 ) {
+				mapid = 2;
+			}				
+			
+			downloadMapInfo(mapid);
 			return;
 		}
 		
@@ -3228,7 +3242,14 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		}
 		
 		if (updateNeeded) {
-			downloadInterestPlaces(Util.getRuntimeIndoorMap().getMapId());
+			// Hoare: harcode map_id 1 as the GDSC map
+			int mapid = Util.getRuntimeIndoorMap().getMapId();
+			
+			if (mapid == 1 ) {
+				mapid = 2;
+			}				
+				
+			downloadInterestPlaces(mapid);
 			return;
 		}
 		
