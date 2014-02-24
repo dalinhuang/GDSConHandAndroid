@@ -30,17 +30,17 @@ public class VisualParameters {
 	public static int RIGHT_SPACE_FOR_ADS_LANDSCAPE = 0; //120;
 	
 	//SOC for planning/debug mode
-	public static boolean PLANNING_MODE_ENABLED = true;
+	public static boolean PLANNING_MODE_ENABLED = false;
 	
 	public static boolean ZOOM_SWITCH_ENABLED = false;
 	
 	// SOC for ADS
 	public static boolean ADS_ENABLED = false;
-	// SOC for TABS BANNER
+	// SOC for BANNER
 	public static boolean BANNERS_ENABLED = false;
 	// SOC for ENTRY & GOOGLEMAP
-	public static boolean GOOGLE_MAP_EMBEDDED = true;
-	public static boolean ENTRY_NEEDED = true;
+	public static boolean GOOGLE_MAP_EMBEDDED = false;
+	public static boolean ENTRY_NEEDED = false;
 	
 	// SOC for background lines
 	public static boolean BACKGROUND_LINES_NEEDED = true;
