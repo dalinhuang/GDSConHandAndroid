@@ -104,7 +104,7 @@ public class NaviUtil {
 		
 		return tempPaths.get(0);
 	}
-
+	
 	public static String getNodeName(ArrayList<NaviNode> nodes, int fromNode) {
 		if (nodes == null) {
 			return null;

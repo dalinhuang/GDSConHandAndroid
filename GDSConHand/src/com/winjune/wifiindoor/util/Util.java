@@ -89,7 +89,7 @@ public class Util {
 	
 	private static RuntimeIndoorMap runtimeIndoorMap = null;
 	
-	private static TextToSpeech AutoGuideTTS = null;
+	//private static TextToSpeech AutoGuideTTS = null;
 	
 	private static Toast toast = null;
 	
@@ -175,9 +175,11 @@ public class Util {
 	    setApkVersionReply(null);
 	    
         // Start a TTS instance
+	    /*
         if (AutoGuideTTS == null) {        	
         	AutoGuideTTS = new TextToSpeech(activity, null);
         }
+        */
 		
 		initialed = true;
 	}
@@ -1139,7 +1141,8 @@ public class Util {
 	public static void setServerReachable(boolean serverReachable) {
 		Util.serverReachable = serverReachable;
 	}
-		
+	
+	/*	
 	public static void AutoGuideTTSSpeak(String text ){
 		
 		if (AutoGuideTTS != null) {
@@ -1155,7 +1158,8 @@ public class Util {
 	    	AutoGuideTTS.shutdown();
 	    }	    
 	}
-
+	*/
+	
 	public static Activity getCurrentForegroundActivity() {
 		return currentForegroundActivity;
 	}

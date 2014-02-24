@@ -3,6 +3,8 @@ package com.winjune.wifiindoor;
 import java.util.List;
 
 import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.map.InterestPlace;
+import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 
 import android.app.Activity;
@@ -19,7 +21,7 @@ import android.widget.Button;
 public class InterestPlaceWebViewActivity extends Activity {
     private WebView webview;
     private Button share;
-    private String url;
+    private String url = null;
     
     @Override
     public void onCreate(Bundle savedInstanceState) { 
@@ -31,11 +33,16 @@ public class InterestPlaceWebViewActivity extends Activity {
         share = (Button) findViewById(R.id.web_share);
 
         // enable JavaScrip  
-        webview.getSettings().setJavaScriptEnabled(true); 
+        //webview.getSettings().setJavaScriptEnabled(true); 
         webview.setWebViewClient(new myWebViewClient());
         
-        //
-        url = "http://www.baidu.com/";
+        // retrieve URL
+        Bundle bundle = getIntent().getExtras();        
+        InterestPlace place = (InterestPlace) bundle.getSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE);        	
+        if (place != null) {        	        
+        	url = place.getUrlVideo();        	
+        }    	
+        
         webview.loadUrl(url); 
         
         // Share Button
@@ -49,8 +56,12 @@ public class InterestPlaceWebViewActivity extends Activity {
     			intent.setType("text/plain");
     			intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share);
     			
+    			if (url == null){
+    				return;
+    			}
+    				    			
     			// Add the text content to the intent
-    			String prefix = getString(R.string.share_prefix);
+    			String prefix = getString(R.string.share_prefix);    			
     			
     			if ((prefix.length() + url.length()) < 280) {
     				// make sure the length of the content is no more than 140 Chinese words
