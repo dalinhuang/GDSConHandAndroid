@@ -2493,6 +2493,14 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			infoMe(colNo, rowNo);
 		} else {
 			// Not loading new map
+			// Hoare: disable to load new map in map viewer by location button
+			updateHintText(R.string.no_match_location);
+
+			if (DEBUG)
+				Log.d(TAG, "End updateLocation: Fail");
+			return false;
+			
+			/*
 			if (periodicLoacting || (mMode != IndoorMapData.MAP_MODE_VIEW)){
 				
 				// Not Load new Map automatically when in EditMode or Periodic
@@ -2533,6 +2541,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			} catch (Throwable e) {
 				e.printStackTrace();
 			}
+			*/
 		}
 
 		return true;

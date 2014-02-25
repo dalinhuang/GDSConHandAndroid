@@ -393,13 +393,14 @@ public class InterestPlaceViewerActivity extends Activity {
     // Need to stop the audio
     @Override
     protected void onDestroy() {
-        super.onDestroy();
-     // stop the audio first
+        // stop the audio first
         if (audioStopButton != null) {
 	        if (audioStopButton.isEnabled()) {
 	        	AudioStop();
 	        }
         }
+
+    	super.onDestroy();
     }
     
     private  void loadCachedOrDownloadIMG(final ImageView imageInfo, final String imgFileName){
@@ -476,15 +477,15 @@ public class InterestPlaceViewerActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		super.onBackPressed();
-        
+		        
 		// stop the audio first
 		if (audioStopButton != null) {
 	        if (audioStopButton.isEnabled()) {
 	        	AudioStop();
 	        }
-        }		
-		finish();
+        }						
+		
+		super.onBackPressed();						
 	}	
     
 	class AudioSeekbarCL implements OnSeekBarChangeListener {  

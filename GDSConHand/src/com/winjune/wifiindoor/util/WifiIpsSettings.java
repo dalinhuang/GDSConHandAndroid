@@ -23,7 +23,7 @@ public class WifiIpsSettings {
 	
 	public static String FILE_CACHE_FOLDER = "/GDSConHand/";
 	
-	public static boolean DEBUG = true;
+	public static boolean DEBUG = false;
 	public static boolean USE_DOMAIN_NAME = false;
 	public static String SERVER_DOMAIN_NAME = "www.winjune.com";
 	public static String SERVER_IP = "14.18.207.183";

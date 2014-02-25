@@ -6,6 +6,7 @@ import com.winjune.wifiindoor.util.Util;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 public class InfoPusherActivity extends Activity {
@@ -14,16 +15,16 @@ public class InfoPusherActivity extends Activity {
 	
 	@Override
 	protected void onResume() {
-		super.onResume();
 		Util.setEnergySave(false);
 		Util.setCurrentForegroundActivity(this);
+		super.onResume();
 	}
 	
 	@Override
 	protected void onPause() {
-		super.onPause();
 		Util.setEnergySave(true);
 		Util.setCurrentForegroundActivity(null);
+		super.onPause();
 	}
 	
     /** Called when the activity is first created. */
@@ -49,11 +50,5 @@ public class InfoPusherActivity extends Activity {
 			locationInfo.setText(info2);
 		}
 		
-    }
-    
-    @Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		finish();
-	}
+    }    
 }
