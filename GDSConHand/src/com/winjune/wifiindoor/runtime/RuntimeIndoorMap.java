@@ -363,11 +363,13 @@ public class RuntimeIndoorMap {
 		if ((informations==null) || (informations.isEmpty())){
 			return null;
 		}
-		
-		String text = getMapName() + "\n";
+		//Hoare: don't add map title
+		//String text = getMapName() + "\n";
+		String text = null;
 		
 		for (String information : informations){
-			text += information + "\n";
+			//text += information + "\n";
+			text = information + "\n";
 		}
 		
 		return text;
