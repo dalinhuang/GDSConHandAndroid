@@ -550,17 +550,19 @@ public class InterestPlaceViewerActivity extends Activity implements OnInitListe
    @Override
    public void onInit(int status) {  
        if(status == TextToSpeech.SUCCESS){  
-           // we use Chinese  
-           int result = AutoGuideTTS.setLanguage(Locale.CHINA); 
-           if(result != TextToSpeech.LANG_COUNTRY_AVAILABLE   
-                   && result != TextToSpeech.LANG_AVAILABLE) {  
-               
-           		Util.showLongToast (this, R.string.tts_language_unsupported);
-               
-               AutoGuideTTSShutdown();
-           }
-           
-           Util.showLongToast(this, R.string.tts_start_soon);
+           // we use Chinese      	       	   
+          int result =  AutoGuideTTS.isLanguageAvailable(Locale.CHINA);
+          
+          Log.i("TTS result", ""+result);
+          
+          if((result == TextToSpeech.LANG_COUNTRY_AVAILABLE) |  
+             (result == TextToSpeech.LANG_AVAILABLE)) {   
+        	  AutoGuideTTS.setLanguage(Locale.CHINA);
+        	  Util.showLongToast(this, R.string.tts_start_soon);	   
+          } else {
+        	  AutoGuideTTSShutdown();
+        	  Util.showLongToast (this, R.string.tts_language_unsupported);                   	  
+          }                     
        }  
    }  
       	

@@ -2965,11 +2965,12 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 					builder.setPositiveButton(R.string.play_audio_guide, new OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							 EditText inputAudioNoText = (EditText) layout.findViewById(R.id.audio_no_input_result);
-							 String inputAudioNoStr = inputAudioNoText.getText().toString();
+							 EditText inputIPNumText = (EditText) layout.findViewById(R.id.audio_no_input_result);
+							 String inputIPNumStr = inputIPNumText.getText().toString();
+							 Boolean IPFound = false;
 																					 
-							 if (inputAudioNoStr != null) {								 	
-								 	int inputAudioNo = Integer.parseInt(inputAudioNoStr); 
+							 if (inputIPNumStr != null) {								 	
+								 	int inputIPNum = Integer.parseInt(inputIPNumStr); 
 								 
 									InterestPlacesInfo interestPlacesInfo = new InterestPlacesInfo();
 									
@@ -2988,22 +2989,25 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 									if (places != null) {																		
 										for (InterestPlace place : places) {
 											if (place != null) {
-												if (place.getSerial() == inputAudioNo) {
-													 Intent intent_show_interest_place = new Intent(MapViewerActivity.this, InterestPlaceViewerActivity.class); 
-													 Bundle mBundle = new Bundle(); 
-													 mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM,
+												if (place.getSerial() == inputIPNum) {																										
+													IPFound = true;
+													Intent intent_show_interest_place = new Intent(MapViewerActivity.this, InterestPlaceViewerActivity.class); 
+													Bundle mBundle = new Bundle(); 
+													mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM,
 															 IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_INPUT);
-													 mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
-									    			 intent_show_interest_place.putExtras(mBundle); 
-									            	 startActivity(intent_show_interest_place);								 												
+													mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
+									    			intent_show_interest_place.putExtras(mBundle); 
+									            	startActivity(intent_show_interest_place);								 												
 												}												
 											}
 										}
 									}									
 							 }
 							 
-							 Util.showLongToast(MapViewerActivity.this, R.string.audio_no_not_exist);							
-							
+							 if (!IPFound) { 
+								 Util.showLongToast(MapViewerActivity.this, R.string.audio_no_not_exist);							
+							 }
+							 
 							 dialog.dismiss();
 						}
 					});
