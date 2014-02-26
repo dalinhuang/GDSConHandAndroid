@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +19,9 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore.Audio;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Gravity;
@@ -45,13 +49,14 @@ import com.winjune.wifiindoor.map.InterestPlace;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 
-public class InterestPlaceViewerActivity extends Activity {	
+public class InterestPlaceViewerActivity extends Activity implements OnInitListener {	
 	private OnClickListener listener2;
 	private MediaPlayer mPlayer = null;
 	private ImageButton audioPlayButton = null;
 	private ImageButton audioStopButton = null;
 	private SeekBar audioSeekbar = null; 
 	private Button shareButton = null; //Button for sharing the content to social media
+	private TextToSpeech AutoGuideTTS = null;
 	
 	@Override
 	protected void onResume() {
@@ -63,12 +68,39 @@ public class InterestPlaceViewerActivity extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
+		AudioPause();
+		
+		if (AutoGuideTTS != null) {
+			AutoGuideTTS.stop();	
+		}
+		
 		Util.setEnergySave(true);
-		Util.setCurrentForegroundActivity(null);
+		Util.setCurrentForegroundActivity(null);		
 	}
 	
+    
+    // Need to stop the audio
+    @Override
+    protected void onDestroy() {
+    	
+    	shutdownMediaPlayer();
+
+    	AutoGuideTTSShutdown();
+    	
+    	super.onDestroy();
+    }    
+    
+	@Override
+	public void onBackPressed() {
+		        
+		shutdownMediaPlayer();
+		
+		AutoGuideTTSShutdown();
+		
+		super.onBackPressed();						
+	}		
+	
     /** Called when the activity is first created. */
-    @SuppressWarnings("deprecation")
 	@Override
     public void onCreate(Bundle savedInstanceState) {
     	InterestPlace place = null;
@@ -108,7 +140,12 @@ public class InterestPlaceViewerActivity extends Activity {
         	}
         }    	
         else if (req == IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_INPUT) {
-        	audio = "sample_bicycle.mp3";
+        	place = (InterestPlace) bundle.getSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE);
+        	
+        	if (place != null) {        	        
+    			audio = place.getUrlAudio();
+    			text = place.getInfo();
+        	}
         } 
         else {
         	return;
@@ -185,6 +222,12 @@ public class InterestPlaceViewerActivity extends Activity {
 		if ( text != null) {
 			textInfo.setText(text);
 			mainLayout.addView(textInfo);
+			
+			// disable TTS if there are audio files
+			if (audio == null) {				
+				AutoGuideTTSSpeak(text);
+			}
+			
 		}
 
 		//Display picture
@@ -264,8 +307,7 @@ public class InterestPlaceViewerActivity extends Activity {
 	    			}else {
 	    				content  = getString(R.string.share_prefix);
 	    			}
-	    				
-	    		
+	    					    		
 	    			intent.putExtra(Intent.EXTRA_TEXT,content);
 	    			
 	    			// Add the stream of the picture to the intent
@@ -309,100 +351,7 @@ public class InterestPlaceViewerActivity extends Activity {
 		scroll.addView(mainLayout);
 		setContentView(scroll);				
     }
-    
 
-    private void initMediaPlayer(String audioFile) {
-    	
-    	final String audioURL= Util.fullUrl(IndoorMapData.AUDIO_FILE_PATH_REMOTE, audioFile);
-	    	
-    	mPlayer = new MediaPlayer();
-        
-    	mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sample_bicycle);
-
-//        try {
-//			mPlayer.setDataSource(audioURL);
-//			mPlayer.prepare();
-//		} catch (IllegalArgumentException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (SecurityException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IllegalStateException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} //set data source
-        
-
-        
-        mPlayer.setOnPreparedListener (new OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer arg0) {
-                // enable player button
-                audioPlayButton.setEnabled(true);
-               
-                //get the length of the audio and setup the seekbar, default is 100
-                //audioSeekbar.setMax(mPlayer.getDuration());
-            }
-        });
-                       
-        new Thread(new AudioSeekBarRefresh()).start();
-        
-        // Detect the completetion event
-        mPlayer.setOnCompletionListener(new OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                //Toast.makeText(MainMusic.this, "onCompletion", Toast.LENGTH_SHORT).show();
-                AudioStop();
-            }
-        });
-    }
- 
-    private void AudioStop() {
-        mPlayer.stop();
-        audioPlayButton.setBackgroundResource(R.drawable.play_enable);
-        audioStopButton.setEnabled(false);
-        try {
-            mPlayer.prepare();
-            mPlayer.seekTo(0);
-            audioPlayButton.setEnabled(true);
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
- 
-    }
- 
-    private void AudioPlay() {
- 
-        mPlayer.start();
-        audioPlayButton.setBackgroundResource(R.drawable.pause_enable);
-        audioStopButton.setEnabled(true);
-    }
-    
-    private void AudioPause(){
-    	mPlayer.pause();
-    	audioPlayButton.setBackgroundResource(R.drawable.play_enable);
-    }
- 
-
-    // Need to stop the audio
-    @Override
-    protected void onDestroy() {
-        // stop the audio first
-        if (audioStopButton != null) {
-	        if (audioStopButton.isEnabled()) {
-	        	AudioStop();
-	        }
-        }
-
-    	super.onDestroy();
-    }
-    
     private  void loadCachedOrDownloadIMG(final ImageView imageInfo, final String imgFileName){
        	new Thread() {
     		public void run() {   			
@@ -437,56 +386,100 @@ public class InterestPlaceViewerActivity extends Activity {
 				});		        
     		}
     	}.start();
+    }    
+
+    private void initMediaPlayer(String audioFile) {
+    	
+    	final String audioURL= Util.fullUrl(IndoorMapData.AUDIO_FILE_PATH_REMOTE, audioFile);
+	    	
+    	mPlayer = new MediaPlayer();       
+
+        try {
+			mPlayer.setDataSource(audioURL);
+			mPlayer.prepare();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} //set data source
+        
+
+        
+        mPlayer.setOnPreparedListener (new OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer arg0) {
+                // enable player button
+                audioPlayButton.setEnabled(true);
+               
+                //get the length of the audio and setup the seekbar, default is 100
+                //audioSeekbar.setMax(mPlayer.getDuration());
+            }
+        });
+                       
+        new Thread(new AudioSeekBarRefresh()).start();
+        
+        // Detect the completetion event
+        mPlayer.setOnCompletionListener(new OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                //Toast.makeText(MainMusic.this, "onCompletion", Toast.LENGTH_SHORT).show();
+                AudioStop();
+            }
+        });
+    }
+ 
+    private void AudioStop() {
+        mPlayer.stop();        
+        audioPlayButton.setBackgroundResource(R.drawable.play_enable);
+        audioStopButton.setEnabled(false);
+        try {
+            mPlayer.prepare();
+            mPlayer.seekTo(0);
+            audioPlayButton.setEnabled(true);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+ 
+    }    
+ 
+    private void AudioPlay() {
+ 
+        mPlayer.start();
+        audioPlayButton.setBackgroundResource(R.drawable.pause_enable);
+        audioStopButton.setEnabled(true);
     }
     
-    // obsolete since we will cache the img first for weibo share
-    private void getBitmapFromUrl(final ImageView imageInfo, final String imgUrl) {
-    	new Thread() {
-    		public void run() {   			
-		        Bitmap bitmap = null;
-		        try {
-		        	URL url = new URL(imgUrl);
-		            InputStream is = url.openConnection().getInputStream();
-		            BufferedInputStream bis = new BufferedInputStream(is);
-		            bitmap = BitmapFactory.decodeStream(bis);
-		            bis.close();
-		        } catch (MalformedURLException e) {
-		            e.printStackTrace();
-		        } catch (IOException e) {
-		            e.printStackTrace();
-		        } catch (Exception e) {
-		            e.printStackTrace();
-		        } 
-		        
-		        final Bitmap bitmap2 = bitmap;
-		        
-		        runOnUiThread(new Runnable() {
-					public void run() {
-						if (bitmap2 == null) {
-							imageInfo.setImageResource(R.drawable.no_pic);	
-						} else {
-							imageInfo.setImageBitmap(bitmap2);
-							imageInfo.setOnClickListener(listener2);
-						}
-						imageInfo.invalidate();		    
-					}
-				});		        
-    		}
-    	}.start();
+    private void AudioPause(){
+    	if (mPlayer != null) {    	
+    		mPlayer.pause();
+    		audioPlayButton.setBackgroundResource(R.drawable.play_enable);
+    	}
     }
-
-	@Override
-	public void onBackPressed() {
+    
+    private void shutdownMediaPlayer() {
+    	if (mPlayer != null){
+	        // stop the audio first
+	        if (audioStopButton != null) {
+		        if (audioStopButton.isEnabled()) {
+		        	AudioStop();
+		        }
 		        
-		// stop the audio first
-		if (audioStopButton != null) {
-	        if (audioStopButton.isEnabled()) {
-	        	AudioStop();
 	        }
-        }						
-		
-		super.onBackPressed();						
-	}	
+	        
+	        mPlayer.release();
+	        mPlayer = null;
+    	}    	
+    }
     
 	class AudioSeekbarCL implements OnSeekBarChangeListener {  
 		int progress;  
@@ -514,6 +507,11 @@ public class InterestPlaceViewerActivity extends Activity {
 	private Handler audioSeekBarHandler = new Handler() {
 
     	public void handleMessage(Message msg) {
+    		
+    		if (mPlayer == null){
+    			return;
+    		}
+    		
             int position = mPlayer.getCurrentPosition();  
             int duration = mPlayer.getDuration();  
               
@@ -528,6 +526,11 @@ public class InterestPlaceViewerActivity extends Activity {
 	    @Override
 	    public void run() {
 	        while(true){
+	        	
+	        	if (mPlayer== null) {
+	        		return;
+	        	}
+	        	
 	        	if (mPlayer.isPlaying() && !(audioSeekbar.isPressed())) {
 	        		audioSeekBarHandler.sendMessage(audioSeekBarHandler.obtainMessage());
 	        	}
@@ -542,4 +545,76 @@ public class InterestPlaceViewerActivity extends Activity {
 
 	    }
 	}
+
+   // Callback by tts engine
+   @Override
+   public void onInit(int status) {  
+       if(status == TextToSpeech.SUCCESS){  
+           // we use Chinese  
+           int result = AutoGuideTTS.setLanguage(Locale.CHINA); 
+           if(result != TextToSpeech.LANG_COUNTRY_AVAILABLE   
+                   && result != TextToSpeech.LANG_AVAILABLE) {  
+               
+           		Util.showLongToast (this, R.string.tts_language_unsupported);
+               
+               AutoGuideTTSShutdown();
+           }
+           
+           Util.showLongToast(this, R.string.tts_start_soon);
+       }  
+   }  
+      	
+	private  void AutoGuideTTSSpeak(String text ){
+				
+		//Create a tts instanse first
+		if (AutoGuideTTS == null) {        	
+			AutoGuideTTS = new TextToSpeech(this, this);
+		}
+		
+		//start a thread to speak since we need wait for the tts binding
+		final String text1 = text;
+		final int maxLength =  TextToSpeech.getMaxSpeechInputLength(); 
+		
+		new Thread() {  
+	        public void run() { 
+	        	
+	        	try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        	
+	    		// need to double check if the tts engine is started
+	        	if (AutoGuideTTS != null) {
+	        		String text2 = text1;
+	        		Boolean isContinued = true;
+	        		
+	        		while (isContinued) {
+	        			String text3 = text2;
+	        				        			
+	        			if (text2.length() > maxLength) {	        				
+	        				text3 = text2.substring(0, maxLength-1);	
+	        				text2 = text2.substring(maxLength);	        				
+	        			} else {
+	        				isContinued = false;
+	        			}	        				
+	        			
+		        		AutoGuideTTS.speak(text3, TextToSpeech.QUEUE_ADD, null);		        		
+	        		}
+	    		}	        	
+	        }  
+	    }.start(); 
+	}
+	
+	// Shutdown TTS engine, if there is something playing, will stop it first. 
+	private void AutoGuideTTSShutdown(){
+	    if (AutoGuideTTS != null)
+	    {
+	    	AutoGuideTTS.stop();
+	    	AutoGuideTTS.shutdown();
+	    	AutoGuideTTS = null;
+	    }	    
+	}
+		
 }

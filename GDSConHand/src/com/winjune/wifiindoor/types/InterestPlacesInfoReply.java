@@ -48,6 +48,7 @@ public class InterestPlacesInfoReply implements IType {
 				InterestPlace field2 = new InterestPlace();
 				
 				if (field != null) {
+					field2.setSerial(field.getSerial());
 					field2.setX(field.getX());
 					field2.setY(field.getY());
 					field2.setInfo(field.getInfo());

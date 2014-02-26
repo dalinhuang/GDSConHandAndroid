@@ -3,6 +3,7 @@ package com.winjune.wifiindoor.types;
 import com.winjune.wifiindoor.webservice.types.IType;
 
 public class InterestPlaceReply implements IType {
+	private int serial;
 	private int x;
 	private int y;
 	private String info;
@@ -10,6 +11,14 @@ public class InterestPlaceReply implements IType {
 	private String urlAudio;
 	private String urlVideo;
 
+	public int getSerial() {
+		return serial ;
+	}
+	
+	public void setSerial(int serial ){
+		this.serial  = serial;
+	}	
+	
 	public int getX() {
 		return x;
 	}

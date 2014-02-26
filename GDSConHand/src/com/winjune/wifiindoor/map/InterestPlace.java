@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class InterestPlace implements Serializable {
 	private static final long serialVersionUID = 3609353380870295280L;
 	
+	private int serial ;
 	private int x;
 	private int y;
 	private String info;
@@ -12,6 +13,14 @@ public class InterestPlace implements Serializable {
 	private String urlAudio;
 	private String urlVideo;
 
+	public int getSerial() {
+		return serial ;
+	}
+	
+	public void setSerial(int serial ){
+		this.serial  = serial;
+	}
+	
 	public int getX() {
 		return x;
 	}

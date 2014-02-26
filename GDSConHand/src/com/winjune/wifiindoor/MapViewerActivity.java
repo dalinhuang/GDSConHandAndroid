@@ -2968,18 +2968,42 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 							 EditText inputAudioNoText = (EditText) layout.findViewById(R.id.audio_no_input_result);
 							 String inputAudioNoStr = inputAudioNoText.getText().toString();
 																					 
-							 if (inputAudioNoStr != null) {
-								 Util.showToast(MapViewerActivity.this, inputAudioNoStr, Toast.LENGTH_LONG);
-								
-								 Intent intent_show_interest_place = new Intent(MapViewerActivity.this, InterestPlaceViewerActivity.class); 
-								 Bundle mBundle = new Bundle(); 
-								 mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM,
-										 IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_INPUT);
-				    			 intent_show_interest_place.putExtras(mBundle); 
-				            	 startActivity(intent_show_interest_place);								 
-							 }else{
-								 builder.setMessage(R.string.audio_no_not_exist);
+							 if (inputAudioNoStr != null) {								 	
+								 	int inputAudioNo = Integer.parseInt(inputAudioNoStr); 
+								 
+									InterestPlacesInfo interestPlacesInfo = new InterestPlacesInfo();
+									
+									// load interest place list	
+									try {
+										InputStream map_file_is = new FileInputStream(Util.getInterestPlacesInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
+										
+										interestPlacesInfo.fromXML(map_file_is);
+									} catch (Exception e) {																		
+										e.printStackTrace();
+									}
+									
+									// look for the matched place record									
+									ArrayList<InterestPlace> places = interestPlacesInfo.getFields();
+									
+									if (places != null) {																		
+										for (InterestPlace place : places) {
+											if (place != null) {
+												if (place.getSerial() == inputAudioNo) {
+													 Intent intent_show_interest_place = new Intent(MapViewerActivity.this, InterestPlaceViewerActivity.class); 
+													 Bundle mBundle = new Bundle(); 
+													 mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM,
+															 IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_INPUT);
+													 mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
+									    			 intent_show_interest_place.putExtras(mBundle); 
+									            	 startActivity(intent_show_interest_place);								 												
+												}												
+											}
+										}
+									}									
 							 }
+							 
+							 Util.showLongToast(MapViewerActivity.this, R.string.audio_no_not_exist);							
+							
 							 dialog.dismiss();
 						}
 					});
@@ -3293,7 +3317,10 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		for (InterestPlace place : places) {
 			if (place != null) {
-				addInterestPlace(place);
+				// X and Y = -1 mean the guide audio 
+				if ((place.getX() != -1)&& (place.getY() != -1)) {  
+					addInterestPlace(place);
+				}
 			}
 		}
 		

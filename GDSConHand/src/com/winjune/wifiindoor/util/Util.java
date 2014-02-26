@@ -88,9 +88,7 @@ public class Util {
 	private static boolean saveEnergy = true;
 	
 	private static RuntimeIndoorMap runtimeIndoorMap = null;
-	
-	//private static TextToSpeech AutoGuideTTS = null;
-	
+		
 	private static Toast toast = null;
 	
 	private static ProgressDialog pBar;
@@ -173,14 +171,7 @@ public class Util {
 	    setApkVersionChecked(false);
 	    setApkUpdatePending(false);
 	    setApkVersionReply(null);
-	    
-        // Start a TTS instance
-	    /*
-        if (AutoGuideTTS == null) {        	
-        	AutoGuideTTS = new TextToSpeech(activity, null);
-        }
-        */
-		
+	   	
 		initialed = true;
 	}
 	
@@ -1140,25 +1131,7 @@ public class Util {
 
 	public static void setServerReachable(boolean serverReachable) {
 		Util.serverReachable = serverReachable;
-	}
-	
-	/*	
-	public static void AutoGuideTTSSpeak(String text ){
-		
-		if (AutoGuideTTS != null) {
-			AutoGuideTTS.speak(text, TextToSpeech.QUEUE_ADD, null);	
-		}		
-	}
-	
-	// Shutdown TTS engine, if there is something playing, will stop it first. 
-	public static void AutoGuideTTSShutdown(){
-	    if (AutoGuideTTS != null)
-	    {
-	    	AutoGuideTTS.stop();
-	    	AutoGuideTTS.shutdown();
-	    }	    
-	}
-	*/
+	}	
 	
 	public static Activity getCurrentForegroundActivity() {
 		return currentForegroundActivity;

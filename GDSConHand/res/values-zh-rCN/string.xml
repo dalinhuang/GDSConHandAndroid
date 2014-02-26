@@ -149,5 +149,7 @@
     <string name="no_weibo_installed">没有找到新浪微博</string>
     <string name="url_is_too_long">链接太长了！</string>
     <string name="share_prefix">我有个有趣的链接想要分享给你：</string>
+    <string name="tts_language_unsupported">您的手机不支持中文语音合成</string>
+    <string name="tts_start_soon">即将为您播放</string>
     
 </resources>

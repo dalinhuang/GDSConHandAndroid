@@ -146,5 +146,10 @@
     <string name="no_description">No Description Defined!</string>
     <string name="show_pic">Show Picture</string>
     <string name="download_file_failed">Download file failed!</string>
-    
+    <string name="share">Share</string>
+    <string name="no_weibo_installed">Sina Weibo isnot installed</string>
+    <string name="url_is_too_long">The URL is too long</string>
+    <string name="share_prefix">I want to share with you </string>
+    <string name="tts_language_unsupported">TTS is not supported in your device</string>
+    <string name="tts_start_soon">Will play soon</string>    
 </resources>
