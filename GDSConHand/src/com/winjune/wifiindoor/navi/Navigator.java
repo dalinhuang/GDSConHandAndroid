@@ -66,8 +66,9 @@ public class Navigator {
 			// need to ensure the start node and end node are defined in node database
 			if ((startIndex != -1) && (endIndex != -1)) {	
 				weightMatrix[startIndex][endIndex] = dist;
-				routeDescMatrix[startIndex][endIndex] = route.getInfo();
 				weightMatrix[endIndex][startIndex] = dist;
+				routeDescMatrix[startIndex][endIndex] = route.getForwardInfo();
+				routeDescMatrix[endIndex][startIndex] = route.getBackwardInfo();
 			}
 		}
 		

@@ -4,6 +4,7 @@ import com.winjune.wifiindoor.webservice.types.IType;
 
 public class NaviNodeReply implements IType {
 	private int id;
+	private int nameId;
 	private int mapId;
 	private int x;
 	private int y;
@@ -16,6 +17,14 @@ public class NaviNodeReply implements IType {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public int getNameId() {
+		return nameId;
+	}
+
+	public void setNameId(int id) {
+		this.nameId = id;
+	}	
 	
 	public int getMapId() {
 		return mapId;

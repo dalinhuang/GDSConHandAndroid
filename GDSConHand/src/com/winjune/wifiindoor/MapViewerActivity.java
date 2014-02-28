@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Set;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -3059,11 +3060,16 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 						nodeNames[0] = MapViewerActivity.this.getResources().getString(R.string.navi_my_place);
 						int idx = 1;
 						for (NaviNode node : naviInfo.getNodes()) {
-							nodeNames[idx] = node.getName();
-							idx++;
+							// we only show general node name
+							if ( node.getNameId() == 0) { 
+								nodeNames[idx] = node.getName();
+								idx++;
+							}
 						}
 						
-						adapter = new ArrayAdapter<String>(MapViewerActivity.this, android.R.layout.simple_spinner_item, nodeNames);
+						String [] shortNodeNames = Arrays.copyOf(nodeNames, idx);
+						
+						adapter = new ArrayAdapter<String>(MapViewerActivity.this, android.R.layout.simple_spinner_item, shortNodeNames);
 						adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 						
 						if (sipnnerFrom != null) {

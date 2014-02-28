@@ -6,10 +6,11 @@ public class NaviNode implements Serializable {
 	private static final long serialVersionUID = 6013104644590875612L;
 	
 	private int id;
+	private int nameId;
 	private int mapId;
 	private int x;
 	private int y;
-	private String name;
+	private String name;	
 	
 	public int getId() {
 		return id;
@@ -19,6 +20,14 @@ public class NaviNode implements Serializable {
 		this.id = id;
 	}
 	
+	public int getNameId() {
+		return nameId;
+	}
+
+	public void setNameId(int id) {
+		this.nameId = id;
+	}	
+		
 	public int getMapId() {
 		return mapId;
 	}

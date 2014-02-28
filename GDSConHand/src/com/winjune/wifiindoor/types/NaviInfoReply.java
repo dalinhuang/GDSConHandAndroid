@@ -63,6 +63,7 @@ public class NaviInfoReply implements IType {
 					node2.setX(node.getX());
 					node2.setY(node.getY());
 					node2.setName(node.getName());
+					node2.setNameId(node.getNameId());
 				}
 				
 				nodes2.add(node2);
@@ -81,7 +82,8 @@ public class NaviInfoReply implements IType {
 					path2.setFrom(path.getFrom());
 					path2.setTo(path.getTo());
 					path2.setDistance(path.getDistance());
-					path2.setInfo(path.getInfo());
+					path2.setForwardInfo(path.getForwardInfo());
+					path2.setBackwardInfo(path.getBackwardInfo());
 				}
 				
 				paths2.add(path2);

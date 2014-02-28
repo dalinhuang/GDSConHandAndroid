@@ -6,8 +6,9 @@ public class NaviData implements Serializable {
 	
 	private int from;
 	private int to;
-	private float distance;
-	private String info;
+	private int distance;
+	private String forwardInfo;
+	private String backwardInfo;
 	
 	public int getFrom() {
 		return from;
@@ -29,15 +30,24 @@ public class NaviData implements Serializable {
 		return distance;
 	}
 
-	public void setDistance(float distance) {
+	public void setDistance(int distance) {
 		this.distance = distance;
 	}
 
-	public String getInfo() {
-		return info;
+	public String getForwardInfo() {
+		return forwardInfo;
 	}
 
-	public void setInfo(String info) {
-		this.info = info;
+	public void setForwardInfo(String info) {
+		this.forwardInfo = info;
+	}
+
+
+	public String getBackwardInfo() {
+		return backwardInfo;
+	}
+
+	public void setBackwardInfo(String info) {
+		this.backwardInfo = info;
 	}
 }
