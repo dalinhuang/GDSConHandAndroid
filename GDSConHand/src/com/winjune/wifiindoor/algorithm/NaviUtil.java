@@ -65,7 +65,7 @@ public class NaviUtil {
 						}
 						
 						NaviPath path2 = path;
-						path2.addEnd(route.getTo(), route.getDistance());
+						path2.addStep(route.getTo(), route.getDistance());
 						tempPaths2.add(path2);
 					}
 				}

@@ -1,9 +1,9 @@
 package com.winjune.wifiindoor.algorithm;
 
 public class NaviPath {
-	private float dist;
-	private int stepSize;
-	private int[] steps;
+	public float dist;
+	public int stepSize;
+	public int[] steps;
 	
 	public NaviPath(int nodeNo) {
 		stepSize = 0;
@@ -40,12 +40,32 @@ public class NaviPath {
 		this.steps = steps;
 	}
 	
-	public void addEnd(int endNode, float distAdd) {
+	public void addStep(int endNode, float distAdd) {
 		steps[stepSize] = endNode;
 		stepSize++;
 		
 		dist += distAdd;
 	}
+	
+	public void addStep(int endNode) {
+		steps[stepSize] = endNode;
+		stepSize++;				
+	}
+	
+	public void removeLastStep(){
+		stepSize --;
+	}
+	
+	public NaviPath clone(){
+		NaviPath temp = new NaviPath(this.steps.length);
+		temp.stepSize = this.stepSize;
+		temp.dist = this.dist;
+		temp.steps = this.steps;
+		
+		return temp;
+		
+	}
+	
 	
 	public void addFirstStep(int endNode, float distAdd) {
 		steps[0] = endNode;

@@ -82,6 +82,7 @@ import com.winjune.wifiindoor.ads.AdSpriteListener;
 import com.winjune.wifiindoor.ads.ScreenAdvertisement;
 import com.winjune.wifiindoor.algorithm.NaviPath;
 import com.winjune.wifiindoor.algorithm.NaviUtil;
+import com.winjune.wifiindoor.algorithm.Navigator;
 import com.winjune.wifiindoor.drawing.GraphicIndoorMapListener;
 import com.winjune.wifiindoor.drawing.MapCameraViewGestureListener;
 import com.winjune.wifiindoor.drawing.ModeControl;
@@ -198,6 +199,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	private ArrayList<Sprite> interestPlaces;
 	
 	private NaviInfo naviInfo;
+	private Navigator navigator;
+	
 	private int naviMyPlaceX;
 	private int naviMyPlaceY;
 	private int naviFromNode;
@@ -2748,6 +2751,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	private void loadNaviInfo() {
 		naviInfo = new NaviInfo();
+		navigator = new Navigator();
+		
 		boolean updateNeeded = true; //Hoare: update every time regardless map versionn, for test only
 
 		try {
@@ -2902,6 +2907,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		}
 		
 		this.naviInfo = naviInfo;
+		
+		navigator.init(naviInfo);
 		
 		// Store into file
 		naviInfo.toXML();
@@ -3161,6 +3168,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		}
 		
 		NaviPath bestRoute = NaviUtil.getBestNaviPath(naviInfo.getPaths(), fromNode, toNode);
+		
+		navigator.getShortestPathDijkstra(fromNode, toNode);
 		
 		if (bestRoute == null) {
 			naviStr = getResources().getString(R.string.navi_failed_no_route);
