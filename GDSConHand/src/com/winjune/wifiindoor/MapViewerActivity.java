@@ -99,7 +99,6 @@ import com.winjune.wifiindoor.map.MapInfo;
 import com.winjune.wifiindoor.navi.NaviInfo;
 import com.winjune.wifiindoor.navi.NaviNode;
 import com.winjune.wifiindoor.navi.NaviPath;
-import com.winjune.wifiindoor.navi.NaviUtil;
 import com.winjune.wifiindoor.navi.Navigator;
 import com.winjune.wifiindoor.runtime.Cell;
 import com.winjune.wifiindoor.runtime.MapResource;
@@ -204,7 +203,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	private int naviMyPlaceX;
 	private int naviMyPlaceY;
 	private int naviFromNode;
-	private int naviToNode;
+	private int naviToNode;	
 	
 	private int LEFT_SPACE;
 	private int RIGHT_SPACE;
@@ -3044,7 +3043,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 					Spinner sipnnerFrom;
 					Spinner sipnnerTo;
 					ArrayAdapter<String> adapter;
-					String[] nodeNames;
+					String[] spinnerNames;
 					
 					if ((naviInfo == null) || (naviInfo.getNodes() == null) || (naviInfo.getNodes().isEmpty())) {
 						builder.setMessage(R.string.navi_no_node);
@@ -3056,20 +3055,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 						sipnnerFrom =  (Spinner) layout.findViewById(R.id.from_list);
 						sipnnerTo =  (Spinner) layout.findViewById(R.id.to_list);
 						
-						nodeNames = new String[naviInfo.getNodes().size()+1]; // Include 'My Place'
-						nodeNames[0] = MapViewerActivity.this.getResources().getString(R.string.navi_my_place);
-						int idx = 1;
-						for (NaviNode node : naviInfo.getNodes()) {
-							// we only show general node name
-							if ( node.getNameId() == 0) { 
-								nodeNames[idx] = node.getName();
-								idx++;
-							}
-						}
 						
-						String [] shortNodeNames = Arrays.copyOf(nodeNames, idx);
+						spinnerNames = myNavigator.getNodeSpinnerNames();
+						spinnerNames[0] = MapViewerActivity.this.getResources().getString(R.string.navi_my_place);						
 						
-						adapter = new ArrayAdapter<String>(MapViewerActivity.this, android.R.layout.simple_spinner_item, shortNodeNames);
+						adapter = new ArrayAdapter<String>(MapViewerActivity.this, android.R.layout.simple_spinner_item, spinnerNames);
 						adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 						
 						if (sipnnerFrom != null) {
@@ -3215,50 +3205,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		}
 		
 		if (spinnerId == 0) { // My Place
-			return getNearestNaviNode();
-		}
-		
-		if (spinnerId > naviInfo.getNodes().size()) {
-			return -1;
-		}
-		
-		NaviNode node = naviInfo.getNodes().get(spinnerId-1);
-		if (node == null) {
-			return -1;
-		}
-		return node.getId();
-	}
-
-	private int getNearestNaviNode() {
-		if ((naviMyPlaceX == -1) || (naviMyPlaceY == -1)) {
-			return -1;
-		}
-		
-		if ((naviInfo == null) || (naviInfo.getNodes() == null)) {
-			return -1;
-		}
-		
-		int nodeNo = -1;
-		int delta = Integer.MAX_VALUE;
-		for (NaviNode node: naviInfo.getNodes()) {
-			if (node != null) {
-				if (node.getMapId() == Util.getRuntimeIndoorMap().getMapId()) { // Same Map
-					int delta2 = Math.abs(naviMyPlaceX - node.getX()) + Math.abs(naviMyPlaceY - node.getY());
-					
-					if (delta2 < delta) {
-						delta = delta2;
-						nodeNo = node.getId();
-					}
-					
-					if (delta == 0) {
-						return nodeNo;
-					}
-				}
-			}
-		}
-		
-		return nodeNo;
-	}
+			return myNavigator.getNearestNaviNode(naviMyPlaceX, naviMyPlaceY);
+		}		
+				
+		return myNavigator.getNodeIdBySpinnerIdx(spinnerId);
+	}	
 
 	private void loadInterestPlaces() {
 		InterestPlacesInfo interestPlacesInfo = new InterestPlacesInfo();

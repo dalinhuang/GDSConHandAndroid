@@ -3,6 +3,7 @@ package com.winjune.wifiindoor.navi;
 import java.util.ArrayList;
 
 import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.util.Util;
 
 import android.app.Activity;
 import android.util.Log;
@@ -11,6 +12,8 @@ public class Navigator {
 	
 	private ArrayList<NaviNode> nodes;
 	private ArrayList<NaviData> paths;
+	private String[] spinnerNames;
+	private int[] spinnerIdxToNodeId;
 	private String unitStr = ""; // 我们用什么单位
 	private int nodeNum;
 	private int maxNodeId = 0;
@@ -70,16 +73,69 @@ public class Navigator {
 				routeDescMatrix[startIndex][endIndex] = route.getForwardInfo();
 				routeDescMatrix[endIndex][startIndex] = route.getBackwardInfo();
 			}
+		}		
+		
+		int count = 1;
+		for (NaviNode node : nodes) {
+			// we only show general node name
+			if ( node.getNameId() == 0) { 
+				count ++;
+			}
 		}
+				
+		spinnerNames = new String[count];
+		spinnerIdxToNodeId = new int[count];
+		count = 1;
+		for (NaviNode node : nodes) {
+			// we only show general node name
+			if ( node.getNameId() == 0) {
+				spinnerNames[count] = node.getName();
+				spinnerIdxToNodeId[count] = node.getId(); 
+				count ++;
+			}
+		}				
 		
 		isReady = true;
 	}
 	
+	public String[] getNodeSpinnerNames(){
+		return spinnerNames;
+	}
 	
+	public int getNodeIdBySpinnerIdx(int index) {		
+		return spinnerIdxToNodeId[index];
+	}
+	
+	public int getNearestNaviNode(int myPlaceX, int myPlaceY) {
+		if ((myPlaceX == -1) || (myPlaceY == -1)) {
+			return -1;
+		}	
+		
+		int nodeNo = -1;
+		int delta = Integer.MAX_VALUE;
+		for (NaviNode node: nodes) {
+			if (node != null) {
+				if (node.getMapId() == Util.getRuntimeIndoorMap().getMapId()) { // Same Map
+					int delta2 = Math.abs(myPlaceX - node.getX()) + Math.abs(myPlaceY - node.getY());
+					
+					if (delta2 < delta) {
+						delta = delta2;
+						nodeNo = node.getId();
+					}
+					
+					if (delta == 0) {
+						return nodeNo;
+					}
+				}
+			}
+		}
+		
+		return nodeNo;
+	}	
 
 	
 	public NaviPath getShortestPath(int startNode, int endNode) {
-        
+        		
         if (!isReady) {
         	return null;
         }
@@ -88,12 +144,48 @@ public class Navigator {
         	return null;
         }
         
-        int startIndex = nodeIndex[startNode];
-        int endIndex = nodeIndex[endNode];
+        // There may be a few end options
+     	ArrayList<NaviNode>  targetOptions = new ArrayList<NaviNode>();	
         
-        TrackNode pathIndex = NaviUtil.Dijkstra2(weightMatrix, startIndex, endIndex);
-    
-        //The shortest path has been discovered.        
+        for (NaviNode node : nodes) {
+        	if (node.getId() == endNode){
+        		if ((node.getX() == -1) && (node.getY() == -1)) {
+        			//except for node with general names, other nodes with the 
+        			// general name should not be treated as the target node, like entrance
+        			break;
+        		}        	
+        	}        	
+        	// 正对公共设施比如洗手间, 可能有多个洗手间,但是知有一个通用的显示, 选取最近的
+        	if (node.getNameId() == endNode) {
+        		targetOptions.add(node);
+        	}
+        }
+        
+        TrackNode pathIndex = null; 
+        
+        if (targetOptions.isEmpty()) {               
+        	int startIndex = nodeIndex[startNode];
+        	int endIndex = nodeIndex[endNode];
+        
+        	pathIndex = NaviUtil.Dijkstra2(weightMatrix, startIndex, endIndex);
+		} else {
+			TrackNode tmpPath;
+			
+			int startIndex = nodeIndex[startNode];
+			for (NaviNode node : nodes) {	        	
+	        	int endIndex = nodeIndex[node.getId()];	        
+	        	tmpPath = NaviUtil.Dijkstra2(weightMatrix, startIndex, endIndex);
+	        	
+	        	if (pathIndex == null){
+	        		pathIndex = tmpPath;
+	        	} else if(tmpPath.getDist() < pathIndex.getDist()) {
+	        		// change to the target with the shorter path
+	        		pathIndex = tmpPath;
+	        	}
+			}
+		}               
+        
+        //The shortest path has been discovered, build the navi path        
         if (pathIndex != null ){
         	NaviPath path = new NaviPath(nodeNum);        	
         	
