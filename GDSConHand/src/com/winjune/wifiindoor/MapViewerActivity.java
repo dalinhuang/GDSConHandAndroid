@@ -3169,7 +3169,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		NaviPath bestRoute = NaviUtil.getBestNaviPath(naviInfo.getPaths(), fromNode, toNode);
 		
-		navigator.getShortestPathDijkstra(fromNode, toNode);
+		navigator.getShortestPath(fromNode, toNode);
 		
 		if (bestRoute == null) {
 			naviStr = getResources().getString(R.string.navi_failed_no_route);

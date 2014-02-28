@@ -52,9 +52,6 @@ public class NaviPath {
 		stepSize++;				
 	}
 	
-	public void removeLastStep(){
-		stepSize --;
-	}
 	
 	public NaviPath clone(){
 		NaviPath temp = new NaviPath(this.steps.length);

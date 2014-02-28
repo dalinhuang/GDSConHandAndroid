@@ -84,7 +84,7 @@ public class Navigator {
         
         for (int i = 0; i < nodeNum; i++) {
         	tempPaths[i] = new NaviPath(nodeNum);
-        	tempPaths[i].addStep(nodeId[startIndex]);
+        	tempPaths[i].addStep(startIndex);
         }
         
 		// 标识节点是否已找到最短路径，从startIndex到n 为finish[n]=true;
@@ -230,7 +230,7 @@ public class Navigator {
         int startIndex = nodeIndex[startNode];
         int endIndex = nodeIndex[endNode];
         
-        NaviPath path = this.Dijkstra(weightMatrix, startIndex, endIndex);
+        NaviPath path = this.Dijkstra2(weightMatrix, startIndex, endIndex);
     
         //The shortest path has been identifed.        
         if (path != null ){
@@ -238,13 +238,14 @@ public class Navigator {
             String pathDesc = "";
            
             for (int i = 0; i < path.getStepSize(); i++) { 
-         
+            	
+            	// replace nodexIndex as nodeId
+            	steps[i] = nodeId[steps[i]];
             	
             	NaviNode node = getNode(steps[i]);
             	pathDesc = pathDesc + "->" + node.getName(); 
                	
-            	// replace nodexIndex as nodeId
-            	steps[i] = nodeId[steps[i]];
+
             }
             
             path.setSteps(steps);
