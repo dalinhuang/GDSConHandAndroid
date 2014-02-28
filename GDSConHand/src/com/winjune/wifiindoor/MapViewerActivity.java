@@ -41,7 +41,6 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -80,9 +79,6 @@ import com.google.gson.Gson;
 import com.winjune.wifiindoor.ads.AdGroup;
 import com.winjune.wifiindoor.ads.AdSpriteListener;
 import com.winjune.wifiindoor.ads.ScreenAdvertisement;
-import com.winjune.wifiindoor.algorithm.NaviPath;
-import com.winjune.wifiindoor.algorithm.NaviUtil;
-import com.winjune.wifiindoor.algorithm.Navigator;
 import com.winjune.wifiindoor.drawing.GraphicIndoorMapListener;
 import com.winjune.wifiindoor.drawing.MapCameraViewGestureListener;
 import com.winjune.wifiindoor.drawing.ModeControl;
@@ -99,8 +95,11 @@ import com.winjune.wifiindoor.map.IndoorMapLoader;
 import com.winjune.wifiindoor.map.InterestPlace;
 import com.winjune.wifiindoor.map.InterestPlacesInfo;
 import com.winjune.wifiindoor.map.MapInfo;
-import com.winjune.wifiindoor.map.NaviInfo;
-import com.winjune.wifiindoor.map.NaviNode;
+import com.winjune.wifiindoor.navi.NaviInfo;
+import com.winjune.wifiindoor.navi.NaviNode;
+import com.winjune.wifiindoor.navi.NaviPath;
+import com.winjune.wifiindoor.navi.NaviUtil;
+import com.winjune.wifiindoor.navi.Navigator;
 import com.winjune.wifiindoor.runtime.Cell;
 import com.winjune.wifiindoor.runtime.MapResource;
 import com.winjune.wifiindoor.types.CollectInfo;
@@ -199,7 +198,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	private ArrayList<Sprite> interestPlaces;
 	
 	private NaviInfo naviInfo;
-	private Navigator navigator;
+	private Navigator myNavigator;
 	
 	private int naviMyPlaceX;
 	private int naviMyPlaceY;
@@ -2751,7 +2750,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	private void loadNaviInfo() {
 		naviInfo = new NaviInfo();
-		navigator = new Navigator();
+		myNavigator = new Navigator();
 		
 		boolean updateNeeded = true; //Hoare: update every time regardless map versionn, for test only
 
@@ -2908,7 +2907,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		this.naviInfo = naviInfo;
 		
-		navigator.init(naviInfo);
+		myNavigator.init(naviInfo, getResources().getString(R.string.navi_meter));
 		
 		// Store into file
 		naviInfo.toXML();
@@ -3148,7 +3147,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		if (((naviMyPlaceX == -1) || (naviMyPlaceY == -1)) 
 			&& ((naviFromNode == 0) || (naviToNode == 0))) {
 			naviStr = getResources().getString(R.string.navi_my_place_unknown);
-			navigator(naviStr);
+			showNavigatorViewer(naviStr);
 			return;
 		}
 		
@@ -3157,56 +3156,45 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 		if ((fromNode == -1) || (toNode == -1)) {
 			naviStr = getResources().getString(R.string.navi_failed_no_data);
-			navigator(naviStr);
+			showNavigatorViewer(naviStr);
 			return;
 		} 
 		
 		if ((naviInfo == null) || (naviInfo.getNodes() == null) || (naviInfo.getPaths() == null)) {
 			naviStr = getResources().getString(R.string.navi_failed_no_data);
-			navigator(naviStr);
+			showNavigatorViewer(naviStr);
 			return;
 		}
 		
-		NaviPath bestRoute = NaviUtil.getBestNaviPath(naviInfo.getPaths(), fromNode, toNode);
-		
-		navigator.getShortestPath(fromNode, toNode);
+		NaviPath bestRoute = myNavigator.getShortestPath(fromNode, toNode);
 		
 		if (bestRoute == null) {
 			naviStr = getResources().getString(R.string.navi_failed_no_route);
-			navigator(naviStr);
+			showNavigatorViewer(naviStr);
 			return;
 		}
-		
 		naviStr += getResources().getString(R.string.navi_total_distance) + bestRoute.getDist() + getResources().getString(R.string.navi_meter);
-		naviStr += "\n";
-
-		naviStr += "\n";
+		naviStr += "\n\n";
+		
 		if (naviFromNode == 0) {
-			naviStr += getResources().getString(R.string.navi_my_place) + " >> ";
+			naviStr += getResources().getString(R.string.navi_my_place) + " ->-> " 
+						+ myNavigator.getNodeName(fromNode) + "\n";
 		}
-		
-		naviStr += NaviUtil.getNodeName(naviInfo.getNodes(), fromNode);
-		int from = fromNode;
 
-		for (int i=0; i<bestRoute.getStepSize(); i++) {
-			int to = bestRoute.getSteps()[i];
-			naviStr += "\n" + NaviUtil.getPathDescription(naviInfo.getPaths(), from, to, getResources().getString(R.string.navi_meter));
-			naviStr += "\n";
-			naviStr += "\n" + NaviUtil.getNodeName(naviInfo.getNodes(), to);
-			from = to;
-		}
 		
+		naviStr += bestRoute.getPathDesc();
 		if (naviToNode == 0) {
-			naviStr += " >> " + getResources().getString(R.string.navi_my_place);
-		}
+			naviStr += myNavigator.getNodeName(fromNode) + " ->-> " 
+					   + getResources().getString(R.string.navi_my_place) + "\n";
+		}		
 		
-		naviStr += "\n" + getResources().getString(R.string.navi_over);
+		naviStr += getResources().getString(R.string.navi_over) + "\n";		
 		
-		navigator(naviStr);
+		showNavigatorViewer(naviStr);
 	}
 
 
-	private void navigator(String naviStr) {
+	private void showNavigatorViewer(String naviStr) {
 		Intent intent_navigator = new Intent(MapViewerActivity.this, NavigatorActivity.class); 
 		Bundle mBundle = new Bundle(); 
 		

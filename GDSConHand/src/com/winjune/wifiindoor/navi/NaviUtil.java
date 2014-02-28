@@ -1,76 +1,8 @@
-package com.winjune.wifiindoor.algorithm;
+package com.winjune.wifiindoor.navi;
 
-import java.util.ArrayList;
-
-import android.util.Log;
-
-import com.winjune.wifiindoor.map.NaviData;
-import com.winjune.wifiindoor.map.NaviInfo;
-import com.winjune.wifiindoor.map.NaviNode;
-
-public class Navigator {
+public class NaviUtil {
 	
-	private ArrayList<NaviNode> nodes;
-	private ArrayList<NaviData> paths;
-	private int nodeNum;
-	private int maxNodeId = 0;
-	private	int[][] weightMatrix;
-	private int[] nodeId;
-	private int[] nodeIndex;
-	private boolean isReady = false;
-	
-	public void init(NaviInfo naviInfo ) {
-		
-		nodes = naviInfo.getNodes();
-		paths = naviInfo.getPaths();
-		nodeNum  = nodes.size();
-		
-		int i, j;
-		
-		// init the weightMatrix matrix of between every 2 nodes
-		weightMatrix = new int[nodeNum][nodeNum];
-		nodeId = new int[nodeNum];
-		for (i = 0; i < nodeNum; i++){
-			nodeId[i] = nodes.get(i).getId();
-			
-			// find the max node id and will use it later  
-			if (nodeId[i] > maxNodeId) {
-				maxNodeId = nodeId[i];
-			}
-			
-			for (j = 0; j < nodeNum; j++)  {
-				weightMatrix [i][j] = -1; // -1 means that there is no direct link between the 2 nodes
-			}
-		}
-		
-		// create a max node id table to store the node index
-		nodeIndex = new int[maxNodeId+1];
-		for (i = 0; i < maxNodeId; i++){
-			nodeIndex[i] = -1;
-		}
-		
-		i = 0;
-		for (NaviNode node: nodes){			
-			nodeIndex[node.getId()] = i ++;
-		}
-		
-		for (NaviData route: paths) {
-			int dist = (int) (route.getDistance() +0.5f);
-			int startIndex = nodeIndex[route.getFrom()];
-			int endIndex = nodeIndex[route.getTo()];
-			
-			// need to ensure the start node and end node are defined in node database
-			if ((startIndex != -1) && (endIndex != -1)) {	
-				weightMatrix[startIndex][endIndex] = dist;
-				weightMatrix[endIndex][startIndex] = dist;
-			}
-		}
-		
-		isReady = true;
-	}
-	
-	
-	private NaviPath Dijkstra(int[][] wMatrix, int startIndex, int endIndex) {
+	public static TrackNode  Dijkstra(int[][] wMatrix, int startIndex, int endIndex) {
         
         if (wMatrix == null || wMatrix.length == 0 ||
         	wMatrix.length != wMatrix[0].length) {
@@ -80,10 +12,10 @@ public class Navigator {
 		int[][] arcs = wMatrix;
 		int num = arcs.length;
 
-		NaviPath[] tempPaths = new NaviPath[num];
+		TrackNode[] tempPaths = new TrackNode[num];
         
-        for (int i = 0; i < nodeNum; i++) {
-        	tempPaths[i] = new NaviPath(nodeNum);
+        for (int i = 0; i < num; i++) {
+        	tempPaths[i] = new TrackNode(num);
         	tempPaths[i].addStep(startIndex);
         }
         
@@ -118,6 +50,7 @@ public class Navigator {
 			// 已找到目标，退出循环
 			if (v == endIndex) {
 				tempPaths[v].addStep(v);
+				tempPaths[v].setDist(D[v]);
 				return tempPaths[v];
 			}
 
@@ -126,8 +59,8 @@ public class Navigator {
 				if (!finish[w] && arcs[v][w] != -1) {
 					if ((arcs[v][w] + min) < D[w] || D[w] == -1) {
 						D[w] = arcs[v][w] + min;
-						tempPaths[w] = tempPaths[v].clone();
-						tempPaths[w].addStep(v);
+						tempPaths[w] = tempPaths[v];
+						//tempPaths[w].addStep(v);
 					}
 				}
 			}
@@ -138,18 +71,18 @@ public class Navigator {
 		return null;
 	}
 	
-	private NaviPath Dijkstra2(int[][] wMatrix, int startIndex, int endIndex) {
+	public static TrackNode Dijkstra2(int[][] wMatrix, int startIndex, int endIndex) {
         
 		if (wMatrix == null || wMatrix.length == 0 ||
             	wMatrix.length != wMatrix[0].length) {
                 	return null;
             }	
 		
-		
-		NaviPath[] tempPaths = new NaviPath[nodeNum];
+		int nodeNum = wMatrix.length;
+		TrackNode[] tempPaths = new TrackNode[nodeNum];
         
         for (int i = 0; i < nodeNum; i++) {
-        	tempPaths[i] = new NaviPath(nodeNum);
+        	tempPaths[i] = new TrackNode(nodeNum);
         	tempPaths[i].addStep(startIndex);
         }	    
 		
@@ -183,6 +116,7 @@ public class Navigator {
 	            
 	            if (index == endIndex) {//found the end node  
 	            	tempPaths[index].addStep(index);
+	            	tempPaths[index].setDist(distance[index]);
 	                return tempPaths[index];  
 	            }  
 	            
@@ -199,14 +133,14 @@ public class Navigator {
 	                // 如果vi到那个点有边，则v0到后面点的距离加  
 	                if (distance[i] == -1 && wMatrix[index][i] != -1) {// 如果以前不可达，则现在可达了  
 	                    distance[i] = presentShortest + wMatrix[index][i];  
-	                    tempPaths[i] = tempPaths[index].clone();
-	                    tempPaths[i].addStep(index);
+	                    tempPaths[i] = tempPaths[index];
+	                    //tempPaths[i].addStep(index);
 	                } else if (wMatrix[index][i] != -1 
 	                        && presentShortest + wMatrix[index][i] < distance[i]) {  
 	                    // 如果以前可达，但现在的路径比以前更短，则更换成更短的路径  
 	                    distance[i] = presentShortest + wMatrix[index][i];  
-	                    tempPaths[i] = tempPaths[index].clone();
-	                    tempPaths[i].addStep(index);                  
+	                    tempPaths[i] = tempPaths[index];
+	                    //tempPaths[i].addStep(index);                  
 	                }  
 	 
 	            }  
@@ -216,59 +150,4 @@ public class Navigator {
 	        
 	        return null;
 	}
-	
-	public NaviPath getShortestPath(int startNode, int endNode) {
-        
-        if (!isReady) {
-        	return null;
-        }
-        
-        if ((startNode > maxNodeId) || (endNode > maxNodeId)) {
-        	return null;
-        }
-        
-        int startIndex = nodeIndex[startNode];
-        int endIndex = nodeIndex[endNode];
-        
-        NaviPath path = this.Dijkstra2(weightMatrix, startIndex, endIndex);
-    
-        //The shortest path has been identifed.        
-        if (path != null ){
-            int[] steps = path.getSteps();
-            String pathDesc = "";
-           
-            for (int i = 0; i < path.getStepSize(); i++) { 
-            	
-            	// replace nodexIndex as nodeId
-            	steps[i] = nodeId[steps[i]];
-            	
-            	NaviNode node = getNode(steps[i]);
-            	pathDesc = pathDesc + "->" + node.getName(); 
-               	
-
-            }
-            
-            path.setSteps(steps);
-            
-            Log.i("Navigator", pathDesc);
-            
-            return path;
-        } else {
-        	//we don't find the end node index
-        	Log.i("Navigator", "no path between the 2 nodes");
-        	return null;
-        }
-	}
-	
-	private NaviNode getNode(int nodeId) {
-		
-		for (NaviNode node: nodes) {
-			if (node.getId() == nodeId) {
-				return node; 
-			}
-		}
-		
-		return null;
-	}
 }
-

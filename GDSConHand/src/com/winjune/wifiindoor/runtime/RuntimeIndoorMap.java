@@ -8,7 +8,7 @@ import java.util.Map;
 import org.andengine.entity.sprite.AnimatedSprite;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.algorithm.PathSearcher;
+import com.winjune.wifiindoor.navi.PathSearcher;
 import com.winjune.wifiindoor.drawing.graphic.model.MapPieceSprite;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;

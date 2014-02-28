@@ -2,9 +2,9 @@ package com.winjune.wifiindoor.types;
 
 import java.util.ArrayList;
 
-import com.winjune.wifiindoor.map.NaviData;
-import com.winjune.wifiindoor.map.NaviInfo;
-import com.winjune.wifiindoor.map.NaviNode;
+import com.winjune.wifiindoor.navi.NaviData;
+import com.winjune.wifiindoor.navi.NaviInfo;
+import com.winjune.wifiindoor.navi.NaviNode;
 import com.winjune.wifiindoor.webservice.types.IType;
 
 public class NaviInfoReply implements IType {
