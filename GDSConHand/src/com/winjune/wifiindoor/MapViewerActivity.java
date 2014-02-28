@@ -2752,7 +2752,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		naviInfo = new NaviInfo();
 		myNavigator = new Navigator();
 		
-		boolean updateNeeded = true; //Hoare: update every time regardless map versionn, for test only
+		boolean updateNeeded = false; //Hoare: update every time regardless map versionn, for test only
 
 		try {
 			InputStream map_file_is = new FileInputStream(Util.getNaviInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
@@ -2767,6 +2767,9 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			if (naviInfo.getVersionCode() != Util.getRuntimeIndoorMap().getVersionCode()) {
 				updateNeeded = true;
 			}
+			
+			myNavigator.init(naviInfo, getResources().getString(R.string.navi_meter));
+			
 		} catch (Exception e) {
 			updateNeeded = true;
 		}
@@ -2785,7 +2788,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	private void loadMapInfo() {
 		MapInfo mapInfo = new MapInfo();
-		boolean updateNeeded = true; //Hoare: update every time regardless map versionn, for test only
+		boolean updateNeeded = false; //Hoare: update every time regardless map versionn, for test only
 
 		try {
 			InputStream map_file_is = new FileInputStream(Util.getMapInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
@@ -3213,7 +3216,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 	private void loadInterestPlaces() {
 		InterestPlacesInfo interestPlacesInfo = new InterestPlacesInfo();
-		boolean updateNeeded = true; //Hoare: update every time regardless map version, for test only
+		boolean updateNeeded = false; //Hoare: update every time regardless map version, for test only
 
 		try {
 			InputStream map_file_is = new FileInputStream(Util.getInterestPlacesInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));

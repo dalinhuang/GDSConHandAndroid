@@ -2,10 +2,8 @@ package com.winjune.wifiindoor.navi;
 
 import java.util.ArrayList;
 
-import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.util.Util;
 
-import android.app.Activity;
 import android.util.Log;
 
 public class Navigator {
@@ -149,13 +147,13 @@ public class Navigator {
         
         for (NaviNode node : nodes) {
         	if (node.getId() == endNode){
-        		if ((node.getX() == -1) && (node.getY() == -1)) {
+        		if ((node.getX() != -1) && (node.getY() != -1)) {
         			//except for node with general names, other nodes with the 
-        			// general name should not be treated as the target node, like entrance
+        			//general name should not be treated as the target node, like entrance
         			break;
         		}        	
         	}        	
-        	// 正对公共设施比如洗手间, 可能有多个洗手间,但是知有一个通用的显示, 选取最近的
+        	// 针对公共设施比如洗手间, 可能有多个洗手间,但是知有一个通用的显示, 选取最近的
         	if (node.getNameId() == endNode) {
         		targetOptions.add(node);
         	}
@@ -163,7 +161,8 @@ public class Navigator {
         
         TrackNode pathIndex = null; 
         
-        if (targetOptions.isEmpty()) {               
+        if (targetOptions.isEmpty()) { 
+        	// only one target node
         	int startIndex = nodeIndex[startNode];
         	int endIndex = nodeIndex[endNode];
         
@@ -175,6 +174,10 @@ public class Navigator {
 			for (NaviNode node : nodes) {	        	
 	        	int endIndex = nodeIndex[node.getId()];	        
 	        	tmpPath = NaviUtil.Dijkstra2(weightMatrix, startIndex, endIndex);
+	        	
+	        	// no path between startNode and this node
+	        	if (tmpPath == null)
+	        		continue;
 	        	
 	        	if (pathIndex == null){
 	        		pathIndex = tmpPath;
