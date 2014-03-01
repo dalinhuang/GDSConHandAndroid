@@ -50,7 +50,7 @@ public class Navigator {
 		
 		// create a max node id table to store the node index
 		nodeIndex = new int[maxNodeId+1];
-		for (i = 0; i < maxNodeId; i++){
+		for (i = 0; i < maxNodeId+1; i++){
 			nodeIndex[i] = -1;
 		}
 		
@@ -60,7 +60,7 @@ public class Navigator {
 		}
 		
 		for (NaviData route: paths) {
-			int dist = (int) (route.getDistance() +0.5f);
+			int dist = route.getDistance();
 			int startIndex = nodeIndex[route.getFrom()];
 			int endIndex = nodeIndex[route.getTo()];
 			
@@ -166,14 +166,14 @@ public class Navigator {
         	int startIndex = nodeIndex[startNode];
         	int endIndex = nodeIndex[endNode];
         
-        	pathIndex = NaviUtil.Dijkstra2(weightMatrix, startIndex, endIndex);
+        	pathIndex = NaviUtil.Dijkstra(weightMatrix, startIndex, endIndex);
 		} else {
 			TrackNode tmpPath;
 			
 			int startIndex = nodeIndex[startNode];
-			for (NaviNode node : nodes) {	        	
+			for (NaviNode node : targetOptions) {	        	
 	        	int endIndex = nodeIndex[node.getId()];	        
-	        	tmpPath = NaviUtil.Dijkstra2(weightMatrix, startIndex, endIndex);
+	        	tmpPath = NaviUtil.Dijkstra(weightMatrix, startIndex, endIndex);
 	        	
 	        	// no path between startNode and this node
 	        	if (tmpPath == null)

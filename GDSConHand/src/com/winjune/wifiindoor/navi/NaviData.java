@@ -26,7 +26,7 @@ public class NaviData implements Serializable {
 		this.to = to;
 	}
 
-	public float getDistance() {
+	public int getDistance() {
 		return distance;
 	}
 

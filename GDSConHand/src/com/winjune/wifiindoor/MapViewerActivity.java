@@ -2752,7 +2752,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		naviInfo = new NaviInfo();
 		myNavigator = new Navigator();
 		
-		boolean updateNeeded = false; //Hoare: update every time regardless map versionn, for test only
+		boolean updateNeeded = true; //Hoare: update every time regardless map versionn, for test only
 
 		try {
 			InputStream map_file_is = new FileInputStream(Util.getNaviInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
@@ -2768,7 +2768,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 				updateNeeded = true;
 			}
 			
-			myNavigator.init(naviInfo, getResources().getString(R.string.navi_meter));
+			//myNavigator.init(naviInfo, getResources().getString(R.string.navi_meter));
 			
 		} catch (Exception e) {
 			updateNeeded = true;

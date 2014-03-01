@@ -60,12 +60,15 @@ public class NaviUtil {
 					if ((arcs[v][w] + min) < D[w] || D[w] == -1) {
 						D[w] = arcs[v][w] + min;
 						tempPaths[w] = tempPaths[v];
-						//tempPaths[w].addStep(v);
+						if (tempPaths[w].getLastStep() != v) {
+							tempPaths[w].addStep(v);
+						}
+						
 					}
 				}
 			}
 			
-			tempPaths[v].addStep(v);      
+			//tempPaths[v].addStep(v);      
 		}
 		
 		return null;
@@ -134,18 +137,25 @@ public class NaviUtil {
 	                if (distance[i] == -1 && wMatrix[index][i] != -1) {// 如果以前不可达，则现在可达了  
 	                    distance[i] = presentShortest + wMatrix[index][i];  
 	                    tempPaths[i] = tempPaths[index];
-	                    //tempPaths[i].addStep(index);
+	                    
+	                    //避免重复
+	                    if (tempPaths[i].getLastStep() != index) {
+	                    	tempPaths[i].addStep(index);
+	                    }
 	                } else if (wMatrix[index][i] != -1 
 	                        && presentShortest + wMatrix[index][i] < distance[i]) {  
 	                    // 如果以前可达，但现在的路径比以前更短，则更换成更短的路径  
 	                    distance[i] = presentShortest + wMatrix[index][i];  
 	                    tempPaths[i] = tempPaths[index];
-	                    //tempPaths[i].addStep(index);                  
+	                    
+	                    if (tempPaths[i].getLastStep() != index) {
+	                    	tempPaths[i].addStep(index);            
+	                    }
 	                }  
 	 
 	            }  
 	            
-	            tempPaths[index].addStep(index);	            
+	            //tempPaths[index].addStep(index);	            
 	        }
 	        
 	        return null;

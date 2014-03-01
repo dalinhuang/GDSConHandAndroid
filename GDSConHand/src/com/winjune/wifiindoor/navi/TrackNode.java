@@ -21,6 +21,14 @@ public class TrackNode {
 		stepSize++;				
 	}
 	
+	public int getLastStep() {
+		if (stepSize > 0) {
+			return steps[stepSize-1];
+		}else {
+			return -1;
+		}
+	}
+	
 	public int[] getSteps() {
 		return steps;
 	}
