@@ -14,12 +14,8 @@ public class Navigator {
 	private int[] spinnerIdxToNodeId;
 	private String unitStr = ""; // 我们用什么单位
 	private int nodeNum;
-	private int maxNodeId = 0;
-	private	int[][] weightMatrix;
-	private String [][] routeDescMatrix;
-	private int[] nodeId;
-	private int[] nodeIndex;
 	private boolean isReady = false;
+	DijkstraMap map = null;
 	
 	public void init(NaviInfo naviInfo, String unitStr ) {
 		
@@ -27,51 +23,6 @@ public class Navigator {
 		paths = naviInfo.getPaths();
 		nodeNum  = nodes.size();
 		this.unitStr = unitStr;
-		
-		int i, j;
-		
-		// init the weightMatrix matrix of between every 2 nodes
-		weightMatrix = new int[nodeNum][nodeNum];
-		routeDescMatrix = new String[nodeNum][nodeNum];
-		nodeId = new int[nodeNum];
-		for (i = 0; i < nodeNum; i++){
-			nodeId[i] = nodes.get(i).getId();
-			
-			// find the max node id and will use it later  
-			if (nodeId[i] > maxNodeId) {
-				maxNodeId = nodeId[i];
-			}
-			
-			for (j = 0; j < nodeNum; j++)  {
-				weightMatrix [i][j] = -1; // -1 means that there is no direct link between the 2 nodes
-				routeDescMatrix[i][j] = "";
-			}
-		}
-		
-		// create a max node id table to store the node index
-		nodeIndex = new int[maxNodeId+1];
-		for (i = 0; i < maxNodeId+1; i++){
-			nodeIndex[i] = -1;
-		}
-		
-		i = 0;
-		for (NaviNode node: nodes){			
-			nodeIndex[node.getId()] = i ++;
-		}
-		
-		for (NaviData route: paths) {
-			int dist = route.getDistance();
-			int startIndex = nodeIndex[route.getFrom()];
-			int endIndex = nodeIndex[route.getTo()];
-			
-			// need to ensure the start node and end node are defined in node database
-			if ((startIndex != -1) && (endIndex != -1)) {	
-				weightMatrix[startIndex][endIndex] = dist;
-				weightMatrix[endIndex][startIndex] = dist;
-				routeDescMatrix[startIndex][endIndex] = route.getForwardInfo();
-				routeDescMatrix[endIndex][startIndex] = route.getBackwardInfo();
-			}
-		}		
 		
 		int count = 1;
 		for (NaviNode node : nodes) {
@@ -91,7 +42,9 @@ public class Navigator {
 				spinnerIdxToNodeId[count] = node.getId(); 
 				count ++;
 			}
-		}				
+		}	
+		
+		map = new DijkstraMap(nodes, paths);
 		
 		isReady = true;
 	}
@@ -137,11 +90,7 @@ public class Navigator {
         if (!isReady) {
         	return null;
         }
-        
-        if ((startNode > maxNodeId) || (endNode > maxNodeId)) {
-        	return null;
-        }
-        
+               
         // There may be a few end options
      	ArrayList<NaviNode>  targetOptions = new ArrayList<NaviNode>();	
         
@@ -159,77 +108,34 @@ public class Navigator {
         	}
         }
         
-        TrackNode pathIndex = null; 
+        DijkstraPath pathPlanner = new DijkstraPath();        
+        NaviPath path = null;
+        
         
         if (targetOptions.isEmpty()) { 
         	// only one target node
-        	int startIndex = nodeIndex[startNode];
-        	int endIndex = nodeIndex[endNode];
-        
-        	pathIndex = NaviUtil.Dijkstra(weightMatrix, startIndex, endIndex);
+        	path = pathPlanner.planPath(map, startNode, endNode);
 		} else {
-			TrackNode tmpPath;
+			NaviPath tmpPath;
 			
-			int startIndex = nodeIndex[startNode];
 			for (NaviNode node : targetOptions) {	        	
-	        	int endIndex = nodeIndex[node.getId()];	        
-	        	tmpPath = NaviUtil.Dijkstra(weightMatrix, startIndex, endIndex);
+	        	tmpPath = pathPlanner.planPath(map, startNode, node.getId());
 	        	
 	        	// no path between startNode and this node
 	        	if (tmpPath == null)
 	        		continue;
 	        	
-	        	if (pathIndex == null){
-	        		pathIndex = tmpPath;
-	        	} else if(tmpPath.getDist() < pathIndex.getDist()) {
+	        	if (path == null){
+	        		path = tmpPath;
+	        		
+	        	} else if(tmpPath.getDist() < path.getDist()) {
 	        		// change to the target with the shorter path
-	        		pathIndex = tmpPath;
+	        		path = tmpPath;
 	        	}
 			}
-		}               
+		}   
         
-        //The shortest path has been discovered, build the navi path        
-        if (pathIndex != null ){
-        	NaviPath path = new NaviPath(nodeNum);        	
-        	
-        	int tmpNodeId;
-        	int prevNodeId;
-        	int tmpNodeIdx;
-        	int prevNodeIdx;
-        	
-        	int[] stepsIndex = pathIndex.getSteps();
-          
-            for (int i = 0; i < pathIndex.getStepSize(); i++) { 
-            	           
-            	tmpNodeIdx = stepsIndex[i];            	
-            	tmpNodeId = nodeId[tmpNodeIdx];            	
-            	          		
-           		path.addStep(tmpNodeId);
-           		
-           		// build step description from step 2
-           		if (i > 0) {
-           			prevNodeIdx = stepsIndex[i-1];
-           			prevNodeId = nodeId[prevNodeIdx];
-           			
-           			String stepDesc =  getNodeName(prevNodeId) + " ->-> " 
-           						+ getNodeName(tmpNodeId) + ": " 
-           						+ weightMatrix[prevNodeIdx][tmpNodeIdx] + unitStr + "\n"; // distance
-           			
-           			stepDesc += routeDescMatrix[prevNodeIdx][tmpNodeIdx] + "\n\n";
-           			
-           			path.appendPathDesc(stepDesc);
-           		}
-           		
-            }                        
-                        
-            path.setDist(pathIndex.getDist());
-            
-            return path;
-        } else {
-        	//we don't find the end node index
-        	Log.i("Navigator", "no path between the 2 nodes");
-        	return null;
-        }
+        return path;
 	}	
 	
 	public String getNodeName( int nodeId) {

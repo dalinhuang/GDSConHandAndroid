@@ -1,7 +1,7 @@
 package com.winjune.wifiindoor.navi;
 
 public class NaviPath {
-	private float dist;
+	private int dist;
 	private int stepSize;
 	private int[] steps;
 	private String pathDesc;
@@ -18,11 +18,11 @@ public class NaviPath {
 		}
 	}
 
-	public float getDist() {
+	public int getDist() {
 		return dist;
 	}
 
-	public void setDist(float dist) {
+	public void setDist(int dist) {
 		this.dist = dist;
 	}
 
