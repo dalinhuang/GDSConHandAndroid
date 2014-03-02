@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import android.util.Log;
+
 import com.winjune.wifiindoor.navi.DijkstraNode;
 import com.winjune.wifiindoor.navi.NaviNode;
 import com.winjune.wifiindoor.navi.NaviData;
@@ -40,12 +42,20 @@ public class DijkstraMap {
     	DijkstraNode fromNode = getNode(fromId);
     	DijkstraNode toNode = getNode(toId);
     	
+    	if ((fromNode == null) || (toNode == null)) {
+    		Log.e("Navigator", "Wong route:"+fromId+"->"+toId);
+    		return;
+    	}
+    			
+    	
+    	// the forward and backward edges
     	fromNode.getChild().put(toNode, dist);
     	toNode.getChild().put(fromNode, dist);
     }
     
     public DijkstraMap(ArrayList<NaviNode> nodes, ArrayList<NaviData> routes) {
     	
+    	// build the map
     	for (NaviNode nNode: nodes) {
     		addNode(nNode);
     	}
