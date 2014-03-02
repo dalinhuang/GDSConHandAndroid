@@ -155,5 +155,10 @@ public class Navigator {
 		
 		return null;
 	}	
+	
+	public String getSpinnerName(int spinnerIdx) {
+		
+		return spinnerNames[spinnerIdx];
+	}
 }
 

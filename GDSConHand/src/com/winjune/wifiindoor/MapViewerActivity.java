@@ -3172,12 +3172,16 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			showNavigatorViewer(naviStr);
 			return;
 		}
+		
+		naviStr += myNavigator.getSpinnerName(naviFromNode) + " ->->->->-> " +
+					myNavigator.getSpinnerName(naviToNode) + "\n";
+		
 		naviStr += getResources().getString(R.string.navi_total_distance) + bestRoute.getDist() + getResources().getString(R.string.navi_meter);
 		naviStr += "\n\n";
 		
 		if (naviFromNode == 0) {
 			naviStr += getResources().getString(R.string.navi_my_place) + " ->-> " 
-						+ myNavigator.getNodeName(fromNode) + "\n";
+						+ myNavigator.getSpinnerName(naviFromNode) + "\n";
 		}
 
 		

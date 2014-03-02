@@ -21,6 +21,8 @@ public class DijkstraPath {
     		Log.e("Navigator", "Null start: "+fromId);
     		return null;
     	}
+    	
+    	
     		
     	Log.i("Navigator", start.getName());
 
@@ -30,7 +32,7 @@ public class DijkstraPath {
         for (DijkstraNode node:open) {
         	if (node == start) {
         		path.put(node.getId(), 0); 
-        		pathInfo.put(node.getId(), start.getName()+"->"+node.getId()+":0");        		
+        		pathInfo.put(node.getId(), start.getName()+"->"+node.getId()+":0\n");        		
         	} else {
         		path.put(node.getId(), Integer.MAX_VALUE); 
         		pathInfo.put(node.getId(), start.getName()+"->"+node.getId()+":M");
@@ -39,7 +41,8 @@ public class DijkstraPath {
         
         for (DijkstraNode node: childs.keySet()) {
             	path.put(node.getId(), childs.get(node));  
-            	pathInfo.put(node.getId(), start.getName()+"->"+node.getName()+":"+childs.get(node));
+            	pathInfo.put(node.getId(), start.getName()+" ->->-> "+node.getName()
+            				 +": "+childs.get(node)+"\n\n");
         }
         
         open.remove(start);
@@ -50,9 +53,14 @@ public class DijkstraPath {
         Set<Map.Entry<Integer, String>> pathInfos=pathInfo.entrySet();
         for(Map.Entry<Integer, String> pathInfo:pathInfos){
         	if (pathInfo.getKey() == toId) {
-        		Log.i("Navigator", "Dist:"+path.get(toId));
+        		NaviPath naviPath = new NaviPath(map.nodes.size());
+        		
+        		int dist = path.get(toId);
+        		Log.i("Navigator", "Dist:"+dist);
+        		naviPath.setDist(dist);
+        		naviPath.appendPathDesc(pathInfo.getValue());
         		Log.i("Navigator", pathInfo.getValue());
-        		return null;
+        		return naviPath;
         	}
         }        
         
@@ -75,8 +83,9 @@ public class DijkstraPath {
                 Integer newCompute=path.get(nearest.getId())+childs.get(child);
                 if(path.get(child.getId())>newCompute){//之前设置的距离大于新计算出来的距离
                     path.put(child.getId(), newCompute);
-                    pathInfo.put(child.getId(), pathInfo.get(nearest.getId())+
-                    		"->"+child.getName()+":"+childs.get(child));
+                    pathInfo.put(child.getId(), pathInfo.get(nearest.getId())
+                    		+" ->->-> "+child.getName()
+                    		+": "+childs.get(child) +"\n\n");
                 }
             }
         }
