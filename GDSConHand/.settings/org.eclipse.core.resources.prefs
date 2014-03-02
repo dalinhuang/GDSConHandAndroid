@@ -3,4 +3,6 @@ encoding//src/com/winjune/wifiindoor/GMapEntryActivity.java=UTF-8
 encoding//src/com/winjune/wifiindoor/InterestPlaceViewerActivity.java=UTF-8
 encoding//src/com/winjune/wifiindoor/MapViewerActivity.java=UTF-8
 encoding//src/com/winjune/wifiindoor/drawing/MapCameraViewGestureListener.java=UTF-8
+encoding//src/com/winjune/wifiindoor/navi/DijkstraPath.java=UTF-8
+encoding//src/com/winjune/wifiindoor/navi/NaviPath.java=UTF-8
 encoding//src/com/winjune/wifiindoor/navi/Navigator.java=UTF-8

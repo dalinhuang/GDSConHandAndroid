@@ -10,8 +10,8 @@ import android.util.Log;
 public class DijkstraPath {	
 	Set<DijkstraNode> open = new HashSet<DijkstraNode>();
     Set<DijkstraNode> close = new HashSet<DijkstraNode>();
-    Map<Integer,Integer> path = new HashMap<Integer,Integer>();//·â×°Â·¾¶¾àÀë
-    Map<Integer,String> pathInfo=new HashMap<Integer,String>();//·â×°Â·¾¶ĞÅÏ¢
+    Map<Integer,Integer> path = new HashMap<Integer,Integer>();//å°è£…è·¯å¾„è·ç¦»
+    Map<Integer,String> pathInfo=new HashMap<Integer,String>();//å°è£…è·¯å¾„ä¿¡æ¯
     
     public NaviPath planPath(DijkstraMap map, int fromId, int toId) {
     	
@@ -69,7 +69,7 @@ public class DijkstraPath {
     
 
     public void computePath(DijkstraNode start){
-    	DijkstraNode nearest= getShortestPath(start);//È¡¾àÀëstart½Úµã×î½üµÄ×Ó½Úµã,·ÅÈëclose
+    	DijkstraNode nearest= getShortestPath(start);//å–è·ç¦»startèŠ‚ç‚¹æœ€è¿‘çš„å­èŠ‚ç‚¹,æ”¾å…¥close
         
     	if(nearest==null){
             return;
@@ -79,9 +79,9 @@ public class DijkstraPath {
         open.remove(nearest);
         Map<DijkstraNode,Integer> childs=nearest.getChild();
         for(DijkstraNode child:childs.keySet()){
-            if(open.contains(child)){//Èç¹û×Ó½ÚµãÔÚopenÖĞ
+            if(open.contains(child)){//å¦‚æœå­èŠ‚ç‚¹åœ¨openä¸­
                 Integer newCompute=path.get(nearest.getId())+childs.get(child);
-                if(path.get(child.getId())>newCompute){//Ö®Ç°ÉèÖÃµÄ¾àÀë´óÓÚĞÂ¼ÆËã³öÀ´µÄ¾àÀë
+                if(path.get(child.getId())>newCompute){//ä¹‹å‰è®¾ç½®çš„è·ç¦»å¤§äºæ–°è®¡ç®—å‡ºæ¥çš„è·ç¦»
                     path.put(child.getId(), newCompute);
                     pathInfo.put(child.getId(), pathInfo.get(nearest.getId())
                     		+" ->->-> "+child.getName()
@@ -90,11 +90,11 @@ public class DijkstraPath {
             }
         }
               
-        computePath(start);//ÖØ¸´Ö´ĞĞ×Ô¼º,È·±£ËùÓĞ×Ó½Úµã±»±éÀú
-        computePath(nearest);//ÏòÍâÒ»²ã²ãµİ¹é,Ö±ÖÁËùÓĞ¶¥µã±»±éÀú
+        computePath(start);//é‡å¤æ‰§è¡Œè‡ªå·±,ç¡®ä¿æ‰€æœ‰å­èŠ‚ç‚¹è¢«éå†
+        computePath(nearest);//å‘å¤–ä¸€å±‚å±‚é€’å½’,ç›´è‡³æ‰€æœ‰é¡¶ç‚¹è¢«éå†
     }
     /**
-     * »ñÈ¡Óënode×î½üµÄ×Ó½Úµã
+     * è·å–ä¸nodeæœ€è¿‘çš„å­èŠ‚ç‚¹
      */
     private DijkstraNode getShortestPath(DijkstraNode node){
     	
