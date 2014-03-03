@@ -2147,14 +2147,17 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 					= Math.min(MIN_VALUE, Math.round((cameraHeight - TAB_BUTTON_HEIGHT - VisualParameters.BOTTOM_SPACE_FOR_ADS_PORTRAIT) / CONTROL_BUTTON_NUMBER / 1.5f));
 			CONTROL_BUTTON_MARGIN = Math.min(MIN_VALUE, Math.round ((cameraHeight - TAB_BUTTON_HEIGHT - VisualParameters.BOTTOM_SPACE_FOR_ADS_PORTRAIT - CONTROL_BUTTON_HEIGHT * CONTROL_BUTTON_NUMBER) / CONTROL_BUTTON_NUMBER / 3f)); // Here use 3f to let the control tab layout on the top of height
 		} else if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-			RIGHT_SPACE += VisualParameters.RIGHT_SPACE_FOR_ADS_LANDSCAPE;
+			// remove the right margin
+			// RIGHT_SPACE += VisualParameters.RIGHT_SPACE_FOR_ADS_LANDSCAPE;
 			CONTROL_BUTTON_WIDTH = CONTROL_BUTTON_HEIGHT 
 					= Math.min(MIN_VALUE, Math.round((cameraHeight - TAB_BUTTON_HEIGHT) / CONTROL_BUTTON_NUMBER / 1.5f));
 			CONTROL_BUTTON_MARGIN = Math.min(MIN_VALUE, Math.round ((cameraHeight - TAB_BUTTON_HEIGHT - CONTROL_BUTTON_HEIGHT * CONTROL_BUTTON_NUMBER) / CONTROL_BUTTON_NUMBER / 3f));// Here use 3f to let the control tab layout on the top of height
 		}	
 		
 		BOTTOM_SPACE += TAB_BUTTON_HEIGHT;
-		RIGHT_SPACE += CONTROL_BUTTON_WIDTH;
+		
+		// remove the right margin
+		//RIGHT_SPACE += CONTROL_BUTTON_WIDTH;
 
 		mCamera = new ZoomCamera(0, 0, cameraWidth, cameraHeight);
 	}
