@@ -6,6 +6,9 @@ import com.winjune.wifiindoor.MapLocatorActivity;
 import com.winjune.wifiindoor.MapSelectorActivity;
 import com.winjune.wifiindoor.MapViewerActivity;
 import com.winjune.wifiindoor.ads.AdGroup;
+import com.winjune.wifiindoor.mapviewer.InterestPlaceBar;
+import com.winjune.wifiindoor.mapviewer.LabelBar;
+import com.winjune.wifiindoor.mapviewer.NaviBar;
 import com.winjune.wifiindoor.types.ApkVersionReply;
 import com.winjune.wifiindoor.types.BuildingManagerReply;
 import com.winjune.wifiindoor.types.IndoorMapReply;
@@ -270,7 +273,7 @@ public class IpsMessageHandler {
 			if (activity instanceof MapViewerActivity) {
 				MapViewerActivity viewer1 = (MapViewerActivity) activity;
 				
-				viewer1.showMapInfo(mapInfo.toMapInfo(), true);
+				LabelBar.showMapInfo(viewer1, mapInfo.toMapInfo(), true);
 
 				return;
 			}
@@ -284,7 +287,7 @@ public class IpsMessageHandler {
 			if (activity instanceof MapViewerActivity) {
 				MapViewerActivity viewer1 = (MapViewerActivity) activity;
 				
-				viewer1.setNaviInfo(naviInfo.toNaviInfo());
+				NaviBar.setNaviInfo(viewer1, naviInfo.toNaviInfo());
 
 				return;
 			}
@@ -313,7 +316,7 @@ public class IpsMessageHandler {
 			if (activity instanceof MapViewerActivity) {
 				MapViewerActivity viewer1 = (MapViewerActivity) activity;
 				
-				viewer1.showInterestPlacesInfo(interestPlacesInfo.toInterestPlacesInfo(), true);
+				InterestPlaceBar.showInterestPlacesInfo(viewer1, interestPlacesInfo.toInterestPlacesInfo(), true);
 
 				return;
 			}

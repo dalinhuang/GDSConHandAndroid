@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Set;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -70,10 +69,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.winjune.wifiindoor.R;
@@ -97,9 +93,10 @@ import com.winjune.wifiindoor.map.IndoorMapLoader;
 import com.winjune.wifiindoor.map.InterestPlace;
 import com.winjune.wifiindoor.map.InterestPlacesInfo;
 import com.winjune.wifiindoor.map.MapInfo;
+import com.winjune.wifiindoor.mapviewer.InterestPlaceBar;
+import com.winjune.wifiindoor.mapviewer.LabelBar;
+import com.winjune.wifiindoor.mapviewer.NaviBar;
 import com.winjune.wifiindoor.navi.NaviInfo;
-import com.winjune.wifiindoor.navi.NaviNode;
-import com.winjune.wifiindoor.navi.NaviPath;
 import com.winjune.wifiindoor.navi.Navigator;
 import com.winjune.wifiindoor.runtime.Cell;
 import com.winjune.wifiindoor.runtime.MapResource;
@@ -133,7 +130,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 	private ZoomCamera mCamera;
 	private Font mFont_hints;
-	private Font mFont_mapinfo;
+	public Font mFont_mapinfo;
 	private Font mFont_menu;
 	private int totalWidth;
 	private int totalHeight;
@@ -141,13 +138,13 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	private int cameraHeight;
 	private ScaleGestureDetector zoomGestureDector;
 	private GestureDetector gestureDetector;
-	private Scene mainScene;
+	public Scene mainScene;
 	private MenuScene mMenuScene;
 	private Sprite backgroundSprite;
 	//private Sprite mapPicSprite;
 	private ZoomControl zoomControl;
 	private ModeControl modeControl;
-	private int mMode;
+	public int mMode;
 	private HUD hud;
 	private Text mMapText;
 	private Text mClockText;
@@ -195,17 +192,17 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	private boolean updateClockOn;
 	private int mOrientation; 
 	
-	private ArrayList<Text> mapInfos;
-	private ArrayList<Sprite> interestPlaces;
+	public ArrayList<Text> mapInfos;
+	public ArrayList<Sprite> interestPlaces;
 	private ArrayList<Rectangle> collectedFlags; // Flags for fingerprint collected cells
 	
-	private NaviInfo naviInfo;
-	private Navigator myNavigator;
+	public NaviInfo naviInfo;
+	public Navigator myNavigator;
 	
-	private int naviMyPlaceX;
-	private int naviMyPlaceY;
-	private int naviFromNode;
-	private int naviToNode;	
+	public int naviMyPlaceX;
+	public int naviMyPlaceY;
+	public int naviFromNode;
+	public int naviToNode;	
 	
 	private int LEFT_SPACE;
 	private int RIGHT_SPACE;
@@ -2348,13 +2345,13 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		}
 		
 		// Show the Map Info Layer
-		loadMapInfo();
+		LabelBar.loadMapInfo(this);
 		
 		// InitData for Navigator
-		loadNaviInfo();
+		NaviBar.loadNaviInfo(this);
 		
 		// Show the Interest places layer
-		loadInterestPlaces();
+		InterestPlaceBar.loadInterestPlaces(this);
 		
 		//createTabHost();
 		
@@ -2781,289 +2778,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	private void hideAd() {
 		//mAdvertisement.hideAdvertisement();
 	}
-	
-	private void loadNaviInfo() {
-		naviInfo = new NaviInfo();
-		myNavigator = new Navigator();
-		
-		boolean updateNeeded = true; //Hoare: update every time regardless map versionn, for test only
-
-		try {
-			InputStream map_file_is = new FileInputStream(Util.getNaviInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
 			
-			naviInfo.fromXML(map_file_is);
-			// file has already been closed
-			//map_file_is.close();
-			
-			// For Files in SD Card but not
-			//load_map_rc = designMap.fromXML(IndoorMapData.map_file_path + map_file_name);
-			
-			if (naviInfo.getVersionCode() != Util.getRuntimeIndoorMap().getVersionCode()) {
-				updateNeeded = true;
-			}
-			
-			//myNavigator.init(naviInfo, getResources().getString(R.string.navi_meter));
-			
-		} catch (Exception e) {
-			updateNeeded = true;
-		}
-		
-		if (updateNeeded) {
-			// Hoare: harcode map_id 1 as the GDSC map
-			int mapid = Util.getRuntimeIndoorMap().getMapId();
-			
-			if (mapid == 1 ) {
-				mapid = 2;
-			}				
-			
-			downloadNaviInfo(mapid);
-		}	
-	}
-	
-	private void loadMapInfo() {
-		MapInfo mapInfo = new MapInfo();
-		boolean updateNeeded = false; //Hoare: update every time regardless map versionn, for test only
-
-		try {
-			InputStream map_file_is = new FileInputStream(Util.getMapInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
-			
-			mapInfo.fromXML(map_file_is);
-			// file has already been closed
-			//map_file_is.close();
-			
-			// For Files in SD Card but not
-			//load_map_rc = designMap.fromXML(IndoorMapData.map_file_path + map_file_name);
-			
-			if (mapInfo.getVersionCode() != Util.getRuntimeIndoorMap().getVersionCode()) {
-				updateNeeded = true;
-			}
-		} catch (Exception e) {
-			updateNeeded = true;
-		}
-		
-		if (updateNeeded) {
-			// Hoare: harcode map_id 1 as the GDSC map
-			int mapid = Util.getRuntimeIndoorMap().getMapId();
-			
-			if (mapid == 1 ) {
-				mapid = 2;
-			}				
-			
-			downloadMapInfo(mapid);
-			return;
-		}
-		
-		showMapInfo(mapInfo, false);
-	}
-	
-	public void showMapInfo(MapInfo mapInfo, boolean storeNeeded) {
-		if (mapInfo == null) {
-			return;
-		}
-		
-		// Clear old Map info
-		if (mapInfos == null) {
-			mapInfos = new ArrayList<Text>();
-		} else {
-			for (Text text:mapInfos) {
-				if (text != null) {
-					mainScene.detachChild(text);
-				}
-			}
-			mapInfos.clear();
-		}
-		
-		// Show New Map Info
-		ArrayList<FieldInfo> fieldInfos = mapInfo.getFields();
-		
-		if (fieldInfos == null) {
-			return;
-		}
-		
-		for (FieldInfo fieldInfo : fieldInfos) {
-			if (fieldInfo != null) {
-				addTextTag(fieldInfo);
-			}
-		}
-		
-		// Store in File, put it here so the info may be re-encoded above in future.
-		if (storeNeeded) {
-			mapInfo.toXML();
-		}
-	}
-
-	private void downloadMapInfo(int mapId) {
-		VersionOrMapIdRequest id = new VersionOrMapIdRequest();
-		id.setCode(mapId);
-
-		try {
-			
-			Gson gson = new Gson();
-			String json = gson.toJson(id);
-			JSONObject data = new JSONObject(json);
-
-			if (Util.sendToServer(this, MsgConstants.MT_MAP_INFO_QUERY, data)) {
-				
-			} else {
-				// All errors should be handled in the sendToServer
-				// method
-			}
-		} catch (Exception ex) {
-			Util.showToast(this, "GET MAP INFO ERROR: " + ex.getMessage(), Toast.LENGTH_LONG);
-			ex.printStackTrace();
-		}
-	}
-	
-	private void downloadNaviInfo(int mapId) {
-		VersionOrMapIdRequest id = new VersionOrMapIdRequest();
-		id.setCode(mapId);
-
-		try {
-			
-			Gson gson = new Gson();
-			String json = gson.toJson(id);
-			JSONObject data = new JSONObject(json);
-
-			if (Util.sendToServer(this, MsgConstants.MT_NAVI_INFO_QUERY, data)) {
-				
-			} else {
-				// All errors should be handled in the sendToServer
-				// method
-			}
-		} catch (Exception ex) {
-			Util.showToast(this, "GET NAVI INFO ERROR: " + ex.getMessage(), Toast.LENGTH_LONG);
-			ex.printStackTrace();
-		}
-	}
-	
-	// Handle the reply Message for Navi. Info update
-	public void setNaviInfo(NaviInfo naviInfo) {
-		if (naviInfo == null) {
-			return;
-		}
-		
-		this.naviInfo = naviInfo;
-		
-		myNavigator.init(naviInfo, getResources().getString(R.string.navi_meter));
-		
-		// Store into file
-		naviInfo.toXML();
-	}
-
-	private void addTextTag(FieldInfo fieldInfo) {
-		float pX = fieldInfo.getX() * Util.getRuntimeIndoorMap().getCellPixel();
-		float pY = fieldInfo.getY() * Util.getRuntimeIndoorMap().getCellPixel();
-		
-		/* Sometimes it cause problem: include: 字符串显示叠加, 闪屏
-		Text text = new TickerText(pX, pY, mFont, textStr, 
-				new TickerTextOptions(HorizontalAlign.CENTER, 10),  //出现速度
-				getVertexBufferObjectManager());
-		
-		text.registerEntityModifier(
-			new SequenceEntityModifier(
-				new ParallelEntityModifier(
-					new AlphaModifier(1, 0.7f, 0.7f),  //透明度过渡
-					new ScaleModifier(1, 0.6f, 1f)   //缩放过渡
-				),
-				new RotationModifier(1, 0, 0)          //旋转过渡
-			)
-		);
-		text.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		*/
-		
-		Text text = new Text(pX,
-				pY, 
-				mFont_mapinfo, 
-				fieldInfo.getInfo(),
-				100,
-				getVertexBufferObjectManager());
-		text.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		text.setAlpha(fieldInfo.getAlpha());
-		text.setRotation(fieldInfo.getRotation()); // For future use if we need to rotate a angle
-		text.setScale(fieldInfo.getScale()); // For future use if we need to display some label with a bigger/smaller scale
-		
-		mainScene.attachChild(text);
-		
-		// Store so we can clear them in future if needed
-		if (mapInfos == null) {
-			mapInfos = new ArrayList<Text>();
-		}
-		
-		mapInfos.add(text);
-	}
-	
 	private void showGuideAudioBar() {	
 		runOnUiThread(new Runnable() {
 			  public void run() {
-				    
-				    final AlertDialog.Builder builder = new AlertDialog.Builder(MapViewerActivity.this);
-					
-				    builder.setIcon(R.drawable.ic_launcher);
-				    builder.setTitle(R.string.audio_guide_title);
-					
-					LayoutInflater inflater = getLayoutInflater();
-					final View layout = inflater.inflate(R.layout.guide_audio_input, (ViewGroup) findViewById(R.id.audio_guide_input));
-					builder.setView(layout);
-					
-					builder.setPositiveButton(R.string.play_audio_guide, new OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							 EditText inputIPNumText = (EditText) layout.findViewById(R.id.audio_no_input_result);
-							 String inputIPNumStr = inputIPNumText.getText().toString();
-							 Boolean IPFound = false;
-																					 
-							 if (inputIPNumStr != null) {								 	
-								 	int inputIPNum = Integer.parseInt(inputIPNumStr); 
-								 
-									InterestPlacesInfo interestPlacesInfo = new InterestPlacesInfo();
-									
-									// load interest place list	
-									try {
-										InputStream map_file_is = new FileInputStream(Util.getInterestPlacesInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
-										
-										interestPlacesInfo.fromXML(map_file_is);
-									} catch (Exception e) {																		
-										e.printStackTrace();
-									}
-									
-									// look for the matched place record									
-									ArrayList<InterestPlace> places = interestPlacesInfo.getFields();
-									
-									if (places != null) {																		
-										for (InterestPlace place : places) {
-											if (place != null) {
-												if (place.getSerial() == inputIPNum) {																										
-													IPFound = true;
-													Intent intent_show_interest_place = new Intent(MapViewerActivity.this, InterestPlaceViewerActivity.class); 
-													Bundle mBundle = new Bundle(); 
-													mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM,
-															 IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_INPUT);
-													mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
-									    			intent_show_interest_place.putExtras(mBundle); 
-									            	startActivity(intent_show_interest_place);								 												
-												}												
-											}
-										}
-									}									
-							 }
-							 
-							 if (!IPFound) { 
-								 Util.showLongToast(MapViewerActivity.this, R.string.audio_no_not_exist);							
-							 }
-							 
-							 dialog.dismiss();
-						}
-					});
-
-					builder.setNegativeButton(R.string.cancel, new OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					});
-					
-					builder.create();
-					builder.show();
+				  InterestPlaceBar.showGuideAudioBar(MapViewerActivity.this);
 			  }
 		});
 	}	
@@ -3071,344 +2790,9 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	private void showNaviBar() {	
 		runOnUiThread(new Runnable() {
 			  public void run() {
-				    
-				    AlertDialog.Builder builder = new AlertDialog.Builder(MapViewerActivity.this);
-					
-				    builder.setIcon(R.drawable.ic_launcher);
-				    builder.setTitle(R.string.navi_from_to);
-					
-					Spinner sipnnerFrom;
-					Spinner sipnnerTo;
-					ArrayAdapter<String> adapter;
-					String[] spinnerNames;
-					
-					if ((naviInfo == null) || (naviInfo.getNodes() == null) || (naviInfo.getNodes().isEmpty())) {
-						builder.setMessage(R.string.navi_no_node);
-					} else {
-						LayoutInflater inflater = getLayoutInflater();
-						View layout = inflater.inflate(R.layout.navigator_input, (ViewGroup) findViewById(R.id.navi));
-						builder.setView(layout);
-						
-						sipnnerFrom =  (Spinner) layout.findViewById(R.id.from_list);
-						sipnnerTo =  (Spinner) layout.findViewById(R.id.to_list);
-						
-						
-						spinnerNames = myNavigator.getNodeSpinnerNames();
-						spinnerNames[0] = MapViewerActivity.this.getResources().getString(R.string.navi_my_place);						
-						
-						adapter = new ArrayAdapter<String>(MapViewerActivity.this, android.R.layout.simple_spinner_item, spinnerNames);
-						adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-						
-						if (sipnnerFrom != null) {
-							sipnnerFrom.setAdapter(adapter);
-							
-							if (naviFromNode != -1) {
-								sipnnerFrom.setSelection(naviFromNode);
-							}
-							
-							sipnnerFrom.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
-
-								@Override
-								public void onItemSelected(AdapterView<?> arg0,
-										View arg1, int arg2, long arg3) {
-									naviFromNode = arg2;
-								}
-
-								@Override
-								public void onNothingSelected(
-										AdapterView<?> arg0) {
-									naviFromNode = -1;
-								}
-								
-							});
-						}
-						
-						if (sipnnerTo != null) {
-							sipnnerTo.setAdapter(adapter);
-							
-							if (naviToNode != -1) {
-								sipnnerTo.setSelection(naviToNode);
-							}
-							
-							sipnnerTo.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
-
-								@Override
-								public void onItemSelected(AdapterView<?> arg0,
-										View arg1, int arg2, long arg3) {
-									naviToNode = arg2;
-								}
-
-								@Override
-								public void onNothingSelected(
-										AdapterView<?> arg0) {
-									naviToNode = -1;
-								}
-								
-							});
-						}
-					}				   
-					
-					builder.setPositiveButton(R.string.navi_go, new OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							if ((naviFromNode == -1) || (naviToNode == -1) || (naviFromNode == naviToNode)) {
-								Util.showLongToast(MapViewerActivity.this, R.string.navi_node_select_wrong);
-							} else {
-								goNavigator();
-							}
-						}
-					});
-
-					builder.setNegativeButton(R.string.cancel, new OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							naviFromNode = -1;
-							naviToNode = -1;
-						}
-					});
-					
-					builder.create();
-					builder.show();
+				    NaviBar.showNaviBar(MapViewerActivity.this);	
 			  }
 		});
-	}
-	
-	// TODO: how to display the navi. result?
-	private void goNavigator() {
-		String naviStr = "";
-		
-		if (((naviMyPlaceX == -1) || (naviMyPlaceY == -1)) 
-			&& ((naviFromNode == 0) || (naviToNode == 0))) {
-			naviStr = getResources().getString(R.string.navi_my_place_unknown);
-			showNavigatorViewer(naviStr);
-			return;
-		}
-		
-		int fromNode = getNaviNodeIdFromSpinnerId(naviFromNode);
-		int toNode = getNaviNodeIdFromSpinnerId(naviToNode);
-
-		if ((fromNode == -1) || (toNode == -1)) {
-			naviStr = getResources().getString(R.string.navi_failed_no_data);
-			showNavigatorViewer(naviStr);
-			return;
-		} 
-		
-		if ((naviInfo == null) || (naviInfo.getNodes() == null) || (naviInfo.getPaths() == null)) {
-			naviStr = getResources().getString(R.string.navi_failed_no_data);
-			showNavigatorViewer(naviStr);
-			return;
-		}
-		
-		NaviPath bestRoute = myNavigator.getShortestPath(fromNode, toNode);
-		
-		if (bestRoute == null) {
-			naviStr = getResources().getString(R.string.navi_failed_no_route);
-			showNavigatorViewer(naviStr);
-			return;
-		}
-		
-		naviStr += myNavigator.getSpinnerName(naviFromNode) + " ->->->->-> " +
-					myNavigator.getSpinnerName(naviToNode) + "\n";
-		
-		naviStr += getResources().getString(R.string.navi_total_distance) + bestRoute.getDist() + getResources().getString(R.string.navi_meter);
-		naviStr += "\n\n";
-		
-		if (naviFromNode == 0) {
-			naviStr += getResources().getString(R.string.navi_my_place) + " ->-> " 
-						+ myNavigator.getSpinnerName(naviFromNode) + "\n";
-		}
-
-		
-		naviStr += bestRoute.getPathDesc();
-		if (naviToNode == 0) {
-			naviStr += myNavigator.getNodeName(fromNode) + " ->-> " 
-					   + getResources().getString(R.string.navi_my_place) + "\n";
-		}		
-		
-		naviStr += getResources().getString(R.string.navi_over) + "\n";		
-		
-		showNavigatorViewer(naviStr);
-	}
-
-
-	private void showNavigatorViewer(String naviStr) {
-		Intent intent_navigator = new Intent(MapViewerActivity.this, NavigatorActivity.class); 
-		Bundle mBundle = new Bundle(); 
-		
-		mBundle.putString(IndoorMapData.BUNDLE_KEY_NAVI_RESULT, naviStr);
-		intent_navigator.putExtras(mBundle); 
-		startActivity(intent_navigator);
-	}
-	
-	private int getNaviNodeIdFromSpinnerId (int spinnerId) {
-		if ((naviInfo == null) || (naviInfo.getNodes() == null)) {
-			return -1;
-		}
-		
-		if (spinnerId == 0) { // My Place
-			return myNavigator.getNearestNaviNode(naviMyPlaceX, naviMyPlaceY);
-		}		
-				
-		return myNavigator.getNodeIdBySpinnerIdx(spinnerId);
-	}	
-
-	private void loadInterestPlaces() {
-		InterestPlacesInfo interestPlacesInfo = new InterestPlacesInfo();
-		boolean updateNeeded = false; //Hoare: update every time regardless map version, for test only
-
-		try {
-			InputStream map_file_is = new FileInputStream(Util.getInterestPlacesInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
-			
-			interestPlacesInfo.fromXML(map_file_is);
-			// file has already been closed
-			//map_file_is.close();
-			
-			// For Files in SD Card but not
-			//load_map_rc = designMap.fromXML(IndoorMapData.map_file_path + map_file_name);
-			
-			if (interestPlacesInfo.getVersionCode() != Util.getRuntimeIndoorMap().getVersionCode()) {
-				updateNeeded = true;
-			}
-		} catch (Exception e) {
-			updateNeeded = true;
-		}
-		
-		if (updateNeeded) {
-			// Hoare: harcode map_id 1 as the GDSC map
-			int mapid = Util.getRuntimeIndoorMap().getMapId();
-			
-			if (mapid == 1 ) {
-				mapid = 2;
-			}				
-				
-			downloadInterestPlaces(mapid);
-			return;
-		}
-		
-		showInterestPlacesInfo(interestPlacesInfo, false);
-	}
-
-
-	public void showInterestPlacesInfo(InterestPlacesInfo interestPlacesInfo, boolean storeNeeded) {
-		if (interestPlacesInfo == null) {
-			return;
-		}
-		
-		// Clear old Interest Places info
-		if (interestPlaces == null) {
-			interestPlaces = new ArrayList<Sprite>();
-		} else {
-			for (Sprite place:interestPlaces) {
-				if (place != null) {
-					mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(place);
-					mainScene.unregisterTouchArea(place);
-				}
-			}
-			interestPlaces.clear();
-		}
-		
-		// Show New Map Info
-		ArrayList<InterestPlace> places = interestPlacesInfo.getFields();
-		
-		if (places == null) {
-			return;
-		}
-		
-		for (InterestPlace place : places) {
-			if (place != null) {
-				// X and Y = -1 mean the guide audio 
-				if ((place.getX() != -1)&& (place.getY() != -1)) {  
-					addInterestPlace(place);
-				}
-			}
-		}
-		
-		// Store in File, put it here so the info may be re-encoded above in future.
-		if (storeNeeded) {
-			interestPlacesInfo.toXML();
-		}
-	}
-
-	private void addInterestPlace(InterestPlace place) {
-		// Create and attach Sprite
-		Sprite placeSprite = createInterestPlaceSprite(place);
-		
-		// Store so we can clear them in future if needed
-		if (interestPlaces == null) {
-			interestPlaces = new ArrayList<Sprite>();
-		}
-
-		interestPlaces.add(placeSprite);
-	}
-	
-	private Sprite createInterestPlaceSprite(final InterestPlace place) {		
-		Sprite placeSprite = Library.INTEREST_PLACE.load(MapViewerActivity.this, new SpriteListener() {
-
-			@Override
-			public boolean onAreaTouched(AnimatedSprite sprite,
-					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
-					float pTouchAreaLocalY) {
-				
-				if (mMode != IndoorMapData.MAP_MODE_VIEW) {
-					return false;
-				}
-
-				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
-					
-					// refine video URL as the general web page
-					// if the web page URL is defined, load web page from URL using web browswer
-					if (place.getUrlVideo() != null) {
-						Intent intent_show_interest_place = new Intent(MapViewerActivity.this, InterestPlaceWebViewActivity.class); 
-						Bundle mBundle = new Bundle(); 
-						mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
-						intent_show_interest_place.putExtras(mBundle); 
-						startActivity(intent_show_interest_place);
-						
-					} else {
-						Intent intent_show_interest_place = new Intent(MapViewerActivity.this, InterestPlaceViewerActivity.class); 
-						Bundle mBundle = new Bundle(); 
-						mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM,
-    						IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_TOUCH);
-						mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
-						intent_show_interest_place.putExtras(mBundle); 
-						startActivity(intent_show_interest_place);
-					}
-				}
-
-				return true;
-			}
-		}, Util.getRuntimeIndoorMap().getCellPixel(), Util.getRuntimeIndoorMap().getCellPixel());
-		
-		float pX = place.getX() * Util.getRuntimeIndoorMap().getCellPixel();
-		float pY = place.getY() * Util.getRuntimeIndoorMap().getCellPixel();
-		placeSprite.setPosition(pX, pY);
-		
-		mainScene.getChildByIndex(Constants.LAYER_USER).attachChild(placeSprite);
-		mainScene.registerTouchArea(placeSprite);
-		
-		return placeSprite;
-	}
-
-	private void downloadInterestPlaces(int mapId) {
-		VersionOrMapIdRequest id = new VersionOrMapIdRequest();
-		id.setCode(mapId);
-
-		try {
-			
-			Gson gson = new Gson();
-			String json = gson.toJson(id);
-			JSONObject data = new JSONObject(json);
-
-			if (Util.sendToServer(this, MsgConstants.MT_INTEREST_PLACES_QUERY, data)) {
-				
-			} else {
-				// All errors should be handled in the sendToServer
-				// method
-			}
-		} catch (Exception ex) {
-			Util.showToast(this, "GET INTEREST PLACES ERROR: " + ex.getMessage(), Toast.LENGTH_LONG);
-			ex.printStackTrace();
-		}
 	}
 
 	@Override
