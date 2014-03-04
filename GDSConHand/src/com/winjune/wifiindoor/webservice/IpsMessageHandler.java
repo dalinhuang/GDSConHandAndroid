@@ -6,6 +6,8 @@ import com.winjune.wifiindoor.MapLocatorActivity;
 import com.winjune.wifiindoor.MapSelectorActivity;
 import com.winjune.wifiindoor.MapViewerActivity;
 import com.winjune.wifiindoor.ads.AdGroup;
+import com.winjune.wifiindoor.mapviewer.AdBanner;
+import com.winjune.wifiindoor.mapviewer.InfoBanner;
 import com.winjune.wifiindoor.mapviewer.InterestPlaceBar;
 import com.winjune.wifiindoor.mapviewer.LabelBar;
 import com.winjune.wifiindoor.mapviewer.NaviBar;
@@ -181,7 +183,7 @@ public class IpsMessageHandler {
 				//Log.e("IpsMessageHandler", "viewer.updateLocation");
 				MapViewerActivity viewer1 = (MapViewerActivity) activity;
 				
-				viewer1.showInfo(queryInfo);
+				InfoBanner.showInfo(viewer1, queryInfo);
 
 				return;
 			}
@@ -302,7 +304,7 @@ public class IpsMessageHandler {
 				//Log.e("IpsMessageHandler", "viewer.updateLocation");
 				MapViewerActivity viewer1 = (MapViewerActivity) activity;
 				
-				viewer1.checkAndDownloadAd(advertiseList);
+				AdBanner.checkAndDownloadAd(viewer1, advertiseList);
 
 				return;
 			}

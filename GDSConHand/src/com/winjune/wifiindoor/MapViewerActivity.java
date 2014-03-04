@@ -1,9 +1,6 @@
 package com.winjune.wifiindoor;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,7 +51,6 @@ import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -63,19 +59,13 @@ import android.view.Display;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.winjune.wifiindoor.R;
 import com.google.gson.Gson;
-import com.winjune.wifiindoor.ads.AdGroup;
-import com.winjune.wifiindoor.ads.AdSpriteListener;
 import com.winjune.wifiindoor.ads.ScreenAdvertisement;
 import com.winjune.wifiindoor.drawing.GraphicIndoorMapListener;
 import com.winjune.wifiindoor.drawing.MapCameraViewGestureListener;
@@ -87,32 +77,24 @@ import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.drawing.graphic.model.MapPieceSprite;
 import com.winjune.wifiindoor.drawing.graphic.model.MapPieceUnit;
 import com.winjune.wifiindoor.drawing.graphic.model.SpriteListener;
-import com.winjune.wifiindoor.map.FieldInfo;
 import com.winjune.wifiindoor.map.IndoorMap;
 import com.winjune.wifiindoor.map.IndoorMapLoader;
-import com.winjune.wifiindoor.map.InterestPlace;
-import com.winjune.wifiindoor.map.InterestPlacesInfo;
-import com.winjune.wifiindoor.map.MapInfo;
+import com.winjune.wifiindoor.mapviewer.AdBanner;
+import com.winjune.wifiindoor.mapviewer.AdBanner.AdvertisePeriodThread;
+import com.winjune.wifiindoor.mapviewer.InfoBanner;
 import com.winjune.wifiindoor.mapviewer.InterestPlaceBar;
 import com.winjune.wifiindoor.mapviewer.LabelBar;
 import com.winjune.wifiindoor.mapviewer.NaviBar;
 import com.winjune.wifiindoor.navi.NaviInfo;
 import com.winjune.wifiindoor.navi.Navigator;
-import com.winjune.wifiindoor.runtime.Cell;
 import com.winjune.wifiindoor.runtime.MapResource;
 import com.winjune.wifiindoor.types.CollectInfo;
-import com.winjune.wifiindoor.types.InfoQueryRequest;
 import com.winjune.wifiindoor.types.Location;
-import com.winjune.wifiindoor.types.LocationQueryInfo;
 import com.winjune.wifiindoor.types.LocationSet;
 import com.winjune.wifiindoor.types.NfcLocation;
-import com.winjune.wifiindoor.types.QueryInfo;
 import com.winjune.wifiindoor.types.TestLocateCollectReply;
 import com.winjune.wifiindoor.types.TestLocateCollectRequest;
-import com.winjune.wifiindoor.types.VersionOrMapIdRequest;
 import com.winjune.wifiindoor.types.WifiFingerPrint;
-import com.winjune.wifiindoor.util.AdData;
-import com.winjune.wifiindoor.util.AdUtil;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.MathUtil;
@@ -120,7 +102,6 @@ import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
 import com.winjune.wifiindoor.util.WifiIpsSettings;
 import com.winjune.wifiindoor.webservice.MsgConstants;
-import com.winjune.wifiindoor.InterestPlaceWebViewActivity;
 
 
 public class MapViewerActivity extends LayoutGameActivity implements SensorEventListener {
@@ -134,8 +115,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	private Font mFont_menu;
 	private int totalWidth;
 	private int totalHeight;
-	private int cameraWidth;
-	private int cameraHeight;
+	public int cameraWidth;
+	public int cameraHeight;
 	private ScaleGestureDetector zoomGestureDector;
 	private GestureDetector gestureDetector;
 	public Scene mainScene;
@@ -145,14 +126,14 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	private ZoomControl zoomControl;
 	private ModeControl modeControl;
 	public int mMode;
-	private HUD hud;
+	public HUD hud;
 	private Text mMapText;
 	private Text mClockText;
 	private Text mBatteryText;
 	private Text mHintText;
 	private Sound medSound;
-	private ScreenAdvertisement mAdvertisement;
-	private Sprite mapADSprite;
+	public ScreenAdvertisement mAdvertisement;
+	public Sprite mapADSprite;
 	//private TabHost mTabHost;
 	private BroadcastReceiver batteryReceiver;
 
@@ -175,7 +156,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	private boolean periodicLoacting;
 
 	private ProgressDialog mProgressDialog;
-	private Toast infoQueryToast;
+	public Toast infoQueryToast;
 
 	private int mNfcEditState;
 	private int mTargetColNo;
@@ -190,7 +171,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	private Thread mUpdateClockThread;
 	private boolean updateClockOn;
-	private int mOrientation; 
+	public int mOrientation; 
 	
 	public ArrayList<Text> mapInfos;
 	public ArrayList<Sprite> interestPlaces;
@@ -208,17 +189,17 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	private int RIGHT_SPACE;
 	private int TOP_SPACE;
 	private int BOTTOM_SPACE;
-	private int CONTROL_BUTTON_WIDTH;
-	private int CONTROL_BUTTON_HEIGHT;	
-	private int CONTROL_BUTTON_MARGIN;
-	private int TAB_BUTTON_WIDTH;
-	private int TAB_BUTTON_HEIGHT;	
-	private int TAB_BUTTON_MARGIN;
+	public int CONTROL_BUTTON_WIDTH;
+	public int CONTROL_BUTTON_HEIGHT;	
+	public int CONTROL_BUTTON_MARGIN;
+	public int TAB_BUTTON_WIDTH;
+	public int TAB_BUTTON_HEIGHT;	
+	public int TAB_BUTTON_MARGIN;
 	
 	
 	private float density = 1.5f;
 
-	private AdvertisePeriodThread advertisePeriodThread;
+	public AdvertisePeriodThread advertisePeriodThread;
 
 	@SuppressLint("ShowToast")
 	private void initData() {
@@ -571,142 +552,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		});
 	}
 	
-	private void showInfo() {
-		//infoQueryToast.show();
-		Intent intent_pusher = new Intent(MapViewerActivity.this, InfoPusherActivity.class); 
-		Bundle mBundle = new Bundle(); 
-		String info1 = Util.getRuntimeIndoorMap().informationsToString();
-		String info2 = Util.getRuntimeIndoorMap().informationsToStringForLocations();
-		
-		mBundle.putString(IndoorMapData.BUNDLE_KEY_MAP_INFO, info1);
-		mBundle.putString(IndoorMapData.BUNDLE_KEY_LOCATION_INFO, info2);
-		intent_pusher.putExtras(mBundle); 
-		startActivity(intent_pusher);
-	}
 
-	public void showInfo(QueryInfo queryInfo) {
-		ArrayList<LocationQueryInfo> infos = queryInfo.getInfos();
-
-		if ((infos == null) || (infos.isEmpty())) {
-			return;
-		}
-
-		String text = "";
-
-		for (LocationQueryInfo info : infos) {
-			Location loc = info.getLocation();
-			ArrayList<String> messages = info.getMessages();
-
-			int col = loc.getX();
-			int row = loc.getY();
-
-			// Not for this map
-			if (loc.getMapId() != Util.getRuntimeIndoorMap().getMapId()) {
-				continue;
-			}
-
-			// No info
-			if ((messages == null) || (messages.isEmpty())) {
-				continue;
-			}
-
-			if ((col == -1) || (row == -1)) {
-				// For map overall
-				if (Util.getRuntimeIndoorMap().isSameInfo(messages)) {
-					continue;
-				} else {
-					text += Util.getRuntimeIndoorMap().informationsToString(messages);
-					Util.getRuntimeIndoorMap().setInfo(messages);
-				}
-			} else {
-				// For cell
-
-				// Out of bound
-				if ((col > Util.getRuntimeIndoorMap().getColNum())
-						|| (row > Util.getRuntimeIndoorMap().getRowNum()) || (col < 0)
-						|| (row < 0)) {
-					continue;
-				}
-
-				Cell cell = Util.getRuntimeIndoorMap().getCellAt(row, col);
-
-				if (cell.isSameInfo(messages)) {
-					continue;
-				} else {
-					text += cell.informationsToString(messages);
-					cell.setInfo(messages);
-				}
-			}
-		}
-
-		if (text.equals("")) {
-			return;
-		}
-
-		infoQueryToast.setText(text);
-		infoQueryToast.show();
-	}
-
-	private void infoMe(int colNo, int rowNo) {
-		InfoQueryRequest infoQueryReq = new InfoQueryRequest();
-		ArrayList<Location> locations = new ArrayList<Location>();
-
-		if (Util.getRuntimeIndoorMap().isRefreshInfoNeeded()) {
-			locations.add(new Location(Util.getRuntimeIndoorMap().getMapId(), -1, -1, Util.getRuntimeIndoorMap().getVersionCode()));
-		}
-
-		if ((colNo != -1) && (rowNo != -1)) {
-			int areaSize = (7 - 1) / 2;
-
-			int fromCol = Math.max(0, colNo - areaSize);
-			int fromRow = Math.max(0, rowNo - areaSize);
-			int toCol = Math.min(colNo + areaSize,
-					Util.getRuntimeIndoorMap().getColNum() - 1);
-			int toRow = Math.min(rowNo + areaSize,
-					Util.getRuntimeIndoorMap().getRowNum() - 1);
-
-			for (int col = fromCol; col <= toCol; col++) {
-				for (int row = fromRow; row <= toRow; row++) {
-					Cell cell = Util.getRuntimeIndoorMap().getCellAt(row, col); // y, x:
-																		// Cells
-																		// has
-																		// the
-																		// revert
-																		// x, y
-																		// as
-																		// colNo,
-																		// rowNo
-					if (cell != null) {
-						if (cell.isRefreshInfoNeeded()) {
-							locations.add(new Location(Util.getRuntimeIndoorMap()
-									.getMapId(), col, row, Util.getRuntimeIndoorMap().getVersionCode()));
-						}
-					}
-				}
-			}
-		}
-
-		if (!locations.isEmpty()) {
-			infoQueryReq.setLocations(locations);
-
-			try {
-				Gson gson = new Gson();
-				String json = gson.toJson(infoQueryReq);
-				JSONObject data = new JSONObject(json);
-
-				if (Util.sendToServer(this, MsgConstants.MT_INFO_QUERY, data)) {
-					
-				} else {
-					// All errors should be handled in the sendToServer
-					// method
-				}
-			} catch (Exception ex) {
-				//Util.showToast(this, "004 " + ex.toString(), Toast.LENGTH_LONG);
-				ex.printStackTrace();
-				updateHintText("PUSH_INFO: 004 ERROR: " + ex.getMessage());
-			}
-		}
-	}
 
 	private void addNfcQrLocation() {
 		// Not return when no NFC, since we can support Camera for QR Code
@@ -1121,10 +967,10 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 						
 						switch (mMode) {
 							case IndoorMapData.MAP_MODE_VIEW:
-								showAd(false);
+								AdBanner.showAd(MapViewerActivity.this, false);
 								break;
 							default:
-								hideAd();
+								AdBanner.hideAd(MapViewerActivity.this);
 						}
 						
 						mTargetColNo = -1;
@@ -1424,7 +1270,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 					return true;
 				case MENU_ITEM_INFO:
 					// Show all available Information
-					showInfo();
+					InfoBanner.showInfo(MapViewerActivity.this);
 					return true;
 				case MENU_ITEM_CONFIG:
 					Intent openConfigIntent = new Intent(MapViewerActivity.this, TunerActivity.class);
@@ -1718,8 +1564,9 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 		startPeriodicLocateMeThread();
 		startUpdateClockThread();
-		startPeriodicAdvertiseThread();
 		startRedrawThread();
+		
+		AdBanner.startPeriodicAdvertiseThread(this);
 
 		// Enable NFC Foreground Dispatch
 		Util.enableNfc(this);
@@ -1838,23 +1685,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			Log.d(TAG, "onConfigurationChanged()");
 	}
 	
-	private void startPeriodicAdvertiseThread(){
-		if (!VisualParameters.ADS_ENABLED) {
-			return;
-		}
-		
-		if (advertisePeriodThread == null){
-			advertisePeriodThread = new AdvertisePeriodThread();
-			advertisePeriodThread.isRunning = true;
-			advertisePeriodThread.isInit = false;
-			advertisePeriodThread.start();
-		}else {		
-			if (DEBUG)
-				Log.d(TAG, "PeriodicLocateMeThread already starts.");
-		}
-			
-	}
-
 	private void startPeriodicLocateMeThread() {
 		if (mPeriodicLocateMeThread == null) {
 
@@ -2339,7 +2169,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 				setCameraCenterTo(39, 77, false); // set Center to left_top cell
 			}
 			
-			infoMe(-1, -1); // For map-wide Info
+			InfoBanner.infoMe(this, -1, -1); // For map-wide Info
 			break;
 		default:
 		}
@@ -2355,25 +2185,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		//createTabHost();
 		
-		//mAdvertisement = new ScreenAdvertisement(this, R.id.map_ad);
-		
-		if (VisualParameters.ADS_ENABLED) {
-			//here just need to display default advertise. 
-			mAdvertisement = new ScreenAdvertisement(this,Util.getRuntimeIndoorMap());
-			mAdvertisement.initAdvertiseData();
-			
-			try {
-				InputStream inputStream = getResources().getAssets().open("default_ad/sample_ad1.png");
-		        File file = AdUtil.createFileFromInputStream(inputStream,"sample_ad1.png");
-		        AdData.FILE_DEFAULT_AD=file;
-		        if (file.exists()){
-		        	showAd(true);     	
-		        }
-		        inputStream.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		AdBanner.showDefaultAd(this);
 
 		pOnCreateSceneCallback.onCreateSceneFinished(mainScene);
 	}
@@ -2523,7 +2335,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			naviMyPlaceY = rowNo;
 
 			// Show Location based News
-			infoMe(colNo, rowNo);
+			InfoBanner.infoMe(this, colNo, rowNo);
 		} else {
 			// Not loading new map
 			// Hoare: disable to load new map in map viewer by location button
@@ -2669,116 +2481,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	protected int getRenderSurfaceViewID() {
 		return R.id.map_rendersurfaceview;
 	}
-	
-	private void showAd(boolean default_ad) {
-		if (!VisualParameters.ADS_ENABLED) {
-			return;
-		}
 		
-		putAdvertiseUnit(default_ad);	
-		
-		mAdvertisement.showAdvertisement();
-	}
-	
-	private void putAdvertiseUnit(boolean default_ad) {	
-		// For double check
-		if (mapADSprite != null) {		
-			mapADSprite.detachSelf();
-		}
-
-		Library.ADVERTISE.setAdPictureName(mAdvertisement.readAdPicName());
-		Library.ADVERTISE.setUrls(mAdvertisement.readAdUrl());
-		
-		AdSpriteListener spriteListener = new AdSpriteListener() {
-
-			@Override
-			public boolean onAreaTouched(Sprite sprite,
-					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
-					float pTouchAreaLocalY) {
-
-				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
-					//get the url and open link. 
-					Uri uri = Uri.parse(Library.ADVERTISE.getUrls());  
-					Intent it = new Intent(Intent.ACTION_VIEW, uri); 
-					startActivity(it);
-				}
-
-				return true;
-			}
-		};
-		
-		mapADSprite = Library.ADVERTISE.load(MapViewerActivity.this, Util.getRuntimeIndoorMap(), spriteListener, default_ad);
-		
-		float adWidth = mapADSprite.getWidth();
-		float adHeight = mapADSprite.getHeight();		
-
-		float x = 0;
-		float y = 0;
-		
-		if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-			// Rotate base on the sprite's center point
-			x = cameraWidth - 1.5f * CONTROL_BUTTON_WIDTH - adWidth * 0.5f - adHeight * 0.5f;
-			y = (cameraHeight - 1.5f * TAB_BUTTON_HEIGHT) * 0.5f - adHeight * 0.5f;	
-			mapADSprite.setRotation(90.0f);
-		} else {
-			if (adWidth < cameraWidth) {
-				x = (cameraWidth - adWidth) * 0.5f;
-			}
-			
-			y = cameraHeight - 1.1f * TAB_BUTTON_HEIGHT - adHeight;
-		}
-		
-		mapADSprite.setPosition(x, y);		
-
-		hud.attachChild(mapADSprite);
-
-		hud.registerTouchArea(mapADSprite);
-	}
-	
-	public void checkAndDownloadAd(AdGroup adGroup){ 
-		if (advertisePeriodThread.isInit == true){
-			advertisePeriodThread.isInit = false;
-		}
-		
-		mAdvertisement.setadGroup(adGroup);
-		mAdvertisement.checkAndDownloadAds();
-		if (advertisePeriodThread.isInit == false){
-			advertisePeriodThread.isInit = true;
-		}		
-	}
-	
-    class AdvertisePeriodThread extends Thread{
-        //运行状态，下一步骤有大用
-        public boolean isRunning = true;
-        public boolean isInit = false;
-        public void run() {
-            while(isRunning){
-               try {
-                  if (isInit){	 
-                    
-                     mAdvertisement.refreshAdvertise();
-                     hud.detachChild(mapADSprite);
-                     hud.unregisterTouchArea(mapADSprite);
-                     mapADSprite.dispose();
-                     mapADSprite = null;
-                    // mapADSprite.reset();
-                     Library.ADVERTISE.resetAdUnit();
-                     showAd(false);
-                     sleep(AdData.AD_PERIDOIC_SLEEP_TIME);
-
-                  }       
-	           } catch (InterruptedException e) {
-	                e.printStackTrace();
-	            }
-	        }
-        }
-    }
-
-
-	private void hideAd() {
-		//mAdvertisement.hideAdvertisement();
-	}
-			
 	private void showGuideAudioBar() {	
 		runOnUiThread(new Runnable() {
 			  public void run() {
@@ -2827,7 +2530,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		return rowNo;
 	}
-		
 		
 
 	public void setCameraCenterAndReloadMapPieces(float pCenterX, float pCenterY, boolean fromMove) {
