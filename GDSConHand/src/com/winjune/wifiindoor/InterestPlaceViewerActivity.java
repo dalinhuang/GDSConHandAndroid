@@ -1,14 +1,11 @@
 package com.winjune.wifiindoor;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,10 +13,12 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
+import android.media.MediaPlayer.OnPreparedListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore.Audio;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.text.util.Linkify;
@@ -39,12 +38,7 @@ import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import android.widget.MediaController;
-import android.media.MediaPlayer.OnCompletionListener;
-import android.media.MediaPlayer.OnPreparedListener;
-import android.net.Uri;
 
-import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.map.InterestPlace;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
@@ -575,7 +569,10 @@ public class InterestPlaceViewerActivity extends Activity implements OnInitListe
 		
 		//start a thread to speak since we need wait for the tts binding
 		final String text1 = text;
-		final int maxLength =  TextToSpeech.getMaxSpeechInputLength(); 
+
+		// getMaxSpeechInputLength API is supported after API18
+		// final int maxLength =  TextToSpeech.getMaxSpeechInputLength();
+		final int maxLength = 2048;
 		
 		new Thread() {  
 	        public void run() { 
