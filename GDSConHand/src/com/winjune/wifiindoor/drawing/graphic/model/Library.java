@@ -3,12 +3,15 @@ package com.winjune.wifiindoor.drawing.graphic.model;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.opengl.texture.TextureManager;
 
 import com.winjune.wifiindoor.MapViewerActivity;
 import com.winjune.wifiindoor.ads.AdvertiseUnit;
 import com.winjune.wifiindoor.util.Constants;
+import com.winjune.wifiindoor.util.Util;
+import com.winjune.wifiindoor.util.VisualParameters;
 
 import android.content.res.AssetManager;
 
@@ -138,4 +141,19 @@ public class Library {
 		return cellSprite;
 	}
 	*/
+	
+	/**
+	 * Collected flag, attached when the fingleprint of one cell is collected. Occupy 1 * 1 Cells
+	 * Added by Derek
+	 */
+	public static Rectangle genFlag (MapViewerActivity activity, final float pX, final float pY) {
+		
+		int cellPixel = Util.getRuntimeIndoorMap().getCellPixel();
+		
+		Rectangle flag = new Rectangle(pX, pY, cellPixel, cellPixel, activity.getVertexBufferObjectManager());
+		flag.setColor(0, 1, 0); // Green color
+		flag.setAlpha(VisualParameters.MAP_PIC_ALPHA);
+		
+		return flag;
+	}
 }

@@ -20,6 +20,7 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.Entity;
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
@@ -196,6 +197,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	private ArrayList<Text> mapInfos;
 	private ArrayList<Sprite> interestPlaces;
+	private ArrayList<Rectangle> collectedFlags; // Flags for fingerprint collected cells
 	
 	private NaviInfo naviInfo;
 	private Navigator myNavigator;
@@ -448,6 +450,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 									*/
 	
 						Log.e("COLLECT", "Send MT_COLLECT to Server: TRUE");
+						
+						addCollectedFlag(mTargetColNo, mTargetRowNo); // add and show the flags
 					} else {
 						// All errors should be handled in the sendToServer
 						// method
@@ -522,6 +526,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 											+ ","
 											+ currentCollectingY + "]",
 									Toast.LENGTH_LONG);*/
+						addCollectedFlag(currentCollectingX, currentCollectingY); //add and show the flags
 					} else {
 						// All errors should be handled in the sendToServer
 						// method
@@ -543,6 +548,32 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		}.start();
 	}
 
+	// Add collected flag to the cell whose fingerprint has been collected. 
+	private void addCollectedFlag(final int colNo, final int rowNo) {
+		
+		runOnUpdateThread(new Runnable() {
+			public void run() {
+				int cellPixel = Util.getRuntimeIndoorMap().getCellPixel();
+				float pX = colNo * cellPixel;
+				float pY = rowNo * cellPixel;
+				
+				Rectangle flag = Library.genFlag(MapViewerActivity.this, pX, pY);
+				
+				flag.setPosition(pX, pY); //It might be dummy code, put here for test
+				
+				mainScene.getChildByIndex(Constants.LAYER_FLAG).attachChild(flag);
+				
+				if (collectedFlags == null) {
+					
+					collectedFlags = new ArrayList<Rectangle>();
+				}
+				
+				collectedFlags.add(flag);
+			}
+
+		});
+	}
+	
 	private void showInfo() {
 		//infoQueryToast.show();
 		Intent intent_pusher = new Intent(MapViewerActivity.this, InfoPusherActivity.class); 
@@ -3439,7 +3470,15 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			float background_left = colNo * Util.getCurrentCellPixel() + LEFT_SPACE;
 		    float background_top = rowNo * Util.getCurrentCellPixel() + TOP_SPACE;
 		    //Log.i("Backgorund", colNo + "," + rowNo + "," + background_left + "," + background_top);
-			backgroundSprite.setPosition(background_left, background_top);
+			if (backgroundSprite == null) {
+				backgroundSprite = Library.BACKGROUND3.load(this, cameraWidth, cameraHeight);
+			    backgroundSprite.setPosition(background_left, background_top);
+			    mainScene.getChildByIndex(Constants.LAYER_BACKGROUND).attachChild(backgroundSprite);
+			}
+			else {
+			    backgroundSprite.setPosition(background_left, background_top);
+			}
+
 		}
 		
 		// Slow down the reDraw request from Move event
