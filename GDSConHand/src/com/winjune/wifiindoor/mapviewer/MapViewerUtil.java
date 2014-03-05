@@ -174,6 +174,11 @@ public class MapViewerUtil {
 		// Set for next Action
 		mapViewer.mTargetColNo = colNo;
 		mapViewer.mTargetRowNo = rowNo;
+	}
+	
+	public static void exitApp() {				
+		
+		System.exit(0);		
 	}	
 	
 }

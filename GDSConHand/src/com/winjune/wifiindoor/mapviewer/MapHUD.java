@@ -394,7 +394,7 @@ public class MapHUD {
 					return true;
 				case MapViewerActivity.MENU_ITEM_EXIT:
 					// End Activity.
-					mapViewer.exitApp();
+					MapViewerUtil.exitApp();
 					return true;
 				default:
 					return false;

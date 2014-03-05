@@ -1,12 +1,7 @@
 package com.winjune.wifiindoor;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Set;
-
-import javax.microedition.khronos.opengles.GL10;
 
 import org.andengine.audio.sound.Sound;
 import org.andengine.audio.sound.SoundFactory;
@@ -21,11 +16,6 @@ import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
-import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
-import org.andengine.entity.scene.menu.item.IMenuItem;
-import org.andengine.entity.scene.menu.item.TextMenuItem;
-import org.andengine.entity.scene.menu.item.decorator.ColorMenuItemDecorator;
-import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
@@ -35,15 +25,11 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.ui.activity.LayoutGameActivity;
-import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
@@ -53,30 +39,22 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.os.BatteryManager;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.widget.Toast;
 
 import com.winjune.wifiindoor.R;
-import com.google.gson.Gson;
 import com.winjune.wifiindoor.ads.ScreenAdvertisement;
 import com.winjune.wifiindoor.drawing.GraphicIndoorMapListener;
 import com.winjune.wifiindoor.drawing.MapCameraViewGestureListener;
 import com.winjune.wifiindoor.drawing.ModeControl;
 import com.winjune.wifiindoor.drawing.SoundIndoorMapListener;
 import com.winjune.wifiindoor.drawing.ZoomControl;
-import com.winjune.wifiindoor.drawing.graphic.model.AnimatedUnit;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
-import com.winjune.wifiindoor.drawing.graphic.model.MapPieceSprite;
-import com.winjune.wifiindoor.drawing.graphic.model.MapPieceUnit;
-import com.winjune.wifiindoor.drawing.graphic.model.SpriteListener;
 import com.winjune.wifiindoor.map.IndoorMap;
 import com.winjune.wifiindoor.map.IndoorMapLoader;
 import com.winjune.wifiindoor.mapviewer.AdBanner;
@@ -92,21 +70,11 @@ import com.winjune.wifiindoor.mapviewer.NaviBar;
 import com.winjune.wifiindoor.mapviewer.PlanBar;
 import com.winjune.wifiindoor.navi.NaviInfo;
 import com.winjune.wifiindoor.navi.Navigator;
-import com.winjune.wifiindoor.runtime.MapResource;
-import com.winjune.wifiindoor.types.CollectInfo;
-import com.winjune.wifiindoor.types.Location;
-import com.winjune.wifiindoor.types.LocationSet;
-import com.winjune.wifiindoor.types.NfcLocation;
-import com.winjune.wifiindoor.types.TestLocateCollectReply;
-import com.winjune.wifiindoor.types.TestLocateCollectRequest;
-import com.winjune.wifiindoor.types.WifiFingerPrint;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
-import com.winjune.wifiindoor.util.MathUtil;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
 import com.winjune.wifiindoor.util.WifiIpsSettings;
-import com.winjune.wifiindoor.webservice.MsgConstants;
 
 
 public class MapViewerActivity extends LayoutGameActivity implements SensorEventListener {
@@ -249,19 +217,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		if (DEBUG)
 			Log.e(TAG, "End initialData");
 	}
-
-	public void exitApp() {
-		
-		this.gestureDetector = null;
-		this.graphicListener = null;
-		this.zoomControl = null;
-		this.zoomGestureDector = null;
-		//this.mapPicSprite = null;
-		this.backgroundSprite = null;
-
-		finish();
-	}
-
 
 	/*
 	 * public void onBackPressed() { // Do nothing }
@@ -468,21 +423,14 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	@Override
 	public void onBackPressed() {
-		//Hoare: finish current activity and back to home
-		
-		exitApp();
-		
-		Intent i= new Intent(Intent.ACTION_MAIN);
-		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		i.addCategory(Intent.CATEGORY_HOME);
-		startActivity(i);
-		
-/*		if (System.currentTimeMillis() - lastBackTime > 5000){
+
+		// twice quit APP		    		
+		if (System.currentTimeMillis() - lastBackTime > 3000){
 			lastBackTime = System.currentTimeMillis();
 			Util.showShortToast(this, R.string.press_back_more);
 		} else {
-			exitApp();
-		}*/
+			MapViewerUtil.exitApp();
+		}
 	}
 
 	@Override

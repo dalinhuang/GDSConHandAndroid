@@ -205,7 +205,7 @@ public class IpsMessageHandler {
 			}
 			
 			return;
-		}
+		}  
 		
 		if (object instanceof ApkVersionReply) {
 			ApkVersionReply version = (ApkVersionReply) object;

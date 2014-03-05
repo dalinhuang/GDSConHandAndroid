@@ -86,19 +86,20 @@ public class TunerActivity extends Activity {
         // reset the data
         on_click_listener0 = new OnClickListener(){
         	public void onClick(View view){        		
-        		resetToSavedValues();
+        		resetToDefaultValues();
         	}
         };
         
         // save the changes
         on_click_listener1 = new OnClickListener(){
         	public void onClick(View view){
-        		saveValues();
+        		saveValues();        		
+        		// return to the previous activity
         		TunerActivity.this.finish();
         	}
         };
         
-        // close without change
+        // return the previous activity
         on_click_listener2 = new OnClickListener(){
         	public void onClick(View view){
         		TunerActivity.this.finish();
@@ -155,7 +156,7 @@ public class TunerActivity extends Activity {
     	BACKGROUND_LINES_NEEDED = (CheckBox) findViewById(R.id.BACKGROUND_LINES_NEEDED);
     	VERSION_NAME = (EditText) findViewById(R.id.VERSION_NAME);
     	
-    	resetToSavedValues();
+    	resetToDefaultValues();
     }
     
     private void saveValues() {
@@ -323,7 +324,7 @@ public class TunerActivity extends Activity {
 		Tuner.syncToConfig();
 	}
 
-	private void resetToSavedValues() {
+	private void resetToDefaultValues() {
 		PERIODIC_WIFI_CAPTURE_ON_FOR_LOCATOR.setChecked(IndoorMapData.PERIODIC_WIFI_CAPTURE_ON_FOR_LOCATOR);
     	PERIODIC_WIFI_CAPTURE_ON_FOR_COLLECTER.setChecked(IndoorMapData.PERIODIC_WIFI_CAPTURE_ON_FOR_COLLECTER);
     	PERIODIC_WIFI_CAPTURE_INTERVAL.setText(String.valueOf(IndoorMapData.PERIODIC_WIFI_CAPTURE_INTERVAL));
