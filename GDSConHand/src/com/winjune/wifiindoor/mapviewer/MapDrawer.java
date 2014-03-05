@@ -55,18 +55,18 @@ public class MapDrawer {
 		
 		// Background follow the screen
 		if (VisualParameters.BACKGROUND_LINES_NEEDED && VisualParameters.PLANNING_MODE_ENABLED) {
-			int colNo = (int) (map_left - mapViewer.LEFT_SPACE) / Util.getCurrentCellPixel();
-			int rowNo = (int) (map_top - mapViewer.TOP_SPACE) / Util.getCurrentCellPixel();
-			float background_left = colNo * Util.getCurrentCellPixel() + mapViewer.LEFT_SPACE;
-		    float background_top = rowNo * Util.getCurrentCellPixel() + mapViewer.TOP_SPACE;
+			//int colNo = (int) (map_left - mapViewer.LEFT_SPACE) / Util.getCurrentCellPixel();
+			//int rowNo = (int) (map_top - mapViewer.TOP_SPACE) / Util.getCurrentCellPixel();
+			//float background_left = colNo * Util.getCurrentCellPixel() + mapViewer.LEFT_SPACE;
+		    //float background_top = rowNo * Util.getCurrentCellPixel() + mapViewer.TOP_SPACE;
 		    //Log.i("Backgorund", colNo + "," + rowNo + "," + background_left + "," + background_top);
 			if (mapViewer.backgroundSprite == null) {
 				mapViewer.backgroundSprite = Library.BACKGROUND3.load(mapViewer, mapViewer.cameraWidth, mapViewer.cameraHeight);
-				mapViewer.backgroundSprite.setPosition(background_left, background_top);
+				mapViewer.backgroundSprite.setPosition(map_left, map_top);
 				mapViewer.mainScene.getChildByIndex(Constants.LAYER_BACKGROUND).attachChild(mapViewer.backgroundSprite);
 			}
 			else {
-				mapViewer.backgroundSprite.setPosition(background_left, background_top);
+				mapViewer.backgroundSprite.setPosition(map_left, map_top);
 			}
 
 		}
