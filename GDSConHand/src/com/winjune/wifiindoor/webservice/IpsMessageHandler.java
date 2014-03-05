@@ -10,7 +10,9 @@ import com.winjune.wifiindoor.mapviewer.AdBanner;
 import com.winjune.wifiindoor.mapviewer.InfoBanner;
 import com.winjune.wifiindoor.mapviewer.InterestPlaceBar;
 import com.winjune.wifiindoor.mapviewer.LabelBar;
+import com.winjune.wifiindoor.mapviewer.LocateBar;
 import com.winjune.wifiindoor.mapviewer.NaviBar;
+import com.winjune.wifiindoor.mapviewer.PlanBar;
 import com.winjune.wifiindoor.types.ApkVersionReply;
 import com.winjune.wifiindoor.types.BuildingManagerReply;
 import com.winjune.wifiindoor.types.IndoorMapReply;
@@ -138,7 +140,7 @@ public class IpsMessageHandler {
 			if (activity instanceof MapViewerActivity) {
 				//Log.e("IpsMessageHandler", "viewer.updateLocation");
 				MapViewerActivity viewer = (MapViewerActivity) activity;
-				viewer.updateLocation(locations);
+				LocateBar.updateLocation(viewer, locations);
 
 				return;
 			}
@@ -168,7 +170,7 @@ public class IpsMessageHandler {
 			if (activity instanceof MapViewerActivity) {
 				//Log.e("IpsMessageHandler", "viewer.updateLocation");
 				MapViewerActivity viewer = (MapViewerActivity) activity;
-				viewer.updateLocation(location);
+				LocateBar.updateLocation(viewer, location);
 
 				return;
 			}
@@ -197,7 +199,7 @@ public class IpsMessageHandler {
 			if (activity instanceof MapViewerActivity) {
 				//Log.e("IpsMessageHandler", "viewer.updateLocation");
 				MapViewerActivity viewer = (MapViewerActivity) activity;
-				viewer.handleTestReply(testLocation);
+				PlanBar.handleTestReply(viewer, testLocation);
 
 				return;
 			}

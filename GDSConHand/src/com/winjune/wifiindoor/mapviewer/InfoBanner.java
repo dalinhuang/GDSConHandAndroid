@@ -154,7 +154,7 @@ public class InfoBanner {
 			} catch (Exception ex) {
 				//Util.showToast(this, "004 " + ex.toString(), Toast.LENGTH_LONG);
 				ex.printStackTrace();
-				mapViewer.updateHintText("PUSH_INFO: 004 ERROR: " + ex.getMessage());
+				MapHUD.updateHinText(mapViewer, "PUSH_INFO: 004 ERROR: " + ex.getMessage());
 			}
 		}
 	}

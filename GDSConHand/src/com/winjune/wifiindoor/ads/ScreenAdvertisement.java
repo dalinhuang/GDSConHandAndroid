@@ -267,7 +267,7 @@ public class ScreenAdvertisement {
 
 				if (Util.sendToServer(this.activity, MsgConstants.MT_AD_INFO_QUERY, data)) {
 					//Util.showShortToast(this, R.string.locate_collected);
-					//updateHintText(R.string.locate_collected);
+					//MapHUD.updateHinText(this, R.string.locate_collected);
 				} else {
 					// All errors should be handled in the sendToServer
 					// method
@@ -275,14 +275,14 @@ public class ScreenAdvertisement {
 			} catch (Exception ex) {
 				//Util.showToast(this, "LOCATE:104 " + ex.toString(), Toast.LENGTH_LONG);
 				ex.printStackTrace();
-				//updateHintText("LOCATE:104 ERROR: " + ex.getMessage());
+				//MapHUD.updateHinText(this, "LOCATE:104 ERROR: " + ex.getMessage());
 				//finish();
 				return;
 			}
 		} catch (Exception e) {
 			//Util.showToast(this, "LOCATE:103 " + e.toString(), Toast.LENGTH_LONG);
 			e.printStackTrace();
-			//updateHintText("LOCATE:103 ERROR: " + e.getMessage());
+			//MapHUD.updateHinText(this, "LOCATE:103 ERROR: " + e.getMessage());
 			//finish();
 			return;
 		}

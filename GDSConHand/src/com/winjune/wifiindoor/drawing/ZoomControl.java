@@ -5,6 +5,8 @@ import org.andengine.engine.camera.ZoomCamera;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.MapLocatorActivity;
 import com.winjune.wifiindoor.MapViewerActivity;
+import com.winjune.wifiindoor.mapviewer.MapDrawer;
+import com.winjune.wifiindoor.mapviewer.MapViewerUtil;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
@@ -95,8 +97,8 @@ public class ZoomControl {
 			//Hoare: for test, mapid is harcoded		
 			if (VisualParameters.ZOOM_SWITCH_ENABLED ) {
 				if (Util.getRuntimeIndoorMap().getMapId() == 2) {
-					int colNo = activity.getCenterColNo();
-					int rowNo = activity.getCenterRowNo();
+					int colNo = MapViewerUtil.getCenterColNo(activity);
+					int rowNo = MapViewerUtil.getCenterRowNo(activity);
 					
 					Intent intent_locate_map = new Intent(activity,MapLocatorActivity.class);
 					Bundle mBundle = new Bundle();
@@ -127,7 +129,8 @@ public class ZoomControl {
 			mCamera.setZoomFactor(target);
 			
 			// Need to reload map pieice to ensure no blank areas
-			activity.setCameraCenterAndReloadMapPieces(
+			MapDrawer.setCameraCenterAndReloadMapPieces(
+					activity,
 					mCamera.getCenterX(), 
 					mCamera.getCenterY(),
 					true);
@@ -136,8 +139,8 @@ public class ZoomControl {
 			if (VisualParameters.ZOOM_SWITCH_ENABLED) {
 				if (Util.getRuntimeIndoorMap().getMapId() == 1) {
 					
-					int colNo = activity.getCenterColNo();
-					int rowNo = activity.getCenterRowNo();
+					int colNo = MapViewerUtil.getCenterColNo(activity);
+					int rowNo = MapViewerUtil.getCenterRowNo(activity);
 					
 					// loading new map
 					Intent intent_locate_map = new Intent(activity,MapLocatorActivity.class);
@@ -168,7 +171,8 @@ public class ZoomControl {
 		mCamera.setZoomFactor(minZoomFactor);
 		
 		// Need to reload map piece to ensure there is no white areas
-		activity.setCameraCenterAndReloadMapPieces(
+		MapDrawer.setCameraCenterAndReloadMapPieces(
+				activity,
 				mCamera.getCenterX(), 
 				mCamera.getCenterY(),
 				true);		

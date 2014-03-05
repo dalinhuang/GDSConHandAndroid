@@ -3,6 +3,8 @@ package com.winjune.wifiindoor.drawing;
 import org.andengine.engine.camera.ZoomCamera;
 
 import com.winjune.wifiindoor.MapViewerActivity;
+import com.winjune.wifiindoor.mapviewer.MapDrawer;
+import com.winjune.wifiindoor.mapviewer.MapViewerUtil;
 import com.winjune.wifiindoor.util.Util;
 
 import android.view.GestureDetector.OnGestureListener;
@@ -48,7 +50,7 @@ public final class MapCameraViewGestureListener implements OnGestureListener {
 	// 锟矫伙拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟缴讹拷锟組otionEvent ACTION_DOWN锟斤拷锟斤拷
 	public void onLongPress(MotionEvent e) {
 		//Log.e("onLongPress", "[onLongPress]"+e.getX()+","+e.getY());
-		activity.handleLongPress(e);
+		MapViewerUtil.handleLongPress(activity, e);
 	}
 
 	// 锟矫伙拷锟斤拷锟铰达拷锟斤拷锟斤拷锟斤拷锟斤拷锟较讹拷锟斤拷锟斤拷1锟斤拷MotionEvent ACTION_DOWN, 锟斤拷锟紸CTION_MOVE锟斤拷锟斤拷
@@ -56,12 +58,13 @@ public final class MapCameraViewGestureListener implements OnGestureListener {
 			float distanceY) {
 		//Log.e("onScroll", "[isMovingCamera]="+isMovingCamera);
 		
-		ZoomCamera camera = activity.getMCamera();
+		ZoomCamera camera = MapViewerUtil.getMCamera(activity);
 
 		if (isMovingCamera){
 			float ratio = getMoveRatio();
 			
-			activity.setCameraCenterAndReloadMapPieces(
+			MapDrawer.setCameraCenterAndReloadMapPieces(
+					activity,
 					camera.getCenterX() + ratio * distanceX * Util.getCurrentCellPixel(), 
 					camera.getCenterY() + ratio * distanceY * Util.getCurrentCellPixel(),
 					true);
@@ -84,7 +87,7 @@ public final class MapCameraViewGestureListener implements OnGestureListener {
 	}
 
 	private float getMoveRatio() {
-		ZoomCamera camera = activity.getMCamera();
+		ZoomCamera camera = MapViewerUtil.getMCamera(activity);
 		// When in zoom mode, the ratio need to be changed
 		return VIEW_MOVEMENT_BASE_RATIO / camera.getZoomFactor();
 	}

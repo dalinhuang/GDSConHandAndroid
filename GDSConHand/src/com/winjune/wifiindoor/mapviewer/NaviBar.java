@@ -32,6 +32,14 @@ import com.winjune.wifiindoor.webservice.MsgConstants;
 
 public class NaviBar {
 	
+	public static void showNaviBar(final MapViewerActivity mapViewer) {	
+		mapViewer.runOnUiThread(new Runnable() {
+			  public void run() {
+				    NaviBar.createNaviBar(mapViewer);	
+			  }
+		});
+	}
+	
 	public static void loadNaviInfo(MapViewerActivity mapViewer) {
 		mapViewer.naviInfo = new NaviInfo();
 		mapViewer.myNavigator = new Navigator();
@@ -93,7 +101,7 @@ public class NaviBar {
 	}	
 	
 	
-	public static void showNaviBar(final MapViewerActivity mapViewer) {	
+	public static void createNaviBar(final MapViewerActivity mapViewer) {	
 				    
 		AlertDialog.Builder builder = new AlertDialog.Builder(mapViewer);
 					

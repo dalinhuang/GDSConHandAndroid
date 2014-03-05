@@ -37,7 +37,15 @@ import com.winjune.wifiindoor.webservice.MsgConstants;
 
 public class InterestPlaceBar {
 
-	public static void showGuideAudioBar(final MapViewerActivity mapViewer) {
+	public static void showGuideAudioBar(final MapViewerActivity mapViewer) {	
+		mapViewer.runOnUiThread(new Runnable() {
+			  public void run() {
+				  InterestPlaceBar.createGuideAudioBar(mapViewer);
+			  }
+		});
+	}	
+	
+	public static void createGuideAudioBar(final MapViewerActivity mapViewer) {
 	    final AlertDialog.Builder builder = new AlertDialog.Builder(mapViewer);
 		
 	    builder.setIcon(R.drawable.ic_launcher);
