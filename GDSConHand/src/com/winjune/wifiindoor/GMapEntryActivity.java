@@ -461,7 +461,8 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 	}
 
 	private void exitApp() {
-		finish();
+
+		System.exit(0);
 	}
 	
 	// Called in AsyncTask when the APP starts up. It should only include the time consuming tasks.
