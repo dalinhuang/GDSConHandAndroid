@@ -196,21 +196,6 @@ public class EntryActivity extends Activity implements SensorEventListener {
         button3.setOnClickListener(on_click_listener3);
     }
 	
-	public void handleApkVersionReply(ApkVersionReply version) {
-		Util.setApkVersionChecked(true);
-		Util.setApkVersionReply(version);
-		
-		if (version.getVersionCode() > Util.getApkVersionCode() ) {
-			if (!Util.isNetworkConfigPending()) {
-				Util.doNewVersionUpdate(this);
-			} else {
-				Util.setApkUpdatePending(true);
-			}	
-		} else {
-			Util.showShortToast(this, R.string.latest_apk_version);
-		}
-	}
-	
 	public void updateLocation(com.winjune.wifiindoor.types.Location location) {
 		updateLocation(location.getMapId(), location.getX(), location.getY());
 	}

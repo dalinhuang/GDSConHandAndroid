@@ -1,5 +1,7 @@
 package com.winjune.wifiindoor.webservice;
 
+import java.util.List;
+
 import com.winjune.wifiindoor.EntryActivity;
 import com.winjune.wifiindoor.GMapEntryActivity;
 import com.winjune.wifiindoor.MapLocatorActivity;
@@ -31,6 +33,9 @@ import com.winjune.wifiindoor.webservice.types.IType;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningTaskInfo;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -210,22 +215,9 @@ public class IpsMessageHandler {
 		if (object instanceof ApkVersionReply) {
 			ApkVersionReply version = (ApkVersionReply) object;
 			
-			if (activity instanceof GMapEntryActivity) {
-				//Log.e("IpsMessageHandler", "entry.updateLocation");
-				GMapEntryActivity entry = (GMapEntryActivity) activity;
-				entry.handleApkVersionReply(version);
 
-				return;
-			}
-			
-			if (activity instanceof EntryActivity) {
-				//Log.e("IpsMessageHandler", "entry.updateLocation");
-				EntryActivity entry = (EntryActivity) activity;
-				entry.handleApkVersionReply(version);
-
-				return;
-			}
-			
+			Util.handleApkVersionReply(activity, version);
+						
 			return;
 		} 
 		

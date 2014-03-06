@@ -908,44 +908,6 @@ public class Util {
         		}
         	}
         }
-
-		// Time-cosuming job, move to connectToServer()
-        /* new Thread(){
-		//	 public void run(){
-			    int counter = 0;
-				 
-				while (!WifiIpsSettings.getServerAddress(true)) 
-			    { 
-			    	if (counter >= 5) { // Max wait for 30 seconds for the network
-			    		showLongToast(activity, R.string.wrong_server);
-			    		return;
-			    	}
-					
-					counter++;
-					try {
-						Thread.sleep(6000);  // wait 6 seconds
-					} catch (InterruptedException e) {
-						continue;
-					}
-			    }
-			    	
-				loadWebService();
-				
-				if (getIpsMessageHandler() == null) {
-					showLongToast(activity, R.string.wrong_server);
-					return;
-				}
-				
-				// Start the Ips Message Handler Thread if it has not been started yet.
-				getIpsMessageHandler().startTransportServiceThread();
-				
-				setHttpConnectionEstablished(true);
-				setServerReachable(WifiIpsSettings.isPingable());
-				
-				// Check latest version
-				getServerVersion(activity);
-			}
-		 }.start(); */	 
 	}
 	
 	public static void connetcToServer(final Activity activity) {
@@ -977,13 +939,11 @@ public class Util {
 		getIpsMessageHandler().startTransportServiceThread();
 		
 		setHttpConnectionEstablished(true);
+		
 		//Hoare: bypass ping check since it doesn't work in some mobiles
 		setServerReachable(true);
 		//setServerReachable(WifiIpsSettings.isPingable());
-		
-		// Check latest version
-		getServerVersion(activity);
-		
+				
 		return;
 	}
 	
@@ -997,7 +957,7 @@ public class Util {
 		instance.initialize(WifiIpsSettings.SERVER, getApkVersionName());
 	}
 	
-	private static void getServerVersion(Activity activity) {
+	public static void CheckVersionUpgrade(Activity activity) {
 		// Send back the client's version code & name for statistics purpose
 		ApkVersionRequest version = new ApkVersionRequest(getApkVersionCode(), getApkVersionName());
 		
@@ -1017,6 +977,21 @@ public class Util {
 			ex.printStackTrace();
 		}
 	}
+	
+	public static void handleApkVersionReply(Activity activity, ApkVersionReply version) {
+		Util.setApkVersionChecked(true);
+		Util.setApkVersionReply(version);
+		
+		if (version.getVersionCode() > Util.getApkVersionCode() ) {
+			if (!Util.isNetworkConfigPending()) {
+				Util.doNewVersionUpdate(activity);
+			} else {
+				Util.setApkUpdatePending(true);
+			}	
+		} else {
+			Util.showShortToast(activity, R.string.latest_apk_version);
+		}
+	}	
 
 	public static SensorManager getSensorManager() {
 		return sensorManager;
@@ -1140,7 +1115,6 @@ public class Util {
 	public static void setCurrentForegroundActivity(
 			Activity currentForegroundActivity) {
 		Util.currentForegroundActivity = currentForegroundActivity;
-	}
-
+	}	
 }
 

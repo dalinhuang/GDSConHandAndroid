@@ -27,7 +27,6 @@ import com.google.gson.Gson;
 import com.winjune.wifiindoor.map.Building;
 import com.winjune.wifiindoor.map.BuildingManager;
 import com.winjune.wifiindoor.map.IndoorMap;
-import com.winjune.wifiindoor.types.ApkVersionReply;
 import com.winjune.wifiindoor.types.BuildingManagerReply;
 import com.winjune.wifiindoor.types.LocationSet;
 import com.winjune.wifiindoor.types.VersionOrMapIdRequest;
@@ -470,15 +469,18 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 		
 		Util.connetcToServer(this);
 		
+		// Check latest version
+		Util.CheckVersionUpgrade(this);
+		
 	}
     
     private String getBestProvider(){ 
         Criteria criteria = new Criteria(); 
-        criteria.setAccuracy(Criteria.ACCURACY_COARSE); // 锟斤拷锟矫撅拷锟斤拷
-        criteria.setAltitudeRequired(false); // 锟斤拷锟斤拷锟角凤拷锟斤拷要锟结供锟斤拷锟斤拷锟斤拷息
-        criteria.setBearingRequired(false); // 锟角凤拷锟斤拷要锟斤拷锟斤拷锟斤拷息
-        criteria.setCostAllowed(false); // 锟斤拷锟斤拷锟揭碉拷锟斤拷 Provider 锟角凤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
-        criteria.setPowerRequirement(Criteria.POWER_LOW); // 锟斤拷锟矫耗碉拷
+        criteria.setAccuracy(Criteria.ACCURACY_COARSE); // 
+        criteria.setAltitudeRequired(false); // 
+        criteria.setBearingRequired(false); // 
+        criteria.setCostAllowed(false); // 
+        criteria.setPowerRequirement(Criteria.POWER_LOW); 
         
         String provider=locationManager.getBestProvider(criteria, true); 
         
@@ -609,21 +611,6 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 		}
 		
 		return mapIntArray;
-	}
-
-	public void handleApkVersionReply(ApkVersionReply version) {
-		Util.setApkVersionChecked(true);
-		Util.setApkVersionReply(version);
-		
-		if (version.getVersionCode() > Util.getApkVersionCode() ) {
-			if (!Util.isNetworkConfigPending()) {
-				Util.doNewVersionUpdate(this);
-			} else {
-				Util.setApkUpdatePending(true);
-			}	
-		} else {
-			Util.showShortToast(this, R.string.latest_apk_version);
-		}
 	}
 	
 	private void queryBuildings(int versionCode) {
