@@ -22,6 +22,7 @@ import com.winjune.wifiindoor.network.NetworkInfoManager;
 import com.winjune.wifiindoor.network.NfcInfoManager;
 import com.winjune.wifiindoor.network.WifiInfoManager;
 import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;
+import com.winjune.wifiindoor.version.ApkVersionManager;
 import com.winjune.wifiindoor.webservice.IpsMessageHandler;
 import com.winjune.wifiindoor.webservice.MsgConstants;
 import com.winjune.wifiindoor.webservice.OutgoingMessageQueue;
@@ -74,11 +75,7 @@ public class Util {
 	private static IpsMessageHandler ipsMessageHandler = null;
 	private static String deviceName;
 	private static String accountName;
-	private static int apkVersionCode;
-	private static String apkVersionName;
-	private static boolean apkVersionChecked;
-	private static boolean apkUpdatePending;
-	private static ApkVersionReply apkVersionReply;
+
 	private static boolean networkConfigPending;
 	private static boolean networkConfigShowing;
 	private static boolean httpConnectionEstablished;
@@ -105,9 +102,7 @@ public class Util {
         Tuner.initial();
 		
 		resources = activity.getResources();
-		
-		setApkUpdatePending(false);
-		setApkVersionChecked(false);
+			
 		setNetworkConfigPending(false);
 		setNetworkConfigShowing(false);
 		setHttpConnectionEstablished(false);
@@ -157,21 +152,8 @@ public class Util {
 			setAccountName(wifiInfoManager.getMyMac());
 		}
 		
-	    try {
-	        PackageManager manager = activity.getPackageManager();
-	        PackageInfo info = manager.getPackageInfo(activity.getPackageName(), 0);
-	        setApkVersionCode(info.versionCode);
-	        setApkVersionName(info.versionName);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        setApkVersionCode(-1);
-	        setApkVersionName("error");
-	    }
-	    
-	    setApkVersionChecked(false);
-	    setApkUpdatePending(false);
-	    setApkVersionReply(null);
-	   	
+		ApkVersionManager.initApkVersionInfo(activity);
+		
 		initialed = true;
 	}
 	
@@ -370,45 +352,7 @@ public class Util {
 		return runtimeIndoorMap.getCellPixel();
 	}
 	
-	public static int getApkVersionCode() {
-		return apkVersionCode;
-	}	
-	
-	public static void setApkVersionCode(int apkVersionCode) {
-		Util.apkVersionCode = apkVersionCode;
-	}
 
-	public static String getApkVersionName() {
-		return apkVersionName;
-	}
-
-	public static void setApkVersionName(String apkVersionName) {
-		Util.apkVersionName = apkVersionName;
-	}
-
-	public static boolean isApkVersionChecked() {
-		return apkVersionChecked;
-	}
-
-	public static void setApkVersionChecked(boolean apkVersionChecked) {
-		Util.apkVersionChecked = apkVersionChecked;
-	}
-
-	public static boolean isApkUpdatePending() {
-		return apkUpdatePending;
-	}
-
-	public static void setApkUpdatePending(boolean apkUpdatePending) {
-		Util.apkUpdatePending = apkUpdatePending;
-	}
-
-	public static ApkVersionReply getApkVersionReply() {
-		return apkVersionReply;
-	}
-
-	public static void setApkVersionReply(ApkVersionReply apkVersionReply) {
-		Util.apkVersionReply = apkVersionReply;
-	}
 	
 	@SuppressLint("NewApi")
 	public static void configWifiNetwork() {
@@ -456,9 +400,6 @@ public class Util {
 			public void onClick(DialogInterface dialog, int which) {
 				setNetworkConfigPending(false);
 				setNetworkConfigShowing(false);
-				if (Util.isApkUpdatePending()) {
-					Util.doNewVersionUpdate(currentForegroundActivity);
-				}
 			}
 		});
 		
@@ -512,11 +453,6 @@ public class Util {
 			public void onClick(DialogInterface dialog, int which) {
 				setNetworkConfigPending(false);
 				setNetworkConfigShowing(false);
-				if (isApkUpdatePending()) {
-					// This will never be true and also we can not do update without network connection
-					// but I just leave it here
-					Util.doNewVersionUpdate(currentForegroundActivity);
-				}
 			}
 		});
 		
@@ -527,58 +463,6 @@ public class Util {
 	
 	public static String fullUrl(String short_path, String file_name) {
 		return WifiIpsSettings.URL_PREFIX + WifiIpsSettings.SERVER + "/" + short_path + file_name;
-	}
-	
-	public static void doNewVersionUpdate(final Activity activity) {
-
-		if (apkVersionReply == null) {
-			return;
-		}
-		
-		setApkUpdatePending(false);
-		
-		StringBuffer sb = new StringBuffer();  
-	    sb.append(activity.getString(R.string.apk_current_version));  
-	    sb.append(Util.getApkVersionName());  
-	    sb.append(" Code:");  
-	    sb.append(Util.getApkVersionCode());  
-	    sb.append(", " + activity.getString(R.string.apk_new_version));  
-	    sb.append(apkVersionReply.getVersionName());  
-	    sb.append(" Code:");  
-	    sb.append(apkVersionReply.getVersionCode());  
-	    sb.append(", " + activity.getString(R.string.apk_update_or_not));  
-	    
-	    AlertDialog.Builder builder = new AlertDialog.Builder(activity);	
-		builder.setIcon(R.drawable.ic_launcher);
-		builder.setTitle(R.string.apk_new_version_available);	
-		builder.setMessage(sb.toString());  
-		
-		builder.setPositiveButton(R.string.yes,
-            new OnClickListener() {  
-                @Override  
-                public void onClick(DialogInterface dialog,  
-                        int which) { 
-                    downFile(activity, 
-                    		fullUrl(IndoorMapData.APK_FILE_PATH_REMOTE, apkVersionReply.getApkUrl()),
-                    		IndoorMapData.APK_FILE_PATH_LOCAL,
-                    		"WifiIPS_"+apkVersionReply.getVersionName()+".apk",
-                    		true,             // Open after download
-                    		"application/vnd.android.package-archive",
-                    		true,           // Use Handler
-                    		true); 			// Use Thread
-                }  
-            });
-	    
-	    builder.setNegativeButton(R.string.no,  
-            new DialogInterface.OnClickListener() {  
-                public void onClick(DialogInterface dialog,  
-                        int whichButton) { 
-                    //finish();  
-                }  
-            });
-	   
-	    builder.create();
-	    builder.show();
 	}
 	
 	public static String getFilePath() {
@@ -957,44 +841,8 @@ public class Util {
 			return;
 		}
 
-		instance.initialize(WifiIpsSettings.SERVER, getApkVersionName());
+		instance.initialize(WifiIpsSettings.SERVER, ApkVersionManager.getApkVersionName());
 	}
-	
-	public static void CheckVersionUpgrade(Activity activity) {
-		// Send back the client's version code & name for statistics purpose
-		ApkVersionRequest version = new ApkVersionRequest(getApkVersionCode(), getApkVersionName());
-		
-		try {
-			Gson gson = new Gson();
-			String json = gson.toJson(version);
-			JSONObject data = new JSONObject(json);
-
-			if (sendToServer(activity, MsgConstants.MT_APK_VERSION_QUERY, data)) {
-				showShortToast(activity, R.string.query_apk_version);
-			} else {
-				// All errors should be handled in the sendToServer
-				// method
-			}
-		} catch (Exception ex) {
-			showToast(activity, "GET APK VERSION ERROR: " + ex.getMessage(), Toast.LENGTH_LONG);
-			ex.printStackTrace();
-		}
-	}
-	
-	public static void handleApkVersionReply(Activity activity, ApkVersionReply version) {
-		Util.setApkVersionChecked(true);
-		Util.setApkVersionReply(version);
-		
-		if (version.getVersionCode() > Util.getApkVersionCode() ) {
-			if (!Util.isNetworkConfigPending()) {
-				Util.doNewVersionUpdate(activity);
-			} else {
-				Util.setApkUpdatePending(true);
-			}	
-		} else {
-			Util.showShortToast(activity, R.string.latest_apk_version);
-		}
-	}	
 
 	public static SensorManager getSensorManager() {
 		return sensorManager;

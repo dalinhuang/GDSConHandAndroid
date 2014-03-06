@@ -8,10 +8,11 @@ import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.winjune.wifiindoor.util.ISoftwareVersions;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
+import com.winjune.wifiindoor.version.ApkVersionManager;
+import com.winjune.wifiindoor.version.ISoftwareVersions;
 import com.winjune.wifiindoor.version.SoftwareVersionData;
 
 public class StartupActivity extends FragmentActivity {
@@ -52,8 +53,8 @@ public class StartupActivity extends FragmentActivity {
 
 		Util.setEnergySave(false);
 		
-		if (Util.isApkUpdatePending()) {
-			Util.doNewVersionUpdate(this);
+		if (ApkVersionManager.isApkUpdatePending()) {
+			ApkVersionManager.doNewVersionUpdate(this);
 		}		
 		
 		Util.setCurrentForegroundActivity(this); 
@@ -163,7 +164,7 @@ public class StartupActivity extends FragmentActivity {
 		Util.connetcToServer(this);
 		
 		// Check latest version
-		Util.CheckVersionUpgrade(this);
+		ApkVersionManager.CheckVersionUpgrade(this);
 		
 	}
 }

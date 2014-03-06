@@ -18,6 +18,7 @@ import com.winjune.wifiindoor.mapviewer.NaviBar;
 import com.winjune.wifiindoor.mapviewer.PlanBar;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
+import com.winjune.wifiindoor.version.ApkVersionManager;
 import com.winjune.wifiindoor.webservice.MainTransportServiceListener;
 import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
 import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
@@ -216,7 +217,7 @@ public class IpsMessageHandler {
 			ApkVersionReply version = (ApkVersionReply) object;
 			
 
-			Util.handleApkVersionReply(activity, version);
+			ApkVersionManager.handleApkVersionReply(activity, version);
 						
 			return;
 		} 

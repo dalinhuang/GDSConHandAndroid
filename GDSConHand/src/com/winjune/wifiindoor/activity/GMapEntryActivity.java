@@ -30,10 +30,11 @@ import com.winjune.wifiindoor.R.string;
 import com.winjune.wifiindoor.map.Building;
 import com.winjune.wifiindoor.map.BuildingManager;
 import com.winjune.wifiindoor.map.IndoorMap;
-import com.winjune.wifiindoor.util.ISoftwareVersions;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
+import com.winjune.wifiindoor.version.ApkVersionManager;
+import com.winjune.wifiindoor.version.ISoftwareVersions;
 import com.winjune.wifiindoor.version.SoftwareVersionData;
 import com.winjune.wifiindoor.webservice.MsgConstants;
 import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
@@ -130,8 +131,8 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 
 		Util.setEnergySave(false);
 		
-		if (Util.isApkUpdatePending()) {
-			Util.doNewVersionUpdate(this);
+		if (ApkVersionManager.isApkUpdatePending()) {
+			ApkVersionManager.doNewVersionUpdate(this);
 		}
 		
 		// Comment out as GMap function is blocked

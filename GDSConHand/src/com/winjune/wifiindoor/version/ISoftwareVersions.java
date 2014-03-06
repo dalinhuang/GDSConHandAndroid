@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor.util;
+package com.winjune.wifiindoor.version;
 
 public interface ISoftwareVersions {
 	// SOC for the customized version
