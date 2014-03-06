@@ -7,7 +7,7 @@ import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.opengl.texture.TextureManager;
 
-import com.winjune.wifiindoor.MapViewerActivity;
+import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.ads.AdvertiseUnit;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.Util;

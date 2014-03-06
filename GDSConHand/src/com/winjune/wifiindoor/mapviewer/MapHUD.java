@@ -23,12 +23,12 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.winjune.wifiindoor.InfoPusherActivity;
-import com.winjune.wifiindoor.MapSelectorActivity;
-import com.winjune.wifiindoor.MapViewerActivity;
-import com.winjune.wifiindoor.QrScannerActivity;
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.TunerActivity;
+import com.winjune.wifiindoor.activity.InfoPusherActivity;
+import com.winjune.wifiindoor.activity.MapSelectorActivity;
+import com.winjune.wifiindoor.activity.MapViewerActivity;
+import com.winjune.wifiindoor.activity.QrScannerActivity;
+import com.winjune.wifiindoor.activity.TunerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.AnimatedUnit;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.drawing.graphic.model.SpriteListener;

@@ -3,9 +3,11 @@ package com.winjune.wifiindoor.webservice.parsers.json;
 import java.io.IOException;
 
 import com.google.gson.Gson;
-import com.winjune.wifiindoor.types.LocationSet;
-import com.winjune.wifiindoor.webservice.error.WifiIpsError;
-import com.winjune.wifiindoor.webservice.error.WifiIpsParseException;
+import com.winjune.common.webservice.core.error.WebError;
+import com.winjune.common.webservice.core.error.WebParseException;
+import com.winjune.common.webservice.core.parsers.json.AbstractJsonParser;
+import com.winjune.common.webservice.core.parsers.json.JsonPullParser;
+import com.winjune.wifiindoor.webservice.types.LocationSet;
 
 public class LocationSetJsonParser extends AbstractJsonParser<LocationSet> {
 
@@ -18,7 +20,7 @@ public class LocationSetJsonParser extends AbstractJsonParser<LocationSet> {
 	 */
 	@Override
 	protected LocationSet parseInner(JsonPullParser parser) throws IOException,
-			WifiIpsError, WifiIpsParseException {
+			WebError, WebParseException {
 		Gson gson = new Gson();
 		LocationSet locationSet = gson.fromJson(parser.getContent(), LocationSet.class);
 		return locationSet;

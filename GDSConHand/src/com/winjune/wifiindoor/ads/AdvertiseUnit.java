@@ -20,7 +20,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.winjune.wifiindoor.MapViewerActivity;
+import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.Unit;
 import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;
 import com.winjune.wifiindoor.util.AdData;

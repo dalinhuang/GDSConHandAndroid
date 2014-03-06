@@ -3,9 +3,11 @@ package com.winjune.wifiindoor.webservice.parsers.json;
 import java.io.IOException;
 
 import com.google.gson.Gson;
-import com.winjune.wifiindoor.types.MapInfoReply;
-import com.winjune.wifiindoor.webservice.error.WifiIpsError;
-import com.winjune.wifiindoor.webservice.error.WifiIpsParseException;
+import com.winjune.common.webservice.core.error.WebError;
+import com.winjune.common.webservice.core.error.WebParseException;
+import com.winjune.common.webservice.core.parsers.json.AbstractJsonParser;
+import com.winjune.common.webservice.core.parsers.json.JsonPullParser;
+import com.winjune.wifiindoor.webservice.types.MapInfoReply;
 
 /**
  * @author haleyshi
@@ -22,7 +24,7 @@ public class MapInfoReplyJsonParser extends AbstractJsonParser<MapInfoReply> {
 	 */
 	@Override
 	protected MapInfoReply parseInner(JsonPullParser parser) throws IOException,
-			WifiIpsError, WifiIpsParseException {
+			WebError, WebParseException {
 		Gson gson = new Gson();
 		MapInfoReply info = gson.fromJson(parser.getContent(), MapInfoReply.class);
 		return info;

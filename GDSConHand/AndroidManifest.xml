@@ -53,7 +53,7 @@
     		android:value="AIzaSyAPmvIlhYbzd_39CL45Qi3FGmxzF47ki_Y"/>
                 
         <activity 
-            android:name="com.winjune.wifiindoor.StartupActivity" 
+            android:name="com.winjune.wifiindoor.activity.StartupActivity" 
             android:label="@string/app_name"
             android:configChanges="orientation|keyboardHidden"
             android:theme="@android:style/Theme.NoTitleBar">
@@ -64,7 +64,7 @@
 		</activity>
                 
         <activity 
-            android:name="com.winjune.wifiindoor.GMapEntryActivity" 
+            android:name="com.winjune.wifiindoor.activity.GMapEntryActivity" 
             android:label="@string/app_name"
             android:configChanges="orientation|keyboardHidden"
             android:theme="@android:style/Theme.NoTitleBar">			
@@ -87,28 +87,27 @@
 		</activity>
         
         <activity 
-            android:name="com.winjune.wifiindoor.MenuEntryActivity" 
+            android:name = "com.winjune.wifiindoor.activity.MenuEntryActivityyActivity" 
             android:label="@string/app_name"
             android:configChanges="orientation|keyboardHidden"
 			android:theme="@android:style/Theme.NoTitleBar"> 
 		</activity>
 		
 		<activity 
-		    android:name="com.winjune.wifiindoor.MapSelectorActivity" 
+		    android:name="com.winjune.wifiindoor.activity.MapSelectorActivity" 
 		    android:theme="@android:style/Theme.NoTitleBar" 
 		    android:configChanges="orientation|keyboardHidden" 
 		    android:label="@string/app_name">
         </activity>
         
-        <activity 
-            android:name="com.winjune.wifiindoor.MapLocatorActivity" 
+        <activity
+            android:name = "com.winjune.wifiindoor.activity.MapLocatorActivity" 
             android:theme="@android:style/Theme.NoTitleBar" 
             android:configChanges="orientation|keyboardHidden" 
             android:label="@string/app_name">
         </activity>
         
-        <activity
-            android:name="com.winjune.wifiindoor.MapViewerActivity"
+        <activity			android:name = "com.winjune.wifiindoor.activity.MapViewerActivity"
             android:screenOrientation="sensor"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:configChanges="orientation|keyboardHidden"
@@ -130,44 +129,41 @@
 			  <meta-data android:name="android.nfc.action.TECH_DISCOVERED"
 			                android:resource="@xml/nfc_tech_filter" /> 
 			</intent-filter>
-			          
         </activity>
         
-        <activity
-            android:name="com.winjune.wifiindoor.QrScannerActivity"          
+        <activity        
+			android:name = "com.winjune.wifiindoor.activity.QrScannerActivity"          
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysHidden" >
+            android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
         
         <activity
-            android:name="com.winjune.wifiindoor.TunerActivity"
+        	android:name = "com.winjune.wifiindoor.activity.TunerActivity"
             android:screenOrientation="landscape" 
             android:configChanges="orientation|keyboardHidden"
             android:theme="@android:style/Theme.NoTitleBar">
         </activity>
         
-        <activity
-            android:name="com.winjune.wifiindoor.InfoPusherActivity"
+		<activity
+		    android:name ="com.winjune.wifiindoor.InfoPusherActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        
+        <activity			android:name = "com.winjune.wifiindoor.activity.NaviResultActivity"
             android:configChanges="orientation|keyboardHidden"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         
         <activity
-            android:name="com.winjune.wifiindoor.NaviResultActivity"
+			android:name = "com.winjune.wifiindoor.activity.InterestPlaceViewerActivity"
             android:configChanges="orientation|keyboardHidden"
             android:theme="@android:style/Theme.NoTitleBar" >
-        </activity>
-        
-        <activity
-            android:name="com.winjune.wifiindoor.InterestPlaceViewerActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.NoTitleBar" >
-        </activity>
-        
-        <activity 
-            android:name="com.winjune.wifiindoor.InterestPlaceWebViewActivity" 
+		</activity>	
+		<activity
+     		android:name ="com.winjune.wifiindoor.activity.InterestPlaceWebViewActivity" 
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name" >
         </activity>

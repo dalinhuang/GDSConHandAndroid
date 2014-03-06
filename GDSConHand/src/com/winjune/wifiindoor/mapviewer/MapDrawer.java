@@ -6,7 +6,7 @@ import org.andengine.entity.sprite.Sprite;
 
 import android.util.Log;
 
-import com.winjune.wifiindoor.MapViewerActivity;
+import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.drawing.graphic.model.MapPieceSprite;
 import com.winjune.wifiindoor.drawing.graphic.model.MapPieceUnit;

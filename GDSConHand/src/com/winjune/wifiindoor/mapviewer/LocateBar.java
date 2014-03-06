@@ -14,20 +14,20 @@ import android.content.DialogInterface.OnClickListener;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.winjune.wifiindoor.MapViewerActivity;
 import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
-import com.winjune.wifiindoor.types.CollectInfo;
-import com.winjune.wifiindoor.types.Location;
-import com.winjune.wifiindoor.types.LocationSet;
-import com.winjune.wifiindoor.types.NfcLocation;
-import com.winjune.wifiindoor.types.TestLocateCollectReply;
-import com.winjune.wifiindoor.types.TestLocateCollectRequest;
-import com.winjune.wifiindoor.types.WifiFingerPrint;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.webservice.MsgConstants;
+import com.winjune.wifiindoor.webservice.types.CollectInfo;
+import com.winjune.wifiindoor.webservice.types.Location;
+import com.winjune.wifiindoor.webservice.types.LocationSet;
+import com.winjune.wifiindoor.webservice.types.NfcLocation;
+import com.winjune.wifiindoor.webservice.types.TestLocateCollectReply;
+import com.winjune.wifiindoor.webservice.types.TestLocateCollectRequest;
+import com.winjune.wifiindoor.wifi.WifiFingerPrint;
 
 public class LocateBar {
 

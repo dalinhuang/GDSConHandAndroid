@@ -8,16 +8,16 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.gson.Gson;
-import com.winjune.wifiindoor.InfoPusherActivity;
-import com.winjune.wifiindoor.MapViewerActivity;
+import com.winjune.wifiindoor.activity.InfoPusherActivity;
+import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.runtime.Cell;
-import com.winjune.wifiindoor.types.InfoQueryRequest;
-import com.winjune.wifiindoor.types.Location;
-import com.winjune.wifiindoor.types.LocationQueryInfo;
-import com.winjune.wifiindoor.types.QueryInfo;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.webservice.MsgConstants;
+import com.winjune.wifiindoor.webservice.types.InfoQueryRequest;
+import com.winjune.wifiindoor.webservice.types.Location;
+import com.winjune.wifiindoor.webservice.types.LocationQueryInfo;
+import com.winjune.wifiindoor.webservice.types.QueryInfo;
 
 public class InfoBanner {
 

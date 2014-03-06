@@ -21,11 +21,11 @@ import android.util.Xml;
 import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;
-import com.winjune.wifiindoor.types.Location;
 import com.winjune.wifiindoor.util.AdData;
 import com.winjune.wifiindoor.util.AdUtil;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.webservice.MsgConstants;
+import com.winjune.wifiindoor.webservice.types.Location;
 
 public class ScreenAdvertisement {
 

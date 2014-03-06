@@ -13,8 +13,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.winjune.wifiindoor.types.MobileCell;
-import com.winjune.wifiindoor.types.NeighboringCell;
+import com.winjune.wifiindoor.webservice.types.MobileCell;
+import com.winjune.wifiindoor.webservice.types.NeighboringCell;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

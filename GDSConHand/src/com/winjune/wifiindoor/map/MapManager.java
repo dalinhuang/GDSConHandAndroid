@@ -16,9 +16,9 @@ import android.content.res.Resources;
 
 import com.winjune.wifiindoor.R;
 import com.thoughtworks.xstream.XStream;
-import com.winjune.wifiindoor.types.MapManagerReply;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
+import com.winjune.wifiindoor.webservice.types.MapManagerReply;
 
 /**
  * @author haleyshi

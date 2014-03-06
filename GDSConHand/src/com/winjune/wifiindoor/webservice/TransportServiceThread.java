@@ -15,24 +15,24 @@ import android.content.Context;
 import android.os.Looper;
 import android.util.Log;
 
+import com.winjune.common.webservice.core.error.WebCredentialsException;
+import com.winjune.common.webservice.core.error.WebError;
+import com.winjune.common.webservice.core.error.WebException;
+import com.winjune.common.webservice.core.types.IType;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.ads.AdGroup;
-import com.winjune.wifiindoor.types.ApkVersionReply;
-import com.winjune.wifiindoor.types.BuildingManagerReply;
-import com.winjune.wifiindoor.types.IndoorMapReply;
-import com.winjune.wifiindoor.types.InterestPlacesInfoReply;
-import com.winjune.wifiindoor.types.Location;
-import com.winjune.wifiindoor.types.LocationSet;
-import com.winjune.wifiindoor.types.MapInfoReply;
-import com.winjune.wifiindoor.types.MapManagerReply;
-import com.winjune.wifiindoor.types.NaviInfoReply;
-import com.winjune.wifiindoor.types.QueryInfo;
-import com.winjune.wifiindoor.types.TestLocateCollectReply;
 import com.winjune.wifiindoor.util.WifiIpsSettings;
-import com.winjune.wifiindoor.webservice.error.WifiIpsCredentialsException;
-import com.winjune.wifiindoor.webservice.error.WifiIpsError;
-import com.winjune.wifiindoor.webservice.error.WifiIpsException;
-import com.winjune.wifiindoor.webservice.types.IType;
+import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
+import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
+import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
+import com.winjune.wifiindoor.webservice.types.InterestPlacesInfoReply;
+import com.winjune.wifiindoor.webservice.types.Location;
+import com.winjune.wifiindoor.webservice.types.LocationSet;
+import com.winjune.wifiindoor.webservice.types.MapInfoReply;
+import com.winjune.wifiindoor.webservice.types.MapManagerReply;
+import com.winjune.wifiindoor.webservice.types.NaviInfoReply;
+import com.winjune.wifiindoor.webservice.types.QueryInfo;
+import com.winjune.wifiindoor.webservice.types.TestLocateCollectReply;
 
 /**
  * @author ezhipin
@@ -222,15 +222,15 @@ public class TransportServiceThread extends Thread {
 
 				break;
 			}
-		} catch (WifiIpsCredentialsException e) {
+		} catch (WebCredentialsException e) {
 			// TODO Auto-generated catch block
 			mTransportServiceListener.onError("051 " + e.toString());
 			e.printStackTrace();
-		} catch (WifiIpsError e) {
+		} catch (WebError e) {
 			// TODO Auto-generated catch block
 			mTransportServiceListener.onError("052 " + e.toString());
 			e.printStackTrace();
-		} catch (WifiIpsException e) {
+		} catch (WebException e) {
 			// TODO Auto-generated catch block
 			mTransportServiceListener.onError("053 " + e.toString());
 			e.printStackTrace();

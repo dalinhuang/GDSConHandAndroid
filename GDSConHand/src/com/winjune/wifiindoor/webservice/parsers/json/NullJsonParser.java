@@ -11,9 +11,16 @@ import java.io.IOException;
 
 
 
-import com.winjune.wifiindoor.webservice.error.WifiIpsError;
-import com.winjune.wifiindoor.webservice.error.WifiIpsParseException;
-import com.winjune.wifiindoor.webservice.types.IType;
+
+
+
+
+
+import com.winjune.common.webservice.core.error.WebError;
+import com.winjune.common.webservice.core.error.WebParseException;
+import com.winjune.common.webservice.core.parsers.json.AbstractJsonParser;
+import com.winjune.common.webservice.core.parsers.json.JsonPullParser;
+import com.winjune.common.webservice.core.types.IType;
 
 /**
  * @author ezhipin
@@ -26,7 +33,7 @@ public class NullJsonParser extends AbstractJsonParser<IType> {
 	 */
 	@Override
 	protected IType parseInner(JsonPullParser parser) throws IOException,
-			WifiIpsError, WifiIpsParseException {
+			WebError, WebParseException {
 		// TODO Auto-generated method stub
 		return null;
 	}

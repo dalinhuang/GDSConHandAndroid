@@ -22,13 +22,13 @@ import com.winjune.wifiindoor.network.NetworkInfoManager;
 import com.winjune.wifiindoor.network.NfcInfoManager;
 import com.winjune.wifiindoor.network.WifiInfoManager;
 import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;
-import com.winjune.wifiindoor.types.ApkVersionReply;
-import com.winjune.wifiindoor.types.ApkVersionRequest;
-import com.winjune.wifiindoor.types.NfcFingerPrint;
 import com.winjune.wifiindoor.webservice.IpsMessageHandler;
 import com.winjune.wifiindoor.webservice.MsgConstants;
 import com.winjune.wifiindoor.webservice.OutgoingMessageQueue;
 import com.winjune.wifiindoor.webservice.WebService;
+import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
+import com.winjune.wifiindoor.webservice.types.ApkVersionRequest;
+import com.winjune.wifiindoor.webservice.types.NfcFingerPrint;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -901,7 +901,7 @@ public class Util {
         // Configure network
         if (getNetworkInfoManager() != null) {
         	//Hoare: todo
-        	/*
+        	
         	if (getNetworkInfoManager().is2G3GConnected()) {
         		configWifiNetwork();      		
         	} else {
@@ -909,7 +909,7 @@ public class Util {
         			configWirelessNetwork();
         		}
         	}
-        	*/
+        	
         }
 	}
 	

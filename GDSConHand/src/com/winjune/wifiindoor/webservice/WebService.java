@@ -10,23 +10,23 @@ import java.io.IOException;
 
 import org.json.JSONObject;
 
+import com.winjune.common.webservice.core.error.WebCredentialsException;
+import com.winjune.common.webservice.core.error.WebError;
+import com.winjune.common.webservice.core.error.WebException;
+import com.winjune.common.webservice.core.types.Test;
 import com.winjune.wifiindoor.ads.AdGroup;
-import com.winjune.wifiindoor.types.ApkVersionReply;
-import com.winjune.wifiindoor.types.BuildingManagerReply;
-import com.winjune.wifiindoor.types.IndoorMapReply;
-import com.winjune.wifiindoor.types.InterestPlacesInfoReply;
-import com.winjune.wifiindoor.types.Location;
-import com.winjune.wifiindoor.types.LocationSet;
-import com.winjune.wifiindoor.types.MapInfoReply;
-import com.winjune.wifiindoor.types.MapManagerReply;
-import com.winjune.wifiindoor.types.NaviInfoReply;
-import com.winjune.wifiindoor.types.QueryInfo;
-import com.winjune.wifiindoor.types.TestLocateCollectReply;
-import com.winjune.wifiindoor.webservice.error.WifiIpsCredentialsException;
-import com.winjune.wifiindoor.webservice.error.WifiIpsError;
-import com.winjune.wifiindoor.webservice.error.WifiIpsException;
 import com.winjune.wifiindoor.webservice.http.WifiIpsHttpApi;
-import com.winjune.wifiindoor.webservice.types.Test;
+import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
+import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
+import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
+import com.winjune.wifiindoor.webservice.types.InterestPlacesInfoReply;
+import com.winjune.wifiindoor.webservice.types.Location;
+import com.winjune.wifiindoor.webservice.types.LocationSet;
+import com.winjune.wifiindoor.webservice.types.MapInfoReply;
+import com.winjune.wifiindoor.webservice.types.MapManagerReply;
+import com.winjune.wifiindoor.webservice.types.NaviInfoReply;
+import com.winjune.wifiindoor.webservice.types.QueryInfo;
+import com.winjune.wifiindoor.webservice.types.TestLocateCollectReply;
 
 /**
  * @author ezhipin
@@ -70,11 +70,11 @@ public class WebService {
 	 * 
 	 */
 	@V1
-	public Test testPostXml(String parameter) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
+	public Test testPostXml(String parameter) throws WebException,
+			WebCredentialsException, WebError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
+			throw new WebException("IPS HTTP API is null!");			
 		}
 		
 		return mWifiIpsHttpApi.testPostXml(parameter);
@@ -84,11 +84,11 @@ public class WebService {
 	 * 
 	 */
 	@V1
-	public Test testPostJson(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
+	public Test testPostJson(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
+			throw new WebException("IPS HTTP API is null!");			
 		}
 		
 		return mWifiIpsHttpApi.testPostJson(json);
@@ -98,11 +98,11 @@ public class WebService {
 	 * collect, no response
 	 */
 	@V1
-	public LocationSet locate(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
+	public LocationSet locate(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
+			throw new WebException("IPS HTTP API is null!");			
 		}
 		
 		return mWifiIpsHttpApi.locate(json);
@@ -112,11 +112,11 @@ public class WebService {
 	 * locate
 	 */
 	@V1
-	public void collect(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
+	public void collect(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
+			throw new WebException("IPS HTTP API is null!");			
 		}
 		
 		mWifiIpsHttpApi.collect(json);
@@ -126,11 +126,11 @@ public class WebService {
 	 * query
 	 */
 	@V1
-	public QueryInfo query(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
+	public QueryInfo query(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
+			throw new WebException("IPS HTTP API is null!");			
 		}
 		
 		return mWifiIpsHttpApi.query(json);
@@ -140,11 +140,11 @@ public class WebService {
 	 * collectNfc
 	 */
 	@V1
-	public void collectNfc(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
+	public void collectNfc(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
+			throw new WebException("IPS HTTP API is null!");			
 		}
 		
 		mWifiIpsHttpApi.collectNfc(json);
@@ -154,11 +154,11 @@ public class WebService {
 	 * locateBaseOnNfc
 	 */
 	@V1
-	public Location locateBaseOnNfc(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
+	public Location locateBaseOnNfc(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
+			throw new WebException("IPS HTTP API is null!");			
 		}
 		
 		return mWifiIpsHttpApi.locateBaseOnNfc(json);
@@ -168,11 +168,11 @@ public class WebService {
 	 * deleteFingerprint, no response
 	 */
 	@V1
-	public void deleteFingerprint(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
+	public void deleteFingerprint(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
+			throw new WebException("IPS HTTP API is null!");			
 		}
 		
 		mWifiIpsHttpApi.deleteFingerprint(json);
@@ -182,11 +182,11 @@ public class WebService {
 	 * locate_test
 	 */
 	@V1
-	public TestLocateCollectReply locateTest(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
+	public TestLocateCollectReply locateTest(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
+			throw new WebException("IPS HTTP API is null!");			
 		}
 		
 		return mWifiIpsHttpApi.locateTest(json);
@@ -196,11 +196,11 @@ public class WebService {
 	 * collect_test
 	 */
 	@V1
-	public TestLocateCollectReply collectTest(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
+	public TestLocateCollectReply collectTest(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
+			throw new WebException("IPS HTTP API is null!");			
 		}
 		
 		return mWifiIpsHttpApi.collectTest(json);
@@ -210,11 +210,11 @@ public class WebService {
 	 * update Apk
 	 */
 	@V1
-	public ApkVersionReply queryApkVersion(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
+	public ApkVersionReply queryApkVersion(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
+			throw new WebException("IPS HTTP API is null!");			
 		}
 		
 		return mWifiIpsHttpApi.queryApkVersion(json);
@@ -224,11 +224,11 @@ public class WebService {
 	 * update Buildings
 	 */
 	@V1
-	public BuildingManagerReply queryBuilding(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
+	public BuildingManagerReply queryBuilding(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
+			throw new WebException("IPS HTTP API is null!");			
 		}
 		
 		return mWifiIpsHttpApi.queryBuilding(json);
@@ -238,11 +238,11 @@ public class WebService {
 	 * update mapList
 	 */
 	@V1
-	public MapManagerReply queryMaps(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
+	public MapManagerReply queryMaps(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
+			throw new WebException("IPS HTTP API is null!");			
 		}
 		
 		return mWifiIpsHttpApi.queryMaps(json);
@@ -252,11 +252,11 @@ public class WebService {
 	 * update Map
 	 */
 	@V1
-	public IndoorMapReply queryMap(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
+	public IndoorMapReply queryMap(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
+			throw new WebException("IPS HTTP API is null!");			
 		}
 		
 		return mWifiIpsHttpApi.queryMap(json);
@@ -266,11 +266,11 @@ public class WebService {
 	 * update Map Info
 	 */
 	@V1
-	public MapInfoReply queryMapInfo(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
+	public MapInfoReply queryMapInfo(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
+			throw new WebException("IPS HTTP API is null!");			
 		}
 		
 		return mWifiIpsHttpApi.queryMapInfo(json);
@@ -280,11 +280,11 @@ public class WebService {
 	 * update Navi Info
 	 */
 	@V1
-	public NaviInfoReply queryNaviInfo(JSONObject json) throws WifiIpsException,
-			WifiIpsCredentialsException, WifiIpsError, IOException {
+	public NaviInfoReply queryNaviInfo(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
-			throw new WifiIpsException("IPS HTTP API is null!");			
+			throw new WebException("IPS HTTP API is null!");			
 		}
 		
 		return mWifiIpsHttpApi.queryNaviInfo(json);
@@ -295,11 +295,11 @@ public class WebService {
 	 * update advertise Info
 	 */
 	@V1
-	public AdGroup queryAdvertiseInfo(JSONObject json) throws WifiIpsException,
-	        WifiIpsCredentialsException, WifiIpsError, IOException {
+	public AdGroup queryAdvertiseInfo(JSONObject json) throws WebException,
+	        WebCredentialsException, WebError, IOException {
 
         if (mWifiIpsHttpApi == null) {			
-	        throw new WifiIpsException("IPS HTTP API is null!");			
+	        throw new WebException("IPS HTTP API is null!");			
         }
 
         return mWifiIpsHttpApi.queryAdvertiseInfo(json);
@@ -309,11 +309,11 @@ public class WebService {
 	 * update Interest Places Info
 	 */
 	@V1
-	public InterestPlacesInfoReply queryInterestPlacesInfo(JSONObject json)  throws WifiIpsException,
-    		WifiIpsCredentialsException, WifiIpsError, IOException {
+	public InterestPlacesInfoReply queryInterestPlacesInfo(JSONObject json)  throws WebException,
+    		WebCredentialsException, WebError, IOException {
 		
 		if (mWifiIpsHttpApi == null) {			
-	        throw new WifiIpsException("IPS HTTP API is null!");			
+	        throw new WebException("IPS HTTP API is null!");			
         }
 
         return mWifiIpsHttpApi.queryInterestPlacesInfo(json);

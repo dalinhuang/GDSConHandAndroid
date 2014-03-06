@@ -1,6 +1,6 @@
 package com.winjune.wifiindoor.ads;
 
-import com.winjune.wifiindoor.webservice.types.IType;
+import com.winjune.common.webservice.core.types.IType;
 
 public class Ad implements IType {
 	private int id;

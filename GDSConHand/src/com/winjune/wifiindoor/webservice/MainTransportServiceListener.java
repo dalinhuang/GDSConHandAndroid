@@ -10,10 +10,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.winjune.common.webservice.core.types.IType;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.WifiIpsSettings;
 import com.winjune.wifiindoor.webservice.TransportServiceThread.TransportServiceListener;
-import com.winjune.wifiindoor.webservice.types.IType;
 
 /**
  * @author ezhipin

@@ -7,8 +7,8 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.MotionEvent;
 
-import com.winjune.wifiindoor.MapViewerActivity;
 import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.Util;

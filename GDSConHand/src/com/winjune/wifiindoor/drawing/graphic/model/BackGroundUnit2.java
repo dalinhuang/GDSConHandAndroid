@@ -5,7 +5,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.region.TextureRegion;
 
-import com.winjune.wifiindoor.MapViewerActivity;
+import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.AndEngineGraphicsHelper;
 import com.winjune.wifiindoor.drawing.graphic.ImageLoader;
 

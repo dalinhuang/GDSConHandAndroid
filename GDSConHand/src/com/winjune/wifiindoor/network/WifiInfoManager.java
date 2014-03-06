@@ -3,11 +3,11 @@ package com.winjune.wifiindoor.network;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.winjune.wifiindoor.types.MyWifiInfo;
-import com.winjune.wifiindoor.types.WifiFingerPrint;
-import com.winjune.wifiindoor.types.WifiFingerPrintSample;
 import com.winjune.wifiindoor.util.CoolDown;
 import com.winjune.wifiindoor.util.IndoorMapData;
+import com.winjune.wifiindoor.webservice.types.MyWifiInfo;
+import com.winjune.wifiindoor.wifi.WifiFingerPrint;
+import com.winjune.wifiindoor.wifi.WifiFingerPrintSample;
 
 import android.content.Context;
 import android.net.wifi.ScanResult;

@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
 
+import com.winjune.wifiindoor.version.SoftwareVersionData;
+
 public class Tuner {
 	private static boolean initialed = false;
 	private static Properties properties;

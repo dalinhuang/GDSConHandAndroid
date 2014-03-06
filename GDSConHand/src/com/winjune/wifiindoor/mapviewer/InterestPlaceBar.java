@@ -21,19 +21,19 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.winjune.wifiindoor.InterestPlaceViewerActivity;
-import com.winjune.wifiindoor.InterestPlaceWebViewActivity;
-import com.winjune.wifiindoor.MapViewerActivity;
 import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.activity.InterestPlaceViewerActivity;
+import com.winjune.wifiindoor.activity.InterestPlaceWebViewActivity;
+import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.drawing.graphic.model.SpriteListener;
 import com.winjune.wifiindoor.map.InterestPlace;
 import com.winjune.wifiindoor.map.InterestPlacesInfo;
-import com.winjune.wifiindoor.types.VersionOrMapIdRequest;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.webservice.MsgConstants;
+import com.winjune.wifiindoor.webservice.types.VersionOrMapIdRequest;
 
 public class InterestPlaceBar {
 

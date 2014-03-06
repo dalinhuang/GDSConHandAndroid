@@ -2,7 +2,7 @@ package com.winjune.wifiindoor.ads;
 
 import java.util.List;
 
-import com.winjune.wifiindoor.webservice.types.IType;
+import com.winjune.common.webservice.core.types.IType;
 
 public class AdGroup implements IType {
 	private List<Ad> ads;

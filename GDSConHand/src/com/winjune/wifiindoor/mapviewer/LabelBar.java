@@ -12,12 +12,12 @@ import org.json.JSONObject;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.winjune.wifiindoor.MapViewerActivity;
+import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.map.FieldInfo;
 import com.winjune.wifiindoor.map.MapInfo;
-import com.winjune.wifiindoor.types.VersionOrMapIdRequest;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.webservice.MsgConstants;
+import com.winjune.wifiindoor.webservice.types.VersionOrMapIdRequest;
 
 public class LabelBar {
 

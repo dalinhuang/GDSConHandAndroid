@@ -11,7 +11,7 @@ import org.andengine.opengl.texture.region.TextureRegion;
 
 import android.util.Log;
 
-import com.winjune.wifiindoor.MapViewerActivity;
+import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
 

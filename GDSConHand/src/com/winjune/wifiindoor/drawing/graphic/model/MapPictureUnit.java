@@ -9,7 +9,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.opengl.texture.atlas.bitmap.source.FileBitmapTextureAtlasSource;
 import org.andengine.opengl.texture.region.TextureRegion;
 
-import com.winjune.wifiindoor.MapViewerActivity;
+import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
 

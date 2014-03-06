@@ -11,7 +11,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.util.Log;
 
-import com.winjune.wifiindoor.MapViewerActivity;
+import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.ads.AdGroup;
 import com.winjune.wifiindoor.ads.AdSpriteListener;
 import com.winjune.wifiindoor.ads.ScreenAdvertisement;

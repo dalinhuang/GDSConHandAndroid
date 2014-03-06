@@ -9,7 +9,7 @@ package com.winjune.wifiindoor.webservice;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import com.winjune.wifiindoor.webservice.types.IType;
+import com.winjune.common.webservice.core.types.IType;
 
 /**
  * @author ezhipin
