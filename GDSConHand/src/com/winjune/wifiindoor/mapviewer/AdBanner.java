@@ -172,7 +172,9 @@ public class AdBanner {
 	
 
 	public static void hideAd(MapViewerActivity mapViewer) {
-		mapViewer.mAdvertisement.hideAdvertisement();
+		if (VisualParameters.ADS_ENABLED){
+			mapViewer.mAdvertisement.hideAdvertisement();
+		}
 	}
 		
 }

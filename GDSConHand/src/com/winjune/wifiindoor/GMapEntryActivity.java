@@ -188,101 +188,10 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
         Log.i("GMapEntryActivity", "onCreate");
         
         setContentView(R.layout.gmap_entry);
-        Fragment f = getSupportFragmentManager().findFragmentById(R.id.map);
-        f.setUserVisibleHint(false); // Set invisible for the GMap fragment
-        
-        Util.initApp(this);
-        
-        new AsyncTask<Void, Void, Integer> () {
-
-			@Override
-			protected void onPreExecute() {
-
-			}
-        	
-        	@Override
-			protected Integer doInBackground(Void... params) {
-				// TODO Auto-generated method stub
-        		long startTime = System.currentTimeMillis();
-        		appStartUp();
-        		long completeTime = System.currentTimeMillis();
-        		long runTime = completeTime - startTime;
-        		
-        		if (runTime < 3000) {
-        			
-        			long sleepTime = 3000 - runTime;
-        			//Hoare: give more time to show background picture
-            		try {
-    					Thread.sleep(sleepTime);
-    				} catch (InterruptedException e) {
-    					// TODO Auto-generated catch block
-    					e.printStackTrace();
-    				}
-        		}
-        		
-        		return null;
-			}
-
-			@Override
-            protected void onPostExecute(Integer result) {
-				jumpToRightEntry();
-
-            }
-        	
-        }.execute(new Void[]{});
-        
-        // Block the Google Map function so far
-        // GMapInit();
-
+                        
+        GMapInit();
     }
-	
-	// Called in the onPostExecute of AsyncTask
-	private void jumpToRightEntry() {
-        if (SoftwareVersionData.VERSION_NAME == null) {
-        	SoftwareVersionData.VERSION_NAME = ISoftwareVersions.PUBLIC_VERSION_NAME;
-        }
-        
-        if (SoftwareVersionData.VERSION_NAME.trim().equalsIgnoreCase(ISoftwareVersions.GDSC_VERSION_NAME)) {
-        	Intent intent_map_locator = new Intent(GMapEntryActivity.this, MapLocatorActivity.class);
-			Bundle mBundle = new Bundle(); 
-			mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM, IndoorMapData.BUNDLE_VALUE_REQ_FROM_SELECTOR);
-			mBundle.putInt(IndoorMapData.BUNDLE_KEY_LOCATION_MAP, ISoftwareVersions.GDSC_MAP_ID);
-			intent_map_locator.putExtras(mBundle); 
-    		startActivity(intent_map_locator);
-        	finish();
-        	return;
-        }
-        
-        if (!VisualParameters.ENTRY_NEEDED) {
-        	Log.i("GMapEntryActivity", "No Entry is needed!");
-        	Intent intent_map_selector = new Intent(GMapEntryActivity.this, MapSelectorActivity.class);
-    		Bundle mBundle = new Bundle(); 
-			mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM, IndoorMapData.BUNDLE_VALUE_REQ_FROM_SELECTOR);
-			intent_map_selector.putExtras(mBundle); 
-    		startActivity(intent_map_selector);
-    		finish();
-        	return;
-        }
-        
-        if (!VisualParameters.GOOGLE_MAP_EMBEDDED) {
-        	Log.e("GMapEntryActivity", "Goolge Play Service Not Available!");
-        	Intent normal_entry = new Intent(GMapEntryActivity.this, EntryActivity.class);
-    		startActivity(normal_entry);
-    		finish();   		
-        	return;
-        }
-        
-        if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext()) != ConnectionResult.SUCCESS) {
-        	Log.e("GMapEntryActivity", "Goolge Play Service Not Available!");
-        	Intent normal_entry = new Intent(GMapEntryActivity.this, EntryActivity.class);
-    		startActivity(normal_entry);
-    		finish();   		
-        	return;
-        }
-        
-        return;
-	}
-	
+		
 	// Initial method for Google Map 
 	private void GMapInit() {
         
@@ -463,17 +372,7 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 
 		System.exit(0);
 	}
-	
-	// Called in AsyncTask when the APP starts up. It should only include the time consuming tasks.
-	private void appStartUp() {
-		
-		Util.connetcToServer(this);
-		
-		// Check latest version
-		Util.CheckVersionUpgrade(this);
-		
-	}
-    
+	   
     private String getBestProvider(){ 
         Criteria criteria = new Criteria(); 
         criteria.setAccuracy(Criteria.ACCURACY_COARSE); // 
@@ -486,7 +385,6 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
         
         Log.e("getBestProvider", provider);
         
-        // 锟斤拷锟斤拷锟斤拷芊锟斤拷锟�null, 锟斤拷锟斤拷位锟斤拷锟斤拷息锟斤拷锟斤拷未锟斤拷锟斤拷
         return provider; 
     }  
 

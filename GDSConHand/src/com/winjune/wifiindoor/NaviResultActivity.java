@@ -11,7 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class NavigatorActivity extends Activity {
+public class NaviResultActivity extends Activity {
 	private TextView naviInfo;
 	private Button endButton;
 	
@@ -49,7 +49,7 @@ public class NavigatorActivity extends Activity {
 		
 		endButton.setOnClickListener(new OnClickListener(){
         	public void onClick(View view){        		
-        		NavigatorActivity.this.finish();
+        		NaviResultActivity.this.finish();
         	}
         });
 		

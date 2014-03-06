@@ -19,8 +19,16 @@ public class Navigator {
 	
 	public void init(NaviInfo naviInfo, String unitStr ) {
 		
+				
 		nodes = naviInfo.getNodes();
 		paths = naviInfo.getPaths();
+		
+		if (nodes == null)
+		{
+			Log.e("Navigator", "No nodes are configred");
+			return;
+		}
+		
 		nodeNum  = nodes.size();
 		this.unitStr = unitStr;
 		

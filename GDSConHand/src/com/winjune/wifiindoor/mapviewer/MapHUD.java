@@ -42,8 +42,8 @@ public class MapHUD {
 	public static void putHUDControlUnit(MapViewerActivity mapViewer, AnimatedUnit unit, int posX, int posY,
 			SpriteListener spriteListener) {
 
-		if (mapViewer.DEBUG)
-			Log.d(mapViewer.TAG, "Start putHUDControlUnit");
+		if (MapViewerActivity.DEBUG)
+			Log.d(MapViewerActivity.TAG, "Start putHUDControlUnit");
 
 		AnimatedSprite sprite = unit.load(mapViewer, spriteListener);
 
@@ -54,16 +54,16 @@ public class MapHUD {
 
 		mapViewer.hud.registerTouchArea(sprite);
 
-		if (mapViewer.DEBUG)
-			Log.d(mapViewer.TAG, "End putHUDControlUnit");
+		if (MapViewerActivity.DEBUG)
+			Log.d(MapViewerActivity.TAG, "End putHUDControlUnit");
 	}
 
 
 
 	public static void initialHUDMenuBar(final MapViewerActivity mapViewer) {
 
-		if (mapViewer.DEBUG)
-			Log.d(mapViewer.TAG, "Start initialHUDMenuBar");
+		if (MapViewerActivity.DEBUG)
+			Log.d(MapViewerActivity.TAG, "Start initialHUDMenuBar");
 
 		int x = mapViewer.cameraWidth - mapViewer.CONTROL_BUTTON_WIDTH;
 		int y = mapViewer.CONTROL_BUTTON_HEIGHT;						
@@ -144,8 +144,8 @@ public class MapHUD {
 			
 		}// planning mode
 
-		if (mapViewer.DEBUG)
-			Log.d(mapViewer.TAG, "End initialHUDMenuBar");
+		if (MapViewerActivity.DEBUG)
+			Log.d(MapViewerActivity.TAG, "End initialHUDMenuBar");
 
 	}
 	
@@ -324,13 +324,13 @@ public class MapHUD {
 	}
 
 	public static MenuScene createMenuScene(final MapViewerActivity mapViewer) {
-		if (mapViewer.DEBUG)
-			Log.d(mapViewer.TAG, "Start createMenuScene");
+		if (MapViewerActivity.DEBUG)
+			Log.d(MapViewerActivity.TAG, "Start createMenuScene");
 
 		final MenuScene menuScene = new MenuScene(mapViewer.mCamera);
 
 		final IMenuItem backMenuItem = new ColorMenuItemDecorator(
-				new TextMenuItem(mapViewer.MENU_ITEM_BACK, mapViewer.mFont_menu, 
+				new TextMenuItem(MapViewerActivity.MENU_ITEM_BACK, mapViewer.mFont_menu, 
 						mapViewer.getResources().getString(R.string.menu_back),
 						mapViewer.getVertexBufferObjectManager()),
 				new org.andengine.util.color.Color(1.0f, 0.0f, 0.0f),
@@ -340,7 +340,7 @@ public class MapHUD {
 		menuScene.addMenuItem(backMenuItem);
 
 		final IMenuItem infoMenuItem = new ColorMenuItemDecorator(
-				new TextMenuItem(mapViewer.MENU_ITEM_INFO, mapViewer.mFont_menu, mapViewer.getResources()
+				new TextMenuItem(MapViewerActivity.MENU_ITEM_INFO, mapViewer.mFont_menu, mapViewer.getResources()
 						.getString(R.string.menu_info),
 						mapViewer.getVertexBufferObjectManager()),
 				new org.andengine.util.color.Color(1.0f, 0.0f, 0.0f),
@@ -350,7 +350,7 @@ public class MapHUD {
 		menuScene.addMenuItem(infoMenuItem);
 
 		final IMenuItem configMenuItem = new ColorMenuItemDecorator(
-				new TextMenuItem(mapViewer.MENU_ITEM_CONFIG, mapViewer.mFont_menu, mapViewer.getResources()
+				new TextMenuItem(MapViewerActivity.MENU_ITEM_CONFIG, mapViewer.mFont_menu, mapViewer.getResources()
 						.getString(R.string.menu_config),
 						mapViewer.getVertexBufferObjectManager()),
 				new org.andengine.util.color.Color(1.0f, 0.0f, 0.0f),
@@ -360,7 +360,7 @@ public class MapHUD {
 		menuScene.addMenuItem(configMenuItem);
 
 		final IMenuItem exitMenuItem = new ColorMenuItemDecorator(
-				new TextMenuItem(mapViewer.MENU_ITEM_EXIT, mapViewer.mFont_menu, mapViewer.getResources()
+				new TextMenuItem(MapViewerActivity.MENU_ITEM_EXIT, mapViewer.mFont_menu, mapViewer.getResources()
 						.getString(R.string.menu_exit),
 						mapViewer.getVertexBufferObjectManager()),
 				new org.andengine.util.color.Color(1.0f, 0.0f, 0.0f),
@@ -402,8 +402,8 @@ public class MapHUD {
 			}
 		});
 
-		if (mapViewer.DEBUG)
-			Log.d(mapViewer.TAG, "End createMenuScene");
+		if (MapViewerActivity.DEBUG)
+			Log.d(MapViewerActivity.TAG, "End createMenuScene");
 
 		return menuScene;
 	}		
@@ -521,13 +521,13 @@ public class MapHUD {
 				}
 			};
 
-			if (mapViewer.DEBUG)
-				Log.d(mapViewer.TAG, "mUpdateClockThread starts.");
+			if (MapViewerActivity.DEBUG)
+				Log.d(MapViewerActivity.TAG, "mUpdateClockThread starts.");
 
 			mapViewer.mUpdateClockThread.start();
 		} else {
-			if (mapViewer.DEBUG)
-				Log.d(mapViewer.TAG, "mUpdateClockThread already starts.");
+			if (MapViewerActivity.DEBUG)
+				Log.d(MapViewerActivity.TAG, "mUpdateClockThread already starts.");
 		}
 	}
 	

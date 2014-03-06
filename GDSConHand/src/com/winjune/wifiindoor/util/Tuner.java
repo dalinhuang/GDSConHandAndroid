@@ -354,16 +354,16 @@ public class Tuner {
 			properties.setProperty(key, String.valueOf(VisualParameters.BANNERS_ENABLED));
 		}
 		
-		key = "ENTRY_NEEDED";
+		key = "MENU_ENTRY_NEEDED";
 		value = properties.getProperty(key);
 		if (value != null) {
 			if (value.trim().equalsIgnoreCase("true")){
-				VisualParameters.ENTRY_NEEDED = true;
+				VisualParameters.MENU_ENTRY_NEEDED = true;
 			} else {
-				VisualParameters.ENTRY_NEEDED = false;
+				VisualParameters.MENU_ENTRY_NEEDED = false;
 			}
 		} else {
-			properties.setProperty(key, String.valueOf(VisualParameters.ENTRY_NEEDED));
+			properties.setProperty(key, String.valueOf(VisualParameters.MENU_ENTRY_NEEDED));
 		}
 		
 		key = "GOOGLE_MAP_EMBEDDED";

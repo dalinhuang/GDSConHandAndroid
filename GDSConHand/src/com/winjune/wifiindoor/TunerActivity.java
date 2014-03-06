@@ -304,7 +304,7 @@ public class TunerActivity extends Activity {
     	value = String.valueOf(BANNERS_ENABLED.isChecked());
     	Tuner.getProperties().setProperty(name, value);
     	
-    	name = "ENTRY_NEEDED";
+    	name = "MENU_ENTRY_NEEDED";
     	value = String.valueOf(ENTRY_NEEDED.isChecked());
     	Tuner.getProperties().setProperty(name, value);
     	
@@ -360,7 +360,7 @@ public class TunerActivity extends Activity {
     	ZOOM_SWITCH_ENABLED.setChecked(VisualParameters.ZOOM_SWITCH_ENABLED);
     	ADS_ENABLED.setChecked(VisualParameters.ADS_ENABLED);
     	BANNERS_ENABLED.setChecked(VisualParameters.BANNERS_ENABLED);
-    	ENTRY_NEEDED.setChecked(VisualParameters.ENTRY_NEEDED);
+    	ENTRY_NEEDED.setChecked(VisualParameters.MENU_ENTRY_NEEDED);
     	GOOGLE_MAP_EMBEDDED.setChecked(VisualParameters.GOOGLE_MAP_EMBEDDED);
     	BACKGROUND_LINES_NEEDED.setChecked(VisualParameters.BACKGROUND_LINES_NEEDED);
     	VERSION_NAME.setText(String.valueOf(SoftwareVersionData.VERSION_NAME));

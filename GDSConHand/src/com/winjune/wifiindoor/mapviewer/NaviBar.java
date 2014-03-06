@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.winjune.wifiindoor.MapViewerActivity;
-import com.winjune.wifiindoor.NavigatorActivity;
+import com.winjune.wifiindoor.NaviResultActivity;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.navi.NaviInfo;
 import com.winjune.wifiindoor.navi.NaviPath;
@@ -263,7 +263,7 @@ public class NaviBar {
 	}
 
 	private static void showNavigatorViewer(MapViewerActivity mapViewer, String naviStr) {
-		Intent intent_navigator = new Intent(mapViewer, NavigatorActivity.class); 
+		Intent intent_navigator = new Intent(mapViewer, NaviResultActivity.class); 
 		Bundle mBundle = new Bundle(); 
 		
 		mBundle.putString(IndoorMapData.BUNDLE_KEY_NAVI_RESULT, naviStr);

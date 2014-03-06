@@ -21,7 +21,7 @@ import com.winjune.wifiindoor.types.LocationSet;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 
-public class EntryActivity extends Activity implements SensorEventListener {
+public class MenuEntryActivity extends Activity implements SensorEventListener {
 	private OnClickListener on_click_listener0 = null;
 	private OnClickListener on_click_listener1 = null;
 	private OnClickListener on_click_listener2 = null;
@@ -146,7 +146,7 @@ public class EntryActivity extends Activity implements SensorEventListener {
         //Choose a Map
         on_click_listener1 = new OnClickListener(){
         	public void onClick(View view){        		
-        		Intent intent_map_selector = new Intent(EntryActivity.this, MapSelectorActivity.class);
+        		Intent intent_map_selector = new Intent(MenuEntryActivity.this, MapSelectorActivity.class);
         		Bundle mBundle = new Bundle(); 
 				mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM, IndoorMapData.BUNDLE_VALUE_REQ_FROM_SELECTOR);
 				intent_map_selector.putExtras(mBundle); 
@@ -159,17 +159,17 @@ public class EntryActivity extends Activity implements SensorEventListener {
         	public void onClick(View view){ 
         	   
         		if (!Util.isHttpConnectionEstablished()) {
-        			Util.showLongToast(EntryActivity.this, R.string.retry_ip);
-        			Util.initApp(EntryActivity.this);
+        			Util.showLongToast(MenuEntryActivity.this, R.string.retry_ip);
+        			Util.initApp(MenuEntryActivity.this);
         			new Thread() {
         				public void run() {
-        					Util.connetcToServer(EntryActivity.this);
+        					Util.connetcToServer(MenuEntryActivity.this);
         				}
         			}.start();
         			return;
         		}
         		
-        		Intent openCameraIntent = new Intent(EntryActivity.this, QrScannerActivity.class);
+        		Intent openCameraIntent = new Intent(MenuEntryActivity.this, QrScannerActivity.class);
         		startActivityForResult(openCameraIntent, 0);
    	
         	}
@@ -178,12 +178,12 @@ public class EntryActivity extends Activity implements SensorEventListener {
         //Configuration
         on_click_listener3 = new OnClickListener(){
         	public void onClick(View view){        		        		
-        		Intent intent_tuner = new Intent(EntryActivity.this, TunerActivity.class);
+        		Intent intent_tuner = new Intent(MenuEntryActivity.this, TunerActivity.class);
         		startActivity(intent_tuner);
         	}
         };
  
-        setContentView(R.layout.entry);
+        setContentView(R.layout.menu_entry);
         
         // Define Buttons and bind the listeners
         button0 = (Button) findViewById(R.id.locateButton);
@@ -235,7 +235,7 @@ public class EntryActivity extends Activity implements SensorEventListener {
 			return;
 		}
 		
-		Intent intent_locate_map = new Intent(EntryActivity.this, MapViewerActivity.class); 
+		Intent intent_locate_map = new Intent(MenuEntryActivity.this, MapViewerActivity.class); 
 		//Bundle bundle = getIntent().getExtras(); 
 		Bundle mBundle = new Bundle(); 
 		mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_MAP_INSTANCE, indoorMap);
@@ -248,17 +248,17 @@ public class EntryActivity extends Activity implements SensorEventListener {
 	
 	private void locateMe() {		
 		if (!Util.isHttpConnectionEstablished()) {
-			Util.showLongToast(EntryActivity.this, R.string.retry_ip);
-			Util.initApp(EntryActivity.this);
+			Util.showLongToast(MenuEntryActivity.this, R.string.retry_ip);
+			Util.initApp(MenuEntryActivity.this);
 			new Thread() {
 				public void run() {
-					Util.connetcToServer(EntryActivity.this);
+					Util.connetcToServer(MenuEntryActivity.this);
 				}
 			}.start();
 			return;
 		}
 		
-		Intent intent_map_locator = new Intent(EntryActivity.this, MapLocatorActivity.class);
+		Intent intent_map_locator = new Intent(MenuEntryActivity.this, MapLocatorActivity.class);
 		Bundle mBundle = new Bundle(); 
 		mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM, IndoorMapData.BUNDLE_VALUE_REQ_FROM_LOCATOR);
 		intent_map_locator.putExtras(mBundle); 

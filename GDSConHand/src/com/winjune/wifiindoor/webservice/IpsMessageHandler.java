@@ -2,7 +2,7 @@ package com.winjune.wifiindoor.webservice;
 
 import java.util.List;
 
-import com.winjune.wifiindoor.EntryActivity;
+import com.winjune.wifiindoor.MenuEntryActivity;
 import com.winjune.wifiindoor.GMapEntryActivity;
 import com.winjune.wifiindoor.MapLocatorActivity;
 import com.winjune.wifiindoor.MapSelectorActivity;
@@ -134,9 +134,9 @@ public class IpsMessageHandler {
 				return;
 			}
 			
-			if (activity instanceof EntryActivity) {
+			if (activity instanceof MenuEntryActivity) {
 				//Log.e("IpsMessageHandler", "entry.updateLocation");
-				EntryActivity entry = (EntryActivity) activity;
+				MenuEntryActivity entry = (MenuEntryActivity) activity;
 				entry.updateLocation(locations);
 
 				return;
@@ -164,9 +164,9 @@ public class IpsMessageHandler {
 				return;
 			}
 			
-			if (activity instanceof EntryActivity) {
+			if (activity instanceof MenuEntryActivity) {
 				//Log.e("IpsMessageHandler", "entry.updateLocation");
-				EntryActivity entry = (EntryActivity) activity;
+				MenuEntryActivity entry = (MenuEntryActivity) activity;
 				entry.updateLocation(location);
 
 				return;

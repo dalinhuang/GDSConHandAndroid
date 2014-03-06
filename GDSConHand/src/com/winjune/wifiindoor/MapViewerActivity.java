@@ -33,6 +33,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -44,6 +45,7 @@ import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.ScaleGestureDetector;
 import android.widget.Toast;
 
@@ -168,8 +170,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public int TAB_BUTTON_WIDTH;
 	public int TAB_BUTTON_HEIGHT;	
 	public int TAB_BUTTON_MARGIN;
-	
-	
+		
 	public float density = 1.5f;
 
 	public AdvertisePeriodThread advertisePeriodThread;
@@ -635,7 +636,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			throws Exception {
 		// mEngine.registerUpdateHandler(new FPSLogger()); // FPS Logger
 		Log.i("MapViewer", "onCreateScene...");
-
+		
 		// Main Scene
 		mainScene = new Scene();
 		for (int i = 0; i < Constants.LAYER_INDEX; i++) {
@@ -769,6 +770,5 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		if (Util.isShakeDetected(event)) {
 		        LocateBar.locateMe(this, false);
 		}
-	}
-	
+	}		
 }
