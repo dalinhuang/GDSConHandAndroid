@@ -900,6 +900,8 @@ public class Util {
         
         // Configure network
         if (getNetworkInfoManager() != null) {
+        	//Hoare: todo
+        	/*
         	if (getNetworkInfoManager().is2G3GConnected()) {
         		configWifiNetwork();      		
         	} else {
@@ -907,6 +909,7 @@ public class Util {
         			configWirelessNetwork();
         		}
         	}
+        	*/
         }
 	}
 	

@@ -17,30 +17,12 @@
 	map:uiZoomGestures="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GMapEntryActivity" >  
-	
-    
-    <FrameLayout        
-        android:id="@+id/startup_container"        
-        android:layout_width="match_parent"        
-        android:layout_height="match_parent" 
-        tools:context=".GMapEntryActivity"
-        tools:ignore="MergeRootFrame" >
-        
-         <ImageView
-	        android:id="@+id/startup"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:src="@drawable/gdsc_start"
-	        android:scaleType="centerCrop" />
-        
-    </FrameLayout>
+    tools:context=".GMapEntryActivity" > 
 
     <fragment 
-		class="com.google.android.gms.maps.SupportMapFragment"
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/startup_container" />
+        class="com.google.android.gms.maps.SupportMapFragment"/>
     
 </RelativeLayout>

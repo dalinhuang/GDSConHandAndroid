@@ -200,7 +200,9 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
         resources = getResources();
         
         mMap = ((SupportMapFragment)  getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-        mMap.setMyLocationEnabled(true);
+        
+        // fix issue of getEntry failing because entryIndex 13 is beyond type entryCount 2
+        //mMap.setMyLocationEnabled(true);
         
         addBuildingMarkers();
         
