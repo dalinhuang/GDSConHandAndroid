@@ -1,7 +1,6 @@
-package com.winjune.wifiindoor.webservice;
+package com.winjune.wifiindoor.webservice.transport;
 
-import java.util.List;
-
+import com.winjune.common.webservice.core.transport.ResponseBlockingQueue;
 import com.winjune.common.webservice.core.types.IType;
 import com.winjune.wifiindoor.activity.GMapEntryActivity;
 import com.winjune.wifiindoor.activity.MapLocatorActivity;
@@ -19,7 +18,7 @@ import com.winjune.wifiindoor.mapviewer.PlanBar;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.version.ApkVersionManager;
-import com.winjune.wifiindoor.webservice.MainTransportServiceListener;
+import com.winjune.wifiindoor.webservice.transport.MainTransportServiceListener;
 import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
 import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
 import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
@@ -34,9 +33,6 @@ import com.winjune.wifiindoor.webservice.types.TestLocateCollectReply;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningTaskInfo;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;

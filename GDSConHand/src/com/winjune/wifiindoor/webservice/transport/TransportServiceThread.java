@@ -4,7 +4,7 @@
  *
  * Copyright 2012 - 2013 Nortels Software Inc. All rights reserved.
  */
-package com.winjune.wifiindoor.webservice;
+package com.winjune.wifiindoor.webservice.transport;
 
 import java.io.IOException;
 
@@ -18,10 +18,12 @@ import android.util.Log;
 import com.winjune.common.webservice.core.error.WebCredentialsException;
 import com.winjune.common.webservice.core.error.WebError;
 import com.winjune.common.webservice.core.error.WebException;
+import com.winjune.common.webservice.core.transport.OutgoingMessageQueue;
 import com.winjune.common.webservice.core.types.IType;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.ads.AdGroup;
 import com.winjune.wifiindoor.util.WifiIpsSettings;
+import com.winjune.wifiindoor.webservice.WebService;
 import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
 import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
 import com.winjune.wifiindoor.webservice.types.IndoorMapReply;

@@ -24,7 +24,7 @@ import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;
 import com.winjune.wifiindoor.util.AdData;
 import com.winjune.wifiindoor.util.AdUtil;
 import com.winjune.wifiindoor.util.Util;
-import com.winjune.wifiindoor.webservice.MsgConstants;
+import com.winjune.wifiindoor.webservice.transport.MsgConstants;
 import com.winjune.wifiindoor.webservice.types.Location;
 
 public class ScreenAdvertisement {

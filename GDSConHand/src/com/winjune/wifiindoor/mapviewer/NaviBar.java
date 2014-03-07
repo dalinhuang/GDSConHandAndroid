@@ -27,7 +27,7 @@ import com.winjune.wifiindoor.navi.NaviPath;
 import com.winjune.wifiindoor.navi.Navigator;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
-import com.winjune.wifiindoor.webservice.MsgConstants;
+import com.winjune.wifiindoor.webservice.transport.MsgConstants;
 import com.winjune.wifiindoor.webservice.types.VersionOrMapIdRequest;
 
 public class NaviBar {

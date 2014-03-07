@@ -36,7 +36,7 @@ import com.winjune.wifiindoor.util.VisualParameters;
 import com.winjune.wifiindoor.version.ApkVersionManager;
 import com.winjune.wifiindoor.version.ISoftwareVersions;
 import com.winjune.wifiindoor.version.SoftwareVersionData;
-import com.winjune.wifiindoor.webservice.MsgConstants;
+import com.winjune.wifiindoor.webservice.transport.MsgConstants;
 import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
 import com.winjune.wifiindoor.webservice.types.LocationSet;
 import com.winjune.wifiindoor.webservice.types.VersionOrMapIdRequest;

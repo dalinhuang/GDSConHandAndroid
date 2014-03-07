@@ -4,7 +4,7 @@
  *
  * Copyright 2012 - 2013 Nortels Software Inc. All rights reserved.
  */
-package com.winjune.wifiindoor.webservice;
+package com.winjune.common.webservice.core.transport;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;

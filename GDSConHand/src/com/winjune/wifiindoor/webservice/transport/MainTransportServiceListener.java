@@ -4,16 +4,17 @@
  *
  * Copyright 2012 - 2013 Nortels Software Inc. All rights reserved.
  */
-package com.winjune.wifiindoor.webservice;
+package com.winjune.wifiindoor.webservice.transport;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.winjune.common.webservice.core.transport.ResponseBlockingQueue;
 import com.winjune.common.webservice.core.types.IType;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.WifiIpsSettings;
-import com.winjune.wifiindoor.webservice.TransportServiceThread.TransportServiceListener;
+import com.winjune.wifiindoor.webservice.transport.TransportServiceThread.TransportServiceListener;
 
 /**
  * @author ezhipin

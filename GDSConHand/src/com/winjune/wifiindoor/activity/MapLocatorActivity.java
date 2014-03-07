@@ -7,12 +7,10 @@ import org.json.JSONObject;
 
 import com.winjune.wifiindoor.R;
 import com.google.gson.Gson;
-import com.winjune.wifiindoor.R.layout;
-import com.winjune.wifiindoor.R.string;
 import com.winjune.wifiindoor.map.IndoorMap;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
-import com.winjune.wifiindoor.webservice.MsgConstants;
+import com.winjune.wifiindoor.webservice.transport.MsgConstants;
 import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
 import com.winjune.wifiindoor.webservice.types.Location;
 import com.winjune.wifiindoor.webservice.types.LocationSet;

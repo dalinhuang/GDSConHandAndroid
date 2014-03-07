@@ -16,7 +16,7 @@ import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.map.FieldInfo;
 import com.winjune.wifiindoor.map.MapInfo;
 import com.winjune.wifiindoor.util.Util;
-import com.winjune.wifiindoor.webservice.MsgConstants;
+import com.winjune.wifiindoor.webservice.transport.MsgConstants;
 import com.winjune.wifiindoor.webservice.types.VersionOrMapIdRequest;
 
 public class LabelBar {

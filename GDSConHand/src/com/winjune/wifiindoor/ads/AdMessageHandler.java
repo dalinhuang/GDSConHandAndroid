@@ -4,9 +4,9 @@ import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 
+import com.winjune.common.webservice.core.transport.ResponseBlockingQueue;
 import com.winjune.common.webservice.core.types.IType;
 import com.winjune.wifiindoor.util.AdData;
-import com.winjune.wifiindoor.webservice.ResponseBlockingQueue;
 
 public class AdMessageHandler {
 

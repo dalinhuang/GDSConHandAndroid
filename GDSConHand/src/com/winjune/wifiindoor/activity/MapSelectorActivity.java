@@ -28,7 +28,7 @@ import com.winjune.wifiindoor.map.MapManager;
 import com.winjune.wifiindoor.map.MapManagerItem;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
-import com.winjune.wifiindoor.webservice.MsgConstants;
+import com.winjune.wifiindoor.webservice.transport.MsgConstants;
 import com.winjune.wifiindoor.webservice.types.MapManagerReply;
 import com.winjune.wifiindoor.webservice.types.VersionOrMapIdRequest;
 
