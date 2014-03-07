@@ -28,7 +28,8 @@ import com.winjune.wifiindoor.map.MapManager;
 import com.winjune.wifiindoor.map.MapManagerItem;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
-import com.winjune.wifiindoor.webservice.transport.MsgConstants;
+import com.winjune.wifiindoor.webservice.IpsWebService;
+import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
 import com.winjune.wifiindoor.webservice.types.MapManagerReply;
 import com.winjune.wifiindoor.webservice.types.VersionOrMapIdRequest;
 
@@ -143,9 +144,9 @@ public class MapSelectorActivity extends TabActivity{
 		super.onResume();
 		Util.setEnergySave(false);
 		
-		if (Util.getIpsMessageHandler() != null) {
-			Util.getIpsMessageHandler().setActivity(this);
-			Util.getIpsMessageHandler().startTransportServiceThread();
+		if (IpsWebService.getIpsMessageHandler() != null) {
+			IpsWebService.getIpsMessageHandler().setActivity(this);
+			IpsWebService.getIpsMessageHandler().startTransportServiceThread();
 		}
 		
 		Util.setCurrentForegroundActivity(this);
@@ -167,9 +168,9 @@ public class MapSelectorActivity extends TabActivity{
         super.onCreate(savedInstanceState);  
         
         // Start the Ips Message Handler Thread if it has not been started yet.
-        if (Util.getIpsMessageHandler() != null) {
-	        Util.getIpsMessageHandler().setActivity(this);
-			Util.getIpsMessageHandler().startTransportServiceThread();
+        if (IpsWebService.getIpsMessageHandler() != null) {
+        	IpsWebService.getIpsMessageHandler().setActivity(this);
+        	IpsWebService.getIpsMessageHandler().startTransportServiceThread();
         }
         
         // Hidden Title
@@ -254,7 +255,7 @@ public class MapSelectorActivity extends TabActivity{
 			String json = gson.toJson(version);
 			JSONObject data = new JSONObject(json);
 
-			if (Util.sendToServer(this, MsgConstants.MT_MAP_LIST_QUERY, data)) {
+			if (IpsWebService.sendToServer(this, IpsMsgConstants.MT_MAP_LIST_QUERY, data)) {
 				
 			} else {
 				// All errors should be handled in the sendToServer

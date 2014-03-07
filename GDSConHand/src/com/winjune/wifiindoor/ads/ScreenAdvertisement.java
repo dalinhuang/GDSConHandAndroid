@@ -24,7 +24,8 @@ import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;
 import com.winjune.wifiindoor.util.AdData;
 import com.winjune.wifiindoor.util.AdUtil;
 import com.winjune.wifiindoor.util.Util;
-import com.winjune.wifiindoor.webservice.transport.MsgConstants;
+import com.winjune.wifiindoor.webservice.IpsWebService;
+import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
 import com.winjune.wifiindoor.webservice.types.Location;
 
 public class ScreenAdvertisement {
@@ -265,7 +266,7 @@ public class ScreenAdvertisement {
 				String json = gson.toJson(location);
 				JSONObject data = new JSONObject(json);
 
-				if (Util.sendToServer(this.activity, MsgConstants.MT_AD_INFO_QUERY, data)) {
+				if (IpsWebService.sendToServer(this.activity, IpsMsgConstants.MT_AD_INFO_QUERY, data)) {
 					//Util.showShortToast(this, R.string.locate_collected);
 					//MapHUD.updateHinText(this, R.string.locate_collected);
 				} else {

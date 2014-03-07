@@ -18,7 +18,7 @@ import com.winjune.wifiindoor.mapviewer.PlanBar;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.version.ApkVersionManager;
-import com.winjune.wifiindoor.webservice.transport.MainTransportServiceListener;
+import com.winjune.wifiindoor.webservice.transport.IpsTransportServiceListener;
 import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
 import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
 import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
@@ -42,7 +42,7 @@ import android.widget.Toast;
 
 public class IpsMessageHandler {
 	private Activity activity;
-	private TransportServiceThread mTransportServiceThread;
+	private IpsTransportServiceThread mTransportServiceThread;
 
 	public void setActivity(Activity activity) {
 		Log.e("IpsMessageHandler", activity.toString());
@@ -322,8 +322,8 @@ public class IpsMessageHandler {
 	public void startTransportServiceThread() {
 		Log.e("IpsMessageHandler", "Start IpsMessageHandler!");
 		if (mTransportServiceThread == null) {
-			MainTransportServiceListener listener = new MainTransportServiceListener(mHandler);
-			mTransportServiceThread = new TransportServiceThread(listener,
+			IpsTransportServiceListener listener = new IpsTransportServiceListener(mHandler);
+			mTransportServiceThread = new IpsTransportServiceThread(listener,
 					activity.getApplicationContext());
 			mTransportServiceThread.setName("TransportService");
 
@@ -343,8 +343,8 @@ public class IpsMessageHandler {
 				if (mTransportServiceThread.isThreadRunToCompletion()) {
 					// can not start the old thread again
 					// just new a same thread
-					MainTransportServiceListener listener = new MainTransportServiceListener(mHandler);
-					mTransportServiceThread = new TransportServiceThread(
+					IpsTransportServiceListener listener = new IpsTransportServiceListener(mHandler);
+					mTransportServiceThread = new IpsTransportServiceThread(
 							listener, activity.getApplicationContext());
 					mTransportServiceThread.setName("TransportService");
 					mTransportServiceThread.start();

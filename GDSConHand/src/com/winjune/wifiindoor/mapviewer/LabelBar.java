@@ -16,7 +16,8 @@ import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.map.FieldInfo;
 import com.winjune.wifiindoor.map.MapInfo;
 import com.winjune.wifiindoor.util.Util;
-import com.winjune.wifiindoor.webservice.transport.MsgConstants;
+import com.winjune.wifiindoor.webservice.IpsWebService;
+import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
 import com.winjune.wifiindoor.webservice.types.VersionOrMapIdRequest;
 
 public class LabelBar {
@@ -103,7 +104,7 @@ public class LabelBar {
 			String json = gson.toJson(id);
 			JSONObject data = new JSONObject(json);
 
-			if (Util.sendToServer(mapViewer, MsgConstants.MT_MAP_INFO_QUERY, data)) {
+			if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_MAP_INFO_QUERY, data)) {
 				
 			} else {
 				// All errors should be handled in the sendToServer

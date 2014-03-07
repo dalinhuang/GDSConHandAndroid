@@ -14,7 +14,8 @@ import com.google.gson.Gson;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
-import com.winjune.wifiindoor.webservice.transport.MsgConstants;
+import com.winjune.wifiindoor.webservice.IpsWebService;
+import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
 import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
 import com.winjune.wifiindoor.webservice.types.ApkVersionRequest;
 
@@ -146,7 +147,7 @@ public class ApkVersionManager {
 			String json = gson.toJson(version);
 			JSONObject data = new JSONObject(json);
 
-			if (Util.sendToServer(activity, MsgConstants.MT_APK_VERSION_QUERY, data)) {
+			if (IpsWebService.sendToServer(activity, IpsMsgConstants.MT_APK_VERSION_QUERY, data)) {
 				Util.showShortToast(activity, R.string.query_apk_version);
 			} else {
 				// All errors should be handled in the sendToServer

@@ -8,14 +8,25 @@ package com.winjune.wifiindoor.webservice;
 
 import java.io.IOException;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.app.Activity;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.winjune.common.webservice.core.error.WebCredentialsException;
 import com.winjune.common.webservice.core.error.WebError;
 import com.winjune.common.webservice.core.error.WebException;
+import com.winjune.common.webservice.core.transport.OutgoingMessageQueue;
 import com.winjune.common.webservice.core.types.Test;
+import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.ads.AdGroup;
-import com.winjune.wifiindoor.webservice.http.WifiIpsHttpApi;
+import com.winjune.wifiindoor.util.Util;
+import com.winjune.wifiindoor.util.WifiIpsSettings;
+import com.winjune.wifiindoor.version.ApkVersionManager;
+import com.winjune.wifiindoor.webservice.http.IpsHttpApi;
+import com.winjune.wifiindoor.webservice.transport.IpsMessageHandler;
 import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
 import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
 import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
@@ -32,24 +43,156 @@ import com.winjune.wifiindoor.webservice.types.TestLocateCollectReply;
  * @author ezhipin
  * 
  */
-public class WebService {
-	private static WebService mSingletonInstance = null;
+public class IpsWebService {
+	private static IpsWebService mSingletonInstance = null;
+	private static boolean httpConnectionEstablished = false;
+	private static boolean serverReachable = false;
+	
+	private static IpsMessageHandler ipsMessageHandler = null;		
+	private IpsHttpApi mWifiIpsHttpApi;
 
-	private WifiIpsHttpApi mWifiIpsHttpApi;
-
-	private WebService() {
+	private IpsWebService() {
 
 	}
 
-	public static WebService getInstance() {
-		if (mSingletonInstance == null)
-			mSingletonInstance = new WebService();
+	public static IpsWebService getInstance() {
+		if (mSingletonInstance == null) {
+			
+			mSingletonInstance = new IpsWebService();
+			ipsMessageHandler = new IpsMessageHandler();
+						
+		}
 
 		return mSingletonInstance;
 	}
 
+	public static void connetcToServer(final Activity activity) {
+		int counter = 0;
+		 
+		while (!WifiIpsSettings.getServerAddress(true)) 
+	    { 
+	    	if (counter >= 5) { // Max wait for 30 seconds for the network
+	    		Util.showLongToast(activity, R.string.wrong_server);
+	    		return;
+	    	}
+			
+			counter++;
+			try {
+				Thread.sleep(500);  // wait 500ms
+			} catch (InterruptedException e) {
+				continue;
+			}
+	    }
+	    	
+		loadWebService();
+		
+		if (getIpsMessageHandler() == null) {
+			// showLongToast(activity, R.string.wrong_server);
+			return;
+		}
+		
+		// Start the Ips Message Handler Thread if it has not been started yet.
+		getIpsMessageHandler().startTransportServiceThread();
+		
+		setHttpConnectionEstablished(true);
+		
+		//Hoare: bypass ping check since it doesn't work in some mobiles
+		setServerReachable(true);
+		//setServerReachable(WifiIpsSettings.isPingable());
+				
+		return;
+	}
+	
+	public static boolean sendToServer(Activity activity, int requestCode, JSONObject data) {
+		
+		Log.e("Request", "Code: " + requestCode + ", Data" + data.toString());
+		
+		if (!Util.getNetworkInfoManager().isConnected()) {
+			Util.showLongToast(activity, R.string.no_data_connection);
+			return false;
+		}		
+		
+		if (!isServerReachable()) {
+			Util.showLongToast(activity, R.string.server_unreachable);
+			return false;
+		}
+		
+		if (!isHttpConnectionEstablished()) {
+			Util.showLongToast(activity, R.string.no_http_connection);
+			return false;
+		}
+				
+		JSONObject json = new JSONObject();
+		try {
+			json.put("RequestCode", requestCode);
+			json.put("RequestPayload", data);
+			if (isHttpConnectionEstablished()) {
+				OutgoingMessageQueue.offer(json);
+			} else {
+				final JSONObject json1 = json;
+				
+				// Use a Thread to wait for 1 more minute if the HTTP connection is not ready
+				new Thread() {
+					public void run() {
+						for (int counter=0;counter<60;counter++) { // Run 60 * 1 s
+							if (isHttpConnectionEstablished()) {
+								OutgoingMessageQueue.offer(json1);
+								break;
+							}
+							
+							try {
+								sleep(1000);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				}.start();
+			}
+
+			return true;
+		} catch (JSONException e) {
+			Util.showToast(activity, "031 " + e.toString(), Toast.LENGTH_LONG);
+		}
+		
+
+		return false;
+	}
+	
+	public static boolean isServerReachable() {
+		return serverReachable;
+	}
+
+	public static void setServerReachable(boolean serverReachable) {
+		IpsWebService.serverReachable = serverReachable;
+	}	
+		
+
+	public static IpsMessageHandler getIpsMessageHandler() {
+		return ipsMessageHandler;
+	}
+	
+	public static boolean isHttpConnectionEstablished() {
+		return httpConnectionEstablished;
+	}
+
+	public static void setHttpConnectionEstablished(
+			boolean httpConnectionEstablished) {
+		IpsWebService.httpConnectionEstablished = httpConnectionEstablished;
+	}	
+	
+	private static void loadWebService() {
+		IpsWebService instance = IpsWebService.getInstance();
+
+		if (instance == null) {
+			return;
+		}
+
+		instance.initialize(WifiIpsSettings.SERVER, ApkVersionManager.getApkVersionName());
+	}	
+	
 	public boolean initialize(String domain, String clientVersion) {
-		mWifiIpsHttpApi = new WifiIpsHttpApi(domain, clientVersion);
+		mWifiIpsHttpApi = new IpsHttpApi(domain, clientVersion);
 
 		return true;
 	}

@@ -13,7 +13,8 @@ import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.runtime.Cell;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
-import com.winjune.wifiindoor.webservice.transport.MsgConstants;
+import com.winjune.wifiindoor.webservice.IpsWebService;
+import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
 import com.winjune.wifiindoor.webservice.types.InfoQueryRequest;
 import com.winjune.wifiindoor.webservice.types.Location;
 import com.winjune.wifiindoor.webservice.types.LocationQueryInfo;
@@ -145,7 +146,7 @@ public class InfoBanner {
 				String json = gson.toJson(infoQueryReq);
 				JSONObject data = new JSONObject(json);
 
-				if (Util.sendToServer(mapViewer, MsgConstants.MT_INFO_QUERY, data)) {
+				if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_INFO_QUERY, data)) {
 					
 				} else {
 					// All errors should be handled in the sendToServer

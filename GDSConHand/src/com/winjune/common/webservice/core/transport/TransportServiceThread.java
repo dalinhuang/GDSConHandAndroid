@@ -1,5 +1,5 @@
 /**
- * @(#)TransportServiceThread.java
+ * @(#)IpsTransportServiceThread.java
  * Jun 3, 2013
  *
  * Copyright 2012 - 2013 Nortels Software Inc. All rights reserved.

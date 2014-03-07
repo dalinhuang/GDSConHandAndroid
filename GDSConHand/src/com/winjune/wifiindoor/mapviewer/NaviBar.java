@@ -27,7 +27,8 @@ import com.winjune.wifiindoor.navi.NaviPath;
 import com.winjune.wifiindoor.navi.Navigator;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
-import com.winjune.wifiindoor.webservice.transport.MsgConstants;
+import com.winjune.wifiindoor.webservice.IpsWebService;
+import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
 import com.winjune.wifiindoor.webservice.types.VersionOrMapIdRequest;
 
 public class NaviBar {
@@ -88,7 +89,7 @@ public class NaviBar {
 			String json = gson.toJson(id);
 			JSONObject data = new JSONObject(json);
 
-			if (Util.sendToServer(mapViewer, MsgConstants.MT_NAVI_INFO_QUERY, data)) {
+			if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_NAVI_INFO_QUERY, data)) {
 				
 			} else {
 				// All errors should be handled in the sendToServer

@@ -20,7 +20,8 @@ import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
-import com.winjune.wifiindoor.webservice.transport.MsgConstants;
+import com.winjune.wifiindoor.webservice.IpsWebService;
+import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
 import com.winjune.wifiindoor.webservice.types.CollectInfo;
 import com.winjune.wifiindoor.webservice.types.Location;
 import com.winjune.wifiindoor.webservice.types.LocationSet;
@@ -48,7 +49,7 @@ public class PlanBar {
 			String json = gson.toJson(nfcLoc);
 			JSONObject data = new JSONObject(json);
 
-			if (Util.sendToServer(mapViewer, MsgConstants.MT_EDIT_NFC_QR, data)) {
+			if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_EDIT_NFC_QR, data)) {
 				//Util.showShortToast(this, R.string.nfc_info_stored);
 				MapHUD.updateHinText(mapViewer, R.string.nfc_info_stored);
 			} else {
@@ -126,7 +127,7 @@ public class PlanBar {
 					String json = gson.toJson(collect);
 					JSONObject data = new JSONObject(json);
 	
-					if (Util.sendToServer(mapViewer, MsgConstants.MT_COLLECT, data)) {
+					if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_COLLECT, data)) {
 						// For test purpose, display the [x,y]
 						if (!silent) 
 							MapHUD.updateHinText(mapViewer, mapViewer.getResources().getString(R.string.collected)
@@ -207,7 +208,7 @@ public class PlanBar {
 					String json = gson.toJson(collect);
 					JSONObject data = new JSONObject(json);
 
-					if (Util.sendToServer(mapViewer, MsgConstants.MT_COLLECT, data)) {
+					if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_COLLECT, data)) {
 						// For test purpose, display the [x,y]
 						if (!silent)
 							MapHUD.updateHinText(mapViewer, mapViewer.getResources().getString(R.string.collected)
@@ -304,7 +305,7 @@ public class PlanBar {
 						String json = gson.toJson(testPosition);
 						JSONObject data = new JSONObject(json);
 	
-						if (Util.sendToServer(mapViewer, MsgConstants.MT_LOCATE_TEST, data)) {
+						if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_LOCATE_TEST, data)) {
 							//Util.showShortToast(this, R.string.locate_collected);
 							MapHUD.updateHinText(mapViewer, R.string.locate_collected);
 						} else {
@@ -371,7 +372,7 @@ public class PlanBar {
 						String json = gson.toJson(testPosition);
 						JSONObject data = new JSONObject(json);
 
-						if (Util.sendToServer(mapViewer, MsgConstants.MT_LOCATE_TEST, data)) {
+						if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_LOCATE_TEST, data)) {
 							/*
 							 * if (waitForLocation()) { // do nothing } else {
 							 * // All errors should be handled in the
@@ -439,7 +440,7 @@ public class PlanBar {
 					String json = gson.toJson(testPosition);
 					JSONObject data = new JSONObject(json);
 	
-					if (Util.sendToServer(mapViewer, MsgConstants.MT_COLLECT, data)) {
+					if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_COLLECT, data)) {
 						// For test purpose, display the [x,y]
 						MapHUD.updateHinText(mapViewer, mapViewer.getResources().getString(R.string.collected)
 								+ " ["
@@ -500,7 +501,7 @@ public class PlanBar {
 					String json = gson.toJson(testPosition);
 					JSONObject data = new JSONObject(json);
 
-					if (Util.sendToServer(mapViewer, MsgConstants.MT_COLLECT_TEST, data)) {
+					if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_COLLECT_TEST, data)) {
 						// For test purpose, display the [x,y]
 						MapHUD.updateHinText(mapViewer, mapViewer.getResources().getString(R.string.collected)
 								+ " ["
@@ -608,7 +609,7 @@ public class PlanBar {
 			String json = gson.toJson(location);
 			JSONObject data = new JSONObject(json);
 
-			if (Util.sendToServer(mapViewer, MsgConstants.MT_DELETE_FINGERPRINT, data)) {
+			if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_DELETE_FINGERPRINT, data)) {
 				//Util.showShortToast(this, R.string.delete_fingerprint_at_this_location);
 				MapHUD.updateHinText(mapViewer, mapViewer.getResources().getString(R.string.delete_fingerprint_at_this_location) 
 						+ " @[" + mapViewer.mTargetColNo + "," + mapViewer.mTargetRowNo + "]");

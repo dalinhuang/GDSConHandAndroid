@@ -14,6 +14,7 @@ import android.util.Log;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
+import com.winjune.wifiindoor.webservice.IpsWebService;
 
 public class MapPieceUnit extends Unit {
 
@@ -38,7 +39,7 @@ public class MapPieceUnit extends Unit {
 			
 			if (!file.exists()) {
 				Log.i("MapPiece", "File not exist, path=" + Util.getMapPicturePathName(""+Util.getRuntimeIndoorMap().getMapId(), fileName));
-				if (!Util.isHttpConnectionEstablished()) { // Mission impossible
+				if (!IpsWebService.isHttpConnectionEstablished()) { // Mission impossible
 					return null;
 				}
 

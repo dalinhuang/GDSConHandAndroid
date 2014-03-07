@@ -32,7 +32,8 @@ import com.winjune.wifiindoor.map.InterestPlacesInfo;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
-import com.winjune.wifiindoor.webservice.transport.MsgConstants;
+import com.winjune.wifiindoor.webservice.IpsWebService;
+import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
 import com.winjune.wifiindoor.webservice.types.VersionOrMapIdRequest;
 
 public class InterestPlaceBar {
@@ -263,7 +264,7 @@ public class InterestPlaceBar {
 			String json = gson.toJson(id);
 			JSONObject data = new JSONObject(json);
 
-			if (Util.sendToServer(mapViewer, MsgConstants.MT_INTEREST_PLACES_QUERY, data)) {
+			if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_INTEREST_PLACES_QUERY, data)) {
 				
 			} else {
 				// All errors should be handled in the sendToServer

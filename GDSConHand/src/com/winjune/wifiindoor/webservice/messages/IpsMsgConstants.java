@@ -1,16 +1,16 @@
 /**
- * @(#)MsgConstants.java
+ * @(#)IpsMsgConstants.java
  * Jun 3, 2013
  *
  * Copyright 2012 - 2013 Nortels Software Inc. All rights reserved.
  */
-package com.winjune.wifiindoor.webservice.transport;
+package com.winjune.wifiindoor.webservice.messages;
 
 /**
  * @author ezhipin
  * 
  */
-public class MsgConstants {
+public class IpsMsgConstants {
 	/*
 	 * Message between APP and web server
 	 */

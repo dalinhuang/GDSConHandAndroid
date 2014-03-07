@@ -10,7 +10,8 @@ import com.google.gson.Gson;
 import com.winjune.wifiindoor.map.IndoorMap;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
-import com.winjune.wifiindoor.webservice.transport.MsgConstants;
+import com.winjune.wifiindoor.webservice.IpsWebService;
+import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
 import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
 import com.winjune.wifiindoor.webservice.types.Location;
 import com.winjune.wifiindoor.webservice.types.LocationSet;
@@ -36,8 +37,8 @@ public class MapLocatorActivity extends Activity {
 		
 		System.gc();
 
-		Util.getIpsMessageHandler().setActivity(this);
-		Util.getIpsMessageHandler().startTransportServiceThread();
+		IpsWebService.getIpsMessageHandler().setActivity(this);
+		IpsWebService.getIpsMessageHandler().startTransportServiceThread();
 		
 		Util.setCurrentForegroundActivity(this);
 	}
@@ -64,8 +65,8 @@ public class MapLocatorActivity extends Activity {
 				Util.showShortToast(this, R.string.locate_current_map);
 				
 		        // Start the Ips Message Handler Thread if it has not been started yet.
-		        Util.getIpsMessageHandler().setActivity(this);
-				Util.getIpsMessageHandler().startTransportServiceThread();
+				IpsWebService.getIpsMessageHandler().setActivity(this);
+				IpsWebService.getIpsMessageHandler().startTransportServiceThread();
 		        
 		        // Locate me so I know which map I should load.
 				locateMe();
@@ -126,7 +127,7 @@ public class MapLocatorActivity extends Activity {
 						String json = gson.toJson(fignerPrint);
 						JSONObject data = new JSONObject(json);
 
-						if (Util.sendToServer(this, MsgConstants.MT_LOCATE, data)) {
+						if (IpsWebService.sendToServer(this, IpsMsgConstants.MT_LOCATE, data)) {
 							Util.showShortToast(this, R.string.locate_collected);;
 						} else {
 							// All errors should be handled in the sendToServer
@@ -158,7 +159,7 @@ public class MapLocatorActivity extends Activity {
 						String json = gson.toJson(fignerPrint);
 						JSONObject data = new JSONObject(json);
 
-						if (Util.sendToServer(MapLocatorActivity.this, MsgConstants.MT_LOCATE, data)) {
+						if (IpsWebService.sendToServer(MapLocatorActivity.this, IpsMsgConstants.MT_LOCATE, data)) {
 							Util.showShortToast(MapLocatorActivity.this, R.string.locate_collected);
 						} else {
 							// All errors should be handled in the sendToServer
@@ -301,7 +302,7 @@ public class MapLocatorActivity extends Activity {
 			String json = gson.toJson(id);
 			JSONObject data = new JSONObject(json);
 
-			if (Util.sendToServer(this, MsgConstants.MT_MAP_QUERY, data)) {
+			if (IpsWebService.sendToServer(this, IpsMsgConstants.MT_MAP_QUERY, data)) {
 				return true;
 			} else {
 				// All errors should be handled in the sendToServer

@@ -36,7 +36,8 @@ import com.winjune.wifiindoor.util.VisualParameters;
 import com.winjune.wifiindoor.version.ApkVersionManager;
 import com.winjune.wifiindoor.version.ISoftwareVersions;
 import com.winjune.wifiindoor.version.SoftwareVersionData;
-import com.winjune.wifiindoor.webservice.transport.MsgConstants;
+import com.winjune.wifiindoor.webservice.IpsWebService;
+import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
 import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
 import com.winjune.wifiindoor.webservice.types.LocationSet;
 import com.winjune.wifiindoor.webservice.types.VersionOrMapIdRequest;
@@ -127,7 +128,7 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 		
 		System.gc();
 		
-		Util.getIpsMessageHandler().setActivity(this);
+		IpsWebService.getIpsMessageHandler().setActivity(this);
 
 		Util.setEnergySave(false);
 		
@@ -154,7 +155,7 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 		super.onNewIntent(intent);
 	    
 	    // Ensure there is a network connection
-	    if (!Util.isHttpConnectionEstablished()) {
+	    if (!IpsWebService.isHttpConnectionEstablished()) {
 	    	Util.showLongToast(this, R.string.retry_ip);
 	    	return;
 	    }
@@ -356,12 +357,12 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 	}
 	
 	private void locateMe() {
-		if (!Util.isHttpConnectionEstablished()) {
+		if (!IpsWebService.isHttpConnectionEstablished()) {
 			Util.showLongToast(this, R.string.retry_ip);
 			Util.initApp(this);
 			new Thread() {
 				public void run() {
-					Util.connetcToServer(GMapEntryActivity.this);
+					IpsWebService.connetcToServer(GMapEntryActivity.this);
 				}
 			}.start();
 			return;
@@ -526,7 +527,7 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 			String json = gson.toJson(version);
 			JSONObject data = new JSONObject(json);
 
-			if (Util.sendToServer(this, MsgConstants.MT_BUILDING_QUERY, data)) {
+			if (IpsWebService.sendToServer(this, IpsMsgConstants.MT_BUILDING_QUERY, data)) {
 				
 			} else {
 				// All errors should be handled in the sendToServer

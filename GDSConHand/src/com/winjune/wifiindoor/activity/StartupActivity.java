@@ -14,6 +14,7 @@ import com.winjune.wifiindoor.util.VisualParameters;
 import com.winjune.wifiindoor.version.ApkVersionManager;
 import com.winjune.wifiindoor.version.ISoftwareVersions;
 import com.winjune.wifiindoor.version.SoftwareVersionData;
+import com.winjune.wifiindoor.webservice.IpsWebService;
 
 public class StartupActivity extends FragmentActivity {
 	           
@@ -49,7 +50,7 @@ public class StartupActivity extends FragmentActivity {
 		
 		System.gc();
 		
-		Util.getIpsMessageHandler().setActivity(this);
+		IpsWebService.getIpsMessageHandler().setActivity(this);
 
 		Util.setEnergySave(false);
 		
@@ -77,7 +78,9 @@ public class StartupActivity extends FragmentActivity {
 			protected Integer doInBackground(Void... params) {
 				// TODO Auto-generated method stub
         		long startTime = System.currentTimeMillis();
+        		
         		appStartUp();
+        		
         		long completeTime = System.currentTimeMillis();
         		long runTime = completeTime - startTime;
         		
@@ -161,7 +164,7 @@ public class StartupActivity extends FragmentActivity {
 	// Called in AsyncTask when the APP starts up. It should only include the time consuming tasks.
 	private void appStartUp() {
 		
-		Util.connetcToServer(this);
+		IpsWebService.connetcToServer(this);
 		
 		// Check latest version
 		ApkVersionManager.CheckVersionUpgrade(this);

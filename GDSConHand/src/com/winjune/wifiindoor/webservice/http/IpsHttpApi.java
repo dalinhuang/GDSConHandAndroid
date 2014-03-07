@@ -53,9 +53,9 @@ import com.winjune.wifiindoor.webservice.types.TestLocateCollectReply;
  * @author ezhipin
  * 
  */
-public class WifiIpsHttpApi {
+public class IpsHttpApi {
 	@SuppressWarnings("unused")
-	private static final String TAG = "WifiIpsHttpApi";
+	private static final String TAG = "IpsHttpApi";
 	@SuppressWarnings("unused")
 	private static final boolean DEBUG = WifiIpsSettings.DEBUG;
 
@@ -67,7 +67,7 @@ public class WifiIpsHttpApi {
 
 	private NullJsonParser mNullJsonParser = new NullJsonParser();
 
-	public WifiIpsHttpApi(String domain, String clientVersion) {
+	public IpsHttpApi(String domain, String clientVersion) {
 		mApiBaseUrl = WifiIpsSettings.URL_PREFIX + domain;
 		mAuthScope = new AuthScope(domain, 80);
 

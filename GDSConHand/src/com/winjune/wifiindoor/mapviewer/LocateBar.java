@@ -20,7 +20,8 @@ import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
-import com.winjune.wifiindoor.webservice.transport.MsgConstants;
+import com.winjune.wifiindoor.webservice.IpsWebService;
+import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
 import com.winjune.wifiindoor.webservice.types.CollectInfo;
 import com.winjune.wifiindoor.webservice.types.Location;
 import com.winjune.wifiindoor.webservice.types.LocationSet;
@@ -93,7 +94,7 @@ public class LocateBar {
 						String json = gson.toJson(fingnerPrint);
 						JSONObject data = new JSONObject(json);
 	
-						if (Util.sendToServer(mapViewer, MsgConstants.MT_LOCATE, data)) {
+						if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_LOCATE, data)) {
 							//Util.showShortToast(this, R.string.locate_collected);
 							MapHUD.updateHinText(mapViewer, R.string.locate_collected);
 						} else {
@@ -138,7 +139,7 @@ public class LocateBar {
 						String json = gson.toJson(fingnerPrint);
 						JSONObject data = new JSONObject(json);
 
-						if (Util.sendToServer(mapViewer, MsgConstants.MT_LOCATE, data)) {
+						if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_LOCATE, data)) {
 							//Util.showShortToast(MapViewerActivity.this, R.string.locate_collected);
 							MapHUD.updateHinText(mapViewer, R.string.locate_collected);
 						} else {

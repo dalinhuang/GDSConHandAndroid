@@ -24,9 +24,9 @@ import com.winjune.wifiindoor.network.NfcInfoManager;
 import com.winjune.wifiindoor.network.WifiInfoManager;
 import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;
 import com.winjune.wifiindoor.version.ApkVersionManager;
-import com.winjune.wifiindoor.webservice.WebService;
+import com.winjune.wifiindoor.webservice.IpsWebService;
+import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
 import com.winjune.wifiindoor.webservice.transport.IpsMessageHandler;
-import com.winjune.wifiindoor.webservice.transport.MsgConstants;
 import com.winjune.wifiindoor.webservice.types.NfcFingerPrint;
 
 import android.accounts.Account;
@@ -67,14 +67,10 @@ public class Util {
 	private static NfcInfoManager nfcInfoManager = null;
 	private static Vibrator vibrator = null;
 	private static SensorManager sensorManager = null;
-	private static IpsMessageHandler ipsMessageHandler = null;
 	private static String deviceName;
 	private static String accountName;
-
 	private static boolean networkConfigPending;
 	private static boolean networkConfigShowing;
-	private static boolean httpConnectionEstablished;
-	private static boolean serverReachable;
 	
 	private static boolean initialed = false;
 	private static boolean saveEnergy = true;
@@ -100,8 +96,6 @@ public class Util {
 			
 		setNetworkConfigPending(false);
 		setNetworkConfigShowing(false);
-		setHttpConnectionEstablished(false);
-		setServerReachable(false);
 		
 		setCurrentForegroundActivity(activity);
 		
@@ -131,12 +125,7 @@ public class Util {
 		if (sensorManager == null){
 			setSensorManager((SensorManager) activity.getSystemService(Context.SENSOR_SERVICE)); 
 		}
-		
-		if (ipsMessageHandler == null){
-			setIpsMessageHandler(new IpsMessageHandler());
-			ipsMessageHandler.setActivity(activity);
-		}
-		
+				
 		setDeviceName(Build.MODEL);
 		
 		AccountManager accountManager = AccountManager.get(activity.getApplicationContext()); 
@@ -307,13 +296,6 @@ public class Util {
         }  
     }
 
-	public static IpsMessageHandler getIpsMessageHandler() {
-		return ipsMessageHandler;
-	}
-
-	public static void setIpsMessageHandler(IpsMessageHandler ipsMessageHandler) {
-		Util.ipsMessageHandler = ipsMessageHandler;
-	}
 	
 	public static String getDeviceName(){
 		return deviceName;
@@ -639,14 +621,6 @@ public class Util {
 		Util.networkConfigPending = networkConfigPending;
 	}
 
-	public static boolean isHttpConnectionEstablished() {
-		return httpConnectionEstablished;
-	}
-
-	public static void setHttpConnectionEstablished(
-			boolean httpConnectionEstablished) {
-		Util.httpConnectionEstablished = httpConnectionEstablished;
-	}
 
 	public static File openOrCreateFileInPath(String relativePath, String fileName, boolean deleteOldFile) {
 		//create the path & file if not exist
@@ -693,61 +667,7 @@ public class Util {
 		return file;
 	}
 	
-	public static boolean sendToServer(Activity activity, int requestCode, JSONObject data) {
-		
-		Log.e("Request", "Code: " + requestCode + ", Data" + data.toString());
-		
-		if (!isServerReachable()) {
-			showLongToast(activity, R.string.server_unreachable);
-			return false;
-		}
-		
-		if (!isHttpConnectionEstablished()) {
-			showLongToast(activity, R.string.no_http_connection);
-			return false;
-		}
-		
-		if (!getNetworkInfoManager().isConnected()) {
-			showLongToast(activity, R.string.no_data_connection);
-			return false;
-		}
-		
-		JSONObject json = new JSONObject();
-		try {
-			json.put("RequestCode", requestCode);
-			json.put("RequestPayload", data);
-			if (Util.isHttpConnectionEstablished()) {
-				OutgoingMessageQueue.offer(json);
-			} else {
-				final JSONObject json1 = json;
-				
-				// Use a Thread to wait for 1 more minute if the HTTP connection is not ready
-				new Thread() {
-					public void run() {
-						for (int counter=0;counter<60;counter++) { // Run 60 * 1 s
-							if (Util.isHttpConnectionEstablished()) {
-								OutgoingMessageQueue.offer(json1);
-								break;
-							}
-							
-							try {
-								sleep(1000);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-						}
-					}
-				}.start();
-			}
 
-			return true;
-		} catch (JSONException e) {
-			showToast(activity, "031 " + e.toString(), Toast.LENGTH_LONG);
-		}
-		
-
-		return false;
-	}
 
 	public static void downloadMapPicture(Activity activity, String mapId, String pictureName) {
 		 downFile(activity, 
@@ -792,53 +712,6 @@ public class Util {
         }
 	}
 	
-	public static void connetcToServer(final Activity activity) {
-		int counter = 0;
-		 
-		while (!WifiIpsSettings.getServerAddress(true)) 
-	    { 
-	    	if (counter >= 5) { // Max wait for 30 seconds for the network
-	    		showLongToast(activity, R.string.wrong_server);
-	    		return;
-	    	}
-			
-			counter++;
-			try {
-				Thread.sleep(500);  // wait 500ms
-			} catch (InterruptedException e) {
-				continue;
-			}
-	    }
-	    	
-		loadWebService();
-		
-		if (getIpsMessageHandler() == null) {
-			// showLongToast(activity, R.string.wrong_server);
-			return;
-		}
-		
-		// Start the Ips Message Handler Thread if it has not been started yet.
-		getIpsMessageHandler().startTransportServiceThread();
-		
-		setHttpConnectionEstablished(true);
-		
-		//Hoare: bypass ping check since it doesn't work in some mobiles
-		setServerReachable(true);
-		//setServerReachable(WifiIpsSettings.isPingable());
-				
-		return;
-	}
-	
-	private static void loadWebService() {
-		WebService instance = WebService.getInstance();
-
-		if (instance == null) {
-			return;
-		}
-
-		instance.initialize(WifiIpsSettings.SERVER, ApkVersionManager.getApkVersionName());
-	}
-
 	public static SensorManager getSensorManager() {
 		return sensorManager;
 	}
@@ -898,7 +771,7 @@ public class Util {
 			String json = gson.toJson(fingnerPrint);
 			JSONObject data = new JSONObject(json);
 
-			if (sendToServer(activity, MsgConstants.MT_LOCATE_FROM_NFC_QR, data)) {
+			if (IpsWebService.sendToServer(activity, IpsMsgConstants.MT_LOCATE_FROM_NFC_QR, data)) {
 				// Do nothing
 			} else {
 				// All errors should be handled in the sendToServer
@@ -946,14 +819,6 @@ public class Util {
 		return false;
 	}
 
-	public static boolean isServerReachable() {
-		return serverReachable;
-	}
-
-	public static void setServerReachable(boolean serverReachable) {
-		Util.serverReachable = serverReachable;
-	}	
-	
 	public static Activity getCurrentForegroundActivity() {
 		return currentForegroundActivity;
 	}

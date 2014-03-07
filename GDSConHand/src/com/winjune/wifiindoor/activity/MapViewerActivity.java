@@ -80,6 +80,7 @@ import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
 import com.winjune.wifiindoor.util.WifiIpsSettings;
+import com.winjune.wifiindoor.webservice.IpsWebService;
 
 
 public class MapViewerActivity extends LayoutGameActivity implements SensorEventListener {
@@ -328,9 +329,9 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 		Log.e("ViewerActivity", "Start IpsMessageHandler");
 		
-		if (Util.getIpsMessageHandler() != null) {
-			Util.getIpsMessageHandler().setActivity(this);
-			Util.getIpsMessageHandler().startTransportServiceThread();
+		if (IpsWebService.getIpsMessageHandler() != null) {
+			IpsWebService.getIpsMessageHandler().setActivity(this);
+			IpsWebService.getIpsMessageHandler().startTransportServiceThread();
 		} else {
 			Util.initial(this);
 		}

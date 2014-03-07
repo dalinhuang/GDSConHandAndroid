@@ -1,5 +1,5 @@
 /**
- * @(#)MainTransportServiceListener.java
+ * @(#)IpsTransportServiceListener.java
  * Jun 3, 2013
  *
  * Copyright 2012 - 2013 Nortels Software Inc. All rights reserved.
@@ -14,19 +14,19 @@ import com.winjune.common.webservice.core.transport.ResponseBlockingQueue;
 import com.winjune.common.webservice.core.types.IType;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.WifiIpsSettings;
-import com.winjune.wifiindoor.webservice.transport.TransportServiceThread.TransportServiceListener;
+import com.winjune.wifiindoor.webservice.transport.IpsTransportServiceThread.TransportServiceListener;
 
 /**
  * @author ezhipin
  * 
  */
-public class MainTransportServiceListener implements TransportServiceListener {
-	public static final String TAG = "MainTransportServiceListener";
+public class IpsTransportServiceListener implements TransportServiceListener {
+	public static final String TAG = "IpsTransportServiceListener";
 	public static final boolean DEBUG = WifiIpsSettings.DEBUG;
 
 	private Handler mHandler;
 
-	public MainTransportServiceListener(Handler handler) {
+	public IpsTransportServiceListener(Handler handler) {
 		mHandler = handler;
 	}
 

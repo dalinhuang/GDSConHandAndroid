@@ -21,6 +21,7 @@ import com.winjune.wifiindoor.R.string;
 import com.winjune.wifiindoor.map.IndoorMap;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
+import com.winjune.wifiindoor.webservice.IpsWebService;
 import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
 import com.winjune.wifiindoor.webservice.types.LocationSet;
 
@@ -101,7 +102,7 @@ public class MenuEntryActivity extends Activity implements SensorEventListener {
 		super.onNewIntent(intent);
 	    
 	    // Ensure there is a network connection
-	    if (!Util.isHttpConnectionEstablished()) {
+	    if (!IpsWebService.isHttpConnectionEstablished()) {
 	    	Util.showLongToast(this, R.string.retry_ip);
 	    	return;
 	    }
@@ -161,12 +162,12 @@ public class MenuEntryActivity extends Activity implements SensorEventListener {
         on_click_listener2 = new OnClickListener(){
         	public void onClick(View view){ 
         	   
-        		if (!Util.isHttpConnectionEstablished()) {
+        		if (!IpsWebService.isHttpConnectionEstablished()) {
         			Util.showLongToast(MenuEntryActivity.this, R.string.retry_ip);
         			Util.initApp(MenuEntryActivity.this);
         			new Thread() {
         				public void run() {
-        					Util.connetcToServer(MenuEntryActivity.this);
+        					IpsWebService.connetcToServer(MenuEntryActivity.this);
         				}
         			}.start();
         			return;
@@ -250,12 +251,12 @@ public class MenuEntryActivity extends Activity implements SensorEventListener {
 	}
 	
 	private void locateMe() {		
-		if (!Util.isHttpConnectionEstablished()) {
+		if (!IpsWebService.isHttpConnectionEstablished()) {
 			Util.showLongToast(MenuEntryActivity.this, R.string.retry_ip);
 			Util.initApp(MenuEntryActivity.this);
 			new Thread() {
 				public void run() {
-					Util.connetcToServer(MenuEntryActivity.this);
+					IpsWebService.connetcToServer(MenuEntryActivity.this);
 				}
 			}.start();
 			return;
