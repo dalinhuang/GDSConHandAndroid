@@ -37,8 +37,8 @@ public class MapLocatorActivity extends Activity {
 		
 		System.gc();
 
-		IpsWebService.getIpsMessageHandler().setActivity(this);
-		IpsWebService.getIpsMessageHandler().startTransportServiceThread();
+		IpsWebService.setActivity(this);
+		IpsWebService.startTransportServiceThread();
 		
 		Util.setCurrentForegroundActivity(this);
 	}
@@ -65,8 +65,8 @@ public class MapLocatorActivity extends Activity {
 				Util.showShortToast(this, R.string.locate_current_map);
 				
 		        // Start the Ips Message Handler Thread if it has not been started yet.
-				IpsWebService.getIpsMessageHandler().setActivity(this);
-				IpsWebService.getIpsMessageHandler().startTransportServiceThread();
+				IpsWebService.setActivity(this);
+				IpsWebService.startTransportServiceThread();
 		        
 		        // Locate me so I know which map I should load.
 				locateMe();

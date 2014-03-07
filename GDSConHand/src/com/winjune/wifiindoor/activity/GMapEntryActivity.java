@@ -128,7 +128,7 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 		
 		System.gc();
 		
-		IpsWebService.getIpsMessageHandler().setActivity(this);
+		IpsWebService.setActivity(this);
 
 		Util.setEnergySave(false);
 		

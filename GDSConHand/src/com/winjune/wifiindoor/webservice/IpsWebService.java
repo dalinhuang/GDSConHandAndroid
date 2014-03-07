@@ -48,7 +48,6 @@ public class IpsWebService {
 	private static boolean httpConnectionEstablished = false;
 	private static boolean serverReachable = false;
 	
-	private static IpsMessageHandler ipsMessageHandler = null;		
 	private IpsHttpApi mWifiIpsHttpApi;
 
 	private IpsWebService() {
@@ -58,12 +57,20 @@ public class IpsWebService {
 	public static IpsWebService getInstance() {
 		if (mSingletonInstance == null) {
 			
-			mSingletonInstance = new IpsWebService();
-			ipsMessageHandler = new IpsMessageHandler();
+			mSingletonInstance = new IpsWebService();			
 						
 		}
 
 		return mSingletonInstance;
+	}
+	
+	public static void setActivity(Activity activity) {
+		
+		IpsMessageHandler.setActivity(activity);
+	}	
+	
+	public static void startTransportServiceThread() {
+		IpsMessageHandler.startTransportServiceThread();
 	}
 
 	public static void connetcToServer(final Activity activity) {
@@ -86,13 +93,9 @@ public class IpsWebService {
 	    	
 		loadWebService();
 		
-		if (getIpsMessageHandler() == null) {
-			// showLongToast(activity, R.string.wrong_server);
-			return;
-		}
 		
 		// Start the Ips Message Handler Thread if it has not been started yet.
-		getIpsMessageHandler().startTransportServiceThread();
+		IpsMessageHandler.startTransportServiceThread();
 		
 		setHttpConnectionEstablished(true);
 		
@@ -165,12 +168,7 @@ public class IpsWebService {
 
 	public static void setServerReachable(boolean serverReachable) {
 		IpsWebService.serverReachable = serverReachable;
-	}	
-		
-
-	public static IpsMessageHandler getIpsMessageHandler() {
-		return ipsMessageHandler;
-	}
+	}			
 	
 	public static boolean isHttpConnectionEstablished() {
 		return httpConnectionEstablished;

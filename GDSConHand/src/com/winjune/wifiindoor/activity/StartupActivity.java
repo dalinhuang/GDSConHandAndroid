@@ -50,7 +50,7 @@ public class StartupActivity extends FragmentActivity {
 		
 		System.gc();
 		
-		IpsWebService.getIpsMessageHandler().setActivity(this);
+		IpsWebService.setActivity(this);
 
 		Util.setEnergySave(false);
 		

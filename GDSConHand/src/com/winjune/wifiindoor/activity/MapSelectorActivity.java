@@ -144,10 +144,9 @@ public class MapSelectorActivity extends TabActivity{
 		super.onResume();
 		Util.setEnergySave(false);
 		
-		if (IpsWebService.getIpsMessageHandler() != null) {
-			IpsWebService.getIpsMessageHandler().setActivity(this);
-			IpsWebService.getIpsMessageHandler().startTransportServiceThread();
-		}
+		IpsWebService.setActivity(this);
+		IpsWebService.startTransportServiceThread();
+		
 		
 		Util.setCurrentForegroundActivity(this);
 		
@@ -168,10 +167,8 @@ public class MapSelectorActivity extends TabActivity{
         super.onCreate(savedInstanceState);  
         
         // Start the Ips Message Handler Thread if it has not been started yet.
-        if (IpsWebService.getIpsMessageHandler() != null) {
-        	IpsWebService.getIpsMessageHandler().setActivity(this);
-        	IpsWebService.getIpsMessageHandler().startTransportServiceThread();
-        }
+        IpsWebService.setActivity(this);
+        IpsWebService.startTransportServiceThread();
         
         // Hidden Title
         requestWindowFeature(Window.FEATURE_NO_TITLE);

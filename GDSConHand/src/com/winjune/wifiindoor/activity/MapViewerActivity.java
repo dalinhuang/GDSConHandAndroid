@@ -329,13 +329,10 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 		Log.e("ViewerActivity", "Start IpsMessageHandler");
 		
-		if (IpsWebService.getIpsMessageHandler() != null) {
-			IpsWebService.getIpsMessageHandler().setActivity(this);
-			IpsWebService.getIpsMessageHandler().startTransportServiceThread();
-		} else {
-			Util.initial(this);
-		}
-
+		
+		IpsWebService.setActivity(this);
+		IpsWebService.startTransportServiceThread();
+		
 		LocateBar.startPeriodicLocateMeThread(this);
 		
 		MapHUD.startUpdateClockThread(this);

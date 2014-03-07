@@ -41,16 +41,16 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class IpsMessageHandler {
-	private Activity activity;
-	private IpsTransportServiceThread mTransportServiceThread;
+	private static Activity activity;
+	private static IpsTransportServiceThread mTransportServiceThread;
 
-	public void setActivity(Activity activity) {
+	public static void setActivity(Activity activity) {
 		Log.e("IpsMessageHandler", activity.toString());
-		this.activity = activity;
+		IpsMessageHandler.activity = activity;
 	}
 
 	@SuppressLint("HandlerLeak")
-	private Handler mHandler = new Handler() {
+	private static Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case IndoorMapData.HANDLER_STARTING_REQUEST:
@@ -73,21 +73,21 @@ public class IpsMessageHandler {
 		}
 	};
 
-	private void handleStartingRequest() {
+	private static void handleStartingRequest() {
 		// showProgressDialog();
 	}
 
-	private void handleFinishingRequest() {
+	private static void handleFinishingRequest() {
 		// dismissProgressDialog();
 	}
 
-	private void handleResponseReceived() {
+	private static void handleResponseReceived() {
 		IType object = ResponseBlockingQueue.take();
 
 		handleMessage(object);
 	}
 
-	private void handleErrorReported(String error) {
+	private static void handleErrorReported(String error) {
 		if ((error != null) && !TextUtils.isEmpty(error)) {
 			Util.showToast(activity, error, Toast.LENGTH_LONG);
 		}
@@ -98,7 +98,7 @@ public class IpsMessageHandler {
 		}
 	}
 
-	private void handleMessage(IType object) {
+	private static void handleMessage(IType object) {
 		if (object == null) {
 			return;
 		}
@@ -319,7 +319,7 @@ public class IpsMessageHandler {
 
 	}
 
-	public void startTransportServiceThread() {
+	public static void startTransportServiceThread() {
 		Log.e("IpsMessageHandler", "Start IpsMessageHandler!");
 		if (mTransportServiceThread == null) {
 			IpsTransportServiceListener listener = new IpsTransportServiceListener(mHandler);
