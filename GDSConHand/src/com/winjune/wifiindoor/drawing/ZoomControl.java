@@ -5,6 +5,7 @@ import org.andengine.engine.camera.ZoomCamera;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.MapLocatorActivity;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
+import com.winjune.wifiindoor.mapviewer.LabelBar;
 import com.winjune.wifiindoor.mapviewer.MapDrawer;
 import com.winjune.wifiindoor.mapviewer.MapViewerUtil;
 import com.winjune.wifiindoor.util.IndoorMapData;
@@ -117,6 +118,7 @@ public class ZoomControl {
 				mCamera.setZoomFactor(maxZoomFactor);
 			}
 		}
+		LabelBar.showMapInfo(activity, false);
 	}
 	
 	public void zoomOut(){
@@ -161,6 +163,7 @@ public class ZoomControl {
 				mCamera.setZoomFactor(minZoomFactor);
 			}
 		}
+		LabelBar.showMapInfo(activity, false);
 	}
 	
 	public void zoomMostIn(){

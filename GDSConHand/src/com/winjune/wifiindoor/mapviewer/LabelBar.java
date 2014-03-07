@@ -22,8 +22,13 @@ import com.winjune.wifiindoor.webservice.types.VersionOrMapIdRequest;
 
 public class LabelBar {
 
+	private static MapInfo mapInfo = null;
+	
 	public static void loadMapInfo(MapViewerActivity mapViewer) {
-		MapInfo mapInfo = new MapInfo();
+		if (mapInfo == null)
+		{
+			mapInfo = new MapInfo();
+		}
 		boolean updateNeeded = false; //Hoare: update every time regardless map versionn, for test only
 
 		try {
@@ -55,13 +60,49 @@ public class LabelBar {
 			return;
 		}
 		
-		showMapInfo(mapViewer, mapInfo, false);
+		showMapInfo(mapViewer, false);
 	}
 	
-	public static void showMapInfo(MapViewerActivity mapViewer, MapInfo mapInfo, boolean storeNeeded) {
+	public static void setMapInfo(MapInfo newMapInfo) {
+		if (newMapInfo == null || mapInfo == null) {
+			return;
+		}
+		
+		mapInfo.setId(newMapInfo.getId());
+		mapInfo.setVersionCode(newMapInfo.getVersionCode());
+		
+		// Show New Map Info
+		ArrayList<FieldInfo> newFieldInfos = newMapInfo.getFields();
+		ArrayList<FieldInfo> fieldInfos = mapInfo.getFields();
+		
+		if (fieldInfos == null) {
+			if (newFieldInfos != null)
+			{
+			    fieldInfos = new ArrayList<FieldInfo>();
+			}
+		}
+		else
+		{
+			fieldInfos.clear();
+		}
+		
+		if (newFieldInfos == null)
+		{
+			fieldInfos.clear();
+			fieldInfos = null;
+		}
+		else
+		{
+			fieldInfos.addAll(newFieldInfos);
+		}
+	}
+
+	public static void showMapInfo(MapViewerActivity mapViewer, boolean storeNeeded) {
 		if (mapInfo == null) {
 			return;
 		}
+		
+		float currentZoomFactor = mapViewer.mCamera.getZoomFactor();
 		
 		// Clear old Map info
 		if (mapViewer.mapInfos == null) {
@@ -84,6 +125,8 @@ public class LabelBar {
 		
 		for (FieldInfo fieldInfo : fieldInfos) {
 			if (fieldInfo != null) {
+				if ((currentZoomFactor >= fieldInfo.getMinZoomFactor())
+				 && (currentZoomFactor <= fieldInfo.getMaxZoomFactor()))
 				addTextTag(mapViewer,fieldInfo);
 			}
 		}

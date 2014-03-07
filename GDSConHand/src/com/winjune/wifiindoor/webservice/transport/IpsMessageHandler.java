@@ -265,8 +265,8 @@ public class IpsMessageHandler {
 			
 			if (activity instanceof MapViewerActivity) {
 				MapViewerActivity viewer1 = (MapViewerActivity) activity;
-				
-				LabelBar.showMapInfo(viewer1, mapInfo.toMapInfo(), true);
+				LabelBar.setMapInfo(mapInfo.toMapInfo());
+				LabelBar.showMapInfo(viewer1, true);
 
 				return;
 			}

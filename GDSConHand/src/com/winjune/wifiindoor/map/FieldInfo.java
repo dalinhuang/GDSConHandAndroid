@@ -11,6 +11,8 @@ public class FieldInfo implements Serializable {
 	private float scale;
 	private float alpha;
 	private float rotation;
+	private float minZoomFactor;
+	private float maxZoomFactor;
 	
 	public int getX() {
 		return x;
@@ -58,6 +60,22 @@ public class FieldInfo implements Serializable {
 
 	public void setRotation(float rotation) {
 		this.rotation = rotation;
+	}
+
+	public float getMinZoomFactor() {
+		return minZoomFactor;
+	}
+
+	public void setMinZoomFactor(float minZoomFactor) {
+		this.minZoomFactor = minZoomFactor;
+	}
+
+	public float getMaxZoomFactor() {
+		return maxZoomFactor;
+	}
+
+	public void setMaxZoomFactor(float maxZoomFactor) {
+		this.maxZoomFactor = maxZoomFactor;
 	}
 
 }

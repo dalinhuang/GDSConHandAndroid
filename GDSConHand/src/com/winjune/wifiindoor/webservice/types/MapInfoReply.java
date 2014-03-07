@@ -54,6 +54,8 @@ public class MapInfoReply implements IType {
 					field2.setScale(field.getScale());
 					field2.setAlpha(field.getAlpha());
 					field2.setRotation(field.getRotation());
+					field2.setMinZoomFactor(field.getMinZoomFactor());
+					field2.setMaxZoomFactor(field.getMaxZoomFactor());
 				}
 				
 				fields2.add(field2);
