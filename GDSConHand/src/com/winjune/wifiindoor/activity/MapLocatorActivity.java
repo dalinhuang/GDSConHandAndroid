@@ -349,8 +349,10 @@ public class MapLocatorActivity extends Activity {
 		
 		// go to Map Viewer
 		if (mapDownloadOngoing && withLocation) {
+			
 			startNewIntent(indoorMap, x, y);
 		} else {
+			
 			if (mapDownloadOngoing) {
 				startNewIntent(indoorMap);
 			}

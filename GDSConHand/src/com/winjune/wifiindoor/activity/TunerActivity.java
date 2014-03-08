@@ -41,22 +41,13 @@ public class TunerActivity extends Activity {
 	private EditText MAX_DBM_COUNT_IN;
 	private EditText MIN_AP_COUNT_IN;
 	private CheckBox DEBUG;
-	private CheckBox SERVER_RUNNING_IN_LINUX;
-	private EditText LINUX_SERVER_IP;
-	private EditText LINUX_SERVER_PORT;
-	private CheckBox USE_DOMAIN_NAME;
-	private EditText SERVER_DOMAIN_NAME;
-	private EditText SERVER_IP;
+	private EditText PRIMARY_SERVER;
+	private EditText SECONDARY_SERVER;
 	private EditText SERVER_PORT;
+	private EditText SERVER_SUB_DOMAIN;
 	private EditText CONNECTION_TIMEOUT;
 	private EditText SOCKET_TIMEOUT;
-	private EditText SERVER_SUB_DOMAIN;
-	private EditText URL_PREFIX;
-	private EditText URL_API_LOCATE;
-	private EditText URL_API_COLLECT;
-	private EditText URL_API_QUERY;
-	private EditText URL_API_NFC_COLLECT;
-	private EditText URL_API_LOCATE_BASE_NFC;
+
 	private CheckBox PLANNING_MODE_ENABLED;
 	private CheckBox ZOOM_SWITCH_ENABLED;
 	private CheckBox ADS_ENABLED;
@@ -133,22 +124,13 @@ public class TunerActivity extends Activity {
     	MAX_DBM_COUNT_IN = (EditText) findViewById(R.id.MAX_DBM_COUNT_IN);
     	MIN_AP_COUNT_IN = (EditText) findViewById(R.id.MIN_AP_COUNT_IN);
     	DEBUG = (CheckBox) findViewById(R.id.DEBUG);
-    	USE_DOMAIN_NAME = (CheckBox) findViewById(R.id.USE_DOMAIN_NAME);
-    	SERVER_DOMAIN_NAME = (EditText) findViewById(R.id.SERVER_DOMAIN_NAME);
-    	SERVER_IP = (EditText) findViewById(R.id.SERVER_IP);
+    	SECONDARY_SERVER = (EditText) findViewById(R.id.SECONDARY_SERVER);
     	SERVER_PORT = (EditText) findViewById(R.id.SERVER_PORT);
-    	SERVER_RUNNING_IN_LINUX = (CheckBox) findViewById(R.id.SERVER_RUNNING_IN_LINUX);
-    	LINUX_SERVER_IP = (EditText) findViewById(R.id.LINUX_SERVER_IP);
-    	LINUX_SERVER_PORT = (EditText) findViewById(R.id.LINUX_SERVER_PORT);
+    	PRIMARY_SERVER = (EditText) findViewById(R.id.PRIMARY_SERVER);
     	CONNECTION_TIMEOUT = (EditText) findViewById(R.id.CONNECTION_TIMEOUT);
     	SOCKET_TIMEOUT = (EditText) findViewById(R.id.SOCKET_TIMEOUT);
     	SERVER_SUB_DOMAIN = (EditText) findViewById(R.id.SERVER_SUB_DOMAIN);
-    	URL_PREFIX = (EditText) findViewById(R.id.URL_PREFIX);
-    	URL_API_LOCATE = (EditText) findViewById(R.id.URL_API_LOCATE);
-    	URL_API_COLLECT = (EditText) findViewById(R.id.URL_API_COLLECT);
-    	URL_API_QUERY = (EditText) findViewById(R.id.URL_API_QUERY);
-    	URL_API_NFC_COLLECT = (EditText) findViewById(R.id.URL_API_NFC_COLLECT);
-    	URL_API_LOCATE_BASE_NFC = (EditText) findViewById(R.id.URL_API_LOCATE_BASE_NFC);
+ 
     	PLANNING_MODE_ENABLED = (CheckBox) findViewById(R.id.PLANNING_MODE_ENABLED);
     	ZOOM_SWITCH_ENABLED = (CheckBox) findViewById(R.id.ZOOM_SWITCH_ENABLED);
     	ADS_ENABLED = (CheckBox) findViewById(R.id.ADS_ENABLED);
@@ -226,28 +208,13 @@ public class TunerActivity extends Activity {
     	value = String.valueOf(DEBUG.isChecked());
     	Tuner.getProperties().setProperty(name, value);
     	
-    	name = "SERVER_RUNNING_IN_LINUX";
-    	value = String.valueOf(SERVER_RUNNING_IN_LINUX.isChecked());
-    	Tuner.getProperties().setProperty(name, value);
-    	
-    	name = "LINUX_SERVER_IP";
-    	value = LINUX_SERVER_IP.getText().toString();
-    	Tuner.getProperties().setProperty(name, value);
-    	
-    	name = "LINUX_SERVER_PORT";
-    	value = LINUX_SERVER_PORT.getText().toString();
-    	Tuner.getProperties().setProperty(name, value);
-    	
-    	name = "USE_DOMAIN_NAME";
-    	value = String.valueOf(USE_DOMAIN_NAME.isChecked());
-    	Tuner.getProperties().setProperty(name, value);
-    	
-    	name = "SERVER_DOMAIN_NAME";
-    	value = SERVER_DOMAIN_NAME.getText().toString();
+   	
+    	name = "PRIMARY_SERVER";
+    	value = PRIMARY_SERVER.getText().toString();
     	Tuner.getProperties().setProperty(name, value);
     	
     	name = "SECONDARY_SERVER";
-    	value = SERVER_IP.getText().toString();
+    	value = SECONDARY_SERVER.getText().toString();
     	Tuner.getProperties().setProperty(name, value);
     	
     	name = "SERVER_PORT";
@@ -265,31 +232,7 @@ public class TunerActivity extends Activity {
     	name = "SERVER_SUB_DOMAIN";
     	value = SERVER_SUB_DOMAIN.getText().toString();
     	Tuner.getProperties().setProperty(name, value);
-    	
-    	name = "URL_PREFIX";
-    	value = URL_PREFIX.getText().toString();
-    	Tuner.getProperties().setProperty(name, value);
-    	
-    	name = "URL_API_LOCATE";
-    	value = URL_API_LOCATE.getText().toString();
-    	Tuner.getProperties().setProperty(name, value);
-    	
-    	name = "URL_API_COLLECT";
-    	value = URL_API_COLLECT.getText().toString();
-    	Tuner.getProperties().setProperty(name, value);
-    	
-    	name = "URL_API_QUERY";
-    	value = URL_API_QUERY.getText().toString();
-    	Tuner.getProperties().setProperty(name, value);
-    	
-    	name = "URL_API_NFC_COLLECT";
-    	value = URL_API_NFC_COLLECT.getText().toString();
-    	Tuner.getProperties().setProperty(name, value);
-    	
-    	name = "URL_API_LOCATE_BASE_NFC";
-    	value = URL_API_LOCATE_BASE_NFC.getText().toString();
-    	Tuner.getProperties().setProperty(name, value);
-    	
+    	    	
     	name = "PLANNING_MODE_ENABLED";
     	value = String.valueOf(PLANNING_MODE_ENABLED.isChecked());
     	Tuner.getProperties().setProperty(name, value);  
@@ -342,18 +285,12 @@ public class TunerActivity extends Activity {
     	MAX_DBM_COUNT_IN.setText(String.valueOf(IndoorMapData.MAX_DBM_COUNT_IN));
     	MIN_AP_COUNT_IN.setText(String.valueOf(IndoorMapData.MIN_AP_COUNT_IN));
     	DEBUG.setChecked(WifiIpsSettings.DEBUG);
-    	LINUX_SERVER_IP.setText(String.valueOf(WifiIpsSettings.PRIMARY_SERVER));
-    	SERVER_IP.setText(String.valueOf(WifiIpsSettings.SECONDARY_SERVER));
+    	PRIMARY_SERVER.setText(String.valueOf(WifiIpsSettings.PRIMARY_SERVER));
+    	SECONDARY_SERVER.setText(String.valueOf(WifiIpsSettings.SECONDARY_SERVER));
     	SERVER_PORT.setText(String.valueOf(WifiIpsSettings.SERVER_PORT));
     	CONNECTION_TIMEOUT.setText(String.valueOf(WifiIpsSettings.CONNECTION_TIMEOUT));
     	SOCKET_TIMEOUT.setText(String.valueOf(WifiIpsSettings.SOCKET_TIMEOUT));
     	SERVER_SUB_DOMAIN.setText(String.valueOf(WifiIpsSettings.SERVER_SUB_DOMAIN));
-    	URL_PREFIX.setText(String.valueOf(WifiIpsSettings.URL_PREFIX));
-    	URL_API_LOCATE.setText(String.valueOf(WifiIpsSettings.URL_API_LOCATE));
-    	URL_API_COLLECT.setText(String.valueOf(WifiIpsSettings.URL_API_COLLECT));
-    	URL_API_QUERY.setText(String.valueOf(WifiIpsSettings.URL_API_QUERY));
-    	URL_API_NFC_COLLECT.setText(String.valueOf(WifiIpsSettings.URL_API_NFC_COLLECT));
-    	URL_API_LOCATE_BASE_NFC.setText(String.valueOf(WifiIpsSettings.URL_API_LOCATE_BASE_NFC));  	
     	PLANNING_MODE_ENABLED.setChecked(VisualParameters.PLANNING_MODE_ENABLED);
     	ZOOM_SWITCH_ENABLED.setChecked(VisualParameters.ZOOM_SWITCH_ENABLED);
     	ADS_ENABLED.setChecked(VisualParameters.ADS_ENABLED);
