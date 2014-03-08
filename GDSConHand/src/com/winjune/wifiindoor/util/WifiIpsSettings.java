@@ -24,19 +24,16 @@ public class WifiIpsSettings {
 	public static String FILE_CACHE_FOLDER = "/GDSConHand/";
 	
 	public static boolean DEBUG = false;
-	public static boolean USE_DOMAIN_NAME = false;
-	public static String SERVER_DOMAIN_NAME = "www.winjune.com";
-	public static String SERVER_IP = "14.18.207.183";
+	
+	public static String PRIMARY_SERVER = "14.18.207.183";
+	public static String SECONDARY_SERVER = "14.18.207.183";
 	public static String SERVER_PORT = "8080";
 	public static String SERVER_SUB_DOMAIN = "/GDSCAppServer"; //"/wifiips", "/WifiIpsServer";
 	public static String SERVER = null;
+	
 	public static int CONNECTION_TIMEOUT = 60000; //30000; // 30 s
 	public static int SOCKET_TIMEOUT = 60000; //30000; // 30s
-
-	public static boolean SERVER_RUNNING_IN_LINUX = false; // Cloud Server
-	public static String LINUX_SERVER_IP = "14.18.207.183"; //Cloud:"58.221.67.59";  New Powerful:"58.221.62.210"
-	public static String LINUX_SERVER_PORT = "8080";
-	
+		
 	public static String URL_PREFIX = "http://";
 	public static String URL_API_TEST = "/Test";
 	public static String URL_API_LOCATE = "/locate";
@@ -56,16 +53,16 @@ public class WifiIpsSettings {
 	public static String URL_API_QUERY_ADVERTISE_INFO = "/queryAd";
 	public static String URL_API_QUERY_INTEREST_PLACES = "/queryInterestPlaces";
 
-	private static boolean getServerIpByDomainName() {
+	public static String getServerIpByDomainName(String domainName) {
 		// Spawns a 'sh' process first, and then execute 'ping' in that shell
 
-		SERVER_IP = null;
+		String ipAddress = null;
 
 		try {
 			Process p = new ProcessBuilder("sh").redirectErrorStream(true)
 					.start();
 			DataOutputStream os = new DataOutputStream(p.getOutputStream());
-			os.writeBytes("ping -c 4 -w 30 " + SERVER_DOMAIN_NAME + '\n');
+			os.writeBytes("ping -c 4 -w 30 " + domainName + '\n');
 			os.flush();
 
 			// Close the terminal
@@ -109,38 +106,28 @@ public class WifiIpsSettings {
 			}
 
 			if (ipList.size() > 0) {
-				SERVER_IP = ipList.get(0);
+				ipAddress = ipList.get(0);
 			}
 			else {
-				return false;
+				return null;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}	
-		
-		if (SERVER_IP==null) {
-			return false;
-		}
-		
-		// ev2c4138b15c2b.eapac.ericsson.se (146.11.0.130) 
-		int beginIndex = SERVER_IP.indexOf("(");
-		if (beginIndex > -1) {
-			int endIndex = SERVER_IP.indexOf(")");
-			if (endIndex > beginIndex + 8) { // IP at least 8 chars
-				SERVER_IP = SERVER_IP.substring(beginIndex + 1, endIndex);
-			}
-		}
-
-		return isValidIp();
+				
+		if (isValidIp(ipAddress))
+			return ipAddress;
+		else
+			return null;				
 	}
 
-	private static boolean isValidIp() {
-		if (SERVER_IP == null) {
+	private static boolean isValidIp(String ip) {
+		if (ip == null) {
 			return false;
 		}
 		
-		String[] nums = SERVER_IP.split("\\.");
+		String[] nums = ip.split("\\.");
 
 		if (nums.length == 4) {
 			return true;
@@ -149,7 +136,9 @@ public class WifiIpsSettings {
 		}
 	}
 
+	//Hoare: to do, select the fast server
 	public static boolean getServerAddress(boolean force_retry) {
+		
 		if (force_retry) {
 			SERVER = null;
 		}
@@ -158,38 +147,21 @@ public class WifiIpsSettings {
 			return true;
 		}
 
-		if (!SERVER_RUNNING_IN_LINUX)
-			if (USE_DOMAIN_NAME) {
-				if (!getServerIpByDomainName()) {
-					return false;
-				}
-			}
-
-		if (SERVER_IP == null) {
-			return false;
-		}
-
-		if (SERVER_RUNNING_IN_LINUX)
-			SERVER = LINUX_SERVER_IP + ":" + LINUX_SERVER_PORT
-					+ SERVER_SUB_DOMAIN;
-		else
-			SERVER = SERVER_IP + ":" + SERVER_PORT + SERVER_SUB_DOMAIN;
-
+		
+		SERVER = PRIMARY_SERVER + ":" + SERVER_PORT	+ SERVER_SUB_DOMAIN;
+		
 		return true;
 	}
 	
-	public static boolean isPingable() {
-		String ip;
-		if (SERVER_RUNNING_IN_LINUX)
-			ip = LINUX_SERVER_IP;
-		else
-			ip = SERVER_IP;
-		
+	//Check if the destination address is pingable, it could be domain name or ip
+	//seems it doesn't work in some devices, like Nexus 7
+	public static boolean isPingable(String destAdress) {
+						
 		try {
 			Process p = new ProcessBuilder("sh").redirectErrorStream(true)
 					.start();
 			DataOutputStream os = new DataOutputStream(p.getOutputStream());
-			os.writeBytes("ping -c 1 -w 30 " + ip + '\n');
+			os.writeBytes("ping -c 1 -w 30 " + destAdress + '\n');
 			os.flush();
 
 			// Close the terminal

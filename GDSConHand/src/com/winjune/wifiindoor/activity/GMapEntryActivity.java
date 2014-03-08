@@ -362,7 +362,7 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 			Util.initApp(this);
 			new Thread() {
 				public void run() {
-					IpsWebService.connetcToServer(GMapEntryActivity.this);
+					IpsWebService.startWebService(GMapEntryActivity.this);
 				}
 			}.start();
 			return;
@@ -527,7 +527,7 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 			String json = gson.toJson(version);
 			JSONObject data = new JSONObject(json);
 
-			if (IpsWebService.sendToServer(this, IpsMsgConstants.MT_BUILDING_QUERY, data)) {
+			if (IpsWebService.sendMessage(this, IpsMsgConstants.MT_BUILDING_QUERY, data)) {
 				
 			} else {
 				// All errors should be handled in the sendToServer

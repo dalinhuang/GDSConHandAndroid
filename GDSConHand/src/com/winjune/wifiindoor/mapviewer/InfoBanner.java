@@ -146,7 +146,7 @@ public class InfoBanner {
 				String json = gson.toJson(infoQueryReq);
 				JSONObject data = new JSONObject(json);
 
-				if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_INFO_QUERY, data)) {
+				if (IpsWebService.sendMessage(mapViewer, IpsMsgConstants.MT_INFO_QUERY, data)) {
 					
 				} else {
 					// All errors should be handled in the sendToServer

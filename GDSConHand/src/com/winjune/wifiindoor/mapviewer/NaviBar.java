@@ -89,7 +89,7 @@ public class NaviBar {
 			String json = gson.toJson(id);
 			JSONObject data = new JSONObject(json);
 
-			if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_NAVI_INFO_QUERY, data)) {
+			if (IpsWebService.sendMessage(mapViewer, IpsMsgConstants.MT_NAVI_INFO_QUERY, data)) {
 				
 			} else {
 				// All errors should be handled in the sendToServer

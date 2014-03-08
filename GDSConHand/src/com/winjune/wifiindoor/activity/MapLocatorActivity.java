@@ -38,7 +38,7 @@ public class MapLocatorActivity extends Activity {
 		System.gc();
 
 		IpsWebService.setActivity(this);
-		IpsWebService.startTransportServiceThread();
+		IpsWebService.activateWebService();
 		
 		Util.setCurrentForegroundActivity(this);
 	}
@@ -66,7 +66,7 @@ public class MapLocatorActivity extends Activity {
 				
 		        // Start the Ips Message Handler Thread if it has not been started yet.
 				IpsWebService.setActivity(this);
-				IpsWebService.startTransportServiceThread();
+				IpsWebService.activateWebService();
 		        
 		        // Locate me so I know which map I should load.
 				locateMe();
@@ -127,7 +127,7 @@ public class MapLocatorActivity extends Activity {
 						String json = gson.toJson(fignerPrint);
 						JSONObject data = new JSONObject(json);
 
-						if (IpsWebService.sendToServer(this, IpsMsgConstants.MT_LOCATE, data)) {
+						if (IpsWebService.sendMessage(this, IpsMsgConstants.MT_LOCATE, data)) {
 							Util.showShortToast(this, R.string.locate_collected);;
 						} else {
 							// All errors should be handled in the sendToServer
@@ -159,7 +159,7 @@ public class MapLocatorActivity extends Activity {
 						String json = gson.toJson(fignerPrint);
 						JSONObject data = new JSONObject(json);
 
-						if (IpsWebService.sendToServer(MapLocatorActivity.this, IpsMsgConstants.MT_LOCATE, data)) {
+						if (IpsWebService.sendMessage(MapLocatorActivity.this, IpsMsgConstants.MT_LOCATE, data)) {
 							Util.showShortToast(MapLocatorActivity.this, R.string.locate_collected);
 						} else {
 							// All errors should be handled in the sendToServer
@@ -302,7 +302,7 @@ public class MapLocatorActivity extends Activity {
 			String json = gson.toJson(id);
 			JSONObject data = new JSONObject(json);
 
-			if (IpsWebService.sendToServer(this, IpsMsgConstants.MT_MAP_QUERY, data)) {
+			if (IpsWebService.sendMessage(this, IpsMsgConstants.MT_MAP_QUERY, data)) {
 				return true;
 			} else {
 				// All errors should be handled in the sendToServer

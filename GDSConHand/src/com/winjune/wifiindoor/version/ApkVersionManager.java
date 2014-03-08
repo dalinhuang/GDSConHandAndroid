@@ -147,7 +147,7 @@ public class ApkVersionManager {
 			String json = gson.toJson(version);
 			JSONObject data = new JSONObject(json);
 
-			if (IpsWebService.sendToServer(activity, IpsMsgConstants.MT_APK_VERSION_QUERY, data)) {
+			if (IpsWebService.sendMessage(activity, IpsMsgConstants.MT_APK_VERSION_QUERY, data)) {
 				Util.showShortToast(activity, R.string.query_apk_version);
 			} else {
 				// All errors should be handled in the sendToServer

@@ -88,28 +88,18 @@ public class IpsTransportServiceThread extends Thread {
 		if (DEBUG)
 			Log.d(TAG, "processRequest()");
 
-		IpsWebService webServiceInstance = IpsWebService.getInstance();
-		if (webServiceInstance == null) {
-			if (DEBUG)
-				Log.d(TAG, "IpsWebService instance is null.");
-
-			mTransportServiceListener.onError("IpsWebService instance is null.");
-		
-			return;
-		}
-
 		try {
 			switch (requestCode) {
 			case IpsMsgConstants.MT_COLLECT:
 				mTransportServiceListener.onStartingRequest();
-				webServiceInstance.collect(requestPayload);
+				IpsMessageHandler.collect(requestPayload);
 				mTransportServiceListener.onFinishingRequest();
 
 				break;
 			
 			case IpsMsgConstants.MT_LOCATE:
 				mTransportServiceListener.onStartingRequest();
-				LocationSet locations = webServiceInstance.locate(requestPayload);
+				LocationSet locations = IpsMessageHandler.locate(requestPayload);
 				mTransportServiceListener.onFinishingRequest();
 				mTransportServiceListener.onResponseReceived(locations);
 
@@ -117,7 +107,7 @@ public class IpsTransportServiceThread extends Thread {
 				
 			case IpsMsgConstants.MT_INFO_QUERY:
 				mTransportServiceListener.onStartingRequest();
-				QueryInfo info = webServiceInstance.query(requestPayload);
+				QueryInfo info = IpsMessageHandler.query(requestPayload);
 				mTransportServiceListener.onFinishingRequest();
 				mTransportServiceListener.onResponseReceived(info);
 
@@ -125,14 +115,14 @@ public class IpsTransportServiceThread extends Thread {
 				
 			case IpsMsgConstants.MT_EDIT_NFC_QR:
 				mTransportServiceListener.onStartingRequest();			
-				webServiceInstance.collectNfc(requestPayload);
+				IpsMessageHandler.collectNfc(requestPayload);
 				mTransportServiceListener.onFinishingRequest();
 				
 				break;
 				
 			case IpsMsgConstants.MT_LOCATE_FROM_NFC_QR:
 				mTransportServiceListener.onStartingRequest();
-				Location nfcLocation = webServiceInstance.locateBaseOnNfc(requestPayload);
+				Location nfcLocation = IpsMessageHandler.locateBaseOnNfc(requestPayload);
 				mTransportServiceListener.onFinishingRequest();
 				mTransportServiceListener.onResponseReceived(nfcLocation);
 				
@@ -140,14 +130,14 @@ public class IpsTransportServiceThread extends Thread {
 				
 			case IpsMsgConstants.MT_DELETE_FINGERPRINT:
 				mTransportServiceListener.onStartingRequest();
-				webServiceInstance.deleteFingerprint(requestPayload);
+				IpsMessageHandler.deleteFingerprint(requestPayload);
 				mTransportServiceListener.onFinishingRequest();
 				
 				break;	
 			
 			case IpsMsgConstants.MT_LOCATE_TEST:
 				mTransportServiceListener.onStartingRequest();
-				TestLocateCollectReply testLocation = webServiceInstance.locateTest(requestPayload);
+				TestLocateCollectReply testLocation = IpsMessageHandler.locateTest(requestPayload);
 				mTransportServiceListener.onFinishingRequest();
 				mTransportServiceListener.onResponseReceived(testLocation);
 
@@ -155,7 +145,7 @@ public class IpsTransportServiceThread extends Thread {
 			
 			case IpsMsgConstants.MT_COLLECT_TEST:
 				mTransportServiceListener.onStartingRequest();
-				TestLocateCollectReply testLocation2 = webServiceInstance.collectTest(requestPayload);
+				TestLocateCollectReply testLocation2 = IpsMessageHandler.collectTest(requestPayload);
 				mTransportServiceListener.onFinishingRequest();
 				mTransportServiceListener.onResponseReceived(testLocation2);
 
@@ -163,7 +153,7 @@ public class IpsTransportServiceThread extends Thread {
 								
 			case IpsMsgConstants.MT_APK_VERSION_QUERY:
 				mTransportServiceListener.onStartingRequest();
-				ApkVersionReply version = webServiceInstance.queryApkVersion(requestPayload);
+				ApkVersionReply version = IpsMessageHandler.queryApkVersion(requestPayload);
 				mTransportServiceListener.onFinishingRequest();
 				mTransportServiceListener.onResponseReceived(version);
 
@@ -171,49 +161,49 @@ public class IpsTransportServiceThread extends Thread {
 			
 			case IpsMsgConstants.MT_BUILDING_QUERY:
 				mTransportServiceListener.onStartingRequest();
-				BuildingManagerReply buildingManager = webServiceInstance.queryBuilding(requestPayload);
+				BuildingManagerReply buildingManager = IpsMessageHandler.queryBuilding(requestPayload);
 				mTransportServiceListener.onFinishingRequest();
 				mTransportServiceListener.onResponseReceived(buildingManager);
 				break;
 				
 			case IpsMsgConstants.MT_MAP_LIST_QUERY:
 				mTransportServiceListener.onStartingRequest();
-				MapManagerReply mapManager = webServiceInstance.queryMaps(requestPayload);
+				MapManagerReply mapManager = IpsMessageHandler.queryMaps(requestPayload);
 				mTransportServiceListener.onFinishingRequest();
 				mTransportServiceListener.onResponseReceived(mapManager);
 				break;
 				
 			case IpsMsgConstants.MT_MAP_QUERY:
 				mTransportServiceListener.onStartingRequest();
-				IndoorMapReply indoorMap = webServiceInstance.queryMap(requestPayload);
+				IndoorMapReply indoorMap = IpsMessageHandler.queryMap(requestPayload);
 				mTransportServiceListener.onFinishingRequest();
 				mTransportServiceListener.onResponseReceived(indoorMap);
 				break;
 			
 			case IpsMsgConstants.MT_MAP_INFO_QUERY:
 				mTransportServiceListener.onStartingRequest();
-				MapInfoReply mapInfo = webServiceInstance.queryMapInfo(requestPayload);
+				MapInfoReply mapInfo = IpsMessageHandler.queryMapInfo(requestPayload);
 				mTransportServiceListener.onFinishingRequest();
 				mTransportServiceListener.onResponseReceived(mapInfo);
 				break;
 				
 			case IpsMsgConstants.MT_NAVI_INFO_QUERY:
 				mTransportServiceListener.onStartingRequest();
-				NaviInfoReply naviInfo = webServiceInstance.queryNaviInfo(requestPayload);
+				NaviInfoReply naviInfo = IpsMessageHandler.queryNaviInfo(requestPayload);
 				mTransportServiceListener.onFinishingRequest();
 				mTransportServiceListener.onResponseReceived(naviInfo);
 				break;
 				
 			case IpsMsgConstants.MT_AD_INFO_QUERY:
 				mTransportServiceListener.onStartingRequest();
-				AdGroup advertiseList = webServiceInstance.queryAdvertiseInfo(requestPayload);
+				AdGroup advertiseList = IpsMessageHandler.queryAdvertiseInfo(requestPayload);
 				mTransportServiceListener.onFinishingRequest();
 				mTransportServiceListener.onResponseReceived(advertiseList);
 				break;		
 				
 			case IpsMsgConstants.MT_INTEREST_PLACES_QUERY:
 				mTransportServiceListener.onStartingRequest();
-				InterestPlacesInfoReply interestPlacesInfo = webServiceInstance.queryInterestPlacesInfo(requestPayload);
+				InterestPlacesInfoReply interestPlacesInfo = IpsMessageHandler.queryInterestPlacesInfo(requestPayload);
 				mTransportServiceListener.onFinishingRequest();
 				mTransportServiceListener.onResponseReceived(interestPlacesInfo);
 				break;	

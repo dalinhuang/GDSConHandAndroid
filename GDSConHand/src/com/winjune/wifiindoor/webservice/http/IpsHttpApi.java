@@ -60,18 +60,30 @@ public class IpsHttpApi {
 	private static final boolean DEBUG = WifiIpsSettings.DEBUG;
 
 	private final String mApiBaseUrl;
-	@SuppressWarnings("unused")
-	private final AuthScope mAuthScope;
+	private AuthScope mAuthScope;
 
 	private IHttpApi mHttpApi;
 
 	private NullJsonParser mNullJsonParser = new NullJsonParser();
 
-	public IpsHttpApi(String domain, String clientVersion) {
-		mApiBaseUrl = WifiIpsSettings.URL_PREFIX + domain;
-		mAuthScope = new AuthScope(domain, 80);
-
-		mHttpApi = new HttpApiWithNoAuth(clientVersion);
+	public IpsHttpApi(String domain) {
+		mApiBaseUrl = WifiIpsSettings.URL_PREFIX + domain;		
+	}
+	
+	public boolean initIpsHttpClient(String domain, String clientVersion) {
+		
+		try	{
+			mAuthScope = new AuthScope(domain, 80);
+			mHttpApi = new HttpApiWithNoAuth(clientVersion);
+		} catch (Exception e) {			
+			return false;
+		}	
+		
+		if ((mAuthScope != null) && (mHttpApi != null))
+			return true;
+		else
+			return false;		
+		
 	}
 
 	public Test testPostXml(String parameter) throws WebException,

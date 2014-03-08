@@ -169,60 +169,21 @@ public class Tuner {
 			properties.setProperty(key, String.valueOf(WifiIpsSettings.DEBUG));
 		}
 		
-		key = "SERVER_RUNNING_IN_LINUX";
-		value = properties.getProperty(key);
-		if (value != null) {
-			if (value.trim().equalsIgnoreCase("true")){
-				WifiIpsSettings.SERVER_RUNNING_IN_LINUX = true;
-			} else {
-				WifiIpsSettings.SERVER_RUNNING_IN_LINUX = false;
-			}
-		} else {
-			properties.setProperty(key, String.valueOf(WifiIpsSettings.SERVER_RUNNING_IN_LINUX));
-		}
 		
 		key = "LINUX_SERVER_IP";
 		value = properties.getProperty(key);
 		if (value != null) {
-			WifiIpsSettings.LINUX_SERVER_IP = value.trim();
+			WifiIpsSettings.PRIMARY_SERVER = value.trim();
 		} else {
-			properties.setProperty(key, WifiIpsSettings.LINUX_SERVER_IP);
+			properties.setProperty(key, WifiIpsSettings.PRIMARY_SERVER);
 		}
 		
-		key = "LINUX_SERVER_PORT";
+		key = "SECONDARY_SERVER";
 		value = properties.getProperty(key);
 		if (value != null) {
-			WifiIpsSettings.LINUX_SERVER_PORT = value.trim();
+			WifiIpsSettings.SECONDARY_SERVER = value.trim();
 		} else {
-			properties.setProperty(key, WifiIpsSettings.LINUX_SERVER_PORT);
-		}
-		
-		key = "USE_DOMAIN_NAME";
-		value = properties.getProperty(key);
-		if (value != null) {
-			if (value.trim().equalsIgnoreCase("true")){
-				WifiIpsSettings.USE_DOMAIN_NAME = true;
-			} else {
-				WifiIpsSettings.USE_DOMAIN_NAME = false;
-			}
-		} else {
-			properties.setProperty(key, String.valueOf(WifiIpsSettings.USE_DOMAIN_NAME));
-		}
-		
-		key = "SERVER_DOMAIN_NAME";
-		value = properties.getProperty(key);
-		if (value != null) {
-			WifiIpsSettings.SERVER_DOMAIN_NAME = value.trim();
-		} else {
-			properties.setProperty(key, WifiIpsSettings.SERVER_DOMAIN_NAME);
-		}
-		
-		key = "SERVER_IP";
-		value = properties.getProperty(key);
-		if (value != null) {
-			WifiIpsSettings.SERVER_IP = value.trim();
-		} else {
-			properties.setProperty(key, WifiIpsSettings.SERVER_IP);
+			properties.setProperty(key, WifiIpsSettings.SECONDARY_SERVER);
 		}
 		
 		key = "SERVER_PORT";

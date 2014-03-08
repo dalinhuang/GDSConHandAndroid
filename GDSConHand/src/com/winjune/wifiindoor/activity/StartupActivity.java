@@ -1,9 +1,9 @@
 package com.winjune.wifiindoor.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -16,7 +16,7 @@ import com.winjune.wifiindoor.version.ISoftwareVersions;
 import com.winjune.wifiindoor.version.SoftwareVersionData;
 import com.winjune.wifiindoor.webservice.IpsWebService;
 
-public class StartupActivity extends FragmentActivity {
+public class StartupActivity extends Activity {
 	           
 	@Override
     protected void onPause(){
@@ -48,9 +48,7 @@ public class StartupActivity extends FragmentActivity {
     protected void onResume(){
 		super.onResume();
 		
-		System.gc();
-		
-		IpsWebService.setActivity(this);
+/*		IpsWebService.setActivity(this);
 
 		Util.setEnergySave(false);
 		
@@ -58,14 +56,14 @@ public class StartupActivity extends FragmentActivity {
 			ApkVersionManager.doNewVersionUpdate(this);
 		}		
 		
-		Util.setCurrentForegroundActivity(this); 
+		Util.setCurrentForegroundActivity(this); */
 	}
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        Util.initApp(this);
+        //Util.initApp(this);
         
         new AsyncTask<Void, Void, Integer> () {
 
@@ -79,7 +77,7 @@ public class StartupActivity extends FragmentActivity {
 				// TODO Auto-generated method stub
         		long startTime = System.currentTimeMillis();
         		
-        		appStartUp();
+        		//appStartUp();
         		
         		long completeTime = System.currentTimeMillis();
         		long runTime = completeTime - startTime;
@@ -101,11 +99,11 @@ public class StartupActivity extends FragmentActivity {
 
 			@Override
             protected void onPostExecute(Integer result) {
-				jumpToRightEntry();
+				//jumpToRightEntry();
 
             }
         	
-        }.execute(new Void[]{});        
+        }.execute(new Void[]{}); 
 
     }
 	
@@ -156,6 +154,7 @@ public class StartupActivity extends FragmentActivity {
 		mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM, IndoorMapData.BUNDLE_VALUE_REQ_FROM_SELECTOR);
 		intent_map_selector.putExtras(mBundle); 
 		startActivity(intent_map_selector);
+		
 		finish();
     	return;        
     
@@ -164,7 +163,7 @@ public class StartupActivity extends FragmentActivity {
 	// Called in AsyncTask when the APP starts up. It should only include the time consuming tasks.
 	private void appStartUp() {
 		
-		IpsWebService.connetcToServer(this);
+		IpsWebService.startWebService(this);
 		
 		// Check latest version
 		ApkVersionManager.CheckVersionUpgrade(this);

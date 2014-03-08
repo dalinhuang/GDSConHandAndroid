@@ -94,7 +94,7 @@ public class LocateBar {
 						String json = gson.toJson(fingnerPrint);
 						JSONObject data = new JSONObject(json);
 	
-						if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_LOCATE, data)) {
+						if (IpsWebService.sendMessage(mapViewer, IpsMsgConstants.MT_LOCATE, data)) {
 							//Util.showShortToast(this, R.string.locate_collected);
 							MapHUD.updateHinText(mapViewer, R.string.locate_collected);
 						} else {
@@ -139,7 +139,7 @@ public class LocateBar {
 						String json = gson.toJson(fingnerPrint);
 						JSONObject data = new JSONObject(json);
 
-						if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_LOCATE, data)) {
+						if (IpsWebService.sendMessage(mapViewer, IpsMsgConstants.MT_LOCATE, data)) {
 							//Util.showShortToast(MapViewerActivity.this, R.string.locate_collected);
 							MapHUD.updateHinText(mapViewer, R.string.locate_collected);
 						} else {

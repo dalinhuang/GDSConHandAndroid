@@ -264,7 +264,7 @@ public class InterestPlaceBar {
 			String json = gson.toJson(id);
 			JSONObject data = new JSONObject(json);
 
-			if (IpsWebService.sendToServer(mapViewer, IpsMsgConstants.MT_INTEREST_PLACES_QUERY, data)) {
+			if (IpsWebService.sendMessage(mapViewer, IpsMsgConstants.MT_INTEREST_PLACES_QUERY, data)) {
 				
 			} else {
 				// All errors should be handled in the sendToServer

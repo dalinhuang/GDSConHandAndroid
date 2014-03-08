@@ -145,7 +145,7 @@ public class MapSelectorActivity extends TabActivity{
 		Util.setEnergySave(false);
 		
 		IpsWebService.setActivity(this);
-		IpsWebService.startTransportServiceThread();
+		IpsWebService.activateWebService();
 		
 		
 		Util.setCurrentForegroundActivity(this);
@@ -168,7 +168,7 @@ public class MapSelectorActivity extends TabActivity{
         
         // Start the Ips Message Handler Thread if it has not been started yet.
         IpsWebService.setActivity(this);
-        IpsWebService.startTransportServiceThread();
+        IpsWebService.activateWebService();
         
         // Hidden Title
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -252,7 +252,7 @@ public class MapSelectorActivity extends TabActivity{
 			String json = gson.toJson(version);
 			JSONObject data = new JSONObject(json);
 
-			if (IpsWebService.sendToServer(this, IpsMsgConstants.MT_MAP_LIST_QUERY, data)) {
+			if (IpsWebService.sendMessage(this, IpsMsgConstants.MT_MAP_LIST_QUERY, data)) {
 				
 			} else {
 				// All errors should be handled in the sendToServer

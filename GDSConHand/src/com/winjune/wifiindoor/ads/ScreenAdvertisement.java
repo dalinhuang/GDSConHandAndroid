@@ -266,7 +266,7 @@ public class ScreenAdvertisement {
 				String json = gson.toJson(location);
 				JSONObject data = new JSONObject(json);
 
-				if (IpsWebService.sendToServer(this.activity, IpsMsgConstants.MT_AD_INFO_QUERY, data)) {
+				if (IpsWebService.sendMessage(this.activity, IpsMsgConstants.MT_AD_INFO_QUERY, data)) {
 					//Util.showShortToast(this, R.string.locate_collected);
 					//MapHUD.updateHinText(this, R.string.locate_collected);
 				} else {

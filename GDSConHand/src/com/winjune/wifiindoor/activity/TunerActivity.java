@@ -246,7 +246,7 @@ public class TunerActivity extends Activity {
     	value = SERVER_DOMAIN_NAME.getText().toString();
     	Tuner.getProperties().setProperty(name, value);
     	
-    	name = "SERVER_IP";
+    	name = "SECONDARY_SERVER";
     	value = SERVER_IP.getText().toString();
     	Tuner.getProperties().setProperty(name, value);
     	
@@ -342,12 +342,8 @@ public class TunerActivity extends Activity {
     	MAX_DBM_COUNT_IN.setText(String.valueOf(IndoorMapData.MAX_DBM_COUNT_IN));
     	MIN_AP_COUNT_IN.setText(String.valueOf(IndoorMapData.MIN_AP_COUNT_IN));
     	DEBUG.setChecked(WifiIpsSettings.DEBUG);
-    	SERVER_RUNNING_IN_LINUX.setChecked(WifiIpsSettings.SERVER_RUNNING_IN_LINUX);
-    	LINUX_SERVER_IP.setText(String.valueOf(WifiIpsSettings.LINUX_SERVER_IP));
-    	LINUX_SERVER_PORT.setText(String.valueOf(WifiIpsSettings.LINUX_SERVER_PORT));
-    	USE_DOMAIN_NAME.setChecked(WifiIpsSettings.USE_DOMAIN_NAME);
-    	SERVER_DOMAIN_NAME.setText(String.valueOf(WifiIpsSettings.SERVER_DOMAIN_NAME));
-    	SERVER_IP.setText(String.valueOf(WifiIpsSettings.SERVER_IP));
+    	LINUX_SERVER_IP.setText(String.valueOf(WifiIpsSettings.PRIMARY_SERVER));
+    	SERVER_IP.setText(String.valueOf(WifiIpsSettings.SECONDARY_SERVER));
     	SERVER_PORT.setText(String.valueOf(WifiIpsSettings.SERVER_PORT));
     	CONNECTION_TIMEOUT.setText(String.valueOf(WifiIpsSettings.CONNECTION_TIMEOUT));
     	SOCKET_TIMEOUT.setText(String.valueOf(WifiIpsSettings.SOCKET_TIMEOUT));

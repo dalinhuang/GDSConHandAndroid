@@ -684,6 +684,7 @@ public class Util {
 		VisualParameters.initial(activity);
         ImageLoader.initial(activity);
         initialed = false;
+        
         initial(activity);
         
         if (!getWifiInfoManager().isWifiEmbeded()) {
@@ -771,7 +772,7 @@ public class Util {
 			String json = gson.toJson(fingnerPrint);
 			JSONObject data = new JSONObject(json);
 
-			if (IpsWebService.sendToServer(activity, IpsMsgConstants.MT_LOCATE_FROM_NFC_QR, data)) {
+			if (IpsWebService.sendMessage(activity, IpsMsgConstants.MT_LOCATE_FROM_NFC_QR, data)) {
 				// Do nothing
 			} else {
 				// All errors should be handled in the sendToServer

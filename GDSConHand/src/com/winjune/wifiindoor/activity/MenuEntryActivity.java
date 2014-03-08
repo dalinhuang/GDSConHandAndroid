@@ -167,7 +167,7 @@ public class MenuEntryActivity extends Activity implements SensorEventListener {
         			Util.initApp(MenuEntryActivity.this);
         			new Thread() {
         				public void run() {
-        					IpsWebService.connetcToServer(MenuEntryActivity.this);
+        					IpsWebService.startWebService(MenuEntryActivity.this);
         				}
         			}.start();
         			return;
@@ -256,7 +256,7 @@ public class MenuEntryActivity extends Activity implements SensorEventListener {
 			Util.initApp(MenuEntryActivity.this);
 			new Thread() {
 				public void run() {
-					IpsWebService.connetcToServer(MenuEntryActivity.this);
+					IpsWebService.startWebService(MenuEntryActivity.this);
 				}
 			}.start();
 			return;

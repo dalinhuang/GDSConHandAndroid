@@ -1,7 +1,15 @@
 package com.winjune.wifiindoor.webservice.transport;
 
+import java.io.IOException;
+
+import org.json.JSONObject;
+
+import com.winjune.common.webservice.core.error.WebCredentialsException;
+import com.winjune.common.webservice.core.error.WebError;
+import com.winjune.common.webservice.core.error.WebException;
 import com.winjune.common.webservice.core.transport.ResponseBlockingQueue;
 import com.winjune.common.webservice.core.types.IType;
+import com.winjune.common.webservice.core.types.Test;
 import com.winjune.wifiindoor.activity.GMapEntryActivity;
 import com.winjune.wifiindoor.activity.MapLocatorActivity;
 import com.winjune.wifiindoor.activity.MapSelectorActivity;
@@ -18,6 +26,7 @@ import com.winjune.wifiindoor.mapviewer.PlanBar;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.version.ApkVersionManager;
+import com.winjune.wifiindoor.webservice.http.IpsHttpApi;
 import com.winjune.wifiindoor.webservice.transport.IpsTransportServiceListener;
 import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
 import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
@@ -42,8 +51,24 @@ import android.widget.Toast;
 
 public class IpsMessageHandler {
 	private static Activity activity;
+	public static IpsHttpApi mWifiIpsHttpApi;
 	private static IpsTransportServiceThread mTransportServiceThread;
 
+	public static boolean initialize(String domain, String clientVersion) {
+		
+		mWifiIpsHttpApi = new IpsHttpApi(domain);
+		
+		if (mWifiIpsHttpApi != null)
+			return mWifiIpsHttpApi.initIpsHttpClient(domain, clientVersion);		
+
+		return false;
+	}
+	
+	public static boolean reInitialize(String domain, String clientVersion) {
+		IpsMessageHandler.mWifiIpsHttpApi = null;
+		return initialize(domain, clientVersion);
+	}
+	
 	public static void setActivity(Activity activity) {
 		Log.e("IpsMessageHandler", activity.toString());
 		IpsMessageHandler.activity = activity;
@@ -318,9 +343,11 @@ public class IpsMessageHandler {
 		}
 
 	}
+			
 
 	public static void startTransportServiceThread() {
 		Log.e("IpsMessageHandler", "Start IpsMessageHandler!");
+		
 		if (mTransportServiceThread == null) {
 			IpsTransportServiceListener listener = new IpsTransportServiceListener(mHandler);
 			mTransportServiceThread = new IpsTransportServiceThread(listener,
@@ -359,4 +386,262 @@ public class IpsMessageHandler {
 			}
 		}
 	}
+	
+	@V1
+	public static Test testPostXml(String parameter) throws WebException,
+			WebCredentialsException, WebError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WebException("IPS HTTP API is null!");			
+		}
+		
+		return mWifiIpsHttpApi.testPostXml(parameter);
+	}
+
+	/*
+	 * 
+	 */
+	@V1
+	public static Test testPostJson(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WebException("IPS HTTP API is null!");			
+		}
+		
+		return mWifiIpsHttpApi.testPostJson(json);
+	}
+
+	/*
+	 * collect, no response
+	 */
+	@V1
+	public static LocationSet locate(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WebException("IPS HTTP API is null!");			
+		}
+		
+		return mWifiIpsHttpApi.locate(json);
+	}
+
+	/*
+	 * locate
+	 */
+	@V1
+	public static void collect(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WebException("IPS HTTP API is null!");			
+		}
+		
+		mWifiIpsHttpApi.collect(json);
+	}
+	
+	/*
+	 * query
+	 */
+	@V1
+	public static QueryInfo query(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WebException("IPS HTTP API is null!");			
+		}
+		
+		return mWifiIpsHttpApi.query(json);
+	}
+	
+	/*
+	 * collectNfc
+	 */
+	@V1
+	public static void collectNfc(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WebException("IPS HTTP API is null!");			
+		}
+		
+		mWifiIpsHttpApi.collectNfc(json);
+	}
+
+	/*
+	 * locateBaseOnNfc
+	 */
+	@V1
+	public static Location locateBaseOnNfc(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WebException("IPS HTTP API is null!");			
+		}
+		
+		return mWifiIpsHttpApi.locateBaseOnNfc(json);
+	}
+	
+	/*
+	 * deleteFingerprint, no response
+	 */
+	@V1
+	public static void deleteFingerprint(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WebException("IPS HTTP API is null!");			
+		}
+		
+		mWifiIpsHttpApi.deleteFingerprint(json);
+	}
+	
+	/*
+	 * locate_test
+	 */
+	@V1
+	public static TestLocateCollectReply locateTest(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WebException("IPS HTTP API is null!");			
+		}
+		
+		return mWifiIpsHttpApi.locateTest(json);
+	}
+	
+	/*
+	 * collect_test
+	 */
+	@V1
+	public static TestLocateCollectReply collectTest(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WebException("IPS HTTP API is null!");			
+		}
+		
+		return mWifiIpsHttpApi.collectTest(json);
+	}
+	
+	/*
+	 * update Apk
+	 */
+	@V1
+	public static ApkVersionReply queryApkVersion(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WebException("IPS HTTP API is null!");			
+		}
+		
+		return mWifiIpsHttpApi.queryApkVersion(json);
+	}
+	
+	/*
+	 * update Buildings
+	 */
+	@V1
+	public static BuildingManagerReply queryBuilding(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WebException("IPS HTTP API is null!");			
+		}
+		
+		return mWifiIpsHttpApi.queryBuilding(json);
+	}
+	
+	/*
+	 * update mapList
+	 */
+	@V1
+	public static MapManagerReply queryMaps(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WebException("IPS HTTP API is null!");			
+		}
+		
+		return mWifiIpsHttpApi.queryMaps(json);
+	}
+	
+	/*
+	 * update Map
+	 */
+	@V1
+	public static IndoorMapReply queryMap(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WebException("IPS HTTP API is null!");			
+		}
+		
+		return mWifiIpsHttpApi.queryMap(json);
+	}
+	
+	/*
+	 * update Map Info
+	 */
+	@V1
+	public static MapInfoReply queryMapInfo(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WebException("IPS HTTP API is null!");			
+		}
+		
+		return mWifiIpsHttpApi.queryMapInfo(json);
+	}
+	
+	/*
+	 * update Navi Info
+	 */
+	@V1
+	public static NaviInfoReply queryNaviInfo(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+			throw new WebException("IPS HTTP API is null!");			
+		}
+		
+		return mWifiIpsHttpApi.queryNaviInfo(json);
+	}
+	
+	
+	/*
+	 * update advertise Info
+	 */
+	@V1
+	public static  AdGroup queryAdvertiseInfo(JSONObject json) throws WebException,
+	        WebCredentialsException, WebError, IOException {
+
+        if (mWifiIpsHttpApi == null) {			
+	        throw new WebException("IPS HTTP API is null!");			
+        }
+
+        return mWifiIpsHttpApi.queryAdvertiseInfo(json);
+    }
+	
+	/*
+	 * update Interest Places Info
+	 */
+	@V1
+	public static InterestPlacesInfoReply queryInterestPlacesInfo(JSONObject json)  throws WebException,
+    		WebCredentialsException, WebError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+	        throw new WebException("IPS HTTP API is null!");			
+        }
+
+        return mWifiIpsHttpApi.queryInterestPlacesInfo(json);
+	}	
+	
+	/**
+	 * This api is supported in the V1 API
+	 */
+	@interface V1 {
+	}
+	
+	
 }
