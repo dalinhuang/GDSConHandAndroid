@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
@@ -48,7 +49,7 @@ public class StartupActivity extends Activity {
     protected void onResume(){
 		super.onResume();
 		
-/*		IpsWebService.setActivity(this);
+		IpsWebService.setActivity(this);
 
 		Util.setEnergySave(false);
 		
@@ -56,14 +57,16 @@ public class StartupActivity extends Activity {
 			ApkVersionManager.doNewVersionUpdate(this);
 		}		
 		
-		Util.setCurrentForegroundActivity(this); */
+		Util.setCurrentForegroundActivity(this); 
 	}
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        //Util.initApp(this);
+        setContentView(R.layout.startup_entry);
+        
+        Util.initApp(this);
         
         new AsyncTask<Void, Void, Integer> () {
 
@@ -77,7 +80,7 @@ public class StartupActivity extends Activity {
 				// TODO Auto-generated method stub
         		long startTime = System.currentTimeMillis();
         		
-        		//appStartUp();
+        		appStartUp();
         		
         		long completeTime = System.currentTimeMillis();
         		long runTime = completeTime - startTime;
@@ -99,7 +102,7 @@ public class StartupActivity extends Activity {
 
 			@Override
             protected void onPostExecute(Integer result) {
-				//jumpToRightEntry();
+				jumpToRightEntry();
 
             }
         	
