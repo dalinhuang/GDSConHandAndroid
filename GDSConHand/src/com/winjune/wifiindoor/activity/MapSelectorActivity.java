@@ -20,10 +20,6 @@ import org.json.JSONObject;
 
 import com.winjune.wifiindoor.R;
 import com.google.gson.Gson;
-import com.winjune.wifiindoor.R.drawable;
-import com.winjune.wifiindoor.R.id;
-import com.winjune.wifiindoor.R.layout;
-import com.winjune.wifiindoor.R.string;
 import com.winjune.wifiindoor.map.MapManager;
 import com.winjune.wifiindoor.map.MapManagerItem;
 import com.winjune.wifiindoor.util.IndoorMapData;

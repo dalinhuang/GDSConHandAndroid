@@ -23,7 +23,6 @@ import com.winjune.common.webservice.core.types.IType;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.ads.AdGroup;
 import com.winjune.wifiindoor.util.WifiIpsSettings;
-import com.winjune.wifiindoor.webservice.IpsWebService;
 import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
 import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
 import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;

@@ -231,8 +231,18 @@ public class MapLocatorActivity extends Activity {
 			//load_map_rc = designMap.fromXML(IndoorMapData.map_file_path + map_file_name);
 			
 		} catch (Exception e) {
+			
+			// no cached map file and download map files failed
+			// we have to quit the APP and warn the user
 			if (!downloadMap(mapId)) {
-				finish();
+				
+				// Hoare: to do: create a new xml
+				setContentView(R.layout.startup_entry);
+				
+				Util.showLongToast(this, R.string.oops);
+				Util.showLongToast(this, R.string.server_unreachable);
+				
+				return;
 			}
 			withLocation = false;
 			return;
@@ -280,7 +290,13 @@ public class MapLocatorActivity extends Activity {
 			x = colNo;
 			y = rowNo;
 			if (!downloadMap(mapId)) {
-				finish();
+				// Hoare: to do: create a new xml
+				setContentView(R.layout.startup_entry);
+				
+				Util.showLongToast(this, R.string.oops);
+				Util.showLongToast(this, R.string.server_unreachable);				
+								
+				return;
 			}
 			return;
 		}
