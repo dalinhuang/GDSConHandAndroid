@@ -17,6 +17,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle; 
 import android.view.KeyEvent; 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView; 
 import android.webkit.WebViewClient;
@@ -70,6 +72,25 @@ public class InterestPlaceWebViewActivity extends Activity {
         return super.onKeyDown(keyCode, event); 
 	
     }
+    
+    @Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.interest_place_web, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle presses on the action bar items    
+				switch (item.getItemId()) {        
+					case R.id.action_share:    
+						ShareUtil.shareToWeibo(this, url);
+						return true;                
+					default:            
+						return super.onOptionsItemSelected(item);    
+				}
+	}
     
     class myWebViewClient extends WebViewClient{ 
 
