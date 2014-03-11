@@ -230,17 +230,7 @@ public class MapHUD {
 			public boolean onAreaTouched(AnimatedSprite sprite,
 					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
 					float pTouchAreaLocalY) {
-
-				Intent intent_pusher = new Intent(mapViewer, InfoPusherActivity.class); 
-				Bundle mBundle = new Bundle(); 
-				String info1 = Util.getRuntimeIndoorMap().informationsToString();
-				String info2 = Util.getRuntimeIndoorMap().informationsToStringForLocations();
-				
-				mBundle.putString(IndoorMapData.BUNDLE_KEY_MAP_INFO, info1);
-				mBundle.putString(IndoorMapData.BUNDLE_KEY_LOCATION_INFO, info2);
-				intent_pusher.putExtras(mBundle); 
-				mapViewer.startActivity(intent_pusher);
-
+				InfoBanner.showInfo(mapViewer);
 				return true;
 			}
 		});

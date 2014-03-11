@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.gson.Gson;
+import com.winjune.wifiindoor.activity.EventViewerTabActivity;
 import com.winjune.wifiindoor.activity.InfoPusherActivity;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.runtime.Cell;
@@ -25,6 +26,7 @@ public class InfoBanner {
 	
 	public static void showInfo(MapViewerActivity mapViewer) {
 		//infoQueryToast.show();
+		/*
 		Intent intent_pusher = new Intent(mapViewer, InfoPusherActivity.class); 
 		Bundle mBundle = new Bundle(); 
 		String info1 = Util.getRuntimeIndoorMap().informationsToString();
@@ -34,6 +36,10 @@ public class InfoBanner {
 		mBundle.putString(IndoorMapData.BUNDLE_KEY_LOCATION_INFO, info2);
 		intent_pusher.putExtras(mBundle); 
 		mapViewer.startActivity(intent_pusher);
+		*/
+		
+		Intent event_viewer = new Intent(mapViewer, EventViewerTabActivity.class); 				
+		mapViewer.startActivity(event_viewer);		
 	}
 
 	public static void showInfo(MapViewerActivity mapViewer, QueryInfo queryInfo) {
