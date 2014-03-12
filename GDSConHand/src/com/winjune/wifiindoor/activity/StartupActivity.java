@@ -2,8 +2,11 @@ package com.winjune.wifiindoor.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -19,6 +22,9 @@ import com.winjune.wifiindoor.webservice.IpsWebService;
 
 public class StartupActivity extends Activity {
 	           
+    private static SharedPreferences prefs;
+    private static boolean isFirstStartup;
+	
 	@Override
     protected void onPause(){
 		
@@ -68,6 +74,9 @@ public class StartupActivity extends Activity {
         
         Util.initApp(this);
         
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		isFirstStartup = prefs.getBoolean("firstStartup", true);
+        
         new AsyncTask<Void, Void, Integer> () {
 
 			@Override
@@ -102,7 +111,19 @@ public class StartupActivity extends Activity {
 
 			@Override
             protected void onPostExecute(Integer result) {
-				jumpToRightEntry();
+				
+				if (isFirstStartup == true) {
+                	Intent intent = new Intent(StartupActivity.this, GuideActivity.class);
+                	startActivity(intent);
+                    finish();
+                    
+                    Editor editor = prefs.edit();
+                    editor.putBoolean("firstStartup", false); // disable GuideActivity after the 1st time
+                    editor.commit();
+                }
+                else {
+    				jumpToRightEntry();
+                }
 
             }
         	

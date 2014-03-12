@@ -152,5 +152,6 @@
     <string name="tts_language_unsupported">您的手机不支持中文语音合成</string>
     <string name="tts_start_soon">即将为您播放</string>
     <string name="selection_hint">请选择用于分享的应用</string>
+    <string name="start_app">开启应用</string>
     
 </resources>
