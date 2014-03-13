@@ -542,8 +542,9 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		// Change to: do not allow zoomFactor too small, to avoid all or too much map pieces be displayed in the Screen and cause the OOM issue 
 		float min_zoom_factor = 0.8f;		
-		float max_zoom_factor = 6f;		
-		float current_zoom_factor = 3;
+		float max_zoom_factor = 6f;	
+		// default use minimized map to show overall
+		float current_zoom_factor = 1f;
 		
 		// Original zoom factor
 		mCamera.setZoomFactor(current_zoom_factor);
@@ -731,10 +732,10 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			break;
 		case IndoorMapData.BUNDLE_VALUE_REQ_FROM_SELECTOR:
 			//Hoare: to do: entry can be configured in database
-			if (( Util.getRuntimeIndoorMap().getMapId() == 1) |
-				(Util.getRuntimeIndoorMap().getMapId() == 2)){
-				MapDrawer.setCameraCenterTo(this, 39, 77, false); // set Center to left_top cell
-			}
+			int midRowNo = Util.getRuntimeIndoorMap().getRowNum()/2;
+			int midColNo = Util.getRuntimeIndoorMap().getColNum()/2;
+	
+			MapDrawer.setCameraCenterTo(this, midColNo, midRowNo, false); // set Center to left_top cell
 			
 			InfoBanner.infoMe(this, -1, -1); // For map-wide Info
 			break;

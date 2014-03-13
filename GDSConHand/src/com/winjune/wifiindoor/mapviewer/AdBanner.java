@@ -24,6 +24,10 @@ import com.winjune.wifiindoor.util.VisualParameters;
 public class AdBanner {
 	
 	public static void showAd(MapViewerActivity mapViewer, boolean default_ad) {
+		// we don't display AD in planning mode
+		if (VisualParameters.PLANNING_MODE_ENABLED)
+			return;
+		
 		if (!VisualParameters.ADS_ENABLED) {
 			return;
 		}
@@ -134,6 +138,10 @@ public class AdBanner {
     }
     
 	public static void startPeriodicAdvertiseThread(MapViewerActivity mapViewer){
+		// we don't display AD in planning mode
+		if (VisualParameters.PLANNING_MODE_ENABLED)
+			return;
+		
 		if (!VisualParameters.ADS_ENABLED) {
 			return;
 		}
@@ -150,6 +158,10 @@ public class AdBanner {
 	}
 
 	public static void showDefaultAd(MapViewerActivity mapViewer){
+		
+		// we don't display AD in planning mode
+		if (VisualParameters.PLANNING_MODE_ENABLED)
+			return;
 		
 		if (VisualParameters.ADS_ENABLED) {
 			//here just need to display default advertise. 

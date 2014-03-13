@@ -39,7 +39,7 @@ public class MapDrawer {
 	public static void setCameraCenterAndReloadMapPieces(MapViewerActivity mapViewer, float pCenterX, float pCenterY, boolean fromMove) {
 		mapViewer.mCamera.setCenter(pCenterX, pCenterY);
 
-		//float zoomFactor = mCamera.getZoomFactor();
+		float zoomFactor = mapViewer.mCamera.getZoomFactor();
 		float centerX = mapViewer.mCamera.getCenterX();  // re-calc for Center may not be the one passed in for the edge zones, already count in the zoomFactor
 		float centerY = mapViewer.mCamera.getCenterY();  // re-calc for Center may not be the one passed in for the edge zones, already count in the zoomFactor
 		float width = mapViewer.mCamera.getWidth();     // = cameraWidth / zoomFactor

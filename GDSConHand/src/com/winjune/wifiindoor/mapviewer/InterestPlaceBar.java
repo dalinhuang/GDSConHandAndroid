@@ -34,6 +34,7 @@ import com.winjune.wifiindoor.map.InterestPlacesInfo;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
+import com.winjune.wifiindoor.util.VisualParameters;
 import com.winjune.wifiindoor.webservice.IpsWebService;
 import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
 import com.winjune.wifiindoor.webservice.types.VersionOrMapIdRequest;
@@ -155,6 +156,11 @@ public class InterestPlaceBar {
 		if (interestPlacesInfo == null) {
 			return;
 		}
+		
+		// we don't display the interest place in planning mode
+		if (VisualParameters.PLANNING_MODE_ENABLED)
+			return;
+		
 		
 		// Clear old Interest Places info
 		if (mapViewer.interestPlaces == null) {
