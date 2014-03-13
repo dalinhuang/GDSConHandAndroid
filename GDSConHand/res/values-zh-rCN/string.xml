@@ -154,5 +154,7 @@
     <string name="selection_hint">请选择用于分享的应用</string>
     <string name="list_by_time">按时间</string>
     <string name="list_by_place">按展馆</string>    
-    <string name="start_app">开启应用</string>    
+    <string name="start_app">开启应用</string>
+    <string name="time">时间</string>
+        
 </resources>
