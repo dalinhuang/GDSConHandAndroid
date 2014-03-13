@@ -2,20 +2,6 @@ package com.winjune.wifiindoor.event;
 
 import java.util.ArrayList;
 
-class EventTime {
-	public int fromHour;
-	public int fromMin;
-	public int toHour;
-	public int toMin;
-	
-	public EventTime (int fromHour, int fromMin, int toHour, int toMin) {
-		this.fromHour = fromHour;
-		this.fromMin = fromMin;
-		this.toHour = toHour;
-		this.toMin = toMin;		
-	}
-}
-
 public class EventItem {
 	private String title;
 	private int placeX;
@@ -49,10 +35,22 @@ public class EventItem {
 		return title;
 	}
 	
+	public ArrayList<EventTime> getNormalDayTime() {
+		return normalDayTime;
+	}
+	
+	public ArrayList<EventTime> getWeekendTime() {
+		return weekendTime;
+	}
+
+	public ArrayList<EventTime> getFestivalTime() {
+		return normalDayTime;
+	}
+
+	
 	public void addNormalDayTime(int fromHour, int fromMin, int toHour, int toMin){
-		EventTime eventTime = new EventTime(fromHour, fromMin, toHour, toMin);
-		
-		this.normalDayTime.add(eventTime);		
+		EventTime eventTime = new EventTime(fromHour, fromMin, toHour, toMin);		
+		this.festivalTime.add(eventTime);		
 	}
 	
 	public void addWeekendTime(int fromHour, int fromMin, int toHour, int toMin){
@@ -62,7 +60,7 @@ public class EventItem {
 		this.weekendTime.add(eventTime);				
 	}
 	
-	public void adFestivalTime(int fromHour, int fromMin, int toHour, int toMin){
+	public void addFestivalTime(int fromHour, int fromMin, int toHour, int toMin){
 				
 		EventTime eventTime = new EventTime(fromHour, fromMin, toHour, toMin);
 		
@@ -84,4 +82,14 @@ public class EventItem {
 		this.weekendTime.add(eventTime);
 		this.festivalTime.add(eventTime);				
 	}
+	
+	public void addAllTime(int fromHour, int fromMin, int toHour, int toMin){
+		
+		EventTime eventTime = new EventTime(fromHour, fromMin, toHour, toMin);
+		
+		this.normalDayTime.add(eventTime);				
+		this.weekendTime.add(eventTime);
+		this.festivalTime.add(eventTime);				
+	}
+	
 }
