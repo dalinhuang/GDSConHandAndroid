@@ -6,6 +6,7 @@ public final class Constants {
 	public static final int LAYER_MAP = LAYER_INDEX++;
 	public static final int LAYER_FLAG = LAYER_INDEX++;
 	public static final int LAYER_USER = LAYER_INDEX++;
+	public static final int LAYER_SEARCH = LAYER_INDEX++;
 
 	public static final int LOCATION_USER = 0;
 	public static final int TARGET_USER = 1;

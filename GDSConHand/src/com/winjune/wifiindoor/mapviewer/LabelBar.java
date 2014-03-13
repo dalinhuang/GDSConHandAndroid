@@ -201,6 +201,10 @@ public class LabelBar {
 		}
 		
 		mapViewer.mapInfos.add(text);
+	}
+
+	public static MapInfo getMapInfo() {
+		return mapInfo;
 	}	
 	
 }

@@ -152,4 +152,5 @@
     <string name="share_prefix">I want to share with you </string>
     <string name="tts_language_unsupported">TTS is not supported in your device</string>
     <string name="tts_start_soon">Will play soon</string>    
+    <string name="search">Input the place</string>    
 </resources>

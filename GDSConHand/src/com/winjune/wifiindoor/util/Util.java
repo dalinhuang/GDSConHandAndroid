@@ -479,6 +479,10 @@ public class Util {
 		return getFilePath(IndoorMapData.MAP_FILE_PATH_LOCAL) + mapId + "/" + IndoorMapData.INTEREST_PLACE_INFO_FILE_NAME;
 	}	
 	
+	public static String getSearchInfoFilePathName(String mapId) {
+		return getFilePath(IndoorMapData.MAP_FILE_PATH_LOCAL) + mapId + "/" + IndoorMapData.MAP_SEARCH_INFO_FILE_NAME;
+	}	
+	
 	public static String getNaviInfoFilePathName(String mapId) {
 		return getFilePath(IndoorMapData.MAP_FILE_PATH_LOCAL) + mapId + "/" + IndoorMapData.NAVI_INFO_FILE_NAME;
 	}

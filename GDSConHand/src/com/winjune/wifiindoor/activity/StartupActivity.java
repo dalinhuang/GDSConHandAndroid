@@ -229,10 +229,10 @@ public class StartupActivity extends Activity implements OnInitListener{
 	// Called in AsyncTask when the APP starts up. It should only include the time consuming tasks.
 	private void appStartUp() {
 		
-		IpsWebService.startWebService(this);
+		IpsWebService.startWebService(StartupActivity.this);
 		
 		// Check latest version
-		ApkVersionManager.CheckVersionUpgrade(this);
+		ApkVersionManager.CheckVersionUpgrade(StartupActivity.this);
 		
 	}
 }

@@ -53,7 +53,7 @@ public class Library {
 	//Menu
 	public static final int CONTROL_BUTTON_NUMBER = 5;
 	// Tab	
-	public static final int TAB_BUTTON_NUMBER = 5;
+	public static final int TAB_BUTTON_NUMBER = 6;
 	
 	public static final AnimatedUnit BUTTON_LOCATE = new AnimatedUnit(
 			new String[] { "svg/locate.svg" }, 0);
@@ -81,6 +81,9 @@ public class Library {
 	
 	public static final AnimatedUnit BUTTON_MSG = new AnimatedUnit(
 			new String[] { "svg/msg.svg" }, 0);	
+	
+	public static final AnimatedUnit BUTTON_SEARCH = new AnimatedUnit(
+			new String[] { "svg/search.svg" }, 0);	
 	
 	/**
 	 * User, occupy 1 * 1 Cells
@@ -115,6 +118,11 @@ public class Library {
 	public static final AnimatedUnit INTEREST_PLACE_FOR_IE = new AnimatedUnit(new String[] { "svg/ie.svg" }, 0);
 	public static final AnimatedUnit INTEREST_PLACE_FOR_PIC = new AnimatedUnit(new String[] { "svg/pic.svg" }, 0);
 	public static final AnimatedUnit INTEREST_PLACE_FOR_SPEECH = new AnimatedUnit(new String[] { "svg/speech.svg" }, 0);
+
+	/**
+	 * Search Place, occupy 1 * 1 Cells
+	 */
+	public static final AnimatedUnit SEARCH_PLACE = new AnimatedUnit(new String[] { "svg/locate.svg" }, 0);
 	
 	/**
 	 * Map CELL

@@ -197,6 +197,11 @@
             android:label="@string/app_name" >
         </activity>		
 		
+        <activity
+            android:name="com.winjune.wifiindoor.activity.PlaceSearcherActivity"
+            android:label="@string/app_name" >
+        </activity>
+				
     </application>
 
 </manifest>

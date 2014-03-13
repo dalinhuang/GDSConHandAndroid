@@ -68,6 +68,7 @@ import com.winjune.wifiindoor.mapviewer.MapHUD;
 import com.winjune.wifiindoor.mapviewer.MapViewerUtil;
 import com.winjune.wifiindoor.mapviewer.NaviBar;
 import com.winjune.wifiindoor.mapviewer.PlanBar;
+import com.winjune.wifiindoor.mapviewer.SearchBar;
 import com.winjune.wifiindoor.navi.NaviInfo;
 import com.winjune.wifiindoor.navi.Navigator;
 import com.winjune.wifiindoor.util.Constants;
@@ -149,6 +150,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	public ArrayList<Text> mapInfos;
 	public ArrayList<Sprite> interestPlaces;
+	public ArrayList<Sprite> searchPlaces;
 	public ArrayList<Rectangle> collectedFlags; // Flags for fingerprint collected cells
 	
 	public NaviInfo naviInfo;
@@ -169,7 +171,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public int TAB_BUTTON_WIDTH;
 	public int TAB_BUTTON_HEIGHT;	
 	public int TAB_BUTTON_MARGIN;
-		
+
+	public static final int REQUEST_CODE = 0;
+	public static final int CAMERA_REQUEST_CODE = REQUEST_CODE;
+	public static final int SEARCH_REQUEST_CODE = REQUEST_CODE + 1;
+
 	public float density = 1.5f;
 
 	public AdvertisePeriodThread advertisePeriodThread;
@@ -373,34 +379,46 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		if (resultCode == RESULT_OK) {
-			Bundle bundle = data.getExtras();
-			String tagId = bundle.getString("result");
-			
-			Log.e("QR", "tagID="+tagId);
-			
-			if (mMode == IndoorMapData.MAP_MODE_EDIT_TAG) {
-				if (mNfcEditState == IndoorMapData.NFC_EDIT_STATE_SCANNING) {
-					mNfcEditState = IndoorMapData.NFC_EDIT_STATE_FINISH;
-					
-					// send the QR Code tagId + [MapID,X,Y] to server, so the Fine
-					// Location against this QR Code can be stored/updated
-					PlanBar.editNfcQrTagInMap(this, tagId);
-	
-					// Collect Fingerprint on this location silently
-					PlanBar.collectFingerprint(this, true); // x, y
+		switch (requestCode) {
+		case SEARCH_REQUEST_CODE:
+			SearchBar.loadSearchPlaces(this);
+			zoomControl.zoomMostOut();
+			break;
+		case CAMERA_REQUEST_CODE:
+			if (resultCode == RESULT_OK) {
+				Bundle bundle = data.getExtras();
+				String tagId = bundle.getString("result");
+
+				Log.e("QR", "tagID=" + tagId);
+
+				if (mMode == IndoorMapData.MAP_MODE_EDIT_TAG) {
+					if (mNfcEditState == IndoorMapData.NFC_EDIT_STATE_SCANNING) {
+						mNfcEditState = IndoorMapData.NFC_EDIT_STATE_FINISH;
+
+						// send the QR Code tagId + [MapID,X,Y] to server, so
+						// the Fine
+						// Location against this QR Code can be stored/updated
+						PlanBar.editNfcQrTagInMap(this, tagId);
+
+						// Collect Fingerprint on this location silently
+						PlanBar.collectFingerprint(this, true); // x, y
+					} else {
+						// Util.showLongToast(this,
+						// R.string.select_position_before_scan_qr);
+						MapHUD.updateHinText(this,
+								R.string.select_position_before_scan_qr);
+					}
 				} else {
-					//Util.showLongToast(this, R.string.select_position_before_scan_qr);
-					MapHUD.updateHinText(this, R.string.select_position_before_scan_qr);
+					Util.nfcQrLocateMe(this, tagId);
 				}
 			} else {
-				Util.nfcQrLocateMe(this, tagId); 
+				// Reset the state
+				if (mNfcEditState == IndoorMapData.NFC_EDIT_STATE_SCANNING) {
+					mNfcEditState = IndoorMapData.NFC_EDIT_STATE_FINISH;
+				}
 			}
-		} else {
-			// Reset the state
-			if (mNfcEditState == IndoorMapData.NFC_EDIT_STATE_SCANNING) {
-				mNfcEditState = IndoorMapData.NFC_EDIT_STATE_FINISH;
-			}
+			break;
+		default:
 		}
 	}
 
@@ -731,6 +749,9 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		// Show the Interest places layer
 		InterestPlaceBar.loadInterestPlaces(this);
+		
+		// Show the Search places layer
+		SearchBar.loadSearchPlaces(this);
 		
 		//createTabHost();
 		
