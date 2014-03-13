@@ -88,21 +88,7 @@ public class InterestPlaceBar {
 									if (place.getSerial() == inputIPNum) {																										
 										IPFound = true;
 										
-	                                    Intent intent_show_interest_place;
-										
-										if (needEnterTTSActivity(place)){
-											intent_show_interest_place = new Intent(mapViewer, InterestPlaceTTSViewerActivity.class); 
-										}
-										else{
-											intent_show_interest_place = new Intent(mapViewer, InterestPlaceViewerActivity.class); 
-										}
-										
-										Bundle mBundle = new Bundle(); 
-										mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM,
-												 IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_INPUT);
-										mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
-						    			intent_show_interest_place.putExtras(mBundle); 
-						    			mapViewer.startActivity(intent_show_interest_place);								 												
+										displayInterestPlaceContent(mapViewer, place);								 												
 									}												
 								}
 							}
@@ -257,32 +243,7 @@ public class InterestPlaceBar {
 
 				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
 					
-					// refine video URL as the general web page
-					// if the web page URL is defined, load web page from URL using web browswer
-					if (place.getUrlVideo() != null) {
-						Intent intent_show_interest_place = new Intent(mapViewer, InterestPlaceWebViewActivity.class); 
-						Bundle mBundle = new Bundle(); 
-						mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
-						intent_show_interest_place.putExtras(mBundle); 
-						mapViewer.startActivity(intent_show_interest_place);
-						
-					} else {
-						Intent intent_show_interest_place = new Intent(mapViewer, InterestPlaceViewerActivity.class);
-						
-						if (needEnterTTSActivity(place)){
-							intent_show_interest_place = new Intent(mapViewer, InterestPlaceTTSViewerActivity.class); 
-						}
-						else{
-							intent_show_interest_place = new Intent(mapViewer, InterestPlaceViewerActivity.class); 
-						}
-						
-						Bundle mBundle = new Bundle(); 
-						mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM,
-    						IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_TOUCH);
-						mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
-						intent_show_interest_place.putExtras(mBundle); 
-						mapViewer.startActivity(intent_show_interest_place);
-					}
+				   displayInterestPlaceContent(mapViewer, place);
 				}
 
 				return true;
@@ -353,6 +314,36 @@ public class InterestPlaceBar {
 		}
 		
 		return enterTTSActivity ;																
+		
+	}
+	
+	private static void displayInterestPlaceContent(MapViewerActivity mapViewer, InterestPlace place){
+		// refine video URL as the general web page
+		// if the web page URL is defined, load web page from URL using web browswer
+		if (place.getUrlVideo() != null) {
+			Intent intent_show_interest_place = new Intent(mapViewer, InterestPlaceWebViewActivity.class); 
+			Bundle mBundle = new Bundle(); 
+			mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
+			intent_show_interest_place.putExtras(mBundle); 
+			mapViewer.startActivity(intent_show_interest_place);
+			
+		} else {
+			Intent intent_show_interest_place = new Intent(mapViewer, InterestPlaceViewerActivity.class);
+			
+			if (needEnterTTSActivity(place)){
+				intent_show_interest_place = new Intent(mapViewer, InterestPlaceTTSViewerActivity.class); 
+			}
+			else{
+				intent_show_interest_place = new Intent(mapViewer, InterestPlaceViewerActivity.class); 
+			}
+			
+			Bundle mBundle = new Bundle(); 
+			mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM,
+				IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_TOUCH);
+			mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
+			intent_show_interest_place.putExtras(mBundle); 
+			mapViewer.startActivity(intent_show_interest_place);
+		}																
 		
 	}
 	

@@ -117,8 +117,8 @@
     <string name="download_ongoing">正在下载……</string>
     <string name="please_wait">请等候……</string>
     <string name="wrong_server">错误的服务器配置，或者当前服务器不可访问！</string>
-    <string name="audio_guide_title">输入自助导游语音编码</string>
-    <string name="play_audio_guide">播放</string>
+    <string name="audio_guide_title">输入自助导游介绍编码</string>
+    <string name="play_audio_guide">确定</string>
     <string name="audio_guide_no">四位数字编码</string>
     <string name="audio_no_not_exist">编码不存在</string>
     <string name="navi_from_to">设置导航地点</string>
