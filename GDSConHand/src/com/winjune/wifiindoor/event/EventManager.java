@@ -260,15 +260,13 @@ public class EventManager {
 	public String getEventTimeInfo(EventItem et) {				
 		if (et == null)
 			return null;		
-		
-
-        
+		       
         ArrayList<EventTime> timeList = getEventTodayTime(et);
        		
 		if (timeList == null)
 			return null;
 		
-		String eventInfo = "Time: ";
+		String eventInfo = "";
 		
 		for (int i=0; i<timeList.size(); i++){
 			eventInfo += timeList.get(i).toString() + "  ";

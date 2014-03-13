@@ -2,6 +2,7 @@ package com.winjune.wifiindoor.activity;
 
 
 import java.util.ArrayList;
+
 import com.winjune.wifiindoor.R;
 
 import android.app.ExpandableListActivity;
@@ -114,7 +115,8 @@ public class EventViewerListByTimeActivity extends ExpandableListActivity{
 	            TextView name=(TextView)view.findViewById(R.id.EventTitle); //childlayout有一个用于显示名字的视图  
 	            name.setText(eventTitle); //给这个视图数据  
 	            
-	            String eventInfo = eventManager.getEventTimeInfo(thisEvent);
+	            String eventInfo = getResources().getString(R.string.time);
+	            eventInfo += ": "+ eventManager.getEventTimeInfo(thisEvent);
 	            TextView description=(TextView)view.findViewById(R.id.EventInfo); //childlayout有一个用于显示描述的视图，在name视图的下面，  
 	            description.setTextKeepState(eventInfo);  //这里只是简单的把它的数据设为description  
 	              	              

@@ -95,7 +95,8 @@ public class EventViewerListByPlaceActivity extends ExpandableListActivity{
 	        	if (thisEvent != null)
 	        		name.setText(thisEvent.getTitle());
 
-	            String eventInfo = eventManager.getEventTimeInfo(thisEvent);
+	            String eventInfo = getResources().getString(R.string.time);  
+	            eventInfo += ": "+ eventManager.getEventTimeInfo(thisEvent);
 	            TextView description=(TextView)view.findViewById(R.id.EventInfo); //childlayout有一个用于显示描述的视图，在name视图的下面，  
 	            description.setTextKeepState(eventInfo);  //这里只是简单的把它的数据设为description  
 	              	              

@@ -50,7 +50,7 @@ public class EventItem {
 	
 	public void addNormalDayTime(int fromHour, int fromMin, int toHour, int toMin){
 		EventTime eventTime = new EventTime(fromHour, fromMin, toHour, toMin);		
-		this.festivalTime.add(eventTime);		
+		this.normalDayTime.add(eventTime);		
 	}
 	
 	public void addWeekendTime(int fromHour, int fromMin, int toHour, int toMin){

@@ -10,13 +10,13 @@
 <TextView 
     android:text="Group Title" 
     android:layout_height="wrap_content" 
-    android:textSize="20sp" 
+    android:textSize="24sp" 
     android:layout_width="wrap_content" 
     android:id="@+id/GroupTitle"/>
 <TextView 
 	android:text="Event Count" 
 	android:layout_height="wrap_content" 
-	android:textSize="20sp" 
+	android:textSize="24sp" 
 	android:layout_width="wrap_content" 
 	android:layout_toRightOf ="@+id/GroupTitle" 
 	android:id="@+id/EventCount"/>
