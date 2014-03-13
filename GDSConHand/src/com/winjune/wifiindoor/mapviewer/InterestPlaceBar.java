@@ -318,6 +318,7 @@ public class InterestPlaceBar {
 	}
 	
 	private static void displayInterestPlaceContent(MapViewerActivity mapViewer, InterestPlace place){
+		
 		// refine video URL as the general web page
 		// if the web page URL is defined, load web page from URL using web browswer
 		if (place.getUrlVideo() != null) {
