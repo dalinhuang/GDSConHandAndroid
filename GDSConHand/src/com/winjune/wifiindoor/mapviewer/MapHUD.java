@@ -231,7 +231,11 @@ public class MapHUD {
 			public boolean onAreaTouched(AnimatedSprite sprite,
 					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
 					float pTouchAreaLocalY) {
-				InfoBanner.showInfo(mapViewer);
+				
+				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+					InfoBanner.showInfo(mapViewer);
+				}
+				
 				return true;
 			}
 		});
@@ -244,10 +248,12 @@ public class MapHUD {
 			public boolean onAreaTouched(AnimatedSprite sprite,
 					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
 					float pTouchAreaLocalY) {
-
-				Intent intent_searcher = new Intent(mapViewer, PlaceSearcherActivity.class); 
-				mapViewer.startActivityForResult(intent_searcher, MapViewerActivity.SEARCH_REQUEST_CODE);
-
+				
+				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+					Intent intent_searcher = new Intent(mapViewer, PlaceSearcherActivity.class); 
+					mapViewer.startActivityForResult(intent_searcher, MapViewerActivity.SEARCH_REQUEST_CODE);
+				}
+				
 				return true;
 			}
 		});	
