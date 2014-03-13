@@ -157,9 +157,13 @@
             android:configChanges="orientation|keyboardHidden"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        
         <activity
 			android:name = "com.winjune.wifiindoor.activity.InterestPlaceViewerActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme.NoTitleBar" >
+		</activity>	
+			<activity
+			android:name = "com.winjune.wifiindoor.activity.InterestPlaceTTSViewerActivity"
             android:configChanges="orientation|keyboardHidden"
             android:theme="@android:style/Theme.NoTitleBar" >
 		</activity>	

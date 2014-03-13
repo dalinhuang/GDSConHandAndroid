@@ -11,8 +11,8 @@ import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +23,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.InterestPlaceViewerActivity;
+import com.winjune.wifiindoor.activity.InterestPlaceTTSViewerActivity;
 import com.winjune.wifiindoor.activity.InterestPlaceWebViewActivity;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
+import com.winjune.wifiindoor.drawing.graphic.model.AnimatedUnit;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.drawing.graphic.model.SpriteListener;
 import com.winjune.wifiindoor.map.InterestPlace;
@@ -85,7 +87,16 @@ public class InterestPlaceBar {
 								if (place != null) {
 									if (place.getSerial() == inputIPNum) {																										
 										IPFound = true;
-										Intent intent_show_interest_place = new Intent(mapViewer, InterestPlaceViewerActivity.class); 
+										
+	                                    Intent intent_show_interest_place;
+										
+										if (needEnterTTSActivity(place)){
+											intent_show_interest_place = new Intent(mapViewer, InterestPlaceTTSViewerActivity.class); 
+										}
+										else{
+											intent_show_interest_place = new Intent(mapViewer, InterestPlaceViewerActivity.class); 
+										}
+										
 										Bundle mBundle = new Bundle(); 
 										mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM,
 												 IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_INPUT);
@@ -207,7 +218,33 @@ public class InterestPlaceBar {
 	}
 	
 	private static Sprite createInterestPlaceSprite(final MapViewerActivity mapViewer, final InterestPlace place) {		
-		Sprite placeSprite = Library.INTEREST_PLACE.load(mapViewer, new SpriteListener() {
+        
+		AnimatedUnit  whichSvg = Library.INTEREST_PLACE_FOR_IE;	
+		
+		String text = null;
+    	String picture = null;
+    	String audio = null;
+    	String webUrl = null;
+		
+		text = place.getInfo();
+		picture = place.getUrlPic();
+		audio = place.getUrlAudio();
+		webUrl = place.getUrlVideo();
+		
+		if ((webUrl !=null) && (!webUrl.trim().isEmpty())){
+			whichSvg = Library.INTEREST_PLACE_FOR_IE;
+		}
+		else if ((audio !=null) && (!audio.trim().isEmpty())){
+			whichSvg = Library.INTEREST_PLACE_FOR_SPEECH;
+		}
+		else if ((text !=null) && (!text.trim().isEmpty())){
+			whichSvg = Library.INTEREST_PLACE_FOR_SPEECH;
+		}	
+		else if ((picture !=null) && (!picture.trim().isEmpty())){
+			whichSvg = Library.INTEREST_PLACE_FOR_PIC;
+		}
+				
+		Sprite placeSprite = whichSvg.load(mapViewer, new SpriteListener() {
 
 			@Override
 			public boolean onAreaTouched(AnimatedSprite sprite,
@@ -230,7 +267,15 @@ public class InterestPlaceBar {
 						mapViewer.startActivity(intent_show_interest_place);
 						
 					} else {
-						Intent intent_show_interest_place = new Intent(mapViewer, InterestPlaceViewerActivity.class); 
+						Intent intent_show_interest_place = new Intent(mapViewer, InterestPlaceViewerActivity.class);
+						
+						if (needEnterTTSActivity(place)){
+							intent_show_interest_place = new Intent(mapViewer, InterestPlaceTTSViewerActivity.class); 
+						}
+						else{
+							intent_show_interest_place = new Intent(mapViewer, InterestPlaceViewerActivity.class); 
+						}
+						
 						Bundle mBundle = new Bundle(); 
 						mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM,
     						IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_TOUCH);
@@ -275,6 +320,42 @@ public class InterestPlaceBar {
 			ex.printStackTrace();
 		}
 	}	
+	
+	private static boolean needEnterTTSActivity(InterestPlace place){
+		boolean isTTSSupported = false;
+		boolean enterTTSActivity = true;
+		
+		
+		isTTSSupported = Util.isTTSSupported();
+		
+		String text = null;
+    	String picture = null;
+    	String audio = null;
+		
+		text = place.getInfo();
+		picture = place.getUrlPic();
+		audio = place.getUrlAudio();
+		
+		if ((audio !=null) && (!audio.trim().isEmpty())){
+			enterTTSActivity = false;
+		}
+		
+		if ((picture !=null) && (!picture.trim().isEmpty())){
+			enterTTSActivity = false;
+		}
+		
+		if (!isTTSSupported) {
+			enterTTSActivity = false;
+		}
+		
+		if ((text == null) || (text.trim().isEmpty())) {
+			enterTTSActivity = false;
+		}
+		
+		return enterTTSActivity ;																
+		
+	}
+	
 	
 	
 }

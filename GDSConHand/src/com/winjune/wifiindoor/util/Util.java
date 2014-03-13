@@ -75,6 +75,8 @@ public class Util {
 	private static boolean initialed = false;
 	private static boolean saveEnergy = true;
 	
+	private static boolean ttsSupported = false;
+	
 	private static RuntimeIndoorMap runtimeIndoorMap = null;
 		
 	private static Toast toast = null;
@@ -228,6 +230,14 @@ public class Util {
 
 	public static void setVibrator(Vibrator vibrator) {
 		Util.vibrator = vibrator;
+	}
+	
+	public static boolean isTTSSupported() {
+		return ttsSupported;
+	}
+
+	public static void setTTSSupported(boolean ttsSupported) {
+		Util.ttsSupported = ttsSupported;
 	}
 
 	public static void showLongToast(final Activity activity, final int resId) {

@@ -1,5 +1,7 @@
 package com.winjune.wifiindoor.activity;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,6 +9,8 @@ import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -20,10 +24,13 @@ import com.winjune.wifiindoor.version.ISoftwareVersions;
 import com.winjune.wifiindoor.version.SoftwareVersionData;
 import com.winjune.wifiindoor.webservice.IpsWebService;
 
-public class StartupActivity extends Activity {
+public class StartupActivity extends Activity implements OnInitListener{
 	           
     private static SharedPreferences prefs;
     private static boolean isFirstStartup;
+    
+	private TextToSpeech AutoGuideTTS = null;
+	private boolean isTTSSupported = false;
 	
 	@Override
     protected void onPause(){
@@ -65,12 +72,39 @@ public class StartupActivity extends Activity {
 		
 		Util.setCurrentForegroundActivity(this); 
 	}
+	
+	@Override
+	 public void onInit(int status) { 		   
+	       if(status == TextToSpeech.SUCCESS){  
+	           // we use Chinese      	       	   
+	          int result =  AutoGuideTTS.isLanguageAvailable(Locale.CHINA);
+	          
+	          
+	          if((result == TextToSpeech.LANG_COUNTRY_AVAILABLE) |  
+	             (result == TextToSpeech.LANG_AVAILABLE)) {   
+	        	  AutoGuideTTS.setLanguage(Locale.CHINA);
+	        	  Util.showLongToast(this, R.string.tts_start_soon);
+	        	  isTTSSupported = true;
+	          } else {
+	        	  
+	        	  Util.showLongToast (this, R.string.tts_language_unsupported); 
+	          }                     
+	       } 
+	       
+	      
+	      
+	      
+	   }
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.startup_entry);
+        
+        if (AutoGuideTTS == null) {        	
+			AutoGuideTTS = new TextToSpeech(this, this);
+		}
         
         Util.initApp(this);
         
@@ -133,6 +167,14 @@ public class StartupActivity extends Activity {
 	
 	// Called in the onPostExecute of AsyncTask
 	private void jumpToRightEntry() {
+		  if (isTTSSupported)
+		   {
+		      Util.setTTSSupported(true);
+		   }
+		   else
+		   {
+			   Util.setTTSSupported(false);			   
+		   } 
         
 		// Default is a public version
 		if (SoftwareVersionData.VERSION_NAME == null) {

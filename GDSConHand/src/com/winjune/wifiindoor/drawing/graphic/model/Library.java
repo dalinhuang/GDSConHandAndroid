@@ -112,6 +112,9 @@ public class Library {
 	 * Interest Place, occupy 1 * 1 Cells
 	 */
 	public static final AnimatedUnit INTEREST_PLACE = new AnimatedUnit(new String[] { "svg/star.svg" }, 0);
+	public static final AnimatedUnit INTEREST_PLACE_FOR_IE = new AnimatedUnit(new String[] { "svg/ie.svg" }, 0);
+	public static final AnimatedUnit INTEREST_PLACE_FOR_PIC = new AnimatedUnit(new String[] { "svg/pic.svg" }, 0);
+	public static final AnimatedUnit INTEREST_PLACE_FOR_SPEECH = new AnimatedUnit(new String[] { "svg/speech.svg" }, 0);
 	
 	/**
 	 * Map CELL
