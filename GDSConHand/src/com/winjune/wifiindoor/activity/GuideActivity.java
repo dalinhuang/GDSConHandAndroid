@@ -146,7 +146,7 @@ public class GuideActivity extends Activity implements OnPageChangeListener, OnC
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.guide, menu);
+		//getMenuInflater().inflate(R.menu.guide, menu);
 		return true;
 	}
 
@@ -167,7 +167,7 @@ public class GuideActivity extends Activity implements OnPageChangeListener, OnC
 		// TODO Auto-generated method stub
 		setCurDot(arg0);
 		
-		if (arg0 == 2) {
+		if (arg0 == mPics.length - 1) {
 			start.setVisibility(View.VISIBLE);
 		}
 		else {
@@ -189,7 +189,6 @@ public class GuideActivity extends Activity implements OnPageChangeListener, OnC
 	
     public class ViewPagerAdapter extends PagerAdapter{
 
-        //界面列表
         private List<View> views;   
 
         public ViewPagerAdapter (List<View> views){
