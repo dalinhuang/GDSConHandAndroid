@@ -20,7 +20,8 @@ public class Navigator {
 	
 	public void init(NaviInfo naviInfo, String unitStr ) {
 		
-				
+		isReady = false;
+		
 		nodes = naviInfo.getNodes();
 		paths = naviInfo.getPaths();
 		
