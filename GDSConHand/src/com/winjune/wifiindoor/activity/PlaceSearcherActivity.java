@@ -99,7 +99,7 @@ public class PlaceSearcherActivity extends Activity {
 			mapSearchInfo.toXML();
 		}
 		this.setResult(RESULT_OK);
-		this.finish();
+		PlaceSearcherActivity.this.finish();
 	}
 
 }
