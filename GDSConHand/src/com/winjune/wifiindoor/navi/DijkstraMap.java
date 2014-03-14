@@ -15,6 +15,15 @@ public class DijkstraMap {
 	
     Set<DijkstraNode> nodes = new HashSet<DijkstraNode>();
     
+    public void clear(){
+    	
+       	for (DijkstraNode node: nodes) {
+    		node.clear();    		
+    	}
+       	
+    	nodes.clear();
+    }
+    
     private void addNode(NaviNode node) {
     	
     	DijkstraNode dNode =new DijkstraNode(node.getId(), node.getName());  

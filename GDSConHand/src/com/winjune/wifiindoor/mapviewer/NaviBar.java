@@ -42,10 +42,11 @@ public class NaviBar {
 	}
 	
 	public static void loadNaviInfo(MapViewerActivity mapViewer) {
+		
 		mapViewer.naviInfo = new NaviInfo();
 		mapViewer.myNavigator = new Navigator();
 		
-		boolean updateNeeded = false; //Hoare: update every time regardless map versionn, for test only
+		boolean updateNeeded = true; //Hoare: update every time regardless map versionn, for test only
 
 		try {
 			InputStream map_file_is = new FileInputStream(Util.getNaviInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
@@ -77,6 +78,8 @@ public class NaviBar {
 			
 			downloadNaviInfo(mapViewer, mapid);
 		}	
+		
+		setNaviInfo(mapViewer, mapViewer.naviInfo);
 	}
 	
 	private static void downloadNaviInfo(MapViewerActivity mapViewer, int mapId) {
@@ -295,7 +298,7 @@ public class NaviBar {
 	public static void setNaviInfo(MapViewerActivity mapViewer, NaviInfo naviInfo) {
 		if (naviInfo == null) {
 			return;
-		}
+		}			
 		
 		mapViewer.naviInfo = naviInfo;
 		

@@ -9,8 +9,8 @@ import android.util.Log;
 public class Navigator {
 	
 	private static String LOG_TAG = "Navigator";
-	private ArrayList<NaviNode> nodes;
-	private ArrayList<NaviData> paths;
+	private ArrayList<NaviNode> nodes = null;
+	private ArrayList<NaviData> paths = null;
 	private String[] spinnerNames;
 	private int[] spinnerIdxToNodeId;
 	private String unitStr = ""; // 我们用什么单位
@@ -18,9 +18,21 @@ public class Navigator {
 	private boolean isReady = false;
 	DijkstraMap map = null;
 	
+	public Navigator(){
+	}
+	
 	public void init(NaviInfo naviInfo, String unitStr ) {
 		
 		isReady = false;
+		
+		if (nodes != null)
+			nodes.clear();
+		
+		if (paths != null)
+			paths.clear();
+		
+		if (map != null)
+			map.clear();		
 		
 		nodes = naviInfo.getNodes();
 		paths = naviInfo.getPaths();
