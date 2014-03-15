@@ -2,6 +2,8 @@ package com.winjune.wifiindoor.activity;
 
 import java.util.ArrayList;
 
+import org.andengine.entity.scene.menu.MenuScene;
+
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.R.id;
 import com.winjune.wifiindoor.R.layout;
@@ -16,15 +18,24 @@ import com.winjune.wifiindoor.util.Util;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 public class PlaceSearcherActivity extends Activity {
+
+	private int maxPlacesPerRow = 4;
+	private int maxPlaces = 5;
 	
 	@Override
 	protected void onResume() {
@@ -46,7 +57,7 @@ public class PlaceSearcherActivity extends Activity {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.place_searcher);
-        
+
         String[] locationList = new String[0];
         ArrayList <String> locationArray = new ArrayList<String>();
 		ArrayList<FieldInfo> fieldInfos = LabelBar.getMapInfo().getFields();
@@ -64,8 +75,43 @@ public class PlaceSearcherActivity extends Activity {
                 android.R.layout.simple_dropdown_item_1line, locationArray.toArray(locationList));
         textView.setThreshold(1); 
         textView.setAdapter(adapter);
-    		
-    }
+        
+        TableLayout layout =(TableLayout) this.findViewById(R.id.tablelayout);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        TableRow.LayoutParams params = new TableRow.LayoutParams(
+          (int) ((displayMetrics.widthPixels-layout.getPaddingLeft()-layout.getPaddingRight())
+                 * (1f/maxPlacesPerRow)), TableRow.LayoutParams.MATCH_PARENT);
+
+        int rows = (int) Math.ceil((double) maxPlaces/(double)maxPlacesPerRow);
+		for (int i = 0; i < rows; i++) {
+			if (locationArray.size() < (i * maxPlacesPerRow)) {
+				break;
+			}
+			TableRow tableRow = new TableRow(this);
+			for (int j = 0; j < maxPlacesPerRow; j++) {
+				int currentIndex = j + i * maxPlacesPerRow;
+				if (locationArray.size() < currentIndex
+						|| currentIndex >= maxPlaces) {
+					break;
+				}
+				Button button = new Button(this);
+				button.setText(locationArray.get(currentIndex));
+				button.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						String searchString = ((Button) view).getText()
+								.toString();
+						saveSearchResults(searchString);
+					}
+				});
+				button.setLayoutParams(params);
+				tableRow.addView(button);
+			}
+			layout.addView(tableRow);
+		}
+		this.setContentView(layout);
+	}
 
 	/** Called when the user clicks the Search button */
 	public void placeSearch(View view) {
@@ -99,7 +145,7 @@ public class PlaceSearcherActivity extends Activity {
 			mapSearchInfo.toXML();
 		}
 		this.setResult(RESULT_OK);
-		PlaceSearcherActivity.this.finish();
+		this.finish();
 	}
 
 }
