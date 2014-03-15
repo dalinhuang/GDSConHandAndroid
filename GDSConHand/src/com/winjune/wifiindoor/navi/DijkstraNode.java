@@ -13,6 +13,10 @@ public class DijkstraNode {
         this.name=name;
     }
     
+    public void clear(){
+    	child.clear();
+    }
+    
     public int getId(){
     	return id;
     }

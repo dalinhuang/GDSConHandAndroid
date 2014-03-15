@@ -117,7 +117,7 @@ public class InterestPlaceBar {
 	
 	public static void loadInterestPlaces(MapViewerActivity mapViewer) {
 		InterestPlacesInfo interestPlacesInfo = new InterestPlacesInfo();
-		boolean updateNeeded = false; //Hoare: update every time regardless map version, for test only
+		boolean updateNeeded = true; //Hoare: update every time regardless map version, for test only
 
 		try {
 			InputStream map_file_is = new FileInputStream(Util.getInterestPlacesInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));

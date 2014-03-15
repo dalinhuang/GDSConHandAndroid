@@ -186,9 +186,7 @@ public class EventManager {
 		
 	private boolean isFestivalDay(Date dt) {
 		
-		for (int i=0; i<festivalDays.size(); i++) {
-			Date tmpDt = festivalDays.get(i); 
-			
+		for (Date tmpDt:festivalDays) {						
 			if (tmpDt == dt) return true; 
 		}			
 		
@@ -203,8 +201,7 @@ public class EventManager {
     	}       
         
         int addedNum = 0;
-        for (int i=0; i<eventItems.size();i++){
-        	EventItem et = eventItems.get(i);
+        for (EventItem et:eventItems){        	
        		
         	boolean alreadyAdded = false;
         	for (int j=0; j<addedNum; j++) {        		
@@ -257,19 +254,19 @@ public class EventManager {
        				
 	}
 	
-	public String getEventTimeInfo(EventItem et) {				
-		if (et == null)
+	public String getEventTimeInfo(EventItem ei) {				
+		if (ei == null)
 			return null;		
 		       
-        ArrayList<EventTime> timeList = getEventTodayTime(et);
+        ArrayList<EventTime> timeList = getEventTodayTime(ei);
        		
 		if (timeList == null)
 			return null;
 		
 		String eventInfo = "";
 		
-		for (int i=0; i<timeList.size(); i++){
-			eventInfo += timeList.get(i).toString() + "  ";
+		for ( EventTime et: timeList){
+			eventInfo += et.toString() + "  ";
 		}
 		
 		return eventInfo;
@@ -278,9 +275,9 @@ public class EventManager {
 	public ArrayList<EventItem> getTodayEventListByPlace(int placeNo ){
 		ArrayList<EventItem> todayEvent = new ArrayList<EventItem>();
 		
-		for (int i=0; i<eventItems.size();i++) {
-			if (eventItems.get(i).getPlaceNo() == placeNo) {
-				todayEvent.add(eventItems.get(i));
+		for (EventItem ei:eventItems) {
+			if (ei.getPlaceNo() == placeNo) {
+				todayEvent.add(ei);
 			}
 		}
 		
@@ -291,15 +288,14 @@ public class EventManager {
 		ArrayList<EventItem> todayEvent = new ArrayList<EventItem>();
 		ArrayList<EventTime> timeList;
 		
-		for (int i=0; i<eventItems.size();i++) {
+		for (EventItem ei:eventItems) {
 			
-			timeList = getEventTodayTime(eventItems.get(i));
-			for (int j=0; j<timeList.size(); j++){
-				EventTime et = timeList.get(j);
+			timeList = getEventTodayTime(ei);
+			for (EventTime et: timeList){				
 				
 				//some event only has start time								
 				if ((et.fromHour >= fromHour) && (et.fromHour < toHour)) {						
-					todayEvent.add(eventItems.get(i));
+					todayEvent.add(ei);
 					break;
 				} 				
 			}

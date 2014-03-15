@@ -29,7 +29,7 @@ public class LabelBar {
 		{
 			mapInfo = new MapInfo();
 		}
-		boolean updateNeeded = false; //Hoare: update every time regardless map versionn, for test only
+		boolean updateNeeded = true; //Hoare: update every time regardless map versionn, for test only
 
 		try {
 			InputStream map_file_is = new FileInputStream(Util.getMapInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));

@@ -4,27 +4,32 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
+import android.annotation.SuppressLint;
 import android.util.Log;
 
+@SuppressLint("UseSparseArrays")
 public class DijkstraPath {	
+	private String LOG_TAG = "Navigator";
 	Set<DijkstraNode> open = new HashSet<DijkstraNode>();
-    Set<DijkstraNode> close = new HashSet<DijkstraNode>();
-    Map<Integer,Integer> path = new HashMap<Integer,Integer>();//封装路径距离
+    Set<DijkstraNode> close = new HashSet<DijkstraNode>();    
+	Map<Integer,Integer> path = new HashMap<Integer,Integer>();//封装路径距离
     Map<Integer,String> pathInfo=new HashMap<Integer,String>();//封装路径信息
     
-    public NaviPath planPath(DijkstraMap map, int fromId, int toId) {
-    	
+    public NaviPath planPath(DijkstraMap map, int fromId, int toId) {    	
     	DijkstraNode start = map.getNode(fromId);
+    	DijkstraNode toNode = map.getNode(toId);
     	
     	if (start == null) {
-    		Log.e("Navigator", "Null start: "+fromId);
+    		Log.e(LOG_TAG, "Null start: "+ fromId);
     		return null;
     	}
     	
-    	
+    	if (toNode == null) {
+    		Log.e(LOG_TAG, "Null end: "+ toId);
+    		return null;    		
+    	}    	    	
     		
-    	Log.i("Navigator", start.getName());
+    	Log.i(LOG_TAG, start.getName());
 
     	open = map.getNodes();
     	

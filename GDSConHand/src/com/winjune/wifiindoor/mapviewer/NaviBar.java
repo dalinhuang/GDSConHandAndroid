@@ -42,6 +42,7 @@ public class NaviBar {
 	}
 	
 	public static void loadNaviInfo(MapViewerActivity mapViewer) {
+		
 		mapViewer.naviInfo = new NaviInfo();
 		mapViewer.myNavigator = new Navigator();
 		
@@ -77,6 +78,8 @@ public class NaviBar {
 			
 			downloadNaviInfo(mapViewer, mapid);
 		}	
+		
+		setNaviInfo(mapViewer, mapViewer.naviInfo);
 	}
 	
 	private static void downloadNaviInfo(MapViewerActivity mapViewer, int mapId) {
@@ -128,56 +131,63 @@ public class NaviBar {
 					
 						
 			spinnerNames = mapViewer.myNavigator.getNodeSpinnerNames();
-			spinnerNames[0] = mapViewer.getResources().getString(R.string.navi_my_place);						
+			if (spinnerNames == null) {
+				builder.setMessage(R.string.navi_no_node);	
+			} else {
+				spinnerNames[0] = mapViewer.getResources().getString(R.string.navi_my_place);						
 						
-			adapter = new ArrayAdapter<String>(mapViewer, android.R.layout.simple_spinner_item, spinnerNames);
-			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				adapter = new ArrayAdapter<String>(mapViewer, android.R.layout.simple_spinner_item, spinnerNames);
+				adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 						
-			if (sipnnerFrom != null) {
+				if (sipnnerFrom != null) {				
+					sipnnerFrom.setAdapter(adapter);							
+							
+					if (mapViewer.naviFromNode != -1) {
+						sipnnerFrom.setSelection(mapViewer.naviFromNode);
+					}
+							
+							
+					sipnnerFrom.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
+						@Override
+						public void onItemSelected(AdapterView<?> arg0,
+								View arg1, int arg2, long arg3) {
+							mapViewer.naviFromNode = arg2;
+						}
+
+						@Override
+						public void onNothingSelected(AdapterView<?> arg0) {
+							mapViewer.naviFromNode = -1;
+						}
+					});			
+				} else { //sipnnerFrom != null
+					builder.setMessage(R.string.navi_no_node);		
+				}
+									
+				if (sipnnerTo != null) {
 				
-				sipnnerFrom.setAdapter(adapter);							
-							
-				if (mapViewer.naviFromNode != -1) {
-					sipnnerFrom.setSelection(mapViewer.naviFromNode);
+					sipnnerTo.setAdapter(adapter);
+								
+					if (mapViewer.naviToNode != -1) {
+						sipnnerTo.setSelection(mapViewer.naviToNode);
+					}
+								
+					sipnnerTo.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
+	
+						@Override
+						public void onItemSelected(AdapterView<?> arg0,
+												View arg1, int arg2, long arg3) {
+							mapViewer.naviToNode = arg2;
+						}
+	
+						@Override
+						public void onNothingSelected(AdapterView<?> arg0) {
+							mapViewer.naviToNode = -1;
+						}
+					});
+				} else {// (sipnnerTo != null)
+					builder.setMessage(R.string.navi_no_node);
 				}
-							
-							
-				sipnnerFrom.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
-					@Override
-					public void onItemSelected(AdapterView<?> arg0,
-						View arg1, int arg2, long arg3) {
-						mapViewer.naviFromNode = arg2;
-					}
-
-					@Override
-					public void onNothingSelected(AdapterView<?> arg0) {
-						mapViewer.naviFromNode = -1;
-					}
-				});			
-			}
-						
-			if (sipnnerTo != null) {
-			
-				sipnnerTo.setAdapter(adapter);
-							
-				if (mapViewer.naviToNode != -1) {
-					sipnnerTo.setSelection(mapViewer.naviToNode);
-				}
-							
-				sipnnerTo.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
-
-					@Override
-					public void onItemSelected(AdapterView<?> arg0,
-											View arg1, int arg2, long arg3) {
-						mapViewer.naviToNode = arg2;
-					}
-
-					@Override
-					public void onNothingSelected(AdapterView<?> arg0) {
-						mapViewer.naviToNode = -1;
-					}
-				});
-			}
+			}// (spinnerNames == null)
 		}				   
 					
 		builder.setPositiveButton(R.string.navi_go, new OnClickListener() {
@@ -288,7 +298,7 @@ public class NaviBar {
 	public static void setNaviInfo(MapViewerActivity mapViewer, NaviInfo naviInfo) {
 		if (naviInfo == null) {
 			return;
-		}
+		}			
 		
 		mapViewer.naviInfo = naviInfo;
 		

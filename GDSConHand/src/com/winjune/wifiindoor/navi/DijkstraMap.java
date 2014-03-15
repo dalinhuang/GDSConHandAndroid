@@ -11,11 +11,23 @@ import com.winjune.wifiindoor.navi.NaviNode;
 import com.winjune.wifiindoor.navi.NaviData;
 
 public class DijkstraMap {
+	private String LOG_TAG = "Navigator"; 
+	
     Set<DijkstraNode> nodes = new HashSet<DijkstraNode>();
+    
+    public void clear(){
+    	
+       	for (DijkstraNode node: nodes) {
+    		node.clear();    		
+    	}
+       	
+    	nodes.clear();
+    }
     
     private void addNode(NaviNode node) {
     	
-    	DijkstraNode dNode =new DijkstraNode(node.getId(), node.getName());    	
+    	DijkstraNode dNode =new DijkstraNode(node.getId(), node.getName());  
+    	
     	nodes.add(dNode);
     } 
     
@@ -43,17 +55,17 @@ public class DijkstraMap {
     	DijkstraNode toNode = getNode(toId);
     	
     	if ((fromNode == null) || (toNode == null)) {
-    		Log.e("Navigator", "Wong route:"+fromId+"->"+toId);
+    		Log.e(LOG_TAG, "Wong route:"+ fromId+" -> "+toId);
     		return;
-    	}
-    			
+    	}    			
     	
-    	// the forward and backward edges
+    	// we are building a no-dir map
+    	// add both the forward and backward edges
     	fromNode.getChild().put(toNode, dist);
     	toNode.getChild().put(fromNode, dist);
     }
     
-    public DijkstraMap(ArrayList<NaviNode> nodes, ArrayList<NaviData> routes) {
+    public DijkstraMap(ArrayList<NaviNode> nodes, ArrayList<NaviData> routes) {    	
     	
     	// build the map
     	for (NaviNode nNode: nodes) {

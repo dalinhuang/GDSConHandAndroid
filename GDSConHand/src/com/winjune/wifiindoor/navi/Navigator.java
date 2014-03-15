@@ -8,8 +8,9 @@ import android.util.Log;
 
 public class Navigator {
 	
-	private ArrayList<NaviNode> nodes;
-	private ArrayList<NaviData> paths;
+	private static String LOG_TAG = "Navigator";
+	private ArrayList<NaviNode> nodes = null;
+	private ArrayList<NaviData> paths = null;
 	private String[] spinnerNames;
 	private int[] spinnerIdxToNodeId;
 	private String unitStr = ""; // 我们用什么单位
@@ -17,21 +18,40 @@ public class Navigator {
 	private boolean isReady = false;
 	DijkstraMap map = null;
 	
+	public Navigator(){
+	}
+	
 	public void init(NaviInfo naviInfo, String unitStr ) {
 		
-				
+		isReady = false;
+		
+		if (nodes != null)
+			nodes.clear();
+		
+		if (paths != null)
+			paths.clear();
+		
+		if (map != null)
+			map.clear();		
+		
 		nodes = naviInfo.getNodes();
 		paths = naviInfo.getPaths();
 		
-		if (nodes == null)
-		{
-			Log.e("Navigator", "No nodes are configred");
+		if ((nodes == null) || (paths == null)){
+			Log.e(LOG_TAG, "No nodes are configred");
 			return;
 		}
+		
+		if ((nodes.size() == 0) || (paths.size() == 0))		{
+			Log.e(LOG_TAG, "No nodes are configred");
+			return;
+		}
+		
 		
 		nodeNum  = nodes.size();
 		this.unitStr = unitStr;
 		
+		//filter out all invisible nodes 
 		int count = 1;
 		for (NaviNode node : nodes) {
 			// we only show general node name
@@ -39,7 +59,9 @@ public class Navigator {
 				count ++;
 			}
 		}
-				
+		
+		// build the name list for spinner 
+		// And build a reverse table to get node id by spinner index 
 		spinnerNames = new String[count];
 		spinnerIdxToNodeId = new int[count];
 		count = 1;
@@ -52,8 +74,10 @@ public class Navigator {
 			}
 		}	
 		
+		// build the map for dijkstra 
 		map = new DijkstraMap(nodes, paths);
 		
+		// Navigator is enabled
 		isReady = true;
 	}
 	
@@ -61,12 +85,21 @@ public class Navigator {
 		return spinnerNames;
 	}
 	
-	public int getNodeIdBySpinnerIdx(int index) {		
+	public int getNodeIdBySpinnerIdx(int index) {
+		
+		if ((index < 0) || (index >= spinnerIdxToNodeId.length)) {
+			Log.e(LOG_TAG, "Wrong spinner idex");
+			return -1;
+		}
+				
 		return spinnerIdxToNodeId[index];
 	}
 	
+	// User selects 'My place'
+	// we try to look for a nearest node according to his location
 	public int getNearestNaviNode(int myPlaceX, int myPlaceY) {
 		if ((myPlaceX == -1) || (myPlaceY == -1)) {
+			Log.e(LOG_TAG, "Wrong place");
 			return -1;
 		}	
 		
@@ -96,6 +129,7 @@ public class Navigator {
 	public NaviPath getShortestPath(int startNode, int endNode) {
         		
         if (!isReady) {
+        	Log.e(LOG_TAG, "Navigator is not ready");
         	return null;
         }
                
@@ -111,14 +145,14 @@ public class Navigator {
         		}        	
         	}        	
         	// 针对公共设施比如洗手间, 可能有多个洗手间,但是知有一个通用的显示, 选取最近的
+        	// Firstly we found all possible nodes
         	if (node.getNameId() == endNode) {
         		targetOptions.add(node);
         	}
         }
         
         DijkstraPath pathPlanner = new DijkstraPath();        
-        NaviPath path = null;
-        
+        NaviPath path = null;        
         
         if (targetOptions.isEmpty()) { 
         	// only one target node
