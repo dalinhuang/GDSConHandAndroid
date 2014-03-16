@@ -75,6 +75,7 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
     private static final int MENU_ITEM_SCAN = Menu.FIRST+1;
     private static final int MENU_ITEM_CONFIG = Menu.FIRST+2;
     private static final int MENU_ITEM_EXIT = Menu.FIRST+3;
+    private static final int MENU_ITEM_SETTING = Menu.FIRST+4;
 	
 	@Override
     protected void onPause(){
@@ -329,6 +330,7 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 		menu.add(0, MENU_ITEM_LOCATE, 0, resources.getString(R.string.menu_locate)).setIcon(android.R.drawable.ic_menu_mylocation);  
 		menu.add(0, MENU_ITEM_SCAN, 0, resources.getString(R.string.menu_scan_qr)).setIcon(android.R.drawable.ic_menu_camera);  
 		menu.add(0, MENU_ITEM_CONFIG, 0, resources.getString(R.string.menu_config)).setIcon(android.R.drawable.ic_menu_preferences);  
+		menu.add(0, MENU_ITEM_SETTING, 0, resources.getString(R.string.menu_setting)).setIcon(android.R.drawable.ic_menu_preferences);  
         menu.add(0, MENU_ITEM_EXIT, 0, resources.getString(R.string.menu_exit)).setIcon(android.R.drawable.ic_menu_close_clear_cancel);	
 		
 		return true;
@@ -347,6 +349,10 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
 	    case MENU_ITEM_CONFIG:
 	    	Intent openConfigIntent = new Intent(GMapEntryActivity.this, TunerActivity.class);
 			startActivity(openConfigIntent);
+	        break;
+	    case MENU_ITEM_SETTING:
+//	    	Intent openSettingIntent = new Intent(GMapEntryActivity.this, TunerActivity.class);
+//			startActivity(openConfigIntent);
 	        break;
 	    case MENU_ITEM_EXIT:
 	    	exitApp();

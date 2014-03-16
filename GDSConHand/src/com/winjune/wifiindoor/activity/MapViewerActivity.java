@@ -125,6 +125,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public static final int MENU_ITEM_INFO = Menu.FIRST + 1;
 	public static final int MENU_ITEM_CONFIG = Menu.FIRST + 2;
 	public static final int MENU_ITEM_EXIT = Menu.FIRST + 3;
+	public static final int MENU_ITEM_SETTING = Menu.FIRST + 4;
 
 	public Thread mPeriodicLocateMeThread;
 	public boolean periodicLocateMeOn;

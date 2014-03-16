@@ -18,17 +18,17 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.InfoPusherActivity;
 import com.winjune.wifiindoor.activity.MapSelectorActivity;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.activity.PlaceSearcherActivity;
 import com.winjune.wifiindoor.activity.QrScannerActivity;
+import com.winjune.wifiindoor.activity.SettingActivity;
 import com.winjune.wifiindoor.activity.TunerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.AnimatedUnit;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
@@ -372,6 +372,16 @@ public class MapHUD {
 				GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(configMenuItem);
 
+		final IMenuItem settingMenuItem = new ColorMenuItemDecorator(
+				new TextMenuItem(MapViewerActivity.MENU_ITEM_SETTING, mapViewer.mFont_menu, mapViewer.getResources()
+						.getString(R.string.menu_setting),
+						mapViewer.getVertexBufferObjectManager()),
+				new org.andengine.util.color.Color(1.0f, 0.0f, 0.0f),
+				new org.andengine.util.color.Color(0.0f, 0.0f, 0.0f));
+		settingMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA,
+				GL10.GL_ONE_MINUS_SRC_ALPHA);
+		menuScene.addMenuItem(settingMenuItem);
+
 		final IMenuItem exitMenuItem = new ColorMenuItemDecorator(
 				new TextMenuItem(MapViewerActivity.MENU_ITEM_EXIT, mapViewer.mFont_menu, mapViewer.getResources()
 						.getString(R.string.menu_exit),
@@ -404,6 +414,10 @@ public class MapHUD {
 				case MapViewerActivity.MENU_ITEM_CONFIG:
 					Intent openConfigIntent = new Intent(mapViewer, TunerActivity.class);
 					mapViewer.startActivity(openConfigIntent);
+					return true;
+				case MapViewerActivity.MENU_ITEM_SETTING:
+					Intent openSettingIntent = new Intent(mapViewer, SettingActivity.class);
+					mapViewer.startActivity(openSettingIntent);
 					return true;
 				case MapViewerActivity.MENU_ITEM_EXIT:
 					// End Activity.

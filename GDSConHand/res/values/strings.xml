@@ -10,6 +10,7 @@
     <string name="menu_edit">Edit</string>
     <string name="menu_view">View</string>
     <string name="menu_config">Preferences</string>
+    <string name="menu_setting">Settings</string>
     <string name="setting_periodical_and_time_interval">PERIODICAL EVENTS and INTERVALS</string>
     <string name="setting_visual_parameters">VISUAL PARAMETERS</string>
     <string name="setting_signal_filter">WIFI FINGERPRINT FILTER</string>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="浏览器设置" android:key="browser_setting">
+        <CheckBoxPreference android:key="download_picture" android:title="下载图片" android:defaultValue="true" android:summary="浏览时，下载图片。"/>
+        <CheckBoxPreference android:key="download_audio" android:title="下载音频" android:defaultValue="true" android:summary="浏览时，下载音频。"/>
+        <CheckBoxPreference android:summary="浏览时，将文本合成语音。" android:key="enable_tts" android:defaultValue="true" android:title="语音阅读"/>
+    </PreferenceCategory>
+    
+
+</PreferenceScreen>

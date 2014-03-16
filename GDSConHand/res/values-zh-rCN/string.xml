@@ -9,6 +9,7 @@
     <string name="menu_edit">编辑</string>
     <string name="menu_view">查看</string>
     <string name="menu_config">设置</string>
+    <string name="menu_setting">用户设置</string>
     <string name="setting_periodical_and_time_interval">周期性事件和时间间隔</string>
     <string name="setting_visual_parameters">界面定制化</string>
     <string name="setting_signal_filter">无线指纹过滤</string>

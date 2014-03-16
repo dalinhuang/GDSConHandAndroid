@@ -1,28 +1,20 @@
 package com.winjune.wifiindoor.activity;
 
-import java.util.List;
-
-import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.R.id;
-import com.winjune.wifiindoor.R.layout;
-import com.winjune.wifiindoor.R.string;
-import com.winjune.wifiindoor.map.InterestPlace;
-import com.winjune.wifiindoor.util.IndoorMapData;
-import com.winjune.wifiindoor.util.ShareUtil;
-import com.winjune.wifiindoor.util.Util;
-
 import android.app.Activity;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.os.Bundle; 
-import android.view.KeyEvent; 
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView; 
+import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
+
+import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.map.InterestPlace;
+import com.winjune.wifiindoor.util.IndoorMapData;
+import com.winjune.wifiindoor.util.ShareUtil;
 
 public class InterestPlaceWebViewActivity extends Activity {
     private WebView webview;
@@ -58,6 +50,10 @@ public class InterestPlaceWebViewActivity extends Activity {
 			}
 		});
         
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean bDownloadPic = sharedPrefs.getBoolean("download_picture", true);
+        webview.getSettings().setLoadsImagesAutomatically(bDownloadPic);
+
         webview.loadUrl(url); 
 
     } 
