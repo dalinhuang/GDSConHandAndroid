@@ -62,7 +62,8 @@ public class NaviBar {
 				updateNeeded = true;
 			}
 			
-			//myNavigator.init(naviInfo, getResources().getString(R.string.navi_meter));
+			// load cached navi info first regardless 
+			mapViewer.myNavigator.init(mapViewer.naviInfo, mapViewer.getResources().getString(R.string.navi_meter));
 			
 		} catch (Exception e) {
 			updateNeeded = true;
@@ -77,9 +78,7 @@ public class NaviBar {
 			}				
 			
 			downloadNaviInfo(mapViewer, mapid);
-		}	
-		
-		setNaviInfo(mapViewer, mapViewer.naviInfo);
+		} 					
 	}
 	
 	private static void downloadNaviInfo(MapViewerActivity mapViewer, int mapId) {
@@ -300,11 +299,11 @@ public class NaviBar {
 			return;
 		}			
 		
-		mapViewer.naviInfo = naviInfo;
+		mapViewer.naviInfo.copy(naviInfo);		
 		
-		mapViewer.myNavigator.init(naviInfo, mapViewer.getResources().getString(R.string.navi_meter));
+		mapViewer.myNavigator.init(mapViewer.naviInfo, mapViewer.getResources().getString(R.string.navi_meter));
 		
 		// Store into file
-		naviInfo.toXML();
+		mapViewer.naviInfo.toXML();
 	}	
 }

@@ -27,7 +27,7 @@ public class WifiIpsSettings {
 	
 	public static String PRIMARY_SERVER = "14.18.207.183";
 	public static String SECONDARY_SERVER = "14.18.207.183";
-	public static String SERVER_PORT = "8080";
+	public static String SERVER_PORT = "80";
 	public static String SERVER_SUB_DOMAIN = "/GDSCAppServer"; //"/wifiips", "/WifiIpsServer";
 	public static String SERVER = null;
 	
