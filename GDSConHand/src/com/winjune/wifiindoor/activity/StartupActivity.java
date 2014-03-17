@@ -110,6 +110,7 @@ public class StartupActivity extends Activity implements OnInitListener{
         
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		isFirstStartup = prefs.getBoolean("firstStartup", true);
+		//isFirstStartup = true;
         
         new AsyncTask<Void, Void, Integer> () {
 
@@ -146,7 +147,7 @@ public class StartupActivity extends Activity implements OnInitListener{
 			@Override
             protected void onPostExecute(Integer result) {
 				
-				if (isFirstStartup == true) {
+				if (isFirstStartup) {
                 	Intent intent = new Intent(StartupActivity.this, GuideActivity.class);
                 	startActivity(intent);
                     finish();

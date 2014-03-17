@@ -543,7 +543,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		// Change to: do not allow zoomFactor too small, to avoid all or too much map pieces be displayed in the Screen and cause the OOM issue 
 		float min_zoom_factor = 0.8f;		
-		float max_zoom_factor = 6f;	
+		float max_zoom_factor = 8f;	
 		// default use minimized map to show overall
 		float current_zoom_factor = 1f;
 		
@@ -667,6 +667,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		// No background color needed as we have a fullscreen background sprite.
 		mainScene.setBackgroundEnabled(true);
 		mainScene.setBackground(new Background(255,255,255)); // white color
+		
 		// Background lines
 		if (VisualParameters.BACKGROUND_LINES_NEEDED && VisualParameters.PLANNING_MODE_ENABLED) {
 			backgroundSprite = Library.BACKGROUND3.load(this, cameraWidth, cameraHeight);
