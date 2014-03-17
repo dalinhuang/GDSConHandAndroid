@@ -94,6 +94,7 @@ public class LabelBar {
 		else
 		{
 			fieldInfos.addAll(newFieldInfos);
+			mapInfo.setFields(fieldInfos);
 		}
 	}
 
