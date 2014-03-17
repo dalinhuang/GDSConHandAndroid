@@ -1,6 +1,10 @@
 package com.winjune.wifiindoor.drawing.graphic.model;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.TextureOptions;
@@ -9,6 +13,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.opengl.texture.atlas.bitmap.source.FileBitmapTextureAtlasSource;
 import org.andengine.opengl.texture.region.TextureRegion;
 
+import android.content.res.AssetManager;
 import android.util.Log;
 
 import com.winjune.wifiindoor.activity.MapViewerActivity;
@@ -38,6 +43,30 @@ public class MapPieceUnit extends Unit {
 			Log.i("MapPiece", "Create Map Piece from file, path=" + Util.getMapPicturePathName(""+Util.getRuntimeIndoorMap().getMapId(), fileName));
 			
 			if (!file.exists()) {
+				if (Util.getIsDefaultMap()) {
+					// Copy the default assets image file to the map directory.
+					try {
+						InputStream in = activity.getAssets().open(fileName);
+						OutputStream out = new FileOutputStream(file);
+						byte[] buffer = new byte[1024];
+						int read;
+						while ((read = in.read(buffer)) != -1) {
+							out.write(buffer, 0, read);
+						}
+						in.close();
+						in = null;
+						out.flush();
+						out.close();
+						out = null;
+
+					} catch (Exception e) {
+						// Get default map failure
+						Log.e("MapPiece", "Default map can't be loaded to path=" + Util.getMapPicturePathName(""+Util.getRuntimeIndoorMap().getMapId(), fileName));
+					}
+
+				}
+				else
+				{
 				Log.i("MapPiece", "File not exist, path=" + Util.getMapPicturePathName(""+Util.getRuntimeIndoorMap().getMapId(), fileName));
 				if (!IpsWebService.isHttpConnectionEstablished()) { // Mission impossible
 					return null;
@@ -45,6 +74,7 @@ public class MapPieceUnit extends Unit {
 
 				Log.i("MapPiece", "Download file, path=" + Util.getMapPicturePathName(""+Util.getRuntimeIndoorMap().getMapId(), fileName));
 				Util.downloadMapPicture(activity, ""+Util.getRuntimeIndoorMap().getMapId(), fileName);
+				}
 			}
 			
 			if (!file.exists()) {

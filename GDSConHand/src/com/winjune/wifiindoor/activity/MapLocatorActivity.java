@@ -219,7 +219,7 @@ public class MapLocatorActivity extends Activity {
 
 	private void openMapViewer(int mapId) {
 		IndoorMap indoorMap = new IndoorMap();
-		
+		boolean needLoadDefaultMap = false;
 		try {
 			InputStream map_file_is = new FileInputStream(Util.getMapFilePathName(""+mapId));
 			
@@ -245,9 +245,20 @@ public class MapLocatorActivity extends Activity {
 				return;
 			}
 			withLocation = false;
-			return;
+			needLoadDefaultMap = true;
 		}
 		
+		if (needLoadDefaultMap)
+		{
+			try {
+				InputStream map_file_is = getAssets().open("defaultmap.xml");
+				
+				indoorMap.fromXML(map_file_is);
+				Util.setIsDefaultMap(true);
+			} catch (Exception exception) {
+				return;
+			}
+		}
 		startNewIntent(indoorMap);
 	}	
 	

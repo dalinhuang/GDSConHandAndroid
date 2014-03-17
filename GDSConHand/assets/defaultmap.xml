@@ -1,0 +1,13 @@
+<IndoorMap>
+  <editTime>2014-02-13 14:00:00.0</editTime>
+  <version>v1.0</version>
+  <initialMap>
+    <cellPixel>16</cellPixel>
+    <columns>75</columns>
+    <rows>100</rows>
+  </initialMap>
+  <name>GDSC</name>
+  <pictureName>0,0,1200,1600,defaultmap.png</pictureName>
+  <id>2</id>
+  <versionCode>1</versionCode>
+</IndoorMap>

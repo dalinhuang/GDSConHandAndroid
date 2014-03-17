@@ -77,6 +77,8 @@ public class Util {
 	
 	private static boolean ttsSupported = false;
 	
+	private static boolean isDefaultMap = false;
+
 	private static RuntimeIndoorMap runtimeIndoorMap = null;
 		
 	private static Toast toast = null;
@@ -238,6 +240,14 @@ public class Util {
 
 	public static void setTTSSupported(boolean ttsSupported) {
 		Util.ttsSupported = ttsSupported;
+	}
+
+	public static boolean getIsDefaultMap() {
+		return isDefaultMap;
+	}
+
+	public static void setIsDefaultMap(boolean isDefaultMap) {
+		Util.isDefaultMap = isDefaultMap;
 	}
 
 	public static void showLongToast(final Activity activity, final int resId) {
