@@ -753,8 +753,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		// Show the Interest places layer
 		InterestPlaceBar.loadInterestPlaces(this);
 		
-		// Show the Search places layer
-		SearchBar.loadSearchPlaces(this);
+		//Need not show the Search places layer
+		//SearchBar.loadSearchPlaces(this);
 		
 		//createTabHost();
 		
