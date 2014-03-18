@@ -154,7 +154,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public ArrayList<Sprite> searchPlaces;
 	public ArrayList<Rectangle> collectedFlags; // Flags for fingerprint collected cells
 	
-	public NaviInfo naviInfo;
+	//public NaviInfo naviInfo;
 	public Navigator myNavigator;
 	
 	public int naviMyPlaceX;

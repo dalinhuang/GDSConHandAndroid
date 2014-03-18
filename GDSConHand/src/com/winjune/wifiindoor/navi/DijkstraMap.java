@@ -1,9 +1,7 @@
 package com.winjune.wifiindoor.navi;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.LinkedHashSet;
 import android.util.Log;
 
 import com.winjune.wifiindoor.navi.DijkstraNode;
@@ -13,7 +11,7 @@ import com.winjune.wifiindoor.navi.NaviData;
 public class DijkstraMap {
 	private String LOG_TAG = "Navigator"; 
 	
-    Set<DijkstraNode> nodes = new HashSet<DijkstraNode>();
+	LinkedHashSet<DijkstraNode> nodes;
     
     public void clear(){
     	
@@ -42,7 +40,7 @@ public class DijkstraMap {
     	return null;
     }
     
-    public Set<DijkstraNode> getNodes(){
+    public LinkedHashSet<DijkstraNode> getNodes(){
     	return nodes;
     }
     
@@ -66,6 +64,7 @@ public class DijkstraMap {
     }
     
     public DijkstraMap(ArrayList<NaviNode> nodes, ArrayList<NaviData> routes) {    	
+    	this.nodes = new LinkedHashSet<DijkstraNode>();
     	
     	// build the map
     	for (NaviNode nNode: nodes) {

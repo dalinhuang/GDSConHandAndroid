@@ -62,6 +62,7 @@ public class StartupActivity extends Activity implements OnInitListener{
     protected void onResume(){
 		super.onResume();
 		
+		// ??? IpsWebService may not start
 		IpsWebService.setActivity(this);
 
 		Util.setEnergySave(false);
@@ -232,7 +233,7 @@ public class StartupActivity extends Activity implements OnInitListener{
 	private void appStartUp() {
 		
 		IpsWebService.startWebService(StartupActivity.this);
-		
+				
 		// Check latest version
 		ApkVersionManager.CheckVersionUpgrade(StartupActivity.this);
 		

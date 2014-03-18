@@ -43,27 +43,28 @@ public class NaviBar {
 	
 	public static void loadNaviInfo(MapViewerActivity mapViewer) {
 		
-		mapViewer.naviInfo = new NaviInfo();
 		mapViewer.myNavigator = new Navigator();
 		
 		boolean updateNeeded = true; //Hoare: update every time regardless map versionn, for test only
 
 		try {
+			NaviInfo naviInfo = new NaviInfo();
+
 			InputStream map_file_is = new FileInputStream(Util.getNaviInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
 			
-			mapViewer.naviInfo.fromXML(map_file_is);
+			naviInfo.fromXML(map_file_is);
 			// file has already been closed
 			//map_file_is.close();
 			
 			// For Files in SD Card but not
 			//load_map_rc = designMap.fromXML(IndoorMapData.map_file_path + map_file_name);
 			
-			if (mapViewer.naviInfo.getVersionCode() != Util.getRuntimeIndoorMap().getVersionCode()) {
+			if (naviInfo.getVersionCode() != Util.getRuntimeIndoorMap().getVersionCode()) {
 				updateNeeded = true;
 			}
 			
 			// load cached navi info first regardless 
-			mapViewer.myNavigator.init(mapViewer.naviInfo, mapViewer.getResources().getString(R.string.navi_meter));
+			//mapViewer.myNavigator.init(naviInfo, mapViewer.getResources().getString(R.string.navi_meter));
 			
 		} catch (Exception e) {
 			updateNeeded = true;
@@ -117,8 +118,8 @@ public class NaviBar {
 		String[] spinnerNames;
 					
 					
-		if ((mapViewer.naviInfo == null) || (mapViewer.naviInfo.getNodes() == null) 
-			|| (mapViewer.naviInfo.getNodes().isEmpty())) {
+		if ((mapViewer.myNavigator.naviInfo == null) || (mapViewer.myNavigator.naviInfo.getNodes() == null) 
+			|| (mapViewer.myNavigator.naviInfo.getNodes().isEmpty())) {
 			builder.setMessage(R.string.navi_no_node);
 		} else {
 			LayoutInflater inflater = mapViewer.getLayoutInflater();
@@ -233,8 +234,8 @@ public class NaviBar {
 			return;
 		} 
 		
-		if ((mapViewer.naviInfo == null) || (mapViewer.naviInfo.getNodes() == null) 
-			|| (mapViewer.naviInfo.getPaths() == null)) {
+		if ((mapViewer.myNavigator.naviInfo == null) || (mapViewer.myNavigator.naviInfo.getNodes() == null) 
+			|| (mapViewer.myNavigator.naviInfo.getPaths() == null)) {
 			naviStr = mapViewer.getResources().getString(R.string.navi_failed_no_data);
 			showNavigatorViewer(mapViewer, naviStr);
 			return;
@@ -282,7 +283,7 @@ public class NaviBar {
 	}
 	
 	private static int getNaviNodeIdFromSpinnerId (MapViewerActivity mapViewer, int spinnerId) {
-		if ((mapViewer.naviInfo == null) || (mapViewer.naviInfo.getNodes() == null)) {
+		if ((mapViewer.myNavigator.naviInfo == null) || (mapViewer.myNavigator.naviInfo.getNodes() == null)) {
 			return -1;
 		}
 		
@@ -298,12 +299,10 @@ public class NaviBar {
 		if (naviInfo == null) {
 			return;
 		}			
-		
-		mapViewer.naviInfo.copy(naviInfo);		
-		
-		mapViewer.myNavigator.init(mapViewer.naviInfo, mapViewer.getResources().getString(R.string.navi_meter));
+			
+		mapViewer.myNavigator.init(naviInfo, mapViewer.getResources().getString(R.string.navi_meter));
 		
 		// Store into file
-		mapViewer.naviInfo.toXML();
+		naviInfo.toXML();
 	}	
 }

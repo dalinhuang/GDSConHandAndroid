@@ -1,16 +1,16 @@
 package com.winjune.wifiindoor.navi;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 public class DijkstraNode {
     private int id;
 	private String name;
-    private Map<DijkstraNode,Integer> child=new HashMap<DijkstraNode,Integer>();
+    private LinkedHashMap<DijkstraNode,Integer> child;
     
     public DijkstraNode(int id, String name){
-    	this.id = id;
-        this.name=name;
+    	this.id    = id;
+        this.name  = name;
+        this.child = new LinkedHashMap<DijkstraNode,Integer>();
     }
     
     public void clear(){
@@ -27,10 +27,10 @@ public class DijkstraNode {
     public void setName(String name) {
         this.name = name;
     }
-	public Map<DijkstraNode, Integer> getChild() {
+	public LinkedHashMap<DijkstraNode, Integer> getChild() {
         return child;
     }
-    public void setChild(Map<DijkstraNode, Integer> child) {
+    public void setChild(LinkedHashMap<DijkstraNode, Integer> child) {
         this.child = child;
     }
 }

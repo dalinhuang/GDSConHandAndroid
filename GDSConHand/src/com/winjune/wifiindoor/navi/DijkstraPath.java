@@ -10,10 +10,17 @@ import android.util.Log;
 @SuppressLint("UseSparseArrays")
 public class DijkstraPath {	
 	private String LOG_TAG = "Navigator";
-	Set<DijkstraNode> open = new HashSet<DijkstraNode>();
-    Set<DijkstraNode> close = new HashSet<DijkstraNode>();    
-	Map<Integer,Integer> path = new HashMap<Integer,Integer>();//封装路径距离
-    Map<Integer,String> pathInfo=new HashMap<Integer,String>();//封装路径信息
+	HashSet<DijkstraNode> open;
+	HashSet<DijkstraNode> close;    
+	HashMap<Integer,Integer> path;//封装路径距离
+	HashMap<Integer,String> pathInfo;//封装路径信息
+	
+	public DijkstraPath(){
+		open = new HashSet<DijkstraNode>();
+		close = new HashSet<DijkstraNode>();
+		path = new HashMap<Integer,Integer>();
+		pathInfo =new HashMap<Integer,String>();
+	}
     
     public NaviPath planPath(DijkstraMap map, int fromId, int toId) {    	
     	DijkstraNode start = map.getNode(fromId);
@@ -37,10 +44,10 @@ public class DijkstraPath {
         for (DijkstraNode node:open) {
         	if (node == start) {
         		path.put(node.getId(), 0); 
-        		pathInfo.put(node.getId(), start.getName()+"->"+node.getId()+":0\n");        		
+        		pathInfo.put(node.getId(), start.getName()+"->"+node.getName()+":0\n");        		
         	} else {
         		path.put(node.getId(), Integer.MAX_VALUE); 
-        		pathInfo.put(node.getId(), start.getName()+"->"+node.getId()+":M");
+        		pathInfo.put(node.getId(), start.getName()+"->"+node.getName()+":M");
         	} 
         }
         
@@ -55,20 +62,27 @@ public class DijkstraPath {
     	
         computePath(start);
         
-        Set<Map.Entry<Integer, String>> pathInfos=pathInfo.entrySet();
+        Set<Map.Entry<Integer, String>> pathInfos= pathInfo.entrySet();
         for(Map.Entry<Integer, String> pathInfo:pathInfos){
         	if (pathInfo.getKey() == toId) {
         		NaviPath naviPath = new NaviPath(map.nodes.size());
         		
         		int dist = path.get(toId);
-        		Log.i("Navigator", "Dist:"+dist);
+        		// not edge connected to the target node        		
+        		if (dist == Integer.MAX_VALUE){
+        			Log.i(LOG_TAG, "no edge is connected to target node.");
+        			return null;
+        		}
+        		
+        		Log.i(LOG_TAG, "Dist:"+dist);        		       		
         		naviPath.setDist(dist);
         		naviPath.appendPathDesc(pathInfo.getValue());
-        		Log.i("Navigator", pathInfo.getValue());
+        		Log.i(LOG_TAG, pathInfo.getValue());
         		return naviPath;
         	}
-        }        
+        }
         
+        Log.i(LOG_TAG, "no edge is connected to target node.");        
     	return null;
     }
     
