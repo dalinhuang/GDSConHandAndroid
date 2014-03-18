@@ -670,7 +670,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		// Background lines
 		if (VisualParameters.BACKGROUND_LINES_NEEDED && VisualParameters.PLANNING_MODE_ENABLED) {
-			backgroundSprite = Library.BACKGROUND3.load(this, cameraWidth, cameraHeight);
+
+			int mapWidth = Util.getRuntimeIndoorMap().getColNum() * Util.getRuntimeIndoorMap().getCellPixel();
+			int mapHeight = Util.getRuntimeIndoorMap().getRowNum() * Util.getRuntimeIndoorMap().getCellPixel();
+			
+			backgroundSprite = Library.BACKGROUND3.load(this, mapWidth, mapHeight);
 			backgroundSprite.setPosition(LEFT_SPACE, TOP_SPACE);
 			mainScene.getChildByIndex(Constants.LAYER_BACKGROUND).attachChild(backgroundSprite);
 		}
