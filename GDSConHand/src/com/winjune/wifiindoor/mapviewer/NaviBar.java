@@ -64,7 +64,7 @@ public class NaviBar {
 			}
 			
 			// load cached navi info first regardless 
-			//mapViewer.myNavigator.init(naviInfo, mapViewer.getResources().getString(R.string.navi_meter));
+			mapViewer.myNavigator.init(naviInfo, mapViewer.getResources().getString(R.string.navi_meter));
 			
 		} catch (Exception e) {
 			updateNeeded = true;

@@ -70,7 +70,7 @@ public class IpsMessageHandler {
 	}
 	
 	public static void setActivity(Activity activity) {
-		Log.e("IpsMessageHandler", activity.toString());
+		Log.i("IpsMessageHandler", activity.toString());
 		IpsMessageHandler.activity = activity;
 	}
 

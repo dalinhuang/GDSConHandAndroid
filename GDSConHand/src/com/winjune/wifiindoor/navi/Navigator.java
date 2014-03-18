@@ -129,6 +129,7 @@ public class Navigator {
         		if ((node.getX() != -1) && (node.getY() != -1)) {
         			//except for node with general names, other nodes with the 
         			//general name should not be treated as the target node, like entrance
+        			targetOptions.clear();
         			break;
         		}        	
         	}        	
