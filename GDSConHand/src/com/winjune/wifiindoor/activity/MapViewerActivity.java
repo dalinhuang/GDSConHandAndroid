@@ -382,8 +382,10 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 		switch (requestCode) {
 		case SEARCH_REQUEST_CODE:
-			SearchBar.loadSearchPlaces(this);
-			zoomControl.zoomMostOut();
+			if (resultCode == RESULT_OK) {
+   			   SearchBar.loadSearchPlaces(this);
+			   zoomControl.zoomMostOut();
+			}
 			break;
 		case CAMERA_REQUEST_CODE:
 			if (resultCode == RESULT_OK) {

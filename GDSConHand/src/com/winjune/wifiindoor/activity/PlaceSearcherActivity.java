@@ -16,6 +16,7 @@ import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -125,6 +126,7 @@ public class PlaceSearcherActivity extends Activity {
 		ArrayList<FieldInfo> fieldInfos = LabelBar.getMapInfo().getFields();
 		ArrayList<SearchFieldInfo> searchFieldInfos = new ArrayList<SearchFieldInfo>();
 		MapSearchInfo mapSearchInfo = new MapSearchInfo();
+		boolean find = false;
 		if (fieldInfos != null && !searchString.trim().isEmpty()) {
 
 			for (FieldInfo fieldInfo : fieldInfos) {
@@ -135,14 +137,26 @@ public class PlaceSearcherActivity extends Activity {
 						searchFieldInfo.setX(fieldInfo.getX());
 						searchFieldInfo.setY(fieldInfo.getY());
 						searchFieldInfos.add(searchFieldInfo);
+						find = true;
 					}
 						
 				}
 			}
-			mapSearchInfo.setSearchFields(searchFieldInfos);
-			mapSearchInfo.setId(LabelBar.getMapInfo().getId());
-			mapSearchInfo.setVersionCode(LabelBar.getMapInfo().getVersionCode());
-			mapSearchInfo.toXML();
+			
+			if (find)
+			{
+			   mapSearchInfo.setSearchFields(searchFieldInfos);
+			   mapSearchInfo.setId(LabelBar.getMapInfo().getId());
+			   mapSearchInfo.setVersionCode(LabelBar.getMapInfo().getVersionCode());
+			   mapSearchInfo.toXML();
+			}
+			else
+			{
+				AlertDialog alertDialog = new AlertDialog.Builder(this).setMessage(
+						"没有找到"+searchString.trim()).setPositiveButton("确定", null).create();
+				alertDialog.show();
+				return;
+			}
 		}
 		this.setResult(RESULT_OK);
 		this.finish();
