@@ -35,14 +35,12 @@ public class StartupActivity extends Activity implements OnInitListener{
 	@Override
     protected void onPause(){
 		
-		Util.setEnergySave(true);
-		
 		super.onPause();
 	}
 	
 	@Override
 	protected void onDestroy() {
-		Util.setEnergySave(true);
+		
 				
 	    Util.cancelToast();
 	    
@@ -52,7 +50,6 @@ public class StartupActivity extends Activity implements OnInitListener{
 	@Override
 	protected void onStop(){    
 				    
-	    Util.setEnergySave(true);
 	    Util.cancelToast();
 	    
 	    super.onStop();
@@ -62,10 +59,9 @@ public class StartupActivity extends Activity implements OnInitListener{
     protected void onResume(){
 		super.onResume();
 		
+		// ??? IpsWebService may not start
 		IpsWebService.setActivity(this);
 
-		Util.setEnergySave(false);
-		
 		if (ApkVersionManager.isApkUpdatePending()) {
 			ApkVersionManager.doNewVersionUpdate(this);
 		}		
@@ -89,10 +85,7 @@ public class StartupActivity extends Activity implements OnInitListener{
 	        	  
 	        	  Util.showLongToast (this, R.string.tts_language_unsupported); 
 	          }                     
-	       } 
-	       
-	      
-	      
+	       } 	       	      
 	      
 	   }
 
@@ -232,7 +225,7 @@ public class StartupActivity extends Activity implements OnInitListener{
 	private void appStartUp() {
 		
 		IpsWebService.startWebService(StartupActivity.this);
-		
+				
 		// Check latest version
 		ApkVersionManager.CheckVersionUpgrade(StartupActivity.this);
 		

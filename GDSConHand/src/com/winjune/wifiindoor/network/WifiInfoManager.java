@@ -330,8 +330,10 @@ public class WifiInfoManager {
 			savedSamples = new ArrayList<WifiFingerPrintSample>();			
 		} 
 		
-		if (savedSamples.size() >= IndoorMapData.MAX_WIFI_SAMPLES_BUFFERED) {
-			savedSamples.remove(0); // Override the oldest one			
+		if (savedSamples.size() > 0){		
+			if (savedSamples.size() >= IndoorMapData.MAX_WIFI_SAMPLES_BUFFERED) {
+				savedSamples.remove(0); // Override the oldest one			
+			}
 		}
 		
 		savedSamples.add(fingerPrint);

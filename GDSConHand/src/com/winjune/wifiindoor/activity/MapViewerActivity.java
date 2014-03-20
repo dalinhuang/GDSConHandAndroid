@@ -155,7 +155,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public ArrayList<Sprite> searchPlaces;
 	public ArrayList<Rectangle> collectedFlags; // Flags for fingerprint collected cells
 	
-	public NaviInfo naviInfo;
+	//public NaviInfo naviInfo;
 	public Navigator myNavigator;
 	
 	public int naviMyPlaceX;
@@ -383,8 +383,10 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 		switch (requestCode) {
 		case SEARCH_REQUEST_CODE:
-			SearchBar.loadSearchPlaces(this);
-			zoomControl.zoomMostOut();
+			if (resultCode == RESULT_OK) {
+   			   SearchBar.loadSearchPlaces(this);
+			   zoomControl.zoomMostOut();
+			}
 			break;
 		case CAMERA_REQUEST_CODE:
 			if (resultCode == RESULT_OK) {
@@ -671,7 +673,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		// Background lines
 		if (VisualParameters.BACKGROUND_LINES_NEEDED && VisualParameters.PLANNING_MODE_ENABLED) {
-			backgroundSprite = Library.BACKGROUND3.load(this, cameraWidth, cameraHeight);
+
+			int mapWidth = Util.getRuntimeIndoorMap().getColNum() * Util.getRuntimeIndoorMap().getCellPixel();
+			int mapHeight = Util.getRuntimeIndoorMap().getRowNum() * Util.getRuntimeIndoorMap().getCellPixel();
+			
+			backgroundSprite = Library.BACKGROUND3.load(this, mapWidth, mapHeight);
 			backgroundSprite.setPosition(LEFT_SPACE, TOP_SPACE);
 			mainScene.getChildByIndex(Constants.LAYER_BACKGROUND).attachChild(backgroundSprite);
 			
@@ -757,8 +763,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		// Show the Interest places layer
 		InterestPlaceBar.loadInterestPlaces(this);
 		
-		// Show the Search places layer
-		SearchBar.loadSearchPlaces(this);
+		//Need not show the Search places layer
+		//SearchBar.loadSearchPlaces(this);
 		
 		//createTabHost();
 		

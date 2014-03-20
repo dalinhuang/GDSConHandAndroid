@@ -46,14 +46,14 @@ import com.winjune.wifiindoor.map.InterestPlace;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 
-public class InterestPlaceViewerActivity extends Activity implements OnInitListener {	
+public class InterestPlaceViewerActivity extends Activity {	
 	private OnClickListener listener2;
 	private MediaPlayer mPlayer = null;
 	private ImageButton audioPlayButton = null;
 	private ImageButton audioStopButton = null;
 	private SeekBar audioSeekbar = null; 
 	private Button shareButton = null; //Button for sharing the content to social media
-	private TextToSpeech AutoGuideTTS = null;
+	
 	
 	@Override
 	protected void onResume() {
@@ -67,9 +67,7 @@ public class InterestPlaceViewerActivity extends Activity implements OnInitListe
 		super.onPause();
 		AudioPause();
 		
-		if (AutoGuideTTS != null) {
-			AutoGuideTTS.stop();	
-		}
+		
 		
 		Util.setEnergySave(true);
 		Util.setCurrentForegroundActivity(null);		
@@ -82,7 +80,7 @@ public class InterestPlaceViewerActivity extends Activity implements OnInitListe
     	
     	shutdownMediaPlayer();
 
-    	AutoGuideTTSShutdown();
+
     	
     	super.onDestroy();
     }    
@@ -92,7 +90,7 @@ public class InterestPlaceViewerActivity extends Activity implements OnInitListe
 		        
 		shutdownMediaPlayer();
 		
-		AutoGuideTTSShutdown();
+
 		
 		super.onBackPressed();						
 	}		
@@ -220,11 +218,8 @@ public class InterestPlaceViewerActivity extends Activity implements OnInitListe
 			textInfo.setText(text);
 			mainLayout.addView(textInfo);
 			
-			// disable TTS if there are audio files
-			if (audio == null) {				
-				AutoGuideTTSSpeak(text);
-			}
 			
+					
 		}
 
 		//Display picture
@@ -543,80 +538,6 @@ public class InterestPlaceViewerActivity extends Activity implements OnInitListe
 	    }
 	}
 
-   // Callback by tts engine
-   @Override
-   public void onInit(int status) {  
-       if(status == TextToSpeech.SUCCESS){  
-           // we use Chinese      	       	   
-          int result =  AutoGuideTTS.isLanguageAvailable(Locale.CHINA);
-          
-          Log.i("TTS result", ""+result);
-          
-          if((result == TextToSpeech.LANG_COUNTRY_AVAILABLE) |  
-             (result == TextToSpeech.LANG_AVAILABLE)) {   
-        	  AutoGuideTTS.setLanguage(Locale.CHINA);
-        	  Util.showLongToast(this, R.string.tts_start_soon);	   
-          } else {
-        	  AutoGuideTTSShutdown();
-        	  Util.showLongToast (this, R.string.tts_language_unsupported);                   	  
-          }                     
-       }  
-   }  
-      	
-	private  void AutoGuideTTSSpeak(String text ){
-				
-		//Create a tts instanse first
-		if (AutoGuideTTS == null) {        	
-			AutoGuideTTS = new TextToSpeech(this, this);
-		}
-		
-		//start a thread to speak since we need wait for the tts binding
-		final String text1 = text;
-
-		// getMaxSpeechInputLength API is supported after API18
-		// final int maxLength =  TextToSpeech.getMaxSpeechInputLength();
-		final int maxLength = 2048;
-		
-		new Thread() {  
-	        public void run() { 
-	        	
-	        	try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	        	
-	    		// need to double check if the tts engine is started
-	        	if (AutoGuideTTS != null) {
-	        		String text2 = text1;
-	        		Boolean isContinued = true;
-	        		
-	        		while (isContinued) {
-	        			String text3 = text2;
-	        				        			
-	        			if (text2.length() > maxLength) {	        				
-	        				text3 = text2.substring(0, maxLength-1);	
-	        				text2 = text2.substring(maxLength);	        				
-	        			} else {
-	        				isContinued = false;
-	        			}	        				
-	        			
-		        		AutoGuideTTS.speak(text3, TextToSpeech.QUEUE_ADD, null);		        		
-	        		}
-	    		}	        	
-	        }  
-	    }.start(); 
-	}
-	
-	// Shutdown TTS engine, if there is something playing, will stop it first. 
-	private void AutoGuideTTSShutdown(){
-	    if (AutoGuideTTS != null)
-	    {
-	    	AutoGuideTTS.stop();
-	    	AutoGuideTTS.shutdown();
-	    	AutoGuideTTS = null;
-	    }	    
-	}
+   
 		
 }

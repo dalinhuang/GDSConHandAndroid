@@ -28,21 +28,27 @@ public class NaviInfo implements Serializable{
 		return versionCode;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void copy(NaviInfo ni) {
+		
 		id = ni.id;
 		versionCode = ni.versionCode;
 		
 		if (nodes != null) {
 			nodes.clear();
-			nodes = (ArrayList<NaviNode>) ni.nodes.clone();
+		}else {
+			nodes = new ArrayList<NaviNode>();
 		}
+		
+		nodes.addAll(ni.nodes);
+
 		
 		if (paths != null) {
 			paths.clear();
-			paths = (ArrayList<NaviData>) ni.paths.clone();
+		} else {
+			paths = new ArrayList<NaviData>();
 		}
 		
+		paths.addAll(ni.paths);
 	}
 
 	public void setVersionCode(int versionCode) {

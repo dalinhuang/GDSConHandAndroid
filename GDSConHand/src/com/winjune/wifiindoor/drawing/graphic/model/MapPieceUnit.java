@@ -17,6 +17,7 @@ import android.content.res.AssetManager;
 import android.util.Log;
 
 import com.winjune.wifiindoor.activity.MapViewerActivity;
+import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
 import com.winjune.wifiindoor.webservice.IpsWebService;
@@ -39,12 +40,13 @@ public class MapPieceUnit extends Unit {
 		// From External File
 		if (textureRegion == null) {
 			File file = new File(Util.getMapPicturePathName(""+Util.getRuntimeIndoorMap().getMapId(), fileName));
-			
 			Log.i("MapPiece", "Create Map Piece from file, path=" + Util.getMapPicturePathName(""+Util.getRuntimeIndoorMap().getMapId(), fileName));
 			
 			if (!file.exists()) {
 				if (Util.getIsDefaultMap()) {
 					// Copy the default assets image file to the map directory.
+					file = Util.openOrCreateFileInPath(IndoorMapData.MAP_FILE_PATH_LOCAL
+							+ Util.getRuntimeIndoorMap().getMapId() + "/", fileName, true);
 					try {
 						InputStream in = activity.getAssets().open(fileName);
 						OutputStream out = new FileOutputStream(file);

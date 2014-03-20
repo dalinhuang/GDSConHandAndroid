@@ -9,46 +9,34 @@ import android.util.Log;
 public class Navigator {
 	
 	private static String LOG_TAG = "Navigator";
-	private ArrayList<NaviNode> nodes = null;
-	private ArrayList<NaviData> paths = null;
+	public 	NaviInfo naviInfo = null;
 	private String[] spinnerNames;
 	private int[] spinnerIdxToNodeId;
 	private String unitStr = ""; // 我们用什么单位
-	private int nodeNum;
-	private boolean isReady = false;
-	DijkstraMap map = null;
+	private boolean isReady = false;	
 	
-	public Navigator(){
-	}
-	
-	public void init(NaviInfo naviInfo, String unitStr ) {
+	public void init(NaviInfo ni, String unitStr ) {
 		
 		isReady = false;
 		
-		if (nodes != null)
-			nodes.clear();
+		if (naviInfo == null)
+			naviInfo = new NaviInfo();
+				
+		naviInfo.copy(ni);
 		
-		if (paths != null)
-			paths.clear();
+		ArrayList<NaviNode> nodes = naviInfo.getNodes();
+		ArrayList<NaviData> paths = naviInfo.getPaths();
 		
-		if (map != null)
-			map.clear();		
-		
-		nodes = naviInfo.getNodes();
-		paths = naviInfo.getPaths();
-		
-		if ((nodes == null) || (paths == null)){
+		if (( nodes == null) || (paths == null)){
 			Log.e(LOG_TAG, "No nodes are configred");
 			return;
 		}
 		
-		if ((nodes.size() == 0) || (paths.size() == 0))		{
+		if ((nodes.size() == 0) || (paths.size() == 0)){
 			Log.e(LOG_TAG, "No nodes are configred");
 			return;
 		}
 		
-		
-		nodeNum  = nodes.size();
 		this.unitStr = unitStr;
 		
 		//filter out all invisible nodes 
@@ -72,10 +60,7 @@ public class Navigator {
 				spinnerIdxToNodeId[count] = node.getId(); 
 				count ++;
 			}
-		}	
-		
-		// build the map for dijkstra 
-		map = new DijkstraMap(nodes, paths);
+		}			
 		
 		// Navigator is enabled
 		isReady = true;
@@ -105,6 +90,8 @@ public class Navigator {
 		
 		int nodeNo = -1;
 		int delta = Integer.MAX_VALUE;
+		
+		ArrayList<NaviNode> nodes = naviInfo.getNodes();
 		for (NaviNode node: nodes) {
 			if (node != null) {
 				if (node.getMapId() == Util.getRuntimeIndoorMap().getMapId()) { // Same Map
@@ -136,11 +123,13 @@ public class Navigator {
         // There may be a few end options
      	ArrayList<NaviNode>  targetOptions = new ArrayList<NaviNode>();	
         
+		ArrayList<NaviNode> nodes = naviInfo.getNodes();
         for (NaviNode node : nodes) {
         	if (node.getId() == endNode){
         		if ((node.getX() != -1) && (node.getY() != -1)) {
         			//except for node with general names, other nodes with the 
         			//general name should not be treated as the target node, like entrance
+        			targetOptions.clear();
         			break;
         		}        	
         	}        	
@@ -154,13 +143,17 @@ public class Navigator {
         DijkstraPath pathPlanner = new DijkstraPath();        
         NaviPath path = null;        
         
-        if (targetOptions.isEmpty()) { 
+        if (targetOptions.isEmpty()) {
+        	
+        	DijkstraMap map = new DijkstraMap(nodes, naviInfo.getPaths());
         	// only one target node
         	path = pathPlanner.planPath(map, startNode, endNode);
 		} else {
 			NaviPath tmpPath;
 			
-			for (NaviNode node : targetOptions) {	        	
+			for (NaviNode node : targetOptions) {
+				DijkstraMap map = new DijkstraMap(nodes, naviInfo.getPaths());
+				
 	        	tmpPath = pathPlanner.planPath(map, startNode, node.getId());
 	        	
 	        	// no path between startNode and this node
@@ -181,6 +174,7 @@ public class Navigator {
 	}	
 	
 	public String getNodeName( int nodeId) {
+		ArrayList<NaviNode> nodes = naviInfo.getNodes();
 		if (nodes == null) {
 			return null;
 		}

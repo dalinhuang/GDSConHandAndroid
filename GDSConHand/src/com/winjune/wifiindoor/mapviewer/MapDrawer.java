@@ -54,7 +54,8 @@ public class MapDrawer {
 		final float map_bottom = centerY + height / 2;
 		
 		// Background follow the screen
-		/* we don't want to the background line moves
+		// we don't want to the background line moves
+		/*
 		if (VisualParameters.BACKGROUND_LINES_NEEDED && VisualParameters.PLANNING_MODE_ENABLED) {
 			//int colNo = (int) (map_left - mapViewer.LEFT_SPACE) / Util.getCurrentCellPixel();
 			//int rowNo = (int) (map_top - mapViewer.TOP_SPACE) / Util.getCurrentCellPixel();
@@ -69,7 +70,6 @@ public class MapDrawer {
 			else {
 				mapViewer.backgroundSprite.setPosition(map_left, map_top);
 			}
-
 		}
 		*/
 		
