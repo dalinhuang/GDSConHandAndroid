@@ -59,6 +59,7 @@ import com.winjune.wifiindoor.map.IndoorMap;
 import com.winjune.wifiindoor.map.IndoorMapLoader;
 import com.winjune.wifiindoor.mapviewer.AdBanner;
 import com.winjune.wifiindoor.mapviewer.AdBanner.AdvertisePeriodThread;
+import com.winjune.wifiindoor.mapviewer.CollectedFlag;
 import com.winjune.wifiindoor.mapviewer.InfoBanner;
 import com.winjune.wifiindoor.mapviewer.InterestPlaceBar;
 import com.winjune.wifiindoor.mapviewer.LabelBar;
@@ -673,6 +674,9 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			backgroundSprite = Library.BACKGROUND3.load(this, cameraWidth, cameraHeight);
 			backgroundSprite.setPosition(LEFT_SPACE, TOP_SPACE);
 			mainScene.getChildByIndex(Constants.LAYER_BACKGROUND).attachChild(backgroundSprite);
+			
+			//load the collected flags
+			CollectedFlag.loadCollectedFlag(this);
 		}
 
 		// Create Map pieces on demands

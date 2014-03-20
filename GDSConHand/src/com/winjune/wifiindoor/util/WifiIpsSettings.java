@@ -52,6 +52,7 @@ public class WifiIpsSettings {
 	public static String URL_API_QUERY_NAVI_INFO = "/queryNaviInfo";
 	public static String URL_API_QUERY_ADVERTISE_INFO = "/queryAd";
 	public static String URL_API_QUERY_INTEREST_PLACES = "/queryInterestPlaces";
+	public static String URL_API_QUERY_COLLECT_STATUS = "/queryCollectStatus";
 
 	public static String getServerIpByDomainName(String domainName) {
 		// Spawns a 'sh' process first, and then execute 'ping' in that shell

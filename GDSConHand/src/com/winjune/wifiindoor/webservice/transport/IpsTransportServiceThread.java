@@ -26,6 +26,7 @@ import com.winjune.wifiindoor.util.WifiIpsSettings;
 import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
 import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
 import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
+import com.winjune.wifiindoor.webservice.types.CollectStatusReply;
 import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
 import com.winjune.wifiindoor.webservice.types.InterestPlacesInfoReply;
 import com.winjune.wifiindoor.webservice.types.Location;
@@ -206,6 +207,13 @@ public class IpsTransportServiceThread extends Thread {
 				mTransportServiceListener.onFinishingRequest();
 				mTransportServiceListener.onResponseReceived(interestPlacesInfo);
 				break;	
+				
+			case IpsMsgConstants.MT_COLLECTED_FLAG_QUERY:
+				mTransportServiceListener.onStartingRequest();
+				CollectStatusReply collectStatus = IpsMessageHandler.queryCollectStatus(requestPayload);
+				mTransportServiceListener.onFinishingRequest();
+				mTransportServiceListener.onResponseReceived(collectStatus);
+				break;
 				
 			default:
 				mTransportServiceListener

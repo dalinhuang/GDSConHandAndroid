@@ -27,6 +27,7 @@ import com.winjune.wifiindoor.ads.AdvertiseInfoReplyJsonParser;
 import com.winjune.wifiindoor.util.WifiIpsSettings;
 import com.winjune.wifiindoor.webservice.parsers.json.ApkVersionJsonParser;
 import com.winjune.wifiindoor.webservice.parsers.json.BuildingManagerReplyJsonParser;
+import com.winjune.wifiindoor.webservice.parsers.json.CollectStatusReplyJsonParser;
 import com.winjune.wifiindoor.webservice.parsers.json.IndoorMapReplyJsonParser;
 import com.winjune.wifiindoor.webservice.parsers.json.InterestPlacesInfoReplyJsonParser;
 import com.winjune.wifiindoor.webservice.parsers.json.LocationJsonParser;
@@ -39,6 +40,7 @@ import com.winjune.wifiindoor.webservice.parsers.json.QueryInfoJsonParser;
 import com.winjune.wifiindoor.webservice.parsers.json.TestLocationJsonParser;
 import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
 import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
+import com.winjune.wifiindoor.webservice.types.CollectStatusReply;
 import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
 import com.winjune.wifiindoor.webservice.types.InterestPlacesInfoReply;
 import com.winjune.wifiindoor.webservice.types.Location;
@@ -232,6 +234,14 @@ public class IpsHttpApi {
                 fullUrl(WifiIpsSettings.URL_API_QUERY_INTEREST_PLACES), json);
         return (InterestPlacesInfoReply) mHttpApi.doHttpRequest(httpPost,
                  new InterestPlacesInfoReplyJsonParser());
+	}
+	
+	public CollectStatusReply queryCollectStatus(JSONObject json) throws WebException,
+			WebCredentialsException, WebError, IOException {
+		HttpPost httpPost = mHttpApi.createHttpPost(
+				fullUrl(WifiIpsSettings.URL_API_QUERY_COLLECT_STATUS), json);
+		return (CollectStatusReply) mHttpApi.doHttpRequest(httpPost,
+				new CollectStatusReplyJsonParser());
 	}
 
 	private String fullUrl(String url) {

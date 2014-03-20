@@ -147,7 +147,7 @@ public class PlanBar {
 	
 						Log.e("COLLECT", "Send MT_COLLECT to Server: TRUE");
 						
-						addCollectedFlag(mapViewer, mapViewer.mTargetColNo, mapViewer.mTargetRowNo); // add and show the flags
+						CollectedFlag.addCollectedFlag(mapViewer, mapViewer.mTargetColNo, mapViewer.mTargetRowNo); // add and show the flags
 					} else {
 						// All errors should be handled in the sendToServer
 						// method
@@ -224,7 +224,7 @@ public class PlanBar {
 											+ ","
 											+ currentCollectingY + "]",
 									Toast.LENGTH_LONG);*/
-						addCollectedFlag(mapViewer, mapViewer.currentCollectingX, mapViewer.currentCollectingY); //add and show the flags
+						CollectedFlag.addCollectedFlag(mapViewer, mapViewer.currentCollectingX, mapViewer.currentCollectingY); //add and show the flags
 					} else {
 						// All errors should be handled in the sendToServer
 						// method
@@ -244,32 +244,6 @@ public class PlanBar {
 					Log.d(mapViewer.TAG, "End collectFingerprint Thread");
 			}
 		}.start();
-	}
-
-	// Add collected flag to the cell whose fingerprint has been collected. 
-	public static void addCollectedFlag(final MapViewerActivity mapViewer, final int colNo, final int rowNo) {
-		
-		mapViewer.runOnUpdateThread(new Runnable() {
-			public void run() {
-				int cellPixel = Util.getRuntimeIndoorMap().getCellPixel();
-				float pX = colNo * cellPixel;
-				float pY = rowNo * cellPixel;
-				
-				Rectangle flag = Library.genFlag(mapViewer, pX, pY);
-				
-				flag.setPosition(pX, pY); //It might be dummy code, put here for test
-				
-				mapViewer.mainScene.getChildByIndex(Constants.LAYER_FLAG).attachChild(flag);
-				
-				if (mapViewer.collectedFlags == null) {
-					
-					mapViewer.collectedFlags = new ArrayList<Rectangle>();
-				}
-				
-				mapViewer.collectedFlags.add(flag);
-			}
-
-		});
 	}
 	
 	public static void testLocate(final MapViewerActivity mapViewer) {

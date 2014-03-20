@@ -154,7 +154,7 @@ public class StartupActivity extends Activity implements OnInitListener{
                     
                     Editor editor = prefs.edit();
                     // For test only - show the guide activity every time
-                    editor.putBoolean("firstStartup", true); // disable GuideActivity after the 1st time
+                    editor.putBoolean("firstStartup", false); // disable GuideActivity after the 1st time
                     editor.commit();
                 }
                 else {

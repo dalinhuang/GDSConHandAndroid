@@ -17,6 +17,7 @@ import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.activity.MenuEntryActivity;
 import com.winjune.wifiindoor.ads.AdGroup;
 import com.winjune.wifiindoor.mapviewer.AdBanner;
+import com.winjune.wifiindoor.mapviewer.CollectedFlag;
 import com.winjune.wifiindoor.mapviewer.InfoBanner;
 import com.winjune.wifiindoor.mapviewer.InterestPlaceBar;
 import com.winjune.wifiindoor.mapviewer.LabelBar;
@@ -30,6 +31,7 @@ import com.winjune.wifiindoor.webservice.http.IpsHttpApi;
 import com.winjune.wifiindoor.webservice.transport.IpsTransportServiceListener;
 import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
 import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
+import com.winjune.wifiindoor.webservice.types.CollectStatusReply;
 import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
 import com.winjune.wifiindoor.webservice.types.InterestPlacesInfoReply;
 import com.winjune.wifiindoor.webservice.types.Location;
@@ -341,6 +343,20 @@ public class IpsMessageHandler {
 			
 			return;
 		}
+		
+		if (object instanceof CollectStatusReply) {
+			CollectStatusReply collectStatus = (CollectStatusReply) object;			
+			
+			if (activity instanceof MapViewerActivity) {
+				MapViewerActivity viewer1 = (MapViewerActivity) activity;
+				
+				CollectedFlag.showCollectedFlag(viewer1, collectStatus.toMapCollectStatus());
+
+				return;
+			}
+			
+			return;
+		}
 
 	}
 			
@@ -636,6 +652,20 @@ public class IpsMessageHandler {
 
         return mWifiIpsHttpApi.queryInterestPlacesInfo(json);
 	}	
+	
+	/*
+	 * update collected flags
+	 */
+	@V1
+	public static CollectStatusReply queryCollectStatus(JSONObject json) throws WebException,
+		WebCredentialsException, WebError, IOException {
+		
+		if (mWifiIpsHttpApi == null) {			
+	        throw new WebException("IPS HTTP API is null!");			
+        }
+
+        return mWifiIpsHttpApi.queryCollectStatus(json);
+	}
 	
 	/**
 	 * This api is supported in the V1 API
