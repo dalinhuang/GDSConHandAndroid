@@ -21,6 +21,7 @@ import com.winjune.wifiindoor.wifi.WifiFingerPrint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 public class MapLocatorActivity extends Activity {
@@ -234,6 +235,7 @@ public class MapLocatorActivity extends Activity {
 			
 			// no cached map file and download map files failed
 			// we have to quit the APP and warn the user
+			withLocation = false;
 			if (!downloadMap(mapId)) {
 				
 				// Hoare: to do: create a new xml
@@ -241,12 +243,13 @@ public class MapLocatorActivity extends Activity {
 				
 				Util.showLongToast(this, R.string.oops);
 				Util.showLongToast(this, R.string.server_unreachable);
-				
+				needLoadDefaultMap = true;
+			}
+			else
+			{
 				return;
 			}
-			withLocation = false;
-			needLoadDefaultMap = true;
-		}
+	   }
 		
 		if (needLoadDefaultMap)
 		{
@@ -255,7 +258,9 @@ public class MapLocatorActivity extends Activity {
 				
 				indoorMap.fromXML(map_file_is);
 				Util.setIsDefaultMap(true);
+				Log.i("MapLocatorActivity", "Download map failure, use the default map instead");
 			} catch (Exception exception) {
+				Log.e("MapLocatorActivity", "Default map is not exist!");
 				return;
 			}
 		}
