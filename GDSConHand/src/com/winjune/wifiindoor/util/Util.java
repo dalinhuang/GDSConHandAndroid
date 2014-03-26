@@ -361,9 +361,6 @@ public class Util {
 			return;
 		}
 		
-		if ((android.os.Build.VERSION.SDK_INT >= 17) && (currentForegroundActivity.isDestroyed())) {
-			return;
-		}
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(currentForegroundActivity);
 		setNetworkConfigPending(true);
@@ -415,9 +412,6 @@ public class Util {
 			return;
 		}
 		
-		if ((android.os.Build.VERSION.SDK_INT >= 17) && (currentForegroundActivity.isDestroyed())) {
-			return;
-		}
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(currentForegroundActivity);
 		

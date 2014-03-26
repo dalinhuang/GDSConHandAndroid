@@ -86,7 +86,7 @@ public class PlaceSearcherActivity extends Activity {
 
         int rows = (int) Math.ceil((double) maxPlaces/(double)maxPlacesPerRow);
 		for (int i = 0; i < rows; i++) {
-			if (locationArray.size() < (i * maxPlacesPerRow)) {
+			if ((locationArray.size() == 0) || (locationArray.size() < (i * maxPlacesPerRow))) {
 				break;
 			}
 			TableRow tableRow = new TableRow(this);
