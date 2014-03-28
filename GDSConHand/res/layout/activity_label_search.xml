@@ -1,0 +1,196 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/grey_light_light"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/search_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/grey_light_light"
+            android:clickable="true"
+            android:onClick="backClick"
+            android:src="@drawable/btn_back" />
+        <ImageView
+            android:id="@+id/btn_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:clickable="true"
+            android:onClick="searchClick"                        
+            android:background="@color/grey_light_light"                
+            android:src="@drawable/btn_search" />
+        
+        <EditText
+            android:id="@+id/search_input"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@id/btn_back"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/btn_back"
+            android:layout_toLeftOf="@id/btn_search"
+            android:background="@color/white"
+            android:drawableLeft="@drawable/icon_searchbox"
+            android:hint="搜索"
+            android:inputType="text"            
+            android:textColor="@color/black" >
+            <requestFocus />
+
+        </EditText>
+
+    </RelativeLayout>
+
+	        
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+    	android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" 	    	    
+	    android:orientation="horizontal" >
+          
+        <TextView
+            android:id="@+id/text_toliet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+    		android:layout_marginRight="1dp"
+        	android:layout_marginTop="1dp" 	            
+            android:background="@color/white"
+            android:gravity="center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="洗手间" />
+
+		<TextView
+        	android:id="@+id/text_elevator"
+        	android:layout_width="0dp"
+        	android:layout_weight="1"
+        	android:layout_height="wrap_content"
+			android:layout_marginLeft="1dp"
+    		android:layout_marginRight="1dp"
+        	android:layout_marginTop="1dp" 	        	
+        	android:background="@color/white"
+        	android:gravity="center_horizontal"
+        	android:textAppearance="?android:attr/textAppearanceMedium"
+        	android:text="电梯" />
+		<TextView
+        	android:id="@+id/text_restaurant"
+        	android:layout_width="0dp"
+        	android:layout_weight="1"
+        	android:layout_height="wrap_content"
+			android:layout_marginLeft="1dp"
+    		android:layout_marginRight="1dp"
+        	android:layout_marginTop="1dp" 	        	
+        	android:background="@color/white"
+        	android:textAppearance="?android:attr/textAppearanceMedium"
+        	android:gravity="center_horizontal"
+        	android:text="餐厅" />	    
+    </LinearLayout>
+
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+    	android:layout_marginRight="10dp"          
+	    android:orientation="horizontal" >
+          
+        <TextView
+        	android:id="@+id/text_cinema"
+        	android:layout_width="0dp"
+        	android:layout_weight="1"
+        	android:layout_height="wrap_content"
+			android:layout_marginLeft="1dp"
+    		android:layout_marginRight="1dp"
+        	android:layout_marginTop="1dp" 	        	
+        	android:background="@color/white"
+        	android:gravity="center_horizontal"
+        	android:textAppearance="?android:attr/textAppearanceMedium"
+        	android:text="科技影院" />
+		<TextView
+        	android:id="@+id/textView1"
+        	android:layout_width="0dp"
+        	android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+    		android:layout_marginRight="1dp"
+        	android:layout_marginTop="1dp" 	        	
+        	android:layout_height="wrap_content"
+        	android:background="@color/white"
+        	android:gravity="center_horizontal"
+        	android:textAppearance="?android:attr/textAppearanceMedium"
+        	android:text="售票处" />
+		<TextView
+        	android:id="@+id/text_feeding"
+        	android:layout_width="0dp"
+        	android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+    		android:layout_marginRight="1dp"
+        	android:layout_marginTop="1dp" 	        	
+        	android:layout_height="wrap_content"
+        	android:background="@color/white"
+        	android:gravity="center_horizontal"
+        	android:textAppearance="?android:attr/textAppearanceMedium"
+        	android:text="育婴室" />	    
+    </LinearLayout>
+    
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+    	android:layout_marginRight="10dp" 	  	   
+	    android:orientation="horizontal" >
+          
+        <TextView
+        	android:id="@+id/text_parking"
+        	android:layout_width="0dp"
+        	android:layout_weight="1"
+        	android:layout_height="wrap_content"
+			android:layout_marginLeft="1dp"
+    		android:layout_marginRight="1dp"
+        	android:layout_marginTop="1dp" 	        	
+        	android:background="@color/white"
+        	android:gravity="center_horizontal"
+        	android:textAppearance="?android:attr/textAppearanceMedium"
+        	android:text="停车场" />
+		<TextView
+        	android:id="@+id/text_station"
+        	android:layout_width="0dp"
+        	android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+    		android:layout_marginRight="1dp"
+        	android:layout_marginTop="1dp" 	        	
+        	android:layout_height="wrap_content"
+        	android:background="@color/white"
+        	android:gravity="center_horizontal"
+        	android:textAppearance="?android:attr/textAppearanceMedium"
+        	android:text="车站" />
+		<TextView
+        	android:id="@+id/text_entrance"
+        	android:layout_width="0dp"
+        	android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+    		android:layout_marginRight="1dp"
+        	android:layout_marginTop="1dp" 	        	
+        	android:layout_height="wrap_content"
+        	android:background="@color/white"
+        	android:gravity="center_horizontal"
+        	android:textAppearance="?android:attr/textAppearanceMedium"
+        	android:text="出入口" />	    
+    </LinearLayout>
+	
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical" >
+	</LinearLayout>	
+
+</LinearLayout>

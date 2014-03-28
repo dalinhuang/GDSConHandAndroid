@@ -61,7 +61,6 @@ public class MapHUD {
 	}
 
 
-
 	public static void initialHUDMenuBar(final MapViewerActivity mapViewer) {
 
 		if (MapViewerActivity.DEBUG)
@@ -324,19 +323,19 @@ public class MapHUD {
 		ArrayList<IconButtonInfo> iconButtons = new ArrayList<IconButtonInfo>();
 		
 		IconButtonInfo iconButtonInfo1 = new IconButtonInfo();
-		iconButtonInfo1.setIconResourceId(R.drawable.nearby);
+		iconButtonInfo1.setIconResourceId(R.drawable.btn_surrounding);
 		iconButtonInfo1.setText("周围");
 		iconButtons.add(iconButtonInfo1);
 		IconButtonInfo iconButtonInfo2 = new IconButtonInfo();
-		iconButtonInfo2.setIconResourceId(R.drawable.route);
+		iconButtonInfo2.setIconResourceId(R.drawable.btn_route);
 		iconButtonInfo2.setText("路线");
 		iconButtons.add(iconButtonInfo2);
 		IconButtonInfo iconButtonInfo3 = new IconButtonInfo();
-		iconButtonInfo3.setIconResourceId(R.drawable.find);
+		iconButtonInfo3.setIconResourceId(R.drawable.btn_search);
 		iconButtonInfo3.setText("搜索");
 		iconButtons.add(iconButtonInfo3);
 		IconButtonInfo iconButtonInfo4 = new IconButtonInfo();
-		iconButtonInfo4.setIconResourceId(R.drawable.mine);
+		iconButtonInfo4.setIconResourceId(R.drawable.btn_user_center);
 		iconButtonInfo4.setText("我的");
 		iconButtons.add(iconButtonInfo4);
 		ControlButtonsHUD.createBottomButtons(mapViewer, iconButtons, pX, pY, pWidth, pHeight);
