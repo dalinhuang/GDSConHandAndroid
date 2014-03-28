@@ -110,7 +110,7 @@
         
         <activity			android:name = "com.winjune.wifiindoor.activity.MapViewerActivity"
             android:screenOrientation="sensor"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:theme="@android:style/Theme.NoTitleBar"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
             android:largeHeap="@bool/largeheap"

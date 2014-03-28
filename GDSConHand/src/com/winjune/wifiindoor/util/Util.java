@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -846,5 +847,24 @@ public class Util {
 			Activity currentForegroundActivity) {
 		Util.currentForegroundActivity = currentForegroundActivity;
 	}	
+	
+	public static int getStatusBarHeight(Context context){  
+        Class<?> c = null;  
+        Object obj = null;  
+        Field field = null;  
+        int x = 0, statusBarHeight = 0;  
+        try {  
+            c = Class.forName("com.android.internal.R$dimen");  
+            obj = c.newInstance();  
+            field = c.getField("status_bar_height");  
+            x = Integer.parseInt(field.get(obj).toString());  
+            statusBarHeight = context.getResources().getDimensionPixelSize(x);   
+            Log.v("@@@@@@", "the status bar height is : " + statusBarHeight);  
+        } catch (Exception e1) {  
+            e1.printStackTrace();  
+        }   
+        return statusBarHeight;  
+    }  
+
 }
 

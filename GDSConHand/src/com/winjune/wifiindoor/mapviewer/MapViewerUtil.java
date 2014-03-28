@@ -27,7 +27,7 @@ public class MapViewerUtil {
 		display.getMetrics(outMetrics);
 		
 		mapViewer.cameraWidth = outMetrics.widthPixels;
-		mapViewer.cameraHeight = outMetrics.heightPixels;
+		mapViewer.cameraHeight = outMetrics.heightPixels - Util.getStatusBarHeight(mapViewer);
 		
 		mapViewer.density = Math.min(mapViewer.cameraWidth, mapViewer.cameraHeight) / 480;
 
