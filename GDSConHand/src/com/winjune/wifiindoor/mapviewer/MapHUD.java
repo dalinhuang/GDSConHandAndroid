@@ -324,22 +324,22 @@ public class MapHUD {
 		ArrayList<IconButtonInfo> leftIconButtons = new ArrayList<IconButtonInfo>();
 		
 		IconButtonInfo iconButtonInfo1 = new IconButtonInfo();
-		iconButtonInfo1.setIconResourceId(R.drawable.btn_surrounding);
+		iconButtonInfo1.setIconResourceId(R.drawable.icon_surrounding);
 		iconButtonInfo1.setText("周围");
 		iconButtons.add(iconButtonInfo1);
 		IconButtonInfo iconButtonInfo2 = new IconButtonInfo();
-		iconButtonInfo2.setIconResourceId(R.drawable.btn_route);
+		iconButtonInfo2.setIconResourceId(R.drawable.icon_route);
 		iconButtonInfo2.setText("路线");
 		iconButtons.add(iconButtonInfo2);
 		IconButtonInfo iconButtonInfo3 = new IconButtonInfo();
-		iconButtonInfo3.setIconResourceId(R.drawable.btn_search);
+		iconButtonInfo3.setIconResourceId(R.drawable.icon_search);
 		iconButtonInfo3.setText("搜索");
 		iconButtons.add(iconButtonInfo3);
 		IconButtonInfo iconButtonInfo4 = new IconButtonInfo();
-		iconButtonInfo4.setIconResourceId(R.drawable.btn_user_center);
+		iconButtonInfo4.setIconResourceId(R.drawable.icon_user_center);
 		iconButtonInfo4.setText("我的");
 		iconButtons.add(iconButtonInfo4);
-		ControlButtonsHUD.createBottomButtons(mapViewer, iconButtons, pX, pY, pWidth, pHeight);
+//		ControlButtonsHUD.createBottomButtons(mapViewer, iconButtons, pX, pY, pWidth, pHeight);
 	}
 
 	
@@ -626,55 +626,6 @@ public class MapHUD {
 			// We don't mind. android cleared it for us.
 		}
 	}	
-	
-	/*
-	private void createTabHost(MapViewerActivity mapViewer) {
-		mTabHost = new TabHost(this);
-		mTabHost.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-
-	    TabWidget tabWidget = new TabWidget(this);
-	    tabWidget.setId(android.R.id.tabs);
-	    mTabHost.addView(tabWidget, new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-
-	    FrameLayout frameLayout = new FrameLayout(this);
-	    frameLayout.setId(android.R.id.tabcontent);
-	    frameLayout.setPadding(0, 65, 0, 0);
-	    mTabHost.addView(frameLayout, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-
-	    mTabHost.setup();
-
-	    TabSpec ts1 = mTabHost.newTabSpec("hook");
-	    ts1.setIndicator("Hook");
-	    ts1.setContent(new TabHost.TabContentFactory(){
-	         public View createTabContent(String tag)
-	         {
-
-	             return null;
-	         }  
-	    }); 
-	    mTabHost.addTab(ts1);
-
-	    TabSpec ts2 = mTabHost.newTabSpec("chain");
-	    ts1.setIndicator("Chain");
-	    ts1.setContent(new TabHost.TabContentFactory(){
-	         public View createTabContent(String tag)
-	         {
-
-	             return null;
-	         }  
-	    }); 
-	    mTabHost.addTab(ts2);
-
-	    TabSpec ts3 = mTabHost.newTabSpec("boots");
-	    ts1.setIndicator("Boots");
-	    ts1.setContent(new TabHost.TabContentFactory(){
-	         public View createTabContent(String tag)
-	         {
-
-	             return null;
-	         }  
-	    }); 
-	    mTabHost.addTab(ts3);
-	} */	
+		
 	
 }

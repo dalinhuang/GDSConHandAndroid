@@ -1,95 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--  
-<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@android:id/tabhost"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent" >
-	
-    <LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:orientation="vertical" >
-
-        <FrameLayout
-			android:id="@android:id/tabcontent"
-			android:layout_width="0dp"
-			android:layout_height="0dp"
-			android:layout_weight="0" >
-        
-        	<LinearLayout
-        	    android:id="@+id/tab_1"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:orientation="vertical" >
-			</LinearLayout>
--->    
-			<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-			    android:layout_width="fill_parent"
-			    android:layout_height="fill_parent" >
-			    
-			    <org.andengine.opengl.view.RenderSurfaceView android:id="@+id/map_rendersurfaceview"
-			        android:layout_width="fill_parent" 
-			        android:layout_height="fill_parent"
-			        android:layout_gravity="center" />
-			
-			    <!-- Replace this with your own Ads. 
-			    <com.google.ads.AdView 
-			        xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
-			        android:id="@+id/map_ad"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        ads:adUnitId="a1522d82412d977"
-			        ads:adSize="SMART_BANNER"
-			        ads:backgroundColor="#000000"
-			        ads:primaryTextColor="#FFFFFF"
-			        ads:secondaryTextColor="#CCCCCC"
-			        android:layout_alignParentBottom="true"
-			        android:layout_alignParentRight="true" />
-			    -->
-
-<!--  		    
-			    <LinearLayout
-	        	    android:id="@+id/ads"
-					android:layout_width="fill_parent"
-					android:layout_height="180px"
-					android:layout_alignParentBottom="true"
-			        android:layout_alignParentRight="true">
-					
-			        <TextView
-			            android:id="@+id/textView1"
-			            android:layout_width="wrap_content"
-			            android:layout_height="wrap_content"
-			            android:text="SPACE HOLDER FOR ADS"
-			            android:textAppearance="?android:attr/textAppearanceSmall" />			        
-				</LinearLayout>
-			    
-			    <LinearLayout
-	        	    android:id="@+id/tabs"
-					android:layout_width="fill_parent"
-					android:layout_height="60px"
-					android:orientation="horizontal" 
-					android:layout_alignParentBottom="true"
-			        android:layout_alignParentRight="true">
-					
-			        <TextView
-			            android:id="@+id/textView2"
-			            android:layout_width="wrap_content"
-			            android:layout_height="wrap_content"
-			            android:text="SPACE HOLDER FOR TAB BAR"
-			            android:textAppearance="?android:attr/textAppearanceSmall" />
-			        
-				</LinearLayout>
--->				
-			</RelativeLayout>
-<!--		
-		</FrameLayout>
-
-	    <TabWidget
-			android:id="@android:id/tabs"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content" />
-	    
-    </LinearLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
     
-   </TabHost>
-   -->
+   <RelativeLayout
+        android:id="@+id/search_layout"
+        android:layout_alignParentTop="true"
+        android:background="@color/grey_light_light"
+        android:padding="0.5dp"
+        android:layout_width="match_parent"
+        android:layout_height="45dp" >
+
+        <ImageView
+            android:id="@+id/icon_poi"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/white"                       
+            android:src="@drawable/icon_poi" />
+        <ImageView
+            android:id="@+id/icon_search"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"            
+            android:layout_alignBottom="@id/icon_poi"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"                                 
+            android:background="@color/white"                
+            android:src="@drawable/icon_searchbox" />
+        
+        <EditText
+            android:id="@+id/search_input"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignBottom="@id/icon_poi"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/icon_poi"
+            android:layout_toLeftOf="@id/icon_search"
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:layout_marginLeft="0.5dp"
+            android:layout_marginRight="0.5dp"
+            android:background="@color/white"
+            android:drawableLeft="@drawable/icon_searchbox"
+            android:hint="搜索"
+            android:inputType="text"            
+            android:textColor="@color/black" >            
+
+        </EditText>
+
+    </RelativeLayout>
+    
+<!--     menu_layout -->
+	<LinearLayout
+	    android:id="@+id/menu_layout"
+	    android:layout_width="fill_parent"
+	    android:layout_height="45dp"
+	    android:layout_alignParentBottom="true"
+	    android:background="@color/grey_light_light"
+	    android:padding="0.5dp"
+	    android:orientation="horizontal" >
+
+	    <RelativeLayout  
+	        android:layout_width="0dp"
+	    	android:layout_weight="1"
+	    	android:layout_marginRight="0.5dp"
+	    	android:background="@color/white"
+		    android:layout_height="fill_parent" >
+
+	        <TextView
+	            android:id="@+id/text_toliet"
+	            android:layout_width="wrap_content"
+	            android:layout_height="fill_parent"
+	            android:layout_centerHorizontal="true"            
+	            android:drawableLeft="@drawable/icon_surrounding"
+	            android:gravity="center_vertical"
+	            android:text="周围"
+	            android:textColor="@color/black" />
+
+		</RelativeLayout>
+	
+	    <RelativeLayout  
+	        android:layout_width="0dp"
+	    	android:layout_weight="1"
+	    	 android:layout_marginRight="0.5dp"
+	    	 android:background="@color/white"
+		    android:layout_height="fill_parent" >
+
+	        <TextView
+	            android:id="@+id/text_toliet"
+	            android:layout_width="wrap_content"
+	            android:layout_height="fill_parent"
+	            android:layout_centerHorizontal="true"            
+	            android:drawableLeft="@drawable/icon_route"
+	            android:gravity="center_vertical"
+	            android:text="路线"
+	            android:textColor="@color/black" />
+
+		</RelativeLayout>
+
+	    <RelativeLayout  
+	        android:layout_width="0dp"
+	    	android:layout_weight="1"
+	    	 android:layout_marginRight="0.5dp"
+	    	 android:background="@color/white"
+		    android:layout_height="fill_parent" >
+
+	        <TextView
+	            android:id="@+id/text_toliet"
+	            android:layout_width="wrap_content"
+	            android:layout_height="fill_parent"
+	            android:layout_centerHorizontal="true"            
+	            android:drawableLeft="@drawable/icon_activity"
+	            android:gravity="center_vertical"
+	            android:text="活动"
+	            android:textColor="@color/black" />
+
+		</RelativeLayout>
+		
+	    <RelativeLayout  
+	        android:layout_width="0dp"
+	    	android:layout_weight="1"
+	    	 android:layout_marginRight="0.5dp"
+	    	 android:background="@color/white"
+		    android:layout_height="fill_parent" >
+
+	        <TextView
+	            android:id="@+id/text_toliet"
+	            android:layout_width="wrap_content"
+	            android:layout_height="fill_parent"
+	            android:layout_centerHorizontal="true"            
+	            android:drawableLeft="@drawable/icon_user_center"
+	            android:gravity="center_vertical"
+	            android:text="我的"
+	            android:textColor="@color/black" />
+
+		</RelativeLayout>
+		    
+    </LinearLayout> <!--     menu_layout -->    
+    			    
+    <org.andengine.opengl.view.RenderSurfaceView
+        android:id="@+id/map_rendersurfaceview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/search_layout"
+        android:layout_above="@id/menu_layout"
+        android:layout_gravity="center" />
+	
+</RelativeLayout>
