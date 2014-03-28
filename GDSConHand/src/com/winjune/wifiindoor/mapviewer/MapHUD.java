@@ -317,27 +317,27 @@ public class MapHUD {
 
 	public static void initailHUDButtons(MapViewerActivity mapViewer) {
         float pX = 10;
-        float pY = 500;
-        float pWidth = 520;
         float pHeight = 60;
+        float pY = mapViewer.cameraHeight-pHeight;
+        float pWidth = mapViewer.cameraWidth-2*pX;
 		
 		ArrayList<IconButtonInfo> iconButtons = new ArrayList<IconButtonInfo>();
 		
 		IconButtonInfo iconButtonInfo1 = new IconButtonInfo();
 		iconButtonInfo1.setIconResourceId(R.drawable.nearby);
-		iconButtonInfo1.setText("鍛ㄥ洿");
+		iconButtonInfo1.setText("周围");
 		iconButtons.add(iconButtonInfo1);
 		IconButtonInfo iconButtonInfo2 = new IconButtonInfo();
 		iconButtonInfo2.setIconResourceId(R.drawable.route);
-		iconButtonInfo2.setText("璺嚎");
+		iconButtonInfo2.setText("路线");
 		iconButtons.add(iconButtonInfo2);
 		IconButtonInfo iconButtonInfo3 = new IconButtonInfo();
 		iconButtonInfo3.setIconResourceId(R.drawable.find);
-		iconButtonInfo3.setText("鎼滅储");
+		iconButtonInfo3.setText("搜索");
 		iconButtons.add(iconButtonInfo3);
 		IconButtonInfo iconButtonInfo4 = new IconButtonInfo();
 		iconButtonInfo4.setIconResourceId(R.drawable.mine);
-		iconButtonInfo4.setText("鎴戠殑");
+		iconButtonInfo4.setText("我的");
 		iconButtons.add(iconButtonInfo4);
 		ControlButtonsHUD.createBottomButtons(mapViewer, iconButtons, pX, pY, pWidth, pHeight);
 	}
