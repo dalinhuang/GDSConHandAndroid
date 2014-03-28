@@ -85,7 +85,7 @@ public class ControlButtonsHUD {
 				ImageButtonSprite textButton = new ImageButtonSprite(buttonWidth*i, 0,
 						backgroudNormal, backgroudPressed,iconButtonInfo.getIconRegion(),
 						mapViewer.getVertexBufferObjectManager(), null, iconButtonInfo.getText(),
-						mapViewer.mFont_mapinfo, buttonWidth, pHeight, 1.2f, 1.2f, -12f);
+						mapViewer.mFont_mapinfo, buttonWidth, pHeight, 1f, 1f, -12f);
 				coloredRect.attachChild(textButton);
 				mapViewer.hud.registerTouchArea(textButton);
 			}
@@ -166,5 +166,73 @@ public class ControlButtonsHUD {
 		coloredRect.attachChild(lineSplit3);
 */
 		}
-	
+
+	public static void createLeftButtons(MapViewerActivity mapViewer, ArrayList<IconButtonInfo> buttonInfoList, float pX, float pY, float pWidth, float pHeight) {
+//      float pX = 10;
+//      float pY = 700;
+//      float pWidth = 520;
+//      float pHeight = 60;
+      float lineWidth = 4;
+      float color = 0.95f;
+      float lineMargin = 10f;
+      int buttonCount = buttonInfoList.size();
+		Rectangle coloredRect = new Rectangle(pX, pY, pWidth, pHeight, mapViewer.getVertexBufferObjectManager());
+//		coloredRect.setColor(color, color, color);
+		Line lineTop = new Line(0, 0, pWidth, 0, lineWidth, mapViewer.getVertexBufferObjectManager());
+		lineTop.setColor(color, color, color);
+		Line lineBottom = new Line(0, pHeight, pWidth, pHeight, lineWidth, mapViewer.getVertexBufferObjectManager());
+		lineBottom.setColor(color, color, color);
+		Line lineLeft = new Line(0, 0, 0, pHeight, lineWidth, mapViewer.getVertexBufferObjectManager());
+		lineLeft.setColor(color, color, color);
+		Line lineRight = new Line(pWidth, 0, pWidth, pHeight, lineWidth, mapViewer.getVertexBufferObjectManager());
+		lineRight.setColor(color, color, color);
+		
+		float buttonHeight = pHeight/buttonCount;
+		
+		coloredRect.attachChild(lineTop);
+		coloredRect.attachChild(lineBottom);
+		coloredRect.attachChild(lineLeft);
+		coloredRect.attachChild(lineRight);
+		
+		BuildableBitmapTextureAtlas mBitmapTextureAtlas = new BuildableBitmapTextureAtlas(mapViewer.getTextureManager(), 512, 512);
+		ITextureRegion backgroudNormal = BitmapTextureAtlasTextureRegionFactory.createFromResource(mBitmapTextureAtlas, mapViewer, R.drawable.button_background_normal);
+		ITextureRegion backgroudPressed = BitmapTextureAtlasTextureRegionFactory.createFromResource(mBitmapTextureAtlas, mapViewer, R.drawable.button_background_pressed);
+		
+		for (int i = 0;i<buttonCount;i++) {
+			IconButtonInfo iconButtonInfo = buttonInfoList.get(i);
+			if (iconButtonInfo != null) {
+				ITextureRegion iconRegion = BitmapTextureAtlasTextureRegionFactory.createFromResource(mBitmapTextureAtlas, mapViewer, iconButtonInfo.getIconResourceId());
+				iconButtonInfo.setIconRegion(iconRegion);
+			}
+		}
+
+		try {
+			mBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(10, 20, 30));
+			mBitmapTextureAtlas.load();
+		} catch (TextureAtlasBuilderException e) {
+			Debug.e(e);
+		}
+
+		for (int i = 0;i<buttonCount;i++) {
+			IconButtonInfo iconButtonInfo = buttonInfoList.get(i);
+			if (iconButtonInfo != null) {
+				ImageButtonSprite imageButton = new ImageButtonSprite(0, buttonHeight*i,
+						backgroudNormal, backgroudPressed,iconButtonInfo.getIconRegion(),
+						mapViewer.getVertexBufferObjectManager(), null, pWidth, buttonHeight, 1.2f);
+				coloredRect.attachChild(imageButton);
+				mapViewer.hud.registerTouchArea(imageButton);
+			}
+		}
+
+
+
+		mapViewer.hud.attachChild(coloredRect);
+		for (int i=1;i<buttonCount;i++)
+		{
+			Line lineSplit = new Line(lineMargin, buttonHeight*i, pWidth-lineMargin, buttonHeight*i, 2, mapViewer.getVertexBufferObjectManager());
+			lineSplit.setColor(color, color, color);
+			coloredRect.attachChild(lineSplit);			
+		}
+		}
+
 }

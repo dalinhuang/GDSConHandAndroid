@@ -38,6 +38,7 @@ public class ImageButtonSprite extends ButtonSprite {
 				pOnClickListener);
 	}
 
+    //Text only
 	public ImageButtonSprite(float pX, float pY,
 			ITiledTextureRegion pTiledTextureRegion,
 			VertexBufferObjectManager pVertexBufferObjectManager, String pText,
@@ -51,6 +52,7 @@ public class ImageButtonSprite extends ButtonSprite {
 		this.attachChild(buttonText);
 	}
 
+	//Text only with listener
 	public ImageButtonSprite(float pX, float pY,
 			ITiledTextureRegion pTiledTextureRegion,
 			VertexBufferObjectManager pVertexBufferObjectManager,
@@ -64,17 +66,53 @@ public class ImageButtonSprite extends ButtonSprite {
 		buttonText.setPosition(textX, textY);
 		this.attachChild(buttonText);
 		
-		
-		
 	}
 
-	
+    //Text only with status
+	public  ImageButtonSprite(float pX, float pY,
+			ITextureRegion pTiledTextureRegion,
+			VertexBufferObjectManager pVertexBufferObjectManager,
+			OnClickListener pOnClickListener, String pText, Font pFont,
+			float pWidth, float pHeight, float pTextScale){
+		super(pX, pY, pTiledTextureRegion, pVertexBufferObjectManager, pOnClickListener);
+		buttonText = new Text(0, 0, pFont, pText, pVertexBufferObjectManager);
+		textX = (this.getWidth() - buttonText.getWidth()) / 2;
+		textY = (this.getHeight() - buttonText.getHeight()) / 2;
+		buttonText.setPosition(textX, textY);
+		buttonText.setScale(pTextScale);
+		this.attachChild(buttonText);
+	}
+
+    //Image only
+	public  ImageButtonSprite(float pX, float pY,
+			ITextureRegion pNormalTextureRegion,
+			ITextureRegion pPressedTextureRegion,
+			ITextureRegion pIconTextureRegion,
+			VertexBufferObjectManager pVertexBufferObjectManager,
+			OnClickListener pOnClickListener,
+			float pWidth, float pHeight, float pIconScale){
+		super(pX, pY, pNormalTextureRegion, pPressedTextureRegion, pVertexBufferObjectManager, pOnClickListener);
+		buttonIcon = new Sprite(0, 0, pIconTextureRegion, pVertexBufferObjectManager);
+		buttonIcon.setScale(pIconScale);
+		float iconWidth  = pIconTextureRegion.getWidth();
+        float iconHeight = pIconTextureRegion.getHeight();
+        float marginX = (pWidth-iconWidth)/2;
+        float iconY = (pHeight-iconHeight)/1;
+		
+        buttonIcon.setPosition(marginX, iconY);
+		
+		this.attachChild(buttonIcon);
+        super.setSize(pWidth, pHeight);
+	}
+
+	//Image and text	
 	public ImageButtonSprite(final float pX, final float pY, final ITextureRegion pNormalTextureRegion, final ITextureRegion pPressedTextureRegion, final ITextureRegion pIconTextureRegion, final VertexBufferObjectManager pVertexBufferObjectManager, final OnClickListener pOnClickListener, String pText, Font pFont, final float pWidth, final float pHeight) {
         this(pX, pY,pNormalTextureRegion, pPressedTextureRegion,
         		pIconTextureRegion, pVertexBufferObjectManager, pOnClickListener,
         		pText, pFont, pWidth, pHeight, 1f, 1f, 0f);
 	}
 
+    //Image and text
 	public  ImageButtonSprite(float pX, float pY,
 			ITextureRegion pNormalTextureRegion,
 			ITextureRegion pPressedTextureRegion,
@@ -105,7 +143,7 @@ public class ImageButtonSprite extends ButtonSprite {
 	}
 
 	
-	
+	//Text and image without scale
 	public ImageButtonSprite(final float pX, final float pY, final ITextureRegion pNormalTextureRegion, final ITextureRegion pPressedTextureRegion, final ITextureRegion pDisabledTextureRegion, final ITextureRegion pIconTextureRegion, final VertexBufferObjectManager pVertexBufferObjectManager, final OnClickListener pOnClickListener, String pText, Font pFont, float pLeftOffset) {
 		super(pX, pY, new TiledTextureRegion(pNormalTextureRegion.getTexture(), pNormalTextureRegion, pPressedTextureRegion, pDisabledTextureRegion), pVertexBufferObjectManager, pOnClickListener);
 		buttonText = new Text(0, 0, pFont, pText, pVertexBufferObjectManager);

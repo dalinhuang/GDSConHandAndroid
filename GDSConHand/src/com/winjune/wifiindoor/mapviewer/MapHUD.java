@@ -316,12 +316,13 @@ public class MapHUD {
 	}
 
 	public static void initailHUDButtons(MapViewerActivity mapViewer) {
-        float pX = 10;
-        float pHeight = 60;
+        float pX = Util.dip2px(mapViewer, 10);
+        float pHeight = Util.dip2px(mapViewer, 40);
         float pY = mapViewer.cameraHeight-pHeight;
         float pWidth = mapViewer.cameraWidth-2*pX;
 		
 		ArrayList<IconButtonInfo> iconButtons = new ArrayList<IconButtonInfo>();
+		ArrayList<IconButtonInfo> leftIconButtons = new ArrayList<IconButtonInfo>();
 		
 		IconButtonInfo iconButtonInfo1 = new IconButtonInfo();
 		iconButtonInfo1.setIconResourceId(R.drawable.nearby);
