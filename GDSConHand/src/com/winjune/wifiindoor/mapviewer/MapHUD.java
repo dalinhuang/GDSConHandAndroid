@@ -2,6 +2,7 @@ package com.winjune.wifiindoor.mapviewer;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -314,6 +315,34 @@ public class MapHUD {
 		mapViewer.hud.attachChild(mapViewer.mBatteryText);
 	}
 
+	public static void initailHUDButtons(MapViewerActivity mapViewer) {
+        float pX = 10;
+        float pY = 500;
+        float pWidth = 520;
+        float pHeight = 60;
+		
+		ArrayList<IconButtonInfo> iconButtons = new ArrayList<IconButtonInfo>();
+		
+		IconButtonInfo iconButtonInfo1 = new IconButtonInfo();
+		iconButtonInfo1.setIconResourceId(R.drawable.nearby);
+		iconButtonInfo1.setText("鍛ㄥ洿");
+		iconButtons.add(iconButtonInfo1);
+		IconButtonInfo iconButtonInfo2 = new IconButtonInfo();
+		iconButtonInfo2.setIconResourceId(R.drawable.route);
+		iconButtonInfo2.setText("璺嚎");
+		iconButtons.add(iconButtonInfo2);
+		IconButtonInfo iconButtonInfo3 = new IconButtonInfo();
+		iconButtonInfo3.setIconResourceId(R.drawable.find);
+		iconButtonInfo3.setText("鎼滅储");
+		iconButtons.add(iconButtonInfo3);
+		IconButtonInfo iconButtonInfo4 = new IconButtonInfo();
+		iconButtonInfo4.setIconResourceId(R.drawable.mine);
+		iconButtonInfo4.setText("鎴戠殑");
+		iconButtons.add(iconButtonInfo4);
+		ControlButtonsHUD.createBottomButtons(mapViewer, iconButtons, pX, pY, pWidth, pHeight);
+	}
+
+	
 	@SuppressLint("SimpleDateFormat")
 	public static void initailHUDHintBar(MapViewerActivity mapViewer) {
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); 

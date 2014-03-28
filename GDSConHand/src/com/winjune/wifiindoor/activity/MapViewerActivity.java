@@ -712,6 +712,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		MapHUD.initailHUDHintBar(this);
 		MapHUD.initialHUDMenuBar(this);
 		MapHUD.initialHUDTabBar(this);
+	    MapHUD.initailHUDButtons(this);
 		
 
 		// Listeners
