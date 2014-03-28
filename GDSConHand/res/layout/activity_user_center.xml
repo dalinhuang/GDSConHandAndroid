@@ -1,0 +1,326 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/grey_light_light"
+    android:orientation="vertical" >
+    
+    <RelativeLayout
+        android:id="@+id/setting_title_layout"
+        android:background="@color/grey_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="1dp" >
+       
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/grey_light_light"
+            android:clickable="true"
+            android:onClick="backClick"
+            android:src="@drawable/btn_back" />
+
+        <ImageView
+            android:id="@+id/btn_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/btn_back"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/grey_light_light"                
+            android:src="@drawable/btn_setting" />
+        
+         <TextView
+            android:id="@+id/text_user_center"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignBottom="@+id/btn_back"            
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/btn_back"
+            android:layout_toLeftOf="@+id/btn_setting"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:background="@color/grey_light_light"                                
+            android:gravity="center"
+            android:text="我的"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black" />        
+    </RelativeLayout>
+    
+<ScrollView 
+	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:layout_marginTop="1dp"
+  	android:background="@color/grey_light_light"
+   	android:scrollbars="none">
+
+<LinearLayout 
+	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"  	
+  	android:orientation="vertical">
+
+<LinearLayout     
+	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+	android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp"    	  	
+  	android:orientation="vertical"
+  	android:background="@color/grey_light"
+    android:padding="1dp">
+   
+    <!-- 	share position layout -->	
+    <RelativeLayout    
+        android:id = "@+id/share_position_layout"        	        
+   		android:layout_width="fill_parent"				        	        
+        android:layout_height="50dp"        >
+
+        <ImageView
+            android:id="@+id/icon_share_position"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="10dp"
+            android:background="@color/white"
+            android:src="@drawable/icon_share_position" />
+
+        <ImageView
+            android:id="@+id/icon_next_share_position"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:paddingRight="10dp"
+            android:background="@color/white"
+            android:src="@drawable/icon_next" />
+
+         <TextView
+             android:id="@+id/text_share_position"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_alignBottom="@id/icon_share_position"
+             android:layout_alignTop="@id/icon_share_position"
+             android:layout_centerVertical="true"
+             android:layout_toLeftOf="@+id/icon_next_share_position"
+             android:layout_toRightOf="@+id/icon_share_position"
+             android:background="@color/white"
+             android:gravity="center_vertical"
+             android:lines="1"
+             android:paddingLeft="10dp"
+             android:text="分享我的位置"
+             android:textAppearance="?android:attr/textAppearanceMedium"
+             android:textColor="@color/black" />    	   
+    </RelativeLayout>   <!-- 	setting layout -->    
+</LinearLayout>        
+    
+    
+<LinearLayout     
+	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+	android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp"    	  	
+  	android:orientation="vertical"
+  	android:background="@color/grey_light"
+    android:padding="1dp">
+   
+    <!-- 	setting layout -->	
+    <RelativeLayout    
+        android:id = "@+id/setting_layout"        	        
+   		android:layout_width="fill_parent"				        	        
+        android:layout_height="50dp"        >
+
+        <ImageView
+            android:id="@+id/icon_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="10dp"
+            android:background="@color/white"
+            android:src="@drawable/icon_setting" />
+
+        <ImageView
+            android:id="@+id/icon_next_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:paddingRight="10dp"
+            android:background="@color/white"
+            android:src="@drawable/icon_next" />
+
+         <TextView
+             android:id="@+id/text_setting"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_alignBottom="@id/icon_setting"
+             android:layout_alignTop="@id/icon_setting"
+             android:layout_centerVertical="true"
+             android:layout_toLeftOf="@+id/icon_next_setting"
+             android:layout_toRightOf="@+id/icon_setting"
+             android:background="@color/white"
+             android:gravity="center_vertical"
+             android:lines="1"
+             android:paddingLeft="10dp"
+             android:text="设置"
+             android:textAppearance="?android:attr/textAppearanceMedium"
+             android:textColor="@color/black" />    	   
+    </RelativeLayout>   <!-- 	setting layout -->
+
+    <!-- 	feedback layout -->	
+    <RelativeLayout    
+        android:id = "@+id/feedback_layout"        	        
+   		android:layout_width="fill_parent"				        	        
+        android:layout_height="50dp"        
+        android:paddingTop ="1dp">
+
+        <ImageView
+            android:id="@+id/icon_feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="10dp"
+            android:background="@color/white"
+            android:src="@drawable/icon_feedback" />
+
+        <ImageView
+            android:id="@+id/icon_next_feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:paddingRight="10dp"
+            android:background="@color/white"
+            android:src="@drawable/icon_next" />
+
+         <TextView
+             android:id="@+id/text_feedback"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_alignBottom="@id/icon_feedback"
+             android:layout_alignTop="@id/icon_feedback"
+             android:layout_centerVertical="true"
+             android:layout_toLeftOf="@+id/icon_next_feedback"
+             android:layout_toRightOf="@+id/icon_feedback"
+             android:background="@color/white"
+             android:gravity="center_vertical"
+             android:lines="1"
+             android:paddingLeft="10dp"
+             android:text="反馈与建议"
+             android:textAppearance="?android:attr/textAppearanceMedium"
+             android:textColor="@color/black" />    	   
+    </RelativeLayout>   <!-- 	feedback layout -->
+
+    <!-- 	about layout -->	
+    <RelativeLayout    
+        android:id = "@+id/about_layout"        	        
+   		android:layout_width="fill_parent"				        	        
+        android:layout_height="50dp"        
+        android:paddingTop ="1dp">
+
+        <ImageView
+            android:id="@+id/icon_about"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="10dp"
+            android:background="@color/white"
+            android:src="@drawable/icon_setting" />
+
+        <ImageView
+            android:id="@+id/icon_next_about"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:paddingRight="10dp"
+            android:background="@color/white"
+            android:src="@drawable/icon_next" />
+
+         <TextView
+             android:id="@+id/text_setting"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_alignBottom="@id/icon_about"
+             android:layout_alignTop="@id/icon_about"
+             android:layout_centerVertical="true"
+             android:layout_toLeftOf="@+id/icon_next_about"
+             android:layout_toRightOf="@+id/icon_about"
+             android:background="@color/white"
+             android:gravity="center_vertical"
+             android:lines="1"
+             android:paddingLeft="10dp"
+             android:text="关于"
+             android:textAppearance="?android:attr/textAppearanceMedium"
+             android:textColor="@color/black" />    	   
+    </RelativeLayout>   <!-- 	about layout --> 
+</LinearLayout>
+
+
+<LinearLayout     
+	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+	android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp"    	  	
+  	android:orientation="vertical"
+  	android:background="@color/grey_light"
+    android:padding="1dp">
+   
+    <!-- 	exit app layout -->
+    <RelativeLayout  
+        android:id = "@+id/exitapp_layout"        	        
+   		android:layout_width="fill_parent"				        	        
+        android:layout_height="50dp">
+
+        <ImageView
+            android:id="@+id/icon_exitapp"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="10dp"
+            android:background="@color/white"
+            android:src="@drawable/icon_setting" />
+
+        <ImageView
+            android:id="@+id/icon_next_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:paddingRight="10dp"
+            android:background="@color/white"
+            android:src="@drawable/icon_next" />
+
+         <TextView
+             android:id="@+id/text_exitapp"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_alignBottom="@id/icon_exitapp"
+             android:layout_alignTop="@id/icon_exitapp"
+             android:layout_centerVertical="true"
+             android:layout_toLeftOf="@+id/icon_next_exit"
+             android:layout_toRightOf="@+id/icon_exitapp"
+             android:background="@color/white"
+             android:gravity="center_vertical"
+             android:lines="1"
+             android:paddingLeft="10dp"
+             android:text="退出程序"
+             android:textAppearance="?android:attr/textAppearanceMedium"
+             android:textColor="@color/black" />    	    
+    </RelativeLayout>  <!-- 	exit app layout -->       
+</LinearLayout>     
+
+    
+</LinearLayout>       
+</ScrollView>      
+
+</LinearLayout>
