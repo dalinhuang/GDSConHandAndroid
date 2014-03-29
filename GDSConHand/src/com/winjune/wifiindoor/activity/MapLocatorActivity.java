@@ -204,7 +204,27 @@ public class MapLocatorActivity extends Activity {
 	}
 	
 	public void connectionFailed(){
-		finish();
+		if (mapDownloadOngoing){
+			// when hit here, map download fails due to connection or server issue.
+			// So default map needs to be loaded.
+			Util.showLongToast(this, R.string.server_unreachable);
+			
+			IndoorMap indoorMap = new IndoorMap();
+			try {
+				InputStream map_file_is = getAssets().open("defaultmap.xml");
+			
+				indoorMap.fromXML(map_file_is);
+				Util.setIsDefaultMap(true);
+				Log.i("MapLocatorActivity", "Download map failure, use the default map instead");
+			} catch (Exception exception) {
+				Log.e("MapLocatorActivity", "Default map is not exist!");
+				return;
+			}
+			startNewIntent(indoorMap);
+		}
+		else {
+			finish();
+		}
 	}
 	
 	private void startNewIntent(IndoorMap indoorMap) {
