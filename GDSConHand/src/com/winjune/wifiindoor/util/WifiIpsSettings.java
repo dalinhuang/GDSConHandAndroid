@@ -10,8 +10,13 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import android.content.Context;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 /**
@@ -27,6 +32,9 @@ public class WifiIpsSettings {
 	
 	public static String PRIMARY_SERVER = "14.18.207.183";
 	public static String SECONDARY_SERVER = "14.18.207.183";
+	public static String CMCC_Site = "www.winjune.com";		//	中国移动
+	public static String CU_Site = "www2.winjune.com";		//	中国联通
+	public static String CT_Site = "www.winjune.com";		//	中国电信
 	public static String SERVER_PORT = "80";
 	public static String SERVER_SUB_DOMAIN = "/GDSCAppServer"; //"/wifiips", "/WifiIpsServer";
 	public static String SERVER = null;
@@ -136,8 +144,55 @@ public class WifiIpsSettings {
 		}
 	}
 
-	//Hoare: to do, select the fast server
-	public static boolean getServerAddress(boolean force_retry) {
+    public static String getImsi(Context context) {  
+        String imsi = "";  
+        try {   //��ͨ������ȡimsi  
+            TelephonyManager tm = (TelephonyManager) context.  
+                    getSystemService(Context.TELEPHONY_SERVICE);  
+            imsi = tm.getSubscriberId();  
+            if (imsi==null || "".equals(imsi)) imsi = tm.getSimOperator();  
+            Class<?>[] resources = new Class<?>[] {int.class};  
+            Integer resourcesId = new Integer(1);  
+            if (imsi==null || "".equals(imsi)) {  
+                try {   //���÷����ȡ    MTK�ֻ�  
+                    Method addMethod = tm.getClass().getDeclaredMethod("getSubscriberIdGemini", resources);  
+                    addMethod.setAccessible(true);  
+                    imsi = (String) addMethod.invoke(tm, resourcesId);  
+                } catch (Exception e) {  
+                    imsi = null;  
+                }  
+            }  
+            if (imsi==null || "".equals(imsi)) {  
+                try {   //���÷����ȡ    չѶ�ֻ�  
+                    Class<?> c = Class  
+                            .forName("com.android.internal.telephony.PhoneFactory");  
+                    Method m = c.getMethod("getServiceName", String.class, int.class);  
+                    String spreadTmService = (String) m.invoke(c, Context.TELEPHONY_SERVICE, 1);  
+                    TelephonyManager tm1 = (TelephonyManager) context.getSystemService(spreadTmService);  
+                    imsi = tm1.getSubscriberId();  
+                } catch (Exception e) {  
+                    imsi = null;  
+                }  
+            }  
+            if (imsi==null || "".equals(imsi)) {  
+                try {   //���÷����ȡ    ��ͨ�ֻ�  
+                    Method addMethod2 = tm.getClass().getDeclaredMethod("getSimSerialNumber", resources);  
+                    addMethod2.setAccessible(true);  
+                    imsi = (String) addMethod2.invoke(tm, resourcesId);  
+                } catch (Exception e) {  
+                    imsi = null;  
+                }  
+            }  
+            if (imsi==null || "".equals(imsi)) {  
+                imsi = "000000";  
+            }  
+            return imsi;  
+        } catch (Exception e) {  
+            return "000000";  
+        }  
+    }  
+	
+	public static boolean getServerAddress(boolean force_retry, Context context) {
 		
 		if (force_retry) {
 			SERVER = null;
@@ -148,8 +203,31 @@ public class WifiIpsSettings {
 		}
 
 		
-		SERVER = PRIMARY_SERVER + ":" + SERVER_PORT	+ SERVER_SUB_DOMAIN;
-		
+		String imsi = getImsi(context);
+
+		try {
+			if (imsi!=null){ 
+				if(imsi.startsWith("46000") || imsi.startsWith("46002")) {
+					//因为移动网络编号46000下的IMSI已经用完，所以虚拟了一个46002编号，134/159号段使用了此编号 //中国移动
+					SERVER = InetAddress.getByName(CMCC_Site).getHostAddress() + ":" + SERVER_PORT	+ SERVER_SUB_DOMAIN;
+				} else if(imsi.startsWith("46001")) {
+					//中国联通
+					SERVER = InetAddress.getByName("CU_Site").getHostAddress() + ":" + SERVER_PORT	+ SERVER_SUB_DOMAIN;
+				} else if(imsi.startsWith("46003")) {
+					//中国电信
+					SERVER = InetAddress.getByName("CT_Site").getHostAddress() + ":" + SERVER_PORT	+ SERVER_SUB_DOMAIN;
+				} else {
+					//其他移动网络
+					SERVER = PRIMARY_SERVER + ":" + SERVER_PORT	+ SERVER_SUB_DOMAIN;
+				}
+			} else {
+				// 没有IMSI可能是个PAD, 使用默认的地址
+				SERVER = PRIMARY_SERVER + ":" + SERVER_PORT	+ SERVER_SUB_DOMAIN;
+			}		
+		} catch (UnknownHostException e) {
+			SERVER = PRIMARY_SERVER + ":" + SERVER_PORT	+ SERVER_SUB_DOMAIN;
+			e.printStackTrace();
+		}
 		return true;
 	}
 	

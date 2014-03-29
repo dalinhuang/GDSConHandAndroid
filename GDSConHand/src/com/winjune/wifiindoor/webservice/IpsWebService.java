@@ -39,7 +39,7 @@ public class IpsWebService {
 
 	public static void startWebService(final Activity activity) {		
 		
-		WifiIpsSettings.getServerAddress(true); 	    
+		WifiIpsSettings.getServerAddress(true, activity); 	    
 		
 		if (initialize(WifiIpsSettings.SERVER, ApkVersionManager.getApkVersionName())) {
 					
