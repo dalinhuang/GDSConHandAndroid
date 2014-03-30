@@ -45,8 +45,12 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.ScaleGestureDetector;
+import android.view.View;
 import android.widget.Toast;
 
+import com.winjune.wifiindoor.activity.LabelSearchActivity;
+import com.winjune.wifiindoor.activity.SurroundingActivity;
+import com.winjune.wifiindoor.activity.UserCenterActivity;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.ads.ScreenAdvertisement;
 import com.winjune.wifiindoor.drawing.GraphicIndoorMapListener;
@@ -801,5 +805,28 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		if (Util.isShakeDetected(event)) {
 		        LocateBar.locateMe(this, false);
 		}
-	}		
+	}	
+	
+	public void searchBarClick(View v) {
+        Intent i = new Intent(this, LabelSearchActivity.class); 
+		startActivity(i);		
+	}
+	
+	public void surroundingButtonClick(View v){
+        Intent i = new Intent(this, SurroundingActivity.class); 
+		startActivity(i);		
+	}
+	
+	public void routeButtonClick(View v){
+		
+	}
+	
+	public void eventButtonClick(View v){
+		
+	}
+	
+	public void userButtonClick(View v) {
+        Intent i = new Intent(this, UserCenterActivity.class); 
+		startActivity(i);			
+	}
 }

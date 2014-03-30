@@ -27,7 +27,8 @@ public class MapViewerUtil {
 		display.getMetrics(outMetrics);
 		
 		mapViewer.cameraWidth = outMetrics.widthPixels;
-		mapViewer.cameraHeight = outMetrics.heightPixels - Util.getStatusBarHeight(mapViewer);
+		mapViewer.cameraHeight = outMetrics.heightPixels - Util.getStatusBarHeight(mapViewer) 
+								- Util.dip2px(mapViewer, 90); // need to reduce the search bar and action bar height
 		
 		mapViewer.density = Math.min(mapViewer.cameraWidth, mapViewer.cameraHeight) / 480;
 

@@ -171,6 +171,51 @@
              android:textAppearance="?android:attr/textAppearanceMedium"
              android:textColor="@color/black" />    	   
     </RelativeLayout>   <!-- 	setting layout -->
+    
+    <!-- 	check update layout -->	
+    <RelativeLayout    
+        android:id = "@+id/check_update_layout"        	        
+   		android:layout_width="fill_parent"				        	        
+        android:layout_height="50dp"        
+        android:paddingTop ="1dp">
+
+        <ImageView
+            android:id="@+id/icon_checkupdate"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="10dp"
+            android:background="@color/white"
+            android:src="@drawable/icon_update" />
+
+        <ImageView
+            android:id="@+id/icon_next_checkupdate"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:paddingRight="10dp"
+            android:background="@color/white"
+            android:src="@drawable/icon_next" />
+
+         <TextView
+             android:id="@+id/text_feedback"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_alignBottom="@id/icon_checkupdate"
+             android:layout_alignTop="@id/icon_checkupdate"
+             android:layout_centerVertical="true"
+             android:layout_toLeftOf="@+id/icon_next_checkupdate"
+             android:layout_toRightOf="@+id/icon_checkupdate"
+             android:background="@color/white"
+             android:gravity="center_vertical"
+             android:lines="1"
+             android:paddingLeft="10dp"
+             android:text="检查更新"
+             android:textAppearance="?android:attr/textAppearanceMedium"
+             android:textColor="@color/black" />    	   
+    </RelativeLayout>   <!-- 	check update layout -->    
 
     <!-- 	feedback layout -->	
     <RelativeLayout    
@@ -232,7 +277,7 @@
             android:layout_alignParentTop="true"
             android:paddingLeft="10dp"
             android:background="@color/white"
-            android:src="@drawable/icon_setting" />
+            android:src="@drawable/icon_about" />
 
         <ImageView
             android:id="@+id/icon_next_about"
@@ -263,6 +308,61 @@
     </RelativeLayout>   <!-- 	about layout --> 
 </LinearLayout>
 
+<LinearLayout     
+	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+	android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp"    	  	
+  	android:orientation="vertical"
+  	android:background="@color/grey_light"
+    android:padding="1dp">
+   
+    <!-- 	debug mode setting layout -->
+    <RelativeLayout  
+        android:id = "@+id/exitapp_layout"        	        
+   		android:layout_width="fill_parent"				        	        
+        android:layout_height="50dp">
+
+        <ImageView
+            android:id="@+id/icon_planning_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="10dp"
+            android:background="@color/white"
+            android:src="@drawable/icon_setting" />
+
+        <ImageView
+            android:id="@+id/icon_next_planningsetting"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:paddingRight="10dp"
+            android:background="@color/white"
+            android:src="@drawable/icon_next" />
+
+         <TextView
+             android:id="@+id/text_exitapp"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_alignBottom="@id/icon_planning_setting"
+             android:layout_alignTop="@id/icon_planning_setting"
+             android:layout_centerVertical="true"
+             android:layout_toLeftOf="@+id/icon_next_planningsetting"
+             android:layout_toRightOf="@+id/icon_planning_setting"
+             android:background="@color/white"
+             android:gravity="center_vertical"
+             android:lines="1"
+             android:paddingLeft="10dp"
+             android:text="调试设置"
+             android:textAppearance="?android:attr/textAppearanceMedium"
+             android:textColor="@color/black" />    	    
+    </RelativeLayout>  <!-- 	debug mode setting layout -->       
+</LinearLayout>     
+
 
 <LinearLayout     
 	android:layout_width="fill_parent"
@@ -288,7 +388,7 @@
             android:layout_alignParentTop="true"
             android:paddingLeft="10dp"
             android:background="@color/white"
-            android:src="@drawable/icon_setting" />
+            android:src="@drawable/icon_exitapp" />
 
         <ImageView
             android:id="@+id/icon_next_exit"

@@ -4,12 +4,13 @@
     android:layout_height="fill_parent" >
     
    <RelativeLayout
-        android:id="@+id/search_layout"
-        android:layout_alignParentTop="true"
-        android:background="@color/grey_light_light"
-        android:padding="0.5dp"
-        android:layout_width="match_parent"
-        android:layout_height="45dp" >
+       android:id="@+id/search_layout"
+       android:layout_width="match_parent"
+       android:layout_height="45dp"
+       android:layout_alignParentTop="true"
+       android:background="@color/grey_light_light"
+       android:onClick="searchBarClick"
+       android:padding="0.5dp" >
 
         <ImageView
             android:id="@+id/icon_poi"
@@ -63,12 +64,13 @@
 	    android:padding="0.5dp"
 	    android:orientation="horizontal" >
 
-	    <RelativeLayout  
+	    <RelativeLayout
 	        android:layout_width="0dp"
-	    	android:layout_weight="1"
-	    	android:layout_marginRight="0.5dp"
-	    	android:background="@color/white"
-		    android:layout_height="fill_parent" >
+	        android:layout_height="fill_parent"
+	        android:layout_marginRight="0.5dp"
+	        android:layout_weight="1"
+	        android:background="@color/white"
+	        android:onClick="surroundingBarClick" >
 
 	        <TextView
 	            android:id="@+id/text_toliet"
@@ -87,7 +89,8 @@
 	    	android:layout_weight="1"
 	    	 android:layout_marginRight="0.5dp"
 	    	 android:background="@color/white"
-		    android:layout_height="fill_parent" >
+		    android:layout_height="fill_parent"
+		    android:onClick="routeBarClick" >
 
 	        <TextView
 	            android:id="@+id/text_toliet"
@@ -106,7 +109,8 @@
 	    	android:layout_weight="1"
 	    	 android:layout_marginRight="0.5dp"
 	    	 android:background="@color/white"
-		    android:layout_height="fill_parent" >
+		    android:layout_height="fill_parent"
+		    android:onClick="eventBarClick" >
 
 	        <TextView
 	            android:id="@+id/text_toliet"
@@ -125,7 +129,8 @@
 	    	android:layout_weight="1"
 	    	 android:layout_marginRight="0.5dp"
 	    	 android:background="@color/white"
-		    android:layout_height="fill_parent" >
+		    android:layout_height="fill_parent"
+		    android:onClick="userBarClick" >
 
 	        <TextView
 	            android:id="@+id/text_toliet"
