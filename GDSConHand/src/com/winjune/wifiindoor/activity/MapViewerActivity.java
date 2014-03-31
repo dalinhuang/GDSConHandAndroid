@@ -181,6 +181,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public static final int REQUEST_CODE = 0;
 	public static final int CAMERA_REQUEST_CODE = REQUEST_CODE;
 	public static final int SEARCH_REQUEST_CODE = REQUEST_CODE + 1;
+	public static final int USER_CENTER_REQUEST_CODE = REQUEST_CODE + 2;
 
 	public float density = 1.5f;
 
@@ -386,6 +387,12 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		super.onActivityResult(requestCode, resultCode, data);
 
 		switch (requestCode) {
+		case USER_CENTER_REQUEST_CODE:			
+		  if(resultCode == RESULT_FIRST_USER ) {  
+			  finish();
+			  MapViewerUtil.exitApp();
+	       }
+		  break;
 		case SEARCH_REQUEST_CODE:
 			if (resultCode == RESULT_OK) {
    			   SearchBar.loadSearchPlaces(this);
@@ -812,21 +819,24 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		startActivity(i);		
 	}
 	
-	public void surroundingButtonClick(View v){
+	public void surroundingBarClick(View v){
         Intent i = new Intent(this, SurroundingActivity.class); 
 		startActivity(i);		
 	}
 	
-	public void routeButtonClick(View v){
+	public void routeBarClick(View v){
 		
 	}
 	
-	public void eventButtonClick(View v){
-		
+	public void eventBarClick(View v){
+        Intent i = new Intent(this, EventViewerTabActivity.class); 
+		startActivity(i);		
 	}
 	
-	public void userButtonClick(View v) {
+	public void userBarClick(View v) {
         Intent i = new Intent(this, UserCenterActivity.class); 
-		startActivity(i);			
+		startActivityForResult(i, USER_CENTER_REQUEST_CODE);
+		//startActivity(i);		
+
 	}
 }

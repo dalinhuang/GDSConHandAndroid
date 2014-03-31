@@ -16,7 +16,7 @@ public class LabelSearchActivity extends Activity {
 	
 	
 	public void searchClick(View v){
-		super.onBackPressed();
+		onBackPressed();
 	}
 
 

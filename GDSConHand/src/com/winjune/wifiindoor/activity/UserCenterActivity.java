@@ -1,12 +1,11 @@
 package com.winjune.wifiindoor.activity;
 
-import com.winjune.wifiindoor.activity.*;
 import com.winjune.wifiindoor.R;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Intent;
-import android.view.Menu;
 import android.view.View;
 
 public class UserCenterActivity extends Activity {
@@ -17,33 +16,40 @@ public class UserCenterActivity extends Activity {
 		setContentView(R.layout.activity_user_center);
 	}
 	
-	public void shareMyPosClick(View v){
+	public void backClick(View v){
+		onBackPressed();
+	}	
+	
+	public void shareMyPosBarClick(View v){
 		
 	}
 
-	public void settingClick(View v){
+	public void settingBarClick(View v){
         Intent i = new Intent(this, SettingActivity.class); 
-		startActivity(i);	
+		startActivity(i);		
 	}
 	
-	public void feedbackClick(View v){
+	public void feedbackBarClick(View v){
 		
 	}
 
-	public void planningTuningClick(View v){
+	public void planningTuningBarClick(View v){
         Intent i = new Intent(this, TunerActivity.class); 
-		startActivity(i);	
+		startActivity(i);				
 	}
 	
-	public void checkUpdateClick(View v){
+	public void checkUpdateBarClick(View v){
 		
 	}
 	
-	public void aboutClick(View v){
+	public void aboutBarClick(View v){
 		
 	}
 	
-	public void exitAppClick(View v) {
-		
+	public void exitAppBarClick(View v) {		
+ 
+         setResult(RESULT_FIRST_USER);
+         
+         finish();
 	}
 }

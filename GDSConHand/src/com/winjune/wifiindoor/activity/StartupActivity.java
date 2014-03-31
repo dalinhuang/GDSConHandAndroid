@@ -44,6 +44,8 @@ public class StartupActivity extends Activity implements OnInitListener{
 				
 	    Util.cancelToast();
 	    
+	    AutoGuideTTS.shutdown();
+	    
 	    super.onDestroy();
 	}
 	

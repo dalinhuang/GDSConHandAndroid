@@ -15,6 +15,6 @@ public class SurroundingActivity extends Activity {
     }
     
     public void backClick(View v) {
-    	super.onBackPressed();    	
+    	onBackPressed();    	
     }    
 }

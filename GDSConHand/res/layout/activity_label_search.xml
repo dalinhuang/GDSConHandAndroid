@@ -7,7 +7,9 @@
     <RelativeLayout
         android:id="@+id/search_title_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content" 
+        android:background="@color/grey_light"
+        android:paddingBottom="1dp" >
 
         <ImageView
             android:id="@+id/btn_back"
@@ -34,6 +36,8 @@
             android:id="@+id/search_input"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"            
             android:layout_alignBottom="@id/btn_back"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@id/btn_back"

@@ -3,13 +3,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
     
+    <!--     search_layout -->
    <RelativeLayout
        android:id="@+id/search_layout"
        android:layout_width="match_parent"
        android:layout_height="45dp"
        android:layout_alignParentTop="true"
-       android:background="@color/grey_light_light"
-       android:onClick="searchBarClick"
+       android:background="@color/grey_light_light"       
        android:padding="0.5dp" >
 
         <ImageView
@@ -18,7 +18,8 @@
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:background="@color/white"                       
+            android:background="@color/white" 
+            android:onClick="searchBarClick"                      
             android:src="@drawable/icon_poi" />
         <ImageView
             android:id="@+id/icon_search"
@@ -29,7 +30,8 @@
             android:layout_alignBottom="@id/icon_poi"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"                                 
-            android:background="@color/white"                
+            android:background="@color/white"    
+            android:onClick="searchBarClick"            
             android:src="@drawable/icon_searchbox" />
         
         <EditText
@@ -47,12 +49,12 @@
             android:background="@color/white"
             android:drawableLeft="@drawable/icon_searchbox"
             android:hint="搜索"
-            android:inputType="text"            
+            android:inputType="text"
+            android:onClick="searchBarClick"            
             android:textColor="@color/black" >            
-
         </EditText>
 
-    </RelativeLayout>
+    </RelativeLayout> <!--     search_layout -->
     
 <!--     menu_layout -->
 	<LinearLayout

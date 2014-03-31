@@ -30,6 +30,7 @@
             android:layout_alignBottom="@+id/btn_back"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:onClick="settingBarClick"
             android:background="@color/grey_light_light"                
             android:src="@drawable/btn_setting" />
         
@@ -131,13 +132,14 @@
     <!-- 	setting layout -->	
     <RelativeLayout    
         android:id = "@+id/setting_layout"        	        
-   		android:layout_width="fill_parent"				        	        
-        android:layout_height="50dp"        >
+   		android:layout_width="fill_parent"
+   		android:onClick="settingBarClick"				        	        
+        android:layout_height="50dp">
 
         <ImageView
             android:id="@+id/icon_setting"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="fill_parent"            
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:paddingLeft="10dp"
@@ -147,7 +149,7 @@
         <ImageView
             android:id="@+id/icon_next_setting"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="fill_parent"            
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:paddingRight="10dp"
@@ -157,7 +159,7 @@
          <TextView
              android:id="@+id/text_setting"
              android:layout_width="match_parent"
-             android:layout_height="wrap_content"
+             android:layout_height="wrap_content"             
              android:layout_alignBottom="@id/icon_setting"
              android:layout_alignTop="@id/icon_setting"
              android:layout_centerVertical="true"
@@ -176,7 +178,8 @@
     <RelativeLayout    
         android:id = "@+id/check_update_layout"        	        
    		android:layout_width="fill_parent"				        	        
-        android:layout_height="50dp"        
+        android:layout_height="50dp"
+        android:onClick="checkUpdateBarClick"        
         android:paddingTop ="1dp">
 
         <ImageView
@@ -220,7 +223,8 @@
     <!-- 	feedback layout -->	
     <RelativeLayout    
         android:id = "@+id/feedback_layout"        	        
-   		android:layout_width="fill_parent"				        	        
+   		android:layout_width="fill_parent"	
+   		android:onClick="feedbarBarClick"			        	        
         android:layout_height="50dp"        
         android:paddingTop ="1dp">
 
@@ -266,7 +270,8 @@
     <RelativeLayout    
         android:id = "@+id/about_layout"        	        
    		android:layout_width="fill_parent"				        	        
-        android:layout_height="50dp"        
+        android:layout_height="50dp"   
+        android:onClick="aboutBarClick"     
         android:paddingTop ="1dp">
 
         <ImageView
@@ -321,7 +326,8 @@
     <!-- 	debug mode setting layout -->
     <RelativeLayout  
         android:id = "@+id/exitapp_layout"        	        
-   		android:layout_width="fill_parent"				        	        
+   		android:layout_width="fill_parent"	
+   		android:onClick="planningTuningBarClick"			        	        
         android:layout_height="50dp">
 
         <ImageView
@@ -377,7 +383,8 @@
     <!-- 	exit app layout -->
     <RelativeLayout  
         android:id = "@+id/exitapp_layout"        	        
-   		android:layout_width="fill_parent"				        	        
+   		android:layout_width="fill_parent"	
+   		android:onClick="exitAppBarClick"			        	        
         android:layout_height="50dp">
 
         <ImageView
