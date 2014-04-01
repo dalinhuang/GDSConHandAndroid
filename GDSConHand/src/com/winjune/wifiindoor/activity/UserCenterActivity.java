@@ -4,7 +4,6 @@ import com.winjune.wifiindoor.R;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Intent;
 import android.view.View;
 

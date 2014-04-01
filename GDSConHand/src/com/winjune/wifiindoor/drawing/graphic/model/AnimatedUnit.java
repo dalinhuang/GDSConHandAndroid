@@ -7,14 +7,30 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.BaseGameActivity;
 
+import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.drawing.graphic.AndEngineGraphicsHelper;
 import com.winjune.wifiindoor.drawing.graphic.ImageLoader;
 
+import android.annotation.SuppressLint;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+
 
 public class AnimatedUnit extends Unit {
-
+	
 	private AnimatedSprite sprite;
+	private String[] images;
+	private TiledTextureRegion tiledTextureRegion;
+
+	@Override
+	public void clearCache() {
+		super.clearCache();
+
+		tiledTextureRegion = null;
+	}
+	
 	
 	public AnimatedUnit(String[] images, int width, int height,
 			int initialRotation) {
@@ -26,25 +42,16 @@ public class AnimatedUnit extends Unit {
 		super(initialRotation);
 		setImages(images);
 	}
+	
 
-	private String[] images;
-
+	
 	public String[] getImages() {
 		return images;
 	}
-
+	
 	public void setImages(String[] images) {
 		this.images = images;
-	}
-
-	private TiledTextureRegion tiledTextureRegion;
-
-	@Override
-	public void clearCache() {
-		super.clearCache();
-
-		tiledTextureRegion = null;
-	}
+	}	
 
 	public AnimatedSprite load(BaseGameActivity activity) {
 		return load(activity, null);
@@ -63,20 +70,19 @@ public class AnimatedUnit extends Unit {
 		return load(activity, spriteListener);
 	}
 
+	@SuppressLint("NewApi")
 	public AnimatedSprite load(BaseGameActivity activity, final SpriteListener spriteListener) {
 
 		if (tiledTextureRegion == null) {
 
 			int tiledNum = getImages().length;
-
-			BitmapTextureAtlas textureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), getNearestPowerOfTwo(tiledNum * getWidth()), getNearestPowerOfTwo(getHeight()), TextureOptions.BILINEAR);
+			Bitmap[] bitmaps = new Bitmap[images.length];				
 			
-			String[] images = getImages();
-			Bitmap[] bitmaps = new Bitmap[images.length];
-
 			for (int i = 0; i < images.length; i++) {
-				bitmaps[i] = ImageLoader.loadAssetAsBitmap(images[i], getWidth(), getHeight());
+				bitmaps[i] = ImageLoader.loadAssetAsBitmap(images[i], getWidth(), getHeight());	
 			}
+			
+			BitmapTextureAtlas textureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), getNearestPowerOfTwo(tiledNum * getWidth()), getNearestPowerOfTwo(getHeight()), TextureOptions.BILINEAR);
 			
 			tiledTextureRegion = AndEngineGraphicsHelper.createTiledFromBitmap(textureAtlas, bitmaps);	
 			textureAtlas.load();

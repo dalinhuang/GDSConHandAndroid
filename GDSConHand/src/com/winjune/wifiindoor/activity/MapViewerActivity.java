@@ -27,13 +27,14 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.ui.activity.LayoutGameActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar.LayoutParams;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -43,9 +44,12 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.winjune.wifiindoor.activity.LabelSearchActivity;
@@ -108,14 +112,10 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public int mMode;
 	public HUD hud;
 	public Text mMapText;
-	public Text mClockText;
-	public Text mBatteryText;
 	public Text mHintText;
 	public Sound medSound;
 	public ScreenAdvertisement mAdvertisement;
 	public Sprite mapADSprite;
-	//private TabHost mTabHost;
-	private BroadcastReceiver batteryReceiver;
 
 	private Bundle bundle;
 
@@ -195,8 +195,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		backgroundSprite = null;
 		//mapPicSprite = null;	
 		
-		batteryReceiver = null;
-
 		currentCollectingX = -1;
 		currentCollectingY = -1;
 		LocateBar.setCollectingOnGoing(this, false);
@@ -317,7 +315,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		// Enable ACCELEROMETER
 		Util.disableAcclerometer(this);
-		unregisterReceiver(batteryReceiver);
 		
 		Util.setCurrentForegroundActivity(null);
 	}
@@ -342,9 +339,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		IpsWebService.activateWebService();
 		
 		LocateBar.startPeriodicLocateMeThread(this);
-		
-		MapHUD.startUpdateClockThread(this);
-		
+			
 		MapDrawer.startRefreshMapThread(this);
 		
 		AdBanner.startPeriodicAdvertiseThread(this);
@@ -353,31 +348,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		Util.enableNfc(this);
 		
 		// Enable ACCELEROMETER
-		Util.enableAcclerometer(this);
-		
-		// Listen on Battery
-		
-		if (batteryReceiver == null) {
-			batteryReceiver = new BroadcastReceiver() {
-	
-				@Override
-				public void onReceive(Context context, Intent intent) {
-					if (Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())) {
-			            if (mBatteryText != null) {
-			            	// 获取当前电量
-				            int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
-				            // 获取总电量
-				            int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 100);
-			            	mBatteryText.setText(level * 100 / scale + "%");  
-			            }
-			        }
-				}
-				
-			};
-		}
-		
-        IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        registerReceiver(batteryReceiver, filter);
+		Util.enableAcclerometer(this);	
         
         Util.setCurrentForegroundActivity(this);
 	}
@@ -710,20 +681,22 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 		});
 
-		// Menu
-		mMenuScene = MapHUD.createMenuScene(this);
+		// disable
+		// Menu		
+		// mMenuScene = MapHUD.createMenuScene(this);
 
 		// HUDs
 		hud = new HUD();
 		mCamera.setHUD(hud);
 		
 		MapHUD.initailHUDMapShowBar(this);
-		MapHUD.initailHUDClockBar(this);
-		MapHUD.initailHUDBatteryBar(this);
 		MapHUD.initailHUDHintBar(this);
 		MapHUD.initialHUDMenuBar(this);
-		MapHUD.initialHUDTabBar(this);
+		// MapHUD.initialHUDTabBar(this);
 	    MapHUD.initailHUDButtons(this);
+	    
+	    
+	    
 		
 
 		// Listeners
@@ -781,8 +754,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		//createTabHost();
 		
 		AdBanner.showDefaultAd(this);
+		
+
 
 		pOnCreateSceneCallback.onCreateSceneFinished(mainScene);
+		
 	}
 	
 	@Override
@@ -825,7 +801,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	}
 	
 	public void routeBarClick(View v){
-		
+		addLocationButton();
+		addZoomButton();
 	}
 	
 	public void eventBarClick(View v){
@@ -839,4 +816,38 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		//startActivity(i);		
 
 	}
+	
+
+    public void addLocationButton(){  
+        LayoutInflater inflater = LayoutInflater.from(this);  
+        View locationButton = (View) inflater.inflate(R.layout.location_button, null);                            
+       
+        WindowManager.LayoutParams mWindowParams = new WindowManager.LayoutParams();                
+        mWindowParams.gravity = Gravity.BOTTOM | Gravity.LEFT ;
+        mWindowParams.x = TAB_BUTTON_MARGIN;
+        mWindowParams.y =  TAB_BUTTON_MARGIN + TAB_BUTTON_HEIGHT;
+        mWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        mWindowParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        mWindowParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        mWindowParams.windowAnimations = 0;
+               
+        getWindowManager().addView(locationButton, mWindowParams);  
+   }  	
+    
+    public void addZoomButton(){  
+        LayoutInflater inflater = LayoutInflater.from(this);  
+        View zoomButton = (View) inflater.inflate(R.layout.zoom_button, null);                            
+       
+        WindowManager.LayoutParams mWindowParams = new WindowManager.LayoutParams();                
+        mWindowParams.gravity = Gravity.BOTTOM | Gravity.RIGHT ;
+        mWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        mWindowParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        mWindowParams.x = TAB_BUTTON_MARGIN;
+        mWindowParams.y =  TAB_BUTTON_MARGIN + TAB_BUTTON_HEIGHT;
+        
+        mWindowParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        mWindowParams.windowAnimations = 0;
+               
+        getWindowManager().addView(zoomButton, mWindowParams);  
+   }  	    
 }

@@ -12,43 +12,30 @@
        android:background="@color/grey_light_light"       
        android:padding="0.5dp" >
 
-        <ImageView
-            android:id="@+id/icon_poi"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/text_floow_switch"
+            android:layout_width="45dp"
             android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:background="@color/white" 
-            android:onClick="searchBarClick"                      
-            android:src="@drawable/icon_poi" />
-        <ImageView
-            android:id="@+id/icon_search"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"            
-            android:layout_alignBottom="@id/icon_poi"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"                                 
-            android:background="@color/white"    
-            android:onClick="searchBarClick"            
-            android:src="@drawable/icon_searchbox" />
-        
+            android:layout_alignParentLeft="true"            
+            android:background="@color/grey_light_light" 
+            android:onClick="switchBarClick"                      
+			android:gravity="center"
+	        android:text="二楼"
+	        android:textAppearance="?android:attr/textAppearanceMedium"	        
+	        android:textColor="@color/black" />                
         <EditText
             android:id="@+id/search_input"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:layout_alignBottom="@id/icon_poi"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@id/icon_poi"
-            android:layout_toLeftOf="@id/icon_search"
+            android:layout_alignBottom="@id/text_floow_switch"
+            android:layout_toRightOf="@id/text_floow_switch"
             android:paddingLeft="5dp"
             android:paddingRight="10dp"
             android:layout_marginLeft="0.5dp"
             android:layout_marginRight="0.5dp"
             android:background="@color/white"
             android:drawableLeft="@drawable/icon_searchbox"
-            android:hint="搜索"
+            android:hint="地点, 展品名称,语音导览编码"
             android:inputType="text"
             android:onClick="searchBarClick"            
             android:textColor="@color/black" >            

@@ -12,8 +12,18 @@ import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.scene.menu.item.TextMenuItem;
 import org.andengine.entity.scene.menu.item.decorator.ColorMenuItemDecorator;
 import org.andengine.entity.sprite.AnimatedSprite;
+import org.andengine.entity.sprite.ButtonSprite;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
+import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
+import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
+import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
+import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.util.debug.Debug;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -35,6 +45,7 @@ import com.winjune.wifiindoor.drawing.graphic.model.AnimatedUnit;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.drawing.graphic.model.SpriteListener;
 import com.winjune.wifiindoor.util.Constants;
+import com.winjune.wifiindoor.util.ImageButtonSprite;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
@@ -282,64 +293,33 @@ public class MapHUD {
 		mapViewer.hud.attachChild(mapViewer.mMapText);
 	}
 	
-	@SuppressLint("SimpleDateFormat")
-	public static void initailHUDClockBar(MapViewerActivity mapViewer) {
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); 
-		String clockStr = sdf.format(new Date(System.currentTimeMillis()));
+	public static void initailHUDButtons(final MapViewerActivity mapViewer) {
+        float buttonHeight = Util.dip2px(mapViewer, 30);
 
-		mapViewer.mClockText = new Text(mapViewer.cameraWidth - mapViewer.density * 150,
-				0, 
-				mapViewer.mFont_hints, 
-				clockStr,
-				8,
-				mapViewer.getVertexBufferObjectManager());
-		mapViewer.mClockText.setBlendFunction(GL10.GL_SRC_ALPHA,
-				GL10.GL_ONE_MINUS_SRC_ALPHA);
-		mapViewer.mClockText.setAlpha(VisualParameters.MAP_FONT_ALPHA);
-
-		mapViewer.hud.attachChild(mapViewer.mClockText);
-	}
-	
-	public static void initailHUDBatteryBar(MapViewerActivity mapViewer) {
-		mapViewer.mBatteryText = new Text(mapViewer.cameraWidth - mapViewer.density * 50,
-				0, 
-				mapViewer.mFont_hints, 
-				"---%",
-				4,
-				mapViewer.getVertexBufferObjectManager());
-		mapViewer.mBatteryText.setBlendFunction(GL10.GL_SRC_ALPHA,
-				GL10.GL_ONE_MINUS_SRC_ALPHA);
-		mapViewer.mBatteryText.setAlpha(VisualParameters.MAP_FONT_ALPHA);
-
-		mapViewer.hud.attachChild(mapViewer.mBatteryText);
-	}
-
-	public static void initailHUDButtons(MapViewerActivity mapViewer) {
-        float pX = Util.dip2px(mapViewer, 10);
-        float pHeight = Util.dip2px(mapViewer, 40);
-        float pY = mapViewer.cameraHeight-pHeight;
-        float pWidth = mapViewer.cameraWidth-2*pX;
+		int x = mapViewer.TAB_BUTTON_MARGIN;
+		int y = mapViewer.cameraHeight - (int)buttonHeight - mapViewer.TAB_BUTTON_MARGIN;		
+		/*
+		BuildableBitmapTextureAtlas mBitmapTextureAtlas = new BuildableBitmapTextureAtlas(mapViewer.getTextureManager(), 1024, 1024);
 		
-		ArrayList<IconButtonInfo> iconButtons = new ArrayList<IconButtonInfo>();
-		ArrayList<IconButtonInfo> leftIconButtons = new ArrayList<IconButtonInfo>();
+		ITextureRegion iconRegion = BitmapTextureAtlasTextureRegionFactory.createFromResource(mBitmapTextureAtlas, mapViewer, R.drawable.btn_location);
+		iconRegion.setTextureSize(buttonHeight, buttonHeight);		
+
+		try {
+			mBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(10, 20, 30));
+			mBitmapTextureAtlas.load();
+		} catch (TextureAtlasBuilderException e) {
+			Debug.e(e);
+		}
 		
-		IconButtonInfo iconButtonInfo1 = new IconButtonInfo();
-		iconButtonInfo1.setIconResourceId(R.drawable.icon_surrounding);
-		iconButtonInfo1.setText("周围");
-		iconButtons.add(iconButtonInfo1);
-		IconButtonInfo iconButtonInfo2 = new IconButtonInfo();
-		iconButtonInfo2.setIconResourceId(R.drawable.icon_route);
-		iconButtonInfo2.setText("路线");
-		iconButtons.add(iconButtonInfo2);
-		IconButtonInfo iconButtonInfo3 = new IconButtonInfo();
-		iconButtonInfo3.setIconResourceId(R.drawable.icon_search);
-		iconButtonInfo3.setText("搜索");
-		iconButtons.add(iconButtonInfo3);
-		IconButtonInfo iconButtonInfo4 = new IconButtonInfo();
-		iconButtonInfo4.setIconResourceId(R.drawable.icon_user_center);
-		iconButtonInfo4.setText("我的");
-		iconButtons.add(iconButtonInfo4);
-//		ControlButtonsHUD.createBottomButtons(mapViewer, iconButtons, pX, pY, pWidth, pHeight);
+		
+		Sprite imageButton = new Sprite(x, y,
+				iconRegion,
+				mapViewer.getVertexBufferObjectManager());
+				
+		mapViewer.hud.attachChild(imageButton);
+		//mapViewer.hud.registerTouchArea(imageButton);
+		 * 
+		 */
 	}
 
 	
@@ -545,47 +525,6 @@ public class MapHUD {
 			  }
 		});
 	}	
-	
-	@SuppressLint("SimpleDateFormat")
-	public static void startUpdateClockThread(final MapViewerActivity mapViewer) {
-		if (mapViewer.mUpdateClockThread == null) {
-
-			// Locate Me Periodically
-			mapViewer.mUpdateClockThread = new Thread() {
-				public void run() {
-					while (true) { // Run forever
-						if (!mapViewer.updateClockOn) {
-							break; // Stop Thread on pause
-						}
-						
-						try {
-							sleep(1000);
-						} catch (InterruptedException e) {
-							continue;
-						}
-
-						if (!mapViewer.updateClockOn) {
-							break; // Stop Thread on pause
-						}
-						
-						SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); 
-						String clockStr = sdf.format(new Date(System.currentTimeMillis()));
-						if (mapViewer.mClockText != null) {
-							mapViewer.mClockText.setText(clockStr);
-						}
-					}
-				}
-			};
-
-			if (MapViewerActivity.DEBUG)
-				Log.d(MapViewerActivity.TAG, "mUpdateClockThread starts.");
-
-			mapViewer.mUpdateClockThread.start();
-		} else {
-			if (MapViewerActivity.DEBUG)
-				Log.d(MapViewerActivity.TAG, "mUpdateClockThread already starts.");
-		}
-	}
 	
 	@SuppressLint("SimpleDateFormat")
 	public static void updateHinText(MapViewerActivity mapViewer, String text) {

@@ -7,6 +7,7 @@ import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.opengl.texture.TextureManager;
 
+import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.ads.AdvertiseUnit;
 import com.winjune.wifiindoor.util.Constants;
@@ -53,7 +54,7 @@ public class Library {
 	//Menu
 	public static final int CONTROL_BUTTON_NUMBER = 5;
 	// Tab	
-	public static final int TAB_BUTTON_NUMBER = 6;
+	public static final int TAB_BUTTON_NUMBER = 7;
 	
 	public static final AnimatedUnit BUTTON_LOCATE = new AnimatedUnit(
 			new String[] { "svg/locate.svg" }, 0);
