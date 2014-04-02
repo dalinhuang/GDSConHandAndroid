@@ -81,7 +81,7 @@ public class StartupActivity extends Activity implements OnInitListener{
 	          if((result == TextToSpeech.LANG_COUNTRY_AVAILABLE) |  
 	             (result == TextToSpeech.LANG_AVAILABLE)) {   
 	        	  AutoGuideTTS.setLanguage(Locale.CHINA);
-	        	  Util.showLongToast(this, R.string.tts_start_soon);
+	        	  
 	        	  isTTSSupported = true;
 	          } else {
 	        	  

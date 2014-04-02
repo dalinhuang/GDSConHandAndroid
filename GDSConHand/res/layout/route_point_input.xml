@@ -49,6 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_alignBottom="@+id/btn_right"
+            
             android:layout_alignTop="@+id/btn_right"
             android:layout_toLeftOf="@+id/btn_right"
             android:layout_toRightOf="@+id/btn_left" >
@@ -61,7 +62,7 @@
                 android:layout_marginLeft="0.5dp"
                 android:layout_marginRight="0.5dp"
                
-                android:background="@color/white"
+                android:background="@drawable/ic_item_pos_down"
                 android:drawableLeft="@drawable/magnifying_glass"
                 android:drawablePadding="8.0dip"
                 android:ellipsize="none"
