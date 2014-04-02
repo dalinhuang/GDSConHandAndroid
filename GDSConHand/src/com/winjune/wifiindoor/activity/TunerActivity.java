@@ -99,7 +99,7 @@ public class TunerActivity extends Activity {
         	}
         };
         
-        setContentView(R.layout.tuner);
+        setContentView(R.layout.activity_planning_tuner);
         
         // Define Buttons and bind the listeners
         button0 = (Button) findViewById(R.id.resetButton);

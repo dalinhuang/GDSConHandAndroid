@@ -57,7 +57,7 @@ public class PlaceSearcherActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.place_searcher);
+        setContentView(R.layout.activity_place_searcher);
 
         String[] locationList = new String[0];
         ArrayList <String> locationArray = new ArrayList<String>();

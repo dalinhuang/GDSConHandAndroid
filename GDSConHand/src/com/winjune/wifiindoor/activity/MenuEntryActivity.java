@@ -187,7 +187,7 @@ public class MenuEntryActivity extends Activity implements SensorEventListener {
         	}
         };
  
-        setContentView(R.layout.menu_entry);
+        setContentView(R.layout.activity_menu_entry);
         
         // Define Buttons and bind the listeners
         button0 = (Button) findViewById(R.id.locateButton);

@@ -54,7 +54,7 @@ public class MapLocatorActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.map_locator);
+        setContentView(R.layout.activity_map_locator);
 
         bundle = getIntent().getExtras();
 		int req = bundle.getInt(IndoorMapData.BUNDLE_KEY_REQ_FROM);
@@ -259,7 +259,7 @@ public class MapLocatorActivity extends Activity {
 			if (!downloadMap(mapId)) {
 				
 				// Hoare: to do: create a new xml
-				setContentView(R.layout.startup_entry);
+				setContentView(R.layout.activity_startup_entry);
 				
 				Util.showLongToast(this, R.string.oops);
 				Util.showLongToast(this, R.string.server_unreachable);
@@ -327,7 +327,7 @@ public class MapLocatorActivity extends Activity {
 			y = rowNo;
 			if (!downloadMap(mapId)) {
 				// Hoare: to do: create a new xml
-				setContentView(R.layout.startup_entry);
+				setContentView(R.layout.activity_startup_entry);
 				
 				Util.showLongToast(this, R.string.oops);
 				Util.showLongToast(this, R.string.server_unreachable);				

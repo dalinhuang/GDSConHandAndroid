@@ -193,7 +193,7 @@ public class GMapEntryActivity extends FragmentActivity implements SensorEventLi
         
         Log.i("GMapEntryActivity", "onCreate");
         
-        setContentView(R.layout.gmap_entry);
+        setContentView(R.layout.activity_gmap_entry);
                         
         GMapInit();
     }

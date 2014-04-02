@@ -34,7 +34,7 @@ public class InfoPusherActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.info_pusher);
+        setContentView(R.layout.activity_info_pusher);
         
         // Define Buttons and bind the listeners
         mapInfo = (TextView) findViewById(R.id.mapInfo);

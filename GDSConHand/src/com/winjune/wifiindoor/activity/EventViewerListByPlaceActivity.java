@@ -28,7 +28,7 @@ public class EventViewerListByPlaceActivity extends ExpandableListActivity{
 	        
 	        eventManager = new EventManager();
 	          
-	        setContentView(R.layout.event_list);  
+	        setContentView(R.layout.activity_event_list);  
 	          
 	        PlaceAdapter ada=new PlaceAdapter(); //Adapter1的定义下面，自定义视图是由它实现的  
 	        setListAdapter((ExpandableListAdapter) ada);   
@@ -82,7 +82,7 @@ public class EventViewerListByPlaceActivity extends ExpandableListActivity{
 	        @Override  
 	        public View getChildView(int groupPosition, int childPosition,  boolean isLastChild, View convertView, ViewGroup parent) {  
 	            LayoutInflater inflate=LayoutInflater.from(EventViewerListByPlaceActivity.this);  
-	            View view=inflate.inflate(R.layout.event_list_child, null); //用childlayout这个layout作为条目的视图  
+	            View view=inflate.inflate(R.layout.list_event_child, null); //用childlayout这个layout作为条目的视图  
 	              	              
 	            TextView name=(TextView)view.findViewById(R.id.EventTitle); //childlayout有一个用于显示名字的视图  
 	        	
@@ -123,7 +123,7 @@ public class EventViewerListByPlaceActivity extends ExpandableListActivity{
 	        public View getGroupView(int groupPosition, boolean isExpanded,  View convertView, ViewGroup parent) {  
 	              
 	            LayoutInflater inflate=LayoutInflater.from(EventViewerListByPlaceActivity.this);  
-	            View view=inflate.inflate(R.layout.event_list_group, null);    
+	            View view=inflate.inflate(R.layout.list_event_group, null);    
 	              
 	            TextView groupName=(TextView)view.findViewById(R.id.GroupTitle);
 	            String groupTitle = eventManager.getPlaceLabel(placesNoGroup[groupPosition]);

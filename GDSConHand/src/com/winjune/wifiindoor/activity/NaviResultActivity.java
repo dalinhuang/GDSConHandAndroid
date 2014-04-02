@@ -36,7 +36,7 @@ public class NaviResultActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.navigator_result);
+        setContentView(R.layout.activity_navigator_result);
         
         // Define Buttons and bind the listeners
         naviInfo = (TextView) findViewById(R.id.naviInfo);

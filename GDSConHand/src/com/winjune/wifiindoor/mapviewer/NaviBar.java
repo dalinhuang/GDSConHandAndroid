@@ -123,7 +123,7 @@ public class NaviBar {
 			builder.setMessage(R.string.navi_no_node);
 		} else {
 			LayoutInflater inflater = mapViewer.getLayoutInflater();
-			View layout = inflater.inflate(R.layout.navigator_input, (ViewGroup) mapViewer.findViewById(R.id.navi));
+			View layout = inflater.inflate(R.layout.dialog_navigator_input, (ViewGroup) mapViewer.findViewById(R.id.navi));
 			builder.setView(layout);
 						
 			sipnnerFrom =  (Spinner) layout.findViewById(R.id.from_list);

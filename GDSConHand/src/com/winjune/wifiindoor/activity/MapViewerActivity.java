@@ -28,20 +28,14 @@ import org.andengine.ui.activity.LayoutGameActivity;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.os.BatteryManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -51,10 +45,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.winjune.wifiindoor.activity.LabelSearchActivity;
@@ -83,7 +75,6 @@ import com.winjune.wifiindoor.mapviewer.MapViewerUtil;
 import com.winjune.wifiindoor.mapviewer.NaviBar;
 import com.winjune.wifiindoor.mapviewer.PlanBar;
 import com.winjune.wifiindoor.mapviewer.SearchBar;
-import com.winjune.wifiindoor.navi.NaviInfo;
 import com.winjune.wifiindoor.navi.Navigator;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
@@ -272,13 +263,18 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			return true;
 		} else if (pKeyCode == KeyEvent.KEYCODE_MENU
 				&& pEvent.getAction() == KeyEvent.ACTION_DOWN) {
+			/*
 			if (this.mainScene.hasChildScene()) {
-				/* Remove the menu and reset it. */
+				// Remove the menu and reset it.
 				this.mainScene.back();
 			} else {
-				/* Attach the menu. */
-				this.mainScene.setChildScene(this.mMenuScene, false, true, true);
+				// Attach the menu.
+				//this.mainScene.setChildScene(this.mMenuScene, false, true, true);
 			}
+			*/
+			
+			
+			
 			return true;
 		} else {
 			return super.onKeyDown(pKeyCode, pEvent);
@@ -770,7 +766,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 	@Override
 	protected int getLayoutID() {
-		return R.layout.map_viewer;
+		return R.layout.activity_map_viewer;
 	}
 
 	@Override
@@ -798,7 +794,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	private void mapSwitchPopShow(View v){
 		LayoutInflater inflater = getLayoutInflater(); 
-		View view = inflater.inflate(R.layout.map_switch, null); 
+		View view = inflater.inflate(R.layout.pop_window_map_switch, null); 
 		   
 		final PopupWindow pop = new PopupWindow(view, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, false); 		  				
 		pop.setBackgroundDrawable(new BitmapDrawable()); 
@@ -806,6 +802,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
         pop.setFocusable(true);
         
         pop.showAsDropDown(v);;
+	}
+	
+	public void mapSwitchF1Click(View v){
+		
+		Log.e("test", "============mapSwitchF1Click=============");
 	}
 	
 	public void searchBarClick(View v) {
@@ -816,11 +817,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public void surroundingBarClick(View v){
         Intent i = new Intent(this, SurroundingActivity.class); 
 		startActivity(i);		
-	}
+	}	
 	
 	public void routeBarClick(View v){
-	//	addLocationButton();
-	//	addZoomButton();		
+		addLocationButton();
+		addZoomButton();		
 	}
 	
 	public void eventBarClick(View v){
@@ -831,14 +832,12 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public void userBarClick(View v) {
         Intent i = new Intent(this, UserCenterActivity.class); 
 		startActivityForResult(i, USER_CENTER_REQUEST_CODE);
-		//startActivity(i);		
-
 	}
 	
 
     public void addLocationButton(){  
         LayoutInflater inflater = getLayoutInflater();  
-        View locationButton = (View) inflater.inflate(R.layout.location_button, null);                            
+        View locationButton = (View) inflater.inflate(R.layout.button_location, null);                            
        
         WindowManager.LayoutParams mWindowParams = new WindowManager.LayoutParams();                
         mWindowParams.gravity = Gravity.BOTTOM | Gravity.LEFT ;
@@ -854,7 +853,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
     
     public void addZoomButton(){  
         LayoutInflater inflater = getLayoutInflater();  
-        View zoomButton = (View) inflater.inflate(R.layout.zoom_button, null);                            
+        View zoomButton = (View) inflater.inflate(R.layout.button_zoom, null);                            
        
         WindowManager.LayoutParams mWindowParams = new WindowManager.LayoutParams();                
         mWindowParams.gravity = Gravity.BOTTOM | Gravity.RIGHT ;

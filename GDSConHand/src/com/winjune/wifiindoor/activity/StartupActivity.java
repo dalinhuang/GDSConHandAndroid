@@ -95,7 +95,7 @@ public class StartupActivity extends Activity implements OnInitListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.startup_entry);
+        setContentView(R.layout.activity_startup_entry);
         
         if (AutoGuideTTS == null) {        	
 			AutoGuideTTS = new TextToSpeech(this, this);

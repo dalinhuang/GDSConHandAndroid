@@ -85,7 +85,7 @@ public class MapSelectorActivity extends TabActivity{
         
         //Generate Adaptor's Item
         SimpleAdapter listItemAdapter = new SimpleAdapter(
-        	this, listItem, R.layout.map_list_items,       
+        	this, listItem, R.layout.list_map_items,       
             new String[] {"ItemImage", "ItemTitle", "ItemText"},    
             new int[] {R.id.ItemImage, R.id.ItemTitle, R.id.ItemText}   
         );  
@@ -202,7 +202,7 @@ public class MapSelectorActivity extends TabActivity{
 
         //Add Tabs
         TabHost tabHost = getTabHost();
-        LayoutInflater.from(this).inflate(R.layout.map_chooser, tabHost.getTabContentView(), true);
+        LayoutInflater.from(this).inflate(R.layout.activity_map_chooser, tabHost.getTabContentView(), true);
         tabHost.addTab(tabHost.newTabSpec(resources.getString(R.string.map_selector_updated)).setIndicator(resources.getString(R.string.map_selector_updated), resources.getDrawable(R.drawable.updated)).setContent(R.id.updatedListView));
         tabHost.addTab(tabHost.newTabSpec(resources.getString(R.string.map_selector_outdated)).setIndicator(resources.getString(R.string.map_selector_outdated), resources.getDrawable(R.drawable.outdated)).setContent(R.id.outdatedListView));
         tabHost.addTab(tabHost.newTabSpec(resources.getString(R.string.map_selector_downloading)).setIndicator(resources.getString(R.string.map_selector_downloading), resources.getDrawable(R.drawable.downloading)).setContent(R.id.downloadingListView));

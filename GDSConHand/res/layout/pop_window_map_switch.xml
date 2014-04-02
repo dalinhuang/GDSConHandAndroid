@@ -11,39 +11,39 @@
         android:id="@+id/text_F1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/grey_light_light"
-        android:layout_marginBottom="0.5dp"        
+        android:layout_marginBottom="0.5dp"
+        android:background="@color/black_overlay"        
         android:text="一楼"
-        android:textColor="@color/black"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/white" />
     
 	<TextView
 	    android:id="@+id/text_F2"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"	    
-	    android:background="@color/grey_light_light"
+	    android:background="@color/black_overlay"
 	    android:layout_marginBottom="0.5dp"
 	    android:text="二楼"
-	    android:textColor="@color/black"
+	    android:textColor="@color/white"
 	    android:textAppearance="?android:attr/textAppearanceLarge" />
 
 	<TextView
         android:id="@+id/text_F3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/grey_light_light"
+        android:background="@color/black_overlay"
         android:layout_marginBottom="0.5dp"
         android:text="三楼"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 	
 	<TextView
         android:id="@+id/text_outdoor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/grey_light_light"
+        android:background="@color/black_overlay"
         android:layout_marginBottom="0.5dp"        
         android:text="室外"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textAppearance="?android:attr/textAppearanceLarge" />		
 </LinearLayout>

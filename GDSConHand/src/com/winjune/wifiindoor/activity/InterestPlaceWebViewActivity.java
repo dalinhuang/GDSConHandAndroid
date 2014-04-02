@@ -23,7 +23,7 @@ public class InterestPlaceWebViewActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) { 
         super.onCreate(savedInstanceState); 
-        setContentView(R.layout.interest_place_webview);
+        setContentView(R.layout.activity_interest_place_webview);
         
         //
         webview = (WebView) findViewById(R.id.interest_place);
