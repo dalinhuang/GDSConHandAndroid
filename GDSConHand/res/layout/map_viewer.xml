@@ -5,7 +5,7 @@
     
     <!--     search_layout -->
    <RelativeLayout
-       android:id="@+id/search_layout"
+       android:id="@+id/mapview_search_layout"
        android:layout_width="match_parent"
        android:layout_height="45dp"
        android:layout_alignParentTop="true"
@@ -13,22 +13,24 @@
        android:padding="0.5dp" >
 
         <TextView
-            android:id="@+id/text_floow_switch"
+            android:id="@+id/text_map_switch"
             android:layout_width="45dp"
             android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"            
-            android:background="@color/grey_light_light" 
-            android:onClick="switchBarClick"                      
-			android:gravity="center"
-	        android:text="二楼"
-	        android:textAppearance="?android:attr/textAppearanceMedium"	        
-	        android:textColor="@color/black" />                
+            android:layout_alignParentRight="true"
+            android:background="@color/grey_light_light"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="mapSwitchBarClick"
+            android:text="二楼"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black" />
+                
         <EditText
             android:id="@+id/search_input"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:layout_alignBottom="@id/text_floow_switch"
-            android:layout_toRightOf="@id/text_floow_switch"
+            android:layout_alignBottom="@id/text_map_switch"
+            android:layout_toLeftOf="@id/text_map_switch"
             android:paddingLeft="5dp"
             android:paddingRight="10dp"
             android:layout_marginLeft="0.5dp"
@@ -45,7 +47,7 @@
     
 <!--     menu_layout -->
 	<LinearLayout
-	    android:id="@+id/menu_layout"
+	    android:id="@+id/mapview_menu_layout"
 	    android:layout_width="fill_parent"
 	    android:layout_height="45dp"
 	    android:layout_alignParentBottom="true"
@@ -139,8 +141,8 @@
         android:id="@+id/map_rendersurfaceview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/search_layout"
-        android:layout_above="@id/menu_layout"
+        android:layout_below="@id/mapview_search_layout"
+        android:layout_above="@id/mapview_menu_layout"
         android:layout_gravity="center" />
 	
 </RelativeLayout>

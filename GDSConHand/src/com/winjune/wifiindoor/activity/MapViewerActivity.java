@@ -28,6 +28,7 @@ import org.andengine.ui.activity.LayoutGameActivity;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +36,8 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -48,8 +51,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.winjune.wifiindoor.activity.LabelSearchActivity;
@@ -693,11 +698,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		MapHUD.initailHUDHintBar(this);
 		MapHUD.initialHUDMenuBar(this);
 		// MapHUD.initialHUDTabBar(this);
-	    MapHUD.initailHUDButtons(this);
-	    
-	    
-	    
-		
+	    MapHUD.initailHUDButtons(this);	    
 
 		// Listeners
 		graphicListener = new GraphicIndoorMapListener(this, mainScene, mMapText);
@@ -790,6 +791,23 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		}
 	}	
 	
+	public void mapSwitchBarClick(View v) {
+		mapSwitchPopShow(v);
+
+	}
+	
+	private void mapSwitchPopShow(View v){
+		LayoutInflater inflater = getLayoutInflater(); 
+		View view = inflater.inflate(R.layout.map_switch, null); 
+		   
+		final PopupWindow pop = new PopupWindow(view, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, false); 		  				
+		pop.setBackgroundDrawable(new BitmapDrawable()); 
+        pop.setOutsideTouchable(true); 
+        pop.setFocusable(true);
+        
+        pop.showAsDropDown(v);;
+	}
+	
 	public void searchBarClick(View v) {
         Intent i = new Intent(this, LabelSearchActivity.class); 
 		startActivity(i);		
@@ -801,8 +819,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	}
 	
 	public void routeBarClick(View v){
-		addLocationButton();
-		addZoomButton();
+	//	addLocationButton();
+	//	addZoomButton();		
 	}
 	
 	public void eventBarClick(View v){
@@ -819,7 +837,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 
     public void addLocationButton(){  
-        LayoutInflater inflater = LayoutInflater.from(this);  
+        LayoutInflater inflater = getLayoutInflater();  
         View locationButton = (View) inflater.inflate(R.layout.location_button, null);                            
        
         WindowManager.LayoutParams mWindowParams = new WindowManager.LayoutParams();                
@@ -835,7 +853,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
    }  	
     
     public void addZoomButton(){  
-        LayoutInflater inflater = LayoutInflater.from(this);  
+        LayoutInflater inflater = getLayoutInflater();  
         View zoomButton = (View) inflater.inflate(R.layout.zoom_button, null);                            
        
         WindowManager.LayoutParams mWindowParams = new WindowManager.LayoutParams();                
