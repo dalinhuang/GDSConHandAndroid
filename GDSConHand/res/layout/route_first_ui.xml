@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mode"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:background="@color/grey_light_light" >
+
+        <RelativeLayout
+            android:id="@+id/btn_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/grey_light"
+            android:layout_alignParentLeft="true" >
+
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="1dp"
+                android:background="@color/grey_light_light"
+                android:clickable="true"
+                android:onClick="backClick"
+                android:src="@drawable/btn_back" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:baselineAligned="true"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/btn_walk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/grey_light_light"
+                android:src="@drawable/new_walk" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:padding="4dip" >
+
+            <TextView
+                android:layout_width="50dip"
+                android:layout_height="40dip"
+                android:background="#0000ff"
+                android:gravity="center"
+                android:text="搜索"
+                android:textColor="#eeeeee"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/btn_input_place"
+        android:layout_width="50dp"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/top"
+        android:background="#ffffff" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@null"
+            android:gravity="center"
+            android:src="@drawable/map_transit" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/select_pos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btn_input_place"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/top"
+        android:layout_toRightOf="@+id/btn_input_place" >
+
+        <TableLayout
+            android:id="@+id/select_pos_table"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:shrinkColumns="0"
+            android:stretchColumns="0" >
+
+            <TableRow
+                android:id="@+id/more_pos_row1"
+                android:layout_width="fill_parent"
+                android:layout_marginRight="2.0dip"
+                android:paddingBottom="16.0dip"
+                android:paddingTop="16.0dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:drawableLeft="@drawable/start_point_small"
+                    android:drawablePadding="10.0dip"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:paddingLeft="17.0dip"
+                    android:text="我的位置"
+                    android:textColor="#0000FF"
+                    android:textSize="16.0sp" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/more_pos_row2"
+                android:layout_width="fill_parent"
+                android:layout_marginRight="2.0dip"
+                android:background="@drawable/ic_item_pos_up"
+                android:paddingBottom="16.0dip"
+                android:paddingTop="16.0dip" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:clickable="true"
+                    android:drawableLeft="@drawable/end_point_small"
+                    android:drawablePadding="10.0dip"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:onClick="jumpToInputEndPointClick"
+                    android:paddingLeft="17.0dip"
+                    android:text="输入终点. . ."
+                    android:textColor="#aa333333"
+                    android:textSize="16.0sp" />
+            </TableRow>
+        </TableLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/select_pos"
+        android:layout_marginTop="30dip" >
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:fadingEdge="none" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingBottom="60.0dip"
+                android:paddingLeft="10.0dip"
+                android:paddingRight="10.0dip"
+                android:paddingTop="10.0dip" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" >
+
+                        <TableLayout
+                            android:id="@+id/MorePageTableLayout_Follow"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="1.0dip"
+                            android:shrinkColumns="0"
+                            android:stretchColumns="0" >
+
+                            <TableRow
+                                android:id="@+id/more_page_row1"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemtop_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/search_points"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="我的位置 到 洗手间"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/search_points"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="我的位置 到 恐龙世界 "
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row3"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itembottom_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="清除所有历史纪录 "
+                                    android:textColor="#aa333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+                        </TableLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+</RelativeLayout>

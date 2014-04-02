@@ -213,6 +213,14 @@
             android:name="com.winjune.wifiindoor.activity.LabelSearchActivity"
             android:label="@string/app_name" >
         </activity>
+         <activity
+            android:name="com.winjune.wifiindoor.activity.RouteFirstActivity"
+            android:label="@string/app_name" >
+        </activity>
+         <activity
+            android:name="com.winjune.wifiindoor.activity.RoutePointInputActivity"
+            android:label="@string/app_name" >
+        </activity>
         <activity
             android:name="com.winjune.wifiindoor.activity.UserCenterActivity"
             android:label="@string/app_name" >

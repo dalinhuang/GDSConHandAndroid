@@ -49,9 +49,6 @@ import android.view.WindowManager;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import com.winjune.wifiindoor.activity.LabelSearchActivity;
-import com.winjune.wifiindoor.activity.SurroundingActivity;
-import com.winjune.wifiindoor.activity.UserCenterActivity;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.ads.ScreenAdvertisement;
 import com.winjune.wifiindoor.drawing.GraphicIndoorMapListener;
@@ -821,7 +818,10 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	public void routeBarClick(View v){
 		addLocationButton();
-		addZoomButton();		
+		addZoomButton();
+		
+		Intent i = new Intent(this, RouteFirstActivity.class); 
+		startActivity(i);	
 	}
 	
 	public void eventBarClick(View v){
