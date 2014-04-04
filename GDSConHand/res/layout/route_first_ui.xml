@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mode"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:background="#dddddd" >
 
     <RelativeLayout
         android:id="@+id/top"
@@ -15,6 +16,7 @@
         <RelativeLayout
             android:id="@+id/btn_left"
             android:layout_width="wrap_content"
+            
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true" >
 
@@ -75,8 +77,9 @@
         android:layout_width="50dp"
         android:layout_height="100dp"
         android:layout_alignParentLeft="true"
+        android:background="@color/white"
         android:layout_below="@+id/top"
-        android:background="#ffffff" >
+         >
 
         <ImageView
             android:layout_width="wrap_content"
@@ -91,6 +94,7 @@
         android:id="@+id/select_pos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:layout_alignBottom="@+id/btn_input_place"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/top"
@@ -153,18 +157,23 @@
         android:id="@+id/fav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#dddddd"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_below="@+id/select_pos"
         android:layout_marginTop="30dip" >
 
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="#dddddd"
             android:fadingEdge="none" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="320dp"
+                android:layout_gravity="bottom"
+                android:background="#dddddd"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
                 android:paddingBottom="60.0dip"
@@ -174,11 +183,11 @@
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="fill_parent" >
 
                     <LinearLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content" >
+                        android:layout_height="fill_parent" >
 
                         <TableLayout
                             android:id="@+id/MorePageTableLayout_Follow"
