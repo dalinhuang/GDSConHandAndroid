@@ -817,9 +817,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	}	
 	
 	public void routeBarClick(View v){
-		addLocationButton();
-		addZoomButton();
-		
+	
 		Intent i = new Intent(this, RouteFirstActivity.class); 
 		startActivity(i);	
 	}
@@ -835,36 +833,5 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	}
 	
 
-    public void addLocationButton(){  
-        LayoutInflater inflater = getLayoutInflater();  
-        View locationButton = (View) inflater.inflate(R.layout.button_location, null);                            
-       
-        WindowManager.LayoutParams mWindowParams = new WindowManager.LayoutParams();                
-        mWindowParams.gravity = Gravity.BOTTOM | Gravity.LEFT ;
-        mWindowParams.x = TAB_BUTTON_MARGIN;
-        mWindowParams.y =  TAB_BUTTON_MARGIN + TAB_BUTTON_HEIGHT;
-        mWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        mWindowParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        mWindowParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        mWindowParams.windowAnimations = 0;
-               
-        getWindowManager().addView(locationButton, mWindowParams);  
-   }  	
-    
-    public void addZoomButton(){  
-        LayoutInflater inflater = getLayoutInflater();  
-        View zoomButton = (View) inflater.inflate(R.layout.button_zoom, null);                            
-       
-        WindowManager.LayoutParams mWindowParams = new WindowManager.LayoutParams();                
-        mWindowParams.gravity = Gravity.BOTTOM | Gravity.RIGHT ;
-        mWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        mWindowParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        mWindowParams.x = TAB_BUTTON_MARGIN;
-        mWindowParams.y =  TAB_BUTTON_MARGIN + TAB_BUTTON_HEIGHT;
-        
-        mWindowParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        mWindowParams.windowAnimations = 0;
-               
-        getWindowManager().addView(zoomButton, mWindowParams);  
-   }  	    
+ 	    
 }
