@@ -187,16 +187,18 @@
             	android:textAppearance="?android:attr/textAppearanceMedium"
             	android:textColor="@color/black" />		
     	    		
-    	    <TextView
+    	     <TextView
               	android:id="@+id/text_station"
 				android:layout_width="0dp"
             	android:layout_weight="1"  
 	            android:layout_height="match_parent"	                   		             
-            	android:text="车站"
+            	android:text="公交车站"
             	android:gravity="center"
+            	android:clickable="true"
+                android:onClick="jumpToBusMapClick"
             	android:background="@color/white"
     	    	android:textAppearance="?android:attr/textAppearanceMedium"
-               	android:textColor="@color/black" />		            
+               	android:textColor="@color/black" />				            
 		</LinearLayout>
 		            		            		            
 	</LinearLayout>		   

@@ -1,10 +1,11 @@
 package com.winjune.wifiindoor.activity;
 
-import com.winjune.wifiindoor.R;
-import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
+
+import com.winjune.wifiindoor.R;
 
 public class SurroundingActivity extends Activity {
 
@@ -13,6 +14,11 @@ public class SurroundingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_surrounding);
     }
+    
+    public void jumpToBusMapClick(View v){		
+  		Intent i = new Intent(this, BusMapActivity.class); 
+  		startActivity(i);	
+  	}
     
     public void backClick(View v) {
     	onBackPressed();    	

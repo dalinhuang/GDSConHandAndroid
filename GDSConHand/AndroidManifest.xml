@@ -221,6 +221,14 @@
             android:name="com.winjune.wifiindoor.activity.RoutePointInputActivity"
             android:label="@string/app_name" >
         </activity>
+         <activity
+            android:name="com.winjune.wifiindoor.activity.BusMapActivity"
+            android:label="@string/app_name" >
+        </activity>
+         <activity
+            android:name="com.winjune.wifiindoor.activity.BusInfoActivity"
+            android:label="@string/app_name" >
+        </activity>
         <activity
             android:name="com.winjune.wifiindoor.activity.UserCenterActivity"
             android:label="@string/app_name" >
