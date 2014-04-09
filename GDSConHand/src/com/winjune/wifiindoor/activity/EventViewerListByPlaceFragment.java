@@ -2,39 +2,47 @@ package com.winjune.wifiindoor.activity;
 
 
 import java.util.ArrayList;
-import java.util.Set;
-
 import com.winjune.wifiindoor.R;
 
-import android.app.ExpandableListActivity;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.winjune.wifiindoor.event.*;
 
-public class EventViewerListByPlaceActivity extends ExpandableListActivity{
-		private EventManager eventManager;
+public class EventViewerListByPlaceFragment extends Fragment {
 		
+	private EventManager eventManager;
+		
+	@Override 
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle  savedInstanceState) {
+		View v = inflater.inflate(R.layout.activity_event_list, null);
+
+		return v;
+	}
 	
-	  	@Override  
-	    public void onCreate(Bundle savedInstanceState) {  
-	        super.onCreate(savedInstanceState); 
-	        
+	@Override  
+	public void onActivityCreated(Bundle savedInstanceState) {  
+	  		super.onActivityCreated(savedInstanceState);
+	  		
 	        eventManager = new EventManager();
-	          
-	        setContentView(R.layout.activity_event_list);  
-	          
+	        
+	        ExpandableListView lv = (ExpandableListView) getActivity().findViewById(R.id.event_list_by_place);
+	        // Set up our adapter
+	        
 	        PlaceAdapter ada=new PlaceAdapter(); //Adapter1的定义下面，自定义视图是由它实现的  
-	        setListAdapter((ExpandableListAdapter) ada);   
-	    }  
+	        
+	        
+	        lv.setAdapter((ExpandableListAdapter) ada);   
+	 }  
 	  	    
-	    public class PlaceAdapter extends BaseExpandableListAdapter {   
+	 public class PlaceAdapter extends BaseExpandableListAdapter {   
 		      
 	    	private int[] placesNoGroup;
 	    	private ArrayList<ArrayList<EventItem>>  eventsListChild;
@@ -81,7 +89,7 @@ public class EventViewerListByPlaceActivity extends ExpandableListActivity{
 	      
 	        @Override  
 	        public View getChildView(int groupPosition, int childPosition,  boolean isLastChild, View convertView, ViewGroup parent) {  
-	            LayoutInflater inflate=LayoutInflater.from(EventViewerListByPlaceActivity.this);  
+	            LayoutInflater inflate=LayoutInflater.from(getActivity());  
 	            View view=inflate.inflate(R.layout.list_event_child, null); //用childlayout这个layout作为条目的视图  
 	              	              
 	            TextView name=(TextView)view.findViewById(R.id.EventTitle); //childlayout有一个用于显示名字的视图  
@@ -122,7 +130,7 @@ public class EventViewerListByPlaceActivity extends ExpandableListActivity{
 	        @Override  
 	        public View getGroupView(int groupPosition, boolean isExpanded,  View convertView, ViewGroup parent) {  
 	              
-	            LayoutInflater inflate=LayoutInflater.from(EventViewerListByPlaceActivity.this);  
+	            LayoutInflater inflate=LayoutInflater.from(getActivity());  
 	            View view=inflate.inflate(R.layout.list_event_group, null);    
 	              
 	            TextView groupName=(TextView)view.findViewById(R.id.GroupTitle);

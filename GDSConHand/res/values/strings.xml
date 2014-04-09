@@ -152,6 +152,8 @@
     <string name="url_is_too_long">The URL is too long</string>
     <string name="share_prefix">I want to share with you </string>
     <string name="tts_language_unsupported">TTS is not supported in your device</string>
-    <string name="tts_start_soon">Will play soon</string>    
-    <string name="search">Input the place</string>    
+    <string name="tts_start_soon">Will play soon</string>
+    <string name="search">Input the place</string>
+    <string name="title_activity_event_viewer">EventViewerActivity</string>
+    <string name="action_settings">Settings</string>
 </resources>

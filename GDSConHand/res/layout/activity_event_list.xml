@@ -5,7 +5,7 @@
   android:orientation="horizontal">
         
   <ExpandableListView    
-  android:id="@id/android:list"    
+  android:id="@+id/event_list_by_place"    
   android:layout_width="fill_parent"    
   android:layout_height="fill_parent"    
   android:drawSelectorOnTop="false"/>

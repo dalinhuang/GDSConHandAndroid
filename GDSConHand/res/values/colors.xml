@@ -40,4 +40,15 @@
   <color name="map_font_color_2">#FF003E3E</color>
   <color name="map_font_color_3">#FFFF7575</color>
   <color name="map_font_color_4">#FF007500</color>
+   
+  	<color name="people_app_theme_color">#33B5E5</color>  
+
+    <!-- Color of the background of the action bar -->
+    <color name="action_bar_background">#e6e6e6</color>
+
+    <!-- Color of the background of the action bar when highlighted (ie. pressed, focused) -->
+    <color name="action_bar_background_highlight">#cecece</color>
+
+    <!-- Color of the text for buttons in the action bar  -->
+    <color name="action_bar_button_text_color">#FFFFFF</color>  
 </resources>

@@ -26,13 +26,14 @@ public class EventViewerTabActivity extends TabActivity{
 	    TabHost tabHost = getTabHost();
 	    
 	    spec = tabHost.newTabSpec(myResources.getString(R.string.list_by_time));
+	    //spec.setIndicator(findViewById(R.id.tab_event_label));
 	    spec.setIndicator(myResources.getString(R.string.list_by_time), myResources.getDrawable(R.drawable.list_by_time));	  
 	    myResources.getDrawable(R.drawable.list_by_time).setAlpha(150);
 	    intent = new Intent(this, EventViewerListByTimeActivity.class);
 	    spec.setContent(intent);
 	    tabHost.addTab(spec);
 
-	    intent = new Intent(this, EventViewerListByPlaceActivity.class);
+	    intent = new Intent(this, EventViewerListByPlaceFragment.class);
 	  
 	    spec = tabHost.newTabSpec(myResources.getString(R.string.list_by_place));
 	    spec.setIndicator(myResources.getString(R.string.list_by_place), myResources.getDrawable(R.drawable.list_by_place));
