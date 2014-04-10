@@ -56,11 +56,11 @@ public class MenuItemDetailFragment extends Fragment {
 				container, false);
 
 		// Show the dummy content as text in a TextView.
-		if (mItem != null) {
+/*		if (mItem != null) {
 			((TextView) rootView.findViewById(R.id.menuitem_detail))
 					.setText(mItem.content);
 		}
-
+*/
 		return rootView;
 	}
 }

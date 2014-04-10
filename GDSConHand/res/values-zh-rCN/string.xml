@@ -159,5 +159,6 @@
     <string name="time">时间</string>
     <string name="search">请输入地点</string>            
     <string name="title_section_time">按时间</string>
-    <string name="title_section_place">按展馆</string>       
+    <string name="title_section_place">按展馆</string>
+    <string name="title_menuitem_list">餐厅菜单</string>
 </resources>

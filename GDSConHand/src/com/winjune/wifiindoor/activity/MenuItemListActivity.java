@@ -7,6 +7,7 @@ import com.winjune.wifiindoor.R.layout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.widget.ListView;
 
 /**
  * An activity representing a list of MenuItems. This activity has different
@@ -47,9 +48,18 @@ public class MenuItemListActivity extends FragmentActivity implements
 
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
-			((MenuItemListFragment) getSupportFragmentManager()
+			MenuItemListFragment fragment = (MenuItemListFragment) getSupportFragmentManager()
+			.findFragmentById(R.id.menuitem_list);
+			fragment.setActivateOnItemClick(true);
+/*			((MenuItemListFragment) getSupportFragmentManager()
 					.findFragmentById(R.id.menuitem_list))
-					.setActivateOnItemClick(true);
+					.setActivateOnItemClick(true);*/
+				int position = 0;
+				ListView curList = fragment.getListView();
+				curList.requestFocusFromTouch();
+				curList.setSelection(position);
+				curList.performItemClick(curList.getAdapter().getView(position, null, null), position, position);
+
 		}
 
 		// TODO: If exposing deep links into your app, handle intents here.
