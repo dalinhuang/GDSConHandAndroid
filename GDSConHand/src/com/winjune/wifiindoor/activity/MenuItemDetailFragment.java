@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor;
+package com.winjune.wifiindoor.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.R.id;
+import com.winjune.wifiindoor.R.layout;
 import com.winjune.wifiindoor.dummy.DummyContent;
 
 /**

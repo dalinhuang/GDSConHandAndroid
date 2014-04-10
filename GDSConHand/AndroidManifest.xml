@@ -239,16 +239,16 @@ nnn
             android:label="@string/title_activity_event_viewer" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.MenuItemListActivity"
+            android:name="com.winjune.wifiindoor.activity.MenuItemListActivity"
             android:label="@string/title_menuitem_list" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.MenuItemDetailActivity"
+            android:name="com.winjune.wifiindoor.activity.MenuItemDetailActivity"
             android:label="@string/title_menuitem_detail"
-            android:parentActivityName="com.winjune.wifiindoor.MenuItemListActivity" >
+            android:parentActivityName="com.winjune.wifiindoor.activity.MenuItemListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.winjune.wifiindoor.MenuItemListActivity" />
+                android:value="com.winjune.wifiindoor.activity.MenuItemListActivity" />
         </activity>
     </application>
 

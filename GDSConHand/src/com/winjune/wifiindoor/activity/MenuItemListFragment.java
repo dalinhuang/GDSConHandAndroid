@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor;
+package com.winjune.wifiindoor.activity;
 
 import android.app.Activity;
 import android.os.Bundle;

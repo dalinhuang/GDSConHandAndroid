@@ -8,7 +8,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context="com.winjune.wifiindoor.MenuItemListActivity" >
+    tools:context="com.winjune.wifiindoor.activity.MenuItemListActivity" >
 
     <!--
     This layout is a two-pane layout for the MenuItems
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/menuitem_list"
-        android:name="com.winjune.wifiindoor.MenuItemListFragment"
+        android:name="com.winjune.wifiindoor.activity.MenuItemListFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"

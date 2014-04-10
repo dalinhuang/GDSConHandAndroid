@@ -19,7 +19,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:textIsSelectable="true"
-    tools:context="com.winjune.wifiindoor.MenuItemDetailFragment" />
+    tools:context="com.winjune.wifiindoor.activity.MenuItemDetailFragment" />
 
     
     <!-- 	share position layout -->	
