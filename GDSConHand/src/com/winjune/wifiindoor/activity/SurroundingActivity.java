@@ -20,6 +20,11 @@ public class SurroundingActivity extends Activity {
   		startActivity(i);	
   	}
     
+    public void jumpToRestaurantMenu(View v){		
+  		Intent i = new Intent(this, MenuItemListActivity.class); 
+  		startActivity(i);	
+  	}
+    
     public void backClick(View v) {
     	onBackPressed();    	
     }    

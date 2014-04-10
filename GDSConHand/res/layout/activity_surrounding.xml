@@ -153,6 +153,8 @@
             	android:layout_height="match_parent"
             	android:text="餐厅"
             	android:gravity="center"
+            	android:clickable="true"
+                android:onClick="jumpToRestaurantMenu"
             	android:background="@color/white"
             	android:textAppearance="?android:attr/textAppearanceMedium"
             	android:textColor="@color/black" />		
