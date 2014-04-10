@@ -3,8 +3,8 @@ package com.winjune.wifiindoor.activity;
 
 import java.util.ArrayList;
 import com.winjune.wifiindoor.R;
-
 import android.support.v4.app.Fragment;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.ExpandableListView.OnGroupClickListener;
+import android.widget.ExpandableListView.OnGroupCollapseListener;
+import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.TextView;
-
 import com.winjune.wifiindoor.event.*;
 
 public class EventListByPlaceFragment extends Fragment {
@@ -39,7 +42,19 @@ public class EventListByPlaceFragment extends Fragment {
 	        PlaceAdapter ada=new PlaceAdapter(); //Adapter1的定义下面，自定义视图是由它实现的  
 	        
 	        
-	        lv.setAdapter((ExpandableListAdapter) ada);   
+	        lv.setAdapter((ExpandableListAdapter) ada); 
+	        
+	        lv.setOnChildClickListener((new OnChildClickListener() {
+
+				@Override
+				public boolean onChildClick(ExpandableListView arg0, View arg1,
+						int arg2, int arg3, long arg4) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+	        	
+	        }));
+	        
 	 }  
 	  	    
 	 public class PlaceAdapter extends BaseExpandableListAdapter {   
@@ -127,7 +142,7 @@ public class EventListByPlaceFragment extends Fragment {
 	        }  
 	      
 	        //父列表中的某一项的View  
-	        @Override  
+			@Override  
 	        public View getGroupView(int groupPosition, boolean isExpanded,  View convertView, ViewGroup parent) {  
 	              
 	            LayoutInflater inflate=LayoutInflater.from(getActivity());  
@@ -139,7 +154,17 @@ public class EventListByPlaceFragment extends Fragment {
 	              
 	            TextView groupCount=(TextView)view.findViewById(R.id.EventCount);  
 	            groupCount.setText(": "+ eventsListChild.get(groupPosition).size());  
-	              
+	            
+	            TextView prompt=(TextView)view.findViewById(R.id.EventPlaceExpand);
+	            if (isExpanded) {
+	            	view.setBackgroundColor(getResources().getColor(R.color.white));	            	
+	            	prompt.setText("收起");
+	            } else {
+	            	view.setBackgroundColor(getResources().getColor(R.color.grey_light_light));
+	            	prompt.setText("展开");
+	            }
+	            
+	            	              
 	            return view;  
 	        }  
 	      

@@ -104,8 +104,7 @@ public class EventListByTimeFragment extends ListFragment {
 			View view=vi.inflate(R.layout.list_event_by_time, null);
 			TextView timeAndPlace = (TextView)view.findViewById(R.id.textView2);
 			//timeAndPlace.setText("test test test test");
-			
-	        
+				        
 	        return view;  
 	    }   		
 		
