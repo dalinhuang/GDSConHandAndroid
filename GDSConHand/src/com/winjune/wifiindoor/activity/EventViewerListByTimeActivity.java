@@ -95,7 +95,7 @@ public class EventViewerListByTimeActivity extends ExpandableListActivity{
 	        public View getChildView(int groupPosition, int childPosition,  boolean isLastChild, View convertView, ViewGroup parent) {  
 	            //重点在这里  
 	            LayoutInflater inflate=LayoutInflater.from(EventViewerListByTimeActivity.this);  
-	            View view=inflate.inflate(R.layout.list_event_child, null); //用childlayout这个layout作为条目的视图  
+	            View view=inflate.inflate(R.layout.list_event_child_by_place, null); //用childlayout这个layout作为条目的视图  
 	            
 	            ArrayList<EventItem> eventsByTime;	  
 	        	
@@ -144,7 +144,7 @@ public class EventViewerListByTimeActivity extends ExpandableListActivity{
 	            //这里的处理方法和getChildView()里的类似，不再重复说了  
 	              
 	            LayoutInflater inflate=LayoutInflater.from(EventViewerListByTimeActivity.this);  
-	            View view=inflate.inflate(R.layout.list_event_group, null);    
+	            View view=inflate.inflate(R.layout.list_event_group_by_place, null);    
 	            
 	            String timeLabel = timeListGroup[groupPosition].toString();
 	            TextView groupName=(TextView)view.findViewById(R.id.GroupTitle);  

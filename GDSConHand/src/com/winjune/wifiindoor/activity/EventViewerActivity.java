@@ -91,7 +91,7 @@ public class EventViewerActivity extends FragmentActivity implements
 		}
 		
 		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayShowHomeEnabled(false);	
+		actionBar.setDisplayShowHomeEnabled(false);		
 	}
 
 	@Override
@@ -134,10 +134,13 @@ public class EventViewerActivity extends FragmentActivity implements
 			// getItem is called to instantiate the fragment for the given page.
 			// Return a DummySectionFragment (defined as a static inner class
 			// below) with the page number as its lone argument.
-			Fragment fragment = new EventViewerListByPlaceFragment();
-			//Bundle args = new Bundle();
-			//args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-			//fragment.setArguments(args);
+			Fragment fragment;
+			if (position == 1)
+				fragment = new EventListByPlaceFragment();
+			else
+				fragment = new EventListByTimeFragment();
+				
+
 			return fragment;
 		}
 

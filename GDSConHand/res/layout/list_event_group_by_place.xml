@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+	android:id="@+id/event_list" 
+	android:layout_width="fill_parent" 
+	xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:layout_height="wrap_content"
+	android:paddingTop="6dp" 
+	android:paddingBottom="6dp" 
+	android:paddingLeft="40dp"	>
+
+    <TextView 
+	    android:id="@+id/GroupTitle"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" 
+	    android:text="Group Title" 	     
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+	<TextView 
+		android:id="@+id/EventCount"
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content"
+		android:layout_toRightOf ="@+id/GroupTitle"
+		android:paddingLeft="4dp"
+		android:text="Event Count" 
+		android:textAppearance="?android:attr/textAppearanceMedium"/>
+	
+	<TextView
+	    android:id="@+id/EventPlaceExpand"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:paddingRight="15dp"
+	    android:layout_alignParentRight="true"
+	    android:text="展开"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
+	
+</RelativeLayout>

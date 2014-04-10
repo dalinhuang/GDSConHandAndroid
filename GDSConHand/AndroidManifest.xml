@@ -181,21 +181,6 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.activity.EventViewerTabActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
-            android:name="com.winjune.wifiindoor.activity.EventViewerListByTimeActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
-            android:name="com.winjune.wifiindoor.activity.EventViewerListByPlaceFragment"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
             android:name="com.winjune.wifiindoor.activity.GuideActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name" >

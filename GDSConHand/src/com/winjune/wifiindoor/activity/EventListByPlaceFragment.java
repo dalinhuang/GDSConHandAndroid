@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.winjune.wifiindoor.event.*;
 
-public class EventViewerListByPlaceFragment extends Fragment {
+public class EventListByPlaceFragment extends Fragment {
 		
 	private EventManager eventManager;
 		
@@ -90,7 +90,7 @@ public class EventViewerListByPlaceFragment extends Fragment {
 	        @Override  
 	        public View getChildView(int groupPosition, int childPosition,  boolean isLastChild, View convertView, ViewGroup parent) {  
 	            LayoutInflater inflate=LayoutInflater.from(getActivity());  
-	            View view=inflate.inflate(R.layout.list_event_child, null); //用childlayout这个layout作为条目的视图  
+	            View view=inflate.inflate(R.layout.list_event_child_by_place, null); //用childlayout这个layout作为条目的视图  
 	              	              
 	            TextView name=(TextView)view.findViewById(R.id.EventTitle); //childlayout有一个用于显示名字的视图  
 	        	
@@ -131,7 +131,7 @@ public class EventViewerListByPlaceFragment extends Fragment {
 	        public View getGroupView(int groupPosition, boolean isExpanded,  View convertView, ViewGroup parent) {  
 	              
 	            LayoutInflater inflate=LayoutInflater.from(getActivity());  
-	            View view=inflate.inflate(R.layout.list_event_group, null);    
+	            View view=inflate.inflate(R.layout.list_event_group_by_place, null);    
 	              
 	            TextView groupName=(TextView)view.findViewById(R.id.GroupTitle);
 	            String groupTitle = eventManager.getPlaceLabel(placesNoGroup[groupPosition]);

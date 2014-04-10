@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.gson.Gson;
-import com.winjune.wifiindoor.activity.EventViewerTabActivity;
+import com.winjune.wifiindoor.activity.EventViewerActivity;
 import com.winjune.wifiindoor.activity.InfoPusherActivity;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.runtime.Cell;
@@ -38,7 +38,7 @@ public class InfoBanner {
 		mapViewer.startActivity(intent_pusher);
 		*/
 		
-		Intent event_viewer = new Intent(mapViewer, EventViewerTabActivity.class); 				
+		Intent event_viewer = new Intent(mapViewer, EventViewerActivity.class); 				
 		mapViewer.startActivity(event_viewer);		
 	}
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background = "@color/white"    
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/list_event_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:src="@drawable/icon_space_dreams" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/list_event_icon"
+        android:layout_alignTop="@id/list_event_icon"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/list_event_icon"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:paddingTop="6dp"
+            android:text="15分钟后  太空生活表演"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="6dp"
+            android:text="时间:3:00 - 3:30  展馆:飞天之梦" />
+        
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/list_event_icon"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/list_event_icon"
+        android:layout_marginRight="15dp"        
+        android:src="@drawable/icon_next" />
+
+</RelativeLayout>
