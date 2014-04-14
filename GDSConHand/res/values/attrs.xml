@@ -10,4 +10,7 @@
         <attr name="android:dither"/> 
         <attr name="android:gravity"/> 
     </declare-styleable>    
+    <declare-styleable name="Gallery">
+        <attr name="android:galleryItemBackground" />
+    </declare-styleable>
 </resources>
