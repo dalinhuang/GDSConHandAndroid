@@ -1,0 +1,774 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mode"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#dddddd" >
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:background="#777777" >
+
+        <RelativeLayout
+            android:id="@+id/btn_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true" >
+
+            <ImageView
+                android:layout_width="40dip"
+                android:layout_height="45dip"
+                android:background="@color/grey_light_light"
+                android:clickable="true"
+                android:contentDescription="@null"
+                android:gravity="center"
+                android:onClick="backClick"
+                android:src="@drawable/btn_back" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/btn_left"
+            android:layout_alignParentRight="true" >
+
+            <TextView
+                android:id="@+id/btn_ok"
+                android:layout_width="65dip"
+                android:layout_height="fill_parent"
+                android:background="@color/grey_light_light"
+                android:drawableLeft="@drawable/mapicon"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:text="地图"
+                android:textColor="#0000FF"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignBottom="@+id/btn_right"
+            android:layout_alignTop="@+id/btn_right"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_toLeftOf="@+id/btn_right"
+            android:layout_toRightOf="@+id/btn_left"
+            android:background="@color/grey_light_light" >
+
+            <TextView
+                android:id="@+id/btn_ok"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:background="@color/grey_light_light"
+                android:gravity="center"
+                android:text="详  情"
+                android:textColor="#333333"
+                android:textSize="18sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/businfo"
+        android:layout_width="fill_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/top"
+        android:background="#EDEDED" >
+
+        <TextView
+            android:id="@+id/bustxt1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dip"
+            android:paddingTop="10dip"
+            android:text="801路(大学城科学中心总站-体育中心总站)"
+            android:textColor="#222222"
+            android:textSize="16.0sp" />
+
+        <TextView
+            android:id="@+id/busfirst"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bustxt1"
+            android:clickable="true"
+            android:drawableLeft="@drawable/busfirst"
+            android:onClick="busInfo"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:text="06:00"
+            android:textColor="#555555"
+            android:textSize="14.0sp" />
+
+        <TextView
+            android:id="@+id/buslast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bustxt1"
+            android:layout_toRightOf="@+id/busfirst"
+            android:clickable="true"
+            android:drawableLeft="@drawable/buslast"
+            android:onClick="busInfo"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:text="21:00"
+            android:textColor="#555555"
+            android:textSize="14.0sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/border"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/businfo"
+        android:background="#999999" >
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/busrouteinfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/border"
+        android:layout_marginTop="15dip" >
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:fadingEdge="none" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingBottom="60.0dip"
+                android:paddingLeft="10.0dip"
+                android:paddingRight="10.0dip"
+                android:paddingTop="10.0dip" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" >
+
+                        <TableLayout
+                            android:id="@+id/MorePageTableLayout_Follow"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="1.0dip"
+                            
+                             >
+                            
+                            
+
+                            <TableRow
+                                android:id="@+id/more_page_row1"
+                                android:layout_width="wrap_content"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemtop_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop1"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="大学城科学总站"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+
+                               
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop2"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="广大公寓"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop3"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="广大生活区"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop4"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="广大"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop5"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="大学城中部枢纽总站"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop6"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="华师"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:id="@+id/place"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop7"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="星海学院"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+
+                               
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop8"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="综合商业北区"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop9"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="地铁大学城北站"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                                
+                                 <TextView
+                                    android:id="@+id/place"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:background="#009900"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="5.0dip"
+                                    android:paddingRight="5.0dip"
+                                    android:text="4号线"
+                                    android:textColor="#f0f0f0"
+                                    android:textSize="16.0sp" />
+                                
+                                 <TextView
+                                    android:id="@+id/place"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:background="#ffffff"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                   
+                                    android:text="4号线 "
+                                    android:textColor="#ffffff"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop10"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="仑头立交"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop11"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="仑头村"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop12"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="北山村"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop13"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="新滘东路东"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop14"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="赤沙牌坊"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop15"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="新滘东路中"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop16"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="新滘中路(龙潭)"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop17"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="龙潭村"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop18"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="大塘"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop19"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="江海大道中"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow>
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itemmiddle_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop20"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="天河南"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                                
+                                 <TextView
+                                    android:id="@+id/place"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:background="#EA6632"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="5.0dip"
+                                    android:paddingRight="5.0dip"
+                                    android:text="3号线"
+                                    android:textColor="#f0f0f0"
+                                    android:textSize="16.0sp" />
+                                
+                              
+                                
+                                 <TextView
+                                    android:id="@+id/place"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:background="#ffffff"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                   
+                                    android:text="4号线 "
+                                    android:textColor="#ffffff"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                            <TableRow>
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/more_page_row2"
+                                android:layout_width="fill_parent"
+                                android:layout_marginLeft="2.0dip"
+                                android:layout_marginRight="2.0dip"
+                                android:background="@drawable/more_itembottom_press"
+                                android:paddingBottom="16.0dip"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:drawableLeft="@drawable/busstop21"
+                                    android:drawablePadding="10.0dip"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="17.0dip"
+                                    android:text="体育中心总站"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16.0sp" />
+                                
+                                 <TextView
+                                    android:id="@+id/place"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:background="#EA6632"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="5.0dip"
+                                    android:paddingRight="5.0dip"
+                                    android:text="3号线"
+                                    android:textColor="#f0f0f0"
+                                    android:textSize="16.0sp" />
+                                 
+                                
+                                
+                                <TextView
+                                    android:id="@+id/place"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:background="#F9E103"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="5.0dip"
+                                    android:paddingRight="5.0dip"
+                                    android:text="1号线"
+                                    android:textColor="#f0f0f0"
+                                    android:textSize="16.0sp" />
+                                
+                                
+                                 <TextView
+                                    android:id="@+id/place"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:background="#4C7F7F"
+                                    android:gravity="center_vertical"
+                                    android:includeFontPadding="false"
+                                    android:paddingLeft="5.0dip"
+                                    android:paddingRight="5.0dip"
+                                    android:text="APM"
+                                    android:textColor="#f0f0f0"
+                                    android:textSize="16.0sp" />
+                                 
+                              
+                            </TableRow>
+                            
+                              <TableRow
+                                android:id="@+id/more_page_row3"
+                                android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_span="3"
+                                android:paddingTop="16.0dip" >
+
+                                <TextView
+                                    android:id="@+id/busprice"
+                                   android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_below="@+id/busrouteinfo"
+                                    android:paddingLeft="2dip"
+                                    
+                                    android:paddingTop="10dip"
+                                    android:text="票价:2.00元    月票信息:允许月票"
+                                    android:textColor="#222222"
+                                    android:textSize="16.0sp" />
+                            </TableRow>
+
+                           
+                        </TableLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+</RelativeLayout>

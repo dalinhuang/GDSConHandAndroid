@@ -162,6 +162,8 @@
                                 android:layout_marginRight="2.0dip"
                                 android:background="@drawable/more_itemmiddle_press"
                                 android:paddingBottom="16.0dip"
+                                android:clickable="true"
+                                android:onClick="enterBusstop383"
                                 android:paddingTop="16.0dip" >
 
                                 <TextView
@@ -183,6 +185,8 @@
                                 android:layout_marginRight="2.0dip"
                                 android:background="@drawable/more_itemmiddle_press"
                                 android:paddingBottom="16.0dip"
+                                android:clickable="true"
+                                android:onClick="enterBusstop801"
                                 android:paddingTop="16.0dip" >
 
                                 <TextView
@@ -203,6 +207,8 @@
                                 android:layout_marginLeft="2.0dip"
                                 android:layout_marginRight="2.0dip"
                                 android:background="@drawable/more_itembottom_press"
+                                android:clickable="true"
+                                android:onClick="enterBusstop202"
                                 android:paddingBottom="16.0dip"
                                 android:paddingTop="16.0dip" >
 
@@ -292,6 +298,7 @@
                                 android:layout_marginLeft="2.0dip"
                                 android:layout_marginRight="2.0dip"
                                 android:background="@drawable/more_itemtop_press"
+                                
                                 android:paddingBottom="16.0dip"
                                 android:paddingTop="16.0dip" >
 
@@ -301,6 +308,7 @@
                                     android:gravity="center_vertical"
                                     android:includeFontPadding="false"
                                     android:paddingLeft="17.0dip"
+                                    
                                     android:text="沿途公交"
                                     android:textColor="#aa333333"
                                     android:textSize="14.0sp" />
@@ -315,6 +323,8 @@
                                 android:layout_marginRight="2.0dip"
                                 android:background="@drawable/more_itembottom_press"
                                 android:paddingBottom="16.0dip"
+                                android:clickable="true"
+                                android:onClick="enterBusstop5"
                                 android:paddingTop="16.0dip" >
 
                                 <TextView
@@ -324,6 +334,7 @@
                                     android:gravity="center_vertical"
                                     android:includeFontPadding="false"
                                     android:paddingLeft="17.0dip"
+                                    
                                     android:text="节假日公交专线5路(体育中心总站-长洲..."
                                     android:textColor="#ff333333"
                                     android:textSize="14.0sp" />

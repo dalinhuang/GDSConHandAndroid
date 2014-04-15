@@ -17,6 +17,27 @@ public class BusInfoActivity extends Activity {
 
 	 public void backClick(View v) {
 	    	onBackPressed();    	
+	    } 
+	 
+	 public void enterBusstop383(View v) {
+		 Intent i = new Intent(this, Bus383InfoActivity.class);
+	     startActivity(i);   	
+	    } 
+	 
+	 public void enterBusstop801(View v) {
+		 Intent i = new Intent(this, Bus801InfoActivity.class);
+	     startActivity(i);   	
+	    }  
+	 
+	 public void enterBusstop202(View v) {
+		 Intent i = new Intent(this, Bus202InfoActivity.class);
+	     startActivity(i);   	
 	    }   
+	 
+	 public void enterBusstop5(View v) {
+		 Intent i = new Intent(this, Bus5InfoActivity.class);
+	     startActivity(i);   	
+	    }   
+
 
 }
