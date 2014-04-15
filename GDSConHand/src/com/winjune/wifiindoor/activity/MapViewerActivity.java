@@ -824,7 +824,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	}
 	
 	public void eventBarClick(View v){
-        Intent i = new Intent(this, EventViewerActivity.class); 
+        Intent i = new Intent(this, PlayhouseInfoActivity.class); 
 		startActivity(i);		
 	}
 	

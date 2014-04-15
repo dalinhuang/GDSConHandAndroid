@@ -256,6 +256,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.winjune.wifiindoor.activity.MenuItemListActivity" />
         </activity>
+        
+        <activity
+            android:name="com.winjune.wifiindoor.activity.PlayhouseInfoActivity"
+            android:label="@string/title_activity_playhouse_info" >
+        </activity>              
     </application>
 
 </manifest>
