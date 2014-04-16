@@ -53,4 +53,8 @@ public class PlayhouseInfoActivity extends Activity {
 	        return view;  
 	    }   		
 	}
+	
+	public void backClick(View v){
+		onBackPressed();
+	}
 }
