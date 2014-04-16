@@ -160,5 +160,7 @@
     <string name="title_menuitem_detail">MenuItem Detail</string>
     <string name="title_activity_playhouse_info">PlayhouseInfoActivity</string>
     <string name="hello_world">Hello world!</string>
-
+    <string name="download_now">Download</string>
+    <string name="download_later">Later</string>
+    
 </resources>

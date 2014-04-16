@@ -161,4 +161,6 @@
     <string name="title_section_time">按时间</string>
     <string name="title_section_place">按展馆</string>
     <string name="title_menuitem_list">餐厅菜单</string>
+    <string name="download_now">立即下载</string>
+    <string name="download_later">以后再说</string>
 </resources>
