@@ -131,7 +131,9 @@ public class PlayhouseInfoActivity extends Activity {
 				
 				Calendar currentTime = Calendar.getInstance();
 				
-				if (currentTime.get(Calendar.HOUR_OF_DAY) > startHour){
+				if ((currentTime.get(Calendar.HOUR_OF_DAY) > startHour) ||
+						((currentTime.get(Calendar.HOUR_OF_DAY) == startHour) && 
+						 (currentTime.get(Calendar.MINUTE) > startMinute))){
 					Util.showToast(PlayhouseInfoActivity.this, "剧场已开始！", Toast.LENGTH_SHORT);
 					return;
 				}
