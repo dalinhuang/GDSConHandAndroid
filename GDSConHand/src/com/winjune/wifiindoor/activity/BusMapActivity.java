@@ -12,11 +12,11 @@ public class BusMapActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.bus_map);
+		setContentView(R.layout.activity_bus_map);
 	}
 
 	public void busInfo(View v) {
-		Intent i = new Intent(this, BusInfoActivity.class);
+		Intent i = new Intent(this, BusStationInfoActivity.class);
 		startActivity(i);
 	}
 

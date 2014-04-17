@@ -71,7 +71,7 @@
 	            android:layout_centerHorizontal="true"            
 	            android:drawableLeft="@drawable/icon_surrounding"
 	            android:gravity="center_vertical"
-	            android:text="周围"
+	            android:text="快捷"
 	            android:textColor="@color/black" />
 
 		</RelativeLayout>
@@ -111,7 +111,7 @@
 	            android:layout_centerHorizontal="true"            
 	            android:drawableLeft="@drawable/icon_activity"
 	            android:gravity="center_vertical"
-	            android:text="活动"
+	            android:text="节目"
 	            android:textColor="@color/black" />
 
 		</RelativeLayout>

@@ -1,306 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/grey_light_light"
-    android:orientation="vertical" >
-    
-    <RelativeLayout
-        android:id="@+id/surrounding_title_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"        
-        android:background="@color/grey_light"
-        android:paddingBottom="1dp" >
-       
+    style="@style/GenActivtyTheme">
+
+    <RelativeLayout style="@style/styleTitleLayout">
         <ImageView
-            android:id="@+id/btn_back"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginBottom="1dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:background="@color/grey_light_light"
-            android:clickable="true"
-            android:onClick="backClick"
-            android:src="@drawable/btn_back" />
+            android:id="@+id/shortcut_btn_back"
+            style="@style/styleTitleBtnBack" />
 
         <ImageView
-            android:id="@+id/btn_search"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignBottom="@id/btn_back"
-            android:background="@color/grey_light_light"                
+            android:id="@+id/shortcut_btn_search"
+            style="@style/styleTitleBtnAction"
+            android:layout_alignBottom="@id/shortcut_btn_back"
             android:src="@drawable/btn_search" />
-        
-         <TextView
+
+        <TextView
             android:id="@+id/textView1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignBottom="@id/btn_back"            
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@id/btn_back"
-            android:layout_toLeftOf="@id/btn_search"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
-            android:background="@color/grey_light_light"                                
-            android:gravity="center"
-            android:text="周围"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black" />        
+            style="@style/styleTitleText"
+            android:layout_alignBottom="@id/shortcut_btn_back"
+            android:layout_toLeftOf="@id/shortcut_btn_search"
+            android:layout_toRightOf="@id/shortcut_btn_back"
+            android:text="周围" />
     </RelativeLayout>
-    
-<ScrollView 
-	android:layout_width="fill_parent"
-  	android:layout_height="wrap_content"
-   	android:scrollbars="none">
 
-<LinearLayout 
-	android:layout_width="fill_parent"
-  	android:layout_height="wrap_content"
-  	android:orientation="vertical">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none" >
 
-    <!--  facility_layout -->
-    <LinearLayout
-        android:id = "@+id/facility_layout" 
-		android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-   		android:background="@color/grey_light"
-       	android:padding="1dp"  	  	                       
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    
-    	<RelativeLayout
-    	    android:id = "@+id/facility_gen_layout"			    	            	    
-   			android:layout_width="0dp"
-			android:layout_weight="1"				        	        
-    	    android:layout_height="98dp"
-    	    android:layout_marginRight="1dp"    	    
-    	    android:background="@color/white">
-            
-    	    <TextView
-                android:id="@+id/text_facility"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"                
-                android:layout_alignParentLeft="true"
-            	android:layout_alignParentTop="true"                                
-                android:text="常用设施"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/black" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    	     <ImageView
-                android:id="@+id/icon_facility"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-            	android:layout_alignParentBottom="true"
-                android:src="@drawable/icon_facility" />	        	    
-    	    
-    	</RelativeLayout>    
-    	
-    <LinearLayout
-	    android:id="@+id/facility_list_layout"	    
-	    android:layout_width="0dp"
-	    android:layout_weight="2"
-	    android:layout_height="wrap_content"
-	    android:orientation="vertical"  >    	
-    	
-		<LinearLayout
-		    android:id="@+id/facility_list1_layout"
-		    android:layout_width="match_parent"        	    	    
-		    android:layout_height="32dp"	
-		    android:layout_marginBottom="1dp"	    
-		    android:orientation="horizontal"  >
+            <!-- facility_layout -->
+            <LinearLayout style="@style/styleShortcutLayer" >
+                <RelativeLayout style="@style/styleShortcutCategory" >
+                    <TextView
+                        style="@style/styleShortcutCatText"
+                        android:text="服务设施" />
+                    <ImageView
+                        style="@style/styleShortcutCatIcon"
+                        android:src="@drawable/icon_facility" />
+                </RelativeLayout>
 
-    	   	<TextView
-            	android:id="@+id/text_toliet"
-            	android:layout_width="0dp"
-            	android:layout_weight="1"
-            	android:layout_height="match_parent"
-            	android:layout_marginRight="1dp"
-            	android:text="洗手间"
-            	android:gravity="center"
-            	android:background="@color/white"
-            	android:textAppearance="?android:attr/textAppearanceMedium"
-            	android:textColor="@color/black" />		
-    	    		
-    	    <TextView
-              	android:id="@+id/text_elevator"
-              	android:layout_width="0dp"
-            	android:layout_weight="1"
-              	android:layout_height="match_parent"               		            	                   		           
-            	android:text="电梯"
-            	android:gravity="center"
-            	android:background="@color/white"
-    	    	android:textAppearance="?android:attr/textAppearanceMedium"
-               	android:textColor="@color/black" />		            
-		</LinearLayout>    	 
-		
-    	    	    		
-		<LinearLayout
-		    android:id="@+id/facility_list2_layout"
-		    android:layout_width="match_parent"        		   
-        	android:layout_marginBottom="1dp"
-		    android:layout_height="32dp"
-		    android:orientation="horizontal"  >
+                <LinearLayout style="@style/styleShortcutItemLayer">
+                    <LinearLayout style="@style/styleShortcutItemLine">
+                   		  <TextView
+                        	style="@style/styleShortcutItem"
+                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:text="公交车站"/>
+                  		  <TextView
+                        	style="@style/styleShortcutItem"
+                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:text="公交车站"/>
+                    </LinearLayout>
 
-    	   	<TextView
-            	android:id="@+id/text_restaurant"
-              	android:layout_width="0dp"
-            	android:layout_weight="1"           
-              	android:layout_marginRight="1dp"              	            	 	
-            	android:layout_height="match_parent"
-            	android:text="餐厅"
-            	android:gravity="center"
-            	android:clickable="true"
-                android:onClick="jumpToRestaurantMenu"
-            	android:background="@color/white"
-            	android:textAppearance="?android:attr/textAppearanceMedium"
-            	android:textColor="@color/black" />		
-    	    		
-    	    <TextView
-              	android:id="@+id/text_feeding"
-				android:layout_width="0dp"
-            	android:layout_weight="1"  
-	            android:layout_height="match_parent"	                   		             
-            	android:text="育婴室"
-            	android:gravity="center"
-            	android:background="@color/white"
-    	    	android:textAppearance="?android:attr/textAppearanceMedium"
-               	android:textColor="@color/black" />		            
-		</LinearLayout>
-		
-		<LinearLayout
-		    android:id="@+id/facility_list3_layout"
-		    android:layout_width="match_parent"
-		    android:layout_height="32dp"
-		    android:orientation="horizontal"  >
+                    <LinearLayout style="@style/styleShortcutItemLine">
+                   		  <TextView
+                        	style="@style/styleShortcutItem"
+                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:text="公交车站"/>
 
-    	   	<TextView
-            	android:id="@+id/text_parking"
-              	android:layout_width="0dp"
-            	android:layout_weight="1"           
-              	android:layout_marginRight="1dp"              	            	 	
-            	android:layout_height="match_parent"
-            	android:text="停车场"
-            	android:gravity="center"
-            	android:background="@color/white"
-            	android:textAppearance="?android:attr/textAppearanceMedium"
-            	android:textColor="@color/black" />		
-    	    		
-    	     <TextView
-              	android:id="@+id/text_station"
-				android:layout_width="0dp"
-            	android:layout_weight="1"  
-	            android:layout_height="match_parent"	                   		             
-            	android:text="公交车站"
-            	android:gravity="center"
-            	android:clickable="true"
-                android:onClick="jumpToBusMapClick"
-            	android:background="@color/white"
-    	    	android:textAppearance="?android:attr/textAppearanceMedium"
-               	android:textColor="@color/black" />				            
-		</LinearLayout>
-		            		            		            
-	</LinearLayout>		   
-    </LinearLayout> <!--  facility_layout -->
+                   		  <TextView
+                        	style="@style/styleShortcutItem"
+                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:text="公交车站"/>
+                    </LinearLayout>
 
-	<!--  cinema_layout -->
-    <LinearLayout
-        android:id = "@+id/cinema_layout" 
-		android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-   		android:background="@color/grey_light"
-       	android:padding="1dp"  	                       
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    
-    	<RelativeLayout
-    	    android:id = "@+id/facility_gen_layout"        	    
-    	    android:layout_marginRight="1dp"
-   			android:layout_width="0dp"
-			android:layout_weight="1"				        	        
-    	    android:layout_height="131dp"
-    	    android:background="@color/white">
-            
-    	    <TextView
-                android:id="@+id/text_facility"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"                
-                android:layout_alignParentLeft="true"
-            	android:layout_alignParentTop="true"                                
-                android:text="科技影院"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/black" />
+                    <LinearLayout style="@style/styleShortcutItemLine">
 
-    	     <ImageView
-                android:id="@+id/icon_movie"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-            	android:layout_alignParentBottom="true"
-                android:src="@drawable/icon_movie" />	        	    
-    	    
-    	</RelativeLayout>    
-    	
-		<LinearLayout
-		    android:id="@+id/cinema_list_layout"
-		    android:layout_width="0dp"
-		    android:layout_height="match_parent"
-		    android:layout_weight="2"
-		    android:orientation="vertical"  >
+                   		  <TextView
+                        	style="@style/styleShortcutItem"
+                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:text="公交车站"/>
 
-    	   	<TextView
-            	android:id="@+id/textView3"
-            	android:layout_width="match_parent"
-            	android:layout_height="32dp"
-            	android:layout_marginBottom="1dp"
-            	android:text="3D巨幕影院"
-            	android:clickable="true"
-                android:onClick="jumpToMovieTheatre3D"
-            	android:gravity="center"
-            	android:background="@color/white"
-            	android:textAppearance="?android:attr/textAppearanceMedium"
-            	android:textColor="@color/black" />		
-    	    		
-    	    <TextView
-              	android:id="@+id/textView4"              	
-              	android:layout_marginBottom="1dp"
-               	android:layout_width="match_parent"               	
-	            android:layout_height="32dp"	                   		             
-            	android:text="数字球幕影院"
-            	android:gravity="center"
-            	android:background="@color/white"
-    	    	android:textAppearance="?android:attr/textAppearanceMedium"
-               	android:textColor="@color/black" />		            
-		            	    		
-    	    <TextView
-               	android:id="@+id/textView5"
-               	android:layout_width="match_parent"
-               	android:layout_marginBottom="1dp"
-               	android:layout_height="32dp"                	          
-               	android:text="4D影院"
-               	android:gravity="center"
-               	android:background="@color/white"
-               	android:textAppearance="?android:attr/textAppearanceMedium"
-               	android:textColor="@color/black" />
-    	    
-    	    <TextView
-               	android:id="@+id/textView5"
-               	android:layout_width="match_parent"
-               	android:layout_height="32dp"                	          
-               	android:text="虚拟航行动感影院"
-               	android:gravity="center"
-               	android:background="@color/white"
-               	android:textAppearance="?android:attr/textAppearanceMedium"
-               	android:textColor="@color/black" />
-		            		            		         	    
-		            		            		            
-		</LinearLayout>    	    
-    </LinearLayout> <!--  cinema_layout -->       
-    
-</LinearLayout>       
-</ScrollView>    
+                        <TextView
+                        	style="@style/styleShortcutItem"
+                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:text="公交车站"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <!-- facility_layout -->
+
+
+            <!-- customer_service_layout -->
+            <LinearLayout style="@style/styleShortcutLayer" >
+                <RelativeLayout style="@style/styleShortcutCategory" >
+                    <TextView
+                        style="@style/styleShortcutCatText"
+                        android:text="客户服务" />
+                    <ImageView
+                        style="@style/styleShortcutCatIcon"
+                        android:src="@drawable/icon_facility" />
+                </RelativeLayout>
+
+                <LinearLayout style="@style/styleShortcutItemLayer">
+                    <LinearLayout style="@style/styleShortcutItemLine">
+                        <TextView
+                            android:id="@+id/text_toliet"
+                            style="@style/styleShortcutItem"
+                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:text="咨询台" />
+                    </LinearLayout>
+
+                    <LinearLayout style="@style/styleShortcutItemLine">
+                        <TextView
+                            style="@style/styleShortcutItem"
+                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:text="广播室" />
+
+                        <TextView
+                            style="@style/styleShortcutItem"
+                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:text="医务室" />
+                    </LinearLayout>
+                    
+                    <LinearLayout style="@style/styleShortcutItemLine">
+                        <TextView
+                            style="@style/styleShortcutItem"
+                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:text="寄存室" />
+
+                        <TextView
+                            android:id="@+id/text_station"
+                            style="@style/styleShortcutItem"
+                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:text="投诉室" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <!-- customer_service_layout -->
+
+
+            <!-- cinema_layout -->
+
+ 
+            <!-- cinema_layout -->
+
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

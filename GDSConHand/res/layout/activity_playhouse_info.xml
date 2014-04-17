@@ -1,130 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/grey_light_light"
-    android:orientation="vertical" >
+    style="@style/GenActivtyTheme" >
 
-    <RelativeLayout
-        android:id="@+id/search_title_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:background="@color/grey_light"
-        android:paddingBottom="1dp" >
+    <include layout="@layout/template_title_bar" />
 
-        <ImageView
-            android:id="@+id/playhouse_btn_back"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:background="@color/grey_light_light"
-            android:clickable="true"
-            android:onClick="backClick"
-            android:src="@drawable/btn_back" />
+    <include layout="@layout/template_intro" />
 
-        <TextView
-            android:id="@+id/playhouse_btn_location"
-            android:layout_width="60dp"
-            android:layout_height="45dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"           
-            android:background="@color/grey_light_light"
-            android:drawableLeft="@drawable/icon_view_map"
-            android:text="地图"
-            android:gravity="center" 
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-        
-        <TextView
-            android:id="@+id/playhouse_text_title"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"            
-            android:layout_alignBottom="@id/btn_back"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@id/playhouse_btn_back"
-            android:layout_toLeftOf="@id/playhouse_btn_location"
-            android:background="@color/grey_light_light"            
-            android:text="剧场"      
-            android:gravity="center"        
-            android:textColor="@color/black" />          
-    </RelativeLayout>
-	    
-    <LinearLayout
+    <TextView
+        style="@style/styeParagraphBar"
+        android:text="排期" />
+
+    <ListView
+        android:id="@+id/playhouse_schedule_list"
+        style="@style/styleContentAMargin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/white"
-        android:orientation="vertical">
-        
-       <TextView
-            android:id="@+id/text_introduction"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
-            android:layout_alignParentTop="true"
-            android:background="@color/white"            
-            android:text="简介"              
-            android:textColor="@color/black"
-            android:textAppearance="?android:attr/textAppearanceMedium" />        
-        
-       <TextView
-            android:id="@+id/playhouse_text_detail"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"            
-            android:layout_alignParentTop="true"
-            android:background="@color/white"            
-            android:text="这是一个例子这是一个例子这是一个例子这是一个例子这是一个例子这是一个例子这是一个例子这是一个例子这是一个例子这是一个例子这是一个例子"      
-            android:gravity="center_vertical"    
-            android:textAppearance="?android:attr/textAppearanceSmall"    
-            android:textColor="@color/black" />        
-    
-    	<LinearLayout        	
-        	android:layout_width="match_parent"
-        	android:layout_height="wrap_content"
-        	android:background="@color/white"
-        	android:orientation="horizontal"
-        	android:padding="1dp" >
+        android:background="@color/white" >
+    </ListView>
 
-    		<Button
-    		    android:id="@+id/playhouse_btn_route"
-    		    style="?android:attr/buttonStyleSmall"
-    		    android:layout_width="match_parent"
-    		    android:layout_height="wrap_content"
-    		    android:text="到这去" />         
-    	</LinearLayout>
-        
-	</LinearLayout>          
-
-
-    	    
-		<TextView
-	    	android:id="@+id/playhouse_schedule_text_label"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-		   	android:layout_marginRight="5dp"
-        	android:layout_marginLeft="5dp"
-        	android:layout_marginBottom="1dp"
-			android:background="@color/white"	        	              
-	        android:layout_alignParentTop="true"	            
-	        android:text="排期"                
-	        android:textAppearance="?android:attr/textAppearanceLarge"
-	        android:textColor="@color/black" />     
-	
-	    	    	    
-		<ListView
-		    android:id="@+id/playhouse_schedule_list"
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content" 
-		   	android:layout_marginRight="5dp"
-        	android:layout_marginLeft="5dp"
-        	android:background="@color/white">
-		</ListView>
-	 
 </LinearLayout>

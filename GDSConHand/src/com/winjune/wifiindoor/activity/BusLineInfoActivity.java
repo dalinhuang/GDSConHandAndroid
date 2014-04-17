@@ -7,12 +7,12 @@ import android.view.View;
 
 import com.winjune.wifiindoor.R;
 
-public class Bus5InfoActivity extends Activity {
+public class BusLineInfoActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.bus_5_info);
+		setContentView(R.layout.activity_bus_line_info);
 	}
 
 	 public void backClick(View v) {

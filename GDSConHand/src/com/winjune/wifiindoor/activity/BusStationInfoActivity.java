@@ -7,18 +7,25 @@ import android.view.View;
 
 import com.winjune.wifiindoor.R;
 
-public class Bus801InfoActivity extends Activity {
+public class BusStationInfoActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.bus_801_info);
+		setContentView(R.layout.activity_bus_station_info);
 	}
 
 	 public void backClick(View v) {
 	    	onBackPressed();    	
-	    }  
+	    } 
 	 
-	
+ 
+	 public void enterBusstop202(View v) {
+		 Intent i = new Intent(this, BusLineInfoActivity.class);
+	     startActivity(i);   	
+	    }   
+	 
+
+
 
 }

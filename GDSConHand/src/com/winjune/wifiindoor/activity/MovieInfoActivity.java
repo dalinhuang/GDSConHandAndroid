@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-public class MovieTheatre3DActivity extends Activity {
+public class MovieInfoActivity extends Activity {
 	int[] imageIds = new int[]
 	{
 		R.drawable.movie_xiyouxiangmo, R.drawable.movie_hobbit,
@@ -31,7 +31,7 @@ public class MovieTheatre3DActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_movie_theatre_3d);
+		setContentView(R.layout.activity_movie_info);
 		final Gallery gallery = (Gallery) findViewById(R.id.gallery);
 
 		// 创建一个BaseAdapter对象，该对象负责提供Gallery所显示的图片
@@ -58,7 +58,7 @@ public class MovieTheatre3DActivity extends Activity {
 			public View getView(int position, View convertView, ViewGroup parent)
 			{
 				// 创建一个ImageView
-				ImageView imageView = new ImageView(MovieTheatre3DActivity.this);
+				ImageView imageView = new ImageView(MovieInfoActivity.this);
 				imageView
 					.setImageResource(imageIds[position % imageIds.length]);
 				// 设置ImageView的缩放类型
@@ -79,8 +79,8 @@ public class MovieTheatre3DActivity extends Activity {
 			public void onItemSelected(AdapterView<?> parent, View view,
 				int position, long id)
 			{
-				TextView filmNameView = (TextView) findViewById(R.id.text_film_name);
-				filmNameView.setText(imageNames[position]);
+				//TextView filmNameView = (TextView) findViewById(R.id.text_film_name);
+				//filmNameView.setText(imageNames[position]);
 			}
 
 			@Override

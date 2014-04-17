@@ -26,7 +26,7 @@ public class SurroundingActivity extends Activity {
   	}
     
     public void jumpToMovieTheatre3D(View v){		
-  		Intent i = new Intent(this, MovieTheatre3DActivity.class); 
+  		Intent i = new Intent(this, MovieInfoActivity.class); 
   		startActivity(i);	
   	}
 

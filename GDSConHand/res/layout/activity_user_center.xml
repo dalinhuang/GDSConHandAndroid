@@ -1,54 +1,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/grey_light_light"
-    android:orientation="vertical" >
+    style="@style/GenActivtyTheme">>
     
-    <RelativeLayout
-        android:id="@+id/setting_title_layout"
-        android:background="@color/grey_light"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="1dp" >
-       
+   <RelativeLayout style="@style/styleTitleLayout">
         <ImageView
             android:id="@+id/btn_back"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginBottom="1dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:background="@color/grey_light_light"
-            android:clickable="true"
-            android:onClick="backClick"
-            android:src="@drawable/btn_back" />
+            style="@style/styleTitleBtnBack" />
 
         <ImageView
             android:id="@+id/btn_setting"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_alignBottom="@+id/btn_back"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:onClick="settingBarClick"
-            android:background="@color/grey_light_light"                
+            style="@style/styleTitleBtnAction"
+            android:layout_alignBottom="@id/btn_back"
             android:src="@drawable/btn_setting" />
-        
-         <TextView
-            android:id="@+id/text_user_center"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_alignBottom="@+id/btn_back"            
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/btn_back"
-            android:layout_toLeftOf="@+id/btn_setting"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
-            android:background="@color/grey_light_light"                                
-            android:gravity="center"
-            android:text="我的"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black" />        
+
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/styleTitleText"
+            android:layout_alignBottom="@id/btn_back"
+            android:layout_toLeftOf="@id/btn_setting"
+            android:layout_toRightOf="@id/btn_back"
+            android:text="我的" />      
     </RelativeLayout>
     
 <ScrollView 
