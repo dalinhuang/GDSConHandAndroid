@@ -25,11 +25,6 @@ public class ShortcutEntryActivity extends Activity {
   		startActivity(i);	
   	}
     
-    public void jumpToMovieTheatre3D(View v){		
-  		Intent i = new Intent(this, MovieInfoActivity.class); 
-  		startActivity(i);	
-  	}
-
     public void backClick(View v) {
     	onBackPressed();    	
     }    

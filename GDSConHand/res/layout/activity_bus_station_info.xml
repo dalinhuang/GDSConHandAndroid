@@ -9,7 +9,7 @@
         android:text="沿途公交"/>
     
    	<ListView
-	    android:id="@+id/movie_list"
+	    android:id="@+id/bus_line_list"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:background="@color/white" 
