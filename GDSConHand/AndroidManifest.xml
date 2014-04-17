@@ -262,6 +262,10 @@
             android:name="com.winjune.wifiindoor.activity.TheatreInfoActivity"
             android:label="@string/title_activity_movie_info" >
         </activity>
+        <activity
+            android:name="com.winjune.wifiindoor.activity.AlarmActivity"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>
