@@ -14,10 +14,10 @@ import com.winjune.wifiindoor.dummy.DummyContent;
 
 /**
  * A fragment representing a single MenuItem detail screen. This fragment is
- * either contained in a {@link MenuItemListActivity} in two-pane mode (on
- * tablets) or a {@link MenuItemDetailActivity} on handsets.
+ * either contained in a {@link RestaurantInfoActivity} in two-pane mode (on
+ * tablets) or a {@link RestaurantMenuDetailActivity} on handsets.
  */
-public class MenuItemDetailFragment extends Fragment {
+public class RestaurantMenuDetailFragment extends Fragment {
 	/**
 	 * The fragment argument representing the item ID that this fragment
 	 * represents.
@@ -33,7 +33,7 @@ public class MenuItemDetailFragment extends Fragment {
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
 	 */
-	public MenuItemDetailFragment() {
+	public RestaurantMenuDetailFragment() {
 	}
 
 	@Override

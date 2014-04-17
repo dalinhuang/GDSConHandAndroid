@@ -813,7 +813,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	}
 	
 	public void surroundingBarClick(View v){
-        Intent i = new Intent(this, SurroundingActivity.class); 
+        Intent i = new Intent(this, ShortcutEntryActivity.class); 
 		startActivity(i);		
 	}	
 	
@@ -824,7 +824,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	}
 	
 	public void eventBarClick(View v){
-        Intent i = new Intent(this, PlayhouseInfoActivity.class); 
+        Intent i = new Intent(this, EventViewerActivity.class); 
 		startActivity(i);		
 	}
 	

@@ -7,12 +7,12 @@ import android.view.View;
 
 import com.winjune.wifiindoor.R;
 
-public class SurroundingActivity extends Activity {
+public class ShortcutEntryActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_surrounding);
+        setContentView(R.layout.activity_shortcut_entry);
     }
     
     public void jumpToBusMapClick(View v){		
@@ -21,7 +21,7 @@ public class SurroundingActivity extends Activity {
   	}
     
     public void jumpToRestaurantMenu(View v){		
-  		Intent i = new Intent(this, MenuItemListActivity.class); 
+  		Intent i = new Intent(this, RestaurantInfoActivity.class); 
   		startActivity(i);	
   	}
     
@@ -33,4 +33,14 @@ public class SurroundingActivity extends Activity {
     public void backClick(View v) {
     	onBackPressed();    	
     }    
+    
+	public void restaurantClick(View v){
+        Intent i = new Intent(this, RestaurantInfoActivity.class); 
+		startActivity(i);				
+	}
+	
+	public void iMaxTheatreClick(View v){
+        Intent i = new Intent(this, TheatreInfoActivity.class); 
+		startActivity(i);				
+	}
 }

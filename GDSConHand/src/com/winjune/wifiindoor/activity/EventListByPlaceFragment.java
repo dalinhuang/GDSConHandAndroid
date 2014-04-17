@@ -2,9 +2,12 @@ package com.winjune.wifiindoor.activity;
 
 
 import java.util.ArrayList;
+
 import com.winjune.wifiindoor.R;
+
 import android.support.v4.app.Fragment;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +20,7 @@ import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.TextView;
+
 import com.winjune.wifiindoor.event.*;
 
 public class EventListByPlaceFragment extends Fragment {
@@ -50,7 +54,10 @@ public class EventListByPlaceFragment extends Fragment {
 				public boolean onChildClick(ExpandableListView arg0, View arg1,
 						int arg2, int arg3, long arg4) {
 					// TODO Auto-generated method stub
-					return false;
+					
+					Intent i = new Intent(getActivity(), PlayhouseInfoActivity.class); 
+					startActivity(i);					
+					return true;
 				}
 	        	
 	        }));

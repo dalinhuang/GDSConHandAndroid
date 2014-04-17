@@ -3,6 +3,6 @@
     android:id="@+id/menuitem_detail_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.winjune.wifiindoor.activity.MenuItemDetailActivity"
+    tools:context="com.winjune.wifiindoor.activity.RestaurantMenuDetailActivity"
     tools:ignore="MergeRootFrame" />
 

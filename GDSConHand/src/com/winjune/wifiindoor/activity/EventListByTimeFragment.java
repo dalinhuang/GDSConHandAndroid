@@ -3,6 +3,7 @@ package com.winjune.wifiindoor.activity;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -69,6 +70,9 @@ public class EventListByTimeFragment extends ListFragment {
 			mListener
 					.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
 		}
+		
+		Intent i = new Intent(getActivity(), PlayhouseInfoActivity.class); 
+		startActivity(i);	
 	}
 
 	/**

@@ -13,18 +13,18 @@ import android.view.MenuItem;
 /**
  * An activity representing a single MenuItem detail screen. This activity is
  * only used on handset devices. On tablet-size devices, item details are
- * presented side-by-side with a list of items in a {@link MenuItemListActivity}
+ * presented side-by-side with a list of items in a {@link RestaurantInfoActivity}
  * .
  * <p>
  * This activity is mostly just a 'shell' activity containing nothing more than
- * a {@link MenuItemDetailFragment}.
+ * a {@link RestaurantMenuDetailFragment}.
  */
-public class MenuItemDetailActivity extends FragmentActivity {
+public class RestaurantMenuDetailActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_menuitem_detail);
+		setContentView(R.layout.fragment_restaurant_menu_detail);
 
 		// Show the Up button in the action bar.
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -42,9 +42,9 @@ public class MenuItemDetailActivity extends FragmentActivity {
 			// Create the detail fragment and add it to the activity
 			// using a fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putString(MenuItemDetailFragment.ARG_ITEM_ID, getIntent()
-					.getStringExtra(MenuItemDetailFragment.ARG_ITEM_ID));
-			MenuItemDetailFragment fragment = new MenuItemDetailFragment();
+			arguments.putString(RestaurantMenuDetailFragment.ARG_ITEM_ID, getIntent()
+					.getStringExtra(RestaurantMenuDetailFragment.ARG_ITEM_ID));
+			RestaurantMenuDetailFragment fragment = new RestaurantMenuDetailFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.menuitem_detail_container, fragment).commit();
@@ -63,7 +63,7 @@ public class MenuItemDetailActivity extends FragmentActivity {
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
 			NavUtils.navigateUpTo(this, new Intent(this,
-					MenuItemListActivity.class));
+					RestaurantInfoActivity.class));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

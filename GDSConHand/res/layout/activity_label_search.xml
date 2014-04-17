@@ -26,7 +26,7 @@
             android:layout_toRightOf="@id/search_btn_back"
             android:background="@color/white"
             android:drawableLeft="@drawable/icon_searchbox"
-            android:hint="搜索"
+            android:hint="地点, 展品名称,语音导览编码"
             android:inputType="text"
             android:textColor="@color/black" >
 
@@ -51,6 +51,7 @@
 
         <TextView
 			style="@style/styleSearchShortcutText"
+			android:onClick="restaurantClick"
             android:text="餐厅"/>
     </LinearLayout>
 
@@ -85,10 +86,12 @@
 
         <TextView
 			style="@style/styleSearchShortcutText"
-            android:text="车站"/>
+			android:onClick="busStationClick"
+            android:text="公交车站"/>
 
         <TextView
 			style="@style/styleSearchShortcutText"
+			android:onClick="moreClick"			
             android:text="更多 >"
             android:textColor="@color/black" />
     </LinearLayout>

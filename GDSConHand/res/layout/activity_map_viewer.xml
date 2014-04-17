@@ -36,7 +36,7 @@
             android:layout_marginLeft="0.5dp"
             android:layout_marginRight="0.5dp"
             android:background="@color/white"
-            android:drawableLeft="@drawable/magnifying_glass"
+            android:drawableLeft="@drawable/icon_searchbox"
             android:textColorHint="#ffcccccc"
             android:hint="地点, 展品名称,语音导览编码"
             android:inputType="text"

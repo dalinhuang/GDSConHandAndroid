@@ -13,20 +13,20 @@ import android.widget.ListView;
  * An activity representing a list of MenuItems. This activity has different
  * presentations for handset and tablet-size devices. On handsets, the activity
  * presents a list of items, which when touched, lead to a
- * {@link MenuItemDetailActivity} representing item details. On tablets, the
+ * {@link RestaurantMenuDetailActivity} representing item details. On tablets, the
  * activity presents the list of items and item details side-by-side using two
  * vertical panes.
  * <p>
  * The activity makes heavy use of fragments. The list of items is a
- * {@link MenuItemListFragment} and the item details (if present) is a
- * {@link MenuItemDetailFragment}.
+ * {@link RestaurantMenuListFragment} and the item details (if present) is a
+ * {@link RestaurantMenuDetailFragment}.
  * <p>
  * This activity also implements the required
- * {@link MenuItemListFragment.Callbacks} interface to listen for item
+ * {@link RestaurantMenuListFragment.Callbacks} interface to listen for item
  * selections.
  */
-public class MenuItemListActivity extends FragmentActivity implements
-		MenuItemListFragment.Callbacks {
+public class RestaurantInfoActivity extends FragmentActivity implements
+		RestaurantMenuListFragment.Callbacks {
 
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -37,7 +37,7 @@ public class MenuItemListActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_menuitem_list);
+		setContentView(R.layout.fragment_restaurant_menu_list);
 
 		if (findViewById(R.id.menuitem_detail_container) != null) {
 			// The detail container view will be present only in the
@@ -48,10 +48,10 @@ public class MenuItemListActivity extends FragmentActivity implements
 
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
-			MenuItemListFragment fragment = (MenuItemListFragment) getSupportFragmentManager()
+			RestaurantMenuListFragment fragment = (RestaurantMenuListFragment) getSupportFragmentManager()
 			.findFragmentById(R.id.menuitem_list);
 			fragment.setActivateOnItemClick(true);
-/*			((MenuItemListFragment) getSupportFragmentManager()
+/*			((RestaurantMenuListFragment) getSupportFragmentManager()
 					.findFragmentById(R.id.menuitem_list))
 					.setActivateOnItemClick(true);*/
 				int position = 0;
@@ -66,7 +66,7 @@ public class MenuItemListActivity extends FragmentActivity implements
 	}
 
 	/**
-	 * Callback method from {@link MenuItemListFragment.Callbacks} indicating
+	 * Callback method from {@link RestaurantMenuListFragment.Callbacks} indicating
 	 * that the item with the given ID was selected.
 	 */
 	@Override
@@ -76,8 +76,8 @@ public class MenuItemListActivity extends FragmentActivity implements
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putString(MenuItemDetailFragment.ARG_ITEM_ID, id);
-			MenuItemDetailFragment fragment = new MenuItemDetailFragment();
+			arguments.putString(RestaurantMenuDetailFragment.ARG_ITEM_ID, id);
+			RestaurantMenuDetailFragment fragment = new RestaurantMenuDetailFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.menuitem_detail_container, fragment).commit();
@@ -85,8 +85,8 @@ public class MenuItemListActivity extends FragmentActivity implements
 		} else {
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
-			Intent detailIntent = new Intent(this, MenuItemDetailActivity.class);
-			detailIntent.putExtra(MenuItemDetailFragment.ARG_ITEM_ID, id);
+			Intent detailIntent = new Intent(this, RestaurantMenuDetailActivity.class);
+			detailIntent.putExtra(RestaurantMenuDetailFragment.ARG_ITEM_ID, id);
 			startActivity(detailIntent);
 		}
 	}
