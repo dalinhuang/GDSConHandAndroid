@@ -12,13 +12,14 @@ import android.annotation.SuppressLint;
 import android.util.Log;
 
 public class EventManager {
-	private ArrayList<Date> festivalDays;
-	private Map<Integer, String> placesMap;
-	private ArrayList<EventItem> eventItems;
+	private static ArrayList<Date> festivalDays;
+	private static Map<Integer, String> placesMap;
+	private static ArrayList<EventItem> eventItems;
 	public static int MaxPlaceNo = 8;
 	
 	public static int PANNEL_TIME_STEP  = 1; // the time based event show, interval
 			
+	public final static String Key_Event_Title = "Key_Event_Title";
 	
 	@SuppressLint("UseSparseArrays")
 	public EventManager(){
@@ -184,7 +185,7 @@ public class EventManager {
 	}
 
 		
-	private boolean isFestivalDay(Date dt) {
+	private static boolean isFestivalDay(Date dt) {
 		
 		for (Date tmpDt:festivalDays) {						
 			if (tmpDt == dt) return true; 
@@ -231,8 +232,30 @@ public class EventManager {
 		return placesMap.get(placeNo);		
 	}
 	
+	private static EventItem getEventByTitle(String title){
+		
+		for (EventItem et : eventItems){
+			
+			if (et.getTitle().equals(title)){
+				return et;
+			}
+		}
+		
+		return null;
+	}
+	
+	public static ArrayList<EventTime> getEventTodayTime(String title){
+		
+		EventItem et = getEventByTitle(title);
+		
+		if (et != null){
+			return getEventTodayTime(et);
+		}
+		
+		return null;
+	}
 
-	private ArrayList<EventTime> getEventTodayTime(EventItem et) {
+	private static ArrayList<EventTime> getEventTodayTime(EventItem et) {
 		
 		
 		Date dt = new Date(0);;		

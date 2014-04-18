@@ -57,4 +57,30 @@ public class EventTime {
 			
 		return tmpStr;
 	}
+	
+	public String getStartTime(){
+		String tmpStr = "";
+		
+		tmpStr += fromHour + ":";		
+		if ( fromMin <10)
+			tmpStr += "0" + fromMin;
+		else
+			tmpStr += fromMin;
+		
+		return tmpStr;
+	}
+	
+	public String getEndTime(){
+		String tmpStr = "";
+		
+		if (toHour > 0){
+			tmpStr += toHour + ":";
+			if ( toMin <10)
+				tmpStr += "0" + toMin;
+			else
+				tmpStr += toMin;
+		}
+		
+		return tmpStr;
+	}
 }

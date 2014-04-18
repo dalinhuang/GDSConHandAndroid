@@ -1,8 +1,13 @@
 package com.winjune.wifiindoor.activity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.dummy.DummyContent;
+import com.winjune.wifiindoor.event.EventManager;
+import com.winjune.wifiindoor.event.EventTime;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.adapter.ScheduleTimeList;
 
@@ -12,11 +17,15 @@ import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,15 +34,22 @@ public class PlayhouseInfoActivity extends Activity {
 
 	private AlarmManager mAlarmMgr;
 	private int mMinutesAhead;
+	private String mEventTitle;
+	private ArrayList<EventTime> mEventTimesOfToday;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_playhouse_info);
 		
+		Bundle bundle = getIntent().getExtras();
+		mEventTitle = bundle.getString(EventManager.Key_Event_Title);
+		
+		mEventTimesOfToday = EventManager.getEventTodayTime(mEventTitle);
+		
 		ListView lv = (ListView)findViewById(R.id.playhouse_schedule_list);
 		
-		ScheduleTimeList ada = new ScheduleTimeList(this, R.layout.list_event_by_time, DummyContent.ITEMS);
+		PlayhouseTimeList ada = new PlayhouseTimeList(this, R.layout.list_schedule, mEventTimesOfToday);
 		
 		lv.setAdapter(ada);
 		
@@ -53,7 +69,34 @@ public class PlayhouseInfoActivity extends Activity {
 		mMinutesAhead = 5; //By default the alarm time is 5 minutes ahead
 	}
 	
+	public class PlayhouseTimeList extends ArrayAdapter<EventTime> {
 
+		private int resourceId;  
+		private Context context;
+		 
+		public PlayhouseTimeList(Context context, int resource, List<EventTime> items) {
+			super(context, resource, items);
+			this.context = context;
+			this.resourceId = resource;
+			// TODO Auto-generated constructor stub
+		}
+		
+	    @Override  
+	    public View getView(int position, View convertView, ViewGroup parent){  
+	        LayoutInflater vi = LayoutInflater.from(context);  
+ 
+			View view=vi.inflate(R.layout.list_schedule, null);
+			//timeAndPlace.setText("test test test test");
+			
+			TextView scheduleStart = (TextView) view.findViewById(R.id.schedule_text_start);
+			scheduleStart.setText(mEventTimesOfToday.get(position).getStartTime());
+			
+			TextView scheduleEnd = (TextView) view.findViewById(R.id.schedule_text_end);
+			scheduleEnd.setText(mEventTimesOfToday.get(position).getEndTime());
+				        
+	        return view;  
+	    }   		
+	}
 	
 	public void backClick(View v){
 		onBackPressed();
@@ -126,7 +169,7 @@ public class PlayhouseInfoActivity extends Activity {
 				mAlarmMgr.set(AlarmManager.RTC, currentTime.getTimeInMillis(), pi);
 				
 				TextView tv = (TextView) findViewById(R.id.schedule_text_remind);
-				tv.setText(R.string.alarm_set);
+				tv.setText(R.string.alarm_added);
 				tv.setTextColor(Color.RED);
 				
 				Util.showToast(PlayhouseInfoActivity.this, "设置提醒成功！", Toast.LENGTH_SHORT);

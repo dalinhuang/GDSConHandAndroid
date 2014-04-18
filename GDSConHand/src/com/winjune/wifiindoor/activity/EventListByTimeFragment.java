@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.dummy.DummyContent;
+import com.winjune.wifiindoor.event.EventManager;
 
 /**
  * A fragment representing a list of Items.
@@ -71,7 +72,14 @@ public class EventListByTimeFragment extends ListFragment {
 					.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
 		}
 		
+		//TextView tv = (TextView) getListView().getItemAtPosition(position);
+		TextView tv = (TextView) l.findViewById(R.id.event_title);
+		String title = tv.getText().toString();
+		
 		Intent i = new Intent(getActivity(), PlayhouseInfoActivity.class); 
+		Bundle bundle = new Bundle();
+		bundle.putString(EventManager.Key_Event_Title, title);
+		i.putExtras(bundle);
 		startActivity(i);	
 	}
 

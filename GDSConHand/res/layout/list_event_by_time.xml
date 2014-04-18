@@ -22,12 +22,12 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/event_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:paddingTop="6dp"            
-            android:text="15分钟后  太空生活表演"
+            android:text="太空生活表演"
             android:textColor="@color/black"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
