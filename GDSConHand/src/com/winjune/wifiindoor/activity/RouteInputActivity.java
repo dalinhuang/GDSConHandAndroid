@@ -6,12 +6,12 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 
-public class RoutePointInputActivity extends Activity {
+public class RouteInputActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.route_point_input);
+        setContentView(R.layout.activity_route_input);
     }
     
     public void backClick(View v) {

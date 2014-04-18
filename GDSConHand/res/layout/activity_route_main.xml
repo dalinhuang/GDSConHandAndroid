@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/GenActivtyTheme">
+
+    <RelativeLayout style="@style/styleTitleLayout">        
+        <ImageView
+            android:id="@+id/route_btn_back"
+            style="@style/styleTitleBtnBack"/>
+
+        <ImageView
+            android:id="@+id/route_btn_search"
+            style="@style/styleTitleBtnAction"
+            android:layout_alignBottom="@id/route_btn_back"
+            android:onClick="searchClick"
+            android:src="@drawable/btn_search" />     
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@id/route_btn_back"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:background="@color/grey_light_light"
+            android:layout_toLeftOf="@id/route_btn_search"
+            android:layout_toRightOf="@id/route_btn_back"            
+            android:src="@drawable/new_walk"/>
+    </RelativeLayout>    
+    
+    
+  	<LinearLayout
+        android:id="@+id/btn_input_place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"            
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:src="@drawable/btn_route_switch" 
+            android:background="@color/white"/>
+
+		<LinearLayout        	
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:orientation="vertical">
+
+           	<TextView
+            	android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white"
+                android:drawableLeft="@drawable/nav_route_start"
+                android:drawablePadding="10dip"
+                android:gravity="center_vertical"                    
+                android:paddingLeft="17dp"
+                android:text="我的位置"
+                android:textColor="@color/blue"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+             <TextView
+                 android:layout_width="fill_parent"
+                 android:layout_height="45dp"
+                 android:layout_marginTop="1dp"
+                 android:background="@color/white"
+                 android:clickable="true"
+                 android:drawableLeft="@drawable/nav_route_end"
+                 android:drawablePadding="10dp"
+                 android:gravity="center_vertical"
+                 android:onClick="jumpToInputEndPointClick"
+                 android:paddingLeft="17dp"
+                 android:text="输入终点. . ."
+                 android:textAppearance="?android:attr/textAppearanceMedium"
+                 android:textColor="@color/grey_light" />
+
+        </LinearLayout>                
+    </LinearLayout>
+
+	<include layout="@layout/template_clear_history_bar"/> 
+  	  		
+  	<ListView
+	    android:id="@+id/route_history_list"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop='10dp'
+	    android:background="@color/white" 
+	   	style="@style/styleContentAMargin">
+	</ListView>   
+	
+</LinearLayout>

@@ -2,37 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/GenActivtyTheme">
 
-    <RelativeLayout style="@style/styleTitleLayout">        
-        <ImageView
-            android:id="@+id/search_btn_back"
-            style="@style/styleTitleBtnBack"/>
-
-        <ImageView
-            android:id="@+id/search_btn_search"
-            style="@style/styleTitleBtnAction"
-            android:layout_alignBottom="@id/search_btn_back"
-            android:onClick="searchClick"
-            android:src="@drawable/btn_search" />
-
-        <EditText
-            android:id="@+id/search_text_input"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignBottom="@id/search_btn_back"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
-            android:layout_toLeftOf="@id/search_btn_search"
-            android:layout_toRightOf="@id/search_btn_back"
-            android:background="@color/white"
-            android:drawableLeft="@drawable/icon_searchbox"
-            android:hint="地点, 展品名称,语音导览编码"
-            android:inputType="text"
-            android:textColor="@color/black" >
-
-            <requestFocus />
-        </EditText>
-    </RelativeLayout>
+	<include layout="@layout/template_search_bar"/> 
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -95,6 +65,8 @@
             android:text="更多 >"
             android:textColor="@color/black" />
     </LinearLayout>
+    
+   <include layout="@layout/template_clear_history_bar"/> 
 
     <ListView
         android:id="@+id/search_history_list"

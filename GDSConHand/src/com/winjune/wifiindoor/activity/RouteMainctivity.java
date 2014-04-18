@@ -7,12 +7,12 @@ import android.view.View;
 
 import com.winjune.wifiindoor.R;
 
-public class RouteFirstActivity extends Activity {
+public class RouteMainctivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.route_first_ui);
+        setContentView(R.layout.activity_route_main);
     }
     
     public void backClick(View v) {
@@ -20,7 +20,7 @@ public class RouteFirstActivity extends Activity {
     }   
     
     public void jumpToInputEndPointClick(View v){		
-		Intent i = new Intent(this, RoutePointInputActivity.class); 
+		Intent i = new Intent(this, RouteInputActivity.class); 
 		startActivity(i);	
 	}
 }

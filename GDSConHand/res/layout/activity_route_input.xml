@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/GenActivtyTheme">
+
+    <include layout="@layout/template_search_bar"/>
+    
+    <RelativeLayout
+        style="@style/styleContentAMargin"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white" >
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_centerHorizontal="true"
+           android:layout_gravity="center_horizontal"
+           android:drawableLeft="@drawable/icon_select_on_map"
+           android:paddingBottom="10dp"
+           android:paddingTop="10dp"
+           android:text="地图选点 "
+           android:textAppearance="?android:attr/textAppearanceMedium"
+           android:textColor="@color/black" />
+
+    </RelativeLayout>  
+    
+    <include layout="@layout/template_clear_history_bar"/> 
+    
+    <ListView
+        android:id="@+id/search_history_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+		style="@style/styleContentAMargin"
+        android:layout_marginTop="10dp"
+        android:background="@color/white" >
+    </ListView>
+
+</LinearLayout>    

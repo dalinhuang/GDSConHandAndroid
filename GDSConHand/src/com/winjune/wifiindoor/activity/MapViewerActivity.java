@@ -792,7 +792,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	private void mapSwitchPopShow(View v){
 		LayoutInflater inflater = getLayoutInflater(); 
-		View view = inflater.inflate(R.layout.pop_window_map_switch, null); 
+		View view = inflater.inflate(R.layout.popup_map_switch, null); 
 		   
 		final PopupWindow pop = new PopupWindow(view, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, false); 		  				
 		pop.setBackgroundDrawable(new BitmapDrawable()); 
@@ -819,7 +819,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	public void routeBarClick(View v){
 	
-		Intent i = new Intent(this, RouteFirstActivity.class); 
+		Intent i = new Intent(this, RouteMainctivity.class); 
 		startActivity(i);	
 	}
 	

@@ -5,6 +5,7 @@
   <color name="black">#000000</color>
   <color name="grey_light">#A8A8A8</color>
   <color name="grey_light_light">#CDCDCD</color>  
+  <color name="blue">#0000ff</color>
   <color name="bg_color">#EDEDED</color>
   <color name="contents_text">#ff000000</color>
   <color name="encode_view">#ffffffff</color>
@@ -50,5 +51,5 @@
     <color name="action_bar_background_highlight">#cecece</color>
 
     <!-- Color of the text for buttons in the action bar  -->
-    <color name="action_bar_button_text_color">#FFFFFF</color>  
+    <color name="action_bar_button_text_color">#FFFFFF</color>
 </resources>

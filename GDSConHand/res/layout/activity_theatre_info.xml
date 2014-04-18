@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/GenActivtyTheme">
 
-   <include layout="@layout/template_title_bar"/>  
+   <include layout="@layout/template_title_bar_map"/>  
 
    <include layout="@layout/template_intro"/> 	 
               
