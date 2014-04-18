@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.PlayhouseInfoActivity.PlayhouseTimeList;
 import com.winjune.wifiindoor.dummy.DummyContent;
 
 public class BusStationInfoActivity extends Activity {
@@ -72,7 +71,7 @@ public class BusStationInfoActivity extends Activity {
 		    public View getView(int position, View convertView, ViewGroup parent){  
 		        LayoutInflater vi = LayoutInflater.from(context);  
 	 
-				View view=vi.inflate(R.layout.list_schedule, null);
+				View view=vi.inflate(R.layout.list_bus_lines, null);
 				//timeAndPlace.setText("test test test test");
 					        
 		        return view;  

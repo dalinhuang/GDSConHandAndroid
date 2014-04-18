@@ -11,6 +11,7 @@
  			android:layout_alignBottom="@id/title_btn_back"           
             android:drawableLeft="@drawable/icon_view_map"
             android:text="地图"
+            android:textColor="@color/black"
             android:gravity="center" 
             android:textAppearance="?android:attr/textAppearanceMedium" />
         

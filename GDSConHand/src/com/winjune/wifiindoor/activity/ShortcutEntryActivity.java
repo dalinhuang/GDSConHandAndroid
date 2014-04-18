@@ -20,11 +20,6 @@ public class ShortcutEntryActivity extends Activity {
   		startActivity(i);	
   	}
     
-    public void jumpToRestaurantMenu(View v){		
-  		Intent i = new Intent(this, RestaurantInfoActivity.class); 
-  		startActivity(i);	
-  	}
-    
     public void backClick(View v) {
     	onBackPressed();    	
     }    

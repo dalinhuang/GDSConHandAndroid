@@ -1,6 +1,8 @@
 package com.winjune.wifiindoor.activity;
 
 import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.adapter.ScheduleTimeList;
+import com.winjune.wifiindoor.dummy.DummyContent;
 
 import android.app.Activity;
 import android.content.res.TypedArray;
@@ -11,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
@@ -88,5 +91,22 @@ public class MovieInfoActivity extends Activity {
 			{
 			}
 		});
+		
+		ListView lv = (ListView)findViewById(R.id.schedule_list);
+		
+		ScheduleTimeList ada = new ScheduleTimeList(this, R.layout.list_event_by_time, DummyContent.ITEMS);
+		
+		lv.setAdapter(ada);
+		
+		lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});		
 	}
 }

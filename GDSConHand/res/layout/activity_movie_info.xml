@@ -51,7 +51,7 @@
 
 
 	<ListView
-	    android:id="@+id/playhouse_schedule_list"
+	    android:id="@+id/schedule_list"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content" 
 	   	style="@style/styleContentAMargin"

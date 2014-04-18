@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:paddingTop="5dp">
+
+    <TextView
+        android:id="@+id/bus_line_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="番202路"
+		android:gravity="clip_horizontal"        
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/bus_line_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/bus_line_no"
+        android:gravity="center_vertical"
+        android:text="(大学城科学中心总站 -大学城体育中心总站)"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/grey_light" />
+
+</RelativeLayout>

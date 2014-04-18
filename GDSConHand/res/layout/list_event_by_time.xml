@@ -26,8 +26,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:paddingTop="6dp"
+            android:paddingTop="6dp"            
             android:text="15分钟后  太空生活表演"
+            android:textColor="@color/black"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView

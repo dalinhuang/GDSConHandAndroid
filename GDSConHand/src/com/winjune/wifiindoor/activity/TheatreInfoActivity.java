@@ -5,7 +5,7 @@ import java.util.List;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.R.layout;
 import com.winjune.wifiindoor.R.menu;
-import com.winjune.wifiindoor.activity.PlayhouseInfoActivity.PlayhouseTimeList;
+import com.winjune.wifiindoor.adapter.ScheduleTimeList;
 import com.winjune.wifiindoor.dummy.DummyContent;
 
 import android.os.Bundle;
@@ -26,7 +26,7 @@ public class TheatreInfoActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_movie_info);
+		setContentView(R.layout.activity_theatre_info);
 		
 		ListView lv = (ListView)findViewById(R.id.movie_list);
 		

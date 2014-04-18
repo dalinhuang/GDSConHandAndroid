@@ -25,7 +25,7 @@
 	        android:layout_marginLeft="8dp"
 	        android:text="11:30 散场"
 	        android:textAppearance="?android:attr/textAppearanceSmall" />
->
+
     </LinearLayout>
     
     <TextView
