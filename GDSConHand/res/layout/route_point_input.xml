@@ -64,7 +64,7 @@
                 android:layout_marginRight="0.5dp"
                
                 android:background="@drawable/ic_item_pos_down"
-                android:drawableLeft="@drawable/magnifying_glass"
+                android:drawableLeft="@drawable/icon_searchbox"
                 android:drawablePadding="8.0dip"
                 android:ellipsize="none"
                 android:hint="输入终点"

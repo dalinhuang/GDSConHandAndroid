@@ -15,7 +15,8 @@
 	        android:layout_height="wrap_content"
 	        android:layout_marginLeft="5dp"
 	        android:text="11:00"
-	        android:textAppearance="?android:attr/textAppearanceLarge" />
+	        android:textColor="@color/black"
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
 	
 	    <TextView
 	        android:id="@+id/schedule_text_end"
@@ -33,11 +34,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="5dp"        
         android:drawableLeft="@drawable/icon_clock"
         android:clickable="true"
         android:onClick="onSetAlarmClick"
         android:text="设置提醒"
+        android:textColor="@color/black"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

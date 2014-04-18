@@ -154,11 +154,7 @@
     <string name="tts_language_unsupported">TTS is not supported in your device</string>
     <string name="tts_start_soon">Will play soon</string>
     <string name="search">Input the place</string>
-    <string name="title_activity_event_viewer">EventViewerActivity</string>
     <string name="action_settings">Settings</string>
-    <string name="title_menuitem_list">MenuItems</string>
-    <string name="title_menuitem_detail">MenuItem Detail</string>
-    <string name="title_activity_playhouse_info">PlayhouseInfoActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="download_now">Download</string>
     <string name="download_later">Later</string>

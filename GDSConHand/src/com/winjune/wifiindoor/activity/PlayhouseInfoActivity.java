@@ -77,7 +77,7 @@ public class PlayhouseInfoActivity extends Activity {
 	    public View getView(int position, View convertView, ViewGroup parent){  
 	        LayoutInflater vi = LayoutInflater.from(context);  
  
-			View view=vi.inflate(R.layout.list_playhouse_schedule, null);
+			View view=vi.inflate(R.layout.list_schedule, null);
 			//timeAndPlace.setText("test test test test");
 				        
 	        return view;  

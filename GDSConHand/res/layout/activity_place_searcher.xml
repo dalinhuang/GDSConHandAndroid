@@ -27,7 +27,7 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/search_button"
+            android:background="@drawable/btn_search"
             android:layout_weight="1"
             android:onClick="placeSearch" />
     </TableRow>

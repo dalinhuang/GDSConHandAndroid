@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/GenActivtyTheme">
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/GenActivtyTheme"
+    tools:context=".activity.ShortcutEntryActivity" >
 
-    <RelativeLayout style="@style/styleTitleLayout">
+    <RelativeLayout style="@style/styleTitleLayout" >
+
         <ImageView
             android:id="@+id/shortcut_btn_back"
             style="@style/styleTitleBtnBack" />
@@ -33,46 +36,54 @@
             android:orientation="vertical" >
 
             <!-- facility_layout -->
+
             <LinearLayout style="@style/styleShortcutLayer" >
+
                 <RelativeLayout style="@style/styleShortcutCategory" >
+
                     <TextView
                         style="@style/styleShortcutCatText"
                         android:text="服务设施" />
+
                     <ImageView
                         style="@style/styleShortcutCatIcon"
                         android:src="@drawable/icon_facility" />
                 </RelativeLayout>
 
-                <LinearLayout style="@style/styleShortcutItemLayer">
-                    <LinearLayout style="@style/styleShortcutItemLine">
-                   		  <TextView
-                        	style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
-                            android:text="洗手间"/>
-                    </LinearLayout>
+                <LinearLayout style="@style/styleShortcutItemLayer" >
 
-                    <LinearLayout style="@style/styleShortcutItemLine">
-                   		  <TextView
-                        	style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
-                            android:text="自助柜员机"/>
-
-                   		  <TextView
-                        	style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
-                            android:text="育婴室"/>
-                    </LinearLayout>
-
-                    <LinearLayout style="@style/styleShortcutItemLine">
-                   		  <TextView
-                        	style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
-                            android:text="亲水平台"/>
+                    <LinearLayout style="@style/styleShortcutItemLine" >
 
                         <TextView
-                        	style="@style/styleShortcutItem"
+                            style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/icon_broadcast"
-                            android:text="吸烟区"/>
+                            android:text="洗手间" />
+                    </LinearLayout>
+
+                    <LinearLayout style="@style/styleShortcutItemLine" >
+
+                        <TextView
+                            style="@style/styleShortcutItem"
+                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:text="自助柜员机" />
+
+                        <TextView
+                            style="@style/styleShortcutItem"
+                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:text="育婴室" />
+                    </LinearLayout>
+
+                    <LinearLayout style="@style/styleShortcutItemLine" >
+
+                        <TextView
+                            style="@style/styleShortcutItem"
+                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:text="亲水平台" />
+
+                        <TextView
+                            style="@style/styleShortcutItem"
+                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:text="吸烟区" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -80,25 +91,32 @@
 
 
             <!-- customer_service_layout -->
+
             <LinearLayout style="@style/styleShortcutLayer" >
+
                 <RelativeLayout style="@style/styleShortcutCategory" >
+
                     <TextView
                         style="@style/styleShortcutCatText"
                         android:text="客户服务" />
+
                     <ImageView
                         style="@style/styleShortcutCatIcon"
                         android:src="@drawable/icon_facility" />
                 </RelativeLayout>
 
-                <LinearLayout style="@style/styleShortcutItemLayer">
-                    <LinearLayout style="@style/styleShortcutItemLine">
+                <LinearLayout style="@style/styleShortcutItemLayer" >
+
+                    <LinearLayout style="@style/styleShortcutItemLine" >
+
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/icon_broadcast"
                             android:text="咨询台" />
                     </LinearLayout>
 
-                    <LinearLayout style="@style/styleShortcutItemLine">
+                    <LinearLayout style="@style/styleShortcutItemLine" >
+
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/icon_broadcast"
@@ -109,8 +127,9 @@
                             android:drawableLeft="@drawable/icon_broadcast"
                             android:text="医务室" />
                     </LinearLayout>
-                    
-                    <LinearLayout style="@style/styleShortcutItemLine">
+
+                    <LinearLayout style="@style/styleShortcutItemLine" >
+
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/icon_broadcast"
@@ -126,19 +145,26 @@
             </LinearLayout>
             <!-- customer_service_layout -->
 
+
             <!-- ticket_and_resturant_layout -->
+
             <LinearLayout style="@style/styleShortcutLayer" >
+
                 <RelativeLayout style="@style/styleShortcutCategory" >
+
                     <TextView
                         style="@style/styleShortcutCatText"
                         android:text="票务餐饮" />
+
                     <ImageView
                         style="@style/styleShortcutCatIcon"
                         android:src="@drawable/icon_facility" />
                 </RelativeLayout>
 
-                <LinearLayout style="@style/styleShortcutItemLayer">
-                    <LinearLayout style="@style/styleShortcutItemLine">
+                <LinearLayout style="@style/styleShortcutItemLayer" >
+
+                    <LinearLayout style="@style/styleShortcutItemLine" >
+
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/icon_broadcast"
@@ -150,8 +176,9 @@
                             android:onClick="restaurantClick"
                             android:text="餐厅" />
                     </LinearLayout>
-                    
-                    <LinearLayout style="@style/styleShortcutItemLine">
+
+                    <LinearLayout style="@style/styleShortcutItemLine" >
+
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/icon_broadcast"
@@ -167,32 +194,40 @@
             </LinearLayout>
             <!-- ticket_and_resturant_layout -->
 
+
             <!-- theatre_layout -->
+
             <LinearLayout style="@style/styleShortcutLayer" >
+
                 <RelativeLayout style="@style/styleShortcutCategory" >
+
                     <TextView
                         style="@style/styleShortcutCatText"
                         android:text="科技影院" />
+
                     <ImageView
                         style="@style/styleShortcutCatIcon"
                         android:src="@drawable/icon_facility" />
                 </RelativeLayout>
 
-                <LinearLayout style="@style/styleShortcutItemLayer">
-                    <LinearLayout style="@style/styleShortcutItemLine">
+                <LinearLayout style="@style/styleShortcutItemLayer" >
+
+                    <LinearLayout style="@style/styleShortcutItemLine" >
+
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/icon_broadcast"
                             android:onClick="iMaxTheatreClick"
                             android:text="巨幕影院" />
-                        
+
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/icon_broadcast"
                             android:text="四维影院" />
                     </LinearLayout>
 
-                    <LinearLayout style="@style/styleShortcutItemLine">
+                    <LinearLayout style="@style/styleShortcutItemLine" >
+
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/icon_broadcast"
@@ -202,46 +237,57 @@
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/icon_broadcast"
                             android:text="球幕影院" />
-                    </LinearLayout>                    
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
             <!-- theatre_layout -->
 
+
             <!-- show_room_layout -->
+
             <LinearLayout style="@style/styleShortcutLayer" >
+
                 <RelativeLayout style="@style/styleShortcutCategory" >
+
                     <TextView
                         style="@style/styleShortcutCatText"
                         android:text="主题展馆" />
+
                     <ImageView
                         style="@style/styleShortcutCatIcon"
                         android:src="@drawable/icon_facility" />
                 </RelativeLayout>
 
-                <LinearLayout style="@style/styleShortcutItemLayer">
-                    <LinearLayout style="@style/styleShortcutItemLine">
+                <LinearLayout style="@style/styleShortcutItemLayer" >
+
+                    <LinearLayout style="@style/styleShortcutItemLine" >
+
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/icon_broadcast"
                             android:text="试验与发现" />
+
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/icon_broadcast"
-                            android:text="儿童天地" />                        
+                            android:text="儿童天地" />
                     </LinearLayout>
-                    
-                    <LinearLayout style="@style/styleShortcutItemLine">
+
+                    <LinearLayout style="@style/styleShortcutItemLine" >
+
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/icon_broadcast"
                             android:text="交通时间" />
+
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/icon_broadcast"
-                            android:text="数码世界" />                        
+                            android:text="数码世界" />
                     </LinearLayout>
 
-                    <LinearLayout style="@style/styleShortcutItemLine">
+                    <LinearLayout style="@style/styleShortcutItemLine" >
+
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/icon_broadcast"
@@ -252,8 +298,9 @@
                             android:drawableLeft="@drawable/icon_broadcast"
                             android:text="飞天之梦" />
                     </LinearLayout>
-                    
-                    <LinearLayout style="@style/styleShortcutItemLine">
+
+                    <LinearLayout style="@style/styleShortcutItemLine" >
+
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/icon_broadcast"
@@ -267,7 +314,6 @@
                 </LinearLayout>
             </LinearLayout>
             <!-- show_room_layout -->
-
 
         </LinearLayout>
     </ScrollView>

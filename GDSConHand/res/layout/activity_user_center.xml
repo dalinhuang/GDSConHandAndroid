@@ -101,7 +101,6 @@
    
     <!-- 	setting layout -->	
     <RelativeLayout    
-        android:id = "@+id/setting_layout"        	        
    		android:layout_width="fill_parent"
    		android:onClick="settingBarClick"				        	        
         android:layout_height="50dp">
@@ -146,7 +145,6 @@
     
     <!-- 	check update layout -->	
     <RelativeLayout    
-        android:id = "@+id/check_update_layout"        	        
    		android:layout_width="fill_parent"				        	        
         android:layout_height="50dp"
         android:onClick="checkUpdateBarClick"        
@@ -192,7 +190,6 @@
 
     <!-- 	feedback layout -->	
     <RelativeLayout    
-        android:id = "@+id/feedback_layout"        	        
    		android:layout_width="fill_parent"	
    		android:onClick="feedbarBarClick"			        	        
         android:layout_height="50dp"        
@@ -238,7 +235,6 @@
 
     <!-- 	about layout -->	
     <RelativeLayout    
-        android:id = "@+id/about_layout"        	        
    		android:layout_width="fill_parent"				        	        
         android:layout_height="50dp"   
         android:onClick="aboutBarClick"     
@@ -295,7 +291,6 @@
    
     <!-- 	debug mode setting layout -->
     <RelativeLayout  
-        android:id = "@+id/exitapp_layout"        	        
    		android:layout_width="fill_parent"	
    		android:onClick="planningTuningBarClick"			        	        
         android:layout_height="50dp">
@@ -352,7 +347,6 @@
    
     <!-- 	exit app layout -->
     <RelativeLayout  
-        android:id = "@+id/exitapp_layout"        	        
    		android:layout_width="fill_parent"	
    		android:onClick="exitAppBarClick"			        	        
         android:layout_height="50dp">
