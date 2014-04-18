@@ -59,7 +59,12 @@ public class PlayhouseInfoActivity extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				
+				if (arg3 == 3){ // if the remind text is clicked
+					int startHour = mEventTimesOfToday.get(arg2).fromHour;
+					int startMinute = mEventTimesOfToday.get(arg2).fromMin;
+					
+					onSetAlarmClick(startHour, startMinute, arg2);
+				}
 			}
 			
 		});
@@ -73,11 +78,13 @@ public class PlayhouseInfoActivity extends Activity {
 
 		private int resourceId;  
 		private Context context;
+		private ArrayList<EventTime> mEventTimesOfToday;
 		 
-		public PlayhouseTimeList(Context context, int resource, List<EventTime> items) {
+		public PlayhouseTimeList(Context context, int resource, ArrayList<EventTime> items) {
 			super(context, resource, items);
 			this.context = context;
 			this.resourceId = resource;
+			this.mEventTimesOfToday = items;
 			// TODO Auto-generated constructor stub
 		}
 		
@@ -93,6 +100,12 @@ public class PlayhouseInfoActivity extends Activity {
 			
 			TextView scheduleEnd = (TextView) view.findViewById(R.id.schedule_text_end);
 			scheduleEnd.setText(mEventTimesOfToday.get(position).getEndTime());
+			
+			if (mEventTimesOfToday.get(position).getAlarmStatus()){
+				TextView remind = (TextView) view.findViewById(R.id.schedule_text_remind);
+				remind.setText(R.string.alarm_added);
+				remind.setTextColor(Color.RED);
+			}
 				        
 	        return view;  
 	    }   		
@@ -102,7 +115,7 @@ public class PlayhouseInfoActivity extends Activity {
 		onBackPressed();
 	}
 	
-	public void onSetAlarmClick(View v){
+	public void onSetAlarmClick(final int startHour, final int startMinute, final int index){
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(PlayhouseInfoActivity.this);
 		builder.setTitle("请选择提前提醒的时间")
@@ -140,8 +153,8 @@ public class PlayhouseInfoActivity extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
-				int startHour = 22; // TBD: this should be got from the adpater or the textView
-				int startMinute = 33; // TBD: this should be got from the adpater or the textView
+				int alarmHour; // TBD: this should be got from the adpater or the textView
+				int alarmMinute; // TBD: this should be got from the adpater or the textView
 				
 				Calendar currentTime = Calendar.getInstance();
 				
@@ -156,23 +169,26 @@ public class PlayhouseInfoActivity extends Activity {
 				PendingIntent pi = PendingIntent.getActivity(PlayhouseInfoActivity.this, 0, intent, 0);
 				
 				if (startMinute < mMinutesAhead){
-					startHour = startHour - 1;
-					startMinute = startMinute + 60 - mMinutesAhead;
+					alarmHour = startHour - 1;
+					alarmMinute = startMinute + 60 - mMinutesAhead;
 				}
 				else{
-					startMinute = startMinute - mMinutesAhead;
+					alarmHour = startHour;
+					alarmMinute = startMinute - mMinutesAhead;
 				}
 				
-				currentTime.set(Calendar.HOUR_OF_DAY, startHour);
-				currentTime.set(Calendar.MINUTE, startMinute);
+				currentTime.set(Calendar.HOUR_OF_DAY, alarmHour);
+				currentTime.set(Calendar.MINUTE, alarmMinute);
 				
 				mAlarmMgr.set(AlarmManager.RTC, currentTime.getTimeInMillis(), pi);
+				
+				mEventTimesOfToday.get(index).setAlarmStatus(true);
 				
 				TextView tv = (TextView) findViewById(R.id.schedule_text_remind);
 				tv.setText(R.string.alarm_added);
 				tv.setTextColor(Color.RED);
 				
-				Util.showToast(PlayhouseInfoActivity.this, "设置提醒成功！", Toast.LENGTH_SHORT);
+				//Util.showToast(PlayhouseInfoActivity.this, "设置提醒成功！", Toast.LENGTH_SHORT);
 
 				dialog.dismiss();
 			}

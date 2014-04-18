@@ -13,7 +13,6 @@ public class EventItem {
 	private ArrayList<EventTime> weekendTime;
 	private ArrayList<EventTime> festivalTime;
 	private String desc;
-	private Map<EventTime, Boolean> alarmMap;
 	
 	public EventItem(String title) {
 		this.title = title;
@@ -22,7 +21,6 @@ public class EventItem {
 		weekendTime = new ArrayList<EventTime>();
 		festivalTime = new ArrayList<EventTime>();
 		
-		alarmMap = new HashMap<EventTime, Boolean>();
 	}
 	
 	
@@ -95,14 +93,6 @@ public class EventItem {
 		this.normalDayTime.add(eventTime);				
 		this.weekendTime.add(eventTime);
 		this.festivalTime.add(eventTime);				
-	}
-	
-	public void setAlarm(EventTime et, Boolean isSet){
-		alarmMap.put(et, isSet);
-	}
-	
-	public Boolean getAlarm(EventTime et){
-		return alarmMap.get(et);
 	}
 	
 }

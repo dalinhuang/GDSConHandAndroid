@@ -6,6 +6,8 @@ public class EventTime {
 	public int toHour;
 	public int toMin;
 	
+	private boolean alarmAdded;
+	
 	public static int OPEN_HOUR 	= 9; // open time clock
 	public static int OPEN_MIN 		= 0;	
 	public static int CLOSE_HOUR 	= 17; // close time clock
@@ -32,6 +34,8 @@ public class EventTime {
 		this.fromMin = fromMin;
 		this.toHour = toHour;
 		this.toMin = toMin;		
+		
+		alarmAdded = false;
 		
 		return;
 	}
@@ -82,5 +86,13 @@ public class EventTime {
 		}
 		
 		return tmpStr;
+	}
+	
+	public boolean getAlarmStatus(){
+		return alarmAdded;
+	}
+	
+	public void setAlarmStatus(boolean status){
+		alarmAdded = status;
 	}
 }

@@ -37,8 +37,7 @@
         android:layout_marginRight="5dp"        
         android:drawableLeft="@drawable/icon_clock"
         android:clickable="true"
-        android:onClick="onSetAlarmClick"
-        android:text="设置提醒"
+        android:text="@string/set_alarm"
         android:textColor="@color/black"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
