@@ -203,6 +203,11 @@ public class EventManager {
 		return false;
 	}
 	
+	public static String getPlace(int placeNo){
+		
+		return placesMap.get(placeNo);
+	}
+	
 	public int[] getEventPlaces(){		
 		int[] places = new int[MaxPlaceNo];;
 
@@ -316,7 +321,7 @@ public class EventManager {
 		return todayEvent;
 	}
 	
-	public ArrayList<EventItem> getTodayEventListByTime(int fromHour, int toHour ){
+	public static ArrayList<EventItem> getTodayEventListByTime(int fromHour, int toHour ){
 		ArrayList<EventItem> todayEvent = new ArrayList<EventItem>();
 		ArrayList<EventTime> timeList;
 		

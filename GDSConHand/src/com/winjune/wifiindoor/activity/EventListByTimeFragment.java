@@ -1,5 +1,7 @@
 package com.winjune.wifiindoor.activity;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.content.Context;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.dummy.DummyContent;
+import com.winjune.wifiindoor.event.EventItem;
 import com.winjune.wifiindoor.event.EventManager;
 
 /**
@@ -27,6 +30,7 @@ import com.winjune.wifiindoor.event.EventManager;
 public class EventListByTimeFragment extends ListFragment {
 
 	private OnFragmentInteractionListener mListener;
+	private ArrayList<EventItem> mEventItems;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -39,9 +43,14 @@ public class EventListByTimeFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// TODO: Change Adapter to display your content
+		Calendar currentTime = Calendar.getInstance();
+		int currentHour = currentTime.get(Calendar.HOUR_OF_DAY);
+		int stopHour = 17; // 17:00 is the close time
+		
+		mEventItems = EventManager.getTodayEventListByTime(currentHour, stopHour);
+		
 		setListAdapter(new EventListByTime(getActivity(),
-				R.layout.list_event_by_time, DummyContent.ITEMS));
+				R.layout.list_event_by_time, mEventItems));
 	}
 
 /*	@Override
@@ -73,7 +82,7 @@ public class EventListByTimeFragment extends ListFragment {
 		}
 		
 		//TextView tv = (TextView) getListView().getItemAtPosition(position);
-		TextView tv = (TextView) l.findViewById(R.id.event_title);
+		TextView tv = (TextView) v.findViewById(R.id.event_title);
 		String title = tv.getText().toString();
 		
 		Intent i = new Intent(getActivity(), PlayhouseInfoActivity.class); 
@@ -97,12 +106,12 @@ public class EventListByTimeFragment extends ListFragment {
 		public void onFragmentInteraction(String id);
 	}
 	
-	public class EventListByTime extends ArrayAdapter<DummyContent.DummyItem> {
+	public class EventListByTime extends ArrayAdapter<EventItem> {
 
 		private int resourceId;  
 		private Context context;
 		 
-		public EventListByTime(Context context, int resource, List<DummyContent.DummyItem> items) {
+		public EventListByTime(Context context, int resource, ArrayList<EventItem> items) {
 			super(context, resource, items);
 			this.context = context;
 			this.resourceId = resource;
@@ -114,8 +123,13 @@ public class EventListByTimeFragment extends ListFragment {
 	        LayoutInflater vi = LayoutInflater.from(context);  
  
 			View view=vi.inflate(R.layout.list_event_by_time, null);
+			
+			TextView title = (TextView) view.findViewById(R.id.event_title);
+			title.setText(mEventItems.get(position).getTitle());
+			
 			TextView timeAndPlace = (TextView)view.findViewById(R.id.textView2);
-			//timeAndPlace.setText("test test test test");
+			String place = EventManager.getPlace(mEventItems.get(position).getPlaceNo());
+			timeAndPlace.setText(place);
 				        
 	        return view;  
 	    }   		
