@@ -19,6 +19,7 @@ import com.winjune.common.webservice.core.transport.OutgoingMessageQueue;
 import com.winjune.wifiindoor.R;
 import com.google.gson.Gson;
 import com.winjune.wifiindoor.drawing.graphic.ImageLoader;
+import com.winjune.wifiindoor.event.EventManager;
 import com.winjune.wifiindoor.network.CellInfoManager;
 import com.winjune.wifiindoor.network.NetworkInfoManager;
 import com.winjune.wifiindoor.network.NfcInfoManager;
@@ -705,6 +706,8 @@ public class Util {
         initialed = false;
         
         initial(activity);
+        
+        EventManager.initial();
         
         if (!getWifiInfoManager().isWifiEmbeded()) {
 			showLongToast(activity, R.string.no_wifi_embeded);

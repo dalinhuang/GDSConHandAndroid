@@ -118,7 +118,7 @@ public class PlayhouseInfoActivity extends Activity {
 		onBackPressed();
 	}
 	
-	public void onSetAlarmClick(final int startHour, final int startMinute, final int index){
+	public void onSetAlarmClick(final int startHour, final int startMinute, final int timeIndex){
 		
 		Calendar currentTime = Calendar.getInstance();
 		
@@ -188,7 +188,7 @@ public class PlayhouseInfoActivity extends Activity {
 				
 				mAlarmMgr.set(AlarmManager.RTC, currentTime.getTimeInMillis(), pi);
 				
-				
+				EventManager.getEventTodayTime(mEventTitle).get(timeIndex).setAlarmStatus(true);
 				
 				TextView tv = (TextView) findViewById(R.id.schedule_text_remind);
 				tv.setText(R.string.alarm_added);

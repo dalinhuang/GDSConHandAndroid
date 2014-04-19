@@ -17,12 +17,21 @@ public class EventManager {
 	private static ArrayList<EventItem> eventItems;
 	public static int MaxPlaceNo = 8;
 	
+	private static boolean initialed = false;
+	
 	public static int PANNEL_TIME_STEP  = 1; // the time based event show, interval
 			
 	public final static String Key_Event_Title = "Key_Event_Title";
 	
 	@SuppressLint("UseSparseArrays")
-	public EventManager(){
+	//public EventManager(){
+	public static void initial(){
+	
+		if (initialed){
+			return;
+		}
+		
+		initialed = true;
 		
 		festivalDays = new ArrayList<Date>();
 		addFestivalDay("2014-01-01");
@@ -177,7 +186,7 @@ public class EventManager {
 						
 	}
 	
-	private void addFestivalDay(String strDt) { 
+	private static void addFestivalDay(String strDt) { 
 	    // 2012-02-24  
 	    Date dt = java.sql.Date.valueOf(strDt);
 	    
