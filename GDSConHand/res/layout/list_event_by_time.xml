@@ -27,7 +27,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:paddingTop="6dp"            
-            android:text="太空生活表演"
             android:textColor="@color/black"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -36,8 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:paddingBottom="6dp"
-            android:text="时间:3:00 - 3:30  展馆:飞天之梦" />
+            android:paddingBottom="6dp" />
         
     </RelativeLayout>
 

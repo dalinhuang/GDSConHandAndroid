@@ -66,7 +66,7 @@ public class PlayhouseInfoActivity extends Activity {
 					int startHour = mEventTimesOfToday.get(arg2).fromHour;
 					int startMinute = mEventTimesOfToday.get(arg2).fromMin;
 					
-					onSetAlarmClick(startHour, startMinute, arg2);
+					onSetAlarmClick(startHour, startMinute, arg1, arg2);
 					
 			}
 			
@@ -102,8 +102,12 @@ public class PlayhouseInfoActivity extends Activity {
 			scheduleStart.setText(mEventTimesOfToday.get(position).getStartTime());
 			
 			TextView scheduleEnd = (TextView) view.findViewById(R.id.schedule_text_end);
-			scheduleEnd.setText(mEventTimesOfToday.get(position).getEndTime());
-			
+			String endTime = mEventTimesOfToday.get(position).getEndTime();
+			if (endTime != ""){
+				endTime = " - " + endTime; 
+				scheduleEnd.setText(endTime);
+			}
+						
 			if (mEventTimesOfToday.get(position).getAlarmStatus()){
 				TextView remind = (TextView) view.findViewById(R.id.schedule_text_remind);
 				remind.setText(R.string.alarm_added);
@@ -118,7 +122,7 @@ public class PlayhouseInfoActivity extends Activity {
 		onBackPressed();
 	}
 	
-	public void onSetAlarmClick(final int startHour, final int startMinute, final int timeIndex){
+	public void onSetAlarmClick(final int startHour, final int startMinute, final View v, final int timeIndex){
 		
 		Calendar currentTime = Calendar.getInstance();
 		
@@ -190,7 +194,7 @@ public class PlayhouseInfoActivity extends Activity {
 				
 				EventManager.getEventTodayTime(mEventTitle).get(timeIndex).setAlarmStatus(true);
 				
-				TextView tv = (TextView) findViewById(R.id.schedule_text_remind);
+				TextView tv = (TextView) v.findViewById(R.id.schedule_text_remind);
 				tv.setText(R.string.alarm_added);
 				tv.setTextColor(Color.RED);
 				
