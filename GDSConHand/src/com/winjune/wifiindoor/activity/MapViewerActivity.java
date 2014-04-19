@@ -46,6 +46,7 @@ import android.view.Menu;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -835,40 +836,19 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	public void locationBtnClick(View v) {
 		LayoutInflater inflater = getLayoutInflater(); 
-		View view = inflater.inflate(R.layout.popup_context_menu, null); 
+		View view = inflater.inflate(R.layout.popup_context_menu3, null); 
 		
 		final PopupWindow pop = new PopupWindow(view, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, false); 		  				
 		pop.setBackgroundDrawable(new BitmapDrawable()); 
         pop.setOutsideTouchable(true); 
         pop.setFocusable(true);
 
-		TextView tv = (TextView) pop.getContentView().findViewById(R.id.context_menu1_text);
-		tv.setText("分享");
-		tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_user_center, 0, 0, 0);
-		tv.setOnClickListener(new OnClickListener() {
+		Button btn1 = (Button) pop.getContentView().findViewById(R.id.button1);
+		btn1.setText("分享");
+		btn1.setOnClickListener(new OnClickListener() {
 			@Override
 		    public void onClick(View v) {
 				Log.e(TAG, "分享");
-			}
-		});
-		
-		tv = (TextView) pop.getContentView().findViewById(R.id.context_menu2_text);
-		tv.setText("周围");
-		tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_surrounding, 0, 0, 0);
-		tv.setOnClickListener(new OnClickListener() {
-			@Override
-		    public void onClick(View v) {
-				surroundingBarClick(v);
-			}
-		});
-
-		tv = (TextView) pop.getContentView().findViewById(R.id.context_menu3_text);
-		tv.setText("路线");
-		tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_route, 0, 0, 0);
-		tv.setOnClickListener(new OnClickListener() {
-			@Override
-		    public void onClick(View v) {
-				routeBarClick(v);
 			}
 		});
 

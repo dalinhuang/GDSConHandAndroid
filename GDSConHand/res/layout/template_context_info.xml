@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/context_info"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    
+    <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+           <TextView
+               android:id="@+id/text_label"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_centerVertical="true"
+               android:layout_marginLeft="5dp"
+               android:text="我的位置"
+               android:textAppearance="?android:attr/textAppearanceMedium"
+               android:textColor="@color/black" />
+
+           <TextView
+               android:id="@+id/btn_detail"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignParentRight="true"
+               android:layout_centerVertical="true"
+               android:layout_marginRight="5dp"
+               android:drawableLeft="@drawable/icon_detail"
+               android:text="详情"
+               android:textColor="@color/blue" />
+
+           <ImageView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_centerVertical="true"
+               android:layout_marginRight="8dp"
+               android:layout_toLeftOf="@+id/btn_detail"
+               android:src="@drawable/popup_divider" />
+    </RelativeLayout>
+        
+    <TextView
+        		android:id="@+id/text_summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="这是一个例子"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/grey_light" />
+</LinearLayout>

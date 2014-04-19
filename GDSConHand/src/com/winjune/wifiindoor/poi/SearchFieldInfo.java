@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor.map;
+package com.winjune.wifiindoor.poi;
 
 import java.io.Serializable;
 

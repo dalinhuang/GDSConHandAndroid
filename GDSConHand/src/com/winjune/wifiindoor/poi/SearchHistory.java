@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor.map;
+package com.winjune.wifiindoor.poi;
 
 
 import java.io.File;
@@ -16,7 +16,7 @@ import com.winjune.wifiindoor.util.Util;
  * @author jeffzha
  *
  */
-public class MapSearchInfo implements Serializable{
+public class SearchHistory implements Serializable{
 	private static final long serialVersionUID = 7866873863978783133L;
 	
 	private int id;
@@ -49,8 +49,8 @@ public class MapSearchInfo implements Serializable{
 	
 	//Set Alias for the XML serialization
 	private void setAlias(XStream xs){
-		xs.alias("MapSearchInfo", com.winjune.wifiindoor.map.MapSearchInfo.class);
-		xs.alias("SearchFieldInfo", com.winjune.wifiindoor.map.SearchFieldInfo.class);
+		xs.alias("SearchHistory", com.winjune.wifiindoor.poi.SearchHistory.class);
+		xs.alias("SearchFieldInfo", com.winjune.wifiindoor.poi.SearchFieldInfo.class);
 		//Invoke other objects' setAlias methods here
 	}
 	

@@ -11,8 +11,8 @@ import org.andengine.input.touch.TouchEvent;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.drawing.graphic.model.SpriteListener;
-import com.winjune.wifiindoor.map.MapSearchInfo;
-import com.winjune.wifiindoor.map.SearchFieldInfo;
+import com.winjune.wifiindoor.poi.SearchHistory;
+import com.winjune.wifiindoor.poi.SearchFieldInfo;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
@@ -22,7 +22,7 @@ public class SearchBar {
 	public static final float FLAG_ICON_SCALE = 4;
 
 	public static void loadSearchPlaces(MapViewerActivity mapViewer) {
-		MapSearchInfo mapSearchInfo = new MapSearchInfo();
+		SearchHistory mapSearchInfo = new SearchHistory();
 		boolean updateNeeded = false;
 
 		try {
@@ -51,7 +51,7 @@ public class SearchBar {
 	}
 
 
-	public static void showSearchPlacesInfo(MapViewerActivity mapViewer, MapSearchInfo mapSearchInfo) {
+	public static void showSearchPlacesInfo(MapViewerActivity mapViewer, SearchHistory mapSearchInfo) {
 		if (mapSearchInfo == null) {
 			return;
 		}
