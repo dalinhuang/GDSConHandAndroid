@@ -35,7 +35,6 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="5dp"        
         android:drawableLeft="@drawable/icon_clock"
-        android:clickable="true"
         android:text="@string/set_alarm"
         android:textColor="@color/black"
         android:textAppearance="?android:attr/textAppearanceLarge" />
