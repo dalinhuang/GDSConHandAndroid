@@ -55,6 +55,10 @@ public class TheatreInfoActivity extends Activity {
 		getMenuInflater().inflate(R.menu.movie_info, menu);
 		return true;
 	}
+	
+	public void backClick(View v){
+		onBackPressed();
+	}
 
 	public class MovieList extends ArrayAdapter<DummyContent.DummyItem> {
 

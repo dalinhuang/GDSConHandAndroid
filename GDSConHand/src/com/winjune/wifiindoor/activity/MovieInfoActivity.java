@@ -109,4 +109,8 @@ public class MovieInfoActivity extends Activity {
 			
 		});		
 	}
+	
+	public void backClick(View v){
+		onBackPressed();
+	}
 }

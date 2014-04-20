@@ -54,8 +54,13 @@ public class EventListByPlaceFragment extends Fragment {
 				public boolean onChildClick(ExpandableListView arg0, View arg1,
 						int arg2, int arg3, long arg4) {
 					// TODO Auto-generated method stub
+					TextView tv = (TextView) arg1.findViewById(R.id.EventTitle);
+					String title = tv.getText().toString();
 					
-					Intent i = new Intent(getActivity(), PlayhouseInfoActivity.class); 
+					Intent i = new Intent(getActivity(), PlayhouseInfoActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putString(EventManager.Key_Event_Title, title);
+					i.putExtras(bundle);
 					startActivity(i);					
 					return true;
 				}

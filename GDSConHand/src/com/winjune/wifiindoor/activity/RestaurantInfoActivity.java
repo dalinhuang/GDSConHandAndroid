@@ -7,6 +7,7 @@ import com.winjune.wifiindoor.R.layout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 import android.widget.ListView;
 
 /**
@@ -89,5 +90,9 @@ public class RestaurantInfoActivity extends FragmentActivity implements
 			detailIntent.putExtra(RestaurantMenuDetailFragment.ARG_ITEM_ID, id);
 			startActivity(detailIntent);
 		}
+	}
+	
+	public void backClick(View v){
+		onBackPressed();
 	}
 }
