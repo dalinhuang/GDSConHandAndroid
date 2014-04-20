@@ -43,8 +43,8 @@ public class EventListByTimeFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Calendar currentTime = Calendar.getInstance();
-		int currentHour = currentTime.get(Calendar.HOUR_OF_DAY);
+		//Calendar currentTime = Calendar.getInstance();
+		int currentHour = 9;
 		int stopHour = 17; // 17:00 is the close time
 		
 		mEventItems = EventManager.getTodayEventListByTime(currentHour, stopHour);

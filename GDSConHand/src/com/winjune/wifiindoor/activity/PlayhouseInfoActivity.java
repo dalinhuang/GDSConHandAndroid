@@ -96,7 +96,17 @@ public class PlayhouseInfoActivity extends Activity {
 	        LayoutInflater vi = LayoutInflater.from(context);  
  
 			View view=vi.inflate(R.layout.list_schedule, null);
-			//timeAndPlace.setText("test test test test");
+			
+			boolean playStarted = false;
+			Calendar currentTime = Calendar.getInstance();
+			int startHour = mEventTimesOfToday.get(position).fromHour;
+			int startMin = mEventTimesOfToday.get(position).fromMin;
+			
+			if ((currentTime.get(Calendar.HOUR_OF_DAY) > startHour) ||
+					((currentTime.get(Calendar.HOUR_OF_DAY) == startHour) && 
+					 (currentTime.get(Calendar.MINUTE) > startMin))){
+				playStarted = true;
+			}
 			
 			TextView scheduleStart = (TextView) view.findViewById(R.id.schedule_text_start);
 			scheduleStart.setText(mEventTimesOfToday.get(position).getStartTime());
@@ -107,11 +117,21 @@ public class PlayhouseInfoActivity extends Activity {
 				endTime = " - " + endTime; 
 				scheduleEnd.setText(endTime);
 			}
-						
+			
+			if (playStarted){
+				scheduleStart.setTextColor(Color.GRAY);
+				scheduleEnd.setTextColor(Color.GRAY);
+			}
+			
+			TextView remind = (TextView) view.findViewById(R.id.schedule_text_remind);
 			if (mEventTimesOfToday.get(position).getAlarmStatus()){
-				TextView remind = (TextView) view.findViewById(R.id.schedule_text_remind);
 				remind.setText(R.string.alarm_added);
 				remind.setTextColor(Color.RED);
+			}
+			else{
+				if (playStarted){
+					remind.setText("");
+				}
 			}
 				        
 	        return view;  
