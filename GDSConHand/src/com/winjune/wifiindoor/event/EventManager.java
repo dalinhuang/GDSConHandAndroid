@@ -22,6 +22,7 @@ public class EventManager {
 	public static int PANNEL_TIME_STEP  = 1; // the time based event show, interval
 			
 	public final static String Key_Event_Title = "Key_Event_Title";
+	public final static String Key_Event_Alarm_Time = "Key_Event_Alarm_Time";
 	
 	@SuppressLint("UseSparseArrays")
 	//public EventManager(){
@@ -340,6 +341,35 @@ public class EventManager {
 		
 		return todayEvent;
 	}
+	
+	public static ArrayList <EventTime> getEventAlarmTimeOfToday(EventItem ei){
 		
+		ArrayList<EventTime> timeList = getEventTodayTime(ei);
+		ArrayList<EventTime> alarmList = new ArrayList<EventTime>();
+		
+		for (EventTime et: timeList){
+			if (et.getAlarmStatus()){
+				alarmList.add(et);
+			}
+		}
+		
+		return alarmList;
+	}
+		
+	public static ArrayList <EventItem> getEventListByAlarm(){
+		
+		ArrayList<EventItem> events = new ArrayList<EventItem>();
+		ArrayList<EventTime> timeList;
+		
+		for (EventItem ei:eventItems){
+			timeList = getEventAlarmTimeOfToday(ei);
+			
+			if (!timeList.isEmpty()){
+				events.add(ei);
+			}
+		}
+		
+		return events;
+	}
 
 }
