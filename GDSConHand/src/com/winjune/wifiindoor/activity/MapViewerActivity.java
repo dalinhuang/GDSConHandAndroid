@@ -852,7 +852,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			}
 		});
 
-        pop.showAsDropDown(v, -42, -42);
+        pop.showAtLocation(v, Gravity.BOTTOM, 0, 0);
 	}
 
  	    

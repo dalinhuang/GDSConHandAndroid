@@ -1,5 +1,7 @@
 package com.winjune.wifiindoor.poi;
 
-public class PlayhouseInfo {
+public class PlayhouseInfo extends PlaceOfInterest{
+	
+	
 
 }

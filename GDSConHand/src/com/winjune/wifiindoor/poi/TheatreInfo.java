@@ -1,5 +1,8 @@
 package com.winjune.wifiindoor.poi;
 
-public class TheatreInfo {
+import java.util.ArrayList;
 
+public class TheatreInfo extends PlaceOfInterest{
+
+	ArrayList<MovieInfo> movieList;
 }
