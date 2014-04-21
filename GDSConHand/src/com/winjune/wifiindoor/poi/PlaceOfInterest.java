@@ -2,6 +2,10 @@ package com.winjune.wifiindoor.poi;
 
 public class PlaceOfInterest {
 	
+	int id;
+	
+	int mapId;
+	
 	int placeX;
 	int placeY;
 	

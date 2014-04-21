@@ -1,5 +1,13 @@
 package com.winjune.wifiindoor.navi;
 
-public class NaviHistory {
+import java.util.ArrayList;
 
+public class NaviHistory {
+	
+	ArrayList<NaviHisItem> historyList;
+	
+	class NaviHisItem {
+		NaviNode startNode;
+		NaviNode endNode;
+	}
 }
