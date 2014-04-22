@@ -47,7 +47,7 @@
 
                     <ImageView
                         style="@style/styleShortcutCatIcon"
-                        android:src="@drawable/icon_facility" />
+                        android:src="@drawable/ic_facility" />
                 </RelativeLayout>
 
                 <LinearLayout style="@style/styleShortcutItemLayer" >
@@ -56,7 +56,7 @@
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_washingroom"
                             android:text="洗手间" />
                     </LinearLayout>
 
@@ -64,12 +64,12 @@
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_atm"
                             android:text="自助柜员机" />
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_baby"
                             android:text="育婴室" />
                     </LinearLayout>
 
@@ -77,12 +77,12 @@
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_water_platform"
                             android:text="亲水平台" />
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_smoking"
                             android:text="吸烟区" />
                     </LinearLayout>
                 </LinearLayout>
@@ -102,7 +102,7 @@
 
                     <ImageView
                         style="@style/styleShortcutCatIcon"
-                        android:src="@drawable/icon_facility" />
+                        android:src="@drawable/ic_customer_service" />
                 </RelativeLayout>
 
                 <LinearLayout style="@style/styleShortcutItemLayer" >
@@ -111,7 +111,7 @@
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_consult"
                             android:text="咨询台" />
                     </LinearLayout>
 
@@ -119,12 +119,12 @@
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_broadcast"
                             android:text="广播室" />
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_health_room"
                             android:text="医务室" />
                     </LinearLayout>
 
@@ -132,13 +132,13 @@
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_baggage"
                             android:text="寄存室" />
 
                         <TextView
                             android:id="@+id/text_station"
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_complain"
                             android:text="投诉室" />
                     </LinearLayout>
                 </LinearLayout>
@@ -158,7 +158,7 @@
 
                     <ImageView
                         style="@style/styleShortcutCatIcon"
-                        android:src="@drawable/icon_facility" />
+                        android:src="@drawable/ic_ticket_food" />
                 </RelativeLayout>
 
                 <LinearLayout style="@style/styleShortcutItemLayer" >
@@ -167,12 +167,12 @@
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_ticket"
                             android:text="售票厅" />
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_restaurant"
                             android:onClick="restaurantClick"
                             android:text="餐厅" />
                     </LinearLayout>
@@ -181,13 +181,13 @@
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_coffee_shop"
                             android:text="咖啡厅" />
 
                         <TextView
                             android:id="@+id/text_station"
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_science_shop"
                             android:text="科学探索商店" />
                     </LinearLayout>
                 </LinearLayout>
@@ -207,7 +207,7 @@
 
                     <ImageView
                         style="@style/styleShortcutCatIcon"
-                        android:src="@drawable/icon_facility" />
+                        android:src="@drawable/ic_science_cinema" />
                 </RelativeLayout>
 
                 <LinearLayout style="@style/styleShortcutItemLayer" >
@@ -216,13 +216,13 @@
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_imax_theatre"
                             android:onClick="iMaxTheatreClick"
                             android:text="巨幕影院" />
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_4d_cinema"
                             android:text="四维影院" />
                     </LinearLayout>
 
@@ -230,12 +230,12 @@
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_virtual_flight_cinema"
                             android:text="虚拟航行影院" />
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_ball_cinema"
                             android:text="球幕影院" />
                     </LinearLayout>
                 </LinearLayout>
@@ -255,7 +255,7 @@
 
                     <ImageView
                         style="@style/styleShortcutCatIcon"
-                        android:src="@drawable/icon_facility" />
+                        android:src="@drawable/ic_playhouse" />
                 </RelativeLayout>
 
                 <LinearLayout style="@style/styleShortcutItemLayer" >
@@ -264,12 +264,12 @@
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_experiment"
                             android:text="试验与发现" />
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_kids"
                             android:text="儿童天地" />
                     </LinearLayout>
 
@@ -277,12 +277,12 @@
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
-                            android:text="交通时间" />
+                            android:drawableLeft="@drawable/ic_traffic_world"
+                            android:text="交通世界" />
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_digital_world"
                             android:text="数码世界" />
                     </LinearLayout>
 
@@ -290,12 +290,12 @@
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_green_home"
                             android:text="绿色家园" />
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_space_dream"
                             android:text="飞天之梦" />
                     </LinearLayout>
 
@@ -303,12 +303,12 @@
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_human_health"
                             android:text="人与健康" />
 
                         <TextView
                             style="@style/styleShortcutItem"
-                            android:drawableLeft="@drawable/icon_broadcast"
+                            android:drawableLeft="@drawable/ic_feel_thinking"
                             android:text="感知与思维" />
                     </LinearLayout>
                 </LinearLayout>
