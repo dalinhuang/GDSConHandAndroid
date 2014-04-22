@@ -1,5 +1,7 @@
 package com.winjune.wifiindoor.activity;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -8,9 +10,13 @@ import com.winjune.wifiindoor.activity.PlayhouseInfoActivity.PlayhouseTimeList;
 import com.winjune.wifiindoor.adapter.HistoryDataList;
 import com.winjune.wifiindoor.event.EventTime;
 import com.winjune.wifiindoor.map.FieldInfo;
+import com.winjune.wifiindoor.map.InterestPlace;
+import com.winjune.wifiindoor.map.InterestPlacesInfo;
 import com.winjune.wifiindoor.mapviewer.LabelBar;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.SearchHistory;
+import com.winjune.wifiindoor.util.IndoorMapData;
+import com.winjune.wifiindoor.util.Util;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -19,6 +25,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.text.Editable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,8 +92,41 @@ public class LabelSearchActivity extends Activity {
 				return false;
 		}
 				
-		return true;
+		return true;		
+	}
+	
+	public void playTtsAudio(int ttsNum) {
+		InterestPlacesInfo interestPlacesInfo = new InterestPlacesInfo();
 		
+		// load interest place list	
+		try {
+			InputStream map_file_is = new FileInputStream(Util.getInterestPlacesInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
+			
+			interestPlacesInfo.fromXML(map_file_is);
+		} catch (Exception e) {																		
+			e.printStackTrace();
+		}
+		
+		// look for the matched place record									
+		ArrayList<InterestPlace> places = interestPlacesInfo.getFields();
+		
+		if (places != null) {																		
+			for (InterestPlace place : places) {
+				if (place != null) {
+					if (place.getSerial() == ttsNum) {						
+						Intent intent_poi = new Intent(this, InterestPlaceTTSViewerActivity.class);
+
+						Bundle mBundle = new Bundle(); 
+						mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM,
+							IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_INPUT);
+						mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
+						intent_poi.putExtras(mBundle); 
+						startActivity(intent_poi);
+					} // (place.getSerial() == ttsNum 												
+				} // (place != null)
+			} //for (InterestPlace place : places)
+		}									
+
 	}
 	
 	public void searchClick(View v){		
@@ -99,16 +139,19 @@ public class LabelSearchActivity extends Activity {
 		if (text.isEmpty())
 			return;
 		
-		if (isInputTtsNum(text)) {
-
-			
-		}
-			
-			
 		SearchHistory.addHistoryRecord(inputText);		
+
 		
-		
+		if (isInputTtsNum(text)) {
+			
+			int ttsNum = Integer.parseInt(text);
+			
+			playTtsAudio(ttsNum);	
+
+		}		
 	}
+	
+	
 	
 	public void clearHistoryClick(View v) {
 		SearchHistory.clearHistory();
