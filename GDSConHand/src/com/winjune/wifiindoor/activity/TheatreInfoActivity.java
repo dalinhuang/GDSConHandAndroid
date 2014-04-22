@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -77,8 +78,16 @@ public class TheatreInfoActivity extends Activity {
 	        LayoutInflater vi = LayoutInflater.from(context);  
  
 			View view=vi.inflate(R.layout.list_event_by_time, null);
-			TextView timeAndPlace = (TextView)view.findViewById(R.id.textView2);
-			//timeAndPlace.setText("test test test test");
+			
+			ImageView icon = (ImageView)view.findViewById(R.id.list_event_icon);
+			icon.setImageResource(R.drawable.movie_hobbit_thumbnail);
+			
+			TextView movieTitle = (TextView)view.findViewById(R.id.event_title);
+			movieTitle.setText("霍比特人2");
+			
+			TextView movieSchedule = (TextView)view.findViewById(R.id.event_schedule);
+			movieSchedule.setText("11:00 - 13:00");
+			
 				        
 	        return view;  
 	    }  

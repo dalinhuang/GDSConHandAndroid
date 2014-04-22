@@ -7,12 +7,20 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+		android:paddingLeft="5dp"
+		android:paddingRight="5dp"
         android:src="@drawable/icon_history_time" />
 
     <TextView
         android:id="@+id/history_record"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"        
-        android:text="TextView" 
-        android:textColor="@color/grey_light"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:text="TextView"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/grey_light" />
+
 </LinearLayout>

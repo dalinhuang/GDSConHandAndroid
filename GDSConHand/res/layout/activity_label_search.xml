@@ -66,7 +66,7 @@
             android:textColor="@color/black" />
     </LinearLayout>
     
-   <include layout="@layout/template_clear_history_bar"/> 
+    <include layout="@layout/template_clear_history_bar"/> 
 
     <ListView
         android:id="@+id/search_history_list"

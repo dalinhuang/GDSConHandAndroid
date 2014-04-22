@@ -127,7 +127,7 @@ public class EventListByTimeFragment extends ListFragment {
 			TextView title = (TextView) view.findViewById(R.id.event_title);
 			title.setText(mEventItems.get(position).getTitle());
 			
-			TextView timeAndPlace = (TextView)view.findViewById(R.id.textView2);
+			TextView timeAndPlace = (TextView)view.findViewById(R.id.event_schedule);
 			String place = EventManager.getPlace(mEventItems.get(position).getPlaceNo());
 			timeAndPlace.setText(place);
 				        

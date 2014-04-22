@@ -3,6 +3,7 @@ package com.winjune.wifiindoor.adapter;
 import java.util.List;
 
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
@@ -34,8 +35,13 @@ public class ScheduleTimeList extends ArrayAdapter<DummyContent.DummyItem> {
 	        LayoutInflater vi = LayoutInflater.from(context);  
  
 			View view=vi.inflate(R.layout.list_schedule, null);
-			//timeAndPlace.setText("test test test test");
-				        
+
+			TextView movieTitle = (TextView)view.findViewById(R.id.schedule_text_start);
+			movieTitle.setText("11:00");
+			
+			TextView movieSchedule = (TextView)view.findViewById(R.id.schedule_text_end);
+			movieSchedule.setText(" - 13:00");			
+			
 	        return view;  
 	    }   		
 	}

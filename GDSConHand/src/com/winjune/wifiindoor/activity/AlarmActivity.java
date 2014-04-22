@@ -86,7 +86,7 @@ public class AlarmActivity extends Activity {
 			TextView title = (TextView) view.findViewById(R.id.event_title);
 			title.setText(events.get(position).getTitle());
 			
-			TextView tv = (TextView)view.findViewById(R.id.textView2);
+			TextView tv = (TextView)view.findViewById(R.id.event_schedule);
 			String times = "已关注时间：";
 			EventItem ei = events.get(position);
 			ArrayList<EventTime> timeList = EventManager.getEventAlarmTimeOfToday(ei);
