@@ -7,6 +7,7 @@ import com.winjune.wifiindoor.event.EventTime;
 public class MovieInfo {
 	private int id;
 	private int theaterId; // POI id
+	
 	private String generalDesc;
 	private String priceInfo;
 	private String posterUrl;

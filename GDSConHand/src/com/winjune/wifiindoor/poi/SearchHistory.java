@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.thoughtworks.xstream.XStream;
+import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 
@@ -19,16 +20,13 @@ import com.winjune.wifiindoor.util.Util;
 public class SearchHistory implements Serializable{
 	private static final long serialVersionUID = 7866873863978783133L;
 	
-	private int id;
 	private int versionCode;  // Reuse the map's versionCode, will cause re-download Map attributes and picture even only filed info changes. But I do not want to restructure the DB & runtimeIndoorMap
-	private ArrayList<SearchFieldInfo> searchFields;
+	private ArrayList<String> history;
 
-	public ArrayList<SearchFieldInfo> getSearchFields() {
-		return searchFields;
-	}
-
-	public void setSearchFields(ArrayList<SearchFieldInfo> searchFields) {
-		this.searchFields = searchFields;
+	
+	public void addSearchHistory(String searchInput) {
+		if (searchInput != null)
+			history.add(searchInput);
 	}
 
 	public int getVersionCode() {
@@ -38,33 +36,40 @@ public class SearchHistory implements Serializable{
 	public void setVersionCode(int versionCode) {
 		this.versionCode = versionCode;
 	}
+	
+	public void loadSearchHistory(SearchHistory searchHistory) {
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+		try {
+			InputStream map_file_is = new FileInputStream(Util.getSearchInfoFilePathName());
+			
+			searchHistory.fromXML(map_file_is);
+			// file has already been closed
+			//map_file_is.close();
+			
+			// For Files in SD Card but not
+			//load_map_rc = designMap.fromXML(IndoorMapData.map_file_path + map_file_name);
+			
+		} catch (Exception e) {
+			
+		}
+				
 	}
 	
+
+
 	//Set Alias for the XML serialization
 	private void setAlias(XStream xs){
-		xs.alias("SearchHistory", com.winjune.wifiindoor.poi.SearchHistory.class);
-		xs.alias("SearchFieldInfo", com.winjune.wifiindoor.poi.SearchFieldInfo.class);
+		xs.alias("SearchContext", com.winjune.wifiindoor.poi.SearchContext.class);
 		//Invoke other objects' setAlias methods here
 	}
 	
-	public boolean toXML(){
-		return toXML(id);
-	}
-	
 	//Serialize current IndoorMap to XML file
-	private boolean toXML(int mapId){
+	private boolean toXML(){
 		//Serialize this object
 		XStream xs = new XStream();
 		setAlias(xs);
 		
-		File file = Util.openOrCreateFileInPath(IndoorMapData.MAP_FILE_PATH_LOCAL+mapId+"/", IndoorMapData.MAP_SEARCH_INFO_FILE_NAME, false);
+		File file = Util.openOrCreateFileInPath(IndoorMapData.MAP_FILE_PATH_LOCAL, IndoorMapData.MAP_SEARCH_INFO_FILE_NAME, false);
 		
 		if (file == null) {
 			return false;

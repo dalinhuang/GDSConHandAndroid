@@ -366,7 +366,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		  break;
 		case SEARCH_REQUEST_CODE:
 			if (resultCode == RESULT_OK) {
-   			   SearchBar.loadSearchPlaces(this);
+   			   // SearchBar.loadSearchPlaces(this);
 			   zoomControl.zoomMostOut();
 			}
 			break;

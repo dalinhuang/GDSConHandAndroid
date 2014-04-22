@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class BusLine {
 	private int stationId; //POI id
+		
 	private String lineName;
 	private String startTime;
 	private String endTime;

@@ -10,8 +10,8 @@ import com.winjune.wifiindoor.R.layout;
 import com.winjune.wifiindoor.map.FieldInfo;
 import com.winjune.wifiindoor.map.MapInfo;
 import com.winjune.wifiindoor.mapviewer.LabelBar;
-import com.winjune.wifiindoor.poi.SearchHistory;
-import com.winjune.wifiindoor.poi.SearchFieldInfo;
+import com.winjune.wifiindoor.poi.SearchContext;
+import com.winjune.wifiindoor.poi.SearchResult;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 
@@ -124,8 +124,8 @@ public class PlaceSearcherActivity extends Activity {
 
 	private void saveSearchResults(String searchString) {
 		ArrayList<FieldInfo> fieldInfos = LabelBar.getMapInfo().getFields();
-		ArrayList<SearchFieldInfo> searchFieldInfos = new ArrayList<SearchFieldInfo>();
-		SearchHistory mapSearchInfo = new SearchHistory();
+		ArrayList<SearchResult> searchFieldInfos = new ArrayList<SearchResult>();
+		SearchContext mapSearchInfo = new SearchContext();
 		boolean find = false;
 		if (fieldInfos != null && !searchString.trim().isEmpty()) {
 
@@ -133,7 +133,7 @@ public class PlaceSearcherActivity extends Activity {
 				if (fieldInfo != null) {
 					if (fieldInfo.getInfo().indexOf(searchString, 0) != -1)
 					{
-						SearchFieldInfo searchFieldInfo = new SearchFieldInfo();
+						SearchResult searchFieldInfo = new SearchResult();
 						searchFieldInfo.setX(fieldInfo.getX());
 						searchFieldInfo.setY(fieldInfo.getY());
 						searchFieldInfos.add(searchFieldInfo);
@@ -145,10 +145,6 @@ public class PlaceSearcherActivity extends Activity {
 			
 			if (find)
 			{
-			   mapSearchInfo.setSearchFields(searchFieldInfos);
-			   mapSearchInfo.setId(LabelBar.getMapInfo().getId());
-			   mapSearchInfo.setVersionCode(LabelBar.getMapInfo().getVersionCode());
-			   mapSearchInfo.toXML();
 			}
 			else
 			{

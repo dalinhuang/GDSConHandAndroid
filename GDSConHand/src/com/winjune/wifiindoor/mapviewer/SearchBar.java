@@ -11,8 +11,8 @@ import org.andengine.input.touch.TouchEvent;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.drawing.graphic.model.SpriteListener;
-import com.winjune.wifiindoor.poi.SearchHistory;
-import com.winjune.wifiindoor.poi.SearchFieldInfo;
+import com.winjune.wifiindoor.poi.SearchContext;
+import com.winjune.wifiindoor.poi.SearchResult;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
@@ -21,37 +21,7 @@ public class SearchBar {
 
 	public static final float FLAG_ICON_SCALE = 4;
 
-	public static void loadSearchPlaces(MapViewerActivity mapViewer) {
-		SearchHistory mapSearchInfo = new SearchHistory();
-		boolean updateNeeded = false;
-
-		try {
-			InputStream map_file_is = new FileInputStream(Util.getSearchInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
-			
-			mapSearchInfo.fromXML(map_file_is);
-			// file has already been closed
-			//map_file_is.close();
-			
-			// For Files in SD Card but not
-			//load_map_rc = designMap.fromXML(IndoorMapData.map_file_path + map_file_name);
-			
-			if (mapSearchInfo.getVersionCode() != Util.getRuntimeIndoorMap().getVersionCode()) {
-				updateNeeded = true;
-			}
-		} catch (Exception e) {
-			updateNeeded = true;
-		}
-		
-		if (updateNeeded) {
-			// Jeff: Need user search again
-			return;
-		}
-		
-		showSearchPlacesInfo(mapViewer, mapSearchInfo);
-	}
-
-
-	public static void showSearchPlacesInfo(MapViewerActivity mapViewer, SearchHistory mapSearchInfo) {
+	public static void showSearchPlacesInfo(MapViewerActivity mapViewer, SearchContext mapSearchInfo) {
 		if (mapSearchInfo == null) {
 			return;
 		}
@@ -70,13 +40,13 @@ public class SearchBar {
 		}
 		
 		// Show New Map Info
-		ArrayList<SearchFieldInfo> places = mapSearchInfo.getSearchFields();
+		ArrayList<SearchResult> places = mapSearchInfo.getSearchFields();
 		
 		if (places == null) {
 			return;
 		}
 		
-		for (SearchFieldInfo place : places) {
+		for (SearchResult place : places) {
 			if (place != null) {
 				// X and Y = -1 mean the guide audio 
 				if ((place.getX() != -1)&& (place.getY() != -1)) {  
@@ -87,7 +57,7 @@ public class SearchBar {
 		
 	}
 
-	private static void addSearchPlace(MapViewerActivity mapViewer, SearchFieldInfo place) {
+	private static void addSearchPlace(MapViewerActivity mapViewer, SearchResult place) {
 		// Create and attach Sprite
 		Sprite placeSprite = createSearchPlaceSprite(mapViewer, place);
 		
@@ -99,7 +69,7 @@ public class SearchBar {
 		mapViewer.searchPlaces.add(placeSprite);
 	}
 	
-	private static Sprite createSearchPlaceSprite(final MapViewerActivity mapViewer, final SearchFieldInfo place) {		
+	private static Sprite createSearchPlaceSprite(final MapViewerActivity mapViewer, final SearchResult place) {		
 		Sprite placeSprite = Library.SEARCH_PLACE.load(mapViewer, new SpriteListener() {
 
 			@Override

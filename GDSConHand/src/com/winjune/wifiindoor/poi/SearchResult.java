@@ -2,10 +2,9 @@ package com.winjune.wifiindoor.poi;
 
 import java.io.Serializable;
 
-public class SearchFieldInfo implements Serializable {
+public class SearchResult implements Serializable {
 	private static final long serialVersionUID = -4968185882242111254L;
 	
-	private String searchText;
 	private int x;
 	private int y;
 
@@ -24,13 +23,4 @@ public class SearchFieldInfo implements Serializable {
 	public void setY(int y) {
 		this.y = y;
 	}
-	
-	public String getText() {
-		return searchText;
-	}
-
-	public void setText(String txt) {
-		this.searchText = txt;
-	}
-
 }
