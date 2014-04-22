@@ -84,7 +84,12 @@ public class EventViewerActivity extends FragmentActivity implements
 			// this tab is selected.
 						
 			Tab tab = actionBar.newTab();			
-			tab.setIcon(R.drawable.list_by_time);
+			if (i == 0){
+				tab.setIcon(R.drawable.list_by_time);
+			}
+			else{
+				tab.setIcon(R.drawable.list_by_place);
+			}
 			tab.setText(mSectionsPagerAdapter.getPageTitle(i));
 			tab.setTabListener(this);
 			actionBar.addTab(tab);		
