@@ -34,6 +34,8 @@ import android.widget.TextView;
 
 public class LabelSearchActivity extends Activity {
 	
+	private static int TTS_DIGIT_NUM = 4;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -70,13 +72,42 @@ public class LabelSearchActivity extends Activity {
 	  	onBackPressed();    	
 	}  		
 	
+	private boolean isInputTtsNum(String text) {
+		
+		if (text == null)
+			return false;
+				
+		if (text.length() != TTS_DIGIT_NUM) 
+			return false;
+			
+		for (int i=0; i<text.length(); i++) {
+			if (!Character.isDigit(text.charAt(i)))
+				return false;
+		}
+				
+		return true;
+		
+	}
+	
 	public void searchClick(View v){		
 		AutoCompleteTextView searchTextView = (AutoCompleteTextView) findViewById(R.id.search_text_input);
 		
 		String inputText = searchTextView.getText().toString();		
 		
+		String text = inputText.trim();
+		
+		if (text.isEmpty())
+			return;
+		
+		if (isInputTtsNum(text)) {
+
+			
+		}
+			
+			
 		SearchHistory.addHistoryRecord(inputText);		
-				
+		
+		
 	}
 	
 	public void clearHistoryClick(View v) {

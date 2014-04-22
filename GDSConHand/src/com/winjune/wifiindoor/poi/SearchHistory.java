@@ -35,12 +35,7 @@ public class SearchHistory implements Serializable{
 	}
 	
 	public static void addHistoryRecord(String searchInput) {				
-		if (searchInput != null) {
-			String text = searchInput.trim();
-			
-			if (text.isEmpty())
-				return;
-			
+		if (searchInput != null) {			
 			history.add(searchInput);
 		}
 	}
