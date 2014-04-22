@@ -170,7 +170,7 @@ public class Tuner {
 		}
 		
 		
-		key = "LINUX_SERVER_IP";
+		key = "PRIMARY_SERVER";
 		value = properties.getProperty(key);
 		if (value != null) {
 			WifiIpsSettings.PRIMARY_SERVER = value.trim();
