@@ -152,13 +152,13 @@
 
         <ImageView
             android:id="@+id/icon_checkupdate"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:paddingLeft="10dp"
+            android:paddingLeft="15dp"
             android:background="@color/white"
-            android:src="@drawable/icon_update" />
+            android:src="@drawable/ic_update" />
 
         <ImageView
             android:id="@+id/icon_next_checkupdate"
