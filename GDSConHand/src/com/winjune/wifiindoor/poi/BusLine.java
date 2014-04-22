@@ -23,8 +23,8 @@ public class BusLine {
 		
 		stopList = new ArrayList<String>();
 		
-		for (int i=0; i<stops.length; i++)
-			stopList.add(stops[i]);
+		for (String stop:stops)
+			stopList.add(stop);
 	}
 	
 	public String getLineName(){

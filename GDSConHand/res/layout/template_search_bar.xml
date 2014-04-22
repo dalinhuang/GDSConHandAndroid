@@ -13,7 +13,7 @@
             android:onClick="searchClick"
             android:src="@drawable/btn_search" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/search_text_input"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -30,5 +30,5 @@
             android:textColor="@color/black" >
 
             <requestFocus />
-        </EditText>
+        </AutoCompleteTextView>
     </RelativeLayout>

@@ -25,7 +25,7 @@ public class MapInfo implements Serializable{
 
 	public ArrayList<FieldInfo> getFields() {
 		return fields;
-	}
+	} 
 
 	public void setFields(ArrayList<FieldInfo> fields) {
 		this.fields = fields;

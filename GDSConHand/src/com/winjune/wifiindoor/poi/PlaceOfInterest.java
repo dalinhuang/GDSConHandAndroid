@@ -40,6 +40,14 @@ public class PlaceOfInterest {
 	private float minZoomFactor;
 	private float maxZoomFactor;
 	
+	public int getMapId(){
+		return mapId;
+	}
+	
+	public void setMapId(int mapId) {
+		this.mapId = mapId;
+	}
+	
 	public int getX() {
 		return placeX;
 	}

@@ -19,30 +19,36 @@ import com.winjune.wifiindoor.util.Util;
  */
 public class SearchHistory implements Serializable{
 	private static final long serialVersionUID = 7866873863978783133L;
-	
-	private int versionCode;  // Reuse the map's versionCode, will cause re-download Map attributes and picture even only filed info changes. But I do not want to restructure the DB & runtimeIndoorMap
-	private ArrayList<String> history;
 
-	
-	public void addSearchHistory(String searchInput) {
-		if (searchInput != null)
-			history.add(searchInput);
-	}
+	private static ArrayList<String> history = new ArrayList<String>();
 
-	public int getVersionCode() {
-		return versionCode;
-	}
-
-	public void setVersionCode(int versionCode) {
-		this.versionCode = versionCode;
+	public static String[] getHistoryArray(){
+        String[] recordArray = new String[0];
+           
+        recordArray = history.toArray(recordArray);
+        
+        return recordArray;
 	}
 	
-	public void loadSearchHistory(SearchHistory searchHistory) {
-
-		try {
-			InputStream map_file_is = new FileInputStream(Util.getSearchInfoFilePathName());
+	public static ArrayList<String> getHistory(){
+		return history;
+	}
+	
+	public static void addHistoryRecord(String searchInput) {				
+		if (searchInput != null) {
+			String text = searchInput.trim();
 			
-			searchHistory.fromXML(map_file_is);
+			if (text.isEmpty())
+				return;
+			
+			history.add(searchInput);
+		}
+	}
+	
+	public static void loadHistory() {
+
+		try {		
+			fromXML(Util.getSearchInfoFilePathName());
 			// file has already been closed
 			//map_file_is.close();
 			
@@ -55,16 +61,18 @@ public class SearchHistory implements Serializable{
 				
 	}
 	
-
-
+	public static void clearHistory(){
+		history.clear();
+	}
+	
 	//Set Alias for the XML serialization
-	private void setAlias(XStream xs){
+	private static void setAlias(XStream xs){
 		xs.alias("SearchContext", com.winjune.wifiindoor.poi.SearchContext.class);
 		//Invoke other objects' setAlias methods here
 	}
 	
 	//Serialize current IndoorMap to XML file
-	private boolean toXML(){
+	private static boolean toXML(){
 		//Serialize this object
 		XStream xs = new XStream();
 		setAlias(xs);
@@ -78,7 +86,7 @@ public class SearchHistory implements Serializable{
 		//Write to the map info file
 		try{
 			FileOutputStream fos = new FileOutputStream(file);
-			xs.toXML(this, fos);
+			xs.toXML(fos);
 			
 			fos.close();
 		}catch(Exception ex){
@@ -90,12 +98,12 @@ public class SearchHistory implements Serializable{
 	}
 	
 	//Set current InoorMap from XML file
-	public boolean fromXML(InputStream map_file_is){
+	public static boolean fromXML(InputStream map_file_is){
 		XStream xs = new XStream();
 		setAlias(xs);
 
 		try {
-			xs.fromXML(map_file_is, this);
+			xs.fromXML(map_file_is);
 			
 			map_file_is.close();
 			return true;
@@ -107,13 +115,13 @@ public class SearchHistory implements Serializable{
 	}
 	
 	//Set current IndoorMap from XML file
-	public boolean fromXML(String map_file_path){
+	public static boolean fromXML(String map_file_path){
 		XStream xs = new XStream();
 		setAlias(xs);
 
 		try {
 			FileInputStream fis = new FileInputStream(map_file_path);
-			xs.fromXML(fis, this);
+			xs.fromXML(fis);
 			
 			fis.close();
 			return true;
@@ -124,12 +132,5 @@ public class SearchHistory implements Serializable{
 		return false;
 	}
 	
-	//test
-	public String toString(){
-		//Serialize this object
-		XStream xs = new XStream();
-		setAlias(xs);
-		return xs.toXML(this);
-	}	
 	
 }
