@@ -130,7 +130,7 @@ public class PlayhouseInfoActivity extends Activity {
 			}
 			else{
 				if (playStarted){
-					remind.setText("");
+					remind.setVisibility(View.INVISIBLE);
 				}
 			}
 				        

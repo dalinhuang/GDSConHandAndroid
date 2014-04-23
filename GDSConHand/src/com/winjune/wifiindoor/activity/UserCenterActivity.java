@@ -91,4 +91,10 @@ public class UserCenterActivity extends Activity {
          
          finish();
 	}
+	
+	public void myFavorateClick(View v){
+		
+		Intent intent = new Intent(UserCenterActivity.this, AlarmActivity.class);
+		startActivity(intent);
+	}
 }

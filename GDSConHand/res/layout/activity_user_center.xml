@@ -58,6 +58,30 @@
                         android:text="分享我的位置" />
                 </RelativeLayout>
                 <!-- share position layout -->
+                
+                <!-- My favorate layout -->
+
+                <RelativeLayout
+                    android:id="@+id/my_favorate_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:onClick="myFavorateClick"
+                    android:paddingTop="1dp" >
+
+                    <ImageView
+                        android:id="@+id/icon_user_center_item"
+                        style="@style/styleUserCenterItemIcon"
+                        android:src="@drawable/icon_share_position" />
+
+                    <ImageView
+                        android:id="@+id/icon_user_center_next"
+                        style="@style/styleUserCenterItemNext" />
+
+                    <TextView
+                        style="@style/styleUserCenterItemText"
+                        android:text="我的关注" />
+                </RelativeLayout>
+                <!-- My favorate layout -->
             </LinearLayout>
 
             <LinearLayout

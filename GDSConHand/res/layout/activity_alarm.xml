@@ -1,19 +1,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    style="@style/GenActivtyTheme"
     tools:context=".AlarmActivity" >
+
+    <RelativeLayout style="@style/styleTitleLayout" >
+
+        <ImageView
+            android:id="@+id/btn_back"
+            style="@style/styleTitleBtnBack" />
+
+        <ImageView
+            android:id="@+id/btn_setting"
+            style="@style/styleTitleBtnAction"
+            android:layout_alignBottom="@id/btn_back"
+            android:src="@drawable/btn_setting" />
+
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/styleTitleText"
+            android:layout_alignBottom="@id/btn_back"
+            android:layout_toLeftOf="@id/btn_setting"
+            android:layout_toRightOf="@id/btn_back"
+            android:text="我的关注" />
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/eventListByAlarm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" >
-
+        android:layout_below="@+id/relativeLayout1" >
     </ListView>
 
 </RelativeLayout>
