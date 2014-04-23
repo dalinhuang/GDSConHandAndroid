@@ -109,7 +109,7 @@ public class StartupActivity extends Activity implements OnInitListener{
         Util.initApp(this);
         
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		isFirstStartup = prefs.getBoolean("firstStartup", true);
+		isFirstStartup = prefs.getBoolean("firstStartup", false); // disable the guide pages as they are not so necessary
 		//isFirstStartup = true;
         
         new AsyncTask<Void, Void, Integer> () {
