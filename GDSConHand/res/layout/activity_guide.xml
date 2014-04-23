@@ -44,38 +44,42 @@
 	        android:orientation="horizontal" >
 
 	        <ImageView
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
+	            android:layout_width="25sp"
+	            android:layout_height="25sp"
 	            android:layout_gravity="center_vertical"
 	            android:clickable="true"
 	            android:padding="15sp"
+	            android:scaleType="center"
 	            android:background="@android:color/transparent"
 	            android:src="@drawable/dot" />
 
 	        <ImageView
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
+	            android:layout_width="25sp"
+	            android:layout_height="25sp"
 	            android:layout_gravity="center_vertical"
 	            android:clickable="true"
 	            android:padding="15sp"
+	            android:scaleType="center"
 	            android:background="@android:color/transparent"
 	            android:src="@drawable/dot" />
 
 	        <ImageView
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
+	            android:layout_width="25sp"
+	            android:layout_height="25sp"
 	            android:layout_gravity="center_vertical"
 	            android:clickable="true"
 	            android:padding="15sp"
+	            android:scaleType="center"
 	            android:background="@android:color/transparent"
 	            android:src="@drawable/dot" />
 	        
 	        <ImageView
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
+	            android:layout_width="25sp"
+	            android:layout_height="25sp"
 	            android:layout_gravity="center_vertical"
 	            android:clickable="true"
 	            android:padding="15sp"
+	            android:scaleType="center"
 	            android:background="@android:color/transparent"
 	            android:src="@drawable/dot" />
 	    </LinearLayout>

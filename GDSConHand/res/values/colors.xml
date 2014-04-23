@@ -52,4 +52,5 @@
 
     <!-- Color of the text for buttons in the action bar  -->
     <color name="action_bar_button_text_color">#FFFFFF</color>
+    <color name="green">#00ff00</color>
 </resources>
