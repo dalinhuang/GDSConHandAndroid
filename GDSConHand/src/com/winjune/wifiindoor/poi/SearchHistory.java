@@ -17,6 +17,9 @@ import com.winjune.wifiindoor.util.Util;
  * @author jeffzha
  *
  */
+// To do list
+// the records needs to be sorted reversely
+// before add new record, need to check if it is already in the history, if yes, need to adjust the order
 public class SearchHistory implements Serializable{
 	private static final long serialVersionUID = 7866873863978783133L;
 

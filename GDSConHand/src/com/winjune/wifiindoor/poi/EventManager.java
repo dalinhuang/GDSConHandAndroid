@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor.event;
+package com.winjune.wifiindoor.poi;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -259,7 +259,7 @@ public class EventManager {
 		return null;
 	}
 	
-	public static ArrayList<EventTime> getEventTodayTime(String title){
+	public static ArrayList<ScheduleTime> getEventTodayTime(String title){
 		
 		EventItem et = getEventByTitle(title);
 		
@@ -270,7 +270,7 @@ public class EventManager {
 		return null;
 	}
 
-	private static ArrayList<EventTime> getEventTodayTime(EventItem et) {
+	private static ArrayList<ScheduleTime> getEventTodayTime(EventItem et) {
 		
 		
 		Date dt = new Date(0);;		
@@ -279,7 +279,7 @@ public class EventManager {
         int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK) - 1;
         if (dayOfWeek < 0 )	dayOfWeek = 0;
         
-        ArrayList<EventTime> timeList;
+        ArrayList<ScheduleTime> timeList;
         if (isFestivalDay(dt)) {
         	timeList = et.getFestivalTime();
         } else if ((dayOfWeek == 0) || (dayOfWeek == 6))  {
@@ -296,14 +296,14 @@ public class EventManager {
 		if (ei == null)
 			return null;		
 		       
-        ArrayList<EventTime> timeList = getEventTodayTime(ei);
+        ArrayList<ScheduleTime> timeList = getEventTodayTime(ei);
        		
 		if (timeList == null)
 			return null;
 		
 		String eventInfo = "";
 		
-		for ( EventTime et: timeList){
+		for ( ScheduleTime et: timeList){
 			eventInfo += et.toString() + "  ";
 		}
 		
@@ -324,12 +324,12 @@ public class EventManager {
 	
 	public static ArrayList<EventItem> getTodayEventListByTime(int fromHour, int toHour ){
 		ArrayList<EventItem> todayEvent = new ArrayList<EventItem>();
-		ArrayList<EventTime> timeList;
+		ArrayList<ScheduleTime> timeList;
 		
 		for (EventItem ei:eventItems) {
 			
 			timeList = getEventTodayTime(ei);
-			for (EventTime et: timeList){				
+			for (ScheduleTime et: timeList){				
 				
 				//some event only has start time								
 				if ((et.fromHour >= fromHour) && (et.fromHour < toHour)) {						
@@ -342,12 +342,12 @@ public class EventManager {
 		return todayEvent;
 	}
 	
-	public static ArrayList <EventTime> getEventAlarmTimeOfToday(EventItem ei){
+	public static ArrayList <ScheduleTime> getEventAlarmTimeOfToday(EventItem ei){
 		
-		ArrayList<EventTime> timeList = getEventTodayTime(ei);
-		ArrayList<EventTime> alarmList = new ArrayList<EventTime>();
+		ArrayList<ScheduleTime> timeList = getEventTodayTime(ei);
+		ArrayList<ScheduleTime> alarmList = new ArrayList<ScheduleTime>();
 		
-		for (EventTime et: timeList){
+		for (ScheduleTime et: timeList){
 			if (et.getAlarmStatus()){
 				alarmList.add(et);
 			}
@@ -359,7 +359,7 @@ public class EventManager {
 	public static ArrayList <EventItem> getEventListByAlarm(){
 		
 		ArrayList<EventItem> events = new ArrayList<EventItem>();
-		ArrayList<EventTime> timeList;
+		ArrayList<ScheduleTime> timeList;
 		
 		for (EventItem ei:eventItems){
 			timeList = getEventAlarmTimeOfToday(ei);

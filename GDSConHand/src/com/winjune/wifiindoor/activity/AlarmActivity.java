@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.R.layout;
 import com.winjune.wifiindoor.R.menu;
-import com.winjune.wifiindoor.event.EventItem;
-import com.winjune.wifiindoor.event.EventManager;
-import com.winjune.wifiindoor.event.EventTime;
+import com.winjune.wifiindoor.poi.EventItem;
+import com.winjune.wifiindoor.poi.EventManager;
+import com.winjune.wifiindoor.poi.ScheduleTime;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -89,8 +89,8 @@ public class AlarmActivity extends Activity {
 			TextView tv = (TextView)view.findViewById(R.id.event_schedule);
 			String times = "已关注时间：";
 			EventItem ei = events.get(position);
-			ArrayList<EventTime> timeList = EventManager.getEventAlarmTimeOfToday(ei);
-			for (EventTime et : timeList){
+			ArrayList<ScheduleTime> timeList = EventManager.getEventAlarmTimeOfToday(ei);
+			for (ScheduleTime et : timeList){
 				times += et.getStartTime();
 			}
 			tv.setText(times);

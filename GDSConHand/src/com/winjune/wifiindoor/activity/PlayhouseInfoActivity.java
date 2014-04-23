@@ -6,8 +6,8 @@ import java.util.List;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.dummy.DummyContent;
-import com.winjune.wifiindoor.event.EventManager;
-import com.winjune.wifiindoor.event.EventTime;
+import com.winjune.wifiindoor.poi.EventManager;
+import com.winjune.wifiindoor.poi.ScheduleTime;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.adapter.ScheduleTimeList;
 
@@ -35,7 +35,7 @@ public class PlayhouseInfoActivity extends Activity {
 	private AlarmManager mAlarmMgr;
 	private int mMinutesAhead;
 	private String mEventTitle;
-	private ArrayList<EventTime> mEventTimesOfToday;
+	private ArrayList<ScheduleTime> mEventTimesOfToday;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +77,13 @@ public class PlayhouseInfoActivity extends Activity {
 		mMinutesAhead = 5; //By default the alarm time is 5 minutes ahead
 	}
 	
-	public class PlayhouseTimeList extends ArrayAdapter<EventTime> {
+	public class PlayhouseTimeList extends ArrayAdapter<ScheduleTime> {
 
 		private int resourceId;  
 		private Context context;
-		private ArrayList<EventTime> mEventTimesOfToday;
+		private ArrayList<ScheduleTime> mEventTimesOfToday;
 		 
-		public PlayhouseTimeList(Context context, int resource, ArrayList<EventTime> items) {
+		public PlayhouseTimeList(Context context, int resource, ArrayList<ScheduleTime> items) {
 			super(context, resource, items);
 			this.context = context;
 			this.resourceId = resource;

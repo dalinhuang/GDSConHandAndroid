@@ -14,7 +14,9 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
 
-import com.winjune.wifiindoor.event.*;
+import com.winjune.wifiindoor.poi.EventItem;
+import com.winjune.wifiindoor.poi.EventManager;
+import com.winjune.wifiindoor.poi.ScheduleTime;
 
 public class EventViewerListByTimeActivity extends ExpandableListActivity{
 		private EventManager eventManager;
@@ -34,27 +36,27 @@ public class EventViewerListByTimeActivity extends ExpandableListActivity{
 	  
 	    public class TimeAdapter extends BaseExpandableListAdapter {   
 	      
-	        private EventTime timeListGroup[];   
+	        private ScheduleTime timeListGroup[];   
 	    	private ArrayList<ArrayList<EventItem>>  eventsListChild;
   
 	    	public TimeAdapter(){
-	    		int adjustedCloseHour = EventTime.CLOSE_HOUR;
+	    		int adjustedCloseHour = ScheduleTime.CLOSE_HOUR;
 	    		
-	    		if ( EventTime.CLOSE_MIN > 0)
+	    		if ( ScheduleTime.CLOSE_MIN > 0)
 	    			adjustedCloseHour ++;
 	    		
 	    		// EventManager.PANNEL_TIME_STEP - 1 is used to adjust the num
-	    		int timeListNum = (adjustedCloseHour - EventTime.OPEN_HOUR + EventManager.PANNEL_TIME_STEP - 1)/EventManager.PANNEL_TIME_STEP;
+	    		int timeListNum = (adjustedCloseHour - ScheduleTime.OPEN_HOUR + EventManager.PANNEL_TIME_STEP - 1)/EventManager.PANNEL_TIME_STEP;
 	    		
-	    		timeListGroup = new EventTime[timeListNum];
+	    		timeListGroup = new ScheduleTime[timeListNum];
 	    		eventsListChild = new ArrayList<ArrayList<EventItem>>();
 	    		
-	    		int fromTime = EventTime.OPEN_HOUR;
+	    		int fromTime = ScheduleTime.OPEN_HOUR;
 	    		int	toTime;
 	    		for (int i=0; i<timeListNum; i++) {
 	    			toTime = fromTime + EventManager.PANNEL_TIME_STEP;
 	    			
-	    			timeListGroup[i] = new EventTime(fromTime, 0, toTime, 0);	    			
+	    			timeListGroup[i] = new ScheduleTime(fromTime, 0, toTime, 0);	    			
 	    			ArrayList<EventItem> eventsByTime = eventManager.getTodayEventListByTime(fromTime, toTime);	
 	    			
 	    			eventsListChild.add(eventsByTime);

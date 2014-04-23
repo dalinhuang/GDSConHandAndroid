@@ -2,17 +2,16 @@ package com.winjune.wifiindoor.poi;
 
 import java.util.ArrayList;
 
-import com.winjune.wifiindoor.event.EventTime;
-
 public class MovieInfo {
 	private int id;
 	private int theaterId; // POI id
 	
 	private String generalDesc;
 	private String priceInfo;
-	private String posterUrl;
-	private ArrayList<EventTime> todaySchedule;
-	private ArrayList<EventTime> tomorrowSchedule;
+	private String iconUrl; // for icon display in theatre activity
+	private String posterUrl; // for display in movie activity and social share
+	private ArrayList<ScheduleTime> todaySchedule;
+	private ArrayList<ScheduleTime> tomorrowSchedule;
 	
 	public MovieInfo(int id, String generalDesc, String price, String posterUrl) {
 		this.id = id;
@@ -33,11 +32,11 @@ public class MovieInfo {
 		return posterUrl;
 	}
 	
-	public ArrayList<EventTime> getTodaySchedule(){
+	public ArrayList<ScheduleTime> getTodaySchedule(){
 		return todaySchedule;
 	}
 
-	public ArrayList<EventTime> getTomorrowSchedule(){
+	public ArrayList<ScheduleTime> getTomorrowSchedule(){
 		return tomorrowSchedule;
 	}
 }

@@ -21,7 +21,8 @@ import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.TextView;
 
-import com.winjune.wifiindoor.event.*;
+import com.winjune.wifiindoor.poi.EventItem;
+import com.winjune.wifiindoor.poi.EventManager;
 
 public class EventListByPlaceFragment extends Fragment {
 		

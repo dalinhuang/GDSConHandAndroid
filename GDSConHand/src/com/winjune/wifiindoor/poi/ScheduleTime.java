@@ -1,6 +1,6 @@
-package com.winjune.wifiindoor.event;
+package com.winjune.wifiindoor.poi;
 
-public class EventTime {
+public class ScheduleTime {
 	public int fromHour;
 	public int fromMin;
 	public int toHour;
@@ -14,7 +14,7 @@ public class EventTime {
 	public static int CLOSE_MIN 	= 0;
 	
 	
-	public EventTime (int fromHour, int fromMin, int toHour, int toMin) {
+	public ScheduleTime (int fromHour, int fromMin, int toHour, int toMin) {
 		
 		this.fromHour = 0;
 		this.fromMin = 0;

@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor.event;
+package com.winjune.wifiindoor.poi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,17 +9,17 @@ public class EventItem {
 	private int placeX;
 	private int placeY;
 	private int placeNo;	
-	private ArrayList<EventTime> normalDayTime;
-	private ArrayList<EventTime> weekendTime;
-	private ArrayList<EventTime> festivalTime;
+	private ArrayList<ScheduleTime> normalDayTime;
+	private ArrayList<ScheduleTime> weekendTime;
+	private ArrayList<ScheduleTime> festivalTime;
 	private String desc;
 	
 	public EventItem(String title) {
 		this.title = title;
 		
-		normalDayTime = new ArrayList<EventTime>();
-		weekendTime = new ArrayList<EventTime>();
-		festivalTime = new ArrayList<EventTime>();
+		normalDayTime = new ArrayList<ScheduleTime>();
+		weekendTime = new ArrayList<ScheduleTime>();
+		festivalTime = new ArrayList<ScheduleTime>();
 		
 	}
 	
@@ -38,41 +38,41 @@ public class EventItem {
 		return title;
 	}
 	
-	public ArrayList<EventTime> getNormalDayTime() {
+	public ArrayList<ScheduleTime> getNormalDayTime() {
 		return normalDayTime;
 	}
 	
-	public ArrayList<EventTime> getWeekendTime() {
+	public ArrayList<ScheduleTime> getWeekendTime() {
 		return weekendTime;
 	}
 
-	public ArrayList<EventTime> getFestivalTime() {
+	public ArrayList<ScheduleTime> getFestivalTime() {
 		return normalDayTime;
 	}
 
 	
 	public void addNormalDayTime(int fromHour, int fromMin, int toHour, int toMin){
-		EventTime eventTime = new EventTime(fromHour, fromMin, toHour, toMin);		
+		ScheduleTime eventTime = new ScheduleTime(fromHour, fromMin, toHour, toMin);		
 		this.normalDayTime.add(eventTime);		
 	}
 	
 	public void addWeekendTime(int fromHour, int fromMin, int toHour, int toMin){
 				
-		EventTime eventTime = new EventTime(fromHour, fromMin, toHour, toMin);
+		ScheduleTime eventTime = new ScheduleTime(fromHour, fromMin, toHour, toMin);
 		
 		this.weekendTime.add(eventTime);				
 	}
 	
 	public void addFestivalTime(int fromHour, int fromMin, int toHour, int toMin){
 				
-		EventTime eventTime = new EventTime(fromHour, fromMin, toHour, toMin);
+		ScheduleTime eventTime = new ScheduleTime(fromHour, fromMin, toHour, toMin);
 		
 		this.festivalTime.add(eventTime);				
 	}
 	
 	public void addWeekdayTime(int fromHour, int fromMin, int toHour, int toMin){
 		
-		EventTime eventTime = new EventTime(fromHour, fromMin, toHour, toMin);
+		ScheduleTime eventTime = new ScheduleTime(fromHour, fromMin, toHour, toMin);
 		
 		this.normalDayTime.add(eventTime);		
 		this.weekendTime.add(eventTime);				
@@ -80,7 +80,7 @@ public class EventItem {
 	
 	public void addHolidayTime(int fromHour, int fromMin, int toHour, int toMin){
 		
-		EventTime eventTime = new EventTime(fromHour, fromMin, toHour, toMin);
+		ScheduleTime eventTime = new ScheduleTime(fromHour, fromMin, toHour, toMin);
 		
 		this.weekendTime.add(eventTime);
 		this.festivalTime.add(eventTime);				
@@ -88,7 +88,7 @@ public class EventItem {
 	
 	public void addAllTime(int fromHour, int fromMin, int toHour, int toMin){
 		
-		EventTime eventTime = new EventTime(fromHour, fromMin, toHour, toMin);
+		ScheduleTime eventTime = new ScheduleTime(fromHour, fromMin, toHour, toMin);
 		
 		this.normalDayTime.add(eventTime);				
 		this.weekendTime.add(eventTime);

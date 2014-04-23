@@ -9,6 +9,8 @@ public class POIManager {
 	
 	public static ArrayList<PlaceOfInterest> POIList = new ArrayList<PlaceOfInterest>();
 	
+	
+	
 	public static PlaceOfInterest findNearestPOI(int mapId, int placeX, int PlaceY) {
 	
 		return null;
@@ -59,4 +61,16 @@ public class POIManager {
 		}		
 	}
 	
+	
+	public static void addSamples(){
+		BusStation aBusStation = new BusStation();
+		
+		POIList.add(aBusStation);
+		
+		
+		TheatreInfo aTheatre = new TheatreInfo();
+		POIList.add(aTheatre);
+				
+		
+	}
 }

@@ -17,8 +17,8 @@ import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.dummy.DummyContent;
-import com.winjune.wifiindoor.event.EventItem;
-import com.winjune.wifiindoor.event.EventManager;
+import com.winjune.wifiindoor.poi.EventItem;
+import com.winjune.wifiindoor.poi.EventManager;
 
 /**
  * A fragment representing a list of Items.
