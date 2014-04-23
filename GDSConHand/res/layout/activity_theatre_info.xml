@@ -2,8 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/GenActivtyTheme">
 
-   <include layout="@layout/template_title_bar_map"/>  
-
+   <include layout="@layout/template_title_bar_map"/>
+     
+   <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" />
+   
    <include layout="@layout/template_intro"/> 	 
               
    <TextView        
