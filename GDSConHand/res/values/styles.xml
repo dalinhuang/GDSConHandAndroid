@@ -162,8 +162,50 @@
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
         <item name="android:textColor">@color/black</item>
     </style>
+     
     <style name="styleUserCenterItemIcon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentTop">true</item>        
         <item name="android:background">@color/white</item>
         <item name="android:paddingLeft">10dp</item>
+    </style>
+                                
+    <style name="styleUserCenterItemText" parent="android:Widget.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignBottom">@id/icon_user_center_item</item>
+        <item name="android:layout_alignTop">@id/icon_user_center_item</item>
+        <item name="android:layout_toRightOf">@id/icon_user_center_item</item>
+        <item name="android:layout_toLeftOf">@+id/icon_user_center_next</item>                
+        <item name="android:layout_centerVertical">true</item>       
+        <item name="android:background">@color/white</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    
+    <style name="styleUserCenterItemNext">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">fill_parent</item>    
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_alignParentTop">true</item>                
+        <item name="android:background">@color/white</item>
+        <item name="android:src">@drawable/icon_next</item>
+        <item name="android:paddingRight">10dp</item>
+    </style>
+                    
+    <style name="styleUserCenterLay">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>            
+        <item name="android:background">@color/grey_light</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">1dp</item>
     </style>
 </resources>

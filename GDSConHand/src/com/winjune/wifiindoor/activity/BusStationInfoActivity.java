@@ -39,10 +39,8 @@ public class BusStationInfoActivity extends Activity {
 				 Intent i = new Intent(BusStationInfoActivity.this, BusLineInfoActivity.class);
 			     startActivity(i);   
 				
-			}
-			
-		});
-		
+			}			
+		});		
 	}
 
 	 public void backClick(View v) {

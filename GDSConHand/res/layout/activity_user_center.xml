@@ -1,7 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/GenActivtyTheme">
-    
-   <RelativeLayout style="@style/styleTitleLayout">
+    style="@style/GenActivtyTheme" >
+
+    <RelativeLayout style="@style/styleTitleLayout" >
+
         <ImageView
             android:id="@+id/btn_back"
             style="@style/styleTitleBtnBack" />
@@ -18,380 +19,197 @@
             android:layout_alignBottom="@id/btn_back"
             android:layout_toLeftOf="@id/btn_setting"
             android:layout_toRightOf="@id/btn_back"
-            android:text="我的" />      
+            android:text="我的" />
     </RelativeLayout>
-    
-<ScrollView 
-	android:layout_width="fill_parent"
-  	android:layout_height="wrap_content"
-  	android:layout_marginTop="1dp"
-  	android:background="@color/grey_light_light"
-   	android:scrollbars="none">
 
-<LinearLayout 
-	android:layout_width="fill_parent"
-  	android:layout_height="wrap_content"  	
-  	android:orientation="vertical">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/grey_light_light"
+        android:scrollbars="none" >
 
-<LinearLayout     
-	android:layout_width="fill_parent"
-  	android:layout_height="wrap_content"
-	android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginTop="10dp"    	  	
-  	android:orientation="vertical"
-  	android:background="@color/grey_light"
-    android:padding="1dp">
-   
-    <!-- 	share position layout -->	
-    <RelativeLayout    
-        android:id = "@+id/share_position_layout"        	        
-   		android:layout_width="fill_parent"				        	        
-        android:layout_height="50dp"        >
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-        <ImageView
-            android:id="@+id/icon_share_position"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:paddingLeft="10dp"
-            android:background="@color/white"
-            android:src="@drawable/icon_share_position" />
+            <LinearLayout
+                style="@style/styleUserCenterLay">
 
-        <ImageView
-            android:id="@+id/icon_next_share_position"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:paddingRight="10dp"
-            android:background="@color/white"
-            android:src="@drawable/icon_next" />
+                <!-- share position layout -->
 
-         <TextView
-             android:id="@+id/text_share_position"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_alignBottom="@id/icon_share_position"
-             android:layout_alignTop="@id/icon_share_position"
-             android:layout_centerVertical="true"
-             android:layout_toLeftOf="@+id/icon_next_share_position"
-             android:layout_toRightOf="@+id/icon_share_position"
-             android:background="@color/white"
-             android:gravity="center_vertical"
-             android:lines="1"
-             android:paddingLeft="10dp"
-             android:text="分享我的位置"
-             android:textAppearance="?android:attr/textAppearanceMedium"
-             android:textColor="@color/black" />    	   
-    </RelativeLayout>   <!-- 	setting layout -->    
-</LinearLayout>        
-    
-    
-<LinearLayout     
-	android:layout_width="fill_parent"
-  	android:layout_height="wrap_content"
-	android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginTop="10dp"    	  	
-  	android:orientation="vertical"
-  	android:background="@color/grey_light"
-    android:padding="1dp">
-   
-    <!-- 	setting layout -->	
-    <RelativeLayout    
-   		android:layout_width="fill_parent"
-   		android:onClick="settingBarClick"				        	        
-        android:layout_height="50dp">
+                <RelativeLayout
+                    android:id="@+id/share_position_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp" >
 
-        <ImageView
-            android:id="@+id/icon_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"            
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:paddingLeft="10dp"
-            android:background="@color/white"
-            android:src="@drawable/icon_setting" />
+                    <ImageView
+                        android:id="@+id/icon_user_center_item"
+                        style="@style/styleUserCenterItemIcon"
+                        android:src="@drawable/icon_share_position" />
 
-        <ImageView
-            android:id="@+id/icon_next_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"            
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:paddingRight="10dp"
-            android:background="@color/white"
-            android:src="@drawable/icon_next" />
+                    <ImageView
+                        android:id="@+id/icon_user_center_next"
+                        style="@style/styleUserCenterItemNext" />
 
-         <TextView
-             android:id="@+id/text_setting"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"             
-             android:layout_alignBottom="@id/icon_setting"
-             android:layout_alignTop="@id/icon_setting"
-             android:layout_centerVertical="true"
-             android:layout_toLeftOf="@+id/icon_next_setting"
-             android:layout_toRightOf="@+id/icon_setting"
-             android:background="@color/white"
-             android:gravity="center_vertical"
-             android:lines="1"
-             android:paddingLeft="10dp"
-             android:text="设置"
-             android:textAppearance="?android:attr/textAppearanceMedium"
-             android:textColor="@color/black" />    	   
-    </RelativeLayout>   <!-- 	setting layout -->
-    
-    <!-- 	check update layout -->	
-    <RelativeLayout    
-   		android:layout_width="fill_parent"				        	        
-        android:layout_height="50dp"
-        android:onClick="checkUpdateBarClick"        
-        android:paddingTop ="1dp">
+                    <TextView
+                        style="@style/styleUserCenterItemText"
+                        android:text="分享我的位置" />
+                </RelativeLayout>
+                <!-- share position layout -->
+            </LinearLayout>
 
-        <ImageView
-            android:id="@+id/icon_checkupdate"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:paddingLeft="15dp"
-            android:background="@color/white"
-            android:src="@drawable/ic_update" />
+            <LinearLayout
+                style="@style/styleUserCenterLay">
 
-        <ImageView
-            android:id="@+id/icon_next_checkupdate"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:paddingRight="10dp"
-            android:background="@color/white"
-            android:src="@drawable/icon_next" />
+                <!-- setting layout -->
 
-         <TextView
-             android:id="@+id/text_feedback"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_alignBottom="@id/icon_checkupdate"
-             android:layout_alignTop="@id/icon_checkupdate"
-             android:layout_centerVertical="true"
-             android:layout_toLeftOf="@+id/icon_next_checkupdate"
-             android:layout_toRightOf="@+id/icon_checkupdate"
-             android:background="@color/white"
-             android:gravity="center_vertical"
-             android:lines="1"
-             android:paddingLeft="10dp"
-             android:text="检查更新"
-             android:textAppearance="?android:attr/textAppearanceMedium"
-             android:textColor="@color/black" />    	   
-    </RelativeLayout>   <!-- 	check update layout -->    
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:onClick="settingBarClick" >
 
-    <!-- 	feedback layout -->	
-    <RelativeLayout    
-   		android:layout_width="fill_parent"	
-   		android:onClick="feedbarBarClick"			        	        
-        android:layout_height="50dp"        
-        android:paddingTop ="1dp">
+                    <ImageView
+                        android:id="@+id/icon_user_center_item"
+                        style="@style/styleUserCenterItemIcon"
+                        android:src="@drawable/icon_setting" />
 
-        <ImageView
-            android:id="@+id/icon_feedback"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:paddingLeft="10dp"
-            android:background="@color/white"
-            android:src="@drawable/icon_feedback" />
+                    <ImageView
+                        android:id="@+id/icon_user_center_next"
+                        style="@style/styleUserCenterItemNext" />
 
-        <ImageView
-            android:id="@+id/icon_next_feedback"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:paddingRight="10dp"
-            android:background="@color/white"
-            android:src="@drawable/icon_next" />
-
-         <TextView
-             android:id="@+id/text_feedback"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_alignBottom="@id/icon_feedback"
-             android:layout_alignTop="@id/icon_feedback"
-             android:layout_centerVertical="true"
-             android:layout_toLeftOf="@+id/icon_next_feedback"
-             android:layout_toRightOf="@+id/icon_feedback"
-             android:background="@color/white"
-             android:gravity="center_vertical"
-             android:lines="1"
-             android:paddingLeft="10dp"
-             android:text="反馈与建议"
-             android:textAppearance="?android:attr/textAppearanceMedium"
-             android:textColor="@color/black" />    	   
-    </RelativeLayout>   <!-- 	feedback layout -->
-
-    <!-- 	about layout -->	
-    <RelativeLayout    
-   		android:layout_width="fill_parent"				        	        
-        android:layout_height="50dp"   
-        android:onClick="aboutBarClick"     
-        android:paddingTop ="1dp">
-
-        <ImageView
-            android:id="@+id/icon_about"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:paddingLeft="10dp"
-            android:background="@color/white"
-            android:src="@drawable/icon_about" />
-
-        <ImageView
-            android:id="@+id/icon_next_about"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:paddingRight="10dp"
-            android:background="@color/white"
-            android:src="@drawable/icon_next" />
-
-         <TextView
-             android:id="@+id/text_setting"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_alignBottom="@id/icon_about"
-             android:layout_alignTop="@id/icon_about"
-             android:layout_centerVertical="true"
-             android:layout_toLeftOf="@+id/icon_next_about"
-             android:layout_toRightOf="@+id/icon_about"
-             android:background="@color/white"
-             android:gravity="center_vertical"
-             android:lines="1"
-             android:paddingLeft="10dp"
-             android:text="关于"
-             android:textAppearance="?android:attr/textAppearanceMedium"
-             android:textColor="@color/black" />    	   
-    </RelativeLayout>   <!-- 	about layout --> 
-</LinearLayout>
-
-<LinearLayout     
-	android:layout_width="fill_parent"
-  	android:layout_height="wrap_content"
-	android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginTop="10dp"    	  	
-  	android:orientation="vertical"
-  	android:background="@color/grey_light"
-    android:padding="1dp">
-   
-    <!-- 	debug mode setting layout -->
-    <RelativeLayout  
-   		android:layout_width="fill_parent"	
-   		android:onClick="planningTuningBarClick"			        	        
-        android:layout_height="50dp">
-
-        <ImageView
-            android:id="@+id/icon_planning_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:paddingLeft="10dp"
-            android:background="@color/white"
-            android:src="@drawable/icon_setting" />
-
-        <ImageView
-            android:id="@+id/icon_next_planningsetting"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:paddingRight="10dp"
-            android:background="@color/white"
-            android:src="@drawable/icon_next" />
-
-         <TextView
-             android:id="@+id/text_exitapp"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_alignBottom="@id/icon_planning_setting"
-             android:layout_alignTop="@id/icon_planning_setting"
-             android:layout_centerVertical="true"
-             android:layout_toLeftOf="@+id/icon_next_planningsetting"
-             android:layout_toRightOf="@+id/icon_planning_setting"
-             android:background="@color/white"
-             android:gravity="center_vertical"
-             android:lines="1"
-             android:paddingLeft="10dp"
-             android:text="调试设置"
-             android:textAppearance="?android:attr/textAppearanceMedium"
-             android:textColor="@color/black" />    	    
-    </RelativeLayout>  <!-- 	debug mode setting layout -->       
-</LinearLayout>     
+                    <TextView
+                        style="@style/styleUserCenterItemText"                      
+                        android:text="设置" />
+                </RelativeLayout>
+                <!-- setting layout -->
 
 
-<LinearLayout     
-	android:layout_width="fill_parent"
-  	android:layout_height="wrap_content"
-	android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginTop="10dp"    	  	
-  	android:orientation="vertical"
-  	android:background="@color/grey_light"
-    android:padding="1dp">
-   
-    <!-- 	exit app layout -->
-    <RelativeLayout  
-   		android:layout_width="fill_parent"	
-   		android:onClick="exitAppBarClick"			        	        
-        android:layout_height="50dp">
+                <!-- check update layout -->
 
-        <ImageView
-            android:id="@+id/icon_exitapp"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:paddingLeft="10dp"
-            android:background="@color/white"
-            android:src="@drawable/icon_exitapp" />
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:onClick="checkUpdateBarClick"
+                    android:paddingTop="1dp" >
 
-        <ImageView
-            android:id="@+id/icon_next_exit"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:paddingRight="10dp"
-            android:background="@color/white"
-            android:src="@drawable/icon_next" />
+                    <ImageView
+                        android:id="@+id/icon_user_center_item"
+                        style="@style/styleUserCenterItemIcon"
+                        android:src="@drawable/ic_update" />
 
-         <TextView
-             android:id="@+id/text_exitapp"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_alignBottom="@id/icon_exitapp"
-             android:layout_alignTop="@id/icon_exitapp"
-             android:layout_centerVertical="true"
-             android:layout_toLeftOf="@+id/icon_next_exit"
-             android:layout_toRightOf="@+id/icon_exitapp"
-             android:background="@color/white"
-             android:gravity="center_vertical"
-             android:lines="1"
-             android:paddingLeft="10dp"
-             android:text="退出程序"
-             android:textAppearance="?android:attr/textAppearanceMedium"
-             android:textColor="@color/black" />    	    
-    </RelativeLayout>  <!-- 	exit app layout -->       
-</LinearLayout>     
+                    <ImageView
+                        android:id="@+id/icon_user_center_next"
+                        style="@style/styleUserCenterItemNext"/>
 
-    
-</LinearLayout>       
-</ScrollView>      
+                    <TextView
+                        style="@style/styleUserCenterItemText"
+                        android:text="检查更新"/>
+                </RelativeLayout>
+                <!-- check update layout -->
+
+
+                <!-- feedback layout -->
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:onClick="feedbarBarClick"
+                    android:paddingTop="1dp" >
+
+                    <ImageView
+                        android:id="@+id/icon_user_center_item"
+                        style="@style/styleUserCenterItemIcon"
+                        android:src="@drawable/icon_feedback" />
+
+                    <ImageView
+                        android:id="@+id/icon_user_center_next"
+                        style="@style/styleUserCenterItemNext" />
+
+                    <TextView
+                        style="@style/styleUserCenterItemText"
+                        android:text="反馈与建议"/>
+                </RelativeLayout>
+                <!-- feedback layout -->
+
+
+                <!-- about layout -->
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:onClick="aboutBarClick"
+                    android:paddingTop="1dp" >
+
+                    <ImageView
+                        android:id="@+id/icon_user_center_item"
+                        style="@style/styleUserCenterItemIcon"
+                        android:src="@drawable/icon_about" />
+
+                    <ImageView
+                        android:id="@+id/icon_user_center_next"
+                        style="@style/styleUserCenterItemNext"/>
+
+                    <TextView
+                       style="@style/styleUserCenterItemText"
+                        android:text="关于" />
+                </RelativeLayout>
+                <!-- about layout -->
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/styleUserCenterLay" >
+
+                <!-- debug mode setting layout -->
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:onClick="planningTuningBarClick" >
+
+                    <ImageView
+                        android:id="@+id/icon_user_center_item"
+                        style="@style/styleUserCenterItemIcon"
+                        android:src="@drawable/icon_setting" />
+
+                    <ImageView
+                        android:id="@+id/icon_user_center_next"
+                        style="@style/styleUserCenterItemNext" />
+
+                    <TextView
+                        style="@style/styleUserCenterItemText"
+                        android:text="调试设置"/>
+                </RelativeLayout>
+                <!-- debug mode setting layout -->
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/styleUserCenterLay" >
+
+                <!-- exit app layout -->
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:onClick="exitAppBarClick" >
+
+                    <ImageView
+                        android:id="@+id/icon_user_center_item"
+                        style="@style/styleUserCenterItemIcon"
+                        android:src="@drawable/icon_exitapp" />
+
+                    <ImageView
+                        android:id="@+id/icon_user_center_next"
+                        style="@style/styleUserCenterItemNext"/>
+
+                    <TextView
+                        style="@style/styleUserCenterItemText"
+                        android:text="退出程序" />
+                </RelativeLayout>
+                <!-- exit app layout -->
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

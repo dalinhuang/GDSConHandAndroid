@@ -8,7 +8,7 @@ public class MovieInfo {
 	
 	private String generalDesc;
 	private String priceInfo;
-	private String iconUrl; // for icon display in theatre activity
+	private String iconUrl; // for icon display in theater activity
 	private String posterUrl; // for display in movie activity and social share
 	private ArrayList<ScheduleTime> todaySchedule;
 	private ArrayList<ScheduleTime> tomorrowSchedule;
