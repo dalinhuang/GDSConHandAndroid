@@ -3,7 +3,9 @@
     style="@style/GenActivtyTheme"
     tools:context=".AlarmActivity" >
 
-    <RelativeLayout style="@style/styleTitleLayout" >
+    <RelativeLayout 
+        android:id="@+id/myFavoriteHead"
+        style="@style/styleTitleLayout" >
 
         <ImageView
             android:id="@+id/btn_back"
@@ -28,7 +30,7 @@
         android:id="@+id/eventListByAlarm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/relativeLayout1" >
+        android:layout_below="@id/myFavoriteHead" >
     </ListView>
 
 </RelativeLayout>
