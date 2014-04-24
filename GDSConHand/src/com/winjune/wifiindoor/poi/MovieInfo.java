@@ -18,6 +18,9 @@ public class MovieInfo {
 		this.generalDesc = generalDesc;
 		this.priceInfo = price;
 		this.posterUrl = posterUrl;
+		
+		todaySchedule = new ArrayList<ScheduleTime>();
+		tomorrowSchedule = new ArrayList<ScheduleTime>();
 	}
 	
 	public String getGeneralDesc(){
@@ -31,6 +34,24 @@ public class MovieInfo {
 	public String getPosterUrl(){
 		return posterUrl;
 	}
+	
+	public void addScheduleList(String schedulesStr, ArrayList<ScheduleTime> scheduleList){
+		String[] schedules = schedulesStr.split(";");
+						
+		for (String scheduleStr: schedules) {
+			ScheduleTime scheduleItem = new ScheduleTime();
+			scheduleItem.fromString(scheduleStr);
+			scheduleList.add(scheduleItem);
+		}						
+	}
+	
+	public void addTodaySchedule(String schedulesStr){
+		addScheduleList(schedulesStr, todaySchedule);
+	}
+	
+	public void addTomorrowSchedule(String schedulesStr){
+		addScheduleList(schedulesStr, tomorrowSchedule);
+	}	
 	
 	public ArrayList<ScheduleTime> getTodaySchedule(){
 		return todaySchedule;

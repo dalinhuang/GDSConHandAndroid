@@ -13,7 +13,7 @@ public class POIManager {
 	
 	public static PlaceOfInterest findNearestPOI(int mapId, int placeX, int PlaceY) {
 	
-		return null;
+		return POIList.get(0);
 	}
 	
 	
@@ -21,8 +21,9 @@ public class POIManager {
         String[] labelArray = new String[0];
         ArrayList <String> labelList = new ArrayList<String>();
 
-        for (PlaceOfInterest aPOI:POIList) {				
-				labelList.add(aPOI.getLabel());				
+        for (PlaceOfInterest aPOI:POIList) {
+        	if ((aPOI.label != null) && !(aPOI.label.isEmpty()))        		
+        		labelList.add(aPOI.label);				
 		}		
         
         labelArray = labelList.toArray(labelArray);
@@ -35,42 +36,62 @@ public class POIManager {
 		ArrayList<PlaceOfInterest> matchedPOIs = new ArrayList<PlaceOfInterest>();
 
 		for (PlaceOfInterest poi: POIList) {
-			if (poi.getLabel().contains(text)) {
-				matchedPOIs.add(poi);
+			
+			if (poi.label != null) {
+				if (poi.label.contains(text)) {
+					matchedPOIs.add(poi);
+				}
 			}
 		}
 		
 		return matchedPOIs;
 	}
 	
-	public static void mapInfo2POI(int mapId, MapInfo mapInfo) {
-		PlaceOfInterest aPOI = new  PlaceOfInterest();
-		
-		for (FieldInfo field: mapInfo.getFields()){
-			aPOI.setMapId(mapId);
-			aPOI.setX(field.getX());
-			aPOI.setY(field.getY());
-			aPOI.setLabel(field.getInfo());
-			aPOI.setAlpha(field.getAlpha());
-			aPOI.setScale(field.getScale());
-			aPOI.setRotation(field.getRotation());
-			aPOI.setMinZoomFactor(field.getMinZoomFactor());
-			aPOI.setMaxZoomFactor(field.getMaxZoomFactor());
-			
-			POIList.add(aPOI);
-		}		
-	}
+
 	
+	
+	public static PlaceOfInterest getPOI(int poiId) {
+		
+		return POIList.get(0);
+	}	
 	
 	public static void addSamples(){
 		BusStation aBusStation = new BusStation();
+		BusLine aBusLine;
+		aBusLine = new BusLine( aBusStation.id, // busStation POI id;
+								"801路",
+								"9:00", 
+								"17:00",
+								"票价:2元,月票通用",
+								"大学城科学中心总站;广大公寓;广大生活区;广大;大学城枢纽站;华师;体育中心总站");
+		
+		aBusStation.addBusLine(aBusLine);
+
+		aBusLine = new BusLine( aBusStation.id, // busStation POI id;
+				"802路",
+				"9:00", 
+				"17:00",
+				"票价:2元,月票通用",
+				"大学城科学中心总站;广大公寓;广大生活区;广大;大学城枢纽站;华师;恒宝广场总站");
+
+		aBusStation.addBusLine(aBusLine);	
+		
+		aBusLine = new BusLine( aBusStation.id, // busStation POI id;
+				"803路",
+				"9:00", 
+				"17:00",
+				"票价:4元,月票通用",
+				"大学城科学中心总站;广大公寓;广大生活区;广大;大学城枢纽站;华师;黄沙大道总站");
+
+		aBusStation.addBusLine(aBusLine);		
+		
+		
 		
 		POIList.add(aBusStation);
 		
 		
 		TheatreInfo aTheatre = new TheatreInfo();
-		POIList.add(aTheatre);
-				
-		
+		POIList.add(aTheatre);		
+					
 	}
 }

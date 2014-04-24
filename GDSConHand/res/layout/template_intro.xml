@@ -10,23 +10,21 @@
        <TextView
             android:id="@+id/text_label"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
-            android:layout_alignParentTop="true"
             android:background="@color/white"            
-            android:text="简介"              
+            android:text=""              
             android:textColor="@color/black"
             android:textAppearance="?android:attr/textAppearanceMedium" />        
         
        <TextView
             android:id="@+id/text_detail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="1dp"            
-            android:layout_alignParentTop="true"
             android:background="@color/white"            
-            android:text="这是一个例子这是一个例子这是一个例子这是一个例子这是一个例子这是一个例子这是一个例子这是一个例子这是一个例子这是一个例子这是一个例子"      
+            android:text=""      
             android:gravity="center_vertical"    
             android:textAppearance="?android:attr/textAppearanceSmall"    
             android:textColor="@color/black" />        

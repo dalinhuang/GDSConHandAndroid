@@ -5,14 +5,16 @@
         android:layout_margin="10dp" 	
        	android:orientation="horizontal">
 
-	    <RelativeLayout  
+	    <RelativeLayout
+	        android:id="@+id/button1"
 	        android:layout_width="0dp"
-	    	android:layout_weight="1"
-	    	android:layout_height="wrap_content"
-	    	android:layout_marginLeft="5dp"
-	    	android:layout_marginRight="5dp"
-	    	android:padding="0.5dp"
-	    	android:background="@color/grey_light">
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="5dp"
+	        android:layout_marginRight="5dp"
+	        android:layout_weight="1"
+	        android:background="@color/grey_light"
+	        android:clickable="true"
+	        android:padding="0.5dp" >
 		    
 	        <RelativeLayout
 	        	android:layout_width="fill_parent"
@@ -20,18 +22,21 @@
 	    		android:background="@color/white">
 
 	        	<TextView
-		            android:id="@+id/text_toliet"
+		            android:id="@+id/button1_label"
 		            android:layout_width="wrap_content"
 	    	        android:layout_height="wrap_content"
+	    	        android:paddingTop="3dp"
+	    	        android:paddingBottom ="3dp"
 	        	    android:layout_centerHorizontal="true"            
-	            	android:drawableLeft="@drawable/icon_activity"
 	            	android:gravity="center_vertical"
 	            	android:text="节目"
+	            	android:textAppearance="?android:attr/textAppearanceMedium"
 	            	android:textColor="@color/black" />
 			</RelativeLayout>
 		</RelativeLayout>
 
-	    <RelativeLayout  
+	    <RelativeLayout
+	        android:id="@+id/button2"  
 	        android:layout_width="0dp"
 	    	android:layout_weight="1"
 	    	android:layout_height="wrap_content"
@@ -46,13 +51,15 @@
 	    		android:background="@color/white">
 
 	        	<TextView
-		            android:id="@+id/text_toliet"
+		            android:id="@+id/button2_label"
 		            android:layout_width="wrap_content"
 	    	        android:layout_height="wrap_content"
+	    	        android:paddingTop="3dp"
+	    	        android:paddingBottom ="3dp"	    	        
 	        	    android:layout_centerHorizontal="true"            
-	            	android:drawableLeft="@drawable/icon_activity"
 	            	android:gravity="center_vertical"
 	            	android:text="节目"
+	            	android:textAppearance="?android:attr/textAppearanceMedium"
 	            	android:textColor="@color/black" />
 			</RelativeLayout>
 		</RelativeLayout>	    

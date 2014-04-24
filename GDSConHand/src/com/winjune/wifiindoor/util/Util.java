@@ -24,6 +24,7 @@ import com.winjune.wifiindoor.network.NetworkInfoManager;
 import com.winjune.wifiindoor.network.NfcInfoManager;
 import com.winjune.wifiindoor.network.WifiInfoManager;
 import com.winjune.wifiindoor.poi.EventManager;
+import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;
 import com.winjune.wifiindoor.version.ApkVersionManager;
 import com.winjune.wifiindoor.webservice.IpsWebService;
@@ -708,6 +709,8 @@ public class Util {
         initial(activity);
         
         EventManager.initial();
+        
+        POIManager.addSamples();
         
         if (!getWifiInfoManager().isWifiEmbeded()) {
 			showLongToast(activity, R.string.no_wifi_embeded);

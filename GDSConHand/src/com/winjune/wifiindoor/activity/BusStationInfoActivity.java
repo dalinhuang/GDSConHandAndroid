@@ -12,65 +12,86 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.dummy.DummyContent;
+import com.winjune.wifiindoor.poi.BusLine;
+import com.winjune.wifiindoor.poi.BusStation;
+import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.util.IndoorMapData;
 
 public class BusStationInfoActivity extends Activity {
+	
+	public static String BUNDLE_KEY_POI_ID = "POI_ID";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Bundle mBundle = getIntent().getExtras();
+		int poiId = mBundle.getInt(BUNDLE_KEY_POI_ID);		
+		
 		setContentView(R.layout.activity_bus_station_info);
+
+	
 
 		ListView lv = (ListView)findViewById(R.id.bus_line_list);
 		
-		BusLineList ada = new BusLineList(this, R.layout.list_event_by_time, DummyContent.ITEMS);
+		final BusStation poi = (BusStation)POIManager.getPOI(poiId);
+
+		TextView titleText = (TextView)findViewById(R.id.title_text);
+		titleText.setText(poi.label);			
+		
+		BusLineList ada = new BusLineList(this, R.layout.list_event_by_time, poi.getBusLines());
 		
 		lv.setAdapter(ada);
 		
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
 				// TODO Auto-generated method stub
+				Intent i = new Intent(BusStationInfoActivity.this, BusLineInfoActivity.class);
 
-				 Intent i = new Intent(BusStationInfoActivity.this, BusLineInfoActivity.class);
-			     startActivity(i);   
+				Bundle mBundle = new Bundle(); 
+				mBundle.putInt(BusLineInfoActivity.BUNDLE_KEY_POI_ID, poi.id);
+				mBundle.putSerializable(BusLineInfoActivity.BUNDLE_KEY_BUS_LINE_IDX, position);
 				
+				i.putExtras(mBundle); 
+				
+			    startActivity(i);   				
 			}			
 		});		
 	}
 
 	 public void backClick(View v) {
 	    	onBackPressed();    	
-	    } 
-	 
- 
-	 public void enterBusstop202(View v) {
-		 Intent i = new Intent(this, BusLineInfoActivity.class);
-	     startActivity(i);   	
-	    }   
-	 
-	 public class BusLineList extends ArrayAdapter<DummyContent.DummyItem> {
+	 } 
+	  
+	 public class BusLineList extends ArrayAdapter<BusLine> {
 
-			private int resourceId;  
 			private Context context;
+			private List<BusLine> items;
 			 
-			public BusLineList(Context context, int resource, List<DummyContent.DummyItem> items) {
+			public BusLineList(Context context, int resource, List<BusLine> items) {
 				super(context, resource, items);
 				this.context = context;
-				this.resourceId = resource;
+				this.items = items;
 				// TODO Auto-generated constructor stub
 			}
 			
 		    @Override  
-		    public View getView(int position, View convertView, ViewGroup parent){  
+		    public View getView(int position, View convertView, ViewGroup parent){  		    	
 		        LayoutInflater vi = LayoutInflater.from(context);  
-	 
 				View view=vi.inflate(R.layout.list_bus_lines, null);
-				//timeAndPlace.setText("test test test test");
+				
+				BusLine aBL = items.get(position);
+				TextView lineName = (TextView)view.findViewById(R.id.bus_line_name);
+				lineName.setText(aBL.lineName);
+				
+				TextView lineText = (TextView)view.findViewById(R.id.bus_line_text);
+				lineText.setText(aBL.getStartEndInfo());
 					        
 		        return view;  
 		    }   		

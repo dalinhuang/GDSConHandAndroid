@@ -3,12 +3,12 @@ package com.winjune.wifiindoor.poi;
 import java.util.ArrayList;
 
 public class BusLine {
-	private int stationId; //POI id
+	public int stationId; //POI id
 		
-	private String lineName;
-	private String startTime;
-	private String endTime;
-	private String priceInfo;
+	public String lineName;
+	public String startTime;
+	public String endTime;
+	public String priceInfo;
 	
 	private ArrayList<String> stopList;
 	
@@ -27,24 +27,8 @@ public class BusLine {
 			stopList.add(stop);
 	}
 	
-	public String getLineName(){
-		return lineName;
-	}
-	
 	public ArrayList<String>  getStopList(){
 		return stopList;
-	}
-	
-	public String getStartTime(){
-		return startTime;
-	}
-	
-	public String getEndTime(){
-		return endTime;
-	}
-	
-	public String getPriceInfo(){
-		return priceInfo;
 	}
 	
 	public String getStartEndInfo(){

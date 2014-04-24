@@ -2,40 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/bg_color"
+    android:paddingTop = "10dp"
+    android:background="@color/white"
     android:orientation="vertical" >
 
    <include layout="@layout/template_context_info" />    
 
-   <LinearLayout
-       android:id="@+id/context_menu"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginLeft="10dp"
-       android:layout_marginRight="10dp"
-       android:layout_marginTop="5dp"
-       android:orientation="horizontal" >
-
-        <Button
-        	android:id="@+id/button1"
-        	android:layout_width="0dp"
-        	android:layout_height="wrap_content"
-        	android:layout_weight="1"
-        	android:text="分享" />
-
-        <Button
-        	android:id="@+id/button2"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="排期" />
-        
-         <Button
-        	android:id="@+id/button2"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="过去" />       
-        
-   </LinearLayout>
+   <include layout="@layout/template_context_button2"/>
+   
 </LinearLayout>

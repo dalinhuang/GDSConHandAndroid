@@ -12,54 +12,79 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.BusStationInfoActivity.BusLineList;
 import com.winjune.wifiindoor.dummy.DummyContent;
+import com.winjune.wifiindoor.map.IndoorMap;
+import com.winjune.wifiindoor.poi.BusLine;
+import com.winjune.wifiindoor.poi.BusStation;
+import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.util.IndoorMapData;
 
 public class BusLineInfoActivity extends Activity {
+	
+	public static String BUNDLE_KEY_POI_ID = "POI_ID";
+	public static String BUNDLE_KEY_BUS_LINE_IDX = "LINE_IDX";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Bundle mBundle = getIntent().getExtras();
+		int poiId = mBundle.getInt(BUNDLE_KEY_POI_ID);
+		int lineIdx = mBundle.getInt(BUNDLE_KEY_BUS_LINE_IDX);
+
+		BusStation poi = (BusStation)POIManager.getPOI(poiId);
+		BusLine busline = poi.getBusLine(lineIdx);		
+		
 		setContentView(R.layout.activity_bus_line_info);
 		
+		TextView titleText = (TextView)findViewById(R.id.title_text);
+		titleText.setText(busline.lineName);
+		
+		TextView lineInfo = (TextView)findViewById(R.id.bus_line_info);
+		lineInfo.setText(busline.lineName + busline.getStartEndInfo());
+					
 		ListView lv = (ListView)findViewById(R.id.bus_stop_list);
-		
-		BusLineList ada = new BusLineList(this, R.layout.list_bus_lines, DummyContent.ITEMS);
-		
-		lv.setAdapter(ada);
 				
+		BusStopList ada = new BusStopList(this, R.layout.list_bus_stops, busline.getStopList());
+		
+		lv.setAdapter(ada);				
 	}
 	
 	
-	
-
-	 public void backClick(View v) {
+	public void backClick(View v) {
 	    	onBackPressed();    	
-	    }  
+	}  
 	 
-	 public class BusLineList extends ArrayAdapter<DummyContent.DummyItem> {
-
-			private int resourceId;  
-			private Context context;
-			 
-			public BusLineList(Context context, int resource, List<DummyContent.DummyItem> items) {
-				super(context, resource, items);
-				this.context = context;
-				this.resourceId = resource;
-				// TODO Auto-generated constructor stub
-			}
+	public class BusStopList extends ArrayAdapter<String> {
+		private Context context;
+		private List<String> items; 
 			
-		    @Override  
-		    public View getView(int position, View convertView, ViewGroup parent){  
-		        LayoutInflater vi = LayoutInflater.from(context);  
+		public BusStopList(Context context, int resource, List<String> items) {
+			super(context, resource, items);
+			this.context = context;
+			this.items = items;
+			// TODO Auto-generated constructor stub
+		}
+			
+		@Override  
+		public View getView(int position, View convertView, ViewGroup parent){  
+			LayoutInflater vi = LayoutInflater.from(context);  
 	 
-				View view=vi.inflate(R.layout.list_bus_lines, null);
-				//timeAndPlace.setText("test test test test");
+			View view=vi.inflate(R.layout.list_bus_stops, null);
+			
+			TextView stopNo = (TextView)view.findViewById(R.id.bus_stop_no);
+			String stopNoText = ""+ (position+1);
+			stopNo.setText(stopNoText);
+			
+			TextView stopName = (TextView)view.findViewById(R.id.bus_stop_name);
+			stopName.setText(items.get(position));			
 					        
-		        return view;  
-		    }   		
-		}	
+		    return view;  
+		}   		
+	}	
 
 }

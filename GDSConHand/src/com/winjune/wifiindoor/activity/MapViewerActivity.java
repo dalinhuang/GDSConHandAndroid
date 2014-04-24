@@ -75,6 +75,9 @@ import com.winjune.wifiindoor.mapviewer.NaviBar;
 import com.winjune.wifiindoor.mapviewer.PlanBar;
 import com.winjune.wifiindoor.mapviewer.SearchBar;
 import com.winjune.wifiindoor.navi.Navigator;
+import com.winjune.wifiindoor.poi.BusStation;
+import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
@@ -835,25 +838,12 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	}
 	
 	public void locationBtnClick(View v) {
-		LayoutInflater inflater = getLayoutInflater(); 
-		View view = inflater.inflate(R.layout.popup_context_menu3, null); 
+		PlaceOfInterest poi = POIManager.findNearestPOI(0, 5, 5);
 		
-		final PopupWindow pop = new PopupWindow(view, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, false); 		  				
-		pop.setBackgroundDrawable(new BitmapDrawable()); 
-        pop.setOutsideTouchable(true); 
-        pop.setFocusable(true);
-
-		Button btn1 = (Button) pop.getContentView().findViewById(R.id.button1);
-		btn1.setText("分享");
-		btn1.setOnClickListener(new OnClickListener() {
-			@Override
-		    public void onClick(View v) {
-				Log.e(TAG, "分享");
-			}
-		});
-
-        pop.showAtLocation(v, Gravity.BOTTOM, 0, 0);
+		poi.showContextMenu(v);
 	}
+	
+
 
  	    
 }

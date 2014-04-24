@@ -13,13 +13,42 @@ public class ScheduleTime {
 	public static int CLOSE_HOUR 	= 17; // close time clock
 	public static int CLOSE_MIN 	= 0;
 	
-	
-	public ScheduleTime (int fromHour, int fromMin, int toHour, int toMin) {
-		
+	public ScheduleTime(){
 		this.fromHour = 0;
 		this.fromMin = 0;
 		this.toHour = 0;
 		this.toMin = 0;	
+	}
+	
+	// supported format: 10:00 - 11:00;	
+	public void fromString(String scheduleStr){
+		
+		String[] splittedTime = scheduleStr.trim().split("-");
+		
+		if (splittedTime.length != 2)
+			return;
+		
+		String[] fromTimeStr = splittedTime[0].trim().split(":");
+		
+		if (fromTimeStr.length !=2)
+			return;
+		
+		this.fromHour = Integer.parseInt(fromTimeStr[0].trim());
+		this.fromMin = Integer.parseInt(fromTimeStr[1].trim());
+		
+		String[] toTimeStr = splittedTime[1].trim().split(":");
+		
+		if (toTimeStr.length !=2)
+			return;
+		
+		this.toHour = Integer.parseInt(toTimeStr[0].trim());
+		this.toMin = Integer.parseInt(toTimeStr[1].trim());
+				
+	}
+	
+	
+	public ScheduleTime (int fromHour, int fromMin, int toHour, int toMin) {		
+		this();
 
 		if ((fromHour < 0) || (fromHour > 23))
 			return;

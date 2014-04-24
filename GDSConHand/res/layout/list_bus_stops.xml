@@ -7,25 +7,25 @@
     android:paddingTop="5dp">
 
     <TextView
-        android:id="@+id/bus_line_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:text="番202路"
-		android:gravity="clip_horizontal"        
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/black" />
-
-    <TextView
-        android:id="@+id/bus_line_text"
+        android:id="@+id/bus_stop_no"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@id/bus_line_name"
-        android:gravity="center_vertical"
-        android:text="(大学城科学中心总站 -大学城体育中心总站)"
+        android:text="1"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/grey_light" />
+
+    <TextView
+        android:id="@+id/bus_stop_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/bus_stop_no"
+        android:gravity="center_vertical"
+        android:text="大学城科学中心总站 "
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/black" />
 
 </RelativeLayout>

@@ -26,6 +26,7 @@
                android:layout_alignParentRight="true"
                android:layout_centerVertical="true"
                android:layout_marginRight="5dp"
+               android:clickable="true"
                android:drawableLeft="@drawable/icon_detail"
                android:text="详情"
                android:textColor="@color/blue" />
@@ -40,7 +41,7 @@
     </RelativeLayout>
         
     <TextView
-        		android:id="@+id/text_summary"
+        		android:id="@+id/text_general"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
