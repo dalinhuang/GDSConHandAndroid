@@ -35,8 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/btn_left"
             android:layout_alignParentRight="true"
-            android:clickable="true"
-            android:onClick="textDisplayClick" >
+            >
 
             <TextView
                 android:id="@+id/btn_ok"

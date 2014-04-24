@@ -57,7 +57,7 @@ public class InterestPlaceTTSViewerActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 
-		mTts.stopSpeaking(mTtsListener);
+		
 
 		Util.setEnergySave(true);
 		Util.setCurrentForegroundActivity(null);
@@ -67,6 +67,8 @@ public class InterestPlaceTTSViewerActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 
+		
+		 mTts.stopSpeaking(mTtsListener);
 		super.onDestroy();
 	}
 
@@ -144,9 +146,10 @@ public class InterestPlaceTTSViewerActivity extends Activity {
 		} else {
 			return;
 		}
-
-		AutoGuideTTSSpeak(text);
+  
 		textInfo.setText(text);
+		AutoGuideTTSSpeak(text);
+		
 
 	}
 
@@ -265,6 +268,7 @@ public class InterestPlaceTTSViewerActivity extends Activity {
 	public void resumeTTS(View v) {
 		if (needStart) {
 			needStart = false;
+			
 			int code = mTts.startSpeaking(text, mTtsListener);
 			if (code != 0) {
 				showTip("start speak error : " + code);
