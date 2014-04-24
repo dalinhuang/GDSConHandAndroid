@@ -82,7 +82,7 @@ public class InterestPlaceTTSViewerActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		InterestPlace place = null;
-		String text = null;
+		
 		String picture = null;
 		String audio = null;
 
