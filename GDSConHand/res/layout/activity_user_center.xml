@@ -59,10 +59,10 @@
                 </RelativeLayout>
                 <!-- share position layout -->
                 
-                <!-- My favorate layout -->
+                <!-- My favorite layout -->
 
                 <RelativeLayout
-                    android:id="@+id/my_favorate_layout"
+                    android:id="@+id/my_favorite_layout"
                     android:layout_width="fill_parent"
                     android:layout_height="50dp"
                     android:onClick="myFavorateClick"
@@ -71,7 +71,7 @@
                     <ImageView
                         android:id="@+id/icon_user_center_item"
                         style="@style/styleUserCenterItemIcon"
-                        android:src="@drawable/icon_share_position" />
+                        android:src="@drawable/ic_star" />
 
                     <ImageView
                         android:id="@+id/icon_user_center_next"
@@ -81,7 +81,7 @@
                         style="@style/styleUserCenterItemText"
                         android:text="我的关注" />
                 </RelativeLayout>
-                <!-- My favorate layout -->
+                <!-- My favorite layout -->
             </LinearLayout>
 
             <LinearLayout
