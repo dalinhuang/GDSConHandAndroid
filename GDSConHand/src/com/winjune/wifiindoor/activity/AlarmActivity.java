@@ -15,6 +15,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -38,8 +39,9 @@ public class AlarmActivity extends Activity {
 		lv.setAdapter(new EventListByAlarm(AlarmActivity.this,
 				R.layout.list_event_by_time, mEventItems));
 		
-		String title = getIntent().getStringExtra(EventManager.Key_Event_Title);
-		int minutes = getIntent().getIntExtra(EventManager.Key_Event_Alarm_Time, -1);
+		Intent intent = getIntent();
+		String title = intent.getStringExtra(EventManager.Key_Event_Title);
+		int minutes = intent.getIntExtra(EventManager.Key_Event_Alarm_Time, -1);
 		
 		if (minutes != -1){
 			new AlertDialog.Builder(AlarmActivity.this)
