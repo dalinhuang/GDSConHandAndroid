@@ -10,14 +10,17 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
 import android.speech.tts.TextToSpeech;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iflytek.speech.ErrorCode;
@@ -83,13 +86,18 @@ public class InterestPlaceTTSViewerActivity extends Activity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_interest_place_tts);
-		showWebView();
+		
 		progressHorizontal = (ProgressBar) findViewById(R.id.progress_horizontal);
 		pauseButton = (ImageView) findViewById(R.id.pause);
 		resumeButton = (ImageView) findViewById(R.id.resume);
 
 		mTts = new SpeechSynthesizer(this, mTtsInitListener);
 		mToast = Toast.makeText(this, "", Toast.LENGTH_LONG);
+		
+		final TextView textInfo = (TextView) findViewById(R.id.interest_text);
+        textInfo.setAutoLinkMask(Linkify.ALL);
+        textInfo.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_Large);        
+       
 
 		/*
 		 * requestWindowFeature(Window.FEATURE_NO_TITLE); // get the screen attr
@@ -138,63 +146,12 @@ public class InterestPlaceTTSViewerActivity extends Activity {
 		}
 
 		AutoGuideTTSSpeak(text);
+		textInfo.setText(text);
 
 	}
 
-	@SuppressLint("SetJavaScriptEnabled")
-	private void showWebView() { // webView与js交互代码
-
-		mWebView = (WebView) findViewById(R.id.interest_place);
-
-		mWebView.requestFocus();
-
-		mWebView.setWebChromeClient(new WebChromeClient() {
-			@Override
-			public void onProgressChanged(WebView view, int progress) {
-				InterestPlaceTTSViewerActivity.this.setTitle("Loading...");
-				InterestPlaceTTSViewerActivity.this.setProgress(progress);
-
-				if (progress >= 80) {
-					InterestPlaceTTSViewerActivity.this
-							.setTitle("JsAndroid Test");
-				}
-			}
-		});
-
-		mWebView.setOnKeyListener(new View.OnKeyListener() { // webview can go
-																// back
-			@Override
-			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {
-					mWebView.goBack();
-					return true;
-				}
-				return false;
-			}
-		});
-
-		WebSettings webSettings = mWebView.getSettings();
-		webSettings.setJavaScriptEnabled(true);
-		webSettings.setDefaultTextEncodingName("utf-8");
-
-		mWebView.loadUrl("file:///android_asset/index.html");
-
-	}
-
-	 public void textDisplayClick(View v) {
-
-		// Util.showLongToast(InterestPlaceTTSViewerActivity.this,
-		// R.string.tts_start_soon);
-		Intent intent_show_interest_place = new Intent(
-				InterestPlaceTTSViewerActivity.this,
-				InterestPlaceViewerActivity.class);
-		Bundle bundle = getIntent().getExtras();
-		intent_show_interest_place.putExtras(bundle);
-		InterestPlaceTTSViewerActivity.this
-				.startActivity(intent_show_interest_place);
-		InterestPlaceTTSViewerActivity.this.finish();
-
-	}
+	
+	
 	 
 	 public void backClick(View v) {
 	    	onBackPressed();    	

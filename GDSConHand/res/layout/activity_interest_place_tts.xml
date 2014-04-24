@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-        
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mode"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff" >
-  
-        <RelativeLayout
+
+    <RelativeLayout
         android:id="@+id/top"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -35,20 +34,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/btn_left"
+            android:layout_alignParentRight="true"
             android:clickable="true"
-            android:onClick="textDisplayClick"
-            android:layout_alignParentRight="true" >
+            android:onClick="textDisplayClick" >
 
             <TextView
                 android:id="@+id/btn_ok"
                 android:layout_width="70dip"
                 android:layout_height="fill_parent"
                 android:background="@color/grey_light_light"
-                android:drawableLeft="@drawable/message"
-                android:gravity="center_vertical"
+                android:drawableLeft="@drawable/icon_view_map"
                 android:drawablePadding="6.0dip"
+                android:gravity="center_vertical"
                 android:paddingLeft="10dip"
-                android:text="文本"
+                android:text="地图"
                 android:textColor="#0000FF"
                 android:textSize="14sp" />
         </RelativeLayout>
@@ -78,98 +77,83 @@
         </RelativeLayout>
     </RelativeLayout>
 
-	
-	
-        
-     
-     
-       <RelativeLayout
+    <RelativeLayout
         android:id="@+id/layout_botttom"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:background="#dddddd" >
-      
-            <ImageView
-                android:id="@+id/pause"
-                android:layout_width="40dip"
-                android:layout_height="40dip"
-                android:background="@drawable/stop_button"
-                android:clickable="true"
-                android:contentDescription="@null"
-                android:paddingLeft="20dip"
-                
-                
-                android:onClick="stopTTS"
-                android:layout_marginTop="20dp"/>
-            
-            <ImageView
-                android:id="@+id/resume"
-                android:layout_width="40dip"
-                android:layout_height="40dip"
-                android:background="@drawable/start_button"
-                android:clickable="true"
-                android:contentDescription="@null"
-                android:paddingLeft="20dip"
-                android:visibility="gone"
-                
-                android:onClick="resumeTTS"
-                android:layout_marginTop="20dp"/>
-            
-            <ImageView
-                android:id="@+id/hidden"
-                android:layout_width="40dip"
-                android:layout_height="40dip"
-                android:background="@drawable/start_button"
-                android:clickable="true"
-                android:contentDescription="@null"
-                android:paddingLeft="120dip"
-                android:visibility="invisible"
-                
-                
-                android:layout_marginTop="20dp"/>
-      
-          <SeekBar
+
+        <ImageView
+            android:id="@+id/pause"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/stop_button"
+            android:clickable="true"
+            android:contentDescription="@null"
+            android:onClick="stopTTS"
+            android:paddingLeft="20dip" />
+
+        <ImageView
+            android:id="@+id/resume"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/start_button"
+            android:clickable="true"
+            android:contentDescription="@null"
+            android:onClick="resumeTTS"
+            android:paddingLeft="20dip"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/hidden"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/start_button"
+            android:clickable="true"
+            android:contentDescription="@null"
+            android:paddingLeft="120dip"
+            android:visibility="invisible" />
+
+        <SeekBar
             android:id="@+id/progress_horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_toRightOf="@+id/hidden"
+            android:max="100"
             android:maxHeight="8dip"
             android:minHeight="8dip"
-            
             android:paddingRight="20dip"
-            android:max="100"  
-               android:progress="0"
+            android:progress="0"
             android:progressDrawable="@drawable/seek_drawable"
             android:thumb="@drawable/seek_thumb" />
-          
-          
-               
-          
-        
-     
-	
-	</RelativeLayout> 
-	
-           
-     <RelativeLayout
-       android:id="@+id/interest_place_layout"     
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/interest_place_layout"
         android:layout_width="fill_parent"
-       android:layout_height="fill_parent"
-        android:layout_below="@+id/top"
+        android:layout_height="fill_parent"
         android:layout_above="@+id/layout_botttom"
-         
+        android:layout_below="@+id/top"
         android:layout_gravity="right"
-    	android:gravity="center">
-      <WebView 
-        android:id="@+id/interest_place"
-      
-        
-       android:layout_width="200dp" 
-    	android:layout_height="200dp" 
-    	android:layout_gravity="right"/>
-        
-        </RelativeLayout>
-</RelativeLayout> 
+        android:background="#000000"
+        android:gravity="center" >
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scrollbarAlwaysDrawVerticalTrack="false" >
+
+            <TextView
+                android:id="@+id/interest_text"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+        </ScrollView>
+    </RelativeLayout>
+
+</RelativeLayout>
 
