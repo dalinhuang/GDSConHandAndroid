@@ -28,25 +28,6 @@ public class BusStation extends PlaceOfInterest{
 		busLines = new ArrayList<BusLine>();		
 	}
 	
-	public View.OnClickListener getOnClickListener(){
-		return new POIOnClickListener();
-	}
-	
-	public class POIOnClickListener implements OnClickListener {
-
-		@Override
-		public void onClick(View v) {
-			// TODO Auto-generated method stub
-	        Intent i = new Intent(v.getContext(), BusStationInfoActivity.class); 
-
-			Bundle mBundle = new Bundle(); 
-			mBundle.putInt(BusStationInfoActivity.BUNDLE_KEY_POI_ID, BusStation.this.id);
-			i.putExtras(mBundle); 	
-			
-	        v.getContext().startActivity(i);				
-		}			
-	}
-	
 	public void addBusLine(BusLine aBusLine) {		
 		busLines.add(aBusLine);
 	}
@@ -75,6 +56,25 @@ public class BusStation extends PlaceOfInterest{
 	public ArrayList<BusLine> getBusLines() {				
 		return busLines;
 	}
+	
+	public View.OnClickListener getOnClickListener(){
+		return new POIOnClickListener();
+	}
+	
+	public class POIOnClickListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+	        Intent i = new Intent(v.getContext(), BusStationInfoActivity.class); 
+
+			Bundle mBundle = new Bundle(); 
+			mBundle.putInt(BusStationInfoActivity.BUNDLE_KEY_POI_ID, BusStation.this.id);
+			i.putExtras(mBundle); 	
+			
+	        v.getContext().startActivity(i);				
+		}			
+	}	
 	
 	public void showContextMenu(View v){
 		LayoutInflater inflater = LayoutInflater.from(v.getContext()); 

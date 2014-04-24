@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/GenActivtyTheme">
-
+    android:id="@+id/movie_main_layout"
+    style="@style/GenActivtyTheme">     
    <include layout="@layout/template_title_bar_map"/>     
    <Gallery
         android:id="@+id/gallery"
@@ -9,53 +9,12 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
         style="@style/styleContentAMargin"
-        android:spacing="1pt"
-        android:unselectedAlpha="0.6" />
-
-   <include layout="@layout/template_intro"/> 	 
-
-   <LinearLayout
-   		android:id="@+id/LinearLayout01"
-       	android:layout_width="match_parent"
-     	android:layout_height="wrap_content"        
-        style="@style/styleContentAMargin"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="1dp"
         android:background="@color/white"
-        android:orientation="horizontal" >
+        android:spacing="1pt"
+        android:unselectedAlpha="0.6" />  
+   
+<!--    <include layout="@layout/template_intro"/>   -->
+   
+<!--    <include layout="@layout/layout_movie_schedule"/>   -->   
 
-		<TextView
-        	android:id="@+id/btn_today"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"            
-            android:background="#C0C0C0"
-            android:text="今日4月10日"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/black" />
-
-		<TextView
-            android:id="@+id/btn_tomorrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginTop="1dp"
-            android:background="#E0E0E0"
-            android:text="明日4月11日"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/black" />
-    </LinearLayout>
-
-
-	<ListView
-	    android:id="@+id/schedule_list"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" 
-	   	style="@style/styleContentAMargin"
-       	android:background="@color/white">
-	</ListView>        
-        
 </LinearLayout>

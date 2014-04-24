@@ -3,8 +3,9 @@ package com.winjune.wifiindoor.poi;
 import java.util.ArrayList;
 
 public class MovieInfo {
-	private int id;
 	private int theaterId; // POI id
+	
+	public String name;
 	
 	private String generalDesc;
 	private String priceInfo;
@@ -13,11 +14,11 @@ public class MovieInfo {
 	private ArrayList<ScheduleTime> todaySchedule;
 	private ArrayList<ScheduleTime> tomorrowSchedule;
 	
-	public MovieInfo(int id, String generalDesc, String price, String posterUrl) {
-		this.id = id;
+	public MovieInfo(int theaterId, String name, String price, String generalDesc) {
+		this.theaterId = theaterId;
+		this.name = name;
 		this.generalDesc = generalDesc;
 		this.priceInfo = price;
-		this.posterUrl = posterUrl;
 		
 		todaySchedule = new ArrayList<ScheduleTime>();
 		tomorrowSchedule = new ArrayList<ScheduleTime>();
@@ -35,7 +36,16 @@ public class MovieInfo {
 		return posterUrl;
 	}
 	
-	public void addScheduleList(String schedulesStr, ArrayList<ScheduleTime> scheduleList){
+	public String getTodayScheduleStr(){
+		String info = "";
+		
+		for (ScheduleTime item: todaySchedule)
+			info += item.toString()+"  ";
+		
+		return info;
+	}
+	
+	private void addScheduleList(String schedulesStr, ArrayList<ScheduleTime> scheduleList){
 		String[] schedules = schedulesStr.split(";");
 						
 		for (String scheduleStr: schedules) {

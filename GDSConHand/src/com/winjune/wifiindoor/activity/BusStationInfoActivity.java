@@ -21,7 +21,7 @@ import com.winjune.wifiindoor.poi.BusStation;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.util.IndoorMapData;
 
-public class BusStationInfoActivity extends Activity {
+public class BusStationInfoActivity extends PoiBaseActivity {
 	
 	public static String BUNDLE_KEY_POI_ID = "POI_ID";
 
@@ -30,20 +30,18 @@ public class BusStationInfoActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		Bundle mBundle = getIntent().getExtras();
-		int poiId = mBundle.getInt(BUNDLE_KEY_POI_ID);		
+		poiId = mBundle.getInt(BUNDLE_KEY_POI_ID);		
 		
 		setContentView(R.layout.activity_bus_station_info);
 
 	
-
 		ListView lv = (ListView)findViewById(R.id.bus_line_list);
 		
-		final BusStation poi = (BusStation)POIManager.getPOI(poiId);
+		poi = (BusStation)POIManager.getPOIbyId(poiId);
 
-		TextView titleText = (TextView)findViewById(R.id.title_text);
-		titleText.setText(poi.label);			
+		UpdateTitleInfo();		
 		
-		BusLineList ada = new BusLineList(this, R.layout.list_event_by_time, poi.getBusLines());
+		BusLineList ada = new BusLineList(this, R.layout.list_event_by_time, ((BusStation)poi).getBusLines());
 		
 		lv.setAdapter(ada);
 		

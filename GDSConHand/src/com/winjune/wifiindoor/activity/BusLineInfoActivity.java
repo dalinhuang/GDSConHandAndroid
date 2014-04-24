@@ -27,17 +27,22 @@ public class BusLineInfoActivity extends Activity {
 	
 	public static String BUNDLE_KEY_POI_ID = "POI_ID";
 	public static String BUNDLE_KEY_BUS_LINE_IDX = "LINE_IDX";
+	
+	private int poiId;
+	private int lineIdx;	
+	private BusStation poi;
+	private BusLine busline;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		Bundle mBundle = getIntent().getExtras();
-		int poiId = mBundle.getInt(BUNDLE_KEY_POI_ID);
-		int lineIdx = mBundle.getInt(BUNDLE_KEY_BUS_LINE_IDX);
+		poiId = mBundle.getInt(BUNDLE_KEY_POI_ID);
+		 lineIdx = mBundle.getInt(BUNDLE_KEY_BUS_LINE_IDX);
 
-		BusStation poi = (BusStation)POIManager.getPOI(poiId);
-		BusLine busline = poi.getBusLine(lineIdx);		
+		poi = (BusStation)POIManager.getPOIbyId(poiId);
+		busline = poi.getBusLine(lineIdx);		
 		
 		setContentView(R.layout.activity_bus_line_info);
 		

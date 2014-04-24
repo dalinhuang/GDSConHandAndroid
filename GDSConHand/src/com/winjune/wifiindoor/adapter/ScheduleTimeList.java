@@ -16,17 +16,17 @@ import android.widget.AdapterView;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.dummy.DummyContent;
+import com.winjune.wifiindoor.poi.ScheduleTime;
 
 
-public class ScheduleTimeList extends ArrayAdapter<DummyContent.DummyItem> {
-
-		private int resourceId;  
+public class ScheduleTimeList extends ArrayAdapter<ScheduleTime> {
+		List<ScheduleTime> items;
 		private Context context;
 		 
-		public ScheduleTimeList(Context context, int resource, List<DummyContent.DummyItem> items) {
+		public ScheduleTimeList(Context context, int resource, List<ScheduleTime> items) {
 			super(context, resource, items);
 			this.context = context;
-			this.resourceId = resource;
+			this.items = items;
 			// TODO Auto-generated constructor stub
 		}
 		
@@ -37,10 +37,7 @@ public class ScheduleTimeList extends ArrayAdapter<DummyContent.DummyItem> {
 			View view=vi.inflate(R.layout.list_schedule, null);
 
 			TextView movieTitle = (TextView)view.findViewById(R.id.schedule_text_start);
-			movieTitle.setText("11:00");
-			
-			TextView movieSchedule = (TextView)view.findViewById(R.id.schedule_text_end);
-			movieSchedule.setText(" - 13:00");			
+			movieTitle.setText(items.get(position).toString());					
 			
 	        return view;  
 	    }   		
