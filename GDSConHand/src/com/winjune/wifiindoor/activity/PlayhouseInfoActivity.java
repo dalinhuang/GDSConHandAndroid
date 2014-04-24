@@ -193,11 +193,7 @@ public class PlayhouseInfoActivity extends Activity {
 				int alarmMinute;
 				
 				Calendar currentTime = Calendar.getInstance();
-				
-				Intent intent = new Intent(PlayhouseInfoActivity.this, AlarmActivity.class);
-				intent.putExtra(EventManager.Key_Event_Alarm_Time, mMinutesAhead);
-				PendingIntent pi = PendingIntent.getActivity(PlayhouseInfoActivity.this, 0, intent, 0);
-				
+					
 				if (startMinute < mMinutesAhead){
 					alarmHour = startHour - 1;
 					alarmMinute = startMinute + 60 - mMinutesAhead;
@@ -209,6 +205,14 @@ public class PlayhouseInfoActivity extends Activity {
 				
 				currentTime.set(Calendar.HOUR_OF_DAY, alarmHour);
 				currentTime.set(Calendar.MINUTE, alarmMinute);
+				
+				Intent intent = new Intent(PlayhouseInfoActivity.this, AlarmActivity.class);
+				intent.putExtra(EventManager.Key_Event_Title, mEventTitle);
+				intent.putExtra(EventManager.Key_Event_Alarm_Time, mMinutesAhead);
+				
+				//Different request codes to distinguish distinct PendingIntents
+				int requestCode = (alarmHour + alarmMinute) * mMinutesAhead; 
+				PendingIntent pi = PendingIntent.getActivity(PlayhouseInfoActivity.this, requestCode, intent, 0);
 				
 				mAlarmMgr.set(AlarmManager.RTC, currentTime.getTimeInMillis(), pi);
 				
