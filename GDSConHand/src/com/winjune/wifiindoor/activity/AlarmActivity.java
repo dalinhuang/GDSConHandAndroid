@@ -15,6 +15,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -38,11 +39,13 @@ public class AlarmActivity extends Activity {
 		lv.setAdapter(new EventListByAlarm(AlarmActivity.this,
 				R.layout.list_event_by_time, mEventItems));
 		
-		int minutes = getIntent().getIntExtra(EventManager.Key_Event_Alarm_Time, -1);
+		Intent intent = getIntent();
+		String title = intent.getStringExtra(EventManager.Key_Event_Title);
+		int minutes = intent.getIntExtra(EventManager.Key_Event_Alarm_Time, -1);
 		
 		if (minutes != -1){
 			new AlertDialog.Builder(AlarmActivity.this)
-			.setTitle("提醒").setMessage("您关注的活动还有"+Integer.toString(minutes)+"分钟就要开始了！")
+			.setTitle("提醒").setMessage("您关注的活动"+title+"还有"+Integer.toString(minutes)+"分钟就要开始了！")
 			.setPositiveButton("确定", new OnClickListener(){
 
 				@Override
