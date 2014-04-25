@@ -2,7 +2,6 @@ package com.winjune.wifiindoor.activity;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.poi.BusLine;
 import com.winjune.wifiindoor.poi.BusStation;
 import com.winjune.wifiindoor.poi.POIManager;
-import com.winjune.wifiindoor.util.IndoorMapData;
 
 public class BusStationInfoActivity extends PoiBaseActivity {
 	

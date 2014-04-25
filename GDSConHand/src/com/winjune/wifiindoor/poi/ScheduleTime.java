@@ -1,5 +1,7 @@
 package com.winjune.wifiindoor.poi;
 
+import java.util.ArrayList;
+
 public class ScheduleTime {
 	public int fromHour;
 	public int fromMin;
@@ -23,29 +25,36 @@ public class ScheduleTime {
 	// supported format: 10:00 - 11:00;	
 	public void fromString(String scheduleStr){
 		
-		String[] splittedTime = scheduleStr.trim().split("-");
+		String[] splittedTime = scheduleStr.trim().split("-");		
 		
-		if (splittedTime.length != 2)
-			return;
-		
-		String[] fromTimeStr = splittedTime[0].trim().split(":");
-		
+		String[] fromTimeStr = splittedTime[0].trim().split(":");		
 		if (fromTimeStr.length !=2)
 			return;
 		
 		this.fromHour = Integer.parseInt(fromTimeStr[0].trim());
 		this.fromMin = Integer.parseInt(fromTimeStr[1].trim());
 		
-		String[] toTimeStr = splittedTime[1].trim().split(":");
-		
-		if (toTimeStr.length !=2)
-			return;
-		
-		this.toHour = Integer.parseInt(toTimeStr[0].trim());
-		this.toMin = Integer.parseInt(toTimeStr[1].trim());
+		if (splittedTime.length > 1) {
+			String[] toTimeStr = splittedTime[1].trim().split(":");
+			
+			if (toTimeStr.length !=2)
+				return;
+			
+			this.toHour = Integer.parseInt(toTimeStr[0].trim());
+			this.toMin = Integer.parseInt(toTimeStr[1].trim());
+		}
 				
 	}
 	
+	public static void addScheduleList(String schedulesStr, ArrayList<ScheduleTime> scheduleList){
+		String[] schedules = schedulesStr.split(";");
+						
+		for (String scheduleStr: schedules) {
+			ScheduleTime scheduleItem = new ScheduleTime();
+			scheduleItem.fromString(scheduleStr);
+			scheduleList.add(scheduleItem);
+		}						
+	}	
 	
 	public ScheduleTime (int fromHour, int fromMin, int toHour, int toMin) {		
 		this();
