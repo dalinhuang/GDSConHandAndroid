@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+	android:background="@color/white">
+    
+    <ImageView
+         android:id="@+id/icon_menu_item"
+         android:layout_width="100dp"
+         android:layout_height="100dp"
+         android:paddingLeft="5dp"
+         android:paddingTop="5dp"
+         android:paddingBottom="5dp"
+         android:src="@drawable/gongbaojiding" />
+ 	
+	 <LinearLayout     
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_toRightOf="@+id/icon_menu_item"
+    	android:layout_centerVertical="true"
+    	android:paddingLeft="20dp"    	
+    	android:orientation="vertical" >
+
+        <TextView
+             android:id="@+id/menu_item_name"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:gravity="center_vertical"             
+             android:text="宫爆鸡丁"
+             android:textColor="@color/black"
+             android:textAppearance="?android:attr/textAppearanceLarge"/>
+         
+         <TextView
+             android:id="@+id/menu_item_price"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerVertical="true"
+             android:gravity="center_vertical"
+             android:lines="1"
+             android:textColor="@color/black"
+             android:text="¥18"
+             android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+	</LinearLayout>    
+</RelativeLayout>

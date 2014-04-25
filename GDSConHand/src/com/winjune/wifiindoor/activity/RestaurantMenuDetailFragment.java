@@ -1,16 +1,25 @@
 package com.winjune.wifiindoor.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.R.id;
 import com.winjune.wifiindoor.R.layout;
+import com.winjune.wifiindoor.activity.BusLineInfoActivity.BusStopList;
 import com.winjune.wifiindoor.dummy.DummyContent;
+import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.poi.RestaurantInfo;
 
 /**
  * A fragment representing a single MenuItem detail screen. This fragment is
@@ -18,17 +27,18 @@ import com.winjune.wifiindoor.dummy.DummyContent;
  * tablets) or a {@link RestaurantMenuDetailActivity} on handsets.
  */
 public class RestaurantMenuDetailFragment extends Fragment {
-	/**
-	 * The fragment argument representing the item ID that this fragment
-	 * represents.
-	 */
-	public static final String ARG_ITEM_ID = "item_id";
+	public static String BUNDLE_KEY_POI_ID = "POI_ID";
+	public static String MENU_CATEGORY_IDX = "MENU_CATEGORY_IDX";
+
 
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
-	private DummyContent.DummyItem mItem;
-
+	private int poiId;	
+	private RestaurantInfo poi;
+	private String category;
+	private ArrayList<RestaurantInfo.MenuItem> categoryMenu;
+	
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
@@ -39,28 +49,55 @@ public class RestaurantMenuDetailFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Bundle arguments = getArguments();
+		poiId = arguments.getInt(BUNDLE_KEY_POI_ID);		
+		category = arguments.getString(MENU_CATEGORY_IDX);
+		
+		poi = (RestaurantInfo)POIManager.getPOIbyId(poiId);
 
-		if (getArguments().containsKey(ARG_ITEM_ID)) {
-			// Load the dummy content specified by the fragment
-			// arguments. In a real-world scenario, use a Loader
-			// to load content from a content provider.
-			mItem = DummyContent.ITEM_MAP.get(getArguments().getString(
-					ARG_ITEM_ID));
-		}
+		categoryMenu = poi.getMenuByCategory(category);	
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_menuitem_detail,
+		View rootView = inflater.inflate(R.layout.fragment_restaurant_menu_detail,
 				container, false);
-
-		// Show the dummy content as text in a TextView.
-/*		if (mItem != null) {
-			((TextView) rootView.findViewById(R.id.menuitem_detail))
-					.setText(mItem.content);
-		}
-*/
+		
+		ListView lv = (ListView)rootView.findViewById(R.id.menu_item_list);
+		
+		MenuItemList ada = new MenuItemList(getActivity(), R.layout.list_menu_item, categoryMenu);
+		
+		lv.setAdapter(ada);		
+		
 		return rootView;
 	}
+	
+	public class MenuItemList extends ArrayAdapter<RestaurantInfo.MenuItem> {
+		private Context context;
+		private List<RestaurantInfo.MenuItem> items; 
+			
+		public MenuItemList(Context context, int resource, List<RestaurantInfo.MenuItem> items) {
+			super(context, resource, items);
+			this.context = context;
+			this.items = items;
+			// TODO Auto-generated constructor stub
+		}
+			
+		@Override  
+		public View getView(int position, View convertView, ViewGroup parent){  
+			LayoutInflater vi = LayoutInflater.from(context);  
+	 
+			View view=vi.inflate(R.layout.list_menu_item, null);
+			
+			TextView itemName = (TextView)view.findViewById(R.id.menu_item_name);
+			itemName.setText(items.get(position).name);
+			
+			TextView itemPrice = (TextView)view.findViewById(R.id.menu_item_price);
+			itemPrice.setText(items.get(position).priceInfo);			
+					        
+		    return view;  
+		}   		
+	}		
 }

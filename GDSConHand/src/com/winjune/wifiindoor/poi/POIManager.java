@@ -13,7 +13,7 @@ public class POIManager {
 	
 	public static PlaceOfInterest findNearestPOI(int mapId, int placeX, int PlaceY) {
 	
-		return POIList.get(1);
+		return POIList.get(2);
 	}
 	
 	
@@ -118,6 +118,22 @@ public class POIManager {
 		aTheatre.addMovie(aMovie);
 
 		POIList.add(aTheatre);		
+		
+		RestaurantInfo aRestaurantInfo = new RestaurantInfo();
+		aRestaurantInfo.label = "餐厅";
+		aRestaurantInfo.generalDesc = "今日8折优惠";
+		
+		aRestaurantInfo.addMenuItem("主食","草帽饼", "", "18元");
+		aRestaurantInfo.addMenuItem("主食","水饺", "", "18元");
+		aRestaurantInfo.addMenuItem("主食","牛肉拉面", "", "18元");
+		aRestaurantInfo.addMenuItem("主食","牛腩面", "", "18元");
+		
+		aRestaurantInfo.addMenuItem("饮料","草帽饼", "", "18元");
+		aRestaurantInfo.addMenuItem("饮料","水饺", "", "18元");
+		aRestaurantInfo.addMenuItem("饮料","汽水", "", "18元");
+		aRestaurantInfo.addMenuItem("饮料","咖啡", "", "18元");
+
+		POIList.add(aRestaurantInfo);
 					
 	}
 }

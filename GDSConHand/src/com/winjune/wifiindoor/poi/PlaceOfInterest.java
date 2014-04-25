@@ -18,6 +18,11 @@ enum POIType {
 	Restaurant	
 }
 
+enum ContextMenuRequestFrom {
+	Location,
+	Selection
+}
+
 public class PlaceOfInterest {
 	
 	private static int ID_GENERATOR = 0;

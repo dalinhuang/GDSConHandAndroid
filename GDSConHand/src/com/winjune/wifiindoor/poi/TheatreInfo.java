@@ -87,7 +87,7 @@ public class TheatreInfo extends PlaceOfInterest{
 	
 	    View btn2 = (View) pop.getContentView().findViewById(R.id.button2);	    
 		TextView btn2_label = (TextView) pop.getContentView().findViewById(R.id.button2_label);
-		btn1_label.setText("排期");				
+		btn2_label.setText("今日排期");				
 		btn2.setOnClickListener(getOnClickListener());
 
         pop.showAtLocation(v, Gravity.BOTTOM, 0, 0);		

@@ -29,16 +29,16 @@
     <fragment
         android:id="@+id/menuitem_list"
         android:name="com.winjune.wifiindoor.activity.RestaurantMenuListFragment"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"        
         android:layout_weight="1"
+        android:layout_height="match_parent"
         tools:layout="@android:layout/list_content" />
 
     <FrameLayout
         android:id="@+id/menuitem_detail_container"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3" />
+        android:layout_width="0dp"        
+        android:layout_weight="3" 
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
 

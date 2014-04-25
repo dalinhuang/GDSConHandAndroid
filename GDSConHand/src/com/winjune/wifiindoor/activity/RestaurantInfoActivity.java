@@ -3,12 +3,16 @@ package com.winjune.wifiindoor.activity;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.R.id;
 import com.winjune.wifiindoor.R.layout;
+import com.winjune.wifiindoor.poi.BusStation;
+import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.poi.RestaurantInfo;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 /**
  * An activity representing a list of MenuItems. This activity has different
@@ -27,18 +31,32 @@ import android.widget.ListView;
  * selections.
  */
 public class RestaurantInfoActivity extends FragmentActivity implements
-		RestaurantMenuListFragment.Callbacks {
+
+	RestaurantMenuListFragment.Callbacks {
 
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
 	 * device.
 	 */
+	public static String BUNDLE_KEY_POI_ID = "POI_ID";
+	
 	private boolean mTwoPane;
-
+	
+	private int poiId;
+	private RestaurantInfo poi;
+	
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_restaurant_menu_list);
+		setContentView(R.layout.activity_restaurant_info);
+		
+		Bundle mBundle = getIntent().getExtras();
+		poiId = mBundle.getInt(BUNDLE_KEY_POI_ID);			
+		
+		poi = (RestaurantInfo)POIManager.getPOIbyId(poiId);
+		TextView titleText = (TextView)findViewById(R.id.title_text);
+		titleText.setText(poi.label);
 
 		if (findViewById(R.id.menuitem_detail_container) != null) {
 			// The detail container view will be present only in the
@@ -51,15 +69,14 @@ public class RestaurantInfoActivity extends FragmentActivity implements
 			// 'activated' state when touched.
 			RestaurantMenuListFragment fragment = (RestaurantMenuListFragment) getSupportFragmentManager()
 			.findFragmentById(R.id.menuitem_list);
+			
 			fragment.setActivateOnItemClick(true);
-/*			((RestaurantMenuListFragment) getSupportFragmentManager()
-					.findFragmentById(R.id.menuitem_list))
-					.setActivateOnItemClick(true);*/
-				int position = 0;
-				ListView curList = fragment.getListView();
-				curList.requestFocusFromTouch();
-				curList.setSelection(position);
-				curList.performItemClick(curList.getAdapter().getView(position, null, null), position, position);
+			
+			int position = 0;
+			ListView curList = fragment.getListView();
+			curList.requestFocusFromTouch();
+			curList.setSelection(position);
+			curList.performItemClick(curList.getAdapter().getView(position, null, null), position, position);
 
 		}
 
@@ -77,19 +94,15 @@ public class RestaurantInfoActivity extends FragmentActivity implements
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putString(RestaurantMenuDetailFragment.ARG_ITEM_ID, id);
+			arguments.putInt(RestaurantMenuDetailFragment.BUNDLE_KEY_POI_ID, poiId);
+			arguments.putString(RestaurantMenuDetailFragment.MENU_CATEGORY_IDX, id);
+			
 			RestaurantMenuDetailFragment fragment = new RestaurantMenuDetailFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.menuitem_detail_container, fragment).commit();
 
-		} else {
-			// In single-pane mode, simply start the detail activity
-			// for the selected item ID.
-			Intent detailIntent = new Intent(this, RestaurantMenuDetailActivity.class);
-			detailIntent.putExtra(RestaurantMenuDetailFragment.ARG_ITEM_ID, id);
-			startActivity(detailIntent);
-		}
+		} 
 	}
 	
 	public void backClick(View v){

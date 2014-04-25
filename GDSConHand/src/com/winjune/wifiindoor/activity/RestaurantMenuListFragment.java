@@ -1,5 +1,7 @@
 package com.winjune.wifiindoor.activity;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -7,7 +9,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.winjune.wifiindoor.dummy.DummyContent;
+import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.poi.RestaurantInfo;
 
 /**
  * A list fragment representing a list of MenuItems. This fragment also supports
@@ -19,6 +22,11 @@ import com.winjune.wifiindoor.dummy.DummyContent;
  * interface.
  */
 public class RestaurantMenuListFragment extends ListFragment {
+	public static String BUNDLE_KEY_POI_ID = "POI_ID";
+	
+	private int poiId;	
+	private RestaurantInfo poi;	
+	private ArrayList<String> menuCategoryList;
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -69,11 +77,11 @@ public class RestaurantMenuListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		// TODO: replace with a real list adapter.
-		setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
+		setListAdapter(new ArrayAdapter<String>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, DummyContent.ITEMS));
+				android.R.id.text1, menuCategoryList));
 	}
 
 	@Override
@@ -99,6 +107,13 @@ public class RestaurantMenuListFragment extends ListFragment {
 		}
 
 		mCallbacks = (Callbacks) activity;
+		
+		Bundle arguments = activity.getIntent().getExtras();
+		poiId = arguments.getInt(BUNDLE_KEY_POI_ID);		
+		poi = (RestaurantInfo)POIManager.getPOIbyId(poiId);
+		
+		menuCategoryList = poi.getCategoryList();		
+		
 	}
 
 	@Override
@@ -116,7 +131,7 @@ public class RestaurantMenuListFragment extends ListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+		mCallbacks.onItemSelected(menuCategoryList.get(position));
 	}
 
 	@Override
