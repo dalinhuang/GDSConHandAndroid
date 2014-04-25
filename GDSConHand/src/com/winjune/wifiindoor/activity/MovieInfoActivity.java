@@ -34,6 +34,9 @@ public class MovieInfoActivity extends Activity {
 	private TheatreInfo poi;
 	private MovieInfo movie;
 	
+	private boolean introMode = true; // default is to show schedule
+	//private boolean todaySchedule = true; // default is to show today's schedule
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -47,8 +50,7 @@ public class MovieInfoActivity extends Activity {
 		movie = poi.getMovieByIdx(movieIdx);
 		
 		setContentView(R.layout.activity_movie_info);
-		attachScheduleView();
-		refreshMovieInfo();
+		contentViewSwitch();
 				
 		final Gallery gallery = (Gallery) findViewById(R.id.gallery);		
 		MovieGalleryAdapter galleryAda = new MovieGalleryAdapter();
@@ -73,43 +75,73 @@ public class MovieInfoActivity extends Activity {
 		onBackPressed();
 	}
 	
-	public void attachScheduleView(){	
-		
-		View mainLayout = findViewById(R.id.movie_main_layout);
-		
-		LayoutInflater vi = getLayoutInflater();  		
-		vi.inflate(R.layout.layout_movie_schedule, (ViewGroup) mainLayout);		
+	public void actionClick(View v){
+		contentViewSwitch();
 	}
 	
-	
+	public void contentViewSwitch(){
+		ViewGroup mainLayout = (ViewGroup) findViewById(R.id.movie_main_layout);	
+		LayoutInflater vi = getLayoutInflater();  		
+		
+		if (introMode) { // current mode is intro mode, switch to schedule mode								
+			View introLayout = findViewById(R.id.intro_layout);			
+			if (introLayout != null)
+				mainLayout.removeView(introLayout);	
+		
+			vi.inflate(R.layout.layout_movie_schedule, (ViewGroup) mainLayout);
+			
+			// next action is introduction mode
+			TextView txtAction = (TextView)findViewById(R.id.title_btn_action);
+			txtAction.setText("简介");			
+			introMode = false;
+			
+		} else {			
+			View scheduleLayout = findViewById(R.id.movie_schedule_layout);			
+			if (scheduleLayout != null)
+				mainLayout.removeView(scheduleLayout);	
+		
+			vi.inflate(R.layout.template_intro, (ViewGroup) mainLayout);
+			
+			// next action is schedule mode
+			TextView txtAction = (TextView)findViewById(R.id.title_btn_action);
+			txtAction.setText("排期");			
+			introMode = true;						
+		}
+		
+		refreshMovieInfo();
+	}
 		
 	
 	public void refreshMovieInfo(){
 		
 		TextView titleText = (TextView)findViewById(R.id.title_text);
-		titleText.setText(movie.name);			
+		titleText.setText(movie.name);
+		
+		if (introMode) {								
+			View introLayout = findViewById(R.id.intro_layout);		
 
-		//TextView movieLabel = (TextView)findViewById(R.id.text_label);
-		//movieLabel.setText(movie.name);	
+			TextView movieLabel = (TextView)findViewById(R.id.text_label);
+			movieLabel.setText(movie.name);	
 
-		//TextView movieInfo = (TextView)findViewById(R.id.text_detail);
-		//movieInfo.setText(movie.getGeneralDesc());			
+			TextView movieInfo = (TextView)findViewById(R.id.text_detail);
+			movieInfo.setText(movie.getGeneralDesc());
+		} else { // currently it is schedule mode
 		
-		ListView lv = (ListView)findViewById(R.id.schedule_list);
+			ListView lv = (ListView)findViewById(R.id.schedule_list);
 		
-		ScheduleTimeList ada = new ScheduleTimeList(this, R.layout.list_event_by_time, poi.getMovieByIdx(movieIdx).getTodaySchedule());
+			ScheduleTimeList ada = new ScheduleTimeList(this, R.layout.list_event_by_time, poi.getMovieByIdx(movieIdx).getTodaySchedule());
 		
-		lv.setAdapter(ada);
+			lv.setAdapter(ada);
 		
-		lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+			lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				// TODO Auto-generated method stub
 				
-			}
-			
-		});		
+				}				
+			});
+		}
 	}
 	
 	public class MovieGalleryAdapter extends BaseAdapter{

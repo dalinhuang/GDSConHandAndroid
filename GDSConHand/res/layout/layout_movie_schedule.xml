@@ -18,16 +18,20 @@
         	android:id="@+id/btn_today"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"            
-            android:background="#C0C0C0"
-            android:text="今日4月10日"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+			android:paddingLeft ="15dp"
+			android:paddingRight ="15dp"
+			android:paddingTop ="3dp"
+			android:paddingBottom ="3dp"                        
+            android:background="@color/grey_light"
+            android:text="今日排期"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black" />
 
-		<TextView
+<!-- 		<TextView
             android:id="@+id/btn_tomorrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,7 +40,7 @@
             android:background="#E0E0E0"
             android:text="明日4月11日"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/black" />	
+            android:textColor="@color/black" />	 -->
 		
     </LinearLayout>   
     

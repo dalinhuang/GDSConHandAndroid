@@ -7,13 +7,11 @@
 
         <TextView
             android:id="@+id/title_btn_location"
-            style="@style/styleTitleBtnAction"
- 			android:layout_alignBottom="@id/title_btn_back"           
+            style="@style/styleTitleTxtAction"
+            android:layout_alignBottom="@id/title_btn_back"            
             android:drawableLeft="@drawable/icon_view_map"
-            android:text="地图"
-            android:textColor="@color/black"
-            android:gravity="center" 
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:text="地图"            
+            android:textColor="@color/black" />
         
         <TextView
             android:id="@+id/title_text"

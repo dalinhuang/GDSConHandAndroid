@@ -65,8 +65,16 @@
 		<item name="android:layout_alignParentTop">true</item>  
 		<item name="android:background">@color/grey_light_light</item>                   		                    
     </style>    
-      
-
+    <style name="styleTitleTxtAction">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_alignParentRight">true</item>                   
+		<item name="android:layout_alignParentTop">true</item>
+		<item name="android:clickable">true</item>    
+		<item name="android:gravity">center</item>
+		<item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+		<item name="android:background">@color/grey_light_light</item>                   		                    
+    </style>
     
     <style name="styleShortcutLayer">
         <item name="android:layout_width">match_parent</item>

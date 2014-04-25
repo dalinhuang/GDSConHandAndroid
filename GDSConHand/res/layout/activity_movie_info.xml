@@ -2,7 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/movie_main_layout"
     style="@style/GenActivtyTheme">     
-   <include layout="@layout/template_title_bar_map"/>     
+    
+    <RelativeLayout style="@style/styleTitleLayout" >
+
+        <ImageView
+            android:id="@+id/title_btn_back"
+            style="@style/styleTitleBtnBack"/>
+
+        <TextView
+            android:id="@+id/title_btn_action"
+            style="@style/styleTitleTxtAction"
+            android:layout_alignBottom="@id/title_btn_back"
+            android:drawableLeft="@drawable/icon_view_map"
+            android:onClick="actionClick"
+            android:text="简介"
+            android:textColor="@color/black" />
+        
+        <TextView
+            android:id="@+id/title_text"
+            style="@style/styleTitleText"
+            android:layout_alignBottom="@id/title_btn_back"
+            android:layout_toLeftOf="@id/title_btn_action"
+            android:layout_toRightOf="@id/title_btn_back"           
+            android:text="剧场" />
+    </RelativeLayout>   
+   
    <Gallery
         android:id="@+id/gallery"
         android:layout_width="fill_parent"
