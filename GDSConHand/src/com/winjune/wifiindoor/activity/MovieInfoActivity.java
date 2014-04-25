@@ -88,7 +88,7 @@ public class MovieInfoActivity extends Activity {
 			if (introLayout != null)
 				mainLayout.removeView(introLayout);	
 		
-			vi.inflate(R.layout.layout_movie_schedule, (ViewGroup) mainLayout);
+			vi.inflate(R.layout.layout_schedule_list, (ViewGroup) mainLayout);
 			
 			// next action is introduction mode
 			TextView txtAction = (TextView)findViewById(R.id.title_btn_action);

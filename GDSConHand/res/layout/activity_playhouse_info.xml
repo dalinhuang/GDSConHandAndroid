@@ -4,18 +4,8 @@
 
     <include layout="@layout/template_title_bar_map" />
 
-    <include layout="@layout/template_intro" />
-
-    <TextView
-        style="@style/styeParagraphBar"
-        android:text="排期" />
-
-    <ListView
-        android:id="@+id/playhouse_schedule_list"
-        style="@style/styleContentAMargin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white" >
-    </ListView>
+<!--    <include layout="@layout/template_intro"/>   -->
+   
+    <include layout="@layout/layout_schedule_list"/>   
 
 </LinearLayout>

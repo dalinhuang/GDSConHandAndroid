@@ -163,7 +163,7 @@
     <string name="title_menuitem_list">餐厅菜单</string>
     <string name="download_now">立即下载</string>
     <string name="download_later">以后再说</string>
-    <string name="alarm_added">已关注</string>
+    <string name="alarm_added"> 已关注</string>
     <string name="set_alarm">设置提醒</string>
-    <string name="play_started">已开始！</string>
+    <string name="play_started"> 已开始</string>    
 </resources>

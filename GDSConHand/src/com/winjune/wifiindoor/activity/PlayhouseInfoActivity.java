@@ -50,9 +50,9 @@ public class PlayhouseInfoActivity extends Activity {
 		
 		mEventTimesOfToday = EventManager.getEventTodayTime(mEventTitle);
 		
-		ListView lv = (ListView)findViewById(R.id.playhouse_schedule_list);
+		ListView lv = (ListView)findViewById(R.id.schedule_list);
 		
-		PlayhouseTimeList ada = new PlayhouseTimeList(this, R.layout.list_schedule, mEventTimesOfToday);
+		ScheduleTimeList ada = new ScheduleTimeList(this, R.layout.list_schedule_time, mEventTimesOfToday);
 		
 		lv.setAdapter(ada);
 		
@@ -75,67 +75,6 @@ public class PlayhouseInfoActivity extends Activity {
 		mAlarmMgr = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
 		
 		mMinutesAhead = 5; //By default the alarm time is 5 minutes ahead
-	}
-	
-	public class PlayhouseTimeList extends ArrayAdapter<ScheduleTime> {
-
-		private int resourceId;  
-		private Context context;
-		private ArrayList<ScheduleTime> mEventTimesOfToday;
-		 
-		public PlayhouseTimeList(Context context, int resource, ArrayList<ScheduleTime> items) {
-			super(context, resource, items);
-			this.context = context;
-			this.resourceId = resource;
-			this.mEventTimesOfToday = items;
-			// TODO Auto-generated constructor stub
-		}
-		
-	    @Override  
-	    public View getView(int position, View convertView, ViewGroup parent){  
-	        LayoutInflater vi = LayoutInflater.from(context);  
- 
-			View view=vi.inflate(R.layout.list_schedule, null);
-			
-			boolean playStarted = false;
-			Calendar currentTime = Calendar.getInstance();
-			int startHour = mEventTimesOfToday.get(position).fromHour;
-			int startMin = mEventTimesOfToday.get(position).fromMin;
-			
-			if ((currentTime.get(Calendar.HOUR_OF_DAY) > startHour) ||
-					((currentTime.get(Calendar.HOUR_OF_DAY) == startHour) && 
-					 (currentTime.get(Calendar.MINUTE) > startMin))){
-				playStarted = true;
-			}
-			
-			TextView scheduleStart = (TextView) view.findViewById(R.id.schedule_text_start);
-			scheduleStart.setText(mEventTimesOfToday.get(position).getStartTime());
-			
-			TextView scheduleEnd = (TextView) view.findViewById(R.id.schedule_text_end);
-			String endTime = mEventTimesOfToday.get(position).getEndTime();
-			if (endTime != ""){
-				endTime = " - " + endTime; 
-				scheduleEnd.setText(endTime);
-			}
-			
-			if (playStarted){
-				scheduleStart.setTextColor(Color.GRAY);
-				scheduleEnd.setTextColor(Color.GRAY);
-			}
-			
-			TextView remind = (TextView) view.findViewById(R.id.schedule_text_remind);
-			if (mEventTimesOfToday.get(position).getAlarmStatus()){
-				remind.setText(R.string.alarm_added);
-				remind.setTextColor(Color.RED);
-			}
-			else{
-				if (playStarted){
-					remind.setVisibility(View.INVISIBLE);
-				}
-			}
-				        
-	        return view;  
-	    }   		
 	}
 	
 	public void backClick(View v){

@@ -3,16 +3,10 @@ package com.winjune.wifiindoor.activity;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
-
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.PlayhouseInfoActivity.PlayhouseTimeList;
 import com.winjune.wifiindoor.adapter.HistoryDataList;
-import com.winjune.wifiindoor.map.FieldInfo;
 import com.winjune.wifiindoor.map.InterestPlace;
 import com.winjune.wifiindoor.map.InterestPlacesInfo;
-import com.winjune.wifiindoor.mapviewer.LabelBar;
-import com.winjune.wifiindoor.poi.ScheduleTime;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.SearchHistory;
 import com.winjune.wifiindoor.util.IndoorMapData;
@@ -20,24 +14,12 @@ import com.winjune.wifiindoor.util.Util;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.text.Editable;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 
 public class LabelSearchActivity extends Activity {
 	
