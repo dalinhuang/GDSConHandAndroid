@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.adapter.ScheduleTimeList;
-import com.winjune.wifiindoor.dummy.DummyContent;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.TheatreInfo;
 import com.winjune.wifiindoor.poi.MovieInfo;

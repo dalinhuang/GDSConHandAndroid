@@ -15,7 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.dummy.DummyContent;
 import com.winjune.wifiindoor.poi.BusLine;
 import com.winjune.wifiindoor.poi.BusStation;
 import com.winjune.wifiindoor.poi.POIManager;

@@ -17,7 +17,6 @@ import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.R.id;
 import com.winjune.wifiindoor.R.layout;
 import com.winjune.wifiindoor.activity.BusLineInfoActivity.BusStopList;
-import com.winjune.wifiindoor.dummy.DummyContent;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.RestaurantInfo;
 

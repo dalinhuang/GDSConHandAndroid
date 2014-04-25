@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.BusStationInfoActivity.BusLineList;
-import com.winjune.wifiindoor.dummy.DummyContent;
 import com.winjune.wifiindoor.map.IndoorMap;
 import com.winjune.wifiindoor.poi.BusLine;
 import com.winjune.wifiindoor.poi.BusStation;

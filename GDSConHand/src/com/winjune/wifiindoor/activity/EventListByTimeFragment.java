@@ -16,7 +16,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.dummy.DummyContent;
 import com.winjune.wifiindoor.poi.EventItem;
 import com.winjune.wifiindoor.poi.EventManager;
 
@@ -77,8 +76,7 @@ public class EventListByTimeFragment extends ListFragment {
 		if (null != mListener) {
 			// Notify the active callbacks interface (the activity, if the
 			// fragment is attached to one) that an item has been selected.
-			mListener
-					.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+			//mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
 		}
 		
 		//TextView tv = (TextView) getListView().getItemAtPosition(position);

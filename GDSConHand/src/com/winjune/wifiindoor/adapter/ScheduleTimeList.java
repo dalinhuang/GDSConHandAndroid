@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.dummy.DummyContent;
 import com.winjune.wifiindoor.poi.ScheduleTime;
 
 

@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.dummy.DummyContent;
 import com.winjune.wifiindoor.poi.EventManager;
 import com.winjune.wifiindoor.poi.ScheduleTime;
 import com.winjune.wifiindoor.util.Util;
