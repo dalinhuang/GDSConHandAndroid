@@ -1,17 +1,17 @@
 package com.winjune.wifiindoor.poi;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class PlayhouseInfo extends PlaceOfInterest{
-
-	private int hallId;
 	
 	private ArrayList<ScheduleTime> normalDayTime;
 	private ArrayList<ScheduleTime> weekendTime;
 	private ArrayList<ScheduleTime> festivalTime;
 	
 	public PlayhouseInfo(String title) {
-		super();
+		super(POIType.Playhouse);
 		
 		this.label = title;
 	
@@ -20,6 +20,25 @@ public class PlayhouseInfo extends PlaceOfInterest{
 		festivalTime = new ArrayList<ScheduleTime>();		
 	}
 	
+	public ArrayList<ScheduleTime> getTodaySchedule() {
+		
+		
+		Date dt = new Date(0);;		
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dt);
+        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        if (dayOfWeek < 0 )	dayOfWeek = 0;
+        
+        ArrayList<ScheduleTime> timeList;
+        if (EventManager.isFestivalDay(dt)) {
+        	return festivalTime;
+        } else if ((dayOfWeek == 0) || (dayOfWeek == 6))  {
+        	return weekendTime;        	
+        }
+        
+        return normalDayTime;
+  				
+	}	
 	
 	public void setPlace(int placeX, int placeY, int placeNo){
 		this.hallId = placeNo;

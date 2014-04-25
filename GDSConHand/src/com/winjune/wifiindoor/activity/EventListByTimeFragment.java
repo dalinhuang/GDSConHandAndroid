@@ -16,8 +16,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.poi.EventItem;
 import com.winjune.wifiindoor.poi.EventManager;
+import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.poi.PlayhouseInfo;
 
 /**
  * A fragment representing a list of Items.
@@ -29,7 +30,7 @@ import com.winjune.wifiindoor.poi.EventManager;
 public class EventListByTimeFragment extends ListFragment {
 
 	private OnFragmentInteractionListener mListener;
-	private ArrayList<EventItem> mEventItems;
+	private ArrayList<PlayhouseInfo> mEventItems;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -78,14 +79,11 @@ public class EventListByTimeFragment extends ListFragment {
 			// fragment is attached to one) that an item has been selected.
 			//mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
 		}
-		
-		//TextView tv = (TextView) getListView().getItemAtPosition(position);
-		TextView tv = (TextView) v.findViewById(R.id.event_title);
-		String title = tv.getText().toString();
-		
+			
 		Intent i = new Intent(getActivity(), PlayhouseInfoActivity.class); 
 		Bundle bundle = new Bundle();
-		bundle.putString(EventManager.Key_Event_Title, title);
+		bundle.putInt(PlayhouseInfoActivity.BUNDLE_KEY_POI_ID, mEventItems.get(position).id);
+		
 		i.putExtras(bundle);
 		startActivity(i);	
 	}
@@ -104,12 +102,12 @@ public class EventListByTimeFragment extends ListFragment {
 		public void onFragmentInteraction(String id);
 	}
 	
-	public class EventListByTime extends ArrayAdapter<EventItem> {
+	public class EventListByTime extends ArrayAdapter<PlayhouseInfo> {
 
 		private int resourceId;  
 		private Context context;
 		 
-		public EventListByTime(Context context, int resource, ArrayList<EventItem> items) {
+		public EventListByTime(Context context, int resource, ArrayList<PlayhouseInfo> items) {
 			super(context, resource, items);
 			this.context = context;
 			this.resourceId = resource;
@@ -126,7 +124,7 @@ public class EventListByTimeFragment extends ListFragment {
 			title.setText(mEventItems.get(position).getTitle());
 			
 			TextView timeAndPlace = (TextView)view.findViewById(R.id.event_schedule);
-			String place = EventManager.getPlace(mEventItems.get(position).getPlaceNo());
+			String place = POIManager.getHallLabel(mEventItems.get(position).getPlaceNo());
 			timeAndPlace.setText(place);
 				        
 	        return view;  

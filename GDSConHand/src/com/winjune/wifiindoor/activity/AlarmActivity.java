@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.R.layout;
 import com.winjune.wifiindoor.R.menu;
-import com.winjune.wifiindoor.poi.EventItem;
 import com.winjune.wifiindoor.poi.EventManager;
 import com.winjune.wifiindoor.poi.MovieInfo;
 import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.poi.PlayhouseInfo;
 import com.winjune.wifiindoor.poi.ScheduleTime;
 
 import android.os.Bundle;
@@ -38,8 +38,8 @@ public class AlarmActivity extends Activity {
 		mEventInfos = new ArrayList<EventInfo>();
 		
 		//Fill in the playhouse information
-		ArrayList<EventItem> eventItems = EventManager.getEventListByAlarm();
-		for (EventItem ei: eventItems){
+		ArrayList<PlayhouseInfo> eventItems = EventManager.getEventListByAlarm();
+		for (PlayhouseInfo ei: eventItems){
 			EventInfo eventInfo = new EventInfo();
 			
 			eventInfo.setEventTitle(ei.getTitle());

@@ -20,8 +20,6 @@ import com.winjune.wifiindoor.poi.POIManager;
 
 public class BusStationInfoActivity extends PoiBaseActivity {
 	
-	public static String BUNDLE_KEY_POI_ID = "POI_ID";
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

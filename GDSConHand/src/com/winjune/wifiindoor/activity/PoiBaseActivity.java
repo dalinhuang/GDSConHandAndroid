@@ -7,6 +7,9 @@ import android.app.Activity;
 import android.widget.TextView;
 
 public class PoiBaseActivity extends Activity{	
+	public static String BUNDLE_KEY_POI_ID = "POI_ID";
+	
+	
 	protected int poiId;
 	protected PlaceOfInterest poi;
 	

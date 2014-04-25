@@ -15,6 +15,7 @@ enum POIType {
 	Normal,
 	BusStation,
 	Theatre,
+	Playhouse,
 	Restaurant	
 }
 
@@ -30,6 +31,9 @@ public class PlaceOfInterest {
 	public POIType poiType;
 	
 	public int id;
+	
+	public int hallId;
+
 	
 	private int ttsNo;
 	
@@ -90,6 +94,11 @@ public class PlaceOfInterest {
 	
 	public PlaceOfInterest(){
 		this(POIType.Normal);
+	}
+	
+	public PlaceOfInterest(String label){
+		this(POIType.Normal);
+		this.label = label;
 	}
 			
 	public String getGeneralDesc(){

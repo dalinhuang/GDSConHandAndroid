@@ -26,7 +26,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class TheatreInfoActivity extends PoiBaseActivity {
-	public static String BUNDLE_KEY_POI_ID = "POI_ID";	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

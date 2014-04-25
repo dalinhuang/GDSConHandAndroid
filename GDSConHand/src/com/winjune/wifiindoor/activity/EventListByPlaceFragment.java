@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import com.winjune.wifiindoor.R;
 
 import android.support.v4.app.Fragment;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,17 +15,16 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.ExpandableListView.OnGroupClickListener;
-import android.widget.ExpandableListView.OnGroupCollapseListener;
-import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.TextView;
 
-import com.winjune.wifiindoor.poi.EventItem;
+import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.poi.PlayhouseInfo;
 import com.winjune.wifiindoor.poi.EventManager;
 
 public class EventListByPlaceFragment extends Fragment {
 		
 	private EventManager eventManager;
+	private ArrayList<ArrayList<PlayhouseInfo>>  eventsListChild;
 		
 	@Override 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle  savedInstanceState) {
@@ -53,14 +51,13 @@ public class EventListByPlaceFragment extends Fragment {
 
 				@Override
 				public boolean onChildClick(ExpandableListView arg0, View arg1,
-						int arg2, int arg3, long arg4) {
+						int groupId, int childId, long arg4) {
 					// TODO Auto-generated method stub
-					TextView tv = (TextView) arg1.findViewById(R.id.EventTitle);
-					String title = tv.getText().toString();
-					
+								
 					Intent i = new Intent(getActivity(), PlayhouseInfoActivity.class);
 					Bundle bundle = new Bundle();
-					bundle.putString(EventManager.Key_Event_Title, title);
+					
+					bundle.putInt(PlayhouseInfoActivity.BUNDLE_KEY_POI_ID, eventsListChild.get(groupId).get(childId).id);
 					i.putExtras(bundle);
 					startActivity(i);					
 					return true;
@@ -72,16 +69,14 @@ public class EventListByPlaceFragment extends Fragment {
 	  	    
 	 public class PlaceAdapter extends BaseExpandableListAdapter {   
 		      
-	    	private int[] placesNoGroup;
-	    	private ArrayList<ArrayList<EventItem>>  eventsListChild;
-	        
+	    	private Integer[] placesNoGroup;       
 	        
 	        public PlaceAdapter() {
-	        	placesNoGroup = eventManager.getEventPlaces();
-	        	eventsListChild = new ArrayList<ArrayList<EventItem>>();
+	        	placesNoGroup = POIManager.getHallsWithPlayhouse();
+	        	eventsListChild = new ArrayList<ArrayList<PlayhouseInfo>>();
 	        	
 	        	for (int i=0; i<placesNoGroup.length; i++) {
-		        	ArrayList<EventItem> eventsToday;			        	
+		        	ArrayList<PlayhouseInfo> eventsToday;			        	
 		        	
 	        		eventsToday = eventManager.getTodayEventListByPlace(placesNoGroup[i]);
 	        		eventsListChild.add(eventsToday);	        		
@@ -90,7 +85,7 @@ public class EventListByPlaceFragment extends Fragment {
 	          
 	        @Override  
 	        public Object getChild(int groupPosition, int childPosition) {
-	        	ArrayList<EventItem> eventsToday;
+	        	ArrayList<PlayhouseInfo> eventsToday;
 	        	
 	        	eventsToday = eventsListChild.get(groupPosition);
 	        	
@@ -104,7 +99,7 @@ public class EventListByPlaceFragment extends Fragment {
 	      
 	        @Override  
 	        public int getChildrenCount(int groupPosition) { 
-	        	ArrayList<EventItem> eventsToday;
+	        	ArrayList<PlayhouseInfo> eventsToday;
 	        	
 	        	eventsToday = eventsListChild.get(groupPosition);
 	        	
@@ -122,11 +117,11 @@ public class EventListByPlaceFragment extends Fragment {
 	              	              
 	            TextView name=(TextView)view.findViewById(R.id.EventTitle); //childlayout有一个用于显示名字的视图  
 	        	
-	            ArrayList<EventItem> eventsToday;	  
+	            ArrayList<PlayhouseInfo> eventsToday;	  
 	        	
 	        	eventsToday = eventsListChild.get(groupPosition);
 	        	
-	        	EventItem thisEvent = eventsToday.get(childPosition);
+	        	PlayhouseInfo thisEvent = eventsToday.get(childPosition);
 	        		            
 	        	if (thisEvent != null)
 	        		name.setText(thisEvent.getTitle());
@@ -162,7 +157,7 @@ public class EventListByPlaceFragment extends Fragment {
 	            View view=inflate.inflate(R.layout.list_event_group_by_place, null);    
 	              
 	            TextView groupName=(TextView)view.findViewById(R.id.GroupTitle);
-	            String groupTitle = eventManager.getPlaceLabel(placesNoGroup[groupPosition]);
+	            String groupTitle = POIManager.getHallLabel(placesNoGroup[groupPosition]);
 	            groupName.setText(groupTitle);  
 	              
 	            TextView groupCount=(TextView)view.findViewById(R.id.EventCount);  

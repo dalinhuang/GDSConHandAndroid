@@ -22,6 +22,10 @@ public class RestaurantInfo extends PlaceOfInterest{
 
 	private ArrayList<MenuItem> menu = new ArrayList<MenuItem>();
 	
+	public RestaurantInfo(){
+		super(POIType.Restaurant);
+	}
+	
 	public void addMenuItem(String category, String name, String iconUrl, String price){
 		MenuItem item = new MenuItem(category, name, iconUrl, price);		
 		menu.add(item);		

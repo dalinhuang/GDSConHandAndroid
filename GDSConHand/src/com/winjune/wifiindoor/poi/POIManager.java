@@ -1,6 +1,10 @@
 package com.winjune.wifiindoor.poi;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import com.winjune.wifiindoor.map.FieldInfo;
 import com.winjune.wifiindoor.map.MapInfo;
@@ -47,14 +51,27 @@ public class POIManager {
 		return matchedPOIs;
 	}
 	
-
-	
-	
 	public static PlaceOfInterest getPOIbyId(int poiId) {				
 		return POIList.get(poiId);
 	}	
 	
+	public static Integer[] getHallsWithPlayhouse(){		
+		HashSet<Integer>  hallSet = new HashSet<Integer> ();
+  
+        for (PlaceOfInterest et:POIList){        	
+       		if (et.poiType == POIType.Playhouse)
+       			hallSet.add(et.hallId);
+        }
+        	
+        Integer[] placesGroup = hallSet.toArray(new Integer[0]);        
+        return placesGroup;
+	}		
+	
 	public static void addSamples(){
+		
+	}
+	
+	public static void addBusStationSamples(){
 		BusStation aBusStation = new BusStation();
 		BusLine aBusLine;
 		aBusLine = new BusLine( aBusStation.id, // busStation POI id;
@@ -83,11 +100,11 @@ public class POIManager {
 				"大学城科学中心总站;广大公寓;广大生活区;广大;大学城枢纽站;华师;黄沙大道总站");
 
 		aBusStation.addBusLine(aBusLine);		
-		
-		
-		
+
 		POIList.add(aBusStation);
-		
+	}
+	
+	public static void addTheatreSamples(){
 		
 		TheatreInfo aTheatre = new TheatreInfo();
 		MovieInfo aMovie;
@@ -115,7 +132,9 @@ public class POIManager {
 		aTheatre.addMovie(aMovie);
 
 		POIList.add(aTheatre);		
-		
+	}
+	
+	public static void addRestaurantSamples() {
 		RestaurantInfo aRestaurantInfo = new RestaurantInfo();
 		aRestaurantInfo.label = "餐厅";
 		aRestaurantInfo.generalDesc = "今日8折优惠";
@@ -130,9 +149,154 @@ public class POIManager {
 		aRestaurantInfo.addMenuItem("饮料","汽水", "", "18元");
 		aRestaurantInfo.addMenuItem("饮料","咖啡", "", "18元");
 
-		POIList.add(aRestaurantInfo);
-					
+		POIList.add(aRestaurantInfo);		
 	}
+	
+
+	public static void addPlayhouseSamples(){		
+		PlaceOfInterest poi;
+		
+		poi = new PlaceOfInterest("试验与发现馆");	
+		POIList.add(poi);
+		PlayhouseInfo eventItem1	= new PlayhouseInfo("电磁舞台");
+		eventItem1.setPlace(0,0, poi.id);
+		eventItem1.addNormalDayTimes("10:20;14:30");
+		eventItem1.addHolidayTime(10, 30, 0, 0);
+		eventItem1.addHolidayTime(12, 0, 0, 0);
+		eventItem1.addHolidayTime(15, 30, 0, 0);	
+		POIList.add(eventItem1);
+	
+		poi = new PlaceOfInterest("儿童天地馆");
+
+		PlayhouseInfo eventItem2	= new PlayhouseInfo("基因剧场");
+		POIList.add(poi);
+		eventItem2.setPlace(0,0, poi.id);
+		eventItem2.addNormalDayTime(11, 0, 0, 0);
+		eventItem2.addNormalDayTime(14, 0, 0, 0);
+		eventItem2.addHolidayTime(11, 0, 0, 0);
+		eventItem2.addHolidayTime(14, 0, 0, 0);
+		eventItem2.addHolidayTime(14, 30, 0, 0);	
+		POIList.add(eventItem2);
+		
+		PlayhouseInfo eventItem3	= new PlayhouseInfo("启蒙剧场");
+		eventItem3.setPlace(0,0, poi.id);	
+		eventItem3.addHolidayTime(14, 30, 0, 0);	
+		POIList.add(eventItem3);
+		
+		poi = new PlaceOfInterest("交通世界馆");
+		POIList.add(poi);
+		PlayhouseInfo eventItem4	= new PlayhouseInfo("磁悬浮技术");
+		eventItem4.setPlace(0,0, poi.id);
+		eventItem4.addWeekdayTime(10, 30, 12, 0);
+		eventItem4.addWeekdayTime(14, 0, 15, 30);
+		eventItem4.addFestivalTime(10, 0, 12, 0);
+		eventItem4.addFestivalTime(14, 0, 16, 0);	
+		POIList.add(eventItem4);	
+
+		
+		PlayhouseInfo eventItem5	= new PlayhouseInfo("模拟汽车工厂");
+		eventItem5.setPlace(0,0, poi.id);
+		eventItem5.addAllTime(9, 30, 12, 0);
+		eventItem5.addAllTime(13, 0, 16, 30);			
+		POIList.add(eventItem5);	
+
+		poi = new PlaceOfInterest("数码世界馆");
+		POIList.add(poi);
+		PlayhouseInfo eventItem6	= new PlayhouseInfo("机器人搏击");
+		eventItem6.setPlace(0,0, poi.id);
+		eventItem6.addAllTime(10, 45, 0, 0);
+		eventItem6.addAllTime(11, 45, 0, 0);
+		eventItem6.addAllTime(14, 45, 0, 0);
+		eventItem6.addAllTime(15, 45, 0, 0);	
+		eventItem6.addFestivalTime(13, 45, 0, 0);
+		POIList.add(eventItem6);	
+
+		poi = new PlaceOfInterest("飞天之梦馆");
+		POIList.add(poi);
+		PlayhouseInfo eventItem7	= new PlayhouseInfo("太空生活表演");
+		eventItem7.setPlace(0,0, poi.id);
+		eventItem7.addAllTime(10, 30, 0, 0);
+		eventItem7.addNormalDayTime(14, 20, 0, 0);
+		eventItem7.addFestivalTime(13, 0, 0, 0);
+		eventItem7.addFestivalTime(15, 0, 0, 0);	
+		POIList.add(eventItem7);	
+
+		
+		PlayhouseInfo eventItem8	= new PlayhouseInfo("航天发射指挥控制中心");
+		eventItem8.setPlace(0,0, poi.id);
+		eventItem8.addNormalDayTime(10, 45, 0, 0);
+		eventItem8.addNormalDayTime(13, 0, 0, 0);
+		eventItem8.addNormalDayTime(14, 0, 0, 0);
+		eventItem8.addHolidayTime(11, 0, 0, 0);
+		eventItem8.addHolidayTime(13, 30, 0, 0);
+		eventItem8.addHolidayTime(15, 0, 16, 0);	
+		POIList.add(eventItem8);	
+
+		PlayhouseInfo eventItem9	= new PlayhouseInfo("飞行模拟剧场");
+		eventItem9.setPlace(0,0, poi.id);
+		eventItem9.addAllTime(10, 15, 0, 0);
+		eventItem9.addAllTime(11, 15, 0, 0);
+		eventItem9.addAllTime(14, 0, 0, 0);
+		eventItem9.addAllTime(14, 45, 0, 0);	
+		eventItem9.addAllTime(15, 30, 0, 0);
+		POIList.add(eventItem9);	
+		
+		poi = new PlaceOfInterest("绿色家园馆");
+		POIList.add(poi);
+		PlayhouseInfo eventItem10	= new PlayhouseInfo("台风体验");
+		eventItem10.setPlace(0,0, poi.id);
+		eventItem10.addAllTime(10, 0, 10, 30);
+		eventItem10.addAllTime(10, 50, 11, 30);
+		eventItem10.addAllTime(12, 50, 13, 30);
+		eventItem10.addAllTime(13, 50, 14, 30);	
+		eventItem10.addAllTime(14, 50, 15, 30);
+		POIList.add(eventItem10);	
+		
+		PlayhouseInfo eventItem11	= new PlayhouseInfo("地球物体剧场");
+		eventItem11.setPlace(0,0, 6);
+		eventItem11.addAllTime(10, 45, 0, 0);
+		eventItem11.addAllTime(11, 35, 0, 0);
+		eventItem11.addAllTime(13, 35, 0, 0);
+		eventItem11.addAllTime(14, 35, 0, 0);	
+		eventItem11.addAllTime(15, 35, 0, 0);
+		POIList.add(eventItem11);	
+		
+		poi = new PlaceOfInterest("人与健康馆");
+		PlayhouseInfo eventItem12	= new PlayhouseInfo("虚拟人体漫游");
+		eventItem12.setPlace(0,0, poi.id);
+		eventItem12.addAllTime(9, 50, 0, 0);
+		eventItem12.addAllTime(10, 30, 0, 0);
+		eventItem12.addAllTime(11, 10, 0, 0);
+		eventItem12.addAllTime(11, 50, 0, 0);	
+		eventItem12.addAllTime(13, 40, 0, 0);
+		eventItem12.addAllTime(14, 20, 0, 0);
+		eventItem12.addAllTime(15, 0, 0, 0);
+		eventItem12.addAllTime(15, 40, 0, 0);
+		eventItem7.addFestivalTime(12, 30, 0, 0);
+		eventItem7.addFestivalTime(13, 0, 0, 0);
+		eventItem7.addFestivalTime(16, 20, 0, 0);
+		POIList.add(eventItem12);	
+		
+		poi = new PlaceOfInterest("感知与思维馆");
+		POIList.add(poi);
+		PlayhouseInfo eventItem13	= new PlayhouseInfo("感知线索剧场");
+		eventItem13.setPlace(0,0, poi.id);
+		eventItem13.addAllTime(9, 30, 10, 0);
+		eventItem13.addAllTime(10, 0, 10, 30);
+		eventItem13.addAllTime(10, 30, 11, 0);
+		eventItem13.addAllTime(11, 0, 11, 30);	
+		eventItem13.addAllTime(11, 30, 12, 0);
+		eventItem13.addAllTime(13, 30, 14, 0);
+		eventItem13.addAllTime(14, 0, 14, 30);
+		eventItem13.addAllTime(14, 30, 15, 0);
+		eventItem13.addAllTime(15, 0, 15, 30);
+		eventItem13.addAllTime(15, 30, 16, 0);
+		eventItem13.addFestivalTime(12, 0, 12, 30);
+		eventItem13.addFestivalTime(12, 30, 13, 30);
+		eventItem13.addFestivalTime(16, 0, 16, 30);		
+		POIList.add(eventItem13);
+						
+	}	
 	
 	public static ArrayList<MovieInfo> getMovieListByAlarm(){
 		 
@@ -156,4 +320,9 @@ public class POIManager {
 		
 		return movieList;
 	}
+	
+	public static String getHallLabel(int hallId){
+		
+		return POIList.get(hallId).label;
+	}	
 }

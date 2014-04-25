@@ -1,13 +1,9 @@
 package com.winjune.wifiindoor.activity;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.R.id;
-import com.winjune.wifiindoor.R.layout;
-import com.winjune.wifiindoor.poi.BusStation;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.RestaurantInfo;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -31,13 +27,13 @@ import android.widget.TextView;
  * selections.
  */
 public class RestaurantInfoActivity extends FragmentActivity implements
-
 	RestaurantMenuListFragment.Callbacks {
 
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
 	 * device.
 	 */
+	
 	public static String BUNDLE_KEY_POI_ID = "POI_ID";
 	
 	private boolean mTwoPane;

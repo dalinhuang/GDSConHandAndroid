@@ -2,35 +2,30 @@ package com.winjune.wifiindoor.activity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-
 import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.poi.PlayhouseInfo;
 import com.winjune.wifiindoor.poi.EventManager;
+import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.ScheduleTime;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.adapter.ScheduleTimeList;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PlayhouseInfoActivity extends Activity {
-
+public class PlayhouseInfoActivity extends PoiBaseActivity {
+	
 	private AlarmManager mAlarmMgr;
 	private int mMinutesAhead;
 	private String mEventTitle;
@@ -43,11 +38,13 @@ public class PlayhouseInfoActivity extends Activity {
 		
 		Bundle bundle = getIntent().getExtras();
 		mEventTitle = bundle.getString(EventManager.Key_Event_Title);
+		poiId = bundle.getInt(BUNDLE_KEY_POI_ID);
 		
-		TextView title = (TextView) findViewById(R.id.title_text);
-		title.setText(mEventTitle);
+		poi = POIManager.getPOIbyId(poiId);
 		
-		mEventTimesOfToday = EventManager.getEventTodayTime(mEventTitle);
+		UpdateTitleInfo();
+		
+		mEventTimesOfToday =((PlayhouseInfo)poi).getTodaySchedule();
 		
 		ListView lv = (ListView)findViewById(R.id.schedule_list);
 		
