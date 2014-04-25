@@ -65,7 +65,7 @@ public class PlayhouseInfoActivity extends Activity {
 					int startHour = mEventTimesOfToday.get(arg2).fromHour;
 					int startMinute = mEventTimesOfToday.get(arg2).fromMin;
 					
-					onSetAlarmClick(startHour, startMinute, arg1, arg2);
+					onSetAlarmClick(19, 0, arg1, arg2);
 
 			}
 			
@@ -159,6 +159,7 @@ public class PlayhouseInfoActivity extends Activity {
 				TextView tv = (TextView) v.findViewById(R.id.schedule_text_remind);
 				tv.setText(R.string.alarm_added);
 				tv.setTextColor(Color.RED);
+				tv.setVisibility(View.VISIBLE);
 				
 				//Util.showToast(PlayhouseInfoActivity.this, "设置提醒成功！", Toast.LENGTH_SHORT);
 

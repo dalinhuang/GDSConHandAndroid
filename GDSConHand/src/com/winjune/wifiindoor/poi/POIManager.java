@@ -133,4 +133,27 @@ public class POIManager {
 		POIList.add(aRestaurantInfo);
 					
 	}
+	
+	public static ArrayList<MovieInfo> getMovieListByAlarm(){
+		 
+		ArrayList<MovieInfo> movieList = new ArrayList<MovieInfo>();
+		
+		for (PlaceOfInterest poi : POIList){
+			
+			if (poi.poiType == POIType.Theatre){
+				
+				TheatreInfo ti = (TheatreInfo) poi;
+				ArrayList<MovieInfo> movies = ti.getMovies();
+				
+				for (MovieInfo mi : movies){
+					
+					if (mi.hasMovieAlarmToday()){
+						movieList.add(mi);
+					}
+				}
+			}
+		}
+		
+		return movieList;
+	}
 }

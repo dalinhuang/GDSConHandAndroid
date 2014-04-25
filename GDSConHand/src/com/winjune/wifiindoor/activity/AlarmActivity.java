@@ -7,6 +7,8 @@ import com.winjune.wifiindoor.R.layout;
 import com.winjune.wifiindoor.R.menu;
 import com.winjune.wifiindoor.poi.EventItem;
 import com.winjune.wifiindoor.poi.EventManager;
+import com.winjune.wifiindoor.poi.MovieInfo;
+import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.ScheduleTime;
 
 import android.os.Bundle;
@@ -26,18 +28,40 @@ import android.widget.TextView;
 
 public class AlarmActivity extends Activity {
 
-	private ArrayList<EventItem> mEventItems;
+	private ArrayList<EventInfo> mEventInfos;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_alarm);
 		
-		mEventItems = EventManager.getEventListByAlarm();
+		mEventInfos = new ArrayList<EventInfo>();
+		
+		//Fill in the playhouse information
+		ArrayList<EventItem> eventItems = EventManager.getEventListByAlarm();
+		for (EventItem ei: eventItems){
+			EventInfo eventInfo = new EventInfo();
+			
+			eventInfo.setEventTitle(ei.getTitle());
+			eventInfo.setSchedules(EventManager.getEventAlarmTimeOfToday(ei));
+			
+			mEventInfos.add(eventInfo);
+		}
+		
+		//Fill in the movie information
+		ArrayList<MovieInfo> movies = POIManager.getMovieListByAlarm();
+		for (MovieInfo mi: movies){
+			EventInfo eventInfo = new EventInfo();
+			
+			eventInfo.setEventTitle(mi.name);
+			eventInfo.setSchedules(mi.getTodayScheduleByAlarm());
+			
+			mEventInfos.add(eventInfo);
+		}
 		
 		ListView lv = (ListView) findViewById(R.id.eventListByAlarm);
 		lv.setAdapter(new EventListByAlarm(AlarmActivity.this,
-				R.layout.list_event_by_time, mEventItems));
+				R.layout.list_event_by_time, mEventInfos));
 		
 		Intent intent = getIntent();
 		String title = intent.getStringExtra(EventManager.Key_Event_Title);
@@ -66,13 +90,39 @@ public class AlarmActivity extends Activity {
 		return true;
 	}
 	
-	public class EventListByAlarm extends ArrayAdapter<EventItem> {
+	private class EventInfo {
+		private String mEventTitle;
+		private ArrayList<ScheduleTime> mSchedules;
+		
+		public EventInfo(){
+			mEventTitle = "";
+			mSchedules = null;
+		}
+		
+		public String getEventTitle(){
+			return mEventTitle;
+		}
+		
+		public void setEventTitle(String title){
+			mEventTitle = title;
+		}
+		
+		public ArrayList<ScheduleTime> getSchedules(){
+			return mSchedules;
+		}
+		
+		public void setSchedules(ArrayList<ScheduleTime> schedules){
+			mSchedules = schedules;
+		}
+	}
+	
+	public class EventListByAlarm extends ArrayAdapter<EventInfo> {
 
 		private int resourceId;  
 		private Context context;
-		private ArrayList<EventItem> events;
+		private ArrayList<EventInfo> events;
 		 
-		public EventListByAlarm(Context context, int resource, ArrayList<EventItem> items) {
+		public EventListByAlarm(Context context, int resource, ArrayList<EventInfo> items) {
 			super(context, resource, items);
 			this.context = context;
 			this.resourceId = resource;
@@ -87,12 +137,12 @@ public class AlarmActivity extends Activity {
 			View view=vi.inflate(R.layout.list_event_by_time, null);
 			
 			TextView title = (TextView) view.findViewById(R.id.event_title);
-			title.setText(events.get(position).getTitle());
+			title.setText(events.get(position).getEventTitle());
 			
 			TextView tv = (TextView)view.findViewById(R.id.event_schedule);
 			String times = "已关注时间：";
-			EventItem ei = events.get(position);
-			ArrayList<ScheduleTime> timeList = EventManager.getEventAlarmTimeOfToday(ei);
+			EventInfo ei = events.get(position);
+			ArrayList<ScheduleTime> timeList = ei.getSchedules();
 			for (ScheduleTime et : timeList){
 				times += et.getStartTime();
 			}

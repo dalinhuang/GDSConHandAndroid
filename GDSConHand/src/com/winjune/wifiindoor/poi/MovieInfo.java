@@ -60,4 +60,28 @@ public class MovieInfo {
 	public ArrayList<ScheduleTime> getTomorrowSchedule(){
 		return tomorrowSchedule;
 	}
+	
+	public boolean hasMovieAlarmToday(){
+		
+		for (ScheduleTime st: todaySchedule){
+			if (st.getAlarmStatus()){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public ArrayList<ScheduleTime> getTodayScheduleByAlarm(){
+		
+		ArrayList<ScheduleTime> schedule = new ArrayList<ScheduleTime>();
+		
+		for (ScheduleTime st: todaySchedule){
+			if (st.getAlarmStatus()){
+				schedule.add(st);
+			}
+		}
+		
+		return schedule;
+	}
 }
