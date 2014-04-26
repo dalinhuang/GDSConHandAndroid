@@ -34,6 +34,7 @@ import com.winjune.wifiindoor.map.InterestPlacesInfo;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
+import com.winjune.wifiindoor.poi.*;
 import com.winjune.wifiindoor.util.VisualParameters;
 import com.winjune.wifiindoor.webservice.IpsWebService;
 import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
@@ -41,80 +42,6 @@ import com.winjune.wifiindoor.webservice.types.VersionOrMapIdRequest;
 
 public class InterestPlaceBar {
 
-	public static void showGuideAudioBar(final MapViewerActivity mapViewer) {	
-		mapViewer.runOnUiThread(new Runnable() {
-			  public void run() {
-				  InterestPlaceBar.createGuideAudioBar(mapViewer);
-			  }
-		});
-	}	
-	
-	public static void createGuideAudioBar(final MapViewerActivity mapViewer) {
-	    final AlertDialog.Builder builder = new AlertDialog.Builder(mapViewer);
-		
-	    builder.setIcon(R.drawable.ic_launcher);
-	    builder.setTitle(R.string.audio_guide_title);
-		
-		LayoutInflater inflater = mapViewer.getLayoutInflater();
-		final View layout = inflater.inflate(R.layout.guide_audio_input, (ViewGroup) mapViewer.findViewById(R.id.audio_guide_input));
-		builder.setView(layout);
-		
-		builder.setPositiveButton(R.string.play_audio_guide, new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				 EditText inputIPNumText = (EditText) layout.findViewById(R.id.audio_no_input_result);
-				 String inputIPNumStr = inputIPNumText.getText().toString();
-				 Boolean IPFound = false;
-																		 
-				 if (inputIPNumStr != null) {								 	
-					 	int inputIPNum = Integer.parseInt(inputIPNumStr); 
-					 
-						InterestPlacesInfo interestPlacesInfo = new InterestPlacesInfo();
-						
-						// load interest place list	
-						try {
-							InputStream map_file_is = new FileInputStream(Util.getInterestPlacesInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
-							
-							interestPlacesInfo.fromXML(map_file_is);
-						} catch (Exception e) {																		
-							e.printStackTrace();
-						}
-						
-						// look for the matched place record									
-						ArrayList<InterestPlace> places = interestPlacesInfo.getFields();
-						
-						if (places != null) {																		
-							for (InterestPlace place : places) {
-								if (place != null) {
-									if (place.getSerial() == inputIPNum) {																										
-										IPFound = true;
-										
-										displayInterestPlaceContent(mapViewer, place);								 												
-									}												
-								}
-							}
-						}									
-				 }
-				 
-				 if (!IPFound) { 
-					 Util.showLongToast(mapViewer, R.string.audio_no_not_exist);							
-				 }
-				 
-				 dialog.dismiss();
-			}
-		});
-
-		builder.setNegativeButton(R.string.cancel, new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-			}
-		});
-		
-		builder.create();
-		builder.show();
-	}
-	
 	public static void loadInterestPlaces(MapViewerActivity mapViewer) {
 		InterestPlacesInfo interestPlacesInfo = new InterestPlacesInfo();
 		boolean updateNeeded = true; //Hoare: update every time regardless map version, for test only
@@ -350,10 +277,8 @@ public class InterestPlaceBar {
 			mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
 			intent_show_interest_place.putExtras(mBundle); 
 			mapViewer.startActivity(intent_show_interest_place);
-		}																
-		
-	}
-	
-	
-	
+		}		
+	}		
 }
+	
+

@@ -216,24 +216,7 @@ public class MapHUD {
 				return true;
 			}
 		});		
-		
-		x += mapViewer.TAB_BUTTON_WIDTH + mapViewer.TAB_BUTTON_MARGIN * 2;
-		Library.BUTTON_ZOOM.load(mapViewer, mapViewer.TAB_BUTTON_WIDTH, mapViewer.TAB_BUTTON_HEIGHT);
-		putHUDControlUnit(mapViewer, Library.BUTTON_ZOOM, x, y, new SpriteListener() {
 			
-			@Override
-			public boolean onAreaTouched(AnimatedSprite sprite,
-					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
-					float pTouchAreaLocalY) {										
-					if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
-						// Interest place quick entry :
-						InterestPlaceBar.showGuideAudioBar(mapViewer);
-					}
-				
-				return true;
-			}
-		});
-		
 		x += mapViewer.TAB_BUTTON_WIDTH + mapViewer.TAB_BUTTON_MARGIN * 2;
 		Library.BUTTON_MSG.load(mapViewer, mapViewer.TAB_BUTTON_WIDTH, mapViewer.TAB_BUTTON_HEIGHT);
 		putHUDControlUnit(mapViewer, Library.BUTTON_MSG, x, y, new SpriteListener() {

@@ -1,12 +1,10 @@
 package com.winjune.wifiindoor.poi;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
 
 import com.winjune.wifiindoor.map.FieldInfo;
+import com.winjune.wifiindoor.map.InterestPlace;
+import com.winjune.wifiindoor.map.InterestPlacesInfo;
 import com.winjune.wifiindoor.map.MapInfo;
 
 public class POIManager {
@@ -295,5 +293,38 @@ public class POIManager {
 		
 		return POIList.get(hallId).label;
 	}	
+	
+	
+	public static void mapinfo2Poi(MapInfo mapInfo){
+		ArrayList<FieldInfo> mapInfos = mapInfo.getFields();
+		PlaceOfInterest poi;
+		
+		for (FieldInfo mField: mapInfos ) {
+			poi = new PlaceOfInterest();
+			poi.alpha = mField.getAlpha();
+			poi.label = mField.getInfo();
+			poi.placeX = mField.getX();
+			poi.placeY = mField.getY();
+			poi.maxZoomFactor = mField.getMaxZoomFactor();
+			poi.minZoomFactor = mField.getMinZoomFactor();
+			poi.label = mField.getInfo();
+		}
+		
+	}
+	
+	public static void interestPlacesInfo2Poi(InterestPlacesInfo ipInfo){
+		ArrayList<InterestPlace> mapInfos = ipInfo.getFields();
+		PlaceOfInterest poi;
+		
+		for (InterestPlace mField: mapInfos ) {
+			poi = new PlaceOfInterest();
+			poi.detailedDesc = mField.getInfo();
+			poi.placeX = mField.getX();
+			poi.placeY = mField.getY();
+			poi.ttsNo = mField.getSerial();
+			poi.audioUrl = mField.getUrlAudio();
+			poi.webURL = mField.getUrlVideo();
+		}		
+	}
 		
 }

@@ -15,6 +15,8 @@ import com.google.gson.Gson;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.map.FieldInfo;
 import com.winjune.wifiindoor.map.MapInfo;
+import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.webservice.IpsWebService;
 import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
@@ -97,7 +99,8 @@ public class LabelBar {
 			mapInfo.setFields(fieldInfos);
 		}
 	}
-
+	
+	// to be replaced 
 	public static void showMapInfo(MapViewerActivity mapViewer, boolean storeNeeded) {
 		if (mapInfo == null) {
 			return;
@@ -207,5 +210,53 @@ public class LabelBar {
 	public static MapInfo getMapInfo() {
 		return mapInfo;
 	}	
+
+	private static void addTextTag(MapViewerActivity mapViewer, PlaceOfInterest poi) {
+		float pX = poi.getX() * Util.getRuntimeIndoorMap().getCellPixel();
+		float pY = poi.getY() * Util.getRuntimeIndoorMap().getCellPixel();
+				
+		Text text = new Text(pX,
+				pY, 
+				mapViewer.mFont_mapinfo, 
+				poi.label,
+				100,
+				mapViewer.getVertexBufferObjectManager());
+		text.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		text.setAlpha(poi.getAlpha());
+		text.setRotation(poi.getRotation()); // For future use if we need to rotate a angle
+		text.setScale(poi.getScale()); // For future use if we need to display some label with a bigger/smaller scale
+		
+		mapViewer.mainScene.attachChild(text);
+		
+		// Store so we can clear them in future if needed
+		if (mapViewer.mapInfos == null) {
+			mapViewer.mapInfos = new ArrayList<Text>();
+		}
+		
+		mapViewer.mapInfos.add(text);
+	}	
 	
+	public static void showMapInfo(MapViewerActivity mapViewer) {
+		float currentZoomFactor = mapViewer.mCamera.getZoomFactor();
+		
+		// Clear old Map info
+		if (mapViewer.mapInfos == null) {
+			mapViewer.mapInfos = new ArrayList<Text>();
+		} else {
+			for (Text text:mapViewer.mapInfos) {
+				if (text != null) {
+					mapViewer.mainScene.detachChild(text);
+				}
+			}
+			mapViewer.mapInfos.clear();
+		}
+		
+		// Show New Map Info
+
+		for (PlaceOfInterest poi: POIManager.POIList) {			
+			if ((currentZoomFactor >= poi.minZoomFactor)
+				 && (currentZoomFactor <= poi.maxZoomFactor))
+				addTextTag(mapViewer,poi);			
+		}		
+	}	
 }
