@@ -27,6 +27,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class AlarmActivity extends Activity {
+	
+	public static String BUNDLE_KEY_EVENT_TITLE = "BUNDLE_KEY_EVENT_TITLE";
+	public final static String BUDDLE_KEY_ALARM_INFO = "BUDDLE_KEY_ALARM_INFO";	
 
 	private ArrayList<EventInfo> mEventInfos;
 	
@@ -42,8 +45,8 @@ public class AlarmActivity extends Activity {
 		for (PlayhouseInfo ei: eventItems){
 			EventInfo eventInfo = new EventInfo();
 			
-			eventInfo.setEventTitle(ei.getTitle());
-			eventInfo.setSchedules(EventManager.getEventAlarmTimeOfToday(ei));
+			eventInfo.setEventTitle(ei.getLabel());
+			eventInfo.setSchedules(ei.getEventAlarmTimeOfToday());
 			
 			mEventInfos.add(eventInfo);
 		}
@@ -64,8 +67,8 @@ public class AlarmActivity extends Activity {
 				R.layout.list_event_by_time, mEventInfos));
 		
 		Intent intent = getIntent();
-		String title = intent.getStringExtra(EventManager.Key_Event_Title);
-		int minutes = intent.getIntExtra(EventManager.Key_Event_Alarm_Time, -1);
+		String title = intent.getStringExtra(BUNDLE_KEY_EVENT_TITLE);
+		int minutes = intent.getIntExtra(BUDDLE_KEY_ALARM_INFO, -1);
 		
 		if (minutes != -1){
 			new AlertDialog.Builder(AlarmActivity.this)

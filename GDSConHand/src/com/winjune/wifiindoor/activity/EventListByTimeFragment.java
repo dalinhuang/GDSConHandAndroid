@@ -121,10 +121,10 @@ public class EventListByTimeFragment extends ListFragment {
 			View view=vi.inflate(R.layout.list_event_by_time, null);
 			
 			TextView title = (TextView) view.findViewById(R.id.event_title);
-			title.setText(mEventItems.get(position).getTitle());
+			title.setText(mEventItems.get(position).getLabel());
 			
 			TextView timeAndPlace = (TextView)view.findViewById(R.id.event_schedule);
-			String place = POIManager.getHallLabel(mEventItems.get(position).getPlaceNo());
+			String place = POIManager.getHallLabel(mEventItems.get(position).getHall());
 			timeAndPlace.setText(place);
 				        
 	        return view;  

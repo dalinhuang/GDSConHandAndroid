@@ -104,6 +104,15 @@ public class PlaceOfInterest {
 	public String getGeneralDesc(){
 		return generalDesc;
 	}
+
+	public int getHall(){
+		return hallId;
+	}
+	
+	public String getLabel(){
+		return label;
+	}	
+	
 	
 	public void showContextMenu(View v){
 		LayoutInflater inflater = LayoutInflater.from(v.getContext()); 

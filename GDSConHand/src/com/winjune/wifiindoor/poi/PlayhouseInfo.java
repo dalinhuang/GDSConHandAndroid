@@ -20,6 +20,36 @@ public class PlayhouseInfo extends PlaceOfInterest{
 		festivalTime = new ArrayList<ScheduleTime>();		
 	}
 	
+	public String getTodayScheduleInfo() {				
+		       
+        ArrayList<ScheduleTime> timeList = getTodaySchedule();
+       		
+		if (timeList == null)
+			return null;
+		
+		String eventInfo = "";
+		
+		for ( ScheduleTime et: timeList){
+			eventInfo += et.toString() + "  ";
+		}
+		
+		return eventInfo;
+	}	
+	
+	public ArrayList <ScheduleTime> getEventAlarmTimeOfToday(){
+		
+		ArrayList<ScheduleTime> timeList = getTodaySchedule();
+		ArrayList<ScheduleTime> alarmList = new ArrayList<ScheduleTime>();
+		
+		for (ScheduleTime et: timeList){
+			if (et.getAlarmStatus()){
+				alarmList.add(et);
+			}
+		}
+		
+		return alarmList;
+	}	
+	
 	public ArrayList<ScheduleTime> getTodaySchedule() {
 		
 		
@@ -45,15 +75,7 @@ public class PlayhouseInfo extends PlaceOfInterest{
 		this.placeX = placeX;
 		this.placeY = placeY;
 	}
-	
-	public int getPlaceNo(){
-		return hallId;
-	}
-	
-	public String getTitle(){
-		return label;
-	}
-	
+		
 	public ArrayList<ScheduleTime> getNormalDayTime() {
 		return normalDayTime;
 	}

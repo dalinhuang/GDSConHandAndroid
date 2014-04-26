@@ -72,13 +72,13 @@ public class EventListByPlaceFragment extends Fragment {
 	    	private Integer[] placesNoGroup;       
 	        
 	        public PlaceAdapter() {
-	        	placesNoGroup = POIManager.getHallsWithPlayhouse();
+	        	placesNoGroup = EventManager.getHallsWithPlayhouse();
 	        	eventsListChild = new ArrayList<ArrayList<PlayhouseInfo>>();
 	        	
 	        	for (int i=0; i<placesNoGroup.length; i++) {
 		        	ArrayList<PlayhouseInfo> eventsToday;			        	
 		        	
-	        		eventsToday = eventManager.getTodayEventListByPlace(placesNoGroup[i]);
+	        		eventsToday = eventManager.getTodayEventListByHall(placesNoGroup[i]);
 	        		eventsListChild.add(eventsToday);	        		
 	        	}	        	
 	        }
@@ -124,10 +124,10 @@ public class EventListByPlaceFragment extends Fragment {
 	        	PlayhouseInfo thisEvent = eventsToday.get(childPosition);
 	        		            
 	        	if (thisEvent != null)
-	        		name.setText(thisEvent.getTitle());
+	        		name.setText(thisEvent.getLabel());
 
 	            String eventInfo = getResources().getString(R.string.time);  
-	            eventInfo += ": "+ eventManager.getEventTimeInfo(thisEvent);
+	            eventInfo += ": "+ thisEvent.getTodayScheduleInfo();
 	            TextView description=(TextView)view.findViewById(R.id.EventInfo); //childlayout有一个用于显示描述的视图，在name视图的下面，  
 	            description.setTextKeepState(eventInfo);  //这里只是简单的把它的数据设为description  
 	              	              

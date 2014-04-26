@@ -229,8 +229,8 @@ private void onSetAlarmClick(final int startHour, final int startMinute, final V
 				currentTime.set(Calendar.MINUTE, alarmMinute);
 				
 				Intent intent = new Intent(MovieInfoActivity.this, AlarmActivity.class);
-				intent.putExtra(EventManager.Key_Event_Title, movie.name);
-				intent.putExtra(EventManager.Key_Event_Alarm_Time, mMinutesAhead);
+				intent.putExtra(AlarmActivity.BUNDLE_KEY_EVENT_TITLE, movie.name);
+				intent.putExtra(AlarmActivity.BUDDLE_KEY_ALARM_INFO, mMinutesAhead);
 				
 				//Different request codes to distinguish distinct PendingIntents
 				int requestCode = (alarmHour + alarmMinute) * mMinutesAhead; 

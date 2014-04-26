@@ -37,7 +37,6 @@ public class PlayhouseInfoActivity extends PoiBaseActivity {
 		setContentView(R.layout.activity_playhouse_info);
 		
 		Bundle bundle = getIntent().getExtras();
-		mEventTitle = bundle.getString(EventManager.Key_Event_Title);
 		poiId = bundle.getInt(BUNDLE_KEY_POI_ID);
 		
 		poi = POIManager.getPOIbyId(poiId);
@@ -142,8 +141,8 @@ public class PlayhouseInfoActivity extends PoiBaseActivity {
 				currentTime.set(Calendar.MINUTE, alarmMinute);
 				
 				Intent intent = new Intent(PlayhouseInfoActivity.this, AlarmActivity.class);
-				intent.putExtra(EventManager.Key_Event_Title, mEventTitle);
-				intent.putExtra(EventManager.Key_Event_Alarm_Time, mMinutesAhead);
+				intent.putExtra(AlarmActivity.BUNDLE_KEY_EVENT_TITLE, poi.label);
+				intent.putExtra(AlarmActivity.BUDDLE_KEY_ALARM_INFO, mMinutesAhead);
 				
 				//Different request codes to distinguish distinct PendingIntents
 				int requestCode = (alarmHour + alarmMinute) * mMinutesAhead; 
@@ -151,7 +150,7 @@ public class PlayhouseInfoActivity extends PoiBaseActivity {
 				
 				mAlarmMgr.set(AlarmManager.RTC, currentTime.getTimeInMillis(), pi);
 				
-				EventManager.getEventTodayTime(mEventTitle).get(timeIndex).setAlarmStatus(true);
+				((PlayhouseInfo)poi).getTodaySchedule().get(timeIndex).setAlarmStatus(true);
 				
 				TextView tv = (TextView) v.findViewById(R.id.schedule_text_remind);
 				tv.setText(R.string.alarm_added);

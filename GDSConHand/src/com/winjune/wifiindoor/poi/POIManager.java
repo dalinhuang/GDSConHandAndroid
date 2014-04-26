@@ -14,7 +14,6 @@ public class POIManager {
 	public static ArrayList<PlaceOfInterest> POIList = new ArrayList<PlaceOfInterest>();
 	
 	
-	
 	public static PlaceOfInterest findNearestPOI(int mapId, int placeX, int PlaceY) {
 	
 		return POIList.get(2);
@@ -55,17 +54,7 @@ public class POIManager {
 		return POIList.get(poiId);
 	}	
 	
-	public static Integer[] getHallsWithPlayhouse(){		
-		HashSet<Integer>  hallSet = new HashSet<Integer> ();
-  
-        for (PlaceOfInterest et:POIList){        	
-       		if (et.poiType == POIType.Playhouse)
-       			hallSet.add(et.hallId);
-        }
-        	
-        Integer[] placesGroup = hallSet.toArray(new Integer[0]);        
-        return placesGroup;
-	}		
+	
 	
 	public static void addSamples(){
 		
@@ -161,9 +150,8 @@ public class POIManager {
 		PlayhouseInfo eventItem1	= new PlayhouseInfo("电磁舞台");
 		eventItem1.setPlace(0,0, poi.id);
 		eventItem1.addNormalDayTimes("10:20;14:30");
-		eventItem1.addHolidayTime(10, 30, 0, 0);
-		eventItem1.addHolidayTime(12, 0, 0, 0);
-		eventItem1.addHolidayTime(15, 30, 0, 0);	
+		eventItem1.addWeekendTimes("10:30;12:00;15:30");
+		eventItem1.addFestivalTimes("10:30;12:00;15:30");	
 		POIList.add(eventItem1);
 	
 		poi = new PlaceOfInterest("儿童天地馆");
@@ -264,36 +252,18 @@ public class POIManager {
 		poi = new PlaceOfInterest("人与健康馆");
 		PlayhouseInfo eventItem12	= new PlayhouseInfo("虚拟人体漫游");
 		eventItem12.setPlace(0,0, poi.id);
-		eventItem12.addAllTime(9, 50, 0, 0);
-		eventItem12.addAllTime(10, 30, 0, 0);
-		eventItem12.addAllTime(11, 10, 0, 0);
-		eventItem12.addAllTime(11, 50, 0, 0);	
-		eventItem12.addAllTime(13, 40, 0, 0);
-		eventItem12.addAllTime(14, 20, 0, 0);
-		eventItem12.addAllTime(15, 0, 0, 0);
-		eventItem12.addAllTime(15, 40, 0, 0);
-		eventItem7.addFestivalTime(12, 30, 0, 0);
-		eventItem7.addFestivalTime(13, 0, 0, 0);
-		eventItem7.addFestivalTime(16, 20, 0, 0);
+		eventItem12.addNormalDayTimes("9:30-10:00;10:00-10:30;10:30-11:00");
+		eventItem12.addWeekendTimes("9:30-10:00;10:00-10:30;10:30-11:00");
+		eventItem12.addFestivalTimes("9:30-10:00;10:00-10:30;10:30-11:00");
 		POIList.add(eventItem12);	
 		
 		poi = new PlaceOfInterest("感知与思维馆");
 		POIList.add(poi);
 		PlayhouseInfo eventItem13	= new PlayhouseInfo("感知线索剧场");
 		eventItem13.setPlace(0,0, poi.id);
-		eventItem13.addAllTime(9, 30, 10, 0);
-		eventItem13.addAllTime(10, 0, 10, 30);
-		eventItem13.addAllTime(10, 30, 11, 0);
-		eventItem13.addAllTime(11, 0, 11, 30);	
-		eventItem13.addAllTime(11, 30, 12, 0);
-		eventItem13.addAllTime(13, 30, 14, 0);
-		eventItem13.addAllTime(14, 0, 14, 30);
-		eventItem13.addAllTime(14, 30, 15, 0);
-		eventItem13.addAllTime(15, 0, 15, 30);
-		eventItem13.addAllTime(15, 30, 16, 0);
-		eventItem13.addFestivalTime(12, 0, 12, 30);
-		eventItem13.addFestivalTime(12, 30, 13, 30);
-		eventItem13.addFestivalTime(16, 0, 16, 30);		
+		eventItem13.addNormalDayTimes("9:30-10:00;10:00-10:30;10:30-11:00");
+		eventItem13.addWeekendTimes("9:30-10:00;10:00-10:30;10:30-11:00");
+		eventItem13.addFestivalTimes("9:30-10:00;10:00-10:30;10:30-11:00");
 		POIList.add(eventItem13);
 						
 	}	
@@ -325,4 +295,5 @@ public class POIManager {
 		
 		return POIList.get(hallId).label;
 	}	
+		
 }
