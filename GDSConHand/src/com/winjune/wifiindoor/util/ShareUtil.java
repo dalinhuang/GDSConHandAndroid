@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.InterestPlaceWebViewActivity;
+import com.winjune.wifiindoor.activity.POIViewer.POIWebViewerActivity;
 
 import android.app.Activity;
 import android.content.ContentResolver;

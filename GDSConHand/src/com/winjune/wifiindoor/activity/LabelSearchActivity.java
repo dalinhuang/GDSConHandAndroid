@@ -4,6 +4,9 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.activity.POIViewer.BusStationInfoActivity;
+import com.winjune.wifiindoor.activity.POIViewer.POITtsPlayerActivity;
+import com.winjune.wifiindoor.activity.POIViewer.RestaurantInfoActivity;
 import com.winjune.wifiindoor.adapter.HistoryDataList;
 import com.winjune.wifiindoor.map.InterestPlace;
 import com.winjune.wifiindoor.map.InterestPlacesInfo;
@@ -96,7 +99,7 @@ public class LabelSearchActivity extends Activity {
 			for (InterestPlace place : places) {
 				if (place != null) {
 					if (place.getSerial() == ttsNum) {						
-						Intent intent_poi = new Intent(this, InterestPlaceTTSViewerActivity.class);
+						Intent intent_poi = new Intent(this, POITtsPlayerActivity.class);
 
 						Bundle mBundle = new Bundle(); 
 						mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM,

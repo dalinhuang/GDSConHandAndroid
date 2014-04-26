@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor.activity;
+package com.winjune.wifiindoor.activity.POIViewer;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -16,7 +16,7 @@ import com.winjune.wifiindoor.map.InterestPlace;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.ShareUtil;
 
-public class InterestPlaceWebViewActivity extends Activity {
+public class POIWebViewerActivity extends Activity {
     private WebView webview;
     private String url = null;
     
@@ -44,7 +44,7 @@ public class InterestPlaceWebViewActivity extends Activity {
 			@Override
 			public boolean onLongClick(View v) {
 				// TODO Auto-generated method stub
-				ShareUtil.shareToWeibo(InterestPlaceWebViewActivity.this, url);
+				ShareUtil.shareToWeibo(POIWebViewerActivity.this, url);
 				
 				return false;
 			}

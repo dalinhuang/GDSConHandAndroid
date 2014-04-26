@@ -13,10 +13,7 @@ public class EventManager extends POIManager{
 	
 	private static boolean initialed = false;
 	
-	public static int PANNEL_TIME_STEP  = 1; // the time based event show, interval
 	
-	@SuppressLint("UseSparseArrays")
-	//public EventManager(){
 	public static void initial(){
 	
 		if (initialed){

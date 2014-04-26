@@ -22,10 +22,10 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.InterestPlaceViewerActivity;
-import com.winjune.wifiindoor.activity.InterestPlaceTTSViewerActivity;
-import com.winjune.wifiindoor.activity.InterestPlaceWebViewActivity;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
+import com.winjune.wifiindoor.activity.POIViewer.POITtsPlayerActivity;
+import com.winjune.wifiindoor.activity.POIViewer.POIAudioPlayerActivity;
+import com.winjune.wifiindoor.activity.POIViewer.POIWebViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.AnimatedUnit;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.drawing.graphic.model.SpriteListener;
@@ -328,20 +328,20 @@ public class InterestPlaceBar {
 		// refine video URL as the general web page
 		// if the web page URL is defined, load web page from URL using web browswer
 		if (place.getUrlVideo() != null) {
-			Intent intent_show_interest_place = new Intent(mapViewer, InterestPlaceWebViewActivity.class); 
+			Intent intent_show_interest_place = new Intent(mapViewer, POIWebViewerActivity.class); 
 			Bundle mBundle = new Bundle(); 
 			mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
 			intent_show_interest_place.putExtras(mBundle); 
 			mapViewer.startActivity(intent_show_interest_place);
 			
 		} else {
-			Intent intent_show_interest_place = new Intent(mapViewer, InterestPlaceViewerActivity.class);
+			Intent intent_show_interest_place = new Intent(mapViewer, POIAudioPlayerActivity.class);
 			
 			if (needEnterTTSActivity(place)){
-				intent_show_interest_place = new Intent(mapViewer, InterestPlaceTTSViewerActivity.class); 
+				intent_show_interest_place = new Intent(mapViewer, POITtsPlayerActivity.class); 
 			}
 			else{
-				intent_show_interest_place = new Intent(mapViewer, InterestPlaceViewerActivity.class); 
+				intent_show_interest_place = new Intent(mapViewer, POIAudioPlayerActivity.class); 
 			}
 			
 			Bundle mBundle = new Bundle(); 

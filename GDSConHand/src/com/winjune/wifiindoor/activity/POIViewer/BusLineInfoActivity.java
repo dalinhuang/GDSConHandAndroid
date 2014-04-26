@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor.activity;
+package com.winjune.wifiindoor.activity.POIViewer;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.BusStationInfoActivity.BusLineList;
+import com.winjune.wifiindoor.activity.POIViewer.BusStationInfoActivity.BusLineList;
 import com.winjune.wifiindoor.map.IndoorMap;
 import com.winjune.wifiindoor.poi.BusLine;
 import com.winjune.wifiindoor.poi.BusStation;

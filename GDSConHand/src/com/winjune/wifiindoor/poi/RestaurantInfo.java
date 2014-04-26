@@ -15,8 +15,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.RestaurantInfoActivity;
-import com.winjune.wifiindoor.activity.TheatreInfoActivity;
+import com.winjune.wifiindoor.activity.POIViewer.RestaurantInfoActivity;
+import com.winjune.wifiindoor.activity.POIViewer.TheatreInfoActivity;
 
 public class RestaurantInfo extends PlaceOfInterest{
 

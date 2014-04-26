@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor.activity;
+package com.winjune.wifiindoor.activity.POIViewer;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,7 +46,7 @@ import com.winjune.wifiindoor.map.InterestPlace;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 
-public class InterestPlaceViewerActivity extends Activity {	
+public class POIAudioPlayerActivity extends Activity {	
 	private OnClickListener listener2;
 	private MediaPlayer mPlayer = null;
 	private ImageButton audioPlayButton = null;
@@ -329,7 +329,7 @@ public class InterestPlaceViewerActivity extends Activity {
 	    				}
 	    				
 	    				if (info == null) { // if sina weibo is NOT installed
-	    					Util.showLongToast(InterestPlaceViewerActivity.this, R.string.no_weibo_installed);
+	    					Util.showLongToast(POIAudioPlayerActivity.this, R.string.no_weibo_installed);
 	    					return;
 	    				} else {
 	    					intent.setClassName(sinaPackage, info.activityInfo.name);
@@ -355,7 +355,7 @@ public class InterestPlaceViewerActivity extends Activity {
     	    	if (!file.exists()) {
     	    		//The file doesn't exist, download the file to the cache folder
     	    		
-    	    		Util.downFile(InterestPlaceViewerActivity.this, imgURL, IndoorMapData.IMG_FILE_PATH_LOCAL, imgFileName,                     		
+    	    		Util.downFile(POIAudioPlayerActivity.this, imgURL, IndoorMapData.IMG_FILE_PATH_LOCAL, imgFileName,                     		
     	    							false,      // Open after download
     	    							"",
     	    							false, //useHandler

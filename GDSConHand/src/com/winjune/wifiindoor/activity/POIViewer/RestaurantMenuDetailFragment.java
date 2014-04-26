@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor.activity;
+package com.winjune.wifiindoor.activity.POIViewer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.R.id;
 import com.winjune.wifiindoor.R.layout;
-import com.winjune.wifiindoor.activity.BusLineInfoActivity.BusStopList;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.RestaurantInfo;
 

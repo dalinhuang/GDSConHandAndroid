@@ -57,7 +57,7 @@ public class POIManager {
 	
 	
 	public static void addSamples(){
-		
+		addPlayhouseSamples();
 	}
 	
 	public static void addBusStationSamples(){

@@ -52,6 +52,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.activity.POIViewer.EventViewerActivity;
 import com.winjune.wifiindoor.ads.ScreenAdvertisement;
 import com.winjune.wifiindoor.drawing.GraphicIndoorMapListener;
 import com.winjune.wifiindoor.drawing.MapCameraViewGestureListener;

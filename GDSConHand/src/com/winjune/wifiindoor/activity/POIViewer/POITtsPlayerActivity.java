@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor.activity;
+package com.winjune.wifiindoor.activity.POIViewer;
 
 import java.util.Locale;
 
@@ -33,7 +33,7 @@ import com.winjune.wifiindoor.map.InterestPlace;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 
-public class InterestPlaceTTSViewerActivity extends Activity {
+public class POITtsPlayerActivity extends Activity {
 	private static String TAG = "TtsDemo";
 	private WebView mWebView = null;
 	private SpeechSynthesizer mTts;
