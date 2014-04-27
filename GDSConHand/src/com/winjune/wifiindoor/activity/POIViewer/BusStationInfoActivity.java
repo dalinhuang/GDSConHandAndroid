@@ -18,7 +18,7 @@ import com.winjune.wifiindoor.poi.BusLine;
 import com.winjune.wifiindoor.poi.BusStation;
 import com.winjune.wifiindoor.poi.POIManager;
 
-public class BusStationInfoActivity extends PoiBaseActivity {
+public class BusStationInfoActivity extends POIBaseActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/GenActivtyTheme" >
+
+    <include layout="@layout/template_title_bar_map" />
+
+    <include layout="@layout/template_intro"/> 
+   
+
+</LinearLayout>

@@ -24,7 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PlayhouseInfoActivity extends PoiBaseActivity {
+public class PlayhouseInfoActivity extends POIBaseActivity {
 	
 	private AlarmManager mAlarmMgr;
 	private int mMinutesAhead;

@@ -13,6 +13,8 @@ import com.winjune.wifiindoor.R;
 
 enum POIType {
 	Normal,
+	AutoGuide,
+	WebContent,
 	BusStation,
 	Theatre,
 	Playhouse,
