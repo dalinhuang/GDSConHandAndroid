@@ -31,7 +31,7 @@ public class LabelBar {
 		{
 			mapInfo = new MapInfo();
 		}
-		boolean updateNeeded = true; //Hoare: update every time regardless map versionn, for test only
+		boolean updateNeeded = false; //Hoare: update every time regardless map versionn, for test only
 
 		try {
 			InputStream map_file_is = new FileInputStream(Util.getMapInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
@@ -61,6 +61,9 @@ public class LabelBar {
 			downloadMapInfo(mapViewer, mapid);
 			return;
 		}
+		
+		// load mapinfo to POI manager
+		POIManager.mapinfo2Poi(mapInfo);
 		
 		showMapInfo(mapViewer, false);
 	}
@@ -105,8 +108,12 @@ public class LabelBar {
 		if (mapInfo == null) {
 			return;
 		}
+				
+		showLabelsFromPOI(mapViewer);
 		
-		float currentZoomFactor = mapViewer.mCamera.getZoomFactor();
+		return;
+		
+/*		float currentZoomFactor = mapViewer.mCamera.getZoomFactor();
 		
 		// Clear old Map info
 		if (mapViewer.mapInfos == null) {
@@ -138,7 +145,7 @@ public class LabelBar {
 		// Store in File, put it here so the info may be re-encoded above in future.
 		if (storeNeeded) {
 			mapInfo.toXML();
-		}
+		}*/
 	}
 
 	private static void downloadMapInfo(MapViewerActivity mapViewer, int mapId) {
@@ -236,7 +243,7 @@ public class LabelBar {
 		mapViewer.mapInfos.add(text);
 	}	
 	
-	public static void showMapInfo(MapViewerActivity mapViewer) {
+	public static void showLabelsFromPOI(MapViewerActivity mapViewer) {
 		float currentZoomFactor = mapViewer.mCamera.getZoomFactor();
 		
 		// Clear old Map info

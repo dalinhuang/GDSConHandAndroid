@@ -55,7 +55,7 @@ public class POIManager {
 	
 	
 	public static void addSamples(){
-		addPlayhouseSamples();
+		// addPlayhouseSamples();
 	}
 	
 	public static void addBusStationSamples(){
@@ -305,9 +305,13 @@ public class POIManager {
 			poi.label = mField.getInfo();
 			poi.placeX = mField.getX();
 			poi.placeY = mField.getY();
+			poi.rotation = mField.getRotation();
+			poi.scale = mField.getScale();
 			poi.maxZoomFactor = mField.getMaxZoomFactor();
 			poi.minZoomFactor = mField.getMinZoomFactor();
 			poi.label = mField.getInfo();
+			
+			POIList.add(poi);
 		}
 		
 	}
@@ -324,6 +328,8 @@ public class POIManager {
 			poi.ttsNo = mField.getSerial();
 			poi.audioUrl = mField.getUrlAudio();
 			poi.webURL = mField.getUrlVideo();
+			
+			POIList.add(poi);
 		}		
 	}
 		
