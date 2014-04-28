@@ -1,9 +1,16 @@
 package com.winjune.wifiindoor.poi;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.thoughtworks.xstream.XStream;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.poiviewer.BusStationInfoActivity;
+import com.winjune.wifiindoor.util.IndoorMapData;
+import com.winjune.wifiindoor.util.Util;
 
 import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
@@ -17,7 +24,9 @@ import android.view.View.OnClickListener;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-public class BusStation extends PlaceOfInterest{
+public class BusStation extends PlaceOfInterest implements Serializable{
+		
+	private static final long serialVersionUID = -5969028824407419064L;
 	
 	private ArrayList<BusLine> busLines;
 	
@@ -27,6 +36,46 @@ public class BusStation extends PlaceOfInterest{
 		this.label = "大学城科学中心总站";
 		busLines = new ArrayList<BusLine>();		
 	}
+	
+	//Set Alias for the XML serialization
+	private void setAlias(XStream xs){
+		xs.alias("BusStation", com.winjune.wifiindoor.poi.BusStation.class);
+		xs.alias("BusLine", com.winjune.wifiindoor.poi.BusLine.class);
+		//Invoke other objects' setAlias methods here
+	}	
+	
+	//Serialize current IndoorMap to XML file
+	private boolean toXML(FileOutputStream cacheFile){
+		//Serialize this object
+		XStream xs = new XStream();
+		setAlias(xs);
+					
+		//Write to the map info file
+		try{
+			xs.toXML(this, cacheFile);						
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+	
+	//Set current InoorMap from XML file
+	public boolean fromXML(InputStream cacheFile){
+		XStream xs = new XStream();
+		setAlias(xs);
+
+		try {
+			xs.fromXML(cacheFile, this);			
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return false;
+	}
+		
 	
 	public void addBusLine(BusLine aBusLine) {		
 		busLines.add(aBusLine);
@@ -75,6 +124,10 @@ public class BusStation extends PlaceOfInterest{
 	        v.getContext().startActivity(i);				
 		}			
 	}	
+	
+	public void toXML(){
+		
+	}
 	
 	public void showContextMenu(View v){
 		LayoutInflater inflater = LayoutInflater.from(v.getContext()); 

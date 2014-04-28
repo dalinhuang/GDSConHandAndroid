@@ -1,5 +1,6 @@
 package com.winjune.wifiindoor.poi;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import android.app.ActionBar.LayoutParams;
@@ -16,8 +17,12 @@ import android.widget.TextView;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
 
-public class TheatreInfo extends PlaceOfInterest{
+public class TheatreInfo extends PlaceOfInterest implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6940701012727934560L;
 	private ArrayList<MovieInfo> movies;
 	
 	public TheatreInfo(){

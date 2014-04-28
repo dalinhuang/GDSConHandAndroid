@@ -17,6 +17,18 @@ public class POIManager {
 		return POIList.get(2);
 	}
 	
+	public static void toXML(){
+		
+		// POIList
+		
+	
+		
+	}
+	
+	
+	public static void fromXML(){
+		
+	}
 	
 	public static String[] buildAutoCompleteText(){
         String[] labelArray = new String[0];
@@ -67,9 +79,10 @@ public class POIManager {
 	public static void addSamples(){
 		// addPlayhouseSamples();
 	}
-	
+		
 	public static void addBusStationSamples(){
 		BusStation aBusStation = new BusStation();
+		
 		BusLine aBusLine;
 		aBusLine = new BusLine( aBusStation.id, // busStation POI id;
 								"801路",

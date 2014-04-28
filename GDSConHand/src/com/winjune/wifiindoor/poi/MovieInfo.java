@@ -1,8 +1,14 @@
 package com.winjune.wifiindoor.poi;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MovieInfo {
+public class MovieInfo implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9086867370928311283L;
+
 	private int theaterId; // POI id
 	
 	public String name;

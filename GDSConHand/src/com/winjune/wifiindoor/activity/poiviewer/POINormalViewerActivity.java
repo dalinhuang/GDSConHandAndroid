@@ -1,7 +1,14 @@
 package com.winjune.wifiindoor.activity.poiviewer;
 
-import com.winjune.wifiindoor.R;
+import java.io.File;
 
+import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.util.IndoorMapData;
+import com.winjune.wifiindoor.util.Util;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,11 +20,10 @@ public class POINormalViewerActivity extends POIBaseActivity implements OnTouchL
 	
 	ImageView imagePager;
 	
-	private int[] arrayPictures = { R.drawable.guide_1, R.drawable.guide_2, 
-            R.drawable.guide_3};
+	private String[] imgs;
 	
     // 要显示的图片在图片数组中的Index  
-    private int pictureIndex; 
+    private int imgIdx; 
     // 左右滑动时手指按下的X坐标  
     private float touchDownX; 
     // 左右滑动时手指松开的X坐标  
@@ -27,9 +33,21 @@ public class POINormalViewerActivity extends POIBaseActivity implements OnTouchL
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_poi_normal);
+
+        // retrieve URL
+		Bundle bundle = getIntent().getExtras();
+		poiId = bundle.getInt(BUNDLE_KEY_POI_ID);
+		poi = POIManager.getPOIbyId(poiId);
 		
-		imagePager = (ImageView) this.findViewById(R.id.image_slide);
-		imagePager.setOnTouchListener(this);
+		if ((poi.picUrl != null) && (!poi.picUrl.trim().isEmpty())){
+			imgs = poi.picUrl.trim().split(";");
+				
+			imagePager = (ImageView) this.findViewById(R.id.image_slide);
+			imagePager.setOnTouchListener(this);
+		} else // detach image viewer
+		{
+			
+		}
 		
 	}
 	
@@ -45,22 +63,57 @@ public class POINormalViewerActivity extends POIBaseActivity implements OnTouchL
             // 从左往右，看前一张  
             if (touchUpX - touchDownX > 100) { 
                 // 取得当前要看的图片的index  
-                pictureIndex = pictureIndex == 0 ? arrayPictures.length - 1 
-                        : pictureIndex - 1; 
+                imgIdx = imgIdx == 0 ? imgs.length - 1 
+                        : imgIdx - 1; 
                 // 设置当前要看的图片  
-                imagePager.setImageResource(arrayPictures[pictureIndex]); 
+                // imagePager.setImageResource(imgs[imgIdx]); 
                 // 从右往左，看下一张  
             } else if (touchDownX - touchUpX > 100) { 
                 // 取得当前要看的图片的index  
-                pictureIndex = pictureIndex == arrayPictures.length - 1 ? 0 
-                        : pictureIndex + 1; 
+                imgIdx = imgIdx == imgs.length - 1 ? 0 
+                        : imgIdx + 1; 
 
                 // 设置当前要看的图片  
-                imagePager.setImageResource(arrayPictures[pictureIndex]); 
+                // imagePager.setImageResource(imgs[imgIdx]); 
             } 
             return true; 
         } 
-        return false; 
-    
+        return false;     
     }
+      
+    private  void loadAndCachedImg(final ImageView imageInfo, final String imgFileName){
+       	new Thread() {
+    		public void run() {   			
+    	    	String localFilePath = Util.getFilePath(IndoorMapData.IMG_FILE_PATH_LOCAL);
+    	    	String fullFileName = localFilePath + imgFileName;
+    	    	final String imgURL= Util.fullUrl(IndoorMapData.IMG_FILE_PATH_LOCAL, imgFileName);
+    			File   file = new File (fullFileName);
+    			 
+    	    	if (!file.exists()) {
+    	    		//The file doesn't exist, download the file to the cache folder
+    	    		
+    	    		Util.downFile(POINormalViewerActivity.this, imgURL, IndoorMapData.IMG_FILE_PATH_LOCAL, imgFileName,                     		
+    	    							false,      // Open after download
+    	    							"",
+    	    							false, //useHandler
+    	    							false);// Use Thread	
+
+    			 }
+    	    	
+    	    	final Bitmap bitmap = BitmapFactory.decodeFile(fullFileName);
+    				        
+		        runOnUiThread(new Runnable() {
+					public void run() {
+						if (bitmap == null) {
+							imageInfo.setImageResource(R.drawable.no_pic);	
+						} else {
+							imageInfo.setImageBitmap(bitmap);
+						}
+						imageInfo.invalidate();		    
+					}
+				});		        
+    		}
+    	}.start();
+    }    
+    
 }

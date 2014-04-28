@@ -1,5 +1,7 @@
 package com.winjune.wifiindoor.poi;
 
+import java.io.Serializable;
+
 import android.app.ActionBar.LayoutParams;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
@@ -26,7 +28,9 @@ enum ContextMenuRequestFrom {
 	Selection
 }
 
-public class PlaceOfInterest {
+public class PlaceOfInterest implements Serializable{
+
+	private static final long serialVersionUID = 7639909124051293630L;
 	
 	private static int ID_GENERATOR = 0;
 	
@@ -104,6 +108,10 @@ public class PlaceOfInterest {
 	public PlaceOfInterest(String label){
 		this(POIType.Normal);
 		this.label = label;
+	}
+	
+	public void toXML(){
+		
 	}
 			
 	public String getGeneralDesc(){
@@ -207,5 +215,5 @@ public class PlaceOfInterest {
 		});
 
         pop.showAtLocation(v, Gravity.BOTTOM, 0, 0);		
-	}	
+	}
 }

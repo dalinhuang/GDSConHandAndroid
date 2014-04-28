@@ -1,8 +1,11 @@
 package com.winjune.wifiindoor.poi;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class BusLine {
+public class BusLine implements Serializable {
+	private static final long serialVersionUID = 3611171904054576255L;
+
 	public int stationId; //POI id
 		
 	public String lineName;

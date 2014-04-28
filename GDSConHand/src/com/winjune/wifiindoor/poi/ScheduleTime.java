@@ -1,8 +1,13 @@
 package com.winjune.wifiindoor.poi;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ScheduleTime {
+public class ScheduleTime implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6180162799645639219L;
 	public int fromHour;
 	public int fromMin;
 	public int toHour;
