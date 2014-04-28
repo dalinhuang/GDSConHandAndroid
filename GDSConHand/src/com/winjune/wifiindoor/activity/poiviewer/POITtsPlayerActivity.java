@@ -83,7 +83,7 @@ public class POITtsPlayerActivity extends POIBaseActivity {
 		
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_interest_place_tts);
+		setContentView(R.layout.activity_poi_tts_player);
 		
 		progressHorizontal = (ProgressBar) findViewById(R.id.progress_horizontal);
 		pauseButton = (ImageView) findViewById(R.id.pause);

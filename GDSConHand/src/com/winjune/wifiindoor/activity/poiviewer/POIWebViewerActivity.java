@@ -13,6 +13,7 @@ import android.webkit.WebViewClient;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.map.InterestPlace;
+import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.ShareUtil;
 
@@ -23,21 +24,21 @@ public class POIWebViewerActivity extends POIBaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) { 
         super.onCreate(savedInstanceState); 
-        setContentView(R.layout.activity_interest_place_webview);
+        setContentView(R.layout.activity_poi_webviewer);
         
         //
-        webview = (WebView) findViewById(R.id.interest_place);
+        webview = (WebView) findViewById(R.id.web_content);
 
         // enable JavaScrip  
         //webview.getSettings().setJavaScriptEnabled(true); 
         webview.setWebViewClient(new myWebViewClient());
         
         // retrieve URL
-        Bundle bundle = getIntent().getExtras();        
-        InterestPlace place = (InterestPlace) bundle.getSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE);        	
-        if (place != null) {        	        
-        	url = place.getUrlVideo();        	
-        }    	
+		Bundle bundle = getIntent().getExtras();
+		poiId = bundle.getInt(BUNDLE_KEY_POI_ID);
+		poi = POIManager.getPOIbyId(poiId);
+		
+		url = poi.webUrl;        
         
         webview.setOnLongClickListener(new View.OnLongClickListener() {
 			
