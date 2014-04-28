@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor.activity.POIViewer;
+package com.winjune.wifiindoor.activity.poiviewer;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;

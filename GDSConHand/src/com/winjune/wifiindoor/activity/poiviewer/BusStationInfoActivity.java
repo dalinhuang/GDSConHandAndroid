@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor.activity.POIViewer;
+package com.winjune.wifiindoor.activity.poiviewer;
 
 import java.util.List;
 
@@ -25,14 +25,12 @@ public class BusStationInfoActivity extends POIBaseActivity {
 		super.onCreate(savedInstanceState);
 		
 		Bundle mBundle = getIntent().getExtras();
-		poiId = mBundle.getInt(BUNDLE_KEY_POI_ID);		
+		poiId = mBundle.getInt(BUNDLE_KEY_POI_ID);
+		poi = POIManager.getPOIbyId(poiId);
 		
 		setContentView(R.layout.activity_bus_station_info);
-
 	
-		ListView lv = (ListView)findViewById(R.id.bus_line_list);
-		
-		poi = (BusStation)POIManager.getPOIbyId(poiId);
+		ListView lv = (ListView)findViewById(R.id.bus_line_list);	
 
 		UpdateTitleInfo();		
 		

@@ -52,6 +52,16 @@ public class POIManager {
 		return POIList.get(poiId);
 	}	
 	
+	public static PlaceOfInterest getPOIbyTtsNo(int ttsNo) {
+		for (PlaceOfInterest poi: POIList) {
+			if (poi.ttsNo == ttsNo) {
+				return poi;
+			}
+		}
+		
+		return null;
+	}
+	
 	
 	
 	public static void addSamples(){
@@ -327,7 +337,8 @@ public class POIManager {
 			poi.placeY = mField.getY();
 			poi.ttsNo = mField.getSerial();
 			poi.audioUrl = mField.getUrlAudio();
-			poi.webURL = mField.getUrlVideo();
+			poi.webUrl = mField.getUrlVideo();
+			poi.picUrl = mField.getUrlPic();
 			
 			POIList.add(poi);
 		}		

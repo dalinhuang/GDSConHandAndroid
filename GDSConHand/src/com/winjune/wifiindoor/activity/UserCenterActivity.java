@@ -1,7 +1,7 @@
 package com.winjune.wifiindoor.activity;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.POIViewer.AlarmActivity;
+import com.winjune.wifiindoor.activity.poiviewer.AlarmActivity;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 

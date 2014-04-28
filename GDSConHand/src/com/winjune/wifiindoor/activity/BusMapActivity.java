@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.POIViewer.BusStationInfoActivity;
+import com.winjune.wifiindoor.activity.poiviewer.BusStationInfoActivity;
 
 public class BusMapActivity extends Activity {
 

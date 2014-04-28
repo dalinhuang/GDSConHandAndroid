@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.POIViewer.RestaurantInfoActivity;
-import com.winjune.wifiindoor.activity.POIViewer.TheatreInfoActivity;
+import com.winjune.wifiindoor.activity.poiviewer.RestaurantInfoActivity;
+import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
 
 public class ShortcutEntryActivity extends Activity {
 

@@ -46,11 +46,14 @@ public class PlaceOfInterest {
 
 	private String 	iconUrl;
 	public String 	audioUrl;
-	public String 	webURL;
-
+	public String 	webUrl;	
+	public String  picUrl;
+	
+	
 	public String label;
 	protected String generalDesc;
 	public String detailedDesc;
+	
 		
 	
 	public boolean shareble;
@@ -79,7 +82,7 @@ public class PlaceOfInterest {
 		this.generalDesc = "";
 		this.detailedDesc = "";
 		
-		this.webURL = "";
+		this.webUrl = "";
 		
 		this.shareble = false;
 		
@@ -171,6 +174,9 @@ public class PlaceOfInterest {
 		this.maxZoomFactor = maxZoomFactor;
 	}	
 		
+	public String getWebUrl(){
+		return webUrl;
+	}
 	
 	public void showContextMenu(View v){
 		LayoutInflater inflater = LayoutInflater.from(v.getContext()); 

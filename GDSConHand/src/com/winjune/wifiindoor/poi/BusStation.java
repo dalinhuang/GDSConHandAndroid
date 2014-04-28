@@ -3,7 +3,7 @@ package com.winjune.wifiindoor.poi;
 import java.util.ArrayList;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.POIViewer.BusStationInfoActivity;
+import com.winjune.wifiindoor.activity.poiviewer.BusStationInfoActivity;
 
 import android.app.ActionBar.LayoutParams;
 import android.content.Intent;

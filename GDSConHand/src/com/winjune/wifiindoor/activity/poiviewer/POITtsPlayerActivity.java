@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor.activity.POIViewer;
+package com.winjune.wifiindoor.activity.poiviewer;
 
 import java.util.Locale;
 
@@ -30,12 +30,12 @@ import com.iflytek.speech.SpeechSynthesizer;
 import com.iflytek.speech.SynthesizerListener;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.map.InterestPlace;
+import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 
-public class POITtsPlayerActivity extends Activity {
+public class POITtsPlayerActivity extends POIBaseActivity {
 	private static String TAG = "TtsDemo";
-	private WebView mWebView = null;
 	private SpeechSynthesizer mTts;
 	private boolean isStopButton = true;
 	private boolean needStart = false;
@@ -66,7 +66,6 @@ public class POITtsPlayerActivity extends Activity {
 	// Need to stop the audio
 	@Override
 	protected void onDestroy() {
-
 		
 		 mTts.stopSpeaking(mTtsListener);
 		super.onDestroy();
@@ -81,10 +80,7 @@ public class POITtsPlayerActivity extends Activity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		InterestPlace place = null;
 		
-		String picture = null;
-		String audio = null;
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_interest_place_tts);
@@ -99,62 +95,19 @@ public class POITtsPlayerActivity extends Activity {
 		final TextView textInfo = (TextView) findViewById(R.id.interest_text);
         textInfo.setAutoLinkMask(Linkify.ALL);
         textInfo.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_Large);        
-       
-
-		/*
-		 * requestWindowFeature(Window.FEATURE_NO_TITLE); // get the screen attr
-		 * for conversion between dp and px float scale =
-		 * this.getResources().getDisplayMetrics().density;
-		 * 
-		 * ScrollView scroll = new ScrollView(getApplicationContext());
-		 * scroll.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-		 * LayoutParams.MATCH_PARENT));
-		 * 
-		 * LinearLayout mainLayout = new LinearLayout(getApplicationContext());
-		 * LayoutParams layout_text_parm = new
-		 * LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		 * mainLayout.setLayoutParams(layout_text_parm);
-		 * mainLayout.setOrientation(LinearLayout.VERTICAL);
-		 * 
-		 * final TextView textInfo = new TextView(getApplicationContext());
-		 * textInfo.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-		 * LayoutParams.WRAP_CONTENT)); textInfo.setAutoLinkMask(Linkify.ALL);
-		 * textInfo.setTextAppearance(getApplicationContext(),
-		 * android.R.style.TextAppearance_Large);
-		 */
-
+       		
 		Bundle bundle = getIntent().getExtras();
-		int req = bundle.getInt(IndoorMapData.BUNDLE_KEY_REQ_FROM);
-
-		if (req == IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_TOUCH) {
-			place = (InterestPlace) bundle
-					.getSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE);
-
-			if (place != null) {
-				text = place.getInfo();
-				picture = place.getUrlPic();
-				audio = place.getUrlAudio();
-			}
-		} else if (req == IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_INPUT) {
-			place = (InterestPlace) bundle
-					.getSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE);
-
-			if (place != null) {
-				audio = place.getUrlAudio();
-				text = place.getInfo();
-			}
-		} else {
-			return;
-		}
-  
-		textInfo.setText(text);
-		AutoGuideTTSSpeak(text);
+		poiId = bundle.getInt(BUNDLE_KEY_POI_ID);
+		poi = POIManager.getPOIbyId(poiId);
 		
-
+		if (poi != null) {
+			text = poi.detailedDesc;
+		}
+		
+		  
+		textInfo.setText(text);
+		AutoGuideTTSSpeak(text);		
 	}
-
-	
-	
 	 
 	 public void backClick(View v) {
 	    	onBackPressed();    	

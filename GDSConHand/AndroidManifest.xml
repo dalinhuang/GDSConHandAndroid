@@ -175,17 +175,17 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.activity.InterestPlaceViewerActivity"
+            android:name="com.winjune.wifiindoor.activity.poiviewer.InterestPlaceViewerActivity"
             android:configChanges="orientation|keyboardHidden"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.activity.InterestPlaceTTSViewerActivity"
+            android:name="com.winjune.wifiindoor.activity.poiviewer.POITtsPlayerActivity"
             android:configChanges="orientation|keyboardHidden"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.activity.InterestPlaceWebViewActivity"
+            android:name="com.winjune.wifiindoor.activity.poiviewer.POIWebViewerActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
@@ -227,7 +227,7 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.activity.POIViewer.BusStationInfoActivity"
+            android:name="com.winjune.wifiindoor.activity.poiviewer.BusStationInfoActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
@@ -237,39 +237,31 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.activity.TheatreInfoActivity"
+            android:name="com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.activity.MovieInfoActivity"
+            android:name="com.winjune.wifiindoor.activity.poiviewer.MovieInfoActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.activity.EventViewerActivity"
+            android:name="com.winjune.wifiindoor.activity.poiviewer.EventViewerActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.activity.RestaurantInfoActivity"
+            android:name="com.winjune.wifiindoor.activity.poiviewer.RestaurantInfoActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.activity.POIViewer.BusLineInfoActivityfoActivity"
+            android:name="com.winjune.wifiindoor.activity.poiviewer.BusLineInfoActivityfoActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.activity.RestaurantMenuDetailActivity"
-            android:parentActivityName="com.winjune.wifiindoor.activity.RestaurantInfoActivity"
-            android:theme="@android:style/Theme.NoTitleBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.winjune.wifiindoor.activity.MenuItemListActivity" />
-        </activity>
-        <activity
-            android:name="com.winjune.wifiindoor.activity.PlayhouseInfoActivity"
+            android:name="com.winjune.wifiindoor.activity.poiviewer.PlayhouseInfoActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
@@ -278,7 +270,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.activity.POIViewer.POINormalViewerActivity"
+            android:name="com.winjune.wifiindoor.activity.poiviewer.POINormalViewerActivity"
             android:label="@string/title_activity_poi_normal" >
         </activity>
     </application>

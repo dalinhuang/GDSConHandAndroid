@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor.activity.POIViewer;
+package com.winjune.wifiindoor.activity.poiviewer;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -16,7 +16,7 @@ import com.winjune.wifiindoor.map.InterestPlace;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.ShareUtil;
 
-public class POIWebViewerActivity extends Activity {
+public class POIWebViewerActivity extends POIBaseActivity {
     private WebView webview;
     private String url = null;
     

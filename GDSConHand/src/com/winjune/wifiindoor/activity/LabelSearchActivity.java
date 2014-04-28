@@ -3,14 +3,16 @@ package com.winjune.wifiindoor.activity;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.POIViewer.BusStationInfoActivity;
-import com.winjune.wifiindoor.activity.POIViewer.POITtsPlayerActivity;
-import com.winjune.wifiindoor.activity.POIViewer.RestaurantInfoActivity;
+import com.winjune.wifiindoor.activity.poiviewer.BusStationInfoActivity;
+import com.winjune.wifiindoor.activity.poiviewer.POITtsPlayerActivity;
+import com.winjune.wifiindoor.activity.poiviewer.RestaurantInfoActivity;
 import com.winjune.wifiindoor.adapter.HistoryDataList;
 import com.winjune.wifiindoor.map.InterestPlace;
 import com.winjune.wifiindoor.map.InterestPlacesInfo;
 import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.poi.SearchHistory;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
@@ -80,36 +82,16 @@ public class LabelSearchActivity extends Activity {
 		return true;		
 	}
 	
-	public void playTtsAudio(int ttsNum) {
-		InterestPlacesInfo interestPlacesInfo = new InterestPlacesInfo();
+	public void playTtsAudio(int ttsNo) {
+		PlaceOfInterest poi = POIManager.getPOIbyTtsNo(ttsNo);
 		
-		// load interest place list	
-		try {
-			InputStream map_file_is = new FileInputStream(Util.getInterestPlacesInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
-			
-			interestPlacesInfo.fromXML(map_file_is);
-		} catch (Exception e) {																		
-			e.printStackTrace();
-		}
-		
-		// look for the matched place record									
-		ArrayList<InterestPlace> places = interestPlacesInfo.getFields();
-		
-		if (places != null) {																		
-			for (InterestPlace place : places) {
-				if (place != null) {
-					if (place.getSerial() == ttsNum) {						
-						Intent intent_poi = new Intent(this, POITtsPlayerActivity.class);
+		if (poi != null){									
+			Intent intent_poi = new Intent(this, POITtsPlayerActivity.class);
 
-						Bundle mBundle = new Bundle(); 
-						mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM,
-							IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_INPUT);
-						mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE, place);
-						intent_poi.putExtras(mBundle); 
-						startActivity(intent_poi);
-					} // (place.getSerial() == ttsNum 												
-				} // (place != null)
-			} //for (InterestPlace place : places)
+			Bundle mBundle = new Bundle(); 
+			mBundle.putInt(POITtsPlayerActivity.BUNDLE_KEY_POI_ID, poi.id);
+			intent_poi.putExtras(mBundle); 
+			startActivity(intent_poi);
 		}									
 
 	}

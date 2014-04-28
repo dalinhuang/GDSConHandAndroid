@@ -14,7 +14,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.POIViewer.TheatreInfoActivity;
+import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
 
 public class TheatreInfo extends PlaceOfInterest{
 	
