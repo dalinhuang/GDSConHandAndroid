@@ -25,6 +25,7 @@ import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.activity.poiviewer.POIAudioPlayerActivity;
 import com.winjune.wifiindoor.activity.poiviewer.POIBaseActivity;
+import com.winjune.wifiindoor.activity.poiviewer.POINormalViewerActivity;
 import com.winjune.wifiindoor.activity.poiviewer.POITtsPlayerActivity;
 import com.winjune.wifiindoor.activity.poiviewer.POIWebViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.AnimatedUnit;
@@ -259,7 +260,7 @@ public class InterestPlaceBar {
 				intent_show_interest_place = new Intent(mapViewer, POITtsPlayerActivity.class); 
 			}
 			else{
-				intent_show_interest_place = new Intent(mapViewer, POIAudioPlayerActivity.class); 
+				intent_show_interest_place = new Intent(mapViewer, POINormalViewerActivity.class); 
 			}
 			
 			Bundle mBundle = new Bundle(); 

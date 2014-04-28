@@ -2,8 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/GenActivtyTheme" >
 
-    <include layout="@layout/template_title_bar_map" />
 
+
+    <include layout="@layout/template_title_bar_map" />   
+
+    <ImageView
+        android:id="@+id/image_slide"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="fitCenter"
+        android:src="@drawable/guide_1" />
+    
     <include layout="@layout/template_intro"/> 
    
 
