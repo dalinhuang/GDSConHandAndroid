@@ -32,11 +32,15 @@ import android.widget.TextView;
 public class LabelSearchActivity extends Activity {
 	
 	private static int TTS_DIGIT_NUM = 4;
+	private SearchHistory history;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_label_search);
+		
+		history = new SearchHistory();
+		history.loadCachedData();
 		
 		// setup auto-complete  
         String[] labelArray = POIManager.buildAutoCompleteText();
@@ -50,7 +54,7 @@ public class LabelSearchActivity extends Activity {
 		ListView lv = (ListView)findViewById(R.id.search_history_list);
 		
 		HistoryDataList historyAda = new HistoryDataList(this, 
-					R.layout.list_history, SearchHistory.getHistory());
+					R.layout.list_history, history.getHistory());
 		
 		lv.setAdapter(historyAda);	   
 		
@@ -109,7 +113,7 @@ public class LabelSearchActivity extends Activity {
 		if (text.isEmpty())
 			return;
 		
-		SearchHistory.addHistoryRecord(inputText);		
+		history.addRecord(inputText);		
 
 		
 		if (isInputTtsNum(text)) {
@@ -122,7 +126,7 @@ public class LabelSearchActivity extends Activity {
 	}
 		
 	public void clearHistoryClick(View v) {
-		SearchHistory.clearHistory();
+		history.clearRecords();
 	}
 
 	public void shortcutClick(View v){

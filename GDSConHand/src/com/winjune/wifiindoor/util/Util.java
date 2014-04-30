@@ -474,7 +474,7 @@ public class Util {
 			return Environment.getExternalStorageDirectory().getPath() + filePath;
 		}
 	}
-	
+		
 	public static String getMapFilePathName(String mapId) {
 		return getFilePath(IndoorMapData.MAP_FILE_PATH_LOCAL) + mapId + "/" + IndoorMapData.MAP_XML_NAME;
 	}
@@ -487,8 +487,8 @@ public class Util {
 		return getFilePath(IndoorMapData.MAP_FILE_PATH_LOCAL) + mapId + "/" + IndoorMapData.INTEREST_PLACE_INFO_FILE_NAME;
 	}	
 	
-	public static String getSearchInfoFilePathName() {
-		return getFilePath(IndoorMapData.MAP_FILE_PATH_LOCAL) + IndoorMapData.MAP_SEARCH_INFO_FILE_NAME;
+	public static String getSearchHistoryFileName() {
+		return getFilePath( IndoorMapData.MAP_SEARCH_INFO_FILE_NAME);
 	}	
 	
 	public static String getNaviInfoFilePathName(String mapId) {
