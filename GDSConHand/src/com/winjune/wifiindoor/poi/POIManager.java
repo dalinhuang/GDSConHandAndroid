@@ -1,9 +1,14 @@
 package com.winjune.wifiindoor.poi;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
+import android.util.Log;
+
+import com.winjune.wifiindoor.activity.poiviewer.BusStationInfoActivity;
+import com.winjune.wifiindoor.activity.poiviewer.POINormalViewerActivity;
+import com.winjune.wifiindoor.activity.poiviewer.PlayhouseInfoActivity;
+import com.winjune.wifiindoor.activity.poiviewer.RestaurantInfoActivity;
+import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
 import com.winjune.wifiindoor.lib.poi.*;
 import com.winjune.wifiindoor.map.FieldInfo;
 import com.winjune.wifiindoor.map.InterestPlace;
@@ -14,7 +19,7 @@ import com.winjune.wifiindoor.util.Util;
 public class POIManager {
 	
 //	public static Map<POIType, Class> alias = new HashMap<POIType, Class>();
-	
+	public static FestivalT festivalData;
 	public static ArrayList<PlaceOfInterest> POIList = new ArrayList<PlaceOfInterest>();
 	
 	
@@ -38,6 +43,8 @@ public class POIManager {
 		
 		offlineData.fromXML();
 		
+		festivalData = offlineData.festivalTable;
+				
 		// load POI data
 		for (PlaceOfInterestR poiR: offlineData.poiTable.poiData) {
 			PlaceOfInterest poi;
@@ -60,7 +67,7 @@ public class POIManager {
 					break;
 				}
 				default: {
-					poi = new TheatreInfo(poiR);
+					poi = new PlaceOfInterest(poiR);
 					break;
 				}
 			}
@@ -68,12 +75,73 @@ public class POIManager {
 			POIList.add(poi);						
 		}
 		
-		// load busLine info						
+		// load busLine info			
+		for (BusLineR aBusline: offlineData.buslineTable.getBusLines()) {
+			PlaceOfInterest poi = getPOIbyId(aBusline.stationId);
+			
+			if (poi == null) {
+				Log.e("POI", "POI not found");
+				continue;
+			}	
+			
+			if ((poi.getPoiType() != POIType.BusStation ) &&
+				 (poi.getClass() != com.winjune.wifiindoor.poi.BusStation.class)){
+				Log.e("POI", "Wrong POI");
+				continue;				
+			}
+			BusStation mBusStation = (BusStation)poi;
+			
+			mBusStation.addBusLine(aBusline);
+		}
+		
 	}
 
-	public static PlaceOfInterest findNearestPOI(int mapId, int placeX, int PlaceY) {
+	public static Class getPOIClass(POIType poiType) {
+		
+		switch (poiType){		
+			case BusStation:{
+				return  BusStation.class;				
+			}
+			case Theatre:{
+				return TheatreInfo.class;				
+			}
+			case Restaurant:{
+				return RestaurantInfo.class;				
+			}
+			case Playhouse: {
+				return PlayhouseInfo.class;				
+			}
+			default: {
+				return PlaceOfInterest.class;				
+			}
+		}
+	}
 	
-		return POIList.get(2);
+	public static Class getPOIViewerClass(POIType poiType){
+		
+		switch (poiType){		
+			case BusStation:{
+				return  BusStationInfoActivity.class;				
+			}
+			case Theatre:{
+				return TheatreInfoActivity.class;				
+			}
+			case Restaurant:{
+				return RestaurantInfoActivity.class;				
+			}
+			case Playhouse: {
+				return PlayhouseInfoActivity.class;				
+			}
+			default: {
+				return POINormalViewerActivity.class;				
+			}
+		}		
+		
+	}
+	
+	public static PlaceOfInterest getNearestPOI(int mapId, int placeX, int PlaceY) {
+	
+		return null;
 	}
 		
 	public static String[] buildAutoCompleteText(){
@@ -90,7 +158,7 @@ public class POIManager {
         return labelArray;
 	}
 	
-	public static ArrayList<PlaceOfInterest> findPOIbyLabel(String text) {
+	public static ArrayList<PlaceOfInterest> searchPOIsbyLabel(String text) {
 		
 		ArrayList<PlaceOfInterest> matchedPOIs = new ArrayList<PlaceOfInterest>();
 
@@ -106,8 +174,29 @@ public class POIManager {
 		return matchedPOIs;
 	}
 	
-	public static PlaceOfInterest getPOIbyId(int poiId) {				
-		return POIList.get(poiId);
+	public static PlaceOfInterest getPOIbyLabel(String text) {
+			
+
+		for (PlaceOfInterest poi: POIList) {
+			
+			if (poi.label != null) {
+				if (poi.label.equals(text)) {
+					return poi;
+				}
+			}
+		}
+		
+		return null;
+	}	
+	
+	public static PlaceOfInterest getPOIbyId(int poiId) {		
+		for (PlaceOfInterest poi: POIList) {
+			if (poi.id == poiId) {
+				return poi;
+			}
+		}
+		
+		return null;
 	}	
 	
 	public static PlaceOfInterest getPOIbyTtsNo(int ttsNo) {
@@ -121,18 +210,18 @@ public class POIManager {
 	}
 	
 		
-	public static ArrayList<MovieInfo> getMovieListByAlarm(){
+	public static ArrayList<MovieInfoR> getMovieListByAlarm(){
 		 
-		ArrayList<MovieInfo> movieList = new ArrayList<MovieInfo>();
+		ArrayList<MovieInfoR> movieList = new ArrayList<MovieInfoR>();
 		
 		for (PlaceOfInterest poi : POIList){
 			
 			if (poi.getPoiType() == POIType.Theatre){
 				
 				TheatreInfo ti = (TheatreInfo) poi;
-				ArrayList<MovieInfo> movies = ti.getMovies();
+				ArrayList<MovieInfoR> movies = ti.getMovies();
 				
-				for (MovieInfo mi : movies){
+				for (MovieInfoR mi : movies){
 					
 					if (mi.hasMovieAlarmToday()){
 						movieList.add(mi);
@@ -146,7 +235,7 @@ public class POIManager {
 	
 	public static String getHallLabel(int hallId){
 		
-		return POIList.get(hallId).label;
+		return getPOIbyId(hallId).label;
 	}	
 	
 	

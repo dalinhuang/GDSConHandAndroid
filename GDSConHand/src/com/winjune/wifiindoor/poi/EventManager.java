@@ -5,56 +5,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 
+import com.winjune.wifiindoor.lib.poi.FestivalT;
 import com.winjune.wifiindoor.lib.poi.POIType;
+import com.winjune.wifiindoor.lib.poi.ScheduleTime;
 
 import android.annotation.SuppressLint;
 
 public class EventManager extends POIManager{
-	private static ArrayList<Date> festivalDays;
-	
-	//private static ArrayList<PlayhouseInfo> eventItems;
-	
-	private static boolean initialed = false;
-	
-	
-	public static void initial(){
-	
-		if (initialed){
-			return;
-		}
 		
-		initialed = true;
-		
-		festivalDays = new ArrayList<Date>();
-		addFestivalDay("2014-01-01");
-		addFestivalDay("2014-04-05");//清明
-		addFestivalDay("2014-05-01");
-		addFestivalDay("2014-06-02"); //端午
-		addFestivalDay("2014-09-08");
-		addFestivalDay("2014-10-01");
-		addFestivalDay("2014-10-02");
-		addFestivalDay("2014-10-03");		
-		addFestivalDay("2014-10-04");
-		addFestivalDay("2014-10-05");
-		addFestivalDay("2014-10-06");
-		addFestivalDay("2014-10-07");					
-	}
-	
-	private static void addFestivalDay(String strDt) { 
-	    // 2012-02-24  
-	    Date dt = java.sql.Date.valueOf(strDt);
-	    
-	    festivalDays.add(dt);		
-	}
-
-		
-	public static boolean isFestivalDay(Date dt) {
-		
-		for (Date tmpDt:festivalDays) {						
-			if (tmpDt == dt) return true; 
-		}			
-		
-		return false;
+	public static boolean isFestivalDay(Date dt) {			
+		return festivalData.isFestivalDay(dt);
 	}
 	
 	public static Integer[] getHallsWithPlayhouse(){		

@@ -19,10 +19,11 @@ import com.winjune.wifiindoor.activity.poiviewer.RestaurantInfoActivity;
 import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
 import com.winjune.wifiindoor.lib.poi.POIType;
 import com.winjune.wifiindoor.lib.poi.PlaceOfInterestR;
+import com.winjune.wifiindoor.lib.poi.RestaurantInfoR;
 
 public class RestaurantInfo extends PlaceOfInterest{
 
-	private ArrayList<MenuItem> menu = new ArrayList<MenuItem>();
+	private ArrayList<RestaurantInfoR> menu = new ArrayList<RestaurantInfoR>();
 	
 	public RestaurantInfo(PlaceOfInterestR poiR) {
 		// TODO Auto-generated constructor stub
@@ -30,14 +31,14 @@ public class RestaurantInfo extends PlaceOfInterest{
 	}
 
 	public void addMenuItem(String category, String name, String iconUrl, String price){
-		MenuItem item = new MenuItem(category, name, iconUrl, price);		
+		RestaurantInfoR item = new RestaurantInfoR(id, category, name, iconUrl, price);		
 		menu.add(item);		
 	}
 
 	public ArrayList<String> getCategoryList(){
 		HashSet<String> categorySet = new HashSet<String> (); 				
 		
-		for (MenuItem item: menu)
+		for (RestaurantInfoR item: menu)
 			categorySet.add(item.category);
 		
 		String[] categoryArray = categorySet.toArray(new String[0]);
@@ -50,10 +51,10 @@ public class RestaurantInfo extends PlaceOfInterest{
 		return list;
 	}
 	
-	public ArrayList<MenuItem> getMenuByCategory(String category) {
-		ArrayList<MenuItem> menuCat = new ArrayList<MenuItem>();
+	public ArrayList<RestaurantInfoR> getMenuByCategory(String category) {
+		ArrayList<RestaurantInfoR> menuCat = new ArrayList<RestaurantInfoR>();
 		
-		for (MenuItem item:menu){
+		for (RestaurantInfoR item:menu){
 			if (category.equals(item.category))
 				menuCat.add(item);							
 		}
@@ -110,19 +111,5 @@ public class RestaurantInfo extends PlaceOfInterest{
 		btn2.setOnClickListener(getOnClickListener());
 
         pop.showAtLocation(v, Gravity.BOTTOM, 0, 0);		
-	}		
-		
-	public class MenuItem {
-		public String  category;
-		public String 	priceInfo;
-		public String	iconUrl;
-		public String  name;
-		
-		public MenuItem(String category, String name, String iconUrl, String price){
-			this.category = category;
-			this.name = name;
-			this.iconUrl = iconUrl;
-			this.priceInfo = price;
-		}
-	}		
+	}			
 }

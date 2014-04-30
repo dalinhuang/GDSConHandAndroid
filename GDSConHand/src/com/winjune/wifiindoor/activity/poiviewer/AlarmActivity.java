@@ -3,13 +3,11 @@ package com.winjune.wifiindoor.activity.poiviewer;
 import java.util.ArrayList;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.R.layout;
-import com.winjune.wifiindoor.R.menu;
+import com.winjune.wifiindoor.lib.poi.MovieInfoR;
+import com.winjune.wifiindoor.lib.poi.ScheduleTime;
 import com.winjune.wifiindoor.poi.EventManager;
-import com.winjune.wifiindoor.poi.MovieInfo;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlayhouseInfo;
-import com.winjune.wifiindoor.poi.ScheduleTime;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -52,8 +50,8 @@ public class AlarmActivity extends Activity {
 		}
 		
 		//Fill in the movie information
-		ArrayList<MovieInfo> movies = POIManager.getMovieListByAlarm();
-		for (MovieInfo mi: movies){
+		ArrayList<MovieInfoR> movies = POIManager.getMovieListByAlarm();
+		for (MovieInfoR mi: movies){
 			EventInfo eventInfo = new EventInfo();
 			
 			eventInfo.setEventTitle(mi.name);

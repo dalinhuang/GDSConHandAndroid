@@ -18,8 +18,7 @@ enum ContextMenuRequestFrom {
 }
 
 @SuppressWarnings("serial")
-public class PlaceOfInterest extends PlaceOfInterestR {	
-	
+public class PlaceOfInterest extends PlaceOfInterestR {			
 	public PlaceOfInterest(){
 		super();
 	}

@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.poi.ScheduleTime;
 
 public class HistoryDataList extends ArrayAdapter<String> {
 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import com.winjune.wifiindoor.lib.poi.PlaceOfInterestR;
+import com.winjune.wifiindoor.lib.poi.ScheduleTime;
 
 @SuppressWarnings("serial")
 public class PlayhouseInfo extends PlaceOfInterest{
@@ -15,7 +16,7 @@ public class PlayhouseInfo extends PlaceOfInterest{
 	
 	public PlayhouseInfo(PlaceOfInterestR poi) {
 		super(poi);
-				
+					
 		normalDayTime = new ArrayList<ScheduleTime>();
 		weekendTime = new ArrayList<ScheduleTime>();
 		festivalTime = new ArrayList<ScheduleTime>();		

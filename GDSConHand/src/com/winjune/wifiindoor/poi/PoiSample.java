@@ -1,7 +1,11 @@
 package com.winjune.wifiindoor.poi;
 
+import java.sql.Date;
+import java.util.ArrayList;
+
 import com.winjune.wifiindoor.lib.poi.BusLineR;
 import com.winjune.wifiindoor.lib.poi.MovieInfoR;
+import com.winjune.wifiindoor.lib.poi.POIType;
 import com.winjune.wifiindoor.lib.poi.PlaceOfInterestR;
 import com.winjune.wifiindoor.lib.poi.PoiOfflineData;
 import com.winjune.wifiindoor.util.Util;
@@ -14,6 +18,8 @@ public class PoiSample {
 	public static void addSamples(){
 		offlineData = new PoiOfflineData(Util.getFilePath());
 		
+		addFestivalSamples();
+		
 		addBusStationSamples();
 		addTheatreSamples();
 		addRestaurantSamples();
@@ -23,15 +29,28 @@ public class PoiSample {
 		// addPlayhouseSamples();		
 	}
 	
+	public static void addFestivalSamples(){		
+		offlineData.festivalTable.addFestivalDay("2014-01-01");
+		offlineData.festivalTable.addFestivalDay("2014-04-05");//清明
+		offlineData.festivalTable.addFestivalDay("2014-05-01");
+		offlineData.festivalTable.addFestivalDay("2014-06-02"); //端午
+		offlineData.festivalTable.addFestivalDay("2014-09-08");
+		offlineData.festivalTable.addFestivalDay("2014-10-01");
+		offlineData.festivalTable.addFestivalDay("2014-10-02");
+		offlineData.festivalTable.addFestivalDay("2014-10-03");		
+		offlineData.festivalTable.addFestivalDay("2014-10-04");
+		offlineData.festivalTable.addFestivalDay("2014-10-05");
+		offlineData.festivalTable.addFestivalDay("2014-10-06");
+		offlineData.festivalTable.addFestivalDay("2014-10-07");	
+	}
 	private static int getId(){
 		return idGenerator++;
 	}
-	
 		
 	public static void addBusStationSamples(){
-		PlaceOfInterestR aBusStation = new PlaceOfInterestR();
+		PlaceOfInterestR aBusStation = new PlaceOfInterestR(POIType.BusStation);
 		aBusStation.id = getId();
-		aBusStation.label = "车站";
+		aBusStation.label = "公交车站";
 		offlineData.poiTable.poiData.add(aBusStation);
 		
 		
@@ -66,9 +85,9 @@ public class PoiSample {
 	
 	public static void addTheatreSamples(){
 		
-		PlaceOfInterestR aTheatre = new PlaceOfInterestR();
+		PlaceOfInterestR aTheatre = new PlaceOfInterestR(POIType.Theatre);
 		aTheatre.id = getId();
-		aTheatre.label = "车站";
+		aTheatre.label = "巨幕影院";
 		offlineData.poiTable.poiData.add(aTheatre);		
 		
 		MovieInfoR aMovie;
@@ -98,7 +117,7 @@ public class PoiSample {
 	}
 	
 	public static void addRestaurantSamples() {
-		PlaceOfInterestR aRestaurantInfo = new PlaceOfInterestR();
+		PlaceOfInterestR aRestaurantInfo = new PlaceOfInterestR(POIType.Restaurant);
 		aRestaurantInfo.id = getId();
 		aRestaurantInfo.label = "餐厅";
 		aRestaurantInfo.generalDesc = "今日8折优惠";

@@ -21,7 +21,7 @@
 
         <TextView
 			style="@style/styleSearchShortcutText"
-			android:onClick="restaurantClick"
+			android:onClick="shortcutClick"
             android:text="餐厅"/>
     </LinearLayout>
 
@@ -36,12 +36,14 @@
             android:text="科技影院"/>
 
         <TextView
-			style="@style/styleSearchShortcutText"
+			style="@style/styleSearchShortcutText"			
             android:text="售票处"/>
 
         <TextView
-			style="@style/styleSearchShortcutText"
+            style="@style/styleSearchShortcutText"
+            android:onClick="shortcutClick"            
             android:text="育婴室" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -55,8 +57,8 @@
             android:text="停车场"/>
 
         <TextView
-			style="@style/styleSearchShortcutText"
-			android:onClick="busStationClick"
+			style="@style/styleSearchShortcutText"			
+			android:onClick="shortcutClick"
             android:text="公交车站"/>
 
         <TextView

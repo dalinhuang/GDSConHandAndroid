@@ -851,9 +851,13 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	}
 	
 	public void locationBtnClick(View v) {
-		PlaceOfInterest poi = POIManager.findNearestPOI(0, 5, 5);
+		PlaceOfInterest poi = POIManager.getNearestPOI(0, 5, 5);
 		
-		poi.showContextMenu(v);
+		if (poi != null) {		
+			poi.showContextMenu(v);
+		}else {
+			// show toaster
+		}
 	}
 	
 

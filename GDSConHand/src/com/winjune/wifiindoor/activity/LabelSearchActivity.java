@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.poiviewer.BusStationInfoActivity;
+import com.winjune.wifiindoor.activity.poiviewer.POIBaseActivity;
 import com.winjune.wifiindoor.activity.poiviewer.POITtsPlayerActivity;
 import com.winjune.wifiindoor.activity.poiviewer.RestaurantInfoActivity;
 import com.winjune.wifiindoor.adapter.HistoryDataList;
@@ -20,11 +21,13 @@ import com.winjune.wifiindoor.util.Util;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class LabelSearchActivity extends Activity {
 	
@@ -117,23 +120,31 @@ public class LabelSearchActivity extends Activity {
 
 		}		
 	}
-	
-	
-	
+		
 	public void clearHistoryClick(View v) {
 		SearchHistory.clearHistory();
 	}
 
-	public void restaurantClick(View v){
-        Intent i = new Intent(this, RestaurantInfoActivity.class); 
-		startActivity(i);				
+	public void shortcutClick(View v){
+		String txt = ((TextView)v).getText().toString();
+		
+		PlaceOfInterest poi = POIManager.getPOIbyLabel(txt); 
+		if (poi == null) {
+			Log.e("LabelSearch", "POI not found");
+			return;
+		}
+		
+		Class mViewerClass = POIManager.getPOIViewerClass(poi.getPoiType());
+						
+		Intent intent_poi = new Intent(this, mViewerClass);
+		
+		Bundle mBundle = new Bundle(); 
+		mBundle.putInt(POIBaseActivity.BUNDLE_KEY_POI_ID, poi.id);
+		intent_poi.putExtras(mBundle); 		
+		
+		startActivity(intent_poi);
 	}
-	
-	public void busStationClick(View v){
-        Intent i = new Intent(this, BusStationInfoActivity.class); 
-		startActivity(i);				
-	}
-	
+		
 	public void moreClick(View v){
         Intent i = new Intent(this, ShortcutEntryActivity.class); 
 		startActivity(i);				

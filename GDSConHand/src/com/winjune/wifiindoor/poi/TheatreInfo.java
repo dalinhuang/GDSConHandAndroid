@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
+import com.winjune.wifiindoor.lib.poi.MovieInfoR;
 import com.winjune.wifiindoor.lib.poi.PlaceOfInterestR;
 
 public class TheatreInfo extends PlaceOfInterest implements Serializable{
@@ -24,22 +25,23 @@ public class TheatreInfo extends PlaceOfInterest implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -6940701012727934560L;
-	private ArrayList<MovieInfo> movies;
+	private ArrayList<MovieInfoR> movies;
 	
 	public TheatreInfo(PlaceOfInterestR poi){
 		super(poi);
-		movies = new ArrayList<MovieInfo>();
+
+		movies = new ArrayList<MovieInfoR>();
 	}
 	
-	public void addMovie(MovieInfo movie){
+	public void addMovie(MovieInfoR movie){
 		movies.add(movie);
 	}
 
-	public ArrayList<MovieInfo> getMovies() {				
+	public ArrayList<MovieInfoR> getMovies() {				
 		return movies;
 	}
 	
-	public MovieInfo getMovieByIdx(int idx){
+	public MovieInfoR getMovieByIdx(int idx){
 		return movies.get(idx);
 	}
 	

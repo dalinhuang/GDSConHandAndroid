@@ -173,23 +173,7 @@
             android:name="com.winjune.wifiindoor.activity.NaviResultActivity"
             android:configChanges="orientation|keyboardHidden"
             android:theme="@android:style/Theme.NoTitleBar" >
-        </activity>
-        <activity
-            android:name="com.winjune.wifiindoor.activity.poiviewer.InterestPlaceViewerActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.NoTitleBar" >
-        </activity>
-        <activity
-            android:name="com.winjune.wifiindoor.activity.poiviewer.POITtsPlayerActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.NoTitleBar" >
-        </activity>
-        <activity
-            android:name="com.winjune.wifiindoor.activity.poiviewer.POIWebViewerActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar" >
-        </activity>
+        </activity>        
         <activity
             android:name="com.winjune.wifiindoor.activity.GuideActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -222,7 +206,7 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.activity.BusMapActivity"
+            android:name="com.winjune.wifiindoor.activity.UserCenterActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
@@ -232,10 +216,10 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.activity.UserCenterActivity"
+            android:name="com.winjune.wifiindoor.activity.poiviewer.BusLineInfoActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
-        </activity>
+        </activity>        
         <activity
             android:name="com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity"
             android:label="@string/app_name"
@@ -256,23 +240,33 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.activity.poiviewer.BusLineInfoActivityfoActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar" >
-        </activity>
-        <activity
             android:name="com.winjune.wifiindoor.activity.poiviewer.PlayhouseInfoActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.activity.AlarmActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
             android:name="com.winjune.wifiindoor.activity.poiviewer.POINormalViewerActivity"
             android:label="@string/title_activity_poi_normal" >
         </activity>
+        <activity
+            android:name="com.winjune.wifiindoor.activity.poiviewer.POIAudioPlayerActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.winjune.wifiindoor.activity.poiviewer.POITtsPlayerActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.winjune.wifiindoor.activity.poiviewer.POIWebViewerActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>        
+        <activity
+            android:name="com.winjune.wifiindoor.activity.AlarmActivity"
+            android:label="@string/app_name" >
+        </activity>        
     </application>
 
 </manifest>

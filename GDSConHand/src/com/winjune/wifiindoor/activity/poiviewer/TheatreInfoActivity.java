@@ -3,20 +3,14 @@ package com.winjune.wifiindoor.activity.poiviewer;
 import java.util.List;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.R.layout;
-import com.winjune.wifiindoor.R.menu;
-import com.winjune.wifiindoor.adapter.ScheduleTimeList;
-import com.winjune.wifiindoor.poi.BusStation;
-import com.winjune.wifiindoor.poi.MovieInfo;
+import com.winjune.wifiindoor.lib.poi.MovieInfoR;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.TheatreInfo;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -70,11 +64,11 @@ public class TheatreInfoActivity extends POIBaseActivity {
 		onBackPressed();
 	}
 
-	public class MovieList extends ArrayAdapter<MovieInfo> {
+	public class MovieList extends ArrayAdapter<MovieInfoR> {
 		private Context context;
-		private List<MovieInfo> items;
+		private List<MovieInfoR> items;
 		 
-		public MovieList(Context context, int resource, List<MovieInfo> items) {
+		public MovieList(Context context, int resource, List<MovieInfoR> items) {
 			super(context, resource, items);
 			this.context = context;
 			this.items = items;

@@ -708,10 +708,10 @@ public class Util {
         initialed = false;
         
         initial(activity);
-        
-        EventManager.initial();    
-        
+               
         PoiSample.addSamples();
+        
+        POIManager.loadOfflineData();
         
         if (!getWifiInfoManager().isWifiEmbeded()) {
 			showLongToast(activity, R.string.no_wifi_embeded);

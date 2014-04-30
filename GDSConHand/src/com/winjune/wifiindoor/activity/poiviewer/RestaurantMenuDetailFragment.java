@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.R.id;
 import com.winjune.wifiindoor.R.layout;
+import com.winjune.wifiindoor.lib.poi.RestaurantInfoR;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.RestaurantInfo;
 
@@ -35,7 +36,7 @@ public class RestaurantMenuDetailFragment extends Fragment {
 	private int poiId;	
 	private RestaurantInfo poi;
 	private String category;
-	private ArrayList<RestaurantInfo.MenuItem> categoryMenu;
+	private ArrayList<RestaurantInfoR> categoryMenu;
 	
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -72,11 +73,11 @@ public class RestaurantMenuDetailFragment extends Fragment {
 		return rootView;
 	}
 	
-	public class MenuItemList extends ArrayAdapter<RestaurantInfo.MenuItem> {
+	public class MenuItemList extends ArrayAdapter<RestaurantInfoR> {
 		private Context context;
-		private List<RestaurantInfo.MenuItem> items; 
+		private List<RestaurantInfoR> items; 
 			
-		public MenuItemList(Context context, int resource, List<RestaurantInfo.MenuItem> items) {
+		public MenuItemList(Context context, int resource, List<RestaurantInfoR> items) {
 			super(context, resource, items);
 			this.context = context;
 			this.items = items;

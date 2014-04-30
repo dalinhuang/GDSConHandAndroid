@@ -2,11 +2,12 @@ package com.winjune.wifiindoor.activity.poiviewer;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
 import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.lib.poi.ScheduleTime;
 import com.winjune.wifiindoor.poi.PlayhouseInfo;
 import com.winjune.wifiindoor.poi.EventManager;
 import com.winjune.wifiindoor.poi.POIManager;
-import com.winjune.wifiindoor.poi.ScheduleTime;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.adapter.ScheduleTimeList;
 

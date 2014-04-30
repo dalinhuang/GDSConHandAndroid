@@ -1,14 +1,12 @@
 package com.winjune.wifiindoor.activity.poiviewer;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.adapter.ScheduleTimeList;
-import com.winjune.wifiindoor.poi.EventManager;
+import com.winjune.wifiindoor.lib.poi.MovieInfoR;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.TheatreInfo;
-import com.winjune.wifiindoor.poi.MovieInfo;
 import com.winjune.wifiindoor.util.Util;
 
 import android.app.Activity;
@@ -28,7 +26,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -42,7 +39,7 @@ public class MovieInfoActivity extends Activity {
 	private int poiId;
 	private int movieIdx;
 	private TheatreInfo poi;
-	private MovieInfo movie;
+	private MovieInfoR movie;
 	
 	private boolean introMode = true; // default is to show schedule
 	//private boolean todaySchedule = true; // default is to show today's schedule

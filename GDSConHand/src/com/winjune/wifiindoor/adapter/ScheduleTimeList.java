@@ -2,23 +2,15 @@ package com.winjune.wifiindoor.adapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.os.Bundle;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.poi.ScheduleTime;
+import com.winjune.wifiindoor.lib.poi.ScheduleTime;
 
 
 public class ScheduleTimeList extends ArrayAdapter<ScheduleTime> {
