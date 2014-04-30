@@ -185,6 +185,12 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public float density = 1.5f;
 
 	public AdvertisePeriodThread advertisePeriodThread;
+	
+	public long continuousCollectStartTime;
+	public long continuousCollectStopTime;
+	public int mContStartRowNo;
+	public int mContStartColNo;
+	public boolean mContStarted;
 
 	@SuppressLint("ShowToast")
 	private void initData() {
@@ -223,6 +229,12 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 				Toast.LENGTH_LONG);
 		infoQueryToast.setMargin(0, 0);
 		infoQueryToast.setGravity(Gravity.TOP, 0, 0);
+		
+		continuousCollectStartTime = 0;
+		continuousCollectStopTime = 0;
+		mContStartRowNo = -1;
+		mContStartColNo = -1;
+		mContStarted = false;
 
 		if (DEBUG)
 			Log.e(TAG, "End initialData");

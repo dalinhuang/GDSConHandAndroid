@@ -460,7 +460,15 @@ public class MapHUD {
 						break;
 					case IndoorMapData.MAP_MODE_TEST_COLLECT:
 						messageId = R.string.confirm_test_collect;
-						break;	
+						break;
+					case IndoorMapData.MAP_MODE_CONTINUOUS_COLLECT:
+						if (mapViewer.mContStarted){
+							messageId = R.string.confirm_cont_test_stop;
+						}
+						else{
+							messageId = R.string.confirm_cont_test_start;
+						}
+						break;
 					default:
 					}	
 					
@@ -490,6 +498,14 @@ public class MapHUD {
 								break;
 							case IndoorMapData.MAP_MODE_TEST_COLLECT:
 								PlanBar.testCollect(mapViewer);
+								break;
+							case IndoorMapData.MAP_MODE_CONTINUOUS_COLLECT:
+								if (mapViewer.mContStarted){
+									PlanBar.continuousCollectStop(mapViewer);
+								}
+								else{
+									PlanBar.continuousCollectStart(mapViewer);
+								}
 								break;
 							default:
 							}		

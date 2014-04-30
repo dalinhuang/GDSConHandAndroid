@@ -470,6 +470,15 @@ public class WifiInfoManager {
 		
 		return best1;
 	}
+	
+	public void clearSamples(){
+		
+		savedSamples = null;
+	}
+	
+	public ArrayList<WifiFingerPrintSample> getSamples(){
+		return savedSamples;
+	}
 
 	public String getMyMac(){
 		if (wifiManager != null){

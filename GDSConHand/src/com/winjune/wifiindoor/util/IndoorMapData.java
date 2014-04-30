@@ -14,7 +14,8 @@ public final class IndoorMapData {
 	public static final int MAP_MODE_DELETE_FINGERPRINT = 3;
 	public static final int MAP_MODE_TEST_LOCATE = 4;
 	public static final int MAP_MODE_TEST_COLLECT = 5;
-	public static final int MAP_MODE_MAX=6;
+	public static final int MAP_MODE_CONTINUOUS_COLLECT = 6;
+	public static final int MAP_MODE_MAX=7;
 	
 	// NFC state
 	public static final int NFC_EDIT_STATE_NULL = 0;
@@ -112,7 +113,8 @@ public final class IndoorMapData {
 	public static boolean PERIODIC_WIFI_CAPTURE_ON_FOR_COLLECTER = false; // Keep capture the WIFI Fingerprint in background so we do not need to waiting a long time before locating/collecting
 	public static int MIN_WIFI_SAMPLES_BUFFERED = 3; // Start to locating at least with 3 samples
 	public static long MAX_AGE_FOR_WIFI_SAMPLES = 10000; // Only use the buffers no older than 10s
-	public static int MAX_WIFI_SAMPLES_BUFFERED = (int) (MAX_AGE_FOR_WIFI_SAMPLES / PERIODIC_WIFI_CAPTURE_INTERVAL); // Store Max to 100 samples in background
+	//public static int MAX_WIFI_SAMPLES_BUFFERED = (int) (MAX_AGE_FOR_WIFI_SAMPLES / PERIODIC_WIFI_CAPTURE_INTERVAL); // Store Max to 100 samples in background
+	public static int MAX_WIFI_SAMPLES_BUFFERED = 1000; // Store Max to 1000 samples in background while considering the continuous collection
 	
 	
 	public static final int HANDLER_STARTING_REQUEST = 101;

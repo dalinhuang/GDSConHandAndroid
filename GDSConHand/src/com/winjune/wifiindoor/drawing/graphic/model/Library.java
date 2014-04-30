@@ -66,7 +66,7 @@ public class Library {
 			new String[] { "svg/route.svg" }, 0);
 	
 	public static final AnimatedUnit BUTTON_MODE = new AnimatedUnit(
-			new String[] { "svg/view.svg", "svg/edit.svg", "svg/nfc_edit.svg", "svg/delete.svg", "svg/test_locate.svg", "svg/test_collect.svg" }, 0);
+			new String[] { "svg/view.svg", "svg/edit.svg", "svg/nfc_edit.svg", "svg/delete.svg", "svg/test_locate.svg", "svg/test_collect.svg", "svg/path.svg" }, 0);
 	
 	public static final AnimatedUnit BUTTON_ZOOM = new AnimatedUnit(
 			new String[] { "svg/zoomMostIn.svg", "svg/zoomMostOut.svg" }, 0);

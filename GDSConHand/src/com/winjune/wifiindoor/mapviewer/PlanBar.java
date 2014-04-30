@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.winjune.wifiindoor.R;
@@ -29,6 +30,7 @@ import com.winjune.wifiindoor.webservice.types.NfcLocation;
 import com.winjune.wifiindoor.webservice.types.TestLocateCollectReply;
 import com.winjune.wifiindoor.webservice.types.TestLocateCollectRequest;
 import com.winjune.wifiindoor.wifi.WifiFingerPrint;
+import com.winjune.wifiindoor.wifi.WifiFingerPrintSample;
 
 public class PlanBar {
 
@@ -502,6 +504,141 @@ public class PlanBar {
 			}
 		}.start();
 	}	
+	
+	public static void continuousCollectStart(final MapViewerActivity mapViewer) {
+		if (!Util.getWifiInfoManager().isWifiEmbeded()) {
+			//Util.showLongToast(this, R.string.no_wifi_embeded);
+			MapHUD.updateHinText(mapViewer, R.string.no_wifi_embeded);
+			return;
+		}
+
+		if (!Util.getWifiInfoManager().isWifiEnabled()) {
+			//Util.showLongToast(this, R.string.no_wifi_enabled);
+			MapHUD.updateHinText(mapViewer, R.string.no_wifi_enabled);
+			return;
+		}
+		
+		//Util.showShortToast(this, R.string.collecting);
+		MapHUD.updateHinText(mapViewer, R.string.collecting);
+		
+		if (IndoorMapData.PERIODIC_WIFI_CAPTURE_ON_FOR_COLLECTER) {
+			// When continuous collection starts, the only thing to do is to 
+			// clear the sample buffer and capture the start time, start position
+			Util.getWifiInfoManager().clearSamples();
+			mapViewer.continuousCollectStartTime = System.currentTimeMillis();
+			mapViewer.mContStartRowNo = mapViewer.mTargetRowNo;
+			mapViewer.mContStartColNo = mapViewer.mTargetColNo;
+			mapViewer.mContStarted = true;
+		}
+		else{
+			Util.showToast(mapViewer, "Periodic WIFI capture is not ON for collector!", Toast.LENGTH_SHORT);
+			return;
+		}
+	
+	}	
+	
+	public static void continuousCollectStop(final MapViewerActivity mapViewer) {
+		
+		mapViewer.mContStarted = false;
+		
+		if (mapViewer.continuousCollectStartTime == 0){
+			//something wrong
+			Util.showToast(mapViewer, "Something wrong: Start Time is zero!", Toast.LENGTH_SHORT);
+			return;
+		}
+		
+		mapViewer.continuousCollectStopTime = System.currentTimeMillis();
+		
+		int contStopRowNo = mapViewer.mTargetRowNo;
+		int contStopColNo = mapViewer.mTargetColNo;
+		
+		int rowDelta = contStopRowNo - mapViewer.mContStartRowNo;
+		int colDelta = contStopColNo - mapViewer.mContStartColNo;
+		
+		int positionDelta;
+		int direction;
+		final int row = 0;
+		final int col = 1;
+		
+		if ((rowDelta == 0) && (colDelta != 0)){
+			direction = col;
+			positionDelta = colDelta;
+		}
+		else{
+			if ((rowDelta != 0) && (colDelta == 0)){
+				direction = row;
+				positionDelta = rowDelta;
+			}
+			else{
+				//the routine is not horizontal or vertical
+				Util.showToast(mapViewer, "The routine is not horizontal or vertical!", Toast.LENGTH_SHORT);
+				return;
+			}
+		}
+		
+		ArrayList<WifiFingerPrintSample> samples = Util.getWifiInfoManager().getSamples();
+		if (samples.size() < positionDelta){
+			Util.showToast(mapViewer, "Not enough sample during the collection!", Toast.LENGTH_SHORT);
+			return;
+		}
+		
+		for (int i=0; i <= positionDelta; i++){
+			// The samples for each position
+			ArrayList<WifiFingerPrintSample> samplesForThisPosition = new ArrayList<WifiFingerPrintSample>();
+			long stopTimeForThisPosition = mapViewer.continuousCollectStartTime + 
+					(mapViewer.continuousCollectStopTime - mapViewer.continuousCollectStartTime) * (i / positionDelta);
+			
+			while (samples.get(0).getBirthday() < stopTimeForThisPosition){
+				samplesForThisPosition.add(samples.remove(0)); // retrieve the sample and add to the local variable for this position
+			}
+			
+			if (samplesForThisPosition.size() == 0){
+				// No sample for this position
+				continue;
+			}
+			
+			CollectInfo collect = new CollectInfo();
+			int colNoForThisPosition = -1;
+			int rowNoForThisPosition = -1;
+			if (direction == col){ // it is horizontal
+				colNoForThisPosition = mapViewer.mContStartColNo + i;
+				rowNoForThisPosition = mapViewer.mContStartRowNo;
+			}
+			else{ // it is vertical
+				colNoForThisPosition = mapViewer.mContStartColNo;
+				rowNoForThisPosition = mapViewer.mContStartRowNo + i;
+			}
+			Location location = new Location(Util.getRuntimeIndoorMap().getMapId(), 
+					colNoForThisPosition, rowNoForThisPosition, 
+					Util.getRuntimeIndoorMap().getVersionCode());
+			collect.setLocation(location);
+
+			WifiFingerPrint fingnerPrint = new WifiFingerPrint(samplesForThisPosition);
+			fingnerPrint.log();
+			collect.setWifiFingerPrint(fingnerPrint);
+
+			try {
+				Gson gson = new Gson();
+				String json = gson.toJson(collect);
+				JSONObject data = new JSONObject(json);
+
+				if (IpsWebService.sendMessage(mapViewer, IpsMsgConstants.MT_COLLECT, data)) {
+
+					Log.e("COLLECT", "Send MT_COLLECT to Server: TRUE");
+					
+					CollectedFlag.addCollectedFlag(mapViewer, colNoForThisPosition, rowNoForThisPosition); // add and show the flags
+				} 
+
+			} catch (Exception ex) {
+				//Util.showToast(this, "102 " + ex.toString(), Toast.LENGTH_LONG);
+				ex.printStackTrace();
+				MapHUD.updateHinText(mapViewer, "COLLECT: 102 ERROR: " + ex.getMessage());
+			}
+			
+		} //for
+		
+	}
+	
 	@SuppressLint("SimpleDateFormat")
 	public static void showTestResult(MapViewerActivity mapViewer, TestLocateCollectReply testLocation, Location balanceLocation) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(mapViewer);

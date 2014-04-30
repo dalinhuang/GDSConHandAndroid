@@ -103,6 +103,10 @@ public class GraphicIndoorMapListener implements RuntimeIndoorMapListener {
 			modeStr = Util.getResources().getString(R.string.test_collect_mode);
 			sprite.setCurrentTileIndex(5);
 			break;
+		case IndoorMapData.MAP_MODE_CONTINUOUS_COLLECT:
+			modeStr = Util.getResources().getString(R.string.cont_collect_mode);
+			sprite.setCurrentTileIndex(6);
+			break;
 		default:
 		}		
 
