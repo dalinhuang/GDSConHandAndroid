@@ -17,15 +17,18 @@ import android.widget.TextView;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.poiviewer.RestaurantInfoActivity;
 import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
+import com.winjune.wifiindoor.lib.poi.POIType;
+import com.winjune.wifiindoor.lib.poi.PlaceOfInterestR;
 
 public class RestaurantInfo extends PlaceOfInterest{
 
 	private ArrayList<MenuItem> menu = new ArrayList<MenuItem>();
 	
-	public RestaurantInfo(){
-		super(POIType.Restaurant);
+	public RestaurantInfo(PlaceOfInterestR poiR) {
+		// TODO Auto-generated constructor stub
+		super(poiR);
 	}
-	
+
 	public void addMenuItem(String category, String name, String iconUrl, String price){
 		MenuItem item = new MenuItem(category, name, iconUrl, price);		
 		menu.add(item);		

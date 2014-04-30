@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.poi.BusLine;
+import com.winjune.wifiindoor.lib.poi.BusLineR;
 import com.winjune.wifiindoor.poi.BusStation;
 import com.winjune.wifiindoor.poi.POIManager;
 
@@ -60,12 +60,12 @@ public class BusStationInfoActivity extends POIBaseActivity {
 	    	onBackPressed();    	
 	 } 
 	  
-	 public class BusLineList extends ArrayAdapter<BusLine> {
+	 public class BusLineList extends ArrayAdapter<BusLineR> {
 
 			private Context context;
-			private List<BusLine> items;
+			private List<BusLineR> items;
 			 
-			public BusLineList(Context context, int resource, List<BusLine> items) {
+			public BusLineList(Context context, int resource, List<BusLineR> items) {
 				super(context, resource, items);
 				this.context = context;
 				this.items = items;
@@ -77,7 +77,7 @@ public class BusStationInfoActivity extends POIBaseActivity {
 		        LayoutInflater vi = LayoutInflater.from(context);  
 				View view=vi.inflate(R.layout.list_bus_lines, null);
 				
-				BusLine aBL = items.get(position);
+				BusLineR aBL = items.get(position);
 				TextView lineName = (TextView)view.findViewById(R.id.bus_line_name);
 				lineName.setText(aBL.lineName);
 				

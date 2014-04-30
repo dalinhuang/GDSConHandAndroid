@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
+import com.winjune.wifiindoor.lib.poi.PlaceOfInterestR;
 
 public class TheatreInfo extends PlaceOfInterest implements Serializable{
 	
@@ -25,10 +26,8 @@ public class TheatreInfo extends PlaceOfInterest implements Serializable{
 	private static final long serialVersionUID = -6940701012727934560L;
 	private ArrayList<MovieInfo> movies;
 	
-	public TheatreInfo(){
-		super(POIType.Theatre);
-		this.label = "巨幕影院";
-		this.detailedDesc = "3D巨幕影院屏幕宽29米、高22米，是目前亚洲地区最大的巨幕影院，可容纳610名观众同时体验。其放映设备采用当今世界上技术含量最高、画格最大的70毫米15齿孔IMAX立体放映系统，它使用的70毫米15齿孔胶片有效画幅是普通35毫米胶片的10倍，它独特的“波形环状”输片设计，把每一个画格牢牢地吸附在片门之上，使画面清晰稳定。";
+	public TheatreInfo(PlaceOfInterestR poi){
+		super(poi);
 		movies = new ArrayList<MovieInfo>();
 	}
 	

@@ -1,22 +1,16 @@
 package com.winjune.wifiindoor.poi;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.thoughtworks.xstream.XStream;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.poiviewer.BusStationInfoActivity;
-import com.winjune.wifiindoor.util.IndoorMapData;
-import com.winjune.wifiindoor.util.Util;
+import com.winjune.wifiindoor.lib.poi.BusLineR;
+import com.winjune.wifiindoor.lib.poi.PlaceOfInterestR;
 
 import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,64 +18,22 @@ import android.view.View.OnClickListener;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-public class BusStation extends PlaceOfInterest implements Serializable{
+@SuppressWarnings("serial")
+public class BusStation extends PlaceOfInterest{
+				
+	private ArrayList<BusLineR> busLines;
+	
+	public BusStation(PlaceOfInterestR poi){
+		super(poi);
 		
-	private static final long serialVersionUID = -5969028824407419064L;
-	
-	private ArrayList<BusLine> busLines;
-	
-	public BusStation(){
-		super();
-		
-		this.label = "大学城科学中心总站";
-		busLines = new ArrayList<BusLine>();		
-	}
-	
-	//Set Alias for the XML serialization
-	private void setAlias(XStream xs){
-		xs.alias("BusStation", com.winjune.wifiindoor.poi.BusStation.class);
-		xs.alias("BusLine", com.winjune.wifiindoor.poi.BusLine.class);
-		//Invoke other objects' setAlias methods here
-	}	
-	
-	//Serialize current IndoorMap to XML file
-	private boolean toXML(FileOutputStream cacheFile){
-		//Serialize this object
-		XStream xs = new XStream();
-		setAlias(xs);
-					
-		//Write to the map info file
-		try{
-			xs.toXML(this, cacheFile);						
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return false;
-		}
-		
-		return true;
-	}
-	
-	//Set current InoorMap from XML file
-	public boolean fromXML(InputStream cacheFile){
-		XStream xs = new XStream();
-		setAlias(xs);
-
-		try {
-			xs.fromXML(cacheFile, this);			
-			return true;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		
-		return false;
+		busLines = new ArrayList<BusLineR>();		
 	}
 		
-	
-	public void addBusLine(BusLine aBusLine) {		
+	public void addBusLine(BusLineR aBusLine) {		
 		busLines.add(aBusLine);
 	}
 	
-	public BusLine getBusLine(int index) {
+	public BusLineR getBusLine(int index) {
 		return busLines.get(index);
 	}
 	
@@ -89,7 +41,7 @@ public class BusStation extends PlaceOfInterest implements Serializable{
 		String info = "";
 		boolean dividerNotNeeded = true; 
 		
-		for (BusLine line:busLines) {
+		for (BusLineR line:busLines) {
 			if (dividerNotNeeded) { 
 				dividerNotNeeded = false;
 				info += line.lineName;
@@ -102,7 +54,7 @@ public class BusStation extends PlaceOfInterest implements Serializable{
 		return info;
 	}
 	
-	public ArrayList<BusLine> getBusLines() {				
+	public ArrayList<BusLineR> getBusLines() {				
 		return busLines;
 	}
 	

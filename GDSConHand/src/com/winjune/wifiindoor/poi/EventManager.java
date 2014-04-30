@@ -4,6 +4,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
+
+import com.winjune.wifiindoor.lib.poi.POIType;
+
 import android.annotation.SuppressLint;
 
 public class EventManager extends POIManager{
@@ -58,7 +61,7 @@ public class EventManager extends POIManager{
 		HashSet<Integer>  hallSet = new HashSet<Integer> ();
   
         for (PlaceOfInterest et:POIList){        	
-       		if (et.poiType == POIType.Playhouse)
+       		if (et.getPoiType() == POIType.Playhouse)
        			hallSet.add(et.hallId);
         }
         	
@@ -70,7 +73,7 @@ public class EventManager extends POIManager{
 		ArrayList<PlayhouseInfo> todayEvent = new ArrayList<PlayhouseInfo>();
 		
         for (PlaceOfInterest et:POIList){        	
-       		if (et.poiType == POIType.Playhouse) {
+       		if (et.getPoiType() == POIType.Playhouse) {
        			if (et.getHall() == placeNo) {
        				todayEvent.add((PlayhouseInfo)et);
        			}
@@ -85,7 +88,7 @@ public class EventManager extends POIManager{
 		ArrayList<ScheduleTime> timeList;
 		
 		for (PlaceOfInterest ei:POIList) {
-			if (ei.poiType == POIType.Playhouse) {
+			if (ei.getPoiType() == POIType.Playhouse) {
 			
 				timeList = ((PlayhouseInfo)ei).getTodaySchedule();
 				for (ScheduleTime et: timeList){				
@@ -110,7 +113,7 @@ public class EventManager extends POIManager{
 		
 		for (PlaceOfInterest ei:POIList){
 			
-			if (ei.poiType == POIType.Playhouse) {
+			if (ei.getPoiType() == POIType.Playhouse) {
 				timeList = ((PlayhouseInfo)ei).getEventAlarmTimeOfToday();
 			
 				if (!timeList.isEmpty()){

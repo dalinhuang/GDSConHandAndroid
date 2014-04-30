@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.poiviewer.BusStationInfoActivity.BusLineList;
+import com.winjune.wifiindoor.lib.poi.BusLineR;
 import com.winjune.wifiindoor.map.IndoorMap;
-import com.winjune.wifiindoor.poi.BusLine;
 import com.winjune.wifiindoor.poi.BusStation;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.util.IndoorMapData;
@@ -30,7 +30,7 @@ public class BusLineInfoActivity extends Activity {
 	private int poiId;
 	private int lineIdx;	
 	private BusStation poi;
-	private BusLine busline;
+	private BusLineR busline;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

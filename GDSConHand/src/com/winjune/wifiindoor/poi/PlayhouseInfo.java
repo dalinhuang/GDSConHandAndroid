@@ -4,17 +4,18 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import com.winjune.wifiindoor.lib.poi.PlaceOfInterestR;
+
+@SuppressWarnings("serial")
 public class PlayhouseInfo extends PlaceOfInterest{
 	
 	private ArrayList<ScheduleTime> normalDayTime;
 	private ArrayList<ScheduleTime> weekendTime;
 	private ArrayList<ScheduleTime> festivalTime;
 	
-	public PlayhouseInfo(String title) {
-		super(POIType.Playhouse);
-		
-		this.label = title;
-	
+	public PlayhouseInfo(PlaceOfInterestR poi) {
+		super(poi);
+				
 		normalDayTime = new ArrayList<ScheduleTime>();
 		weekendTime = new ArrayList<ScheduleTime>();
 		festivalTime = new ArrayList<ScheduleTime>();		

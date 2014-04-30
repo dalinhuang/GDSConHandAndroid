@@ -1,7 +1,5 @@
 package com.winjune.wifiindoor.poi;
 
-import java.io.Serializable;
-
 import android.app.ActionBar.LayoutParams;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
@@ -12,180 +10,24 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
-
-enum POIType {
-	Normal,
-	AutoGuide,
-	WebContent,
-	BusStation,
-	Theatre,
-	Playhouse,
-	Restaurant	
-}
+import com.winjune.wifiindoor.lib.poi.PlaceOfInterestR;
 
 enum ContextMenuRequestFrom {
 	Location,
 	Selection
 }
 
-public class PlaceOfInterest implements Serializable{
-
-	private static final long serialVersionUID = 7639909124051293630L;
-	
-	private static int ID_GENERATOR = 0;
-	
-	public POIType poiType;
-	
-	public int id;
-	
-	public int hallId;
-
-	
-	public int ttsNo;
-	
-	public int mapId;
-	
-	public int placeX;
-	public int placeY;
-
-	private String 	iconUrl;
-	public String 	audioUrl;
-	public String 	webUrl;	
-	public String  picUrl;
-	
-	
-	public String label;
-	protected String generalDesc;
-	public String detailedDesc;
-	
-		
-	
-	public boolean shareble;
-	public boolean reachable;
-	public boolean readable;
-	
-	public float scale;
-	public float alpha;
-	public float rotation;
-	public float minZoomFactor;
-	public float maxZoomFactor;
-	
-	
-	public PlaceOfInterest(POIType poiType){
-		this.poiType = poiType;
-		this.id = ID_GENERATOR ++;
-		
-		this.ttsNo = 0;
-		this.mapId = 0;
-		this.placeX = 0;
-		this.placeY = 0;
-			
-		this.iconUrl = "";		
-		this.label = "";
-
-		this.generalDesc = "";
-		this.detailedDesc = "";
-		
-		this.webUrl = "";
-		
-		this.shareble = false;
-		
-		this.reachable = true;
-		
-		this.readable = false;
-		
-		this.scale = 0f;
-		this.alpha = 0f;
-		this.rotation = 0f;
-		this.maxZoomFactor = 0.5f;
-		this.maxZoomFactor = 3f;							
-	}
+@SuppressWarnings("serial")
+public class PlaceOfInterest extends PlaceOfInterestR {	
 	
 	public PlaceOfInterest(){
-		this(POIType.Normal);
+		super();
 	}
 	
-	public PlaceOfInterest(String label){
-		this(POIType.Normal);
-		this.label = label;
+	public PlaceOfInterest(PlaceOfInterestR poi){
+		super(poi);
 	}
-	
-	public void toXML(){
 		
-	}
-			
-	public String getGeneralDesc(){
-		return generalDesc;
-	}
-
-	public int getHall(){
-		return hallId;
-	}
-	
-	public String getLabel(){
-		return label;
-	}	
-
-	public int getX(){
-		return placeX;
-	}
-	
-	public void setX(int x){
-		this.placeX = x;
-	}
-	
-	public int getY(){
-		return placeY;
-	}
-	
-	public void setY(int y){
-		this.placeY = y;
-	}
-	
-	public float getScale() {
-		return scale;
-	}
-
-	public void setScale(float scale) {
-		this.scale = scale;
-	}
-
-	public float getAlpha() {
-		return alpha;
-	}
-
-	public void setAlpha(float alpha) {
-		this.alpha = alpha;
-	}
-
-	public float getRotation() {
-		return rotation;
-	}
-
-	public void setRotation(float rotation) {
-		this.rotation = rotation;
-	}
-
-	public float getMinZoomFactor() {
-		return minZoomFactor;
-	}
-
-	public void setMinZoomFactor(float minZoomFactor) {
-		this.minZoomFactor = minZoomFactor;
-	}
-
-	public float getMaxZoomFactor() {
-		return maxZoomFactor;
-	}
-
-	public void setMaxZoomFactor(float maxZoomFactor) {
-		this.maxZoomFactor = maxZoomFactor;
-	}	
-		
-	public String getWebUrl(){
-		return webUrl;
-	}
-	
 	public void showContextMenu(View v){
 		LayoutInflater inflater = LayoutInflater.from(v.getContext()); 
 		View view = inflater.inflate(R.layout.popup_context_menu3, null); 
