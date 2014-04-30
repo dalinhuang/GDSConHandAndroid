@@ -7,6 +7,7 @@ import com.winjune.wifiindoor.lib.poi.BusLineR;
 import com.winjune.wifiindoor.lib.poi.MovieInfoR;
 import com.winjune.wifiindoor.lib.poi.POIType;
 import com.winjune.wifiindoor.lib.poi.PlaceOfInterestR;
+import com.winjune.wifiindoor.lib.poi.PlayhouseInfoR;
 import com.winjune.wifiindoor.lib.poi.PoiOfflineData;
 import com.winjune.wifiindoor.util.Util;
 
@@ -23,10 +24,11 @@ public class PoiSample {
 		addBusStationSamples();
 		addTheatreSamples();
 		addRestaurantSamples();
+		
+		addPlayhouseSamples();
 				
 		offlineData.toXML();
-		
-		// addPlayhouseSamples();		
+					
 	}
 	
 	public static void addFestivalSamples(){		
@@ -138,47 +140,74 @@ public class PoiSample {
 	}
 	
 
-	/*public static void addPlayhouseSamples(){		
-		PlaceOfInterest poi;
+	public static void addPlayhouseSamples(){		
+		PlaceOfInterestR poiHall, poi;
+		PlayhouseInfoR mSchedule;	
 		
-		poi = new PlaceOfInterest("试验与发现馆");	
-		POIList.add(poi);
-		PlayhouseInfo eventItem1	= new PlayhouseInfo("电磁舞台");
-		eventItem1.setPlace(0,0, poi.id);
-		eventItem1.addNormalDayTimes("10:20;14:30");
-		eventItem1.addWeekendTimes("10:30;12:00;15:30");
-		eventItem1.addFestivalTimes("10:30;12:00;15:30");	
-		POIList.add(eventItem1);
+		poiHall = new PlaceOfInterestR("试验与发现馆");	
+		poiHall.id = getId();
+		offlineData.poiTable.poiData.add(poiHall);
+		
+		poi= new PlaceOfInterestR(POIType.Playhouse);
+		poi.label = "电磁舞台";
+		poi.id = getId();
+		poi.hallId =poiHall.id;
+		offlineData.poiTable.poiData.add(poi);		
+		
+		mSchedule = new PlayhouseInfoR(poi.id);
+		mSchedule.addNormalDayTimes("10:20;14:30");
+		mSchedule.addWeekendTimes("10:30;12:00;15:30");
+		mSchedule.addFestivalTimes("10:30;12:00;15:30");	
+		offlineData.playhouseTable.schedules.add(mSchedule);
 	
-		poi = new PlaceOfInterest("儿童天地馆");
+		poiHall = new PlaceOfInterestR("儿童天地馆");	
+		poiHall.id = getId();
+		offlineData.poiTable.poiData.add(poiHall);
+		
+		poi= new PlaceOfInterestR(POIType.Playhouse);
+		poi.label = "基因剧场";
+		poi.id = getId();
+		poi.hallId =poiHall.id;
+		offlineData.poiTable.poiData.add(poi);			
+		
+		mSchedule = new PlayhouseInfoR(poi.id);
+		mSchedule.addNormalDayTime(11, 0, 0, 0);
+		mSchedule.addNormalDayTime(14, 0, 0, 0);
+		mSchedule.addHolidayTime(11, 0, 0, 0);
+		mSchedule.addHolidayTime(14, 0, 0, 0);
+		mSchedule.addHolidayTime(14, 30, 0, 0);	
+		offlineData.playhouseTable.schedules.add(mSchedule);
+		
+		poi= new PlaceOfInterestR(POIType.Playhouse);
+		poi.label = "启蒙剧场";
+		poi.id = getId();
+		poi.hallId =poiHall.id;
+		offlineData.poiTable.poiData.add(poi);	
+		
+		mSchedule = new PlayhouseInfoR(poi.id);
+		mSchedule.addHolidayTime(14, 30, 0, 0);	
+		offlineData.playhouseTable.schedules.add(mSchedule);
+				
+		poiHall = new PlaceOfInterestR("交通世界馆");	
+		poiHall.id = getId();
+		offlineData.poiTable.poiData.add(poiHall);
+		
+		poi= new PlaceOfInterestR(POIType.Playhouse);
+		poi.label = "磁悬浮技术";
+		poi.id = getId();
+		poi.hallId =poiHall.id;
+		offlineData.poiTable.poiData.add(poi);	
+		
+		mSchedule = new PlayhouseInfoR(poi.id);
+		mSchedule.addHolidayTime(14, 30, 0, 0);		
+		mSchedule.addWeekdayTime(10, 30, 12, 0);
+		mSchedule.addWeekdayTime(14, 0, 15, 30);
+		mSchedule.addFestivalTime(10, 0, 12, 0);
+		mSchedule.addFestivalTime(14, 0, 16, 0);	
+		offlineData.playhouseTable.schedules.add(mSchedule);	
 
-		PlayhouseInfo eventItem2	= new PlayhouseInfo("基因剧场");
-		POIList.add(poi);
-		eventItem2.setPlace(0,0, poi.id);
-		eventItem2.addNormalDayTime(11, 0, 0, 0);
-		eventItem2.addNormalDayTime(14, 0, 0, 0);
-		eventItem2.addHolidayTime(11, 0, 0, 0);
-		eventItem2.addHolidayTime(14, 0, 0, 0);
-		eventItem2.addHolidayTime(14, 30, 0, 0);	
-		POIList.add(eventItem2);
 		
-		PlayhouseInfo eventItem3	= new PlayhouseInfo("启蒙剧场");
-		eventItem3.setPlace(0,0, poi.id);	
-		eventItem3.addHolidayTime(14, 30, 0, 0);	
-		POIList.add(eventItem3);
-		
-		poi = new PlaceOfInterest("交通世界馆");
-		POIList.add(poi);
-		PlayhouseInfo eventItem4	= new PlayhouseInfo("磁悬浮技术");
-		eventItem4.setPlace(0,0, poi.id);
-		eventItem4.addWeekdayTime(10, 30, 12, 0);
-		eventItem4.addWeekdayTime(14, 0, 15, 30);
-		eventItem4.addFestivalTime(10, 0, 12, 0);
-		eventItem4.addFestivalTime(14, 0, 16, 0);	
-		POIList.add(eventItem4);	
-
-		
-		PlayhouseInfo eventItem5	= new PlayhouseInfo("模拟汽车工厂");
+/*		PlayhouseInfo eventItem5	= new PlayhouseInfo("模拟汽车工厂");
 		eventItem5.setPlace(0,0, poi.id);
 		eventItem5.addAllTime(9, 30, 12, 0);
 		eventItem5.addAllTime(13, 0, 16, 30);			
@@ -260,7 +289,7 @@ public class PoiSample {
 		eventItem13.addNormalDayTimes("9:30-10:00;10:00-10:30;10:30-11:00");
 		eventItem13.addWeekendTimes("9:30-10:00;10:00-10:30;10:30-11:00");
 		eventItem13.addFestivalTimes("9:30-10:00;10:00-10:30;10:30-11:00");
-		POIList.add(eventItem13);
+		POIList.add(eventItem13);*/
 						
-	}	*/
+	}
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import com.winjune.wifiindoor.lib.poi.PlaceOfInterestR;
+import com.winjune.wifiindoor.lib.poi.PlayhouseInfoR;
 import com.winjune.wifiindoor.lib.poi.ScheduleTime;
 
 @SuppressWarnings("serial")
@@ -20,6 +21,12 @@ public class PlayhouseInfo extends PlaceOfInterest{
 		normalDayTime = new ArrayList<ScheduleTime>();
 		weekendTime = new ArrayList<ScheduleTime>();
 		festivalTime = new ArrayList<ScheduleTime>();		
+	}
+	
+	public void loadOfflineData(PlayhouseInfoR schedule){
+		normalDayTime = schedule.getNormalDayTime();
+		weekendTime = schedule.getWeekendTime();
+		festivalTime = schedule.getFestivalTime();
 	}
 	
 	public String getTodayScheduleInfo() {				
@@ -61,7 +68,6 @@ public class PlayhouseInfo extends PlaceOfInterest{
         int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK) - 1;
         if (dayOfWeek < 0 )	dayOfWeek = 0;
         
-        ArrayList<ScheduleTime> timeList;
         if (EventManager.isFestivalDay(dt)) {
         	return festivalTime;
         } else if ((dayOfWeek == 0) || (dayOfWeek == 6))  {
@@ -71,13 +77,7 @@ public class PlayhouseInfo extends PlaceOfInterest{
         return normalDayTime;
   				
 	}	
-	
-	public void setPlace(int placeX, int placeY, int placeNo){
-		this.hallId = placeNo;
-		this.placeX = placeX;
-		this.placeY = placeY;
-	}
-		
+			
 	public ArrayList<ScheduleTime> getNormalDayTime() {
 		return normalDayTime;
 	}

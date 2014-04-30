@@ -134,6 +134,27 @@ public class POIManager {
 			mTheatre.addMovie(aMovie);
 		}			
 		
+		// load playhouse info
+		for (PlayhouseInfoR mSchedule: offlineData.playhouseTable.getSchedules()) {
+			PlaceOfInterest poi = getPOIbyId(mSchedule.poiId);
+			
+			if (poi == null) {
+				Log.e("POI", "POI not found");
+				continue;
+			}	
+			
+			if ((poi.getPoiType() != POIType.Playhouse ) &&
+				 (poi.getClass() != com.winjune.wifiindoor.poi.PlayhouseInfo.class)){
+				Log.e("POI", "Wrong POI");
+				continue;				
+			}
+			
+			PlayhouseInfo mPlayhouse = (PlayhouseInfo)poi;
+			
+			mPlayhouse.loadOfflineData(mSchedule);
+		}			
+		
+		
 	}
 
 	public static Class getPOIClass(POIType poiType) {

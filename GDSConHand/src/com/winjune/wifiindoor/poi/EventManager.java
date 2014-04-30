@@ -29,7 +29,7 @@ public class EventManager extends POIManager{
         return placesGroup;
 	}		
 	
-	public ArrayList<PlayhouseInfo> getTodayEventListByHall(int placeNo ){
+	public static ArrayList<PlayhouseInfo> getTodayEventListByHall(int placeNo ){
 		ArrayList<PlayhouseInfo> todayEvent = new ArrayList<PlayhouseInfo>();
 		
         for (PlaceOfInterest et:POIList){        	
