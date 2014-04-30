@@ -29,6 +29,10 @@ public class RestaurantInfo extends PlaceOfInterest{
 		// TODO Auto-generated constructor stub
 		super(poiR);
 	}
+	
+	public void addMenuItem(RestaurantInfoR menuItem) {
+		menu.add(menuItem);
+	}
 
 	public void addMenuItem(String category, String name, String iconUrl, String price){
 		RestaurantInfoR item = new RestaurantInfoR(id, category, name, iconUrl, price);		

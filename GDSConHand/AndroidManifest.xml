@@ -264,7 +264,7 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>        
         <activity
-            android:name="com.winjune.wifiindoor.activity.AlarmActivity"
+            android:name="com.winjune.wifiindoor.activity.poiviewer.AlarmActivity"
             android:label="@string/app_name" >
         </activity>        
     </application>

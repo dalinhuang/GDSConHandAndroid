@@ -57,6 +57,7 @@
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_washingroom"
+                            android:onClick="shortcutClick"
                             android:text="洗手间" />
                     </LinearLayout>
 
@@ -65,11 +66,13 @@
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_atm"
+                            android:onClick="shortcutClick"
                             android:text="自助柜员机" />
 
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_baby"
+                            android:onClick="shortcutClick"
                             android:text="育婴室" />
                     </LinearLayout>
 
@@ -78,11 +81,13 @@
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_water_platform"
+                            android:onClick="shortcutClick"
                             android:text="亲水平台" />
 
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_smoking"
+                            android:onClick="shortcutClick"
                             android:text="吸烟区" />
                     </LinearLayout>
                 </LinearLayout>
@@ -112,6 +117,7 @@
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_consult"
+                            android:onClick="shortcutClick"
                             android:text="咨询台" />
                     </LinearLayout>
 
@@ -120,11 +126,13 @@
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_broadcast"
+                            android:onClick="shortcutClick"
                             android:text="广播室" />
 
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_health_room"
+                            android:onClick="shortcutClick"
                             android:text="医务室" />
                     </LinearLayout>
 
@@ -133,12 +141,14 @@
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_baggage"
+                            android:onClick="shortcutClick"
                             android:text="寄存室" />
 
                         <TextView
                             android:id="@+id/text_station"
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_complain"
+                            android:onClick="shortcutClick"
                             android:text="投诉室" />
                     </LinearLayout>
                 </LinearLayout>
@@ -168,12 +178,13 @@
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_ticket"
+                            android:onClick="shortcutClick"
                             android:text="售票厅" />
 
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_restaurant"
-                            android:onClick="restaurantClick"
+                            android:onClick="shortcutClick"
                             android:text="餐厅" />
                     </LinearLayout>
 
@@ -182,12 +193,14 @@
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_coffee_shop"
+                            android:onClick="shortcutClick"
                             android:text="咖啡厅" />
 
                         <TextView
                             android:id="@+id/text_station"
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_science_shop"
+                            android:onClick="shortcutClick"
                             android:text="科学探索商店" />
                     </LinearLayout>
                 </LinearLayout>
@@ -217,12 +230,13 @@
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_imax_theatre"
-                            android:onClick="iMaxTheatreClick"
+                            android:onClick="shortcutClick"
                             android:text="巨幕影院" />
 
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_4d_cinema"
+                            android:onClick="shortcutClick"
                             android:text="四维影院" />
                     </LinearLayout>
 
@@ -231,11 +245,13 @@
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_virtual_flight_cinema"
+                            android:onClick="shortcutClick"
                             android:text="虚拟航行影院" />
 
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_ball_cinema"
+                            android:onClick="shortcutClick"
                             android:text="球幕影院" />
                     </LinearLayout>
                 </LinearLayout>
@@ -265,11 +281,13 @@
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_experiment"
+                            android:onClick="shortcutClick"
                             android:text="试验与发现" />
 
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_kids"
+                            android:onClick="shortcutClick"
                             android:text="儿童天地" />
                     </LinearLayout>
 
@@ -278,6 +296,7 @@
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_traffic_world"
+                            android:onClick="shortcutClick"
                             android:text="交通世界" />
 
                         <TextView
@@ -291,11 +310,13 @@
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_green_home"
+                            android:onClick="shortcutClick"
                             android:text="绿色家园" />
 
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_space_dream"
+                            android:onClick="shortcutClick"
                             android:text="飞天之梦" />
                     </LinearLayout>
 
@@ -304,11 +325,13 @@
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_human_health"
+                            android:onClick="shortcutClick"
                             android:text="人与健康" />
 
                         <TextView
                             style="@style/styleShortcutItem"
                             android:drawableLeft="@drawable/ic_feel_thinking"
+                            android:onClick="shortcutClick"
                             android:text="感知与思维" />
                     </LinearLayout>
                 </LinearLayout>

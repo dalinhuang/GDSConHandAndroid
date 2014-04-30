@@ -13,7 +13,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context="com.winjune.wifiindoor.activity.RestaurantInfoActivity" >
+    tools:context="com.winjune.wifiindoor.activity.poiviewer.RestaurantInfoActivity" >
     
     <!--
     This layout is a two-pane layout for the MenuItems
@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/menuitem_list"
-        android:name="com.winjune.wifiindoor.activity.RestaurantMenuListFragment"
+        android:name="com.winjune.wifiindoor.activity.poiviewer.RestaurantMenuListFragment"
         android:layout_width="0dp"        
         android:layout_weight="1"
         android:layout_height="match_parent"

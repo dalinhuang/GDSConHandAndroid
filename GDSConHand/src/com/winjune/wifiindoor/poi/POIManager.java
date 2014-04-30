@@ -77,7 +77,7 @@ public class POIManager {
 		
 		// load busLine info			
 		for (BusLineR aBusline: offlineData.buslineTable.getBusLines()) {
-			PlaceOfInterest poi = getPOIbyId(aBusline.stationId);
+			PlaceOfInterest poi = getPOIbyId(aBusline.poiId);
 			
 			if (poi == null) {
 				Log.e("POI", "POI not found");
@@ -93,6 +93,46 @@ public class POIManager {
 			
 			mBusStation.addBusLine(aBusline);
 		}
+		
+		// load restaurant info
+		for (RestaurantInfoR menuItem: offlineData.restaurantTable.getMenus()) {
+			PlaceOfInterest poi = getPOIbyId(menuItem.poiId);
+			
+			if (poi == null) {
+				Log.e("POI", "POI not found");
+				continue;
+			}	
+			
+			if ((poi.getPoiType() != POIType.Restaurant ) &&
+				 (poi.getClass() != com.winjune.wifiindoor.poi.RestaurantInfo.class)){
+				Log.e("POI", "Wrong POI");
+				continue;				
+			}
+			
+			RestaurantInfo mRes = (RestaurantInfo)poi;
+			
+			mRes.addMenuItem(menuItem);;
+		}		
+		
+		// load movie info
+		for (MovieInfoR aMovie: offlineData.movieTable.getMovies()) {
+			PlaceOfInterest poi = getPOIbyId(aMovie.poiId);
+			
+			if (poi == null) {
+				Log.e("POI", "POI not found");
+				continue;
+			}	
+			
+			if ((poi.getPoiType() != POIType.Theatre ) &&
+				 (poi.getClass() != com.winjune.wifiindoor.poi.TheatreInfo.class)){
+				Log.e("POI", "Wrong POI");
+				continue;				
+			}
+			
+			TheatreInfo mTheatre = (TheatreInfo)poi;
+			
+			mTheatre.addMovie(aMovie);
+		}			
 		
 	}
 
