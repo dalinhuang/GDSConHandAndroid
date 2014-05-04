@@ -18,18 +18,13 @@ import com.winjune.wifiindoor.util.Util;
 // the records needs to be sorted reversely
 // before add new record, need to check if it is already in the records, if yes, need to adjust the order
 public class SearchHistory implements Serializable{
-	private static final long serialVersionUID = 7866873863978783133L;
 
-	private ArrayList<String> records = new ArrayList<String>();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7751052119801300610L;
+	public ArrayList<String> records = new ArrayList<String>();
 
-	public String[] getHistoryArray(){
-        String[] recordArray = new String[0];
-           
-        recordArray = records.toArray(recordArray);
-        
-        return recordArray;
-	}
-	
 	public void loadCachedData() {
 		fromXML();
 	}
@@ -45,16 +40,15 @@ public class SearchHistory implements Serializable{
 	}
 	
 	public void addRecord(String searchInput) {		
+		if (searchInput == null)
+			return;
+		
 		String input =  searchInput.trim();
 		
-		if (searchInput != null) {	
-			for (String record: records) {
-				if (record.equals(input)) {
-					// we first remove this record and then add it to the last
-					records.remove(record); 					
-					break;
-				}
-			}			
+		if (!input.isEmpty()) {	
+			// check if there is same record existing
+			// we first remove this record and then add it to the end of the list
+			records.remove(input);
 			records.add(input);
 			toXML();
 		}
@@ -74,7 +68,8 @@ public class SearchHistory implements Serializable{
 		//Write to the map info file
 		try{
 			FileOutputStream fos = new FileOutputStream(Util.getSearchHistoryFileName());
-			xs.toXML(fos);
+			
+			xs.toXML(this, fos);
 			
 			fos.close();
 		}catch(Exception ex){
@@ -92,7 +87,7 @@ public class SearchHistory implements Serializable{
 		try {
 			FileInputStream fis = new FileInputStream(Util.getSearchHistoryFileName());
 			
-			xs.fromXML(fis);
+			xs.fromXML(fis, this);
 			
 			fis.close();
 			return true;
