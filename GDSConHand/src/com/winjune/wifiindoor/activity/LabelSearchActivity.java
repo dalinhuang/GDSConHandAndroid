@@ -8,12 +8,15 @@ import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.poi.SearchContext;
 import com.winjune.wifiindoor.poi.SearchHistory;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -143,6 +146,11 @@ public class LabelSearchActivity extends Activity {
 		data.putExtras(mBundle);
 		
 		setResult(RESULT_OK, data);
+		
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		
+		View v = findViewById(R.id.search_text_input);
+        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 		
 		finish();
 	}

@@ -12,7 +12,11 @@ import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.util.debug.Debug;
 
+import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
@@ -46,7 +50,9 @@ public class SearchBar {
 		for (int i=0; i < searchContext.poiResults.size(); i++) { 
 			PlaceOfInterest poi = searchContext.poiResults.get(i);			
 			attachSearchResultSprite(mapViewer, poi, i);
-		}		
+		}
+		PlaceOfInterest poi = searchContext.poiResults.get(searchContext.currentFocusIdx);
+		poi.showContextMenu(mapViewer.getCurrentFocus());
 		
 	}
 	
@@ -59,8 +65,8 @@ public class SearchBar {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		
 		try {		
-			searchResultFocusedMarkerITR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, mapViewer, "icon_location_focuse_mark.png");
-			searchResultMarkerITR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, mapViewer, "icon_location_mark.png");
+			searchResultFocusedMarkerITR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, mapViewer, "icon_focus_marka.png");
+			searchResultMarkerITR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, mapViewer, "icon_marka.png");
 						
 			mBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
 			mBitmapTextureAtlas.load();			
@@ -96,8 +102,7 @@ public class SearchBar {
 			mapViewer.searchPlaces = new ArrayList<Sprite>();
 		}
 
-		mapViewer.searchPlaces.add(searchResultSprite);		
-				
+		mapViewer.searchPlaces.add(searchResultSprite);				
 	}	
 
 
