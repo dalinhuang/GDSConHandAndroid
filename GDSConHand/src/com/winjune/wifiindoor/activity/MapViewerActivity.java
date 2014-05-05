@@ -79,6 +79,7 @@ import com.winjune.wifiindoor.navi.Navigator;
 import com.winjune.wifiindoor.poi.BusStation;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
+import com.winjune.wifiindoor.poi.SearchContext;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
@@ -382,8 +383,12 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		  break;
 		case SEARCH_REQUEST_CODE:
 			if (resultCode == RESULT_OK) {
-   			   // SearchBar.loadSearchPlaces(this);
-			   zoomControl.zoomMostOut();
+				Bundle bundle = data.getExtras();
+				
+				SearchContext mContext = (SearchContext) bundle.getSerializable(LabelSearchActivity.RESULT_SEARCH_CONTEXT);
+				
+   			   	SearchBar.showSearchResultsOnMap(this, mContext);
+   			   	   			   	
 			}
 			break;
 		case CAMERA_REQUEST_CODE:
@@ -826,12 +831,12 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	public void searchBarClick(View v) {
         Intent i = new Intent(this, LabelSearchActivity.class); 
-		startActivity(i);		
+        startActivityForResult(i, SEARCH_REQUEST_CODE);		
 	}
 	
 	public void surroundingBarClick(View v){
         Intent i = new Intent(this, ShortcutEntryActivity.class); 
-		startActivity(i);		
+        startActivity(i);		
 	}	
 	
 	public void routeBarClick(View v){

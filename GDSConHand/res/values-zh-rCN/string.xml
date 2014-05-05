@@ -171,4 +171,6 @@
     <string name="cont_collect_mode">连续采集模式</string>
     <string name="not_in_gdsc">您目前不在广东省科学中心建筑物内！</string>
     <string name="no_share_component">没有安装用于分享的应用！</string>    
+    <string name="search_no_result">找不到</string>      
+    
 </resources>

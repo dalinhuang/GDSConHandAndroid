@@ -63,7 +63,7 @@ public class LabelBar {
 		}
 		
 		// load mapinfo to POI manager
-		// POIManager.mapinfo2Poi(mapInfo);
+		POIManager.mapinfo2Poi(mapInfo);
 		
 		showMapInfo(mapViewer, false);
 	}

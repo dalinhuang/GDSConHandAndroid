@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor.util;
+package com.winjune.wifiindoor.drawing.graphic.model;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -14,6 +14,7 @@ import com.winjune.wifiindoor.map.InterestPlace;
 import com.winjune.wifiindoor.map.InterestPlacesInfo;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
+import com.winjune.wifiindoor.poi.SearchContext;
 import com.winjune.wifiindoor.poi.SearchHistory;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 
 public class LabelSearchActivity extends Activity {
 	
+	public static String RESULT_SEARCH_CONTEXT = "RESULT_SEARCH_CONTEXT";	
 	private static int TTS_DIGIT_NUM = 4;
 	private SearchHistory history;
 	
@@ -88,7 +90,7 @@ public class LabelSearchActivity extends Activity {
 				
 		return true;		
 	}
-	
+		
 	public void playTtsAudio(int ttsNo) {
 		PlaceOfInterest poi = POIManager.getPOIbyTtsNo(ttsNo);
 		
@@ -120,9 +122,31 @@ public class LabelSearchActivity extends Activity {
 			
 			int ttsNum = Integer.parseInt(text);
 			
-			playTtsAudio(ttsNum);	
-
+			playTtsAudio(ttsNum);
+			
+			return;
 		}		
+		
+		SearchContext mContext = new SearchContext(text);
+		mContext.poiResults = POIManager.searchPOIsbyLabel(text);
+		
+		if (mContext.poiResults.size() == 0) {
+			Util.showLongToast(this, R.string.search_no_result);
+			return;
+		}
+		
+		showResultsOnMap(mContext);		
+	}
+	
+	private void showResultsOnMap(SearchContext mContext){
+		Intent data = new Intent();
+		Bundle mBundle = new Bundle();
+		mBundle.putSerializable(RESULT_SEARCH_CONTEXT, mContext);
+		data.putExtras(mBundle);
+		
+		setResult(RESULT_OK, data);
+		
+		finish();
 	}
 		
 	public void clearHistoryClick(View v) {

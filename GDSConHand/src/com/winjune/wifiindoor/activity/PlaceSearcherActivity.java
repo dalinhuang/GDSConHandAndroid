@@ -9,9 +9,8 @@ import com.winjune.wifiindoor.R.id;
 import com.winjune.wifiindoor.R.layout;
 import com.winjune.wifiindoor.map.FieldInfo;
 import com.winjune.wifiindoor.map.MapInfo;
+
 import com.winjune.wifiindoor.mapviewer.LabelBar;
-import com.winjune.wifiindoor.poi.SearchContext;
-import com.winjune.wifiindoor.poi.SearchResult;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 
@@ -57,8 +56,8 @@ public class PlaceSearcherActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.activity_place_searcher);
-
+/*        setContentView(R.layout.place_searcher);
+*/
         String[] locationList = new String[0];
         ArrayList <String> locationArray = new ArrayList<String>();
 		ArrayList<FieldInfo> fieldInfos = LabelBar.getMapInfo().getFields();
@@ -123,9 +122,9 @@ public class PlaceSearcherActivity extends Activity {
 	}
 
 	private void saveSearchResults(String searchString) {
-		ArrayList<FieldInfo> fieldInfos = LabelBar.getMapInfo().getFields();
-		ArrayList<SearchResult> searchFieldInfos = new ArrayList<SearchResult>();
-		SearchContext mapSearchInfo = new SearchContext();
+/*		ArrayList<FieldInfo> fieldInfos = LabelBar.getMapInfo().getFields();
+		ArrayList<SearchFieldInfo> searchFieldInfos = new ArrayList<SearchFieldInfo>();
+		MapSearchInfo mapSearchInfo = new MapSearchInfo();
 		boolean find = false;
 		if (fieldInfos != null && !searchString.trim().isEmpty()) {
 
@@ -133,7 +132,7 @@ public class PlaceSearcherActivity extends Activity {
 				if (fieldInfo != null) {
 					if (fieldInfo.getInfo().indexOf(searchString, 0) != -1)
 					{
-						SearchResult searchFieldInfo = new SearchResult();
+						SearchFieldInfo searchFieldInfo = new SearchFieldInfo();
 						searchFieldInfo.setX(fieldInfo.getX());
 						searchFieldInfo.setY(fieldInfo.getY());
 						searchFieldInfos.add(searchFieldInfo);
@@ -145,6 +144,10 @@ public class PlaceSearcherActivity extends Activity {
 			
 			if (find)
 			{
+			   mapSearchInfo.setSearchFields(searchFieldInfos);
+			   mapSearchInfo.setId(LabelBar.getMapInfo().getId());
+			   mapSearchInfo.setVersionCode(LabelBar.getMapInfo().getVersionCode());
+			   mapSearchInfo.toXML();
 			}
 			else
 			{
@@ -155,7 +158,7 @@ public class PlaceSearcherActivity extends Activity {
 			}
 		}
 		this.setResult(RESULT_OK);
-		this.finish();
+		this.finish(); */
 	}
 
 }
