@@ -147,7 +147,7 @@
     <string name="show_pic">显示图片</string>
     <string name="download_file_failed">文件下载失败！</string>
     <string name="share">分享</string>
-    <string name="no_weibo_installed">没有找到新浪微博</string>
+    <string name="no_weibo_weixin">没有安装新浪微博和微信客户端！</string>
     <string name="url_is_too_long">链接太长了！</string>
     <string name="share_prefix">我有个有趣的链接想要分享给你：</string>
     <string name="tts_language_unsupported">您的手机不支持中文语音合成</string>
@@ -169,5 +169,6 @@
     <string name="confirm_cont_test_start">你是否想开始连续采集数据？</string>
     <string name="confirm_cont_test_stop">你是否想结束连续采集数据？</string>
     <string name="cont_collect_mode">连续采集模式</string>
-    <string name="not_in_gdsc">您目前不在广东省科学中心建筑物内！</string>    
+    <string name="not_in_gdsc">您目前不在广东省科学中心建筑物内！</string>
+    <string name="no_share_component">没有安装用于分享的应用！</string>    
 </resources>

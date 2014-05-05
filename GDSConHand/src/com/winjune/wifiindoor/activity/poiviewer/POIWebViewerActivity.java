@@ -1,7 +1,10 @@
 package com.winjune.wifiindoor.activity.poiviewer;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
@@ -45,7 +48,7 @@ public class POIWebViewerActivity extends POIBaseActivity {
 			@Override
 			public boolean onLongClick(View v) {
 				// TODO Auto-generated method stub
-				ShareUtil.shareToWeibo(POIWebViewerActivity.this, url);
+				ShareUtil.shareToChooser(POIWebViewerActivity.this, url, new ArrayList<Uri>());
 				
 				return false;
 			}
@@ -82,7 +85,7 @@ public class POIWebViewerActivity extends POIBaseActivity {
 		// Handle presses on the action bar items    
 				switch (item.getItemId()) {        
 					case R.id.action_share:    
-						ShareUtil.shareToWeibo(this, url);
+						ShareUtil.shareToChooser(this, url, new ArrayList<Uri>());
 						return true;                
 					default:            
 						return super.onOptionsItemSelected(item);    

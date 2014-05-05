@@ -35,7 +35,7 @@ public class ShareUtil {
 	final static String weixinClassName = "com.tencent.mm.ui.tools.ShareImgUI";
 	final static String pengyouquanClassName = "com.tencent.mm.ui.tools.ShareToTimeLineUI";
 	
-	public static void sendToChooser(Activity caller, String content) {
+	public static void shareToChooser(Activity caller, String content, ArrayList<Uri> images) {
 	
         String shareContent = caller.getString(R.string.share_prefix) + content;
         
@@ -49,29 +49,57 @@ public class ShareUtil {
             
         	for (ResolveInfo info : resInfo) {
         		
-                ActivityInfo activityInfo = info.activityInfo;
-               
-                // judgments : activityInfo.packageName, activityInfo.name, etc.
+        		ActivityInfo activityInfo = info.activityInfo;
+        		
+        		// judgments : activityInfo.packageName, activityInfo.name, etc.
                 if (activityInfo.packageName.equalsIgnoreCase(sinaPackage)) {
                     
                     Intent targeted = new Intent(Intent.ACTION_SEND);
-                    targeted.setType("text/plain");
+                    targeted.putExtra(Intent.EXTRA_SUBJECT, R.string.share);
+                    targeted.setType("image/*");
                     
                     targeted.putExtra(Intent.EXTRA_TEXT, shareContent);
+                    if (!images.isEmpty()) {
+                    	// Sina Weibo does not support multiple images share, only share the 1st image.
+                    	targeted.putExtra(Intent.EXTRA_STREAM, images.get(0)); 
+                    }
+                    else{
+                    	// Share the text only if there is no image
+                    	targeted.putExtra(Intent.EXTRA_TEXT, shareContent);
+                    }
                     targeted.setPackage(activityInfo.packageName);
                     targetedShareIntents.add(targeted);
                 }
                 if (activityInfo.packageName.equalsIgnoreCase(weixinPackage)) {
                 	
                     Intent targeted = new Intent(Intent.ACTION_SEND);
+                    targeted.putExtra(Intent.EXTRA_SUBJECT, R.string.share);
                     targeted.setType("image/*");
-                    targeted.putExtra(Intent.EXTRA_TEXT, shareContent);
+                    //targeted.putExtra(Intent.EXTRA_TEXT, shareContent);
                     targeted.setPackage(activityInfo.packageName);
                     
                     if (activityInfo.name.equalsIgnoreCase(weixinClassName)) {
+                    	
+                    	if (!images.isEmpty()){
+                    		// Weixin does not support either multiple images share
+                        	// or has some issue to share the text with image (image needs to be downloaded by the user manually),
+                        	// so only share the 1st image.
+                    		targeted.putExtra(Intent.EXTRA_STREAM, images.get(0));
+                    	}
+                    	else{
+                    		// Share the text only if there is no image
+                    		targeted.putExtra(Intent.EXTRA_TEXT, shareContent);
+                    	}
                     	targeted.setClassName(weixinPackage, weixinClassName);
                     }
                     if (activityInfo.name.equalsIgnoreCase(pengyouquanClassName)) {
+                    	targeted.putExtra(Intent.EXTRA_TEXT, shareContent);
+                    	if (!images.isEmpty()){
+                    		if (images.size() > 1) {
+                    			targeted.setAction(Intent.ACTION_SEND_MULTIPLE);
+                    		}
+                    		targeted.putParcelableArrayListExtra(Intent.EXTRA_STREAM, images);
+                    	}
                     	targeted.setClassName(weixinPackage, pengyouquanClassName);
                     }
                     
@@ -81,7 +109,7 @@ public class ShareUtil {
             }    
         	
         	if (targetedShareIntents.isEmpty()) {
-        		Toast.makeText(caller, "Can't find weibo or weixin", Toast.LENGTH_SHORT).show();
+        		Util.showShortToast(caller, R.string.no_weibo_weixin);
         		return;
         	}
         	
@@ -97,218 +125,21 @@ public class ShareUtil {
             try {
                 caller.startActivity(chooserIntent);
             } catch (android.content.ActivityNotFoundException ex) {
-                Toast.makeText(caller, "Can't find share component to share", Toast.LENGTH_SHORT).show();
+            	Util.showShortToast(caller, R.string.no_share_component);
                 ex.printStackTrace();
             }
         }
 	}
 	
-	public static void shareToWeibo(Activity caller) {
-		
-		Uri uri = null;
-		
-		Intent intent = new Intent(Intent.ACTION_SEND);
-		intent.setType("image/*");
-		intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share);
-		intent.putExtra(Intent.EXTRA_TEXT,"我在广东科学中心看到这个有趣的展品，想跟你分享");
-		//intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, getUriListForImages());
-		// File f = new File(Environment.getExternalStorageDirectory().getPath()+"/documents/GDSC_real.jpg");
-		// File f = new File("/mnt/sdcard/documents/GDSC_real.jpg");
-		
-		if (uri == null) {
-			try {
-
-				Resources r = caller.getResources();
-				
-				/* Uri uri =  Uri.parse("/data/data/"
-					    + r.getResourcePackageName(R.drawable.gdsc_origin) + "/"
-					    + r.getResourceTypeName(R.drawable.gdsc_origin) + "/"
-					    + r.getResourceEntryName(R.drawable.gdsc_origin) + ".jpg");
-				tv.setText(uri.toString()); */
-				
-				// InputStream in = new BufferedInputStream(new FileInputStream(uri.toString()));
-				
-				//Copy the resource into the external storage of Image content provider
-				ContentValues values = new ContentValues();
-	            values.put(Images.Media.TITLE, "gdsc");
-	            values.put(Images.Media.DISPLAY_NAME, "gdsc");
-	            values.put(Images.Media.DATE_TAKEN, new Date().getTime());
-	            values.put(Images.Media.MIME_TYPE, "image/png");
-	            
-	            String imageDirectoryPath = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/DCIM/100ANDRO/gdsc";
-	            values.put("_data", imageDirectoryPath);
-	            
-	            ContentResolver contentResolver = caller.getApplicationContext().getContentResolver();
-	            uri = contentResolver.insert(Images.Media.EXTERNAL_CONTENT_URI, values);
-	            				
-				Bitmap origin = BitmapFactory.decodeResource(r, R.drawable.gdsc_start);
-				
-				OutputStream os = null;
-				
-				os = contentResolver.openOutputStream(uri);
-				origin.compress(Bitmap.CompressFormat.PNG, 100, os);
-				os.close();	
-				
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-				return;
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-				return;
-			}
-		}
-		
-		intent.putExtra(Intent.EXTRA_STREAM, uri);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		
-		PackageManager pm = caller.getPackageManager();
-		List<ResolveInfo> matches = pm.queryIntentActivities(intent,
-				PackageManager.MATCH_DEFAULT_ONLY);
-		if (!matches.isEmpty()) {
-						
-			ResolveInfo info = null;
-			for (ResolveInfo each : matches) {
-
-				String pkgName = each.activityInfo.applicationInfo.packageName;
-				if (sinaPackage.equals(pkgName)) {
-					info = each;
-					break;				
-				}
-			}
-			
-			if (info == null) {
-				// showToast(context, "没有找到新浪微博");
-				return;
-			} else {
-				intent.setClassName(sinaPackage, info.activityInfo.name);
-				caller.startActivity(intent);
-			}
-		}
-	}
-	
-	public static void shareToWeibo(Activity caller, String url) {
-		
-		Intent intent = new Intent(Intent.ACTION_SEND); // Intent to be sent to Sina Weibo APP
-		intent.setType("text/plain");
-		intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share);
-		
-		if (url == null){
-			return;
-		}
-			    			
-		// Add the text content to the intent
-		String prefix = caller.getString(R.string.share_prefix);    			
-		
-		if ((prefix.length() + url.length()) < 280) {
-			// make sure the length of the content is no more than 140 Chinese words
-			String content = prefix + url;
-			intent.putExtra(Intent.EXTRA_TEXT,content);
-		}
-		else {
-			if (url.length() < 280) {
-				// share the URL directly as it is quite long
-				intent.putExtra(Intent.EXTRA_TEXT, url);
-			}
-			else {
-				// The length of the url is more than 140 words. Compressed url should be used in the future
-				Util.showLongToast(caller, R.string.url_is_too_long);
-				return;
-			}
-		}
-		
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		
-		String sinaPackage = "com.sina.weibo";
-		
-		// Check whether sina weibo is installed
-		PackageManager pm = caller.getPackageManager();
-		List<ResolveInfo> matches = pm.queryIntentActivities(intent,
-				PackageManager.MATCH_DEFAULT_ONLY);
-		if (!matches.isEmpty()) {
-				    				
-			ResolveInfo info = null;
-			for (ResolveInfo each : matches) {	    					
-				String pkgName = each.activityInfo.applicationInfo.packageName;
-				if (sinaPackage.equals(pkgName)) {
-					info = each;
-					break;				
-				}
-			}
-			
-			if (info == null) { // if sina weibo is NOT installed
-				Util.showLongToast(caller, R.string.no_weibo_installed);
-				return;
-			} else {
-				intent.setClassName(sinaPackage, info.activityInfo.name);
-				caller.startActivity(intent);
-			}
-		} // !matches.isEmpty()
-		
-		return;
-	}
-	
-	public static void shareToWeixin(Activity caller) {
-		
-		Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-		intent.setType("image/*");
-		intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share);
-		intent.putExtra(Intent.EXTRA_TEXT,"我在广东科学中心看到这个有趣的展品，想跟你分享");
-		intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, getUriListForImages(caller));
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		
-		PackageManager pm = caller.getPackageManager();
-		List<ResolveInfo> matches = pm.queryIntentActivities(intent,
-				PackageManager.MATCH_DEFAULT_ONLY);
-		if (!matches.isEmpty()) {
-			
-			ResolveInfo info = null;
-			for (ResolveInfo each : matches) {
-				
-				String className = each.activityInfo.name;
-
-				if ((pengyouquanClassName.equals(className))) {
-					info = each;
-					break;				
-				}
-			}
-			
-			if (info == null) {
-				// showToast(context, "没有找到新浪微博");
-				Log.e("WeiXin", "没有找到微信朋友圈");
-				return;
-			} else {
-				intent.setClassName(weixinPackage, info.activityInfo.name);
-				caller.startActivity(intent);
-			}
-		}
-	}
-	
-	// Sina Weibo does not accept multiple images now, but Weixin can. 
-	public static void sendMultipleImages(Activity caller) {
-		
-		Intent intent=new Intent(Intent.ACTION_SEND_MULTIPLE);
-		intent.setType("image/*");
-		intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, getUriListForImages(caller));
-		intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
-		intent.putExtra(Intent.EXTRA_TEXT, "你好 ");
-		intent.putExtra(Intent.EXTRA_TITLE, "我的分享");
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
-		caller.startActivity(Intent.createChooser(intent, "请选择")); 
-	}
-	
-	
-	/**
-	 * 设置需要分享的照片放入Uri类型的集合里
-	 */
-	private static ArrayList<Uri> getUriListForImages(Activity caller) {
+	// Method to get the Uri list for images to be shared.
+	// All the sharing images should be stored in a single directory, which is specified in the parameter "directory". 
+	public static ArrayList<Uri> getUriListForImages(Activity caller, String directory) {
         ArrayList<Uri> myList = new ArrayList<Uri>();
-        String imageDirectoryPath = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/DCIM/Camera/";
+        String imageDirectoryPath = Environment.getExternalStorageDirectory().getAbsolutePath()+ directory;
         File imageDirectory = new File(imageDirectoryPath);
         String[] fileList = imageDirectory.list();
         if(fileList.length != 0) {
-            for(int i=0; i<2; i++){
+            for(int i=0; i<fileList.length; i++){
                 try{
                     ContentValues values = new ContentValues(7);
                     values.put(Images.Media.TITLE, fileList[i]);
