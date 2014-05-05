@@ -168,5 +168,6 @@
     <string name="play_started"> 已开始</string>
     <string name="confirm_cont_test_start">你是否想开始连续采集数据？</string>
     <string name="confirm_cont_test_stop">你是否想结束连续采集数据？</string>
-    <string name="cont_collect_mode">连续采集模式</string>    
+    <string name="cont_collect_mode">连续采集模式</string>
+    <string name="not_in_gdsc">您目前不在广东省科学中心建筑物内！</string>    
 </resources>

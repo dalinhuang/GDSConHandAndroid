@@ -253,7 +253,12 @@ public class LocateBar {
 		if (mapViewer.DEBUG)
 			Log.e("updateLocation", "mapId="+mapId+",mapVersion="+mapVersion+",colNo="+colNo+",rowNo="+rowNo);
 
-		if ((mapId == -1) || (rowNo == -1) || (colNo == -1)) {
+		if (mapId == -1) {
+			Util.showLongToast(mapViewer, R.string.not_in_gdsc);
+			return false;
+		}
+		
+		if ((rowNo == -1) || (colNo == -1)) {
 			//Util.showLongToast(this, R.string.no_match_location);
 			MapHUD.updateHinText(mapViewer, R.string.no_match_location);
 
