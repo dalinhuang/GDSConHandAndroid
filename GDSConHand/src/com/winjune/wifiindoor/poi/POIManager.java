@@ -77,81 +77,50 @@ public class POIManager {
 		
 		// load busLine info			
 		for (BusLineR aBusline: offlineData.buslineTable.getBusLines()) {
-			PlaceOfInterest poi = getPOIbyId(aBusline.poiId);
-			
-			if (poi == null) {
-				Log.e("POI", "POI not found");
-				continue;
-			}	
-			
-			if ((poi.getPoiType() != POIType.BusStation ) &&
-				 (poi.getClass() != com.winjune.wifiindoor.poi.BusStation.class)){
-				Log.e("POI", "Wrong POI");
-				continue;				
+			if (getPOIbyId(aBusline.poiId) instanceof BusStation)
+			{
+				((BusStation)getPOIbyId(aBusline.poiId)).addBusLine(aBusline);
 			}
-			BusStation mBusStation = (BusStation)poi;
-			
-			mBusStation.addBusLine(aBusline);
+			else
+			{
+				Log.e("POI", "Wrong BusStation POI with id:"+aBusline.poiId);
+			}
 		}
 		
 		// load restaurant info
 		for (RestaurantInfoR menuItem: offlineData.restaurantTable.getMenus()) {
-			PlaceOfInterest poi = getPOIbyId(menuItem.poiId);
-			
-			if (poi == null) {
-				Log.e("POI", "POI not found");
-				continue;
-			}	
-			
-			if ((poi.getPoiType() != POIType.Restaurant ) &&
-				 (poi.getClass() != com.winjune.wifiindoor.poi.RestaurantInfo.class)){
-				Log.e("POI", "Wrong POI");
-				continue;				
+			if (getPOIbyId(menuItem.poiId) instanceof RestaurantInfo)
+			{
+				((RestaurantInfo)getPOIbyId(menuItem.poiId)).addMenuItem(menuItem);
 			}
-			
-			RestaurantInfo mRes = (RestaurantInfo)poi;
-			
-			mRes.addMenuItem(menuItem);;
+			else
+			{
+				Log.e("POI", "Wrong RestaurantInfo POI with id:"+menuItem.poiId);
+			}
 		}		
 		
 		// load movie info
 		for (MovieInfoR aMovie: offlineData.movieTable.getMovies()) {
-			PlaceOfInterest poi = getPOIbyId(aMovie.poiId);
-			
-			if (poi == null) {
-				Log.e("POI", "POI not found");
-				continue;
-			}	
-			
-			if ((poi.getPoiType() != POIType.Theatre ) &&
-				 (poi.getClass() != com.winjune.wifiindoor.poi.TheatreInfo.class)){
-				Log.e("POI", "Wrong POI");
-				continue;				
+			if (getPOIbyId(aMovie.poiId) instanceof TheatreInfo)
+			{
+				((TheatreInfo)getPOIbyId(aMovie.poiId)).addMovie(aMovie);
 			}
-			
-			TheatreInfo mTheatre = (TheatreInfo)poi;
-			
-			mTheatre.addMovie(aMovie);
+			else
+			{
+				Log.e("POI", "Wrong TheatreInfo POI with id:"+aMovie.poiId);
+			}
 		}			
 		
 		// load playhouse info
 		for (PlayhouseInfoR mSchedule: offlineData.playhouseTable.getSchedules()) {
-			PlaceOfInterest poi = getPOIbyId(mSchedule.poiId);
-			
-			if (poi == null) {
-				Log.e("POI", "POI not found");
-				continue;
-			}	
-			
-			if ((poi.getPoiType() != POIType.Playhouse ) &&
-				 (poi.getClass() != com.winjune.wifiindoor.poi.PlayhouseInfo.class)){
-				Log.e("POI", "Wrong POI");
-				continue;				
+			if (getPOIbyId(mSchedule.poiId) instanceof PlayhouseInfo)
+			{
+				((PlayhouseInfo)getPOIbyId(mSchedule.poiId)).loadOfflineData(mSchedule);
 			}
-			
-			PlayhouseInfo mPlayhouse = (PlayhouseInfo)poi;
-			
-			mPlayhouse.loadOfflineData(mSchedule);
+			else
+			{
+				Log.e("POI", "Wrong PlayhouseInfo POI with id:"+mSchedule.poiId);
+			}
 		}			
 		
 		
