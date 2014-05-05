@@ -27,6 +27,10 @@ public class HistoryDataList extends ArrayAdapter<String> {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public String getRecord(int position){
+		return items.get(position);
+	}
+	
     @Override  
     public View getView(int position, View convertView, ViewGroup parent){  
         LayoutInflater vi = LayoutInflater.from(context);  

@@ -1,26 +1,16 @@
 package com.winjune.wifiindoor.activity;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.poiviewer.BusStationInfoActivity;
 import com.winjune.wifiindoor.activity.poiviewer.POIBaseActivity;
 import com.winjune.wifiindoor.activity.poiviewer.POITtsPlayerActivity;
-import com.winjune.wifiindoor.activity.poiviewer.RestaurantInfoActivity;
 import com.winjune.wifiindoor.adapter.HistoryDataList;
-import com.winjune.wifiindoor.map.InterestPlace;
-import com.winjune.wifiindoor.map.InterestPlacesInfo;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.poi.SearchContext;
 import com.winjune.wifiindoor.poi.SearchHistory;
-import com.winjune.wifiindoor.util.IndoorMapData;
-import com.winjune.wifiindoor.util.Util;
-
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
@@ -55,7 +45,7 @@ public class LabelSearchActivity extends Activity {
 	    //setup history info
 		ListView lv = (ListView)findViewById(R.id.search_history_list);
 		
-		HistoryDataList historyAda = new HistoryDataList(this, 
+		final HistoryDataList historyAda = new HistoryDataList(this, 
 					R.layout.list_history, history.getHistory());
 		
 		lv.setAdapter(historyAda);	   
@@ -63,10 +53,10 @@ public class LabelSearchActivity extends Activity {
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
 				// TODO Auto-generated method stub
-				
+				performSearch(historyAda.getRecord(position));
 			}
 		});		
 	}
@@ -115,9 +105,13 @@ public class LabelSearchActivity extends Activity {
 		if (text.isEmpty())
 			return;
 		
-		history.addRecord(inputText);		
-
-		
+		performSearch(text);
+	}
+	
+	private void performSearch(String text) {
+		if (text.isEmpty())
+			return;
+				
 		if (isInputTtsNum(text)) {
 			
 			int ttsNum = Integer.parseInt(text);
@@ -131,11 +125,15 @@ public class LabelSearchActivity extends Activity {
 		mContext.poiResults = POIManager.searchPOIsbyLabel(text);
 		
 		if (mContext.poiResults.size() == 0) {
-			Util.showLongToast(this, R.string.search_no_result);
+			AlertDialog alertDialog = new AlertDialog.Builder(this).setMessage(
+					"找不到相关位置").setPositiveButton("确定", null).create();
+			alertDialog.show();
 			return;
 		}
 		
-		showResultsOnMap(mContext);		
+		history.addRecord(text);
+		
+		showResultsOnMap(mContext);			
 	}
 	
 	private void showResultsOnMap(SearchContext mContext){
