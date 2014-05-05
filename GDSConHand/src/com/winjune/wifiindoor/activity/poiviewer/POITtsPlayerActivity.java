@@ -94,7 +94,7 @@ public class POITtsPlayerActivity extends POIBaseActivity {
 		
 		final TextView textInfo = (TextView) findViewById(R.id.interest_text);
         textInfo.setAutoLinkMask(Linkify.ALL);
-        textInfo.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_Large);        
+        textInfo.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_Medium);        
        		
 		Bundle bundle = getIntent().getExtras();
 		poiId = bundle.getInt(BUNDLE_KEY_POI_ID);
