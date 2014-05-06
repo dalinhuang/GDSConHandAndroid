@@ -313,9 +313,12 @@ public class POIManager {
 		ArrayList<InterestPlace> mapInfos = ipInfo.getFields();
 		PlaceOfInterest poi;
 		
+		int idGenerator = 10000;
+		
 		for (InterestPlace mField: mapInfos ) {			
 			poi = new PlaceOfInterest();
 			poi.mapId = ipInfo.getId();
+			poi.id = idGenerator++;
 			poi.detailedDesc = mField.getInfo();
 			poi.placeX = mField.getX();
 			poi.placeY = mField.getY();

@@ -78,7 +78,7 @@ public class InterestPlaceBar {
 		}
 		
 		
-		// POIManager.interestPlacesInfo2Poi(interestPlacesInfo);
+	    POIManager.interestPlacesInfo2Poi(interestPlacesInfo);
 		
 		showPOIIconOnMap(mapViewer);
 		// showInterestPlacesInfo(mapViewer, interestPlacesInfo, false);
