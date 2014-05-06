@@ -4,6 +4,13 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+
+import com.winjune.wifiindoor.activity.poiviewer.PlayhouseInfoActivity;
+import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
 import com.winjune.wifiindoor.lib.poi.PlaceOfInterestR;
 import com.winjune.wifiindoor.lib.poi.PlayhouseInfoR;
 import com.winjune.wifiindoor.lib.poi.ScheduleTime;
@@ -146,6 +153,29 @@ public class PlayhouseInfo extends PlaceOfInterest{
 		this.festivalTime.add(eventTime);				
 	}
 		
+	public OnClickListener getBtnDetailClickListener(){
+		return getBtn1ClickListener();	
+	}
 	
+	public String getBtn1Label(){		
+		return "今日排期";
+	}
+	
+	public OnClickListener getBtn1ClickListener(){
+		OnClickListener mBtnListener = new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+		        Intent i = new Intent(v.getContext(), PlayhouseInfoActivity.class); 
 
+				Bundle mBundle = new Bundle(); 
+				mBundle.putInt(TheatreInfoActivity.BUNDLE_KEY_POI_ID, PlayhouseInfo.this.id);
+				i.putExtras(mBundle); 	
+				
+		        v.getContext().startActivity(i);				
+			}
+		};
+		
+		return mBtnListener;			
+	}		
 }
