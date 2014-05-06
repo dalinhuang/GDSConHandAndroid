@@ -3,6 +3,7 @@ package com.winjune.wifiindoor.mapviewer;
 import org.andengine.engine.camera.ZoomCamera;
 
 import android.content.res.Configuration;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -10,6 +11,8 @@ import android.view.MotionEvent;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
+import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
@@ -103,6 +106,52 @@ public class MapViewerUtil {
 		return mapViewer.mMode;
 	}	
 	
+	public static boolean handleSingleTap(final MapViewerActivity mapViewer, MotionEvent event) {
+		float zoomFactor = mapViewer.mCamera.getZoomFactor();
+		float centerX = mapViewer.mCamera.getCenterX();
+		float centerY = mapViewer.mCamera.getCenterY();
+		float width = mapViewer.mCamera.getWidth();
+		float height = mapViewer.mCamera.getHeight();
+		float x = event.getX() / zoomFactor + centerX - width / 2;
+		float y = event.getY() / zoomFactor + centerY - height / 2;
+		
+		// Out of Lower Bound
+		if ((x < mapViewer.LEFT_SPACE)
+				|| (y < mapViewer.TOP_SPACE)) {
+			//Util.showShortToast(this, R.string.out_of_map_bound);
+			MapHUD.updateHinText(mapViewer, R.string.out_of_map_bound);
+			return false;
+		}
+
+		int colNo = (int) ((x - mapViewer.LEFT_SPACE) / Util.getRuntimeIndoorMap().getCellPixel());
+		int rowNo = (int) ((y - mapViewer.TOP_SPACE) / Util.getRuntimeIndoorMap().getCellPixel());		
+		
+		// Out of Upper Bound
+		if ((colNo >= Util.getRuntimeIndoorMap().getColNum())
+				|| (rowNo >= Util.getRuntimeIndoorMap().getRowNum())) {
+			//Util.showShortToast(this, R.string.out_of_map_bound);
+			MapHUD.updateHinText(mapViewer, R.string.out_of_map_bound);
+			return false;
+		}
+		
+		final PlaceOfInterest poi = POIManager.getNearestPOI(Util.getRuntimeIndoorMap().getMapId(), colNo, rowNo);
+		
+		if (poi == null)		
+			return false;
+		
+		SearchBar.clearSearchResultSprite(mapViewer);
+		
+		SearchBar.attachSearchResultSprite(mapViewer, poi, 0);
+		
+		mapViewer.runOnUiThread(new Runnable() {    
+            public void run() {    
+            	poi.showContextMenu(mapViewer.getCurrentFocus());	
+            }        
+        });    		
+		
+		return true;		
+	}
+	
 	public static boolean handleTouchEvent(MapViewerActivity mapViewer, MotionEvent event) {
 
 		if (mapViewer.gestureDetector.onTouchEvent(event)) {
@@ -113,9 +162,10 @@ public class MapViewerUtil {
 		if (mapViewer.zoomGestureDector.onTouchEvent(event)) {
 			//Log.e("Touch", "zoomGestureDector.onTouchEvent");
 			return true;
-		}
-
+		}	
+		
 		return false;
+		
 	}
 	
 	public static void handleLongPress(MapViewerActivity mapViewer, MotionEvent e) {

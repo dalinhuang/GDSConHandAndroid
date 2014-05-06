@@ -169,9 +169,27 @@ public class POIManager {
 		
 	}
 	
-	public static PlaceOfInterest getNearestPOI(int mapId, int placeX, int PlaceY) {
+	public static PlaceOfInterest getNearestPOI(int mapId, int placeX, int placeY) {
+		PlaceOfInterest nearestPoi = null;
+		double nearestDist = Double.MAX_VALUE;
+		double distX;
+		double distY;
+		
+		
+		for (PlaceOfInterest aPOI:POIList) {
+        	if (aPOI.mapId == mapId) {
+        		  
+        		distX =  Math.sqrt(Math.abs(aPOI.placeX - placeX));
+        		distY =  Math.sqrt(Math.abs(aPOI.placeY - placeY));
+        		double mDist = distX + distY;
+        		if ( mDist < nearestDist) {
+        			nearestPoi = aPOI;
+        			nearestDist = mDist;
+        		}        		        		 
+        	}        	
+		}					
 	
-		return null;
+		return nearestPoi;
 	}
 		
 	public static String[] buildAutoCompleteText(){
@@ -273,8 +291,9 @@ public class POIManager {
 		ArrayList<FieldInfo> mapInfos = mapInfo.getFields();
 		PlaceOfInterest poi;
 		
-		for (FieldInfo mField: mapInfos ) {
+		for (FieldInfo mField: mapInfos ) {			
 			poi = new PlaceOfInterest();
+			poi.mapId = mapInfo.getId();
 			poi.alpha = mField.getAlpha();
 			poi.label = mField.getInfo();
 			poi.placeX = mField.getX();
@@ -294,8 +313,9 @@ public class POIManager {
 		ArrayList<InterestPlace> mapInfos = ipInfo.getFields();
 		PlaceOfInterest poi;
 		
-		for (InterestPlace mField: mapInfos ) {
+		for (InterestPlace mField: mapInfos ) {			
 			poi = new PlaceOfInterest();
+			poi.mapId = ipInfo.getId();
 			poi.detailedDesc = mField.getInfo();
 			poi.placeX = mField.getX();
 			poi.placeY = mField.getY();

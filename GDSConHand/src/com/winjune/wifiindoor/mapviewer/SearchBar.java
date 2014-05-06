@@ -33,17 +33,7 @@ public class SearchBar {
 	public static void showSearchResultsOnMap(MapViewerActivity mapViewer, SearchContext searchContext) {
 		
 		// Clear old search result markers 
-		if (mapViewer.searchPlaces == null) {
-			mapViewer.searchPlaces = new ArrayList<Sprite>();
-		} else {
-			for (Sprite place:mapViewer.searchPlaces) {
-				if (place != null) {
-					mapViewer.mainScene.getChildByIndex(Constants.LAYER_SEARCH).detachChild(place);
-					mapViewer.mainScene.unregisterTouchArea(place);
-				}
-			}
-			mapViewer.searchPlaces.clear();
-		}
+		clearSearchResultSprite(mapViewer);
 		
 		// Show New Map Info
 				
@@ -56,7 +46,21 @@ public class SearchBar {
 		
 	}
 	
-	private static void attachSearchResultSprite(final MapViewerActivity mapViewer, PlaceOfInterest poi, final int index) {		
+	public static void clearSearchResultSprite(MapViewerActivity mapViewer) {
+		if (mapViewer.searchPlaces == null) {
+			mapViewer.searchPlaces = new ArrayList<Sprite>();
+		} else {
+			for (Sprite place:mapViewer.searchPlaces) {
+				if (place != null) {
+					mapViewer.mainScene.getChildByIndex(Constants.LAYER_SEARCH).detachChild(place);
+					mapViewer.mainScene.unregisterTouchArea(place);
+				}
+			}
+			mapViewer.searchPlaces.clear();
+		}		
+	}
+	
+	public static void attachSearchResultSprite(final MapViewerActivity mapViewer, PlaceOfInterest poi, final int index) {		
 		
 		BuildableBitmapTextureAtlas mBitmapTextureAtlas = new BuildableBitmapTextureAtlas(mapViewer.getTextureManager(), 512, 512);
 		

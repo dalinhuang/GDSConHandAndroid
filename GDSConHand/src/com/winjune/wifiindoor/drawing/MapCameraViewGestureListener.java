@@ -70,6 +70,9 @@ public final class MapCameraViewGestureListener implements OnGestureListener {
 
 
 	public boolean onSingleTapUp(MotionEvent e) {
+		
+		MapViewerUtil.handleSingleTap(activity, e);
+		
 		//Log.e("onSingleTapUp", "[onSingleTapUp]");
 		return true;
 	}
