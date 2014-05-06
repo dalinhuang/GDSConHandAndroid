@@ -17,7 +17,8 @@ import com.winjune.wifiindoor.map.MapInfo;
 import com.winjune.wifiindoor.util.Util;
 
 public class POIManager {
-	
+	private static int idGenerator = 1000;
+
 //	public static Map<POIType, Class> alias = new HashMap<POIType, Class>();
 	public static FestivalT festivalData;
 	public static ArrayList<PlaceOfInterest> POIList = new ArrayList<PlaceOfInterest>();
@@ -293,6 +294,7 @@ public class POIManager {
 		
 		for (FieldInfo mField: mapInfos ) {			
 			poi = new PlaceOfInterest();
+			poi.id = idGenerator++;
 			poi.mapId = mapInfo.getId();
 			poi.alpha = mField.getAlpha();
 			poi.label = mField.getInfo();
@@ -311,9 +313,7 @@ public class POIManager {
 	
 	public static void interestPlacesInfo2Poi(InterestPlacesInfo ipInfo){
 		ArrayList<InterestPlace> mapInfos = ipInfo.getFields();
-		PlaceOfInterest poi;
-		
-		int idGenerator = 10000;
+		PlaceOfInterest poi;		
 		
 		for (InterestPlace mField: mapInfos ) {			
 			poi = new PlaceOfInterest();

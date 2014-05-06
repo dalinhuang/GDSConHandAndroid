@@ -68,14 +68,14 @@ public class RestaurantInfo extends PlaceOfInterest{
 	}
 	
 	public OnClickListener getBtnDetailClickListener(){
-		return getBtn1ClickListener();	
+		return getContextBtn1ClickListener();	
 	}
 	
-	public String getBtn1Label(){		
+	public String getContextBtn1Label(){		
 		return "今日菜单";
 	}
 	
-	public OnClickListener getBtn1ClickListener(){
+	public OnClickListener getContextBtn1ClickListener(){
 		OnClickListener mBtnListener = new OnClickListener(){
 			@Override
 			public void onClick(View v) {
@@ -83,7 +83,7 @@ public class RestaurantInfo extends PlaceOfInterest{
 		        Intent i = new Intent(v.getContext(), RestaurantInfoActivity.class); 
 
 				Bundle mBundle = new Bundle(); 
-				mBundle.putInt(TheatreInfoActivity.BUNDLE_KEY_POI_ID, RestaurantInfo.this.id);
+				mBundle.putInt(RestaurantInfoActivity.BUNDLE_KEY_POI_ID, RestaurantInfo.this.id);
 				i.putExtras(mBundle); 	
 				
 		        v.getContext().startActivity(i);				

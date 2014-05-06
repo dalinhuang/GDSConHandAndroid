@@ -42,7 +42,7 @@ public class PlayhouseInfoActivity extends POIBaseActivity {
 		
 		poi = POIManager.getPOIbyId(poiId);
 		
-		UpdateTitleInfo();
+		updateTitleInfo();
 		
 		mEventTimesOfToday =((PlayhouseInfo)poi).getTodaySchedule();
 		

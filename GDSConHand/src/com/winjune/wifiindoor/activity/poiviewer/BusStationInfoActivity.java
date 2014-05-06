@@ -32,7 +32,7 @@ public class BusStationInfoActivity extends POIBaseActivity {
 	
 		ListView lv = (ListView)findViewById(R.id.bus_line_list);	
 
-		UpdateTitleInfo();		
+		updateTitleInfo();		
 		
 		BusLineList ada = new BusLineList(this, R.layout.list_event_by_time, ((BusStation)poi).getBusLines());
 		
@@ -55,10 +55,6 @@ public class BusStationInfoActivity extends POIBaseActivity {
 			}			
 		});		
 	}
-
-	 public void backClick(View v) {
-	    	onBackPressed();    	
-	 } 
 	  
 	 public class BusLineList extends ArrayAdapter<BusLineR> {
 

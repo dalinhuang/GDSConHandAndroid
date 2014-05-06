@@ -61,14 +61,14 @@ public class BusStation extends PlaceOfInterest{
 	}
 	
 	public OnClickListener getBtnDetailClickListener(){
-		return getBtn1ClickListener();	
+		return getContextBtn1ClickListener();	
 	}
 	
-	public String getBtn1Label(){		
+	public String getContextBtn1Label(){		
 		return "查线路";
 	}
 	
-	public OnClickListener getBtn1ClickListener(){
+	public OnClickListener getContextBtn1ClickListener(){
 		OnClickListener mBtnListener = new OnClickListener(){
 			@Override
 			public void onClick(View v) {
@@ -76,7 +76,7 @@ public class BusStation extends PlaceOfInterest{
 		        Intent i = new Intent(v.getContext(), BusStationInfoActivity.class); 
 
 				Bundle mBundle = new Bundle(); 
-				mBundle.putInt(TheatreInfoActivity.BUNDLE_KEY_POI_ID, BusStation.this.id);
+				mBundle.putInt(BusStationInfoActivity.BUNDLE_KEY_POI_ID, BusStation.this.id);
 				i.putExtras(mBundle); 	
 				
 		        v.getContext().startActivity(i);				

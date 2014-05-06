@@ -34,9 +34,9 @@ public class TheatreInfoActivity extends POIBaseActivity {
 		
 		poi = (TheatreInfo)POIManager.getPOIbyId(poiId);
 		
-		UpdateTitleInfo();
+		updateTitleInfo();
 		
-		UpdateDesc();
+		updateDesc();
 		
 		MovieList ada = new MovieList(this, R.layout.list_event_by_time, ((TheatreInfo)poi).getMovies());
 		
@@ -60,10 +60,6 @@ public class TheatreInfoActivity extends POIBaseActivity {
 		});						
 	}
 	
-	public void backClick(View v){
-		onBackPressed();
-	}
-
 	public class MovieList extends ArrayAdapter<MovieInfoR> {
 		private Context context;
 		private List<MovieInfoR> items;

@@ -4,6 +4,7 @@ import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 
 import android.app.Activity;
+import android.view.View;
 import android.widget.TextView;
 
 public class POIBaseActivity extends Activity{	
@@ -13,14 +14,25 @@ public class POIBaseActivity extends Activity{
 	protected int poiId;
 	protected PlaceOfInterest poi;
 	
-	protected void UpdateTitleInfo(){
+	 public void backClick(View v) {
+	    	onBackPressed();    	
+	 } 	
+	
+	protected void updateTitleInfo(){
 		TextView titleText = (TextView)findViewById(R.id.title_text);
 		titleText.setText(poi.label);		
 	}
 	
-	protected void UpdateDesc(){
+	protected void updateDesc(){
 		TextView info = (TextView)findViewById(R.id.text_detail);
-		info.setText(poi.detailedDesc);	
+		info.setText(poi.detailedDesc);			
+	}
+	
+	public void setupContentButton(){
+		View v = findViewById(R.id.button_layout);
 		
+		if (v != null) {
+			poi.setupContentButton(v);			
+		}
 	}
 }

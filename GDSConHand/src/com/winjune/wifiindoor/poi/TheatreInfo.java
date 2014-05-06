@@ -51,14 +51,14 @@ public class TheatreInfo extends PlaceOfInterest implements Serializable{
 	}
 	
 	public OnClickListener getBtnDetailClickListener(){
-		return getBtn1ClickListener();	
+		return getContextBtn1ClickListener();	
 	}
 	
-	public String getBtn1Label(){		
+	public String getContextBtn1Label(){		
 		return "今日排期";
 	}
 	
-	public OnClickListener getBtn1ClickListener(){
+	public OnClickListener getContextBtn1ClickListener(){
 		OnClickListener mBtnListener = new OnClickListener(){
 			@Override
 			public void onClick(View v) {

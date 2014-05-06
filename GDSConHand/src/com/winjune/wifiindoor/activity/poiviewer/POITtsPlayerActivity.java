@@ -71,12 +71,6 @@ public class POITtsPlayerActivity extends POIBaseActivity {
 		super.onDestroy();
 	}
 
-	@Override
-	public void onBackPressed() {
-
-		super.onBackPressed();
-	}
-
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

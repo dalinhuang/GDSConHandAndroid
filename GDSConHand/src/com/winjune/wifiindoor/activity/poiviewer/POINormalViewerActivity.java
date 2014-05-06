@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 public class POINormalViewerActivity extends POIBaseActivity implements OnTouchListener {
@@ -22,11 +23,8 @@ public class POINormalViewerActivity extends POIBaseActivity implements OnTouchL
 	
 	private String[] imgs;
 	
-    // 要显示的图片在图片数组中的Index  
-    private int imgIdx; 
-    // 左右滑动时手指按下的X坐标  
-    private float touchDownX; 
-    // 左右滑动时手指松开的X坐标  
+    private int imgIdx;  
+    private float touchDownX;  
     private float touchUpX; 
 	
 	@Override
@@ -39,16 +37,20 @@ public class POINormalViewerActivity extends POIBaseActivity implements OnTouchL
 		poiId = bundle.getInt(BUNDLE_KEY_POI_ID);
 		poi = POIManager.getPOIbyId(poiId);
 		
+		updateTitleInfo();		
+		
+		imagePager = (ImageView) this.findViewById(R.id.image_slide);
+		
 		if ((poi.picUrl != null) && (!poi.picUrl.trim().isEmpty())){
-			imgs = poi.picUrl.trim().split(";");
-				
-			imagePager = (ImageView) this.findViewById(R.id.image_slide);
+			imgs = poi.picUrl.trim().split(";");									
 			imagePager.setOnTouchListener(this);
-		} else // detach image viewer
-		{
+		} else {// detach image viewer	
+			ViewGroup vg = (ViewGroup)imagePager.getParent();
 			
+			vg.removeView(imagePager);
 		}
 		
+		setupContentButton();		
 	}
 	
     @Override 
