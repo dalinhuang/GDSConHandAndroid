@@ -3,8 +3,8 @@ package com.winjune.wifiindoor.drawing;
 import org.andengine.engine.camera.ZoomCamera;
 
 import com.winjune.wifiindoor.activity.MapViewerActivity;
-import com.winjune.wifiindoor.mapviewer.MapDrawer;
-import com.winjune.wifiindoor.mapviewer.MapViewerUtil;
+import com.winjune.wifiindoor.activity.mapviewer.MapDrawer;
+import com.winjune.wifiindoor.activity.mapviewer.MapViewerUtil;
 import com.winjune.wifiindoor.util.Util;
 
 import android.view.GestureDetector.OnGestureListener;

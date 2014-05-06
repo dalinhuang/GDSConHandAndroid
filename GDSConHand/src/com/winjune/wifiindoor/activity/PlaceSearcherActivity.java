@@ -7,10 +7,9 @@ import org.andengine.entity.scene.menu.MenuScene;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.R.id;
 import com.winjune.wifiindoor.R.layout;
+import com.winjune.wifiindoor.activity.mapviewer.LabelBar;
 import com.winjune.wifiindoor.map.FieldInfo;
 import com.winjune.wifiindoor.map.MapInfo;
-
-import com.winjune.wifiindoor.mapviewer.LabelBar;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 

@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor.mapviewer;
+package com.winjune.wifiindoor.activity.mapviewer;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
