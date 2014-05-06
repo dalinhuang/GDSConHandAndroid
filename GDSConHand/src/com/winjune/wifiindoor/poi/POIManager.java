@@ -1,6 +1,8 @@
 package com.winjune.wifiindoor.poi;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import android.util.Log;
 
@@ -195,7 +197,8 @@ public class POIManager {
 		
 	public static String[] buildAutoCompleteText(){
         String[] labelArray = new String[0];
-        ArrayList <String> labelList = new ArrayList<String>();
+        // use Set to avoid ducplicated record
+        Set<String> labelList = new HashSet<String>();
 
         for (PlaceOfInterest aPOI:POIList) {
         	if ((aPOI.label != null) && !(aPOI.label.isEmpty()))        		

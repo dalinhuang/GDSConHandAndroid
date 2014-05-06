@@ -59,7 +59,11 @@ public class SearchBar {
 		// Show New Map Info
 				
 		for (int i=0; i < searchContext.poiResults.size(); i++) { 
-			PlaceOfInterest poi = searchContext.poiResults.get(i);			
+			PlaceOfInterest poi = searchContext.poiResults.get(i);	
+			
+			if (poi.mapId !=  Util.getRuntimeIndoorMap().getMapId())
+				continue;
+			
 			LocationSprite mSprite = attachSearchResultSprite(mapViewer, poi, i);
 			
 			if (i == searchContext.currentFocusIdx) {
@@ -68,8 +72,6 @@ public class SearchBar {
 					mapViewer.focusPlace = mSprite;
 				}					
 			}
-				
-				
 		}
 		PlaceOfInterest poi = searchContext.poiResults.get(searchContext.currentFocusIdx);
 		poi.showContextMenu(mapViewer.getCurrentFocus());
