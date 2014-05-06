@@ -28,7 +28,28 @@ import com.winjune.wifiindoor.poi.SearchContext;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.Util;
 
-public class SearchBar {	
+public class SearchBar {		
+	public static String NormalMark[] = {"icon_marka.png",
+										 "icon_markb.png",
+										 "icon_markc.png",
+										 "icon_markd.png",
+										 "icon_marke.png",
+										 "icon_markf.png",
+										 "icon_markg.png",
+										 "icon_markh.png",
+										 "icon_marki.png",
+										 "icon_markj.png"};
+	
+	public static String FocusMark[] = {"icon_focus_marka.png",
+										"icon_focus_markb.png",
+										"icon_focus_markc.png",
+										"icon_focus_markd.png",
+										"icon_focus_marke.png",
+										"icon_focus_markf.png",
+										"icon_focus_markg.png",
+										"icon_focus_markh.png",
+										"icon_focus_marki.png",
+										"icon_focus_markj.png"};
 	
 	public static void showSearchResultsOnMap(MapViewerActivity mapViewer, SearchContext searchContext) {
 		
@@ -39,7 +60,16 @@ public class SearchBar {
 				
 		for (int i=0; i < searchContext.poiResults.size(); i++) { 
 			PlaceOfInterest poi = searchContext.poiResults.get(i);			
-			attachSearchResultSprite(mapViewer, poi, i);
+			LocationSprite mSprite = attachSearchResultSprite(mapViewer, poi, i);
+			
+			if (i == searchContext.currentFocusIdx) {
+				if (mSprite != null) {
+					mSprite.changeState(State.FOCUSED);
+					mapViewer.focusPlace = mSprite;
+				}					
+			}
+				
+				
 		}
 		PlaceOfInterest poi = searchContext.poiResults.get(searchContext.currentFocusIdx);
 		poi.showContextMenu(mapViewer.getCurrentFocus());
@@ -47,20 +77,23 @@ public class SearchBar {
 	}
 	
 	public static void clearSearchResultSprite(MapViewerActivity mapViewer) {
-		if (mapViewer.searchPlaces == null) {
-			mapViewer.searchPlaces = new ArrayList<Sprite>();
+		if (mapViewer.locationPlaces == null) {
+			mapViewer.locationPlaces = new ArrayList<LocationSprite>();
 		} else {
-			for (Sprite place:mapViewer.searchPlaces) {
+			for (Sprite place:mapViewer.locationPlaces) {
 				if (place != null) {
 					mapViewer.mainScene.getChildByIndex(Constants.LAYER_SEARCH).detachChild(place);
 					mapViewer.mainScene.unregisterTouchArea(place);
 				}
 			}
-			mapViewer.searchPlaces.clear();
+			mapViewer.locationPlaces.clear();
 		}		
 	}
 	
-	public static void attachSearchResultSprite(final MapViewerActivity mapViewer, PlaceOfInterest poi, final int index) {		
+	public static LocationSprite attachSearchResultSprite(final MapViewerActivity mapViewer, PlaceOfInterest poi, final int index) {
+
+		if (index > NormalMark.length)
+			return null;
 		
 		BuildableBitmapTextureAtlas mBitmapTextureAtlas = new BuildableBitmapTextureAtlas(mapViewer.getTextureManager(), 512, 512);
 		
@@ -69,44 +102,48 @@ public class SearchBar {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		
 		try {		
-			searchResultFocusedMarkerITR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, mapViewer, "icon_focus_marka.png");
-			searchResultMarkerITR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, mapViewer, "icon_marka.png");
+			searchResultFocusedMarkerITR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, mapViewer, FocusMark[index]);
+			searchResultMarkerITR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, mapViewer, NormalMark[index]);
 						
 			mBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
 			mBitmapTextureAtlas.load();			
 			
 		} catch (TextureAtlasBuilderException e) {
 			Debug.e(e);
-			return;
+			return null;
 		}		
 				
-		LocationSprite searchResultSprite = new LocationSprite(poi.getX() * Util.getRuntimeIndoorMap().getCellPixel(), 
+		LocationSprite mSprite = new LocationSprite(poi.getX() * Util.getRuntimeIndoorMap().getCellPixel(), 
 														poi.getY() * Util.getRuntimeIndoorMap().getCellPixel(), 														
 														searchResultFocusedMarkerITR,
 														searchResultMarkerITR,
 														mapViewer.getVertexBufferObjectManager());		
 				
-		searchResultSprite.setOnClickListener(new OnClickListener(){
+		mSprite.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(LocationSprite pSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				// TODO Auto-generated method stub
-				pSprite.changeState(State.FOCUSED);				
+				mapViewer.focusPlace.changeState(State.NORMAL);
+				pSprite.changeState(State.FOCUSED);		
+				mapViewer.focusPlace = pSprite;
 			}
 			
-		});
+		});			
 		
 		//searchResultSprite.setScale(mapViewer.zoomControl.getZoomFactor());		
-		mapViewer.mainScene.getChildByIndex(Constants.LAYER_SEARCH).attachChild(searchResultSprite);
-		mapViewer.mainScene.registerTouchArea(searchResultSprite);
+		mapViewer.mainScene.getChildByIndex(Constants.LAYER_SEARCH).attachChild(mSprite);
+		mapViewer.mainScene.registerTouchArea(mSprite);
 		
 		// Store so we can clear them in future if needed
-		if (mapViewer.searchPlaces == null) {
-			mapViewer.searchPlaces = new ArrayList<Sprite>();
+		if (mapViewer.locationPlaces == null) {
+			mapViewer.locationPlaces = new ArrayList<LocationSprite>();
 		}
 
-		mapViewer.searchPlaces.add(searchResultSprite);				
+		mapViewer.locationPlaces.add(mSprite);	
+		
+		return mSprite;
 	}	
 
 

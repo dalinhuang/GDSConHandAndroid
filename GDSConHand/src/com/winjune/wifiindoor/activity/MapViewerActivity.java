@@ -73,6 +73,7 @@ import com.winjune.wifiindoor.drawing.ModeControl;
 import com.winjune.wifiindoor.drawing.SoundIndoorMapListener;
 import com.winjune.wifiindoor.drawing.ZoomControl;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
+import com.winjune.wifiindoor.drawing.graphic.model.LocationSprite;
 import com.winjune.wifiindoor.map.IndoorMap;
 import com.winjune.wifiindoor.map.IndoorMapLoader;
 import com.winjune.wifiindoor.navi.Navigator;
@@ -156,7 +157,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	public ArrayList<Text> mapInfos;
 	public ArrayList<Sprite> interestPlaces;
-	public ArrayList<Sprite> searchPlaces;
+	public LocationSprite focusPlace;
+	public ArrayList<LocationSprite> locationPlaces;
 	public ArrayList<Rectangle> collectedFlags; // Flags for fingerprint collected cells
 	
 	//public NaviInfo naviInfo;

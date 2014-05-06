@@ -138,10 +138,10 @@ public class MapViewerUtil {
 		
 		if (poi == null)		
 			return false;
-		
+		// need to clear all sprites first
 		SearchBar.clearSearchResultSprite(mapViewer);
 		
-		SearchBar.attachSearchResultSprite(mapViewer, poi, 0);
+		LocateBar.attachLocationSprite(mapViewer, poi);
 		
 		mapViewer.runOnUiThread(new Runnable() {    
             public void run() {    

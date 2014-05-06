@@ -1,33 +1,34 @@
 package com.winjune.wifiindoor.activity.mapviewer;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.sprite.Sprite;
+import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
+import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
+import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
+import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
+import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.util.debug.Debug;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
-import com.winjune.wifiindoor.drawing.graphic.model.Library;
+import com.winjune.wifiindoor.drawing.graphic.model.LocationSprite;
+import com.winjune.wifiindoor.drawing.graphic.model.LocationSprite.OnClickListener;
+import com.winjune.wifiindoor.drawing.graphic.model.LocationSprite.State;
+import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.webservice.IpsWebService;
 import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
-import com.winjune.wifiindoor.webservice.types.CollectInfo;
 import com.winjune.wifiindoor.webservice.types.Location;
 import com.winjune.wifiindoor.webservice.types.LocationSet;
-import com.winjune.wifiindoor.webservice.types.NfcLocation;
-import com.winjune.wifiindoor.webservice.types.TestLocateCollectReply;
-import com.winjune.wifiindoor.webservice.types.TestLocateCollectRequest;
 import com.winjune.wifiindoor.wifi.WifiFingerPrint;
 
 public class LocateBar {
@@ -369,7 +370,42 @@ public class LocateBar {
 	}
 
 	
+public static void attachLocationSprite(final MapViewerActivity mapViewer, PlaceOfInterest poi) {		
+		
+		BuildableBitmapTextureAtlas mBitmapTextureAtlas = new BuildableBitmapTextureAtlas(mapViewer.getTextureManager(), 512, 512);
+		
+		ITextureRegion searchResultFocusedMarkerITR = null;
+		ITextureRegion searchResultMarkerITR = null;
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+		
+		try {		
+			searchResultFocusedMarkerITR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, mapViewer, "icon_location_mark.png");
+			searchResultMarkerITR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, mapViewer, "icon_location_mark.png");
+						
+			mBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
+			mBitmapTextureAtlas.load();			
+			
+		} catch (TextureAtlasBuilderException e) {
+			Debug.e(e);
+			return;
+		}		
+				
+		LocationSprite mSprite = new LocationSprite(poi.getX() * Util.getRuntimeIndoorMap().getCellPixel(), 
+														poi.getY() * Util.getRuntimeIndoorMap().getCellPixel(), 														
+														searchResultFocusedMarkerITR,
+														searchResultMarkerITR,
+														mapViewer.getVertexBufferObjectManager());		
+						
+		mapViewer.mainScene.getChildByIndex(Constants.LAYER_SEARCH).attachChild(mSprite);
+		mapViewer.mainScene.registerTouchArea(mSprite);
+		
+		// Store so we can clear them in future if needed
+		if (mapViewer.locationPlaces == null) {
+			mapViewer.locationPlaces = new ArrayList<LocationSprite>();
+		}
 
+		mapViewer.locationPlaces.add(mSprite);				
+	}	
 
 	
 }
