@@ -10,10 +10,10 @@
             style="@style/styleTitleTxtAction"
             android:layout_alignBottom="@id/title_btn_back"
             android:clickable="true"
-            android:drawableLeft="@drawable/icon_view_map"
-            android:onClick="onMapClick"
+            android:drawableLeft="@drawable/icon_detail"
+            android:onClick="introClick"
             android:paddingRight="3dp"
-            android:text="地图"
+            android:text="介绍"
             android:textColor="@color/black" />
         
         <TextView

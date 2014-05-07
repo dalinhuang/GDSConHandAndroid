@@ -153,10 +153,6 @@ public class PlayhouseInfo extends PlaceOfInterest{
 		this.festivalTime.add(eventTime);				
 	}
 		
-	public OnClickListener getBtnDetailClickListener(){
-		return getContextBtn1ClickListener();	
-	}
-	
 	public String getContextBtn1Label(){		
 		return "今日排期";
 	}

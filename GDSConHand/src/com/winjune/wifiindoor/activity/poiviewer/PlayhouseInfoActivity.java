@@ -29,14 +29,12 @@ public class PlayhouseInfoActivity extends POIBaseActivity {
 	
 	private AlarmManager mAlarmMgr;
 	private int mMinutesAhead;
-	private String mEventTitle;
 	private ArrayList<ScheduleTime> mEventTimesOfToday;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_playhouse_info);
-		
 		Bundle bundle = getIntent().getExtras();
 		poiId = bundle.getInt(BUNDLE_KEY_POI_ID);
 		
@@ -73,8 +71,14 @@ public class PlayhouseInfoActivity extends POIBaseActivity {
 		mMinutesAhead = 5; //By default the alarm time is 5 minutes ahead
 	}
 	
-	public void backClick(View v){
-		onBackPressed();
+	public void introClick(View v){
+        Intent i = new Intent(this, POINormalViewerActivity.class); 
+
+		Bundle mBundle = new Bundle(); 
+		mBundle.putInt(POINormalViewerActivity.BUNDLE_KEY_POI_ID, poiId);
+		i.putExtras(mBundle); 	
+		
+        v.getContext().startActivity(i);			
 	}
 	
 	public void onSetAlarmClick(final int startHour, final int startMinute, final View v, final int timeIndex){

@@ -20,11 +20,17 @@ public class POIBaseActivity extends Activity{
 	
 	protected void updateTitleInfo(){
 		TextView titleText = (TextView)findViewById(R.id.title_text);
+		if (titleText == null)
+			return;
+		
 		titleText.setText(poi.label);		
 	}
 	
 	protected void updateDesc(){
 		TextView info = (TextView)findViewById(R.id.text_detail);
+		if (info == null)
+			return;
+		
 		info.setText(poi.detailedDesc);			
 	}
 	

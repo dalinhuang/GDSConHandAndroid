@@ -50,10 +50,6 @@ public class TheatreInfo extends PlaceOfInterest implements Serializable{
 		return movies.size();
 	}
 	
-	public OnClickListener getBtnDetailClickListener(){
-		return getContextBtn1ClickListener();	
-	}
-	
 	public String getContextBtn1Label(){		
 		return "今日排期";
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.lib.poi.MovieInfoR;
 import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.poi.TheatreInfo;
 
 import android.os.Bundle;
@@ -35,9 +36,7 @@ public class TheatreInfoActivity extends POIBaseActivity {
 		poi = (TheatreInfo)POIManager.getPOIbyId(poiId);
 		
 		updateTitleInfo();
-		
-		updateDesc();
-		
+			
 		MovieList ada = new MovieList(this, R.layout.list_event_by_time, ((TheatreInfo)poi).getMovies());
 		
 		lv.setAdapter(ada);
@@ -58,6 +57,16 @@ public class TheatreInfoActivity extends POIBaseActivity {
 			}
 			
 		});						
+	}
+	
+	public void introClick(View v){
+        Intent i = new Intent(this, POINormalViewerActivity.class); 
+
+		Bundle mBundle = new Bundle(); 
+		mBundle.putInt(POINormalViewerActivity.BUNDLE_KEY_POI_ID, poiId);
+		i.putExtras(mBundle); 	
+		
+        v.getContext().startActivity(i);			
 	}
 	
 	public class MovieList extends ArrayAdapter<MovieInfoR> {
