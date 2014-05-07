@@ -1,5 +1,7 @@
 package com.winjune.wifiindoor.activity;
 
+import java.util.List;
+
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.poiviewer.POIBaseActivity;
 import com.winjune.wifiindoor.activity.poiviewer.POITtsPlayerActivity;
@@ -13,9 +15,13 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -128,15 +134,43 @@ public class LabelSearchActivity extends Activity {
 		mContext.poiResults = POIManager.searchPOIsbyLabel(text);
 		
 		if (mContext.poiResults.size() == 0) {
-			AlertDialog alertDialog = new AlertDialog.Builder(this).setMessage(
-					"找不到相关位置").setPositiveButton("确定", null).create();
+			AlertDialog alertDialog = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT)
+					.setMessage("找不到相关位置")
+					.setPositiveButton("确定", null)
+					.create();
 			alertDialog.show();
 			return;
 		}
 		
 		history.addRecord(text);
 		
-		showResultsOnMap(mContext);			
+		// by default, the first is the focus one
+		mContext.currentFocusIdx = 0;
+		
+		if (mContext.poiResults.size() == 1)
+			showResultsOnMap(mContext);
+		else
+			showResultDialog(mContext);
+	}
+	
+	
+	private void showResultDialog(final SearchContext mContext) {
+		
+		SearchResultList resultsAda = new SearchResultList(this, R.layout.list_search_result, mContext);
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);  
+		builder.setTitle("您要找的是:");  		
+		builder.setAdapter(resultsAda, new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int position) {
+				// TODO Auto-generated method stub
+				mContext.currentFocusIdx = position;
+				showResultsOnMap(mContext);
+			}
+			
+		});			
+		
+		builder.show();  		
 	}
 	
 	private void showResultsOnMap(SearchContext mContext){
@@ -183,6 +217,34 @@ public class LabelSearchActivity extends Activity {
         Intent i = new Intent(this, ShortcutEntryActivity.class); 
 		startActivity(i);				
 	}
-	
 		
+	public class SearchResultList extends ArrayAdapter<PlaceOfInterest> {
+		private Context context;
+		private SearchContext mSearchContext; 
+			
+		public SearchResultList(Context context, int resource, SearchContext mSearchContext) {
+			super(context, resource, mSearchContext.poiResults);
+			this.context = context;
+			this.mSearchContext = mSearchContext;
+			// TODO Auto-generated constructor stub
+		}
+			
+		@Override  
+		public View getView(int position, View convertView, ViewGroup parent){  
+			LayoutInflater vi = LayoutInflater.from(context);  
+	 
+			View view=vi.inflate(R.layout.list_search_result, null);
+			
+			TextView poiLabelV = (TextView)view.findViewById(R.id.text_label);
+			
+			String poiLabel = (position +1) +". "+ mSearchContext.poiResults.get(position).label;
+			poiLabelV.setText(poiLabel);
+			
+			TextView placeInfoV = (TextView)view.findViewById(R.id.text_floor_hall);
+			String placeInfo = "二楼：大厅";
+			placeInfoV.setText(placeInfo);			
+					        
+		    return view;  
+		}   		
+	}		
 }

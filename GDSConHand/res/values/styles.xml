@@ -15,8 +15,8 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->              
-    </style>
-
+    </style>	
+        
     <style name="GenActivtyTheme">  
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
@@ -24,6 +24,7 @@
 		<item name="android:orientation">vertical</item>            		                    
     </style>      
     
+        
     <style name="styleContentAMargin">  
 		<item name="android:layout_marginLeft">10dp</item>  
 		<item name="android:layout_marginRight">10dp</item>    
