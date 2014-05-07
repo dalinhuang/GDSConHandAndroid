@@ -13,10 +13,12 @@
 
         <TextView
             style="@style/styleSearchShortcutText"
+            android:onClick="shortcutClick"
             android:text="洗手间"/>
 
         <TextView
             style="@style/styleSearchShortcutText"
+            android:onClick="shortcutClick"
             android:text="出入口"/>
 
         <TextView
@@ -33,10 +35,12 @@
 
         <TextView
 			style="@style/styleSearchShortcutText"
+			android:onClick="shortcutClick"
             android:text="科技影院"/>
 
         <TextView
-			style="@style/styleSearchShortcutText"			
+			style="@style/styleSearchShortcutText"
+			android:onClick="shortcutClick"			
             android:text="售票处"/>
 
         <TextView
@@ -54,6 +58,7 @@
 
         <TextView
 			style="@style/styleSearchShortcutText"
+			android:onClick="shortcutClick"
             android:text="停车场"/>
 
         <TextView

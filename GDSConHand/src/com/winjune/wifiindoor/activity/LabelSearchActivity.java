@@ -6,6 +6,7 @@ import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.poiviewer.POIBaseActivity;
 import com.winjune.wifiindoor.activity.poiviewer.POITtsPlayerActivity;
 import com.winjune.wifiindoor.adapter.HistoryDataList;
+import com.winjune.wifiindoor.lib.poi.POIType;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.poi.SearchContext;
@@ -148,7 +149,7 @@ public class LabelSearchActivity extends Activity {
 		mContext.currentFocusIdx = 0;
 		
 		if (mContext.poiResults.size() == 1)
-			showResultsOnMap(mContext);
+			showResult(mContext);
 		else
 			showResultDialog(mContext);
 	}
@@ -173,6 +174,27 @@ public class LabelSearchActivity extends Activity {
 		builder.show();  		
 	}
 	
+	private void showResult(final SearchContext mContext) {		
+		PlaceOfInterest poi = mContext.poiResults.get(mContext.currentFocusIdx);
+		
+		if ((poi.getPoiType() == POIType.BusStation) |
+			(poi.getPoiType() == POIType.Restaurant) ) {
+								
+			Class mViewerClass = POIManager.getPOIViewerClass(poi.getPoiType());						
+			Intent intent_poi = new Intent(this, mViewerClass);
+			
+			Bundle mBundle = new Bundle(); 
+			mBundle.putInt(POIBaseActivity.BUNDLE_KEY_POI_ID, poi.id);
+			intent_poi.putExtras(mBundle); 		
+			
+			startActivity(intent_poi);
+			return;
+		} else {
+			showResultsOnMap(mContext);
+		}
+		
+	}	
+	
 	private void showResultsOnMap(SearchContext mContext){
 		Intent data = new Intent();
 		Bundle mBundle = new Bundle();
@@ -192,25 +214,13 @@ public class LabelSearchActivity extends Activity {
 	public void clearHistoryClick(View v) {
 		history.clearRecords();
 	}
+	
+
 
 	public void shortcutClick(View v){
 		String txt = ((TextView)v).getText().toString();
 		
-		PlaceOfInterest poi = POIManager.getPOIbyLabel(txt); 
-		if (poi == null) {
-			Log.e("LabelSearch", "POI not found");
-			return;
-		}
-		
-		Class mViewerClass = POIManager.getPOIViewerClass(poi.getPoiType());
-						
-		Intent intent_poi = new Intent(this, mViewerClass);
-		
-		Bundle mBundle = new Bundle(); 
-		mBundle.putInt(POIBaseActivity.BUNDLE_KEY_POI_ID, poi.id);
-		intent_poi.putExtras(mBundle); 		
-		
-		startActivity(intent_poi);
+		performSearch(txt);
 	}
 		
 	public void moreClick(View v){
