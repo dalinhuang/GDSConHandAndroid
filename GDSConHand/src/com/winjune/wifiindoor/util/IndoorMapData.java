@@ -64,6 +64,7 @@ public final class IndoorMapData {
 	public static final String MAP_FILE_PATH_REMOTE = MAP_FILE_PATH_LOCAL;
 	public static final String IMG_FILE_PATH_REMOTE = IMG_FILE_PATH_LOCAL;
 	public static final String AUDIO_FILE_PATH_REMOTE = AUDIO_FILE_PATH_LOCAL;
+	public static final String XML_FILE_PATH_REMOTE = "xml/";
 		
 	public static final String CONFIG_FILE_NAME = "config.properties";	
 	public static final String MAP_XML_NAME = "map.xml";

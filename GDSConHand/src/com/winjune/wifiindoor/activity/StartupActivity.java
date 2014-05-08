@@ -16,6 +16,8 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.lib.poi.PoiOfflineData;
+import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
@@ -235,6 +237,59 @@ public class StartupActivity extends Activity implements OnInitListener{
 				
 		// Check latest version
 		ApkVersionManager.CheckVersionUpgrade(StartupActivity.this);
-		
+
+		Util.downFile(StartupActivity.this,
+				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, PoiOfflineData.buslineTableName),
+				IndoorMapData.CONFIG_FILE_PATH,
+				PoiOfflineData.buslineTableName,                     		
+				false,      // Open after download
+				"",
+				false, //useHandler
+				false);// Use Thread	
+
+		Util.downFile(StartupActivity.this,
+				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, PoiOfflineData.festivalTableName),
+				IndoorMapData.CONFIG_FILE_PATH,
+				PoiOfflineData.festivalTableName,                     		
+				false,      // Open after download
+				"",
+				false, //useHandler
+				false);// Use Thread	
+
+		Util.downFile(StartupActivity.this,
+				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, PoiOfflineData.movieTableName),
+				IndoorMapData.CONFIG_FILE_PATH,
+				PoiOfflineData.movieTableName,                     		
+				false,      // Open after download
+				"",
+				false, //useHandler
+				false);// Use Thread	
+		Util.downFile(StartupActivity.this,
+				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, PoiOfflineData.playhouseTableName),
+				IndoorMapData.CONFIG_FILE_PATH,
+				PoiOfflineData.playhouseTableName,                     		
+				false,      // Open after download
+				"",
+				false, //useHandler
+				false);// Use Thread	
+		Util.downFile(StartupActivity.this,
+				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, PoiOfflineData.poiTableName),
+				IndoorMapData.CONFIG_FILE_PATH,
+				PoiOfflineData.poiTableName,                     		
+				false,      // Open after download
+				"",
+				false, //useHandler
+				false);// Use Thread	
+		Util.downFile(StartupActivity.this,
+				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, PoiOfflineData.restaurantTableName),
+				IndoorMapData.CONFIG_FILE_PATH,
+				PoiOfflineData.restaurantTableName,
+				false,      // Open after download
+				"",
+				false, //useHandler
+				false);// Use Thread	
+
+        
+        POIManager.loadOfflineData();
 	}
 }

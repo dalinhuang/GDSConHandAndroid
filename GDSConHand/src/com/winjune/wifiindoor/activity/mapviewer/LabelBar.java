@@ -27,7 +27,7 @@ public class LabelBar {
 	private static MapInfo mapInfo = null;
 	
 	public static void loadMapInfo(MapViewerActivity mapViewer) {
-		if (mapInfo == null)
+/*		if (mapInfo == null)
 		{
 			mapInfo = new MapInfo();
 		}
@@ -44,7 +44,7 @@ public class LabelBar {
 			//load_map_rc = designMap.fromXML(IndoorMapData.map_file_path + map_file_name);
 			
 			if (mapInfo.getVersionCode() != Util.getRuntimeIndoorMap().getVersionCode()) {
-				updateNeeded = true;
+				updateNeeded = false;
 			}
 		} catch (Exception e) {
 			updateNeeded = true;
@@ -63,7 +63,7 @@ public class LabelBar {
 		}
 		
 		// load mapinfo to POI manager
-		POIManager.mapinfo2Poi(mapInfo);
+		POIManager.mapinfo2Poi(mapInfo);*/
 		
 		showMapInfo(mapViewer, false);
 	}
