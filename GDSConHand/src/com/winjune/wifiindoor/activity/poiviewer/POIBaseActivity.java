@@ -1,9 +1,12 @@
 package com.winjune.wifiindoor.activity.poiviewer;
 
 import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -40,5 +43,14 @@ public class POIBaseActivity extends Activity{
 		if (v != null) {
 			poi.setupContentButton(v);			
 		}
+	}
+	
+	public void onMapClick(View v){
+		Intent data = new Intent(this, MapViewerActivity.class);
+		Bundle mBundle = new Bundle();
+		mBundle.putSerializable("POI_INSTANCE", poi);
+		data.putExtras(mBundle);
+		
+		startActivity(data);
 	}
 }

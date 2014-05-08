@@ -45,10 +45,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.winjune.wifiindoor.R;
@@ -77,7 +74,6 @@ import com.winjune.wifiindoor.drawing.graphic.model.LocationSprite;
 import com.winjune.wifiindoor.map.IndoorMap;
 import com.winjune.wifiindoor.map.IndoorMapLoader;
 import com.winjune.wifiindoor.navi.Navigator;
-import com.winjune.wifiindoor.poi.BusStation;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.poi.SearchContext;
@@ -479,32 +475,38 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			Log.d(TAG, "onNewIntent()");
 
 		super.onNewIntent(intent);
-
-		String tagId = Util.getNfcInfoManager().getTagId(intent);
+		setIntent(intent);
 		
-		if (tagId == null) {
-			return;
-		}
+		Bundle mBundle = getIntent().getExtras();
+		PlaceOfInterest poi = (PlaceOfInterest)mBundle.getSerializable("POI_INSTANCE");
+		LocateBar.attachLocationSprite(this, poi);
+		poi.showContextMenu(getCurrentFocus());
 
-		if (mMode == IndoorMapData.MAP_MODE_EDIT_TAG) {
-			if (mNfcEditState == IndoorMapData.NFC_EDIT_STATE_SCANNING) {
-				// read out the NFC chip ID
-				// tagId = tagFromIntent.getId().toString();
-
-				mNfcEditState = IndoorMapData.NFC_EDIT_STATE_FINISH;
-				//Util.showLongToast(this, R.string.nfc_scan_finished);
-				MapHUD.updateHinText(this, R.string.nfc_scan_finished);
-
-				// send the NFC tagId + [MapID,X,Y] to server, so the Fine
-				// Location against this NFC can be stored/updated
-				PlanBar.editNfcQrTagInMap(this, tagId);
-
-				// Collect Fingerprint on this location silently
-				PlanBar.collectFingerprint(this, true); // x, y
-			}
-		} else {
-			Util.nfcQrLocateMe(this, tagId); 
-		}
+//		String tagId = Util.getNfcInfoManager().getTagId(intent);
+//		
+//		if (tagId == null) {
+//			return;
+//		}
+//
+//		if (mMode == IndoorMapData.MAP_MODE_EDIT_TAG) {
+//			if (mNfcEditState == IndoorMapData.NFC_EDIT_STATE_SCANNING) {
+//				// read out the NFC chip ID
+//				// tagId = tagFromIntent.getId().toString();
+//
+//				mNfcEditState = IndoorMapData.NFC_EDIT_STATE_FINISH;
+//				//Util.showLongToast(this, R.string.nfc_scan_finished);
+//				MapHUD.updateHinText(this, R.string.nfc_scan_finished);
+//
+//				// send the NFC tagId + [MapID,X,Y] to server, so the Fine
+//				// Location against this NFC can be stored/updated
+//				PlanBar.editNfcQrTagInMap(this, tagId);
+//
+//				// Collect Fingerprint on this location silently
+//				PlanBar.collectFingerprint(this, true); // x, y
+//			}
+//		} else {
+//			Util.nfcQrLocateMe(this, tagId); 
+//		}
 
 	}
 
@@ -843,7 +845,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	public void routeBarClick(View v){
 	
-		Intent i = new Intent(this, RouteMainctivity.class); 
+		Intent i = new Intent(this, RouteMainActivity.class); 
 		startActivity(i);	
 	}
 	

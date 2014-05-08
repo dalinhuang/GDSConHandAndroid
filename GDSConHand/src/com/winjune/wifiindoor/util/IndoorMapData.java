@@ -71,7 +71,8 @@ public final class IndoorMapData {
 	public static final String MAP_MANAGER_FILE_NAME = "map_manager.xml";
 	public static final String BUILDING_MANAGER_FILE_NAME = "building_manager.xml";
 	public static final String MAP_INFO_FILE_NAME = "map_info.xml";
-	public static final String MAP_SEARCH_INFO_FILE_NAME = "search_history.xml";
+	public static final String MAP_SEARCH_INFO_FILE_NAME = "label_search_history.xml";
+	public static final String MAP_ROUTE_SEARCH_INFO_FILE_NAME = "navi_search_history.xml";
 	public static final String NAVI_INFO_FILE_NAME = "navigator.xml";
 	public static final String INTEREST_PLACE_INFO_FILE_NAME = "interest_places.xml";
 	

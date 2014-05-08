@@ -45,12 +45,22 @@ public class LabelSearchActivity extends Activity {
 		history.loadCachedData();
 		
 		// setup auto-complete  
-        String[] labelArray = POIManager.buildAutoCompleteText();
+        final String[] labelArray = POIManager.buildAutoCompleteText();
 	    AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.search_text_input);
 	    ArrayAdapter<String> autoCompleteAda = new ArrayAdapter<String>(this, 
 	                android.R.layout.simple_dropdown_item_1line, labelArray);
 	    textView.setThreshold(1); 
 	    textView.setAdapter(autoCompleteAda);	
+	    textView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				// TODO Auto-generated method stub
+				performSearch(labelArray[position]);
+			}
+	    	
+	    }); 
 	    
 	    //setup history info
 		ListView lv = (ListView)findViewById(R.id.search_history_list);
