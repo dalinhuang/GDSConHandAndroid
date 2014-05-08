@@ -196,7 +196,7 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.winjune.wifiindoor.activity.RouteMainctivity"
+            android:name="com.winjune.wifiindoor.activity.RouteMainActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>

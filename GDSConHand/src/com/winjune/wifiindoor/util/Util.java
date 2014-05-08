@@ -491,6 +491,10 @@ public class Util {
 		return getFilePath( IndoorMapData.MAP_SEARCH_INFO_FILE_NAME);
 	}	
 	
+	public static String getRouteSearchHistoryFileName() {
+		return getFilePath( IndoorMapData.MAP_ROUTE_SEARCH_INFO_FILE_NAME);
+	}
+	
 	public static String getNaviInfoFilePathName(String mapId) {
 		return getFilePath(IndoorMapData.MAP_FILE_PATH_LOCAL) + mapId + "/" + IndoorMapData.NAVI_INFO_FILE_NAME;
 	}
