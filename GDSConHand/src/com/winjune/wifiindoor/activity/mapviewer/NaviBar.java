@@ -78,7 +78,8 @@ public class NaviBar {
 				mapid = 2;
 			}				
 			
-			downloadNaviInfo(mapViewer, mapid);
+			// Jeff: Don't need to download currently.
+//			downloadNaviInfo(mapViewer, mapid);
 		} 					
 	}
 	
