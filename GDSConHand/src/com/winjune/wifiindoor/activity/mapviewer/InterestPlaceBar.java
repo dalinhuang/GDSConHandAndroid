@@ -45,7 +45,7 @@ import com.winjune.wifiindoor.webservice.types.VersionOrMapIdRequest;
 public class InterestPlaceBar {
 
 	public static void loadInterestPlaces(MapViewerActivity mapViewer) {
-		InterestPlacesInfo interestPlacesInfo = new InterestPlacesInfo();
+/*		InterestPlacesInfo interestPlacesInfo = new InterestPlacesInfo();
 		boolean updateNeeded = false; //Hoare: update every time regardless map version, for test only
 
 		try {
@@ -78,7 +78,7 @@ public class InterestPlaceBar {
 		}
 		
 		
-	    POIManager.interestPlacesInfo2Poi(interestPlacesInfo);
+	    POIManager.interestPlacesInfo2Poi(interestPlacesInfo);*/
 		
 		showPOIIconOnMap(mapViewer);
 		// showInterestPlacesInfo(mapViewer, interestPlacesInfo, false);
