@@ -69,7 +69,7 @@ public class MapViewerUtil {
 			mapViewer.CONTROL_BUTTON_MARGIN = Math.min(MIN_VALUE, Math.round ((mapViewer.cameraHeight - mapViewer.TAB_BUTTON_HEIGHT - mapViewer.CONTROL_BUTTON_HEIGHT * CONTROL_BUTTON_NUMBER) / CONTROL_BUTTON_NUMBER / 3f));// Here use 3f to let the control tab layout on the top of height
 		}	
 		
-		mapViewer.BOTTOM_SPACE += mapViewer.TAB_BUTTON_HEIGHT;
+		//mapViewer.BOTTOM_SPACE += mapViewer.TAB_BUTTON_HEIGHT;
 		
 		// remove the right margin
 		//RIGHT_SPACE += CONTROL_BUTTON_WIDTH;
@@ -115,6 +115,10 @@ public class MapViewerUtil {
 		float x = event.getX() / zoomFactor + centerX - width / 2;
 		float y = event.getY() / zoomFactor + centerY - height / 2;
 		
+		if(VisualParameters.PLANNING_MODE_ENABLED)
+		{
+	    	MapHUD.updateHinText(mapViewer, "x:"+(int)(0.5+x*30000/1200)+"y:"+(int)(0.5+y*40000/1600));
+		}
 		// Out of Lower Bound
 		if ((x < mapViewer.LEFT_SPACE)
 				|| (y < mapViewer.TOP_SPACE)) {

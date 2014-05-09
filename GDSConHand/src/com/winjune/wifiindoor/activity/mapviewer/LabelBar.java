@@ -27,11 +27,11 @@ public class LabelBar {
 	private static MapInfo mapInfo = null;
 	
 	public static void loadMapInfo(MapViewerActivity mapViewer) {
-/*		if (mapInfo == null)
+		if (mapInfo == null)
 		{
 			mapInfo = new MapInfo();
 		}
-		boolean updateNeeded = false; //Hoare: update every time regardless map versionn, for test only
+		/*		boolean updateNeeded = false; //Hoare: update every time regardless map versionn, for test only
 
 		try {
 			InputStream map_file_is = new FileInputStream(Util.getMapInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
@@ -219,8 +219,8 @@ public class LabelBar {
 	}	
 
 	private static void addTextTag(MapViewerActivity mapViewer, PlaceOfInterest poi) {
-		float pX = poi.getX() * Util.getRuntimeIndoorMap().getCellPixel();
-		float pY = poi.getY() * Util.getRuntimeIndoorMap().getCellPixel();
+		float pX = poi.getX();// * Util.getRuntimeIndoorMap().getCellPixel();
+		float pY = poi.getY();// * Util.getRuntimeIndoorMap().getCellPixel();
 				
 		Text text = new Text(pX,
 				pY, 
@@ -232,6 +232,7 @@ public class LabelBar {
 		text.setAlpha(poi.getAlpha());
 		text.setRotation(poi.getRotation()); // For future use if we need to rotate a angle
 		text.setScale(poi.getScale()); // For future use if we need to display some label with a bigger/smaller scale
+		text.setPosition(pX-text.getWidth()/2, pY-text.getHeight()/2);
 		
 		mapViewer.mainScene.attachChild(text);
 		
