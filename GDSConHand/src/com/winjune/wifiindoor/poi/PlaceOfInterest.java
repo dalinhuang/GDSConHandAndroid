@@ -155,4 +155,13 @@ public class PlaceOfInterest extends PlaceOfInterestR {
 
         pop.showAtLocation(v, Gravity.BOTTOM, 0, 0);		
 	}
+
+	@Override
+	public int getX() {
+		return super.getX()*1200/30000;
+	}
+	@Override
+	public int getY() {
+		return super.getY()*1600/40000;
+	}
 }
