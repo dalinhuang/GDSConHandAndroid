@@ -30,12 +30,12 @@ public class WifiIpsSettings {
 	
 	public static boolean DEBUG = false;
 	
-	public static String PRIMARY_SERVER = "14.18.207.183";
+	public static String PRIMARY_SERVER = "118.102.25.219";
 	public static String SECONDARY_SERVER = "14.18.207.183";
 	public static String CMCC_Site = "www.winjune.com";		//	中国移动
 	public static String CU_Site = "www2.winjune.com";		//	中国联通
 	public static String CT_Site = "www.winjune.com";		//	中国电信
-	public static String SERVER_PORT = "80";
+	public static String SERVER_PORT = "8080";
 	public static String SERVER_SUB_DOMAIN = "/GDSCAppServer"; //"/wifiips", "/WifiIpsServer";
 	public static String SERVER = null;
 	
