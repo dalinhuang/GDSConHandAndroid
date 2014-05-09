@@ -182,8 +182,8 @@ public class POIManager {
 		for (PlaceOfInterest aPOI:POIList) {
         	if (aPOI.mapId == mapId) {
         		  
-        		distX =  Math.sqrt(Math.abs(aPOI.placeX - placeX));
-        		distY =  Math.sqrt(Math.abs(aPOI.placeY - placeY));
+        		distX =  Math.sqrt(Math.abs(aPOI.getX() - placeX));
+        		distY =  Math.sqrt(Math.abs(aPOI.getY() - placeY));
         		double mDist = distX + distY;
         		if ( mDist < nearestDist) {
         			nearestPoi = aPOI;

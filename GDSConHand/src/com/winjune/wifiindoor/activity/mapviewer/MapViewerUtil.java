@@ -119,26 +119,9 @@ public class MapViewerUtil {
 		{
 	    	MapHUD.updateHinText(mapViewer, "x:"+(int)(0.5+x*30000/1200)+"y:"+(int)(0.5+y*40000/1600));
 		}
-		// Out of Lower Bound
-		if ((x < mapViewer.LEFT_SPACE)
-				|| (y < mapViewer.TOP_SPACE)) {
-			//Util.showShortToast(this, R.string.out_of_map_bound);
-			MapHUD.updateHinText(mapViewer, R.string.out_of_map_bound);
-			return false;
-		}
+			
 
-		int colNo = (int) ((x - mapViewer.LEFT_SPACE) / Util.getRuntimeIndoorMap().getCellPixel());
-		int rowNo = (int) ((y - mapViewer.TOP_SPACE) / Util.getRuntimeIndoorMap().getCellPixel());		
-		
-		// Out of Upper Bound
-		if ((colNo >= Util.getRuntimeIndoorMap().getColNum())
-				|| (rowNo >= Util.getRuntimeIndoorMap().getRowNum())) {
-			//Util.showShortToast(this, R.string.out_of_map_bound);
-			MapHUD.updateHinText(mapViewer, R.string.out_of_map_bound);
-			return false;
-		}
-		
-		final PlaceOfInterest poi = POIManager.getNearestPOI(Util.getRuntimeIndoorMap().getMapId(), colNo, rowNo);
+		final PlaceOfInterest poi = POIManager.getNearestPOI(Util.getRuntimeIndoorMap().getMapId(), (int)x, (int)y);
 		
 		if (poi == null)		
 			return false;
