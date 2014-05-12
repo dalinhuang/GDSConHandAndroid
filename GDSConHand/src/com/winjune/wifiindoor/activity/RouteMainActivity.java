@@ -23,6 +23,8 @@ public class RouteMainActivity extends Activity {
 	private TextView startPointText = null;
 	private TextView endPointText = null;
 	private ListView lv = null;
+	private PlaceOfInterest startPoi = null;
+	private PlaceOfInterest endPoi = null;
 
 	private RouteSearchHistory history;
 
@@ -81,10 +83,43 @@ public class RouteMainActivity extends Activity {
 
 	}
 
+	public void transitClick(View v) {
+		String startPointTextString = startPointText.getText().toString();
+		String endPointTextString = endPointText.getText().toString();
+
+		PlaceOfInterest tempPoi = null;
+
+		tempPoi = startPoi;
+		startPoi = endPoi;
+		endPoi = tempPoi;
+
+		if (startPoi != null) {
+			startPointText.setText(startPoi.label);
+		}
+		else if (startPointTextString.equals("我的位置")){
+			startPointText.setText("输入起点. . .");
+		}
+		else {
+			startPointText.setText("我的位置");
+		}
+		
+		if (endPoi != null) {
+			endPointText.setText(endPoi.label);
+		}
+		else if (endPointTextString.equals("我的位置")){
+			endPointText.setText("输入终点. . .");
+		}
+		else {
+			endPointText.setText("我的位置");
+		}
+			
+
+	}
+
 	private void performSearch(String text) {
 		if (text.isEmpty())
 			return;
-		
+
 		history.addRecord(text);
 
 		finish();
@@ -92,7 +127,7 @@ public class RouteMainActivity extends Activity {
 
 	public void clearHistoryClick(View v) {
 		history.clearRecords();
-		
+
 		final HistoryDataList historyAda = new HistoryDataList(this,
 				R.layout.list_history, history.getHistory());
 
@@ -129,9 +164,8 @@ public class RouteMainActivity extends Activity {
 						.getSerializable(RouteInputActivity.RESULT_SEARCH_CONTEXT);
 				endPointText.setText(mContext.searchText);
 
-				PlaceOfInterest poi = mContext.poiResults
-						.get(mContext.currentFocusIdx);
-				endPointText.setText(poi.label);
+				endPoi = mContext.poiResults.get(mContext.currentFocusIdx);
+				endPointText.setText(endPoi.label);
 
 			}
 			break;
@@ -146,9 +180,9 @@ public class RouteMainActivity extends Activity {
 						&& mContext.searchText.equals("我的位置")) {
 					startPointText.setText("我的位置");
 				} else {
-					PlaceOfInterest poi = mContext.poiResults
+					startPoi = mContext.poiResults
 							.get(mContext.currentFocusIdx);
-					startPointText.setText(poi.label);
+					startPointText.setText(startPoi.label);
 				}
 
 			}
@@ -157,4 +191,5 @@ public class RouteMainActivity extends Activity {
 		default:
 		}
 	}
+
 }
