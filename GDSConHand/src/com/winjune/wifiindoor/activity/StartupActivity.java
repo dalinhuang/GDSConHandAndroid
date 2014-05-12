@@ -1,5 +1,6 @@
 package com.winjune.wifiindoor.activity;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -238,13 +239,16 @@ public class StartupActivity extends Activity implements OnInitListener{
 		// Check latest version
 		ApkVersionManager.CheckVersionUpgrade(StartupActivity.this);
 		
-		Util.appPrepare(StartupActivity.this, IndoorMapData.CONFIG_FILE_PATH, PoiOfflineData.buslineTableName);
-		Util.appPrepare(StartupActivity.this, IndoorMapData.CONFIG_FILE_PATH, PoiOfflineData.festivalTableName);
-		Util.appPrepare(StartupActivity.this, IndoorMapData.CONFIG_FILE_PATH, PoiOfflineData.movieTableName);
-		Util.appPrepare(StartupActivity.this, IndoorMapData.CONFIG_FILE_PATH, PoiOfflineData.playhouseTableName);
-		Util.appPrepare(StartupActivity.this, IndoorMapData.CONFIG_FILE_PATH, PoiOfflineData.poiTableName);
-		Util.appPrepare(StartupActivity.this, IndoorMapData.CONFIG_FILE_PATH, PoiOfflineData.restaurantTableName);
-		
+		// Copy all the necessary files from assets if necessary.
+		ArrayList<String> fileNames = new ArrayList<String>();
+		String fullPath = Util.getFilePath(IndoorMapData.CONFIG_FILE_PATH);
+		fileNames.add(fullPath+PoiOfflineData.buslineTableName);
+		fileNames.add(fullPath+PoiOfflineData.festivalTableName);
+		fileNames.add(fullPath+PoiOfflineData.movieTableName);
+		fileNames.add(fullPath+PoiOfflineData.playhouseTableName);
+		fileNames.add(fullPath+PoiOfflineData.poiTableName);
+		fileNames.add(fullPath+PoiOfflineData.restaurantTableName);
+		Util.appFilesPrepare(StartupActivity.this, fileNames);
 
 /*		Util.downFile(StartupActivity.this,
 				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, PoiOfflineData.buslineTableName),

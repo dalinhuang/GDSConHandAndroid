@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -923,33 +924,43 @@ public class Util {
 		return result;
 	}
 
-	public static boolean appPrepare(Context myContext,
-			String relativePath, String fileName) {
-		boolean needCopy = true;
+	 /** 
+     * Checking all the necessary files. The full path is included in the fileName.
+     */  
+	public static boolean appFilesPrepare(Context myContext,
+			ArrayList<String> fileNames) {
 		boolean result = true;
-		String fileFullPath = getFilePath(relativePath);
-		String fileFullName = fileFullPath + fileName;
-		File dir = new File(fileFullPath);
-		// 判断目录是否存在，
-		if (dir.exists())
-		{
-		try {
-			if (new File(fileFullName).exists()) {
-				needCopy = false;
+
+		for (String fileName : fileNames) {
+			int fileNameIndex = fileName.lastIndexOf("/");
+			boolean needCopy = true;
+			String realName, fullPath;
+			realName = fileName.substring(fileNameIndex+1);
+			fullPath = fileName.substring(0, fileNameIndex+1);
+			File dir = new File(fullPath);
+			if (dir.exists()) {
+				try {
+					if (new File(fileName).exists()) {
+						needCopy = false;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				if (needCopy) {
+					result = copyFileFromAssets(myContext, realName, fullPath,
+							realName);
+				}
+
+				if (!result) {
+					break;
+				}
+
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			needCopy = false;
 		}
-	}
-		
-		
-		if (needCopy)
-		{
-			result = copyFileFromAssets(myContext,fileName,fileFullPath,fileName);
-		}
-		
+
 		return result;
 	}
+
 }
 
