@@ -1,0 +1,16 @@
+<com.winjune.wifiindoor.lib.poi.FestivalT>
+  <festivalDays>
+    <sql-date>2014-01-01</sql-date>
+    <sql-date>2014-04-05</sql-date>
+    <sql-date>2014-05-01</sql-date>
+    <sql-date>2014-06-02</sql-date>
+    <sql-date>2014-09-09</sql-date>
+    <sql-date>2014-10-01</sql-date>
+    <sql-date>2014-10-02</sql-date>
+    <sql-date>2014-10-03</sql-date>
+    <sql-date>2014-10-04</sql-date>
+    <sql-date>2014-10-05</sql-date>
+    <sql-date>2014-10-06</sql-date>
+    <sql-date>2014-10-07</sql-date>
+  </festivalDays>
+</com.winjune.wifiindoor.lib.poi.FestivalT>

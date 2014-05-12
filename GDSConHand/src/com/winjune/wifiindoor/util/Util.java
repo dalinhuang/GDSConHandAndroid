@@ -893,5 +893,63 @@ public class Util {
         final float scale = context.getResources().getDisplayMetrics().density;  
         return (int) (pxValue / scale + 0.5f);  
     }
+    
+	public static boolean copyFileFromAssets(Context myContext,
+			String assetsName, String savePath, String saveName) {
+		String filename = savePath + saveName;
+		boolean result = true;
+
+		File dir = new File(savePath);
+		// 如果目录不中存在，创建这个目录
+		if (!dir.exists())
+			dir.mkdir();
+		try {
+			if (!(new File(filename)).exists()) {
+				InputStream is = myContext.getResources().getAssets()
+						.open(assetsName);
+				FileOutputStream fos = new FileOutputStream(filename);
+				byte[] buffer = new byte[7168];
+				int count = 0;
+				while ((count = is.read(buffer)) > 0) {
+					fos.write(buffer, 0, count);
+				}
+				fos.close();
+				is.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = false;
+		}
+		return result;
+	}
+
+	public static boolean appPrepare(Context myContext,
+			String relativePath, String fileName) {
+		boolean needCopy = true;
+		boolean result = true;
+		String fileFullPath = getFilePath(relativePath);
+		String fileFullName = fileFullPath + fileName;
+		File dir = new File(fileFullPath);
+		// 判断目录是否存在，
+		if (dir.exists())
+		{
+		try {
+			if (new File(fileFullName).exists()) {
+				needCopy = false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			needCopy = false;
+		}
+	}
+		
+		
+		if (needCopy)
+		{
+			result = copyFileFromAssets(myContext,fileName,fileFullPath,fileName);
+		}
+		
+		return result;
+	}
 }
 

@@ -237,8 +237,16 @@ public class StartupActivity extends Activity implements OnInitListener{
 				
 		// Check latest version
 		ApkVersionManager.CheckVersionUpgrade(StartupActivity.this);
+		
+		Util.appPrepare(StartupActivity.this, IndoorMapData.CONFIG_FILE_PATH, PoiOfflineData.buslineTableName);
+		Util.appPrepare(StartupActivity.this, IndoorMapData.CONFIG_FILE_PATH, PoiOfflineData.festivalTableName);
+		Util.appPrepare(StartupActivity.this, IndoorMapData.CONFIG_FILE_PATH, PoiOfflineData.movieTableName);
+		Util.appPrepare(StartupActivity.this, IndoorMapData.CONFIG_FILE_PATH, PoiOfflineData.playhouseTableName);
+		Util.appPrepare(StartupActivity.this, IndoorMapData.CONFIG_FILE_PATH, PoiOfflineData.poiTableName);
+		Util.appPrepare(StartupActivity.this, IndoorMapData.CONFIG_FILE_PATH, PoiOfflineData.restaurantTableName);
+		
 
-		Util.downFile(StartupActivity.this,
+/*		Util.downFile(StartupActivity.this,
 				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, PoiOfflineData.buslineTableName),
 				IndoorMapData.CONFIG_FILE_PATH,
 				PoiOfflineData.buslineTableName,                     		
@@ -289,7 +297,7 @@ public class StartupActivity extends Activity implements OnInitListener{
 				false, //useHandler
 				false);// Use Thread	
 
-        
+        */
         POIManager.loadOfflineData();
 	}
 }
