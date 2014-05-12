@@ -22,6 +22,7 @@ public class RouteMainActivity extends Activity {
 
 	private TextView startPointText = null;
 	private TextView endPointText = null;
+	private ListView lv = null;
 
 	private RouteSearchHistory history;
 
@@ -37,7 +38,7 @@ public class RouteMainActivity extends Activity {
 		endPointText = (TextView) findViewById(R.id.input_end_point);
 
 		// setup history info
-		ListView lv = (ListView) findViewById(R.id.route_history_list);
+		lv = (ListView) findViewById(R.id.route_history_list);
 
 		final HistoryDataList historyAda = new HistoryDataList(this,
 				R.layout.list_history, history.getHistory());
@@ -91,6 +92,11 @@ public class RouteMainActivity extends Activity {
 
 	public void clearHistoryClick(View v) {
 		history.clearRecords();
+		
+		final HistoryDataList historyAda = new HistoryDataList(this,
+				R.layout.list_history, history.getHistory());
+
+		lv.setAdapter(historyAda);
 	}
 
 	public void backClick(View v) {

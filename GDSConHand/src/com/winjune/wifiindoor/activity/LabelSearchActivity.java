@@ -35,6 +35,7 @@ public class LabelSearchActivity extends Activity {
 	public static String RESULT_SEARCH_CONTEXT = "RESULT_SEARCH_CONTEXT";	
 	private static int TTS_DIGIT_NUM = 4;
 	private SearchHistory history;
+	private ListView lv = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class LabelSearchActivity extends Activity {
 	    }); 
 	    
 	    //setup history info
-		ListView lv = (ListView)findViewById(R.id.search_history_list);
+		lv = (ListView)findViewById(R.id.search_history_list);
 		
 		final HistoryDataList historyAda = new HistoryDataList(this, 
 					R.layout.list_history, history.getHistory());
@@ -223,6 +224,11 @@ public class LabelSearchActivity extends Activity {
 		
 	public void clearHistoryClick(View v) {
 		history.clearRecords();
+		
+		final HistoryDataList historyAda = new HistoryDataList(this, 
+				R.layout.list_history, history.getHistory());
+	
+	    lv.setAdapter(historyAda);	 
 	}
 	
 

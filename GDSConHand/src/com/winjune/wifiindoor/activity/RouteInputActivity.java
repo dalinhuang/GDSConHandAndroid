@@ -29,6 +29,8 @@ import com.winjune.wifiindoor.poi.SearchHistory;
 public class RouteInputActivity extends Activity {
 	private SearchHistory history;
 	public static String RESULT_SEARCH_CONTEXT = "POINT_INPUT_CONTEXT";
+	
+	private ListView lv = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class RouteInputActivity extends Activity {
 		textView.setAdapter(autoCompleteAda);
 
 		// setup history info
-		ListView lv = (ListView) findViewById(R.id.search_history_list);
+		lv = (ListView) findViewById(R.id.search_history_list);
 
 		final HistoryDataList historyAda = new HistoryDataList(this,
 				R.layout.list_history, history.getHistory());
@@ -177,6 +179,11 @@ public class RouteInputActivity extends Activity {
 
 	public void clearHistoryClick(View v) {
 		history.clearRecords();
+		
+		final HistoryDataList historyAda = new HistoryDataList(this,
+				R.layout.list_history, history.getHistory());
+		
+		lv.setAdapter(historyAda);
 	}
 
 	public void shortcutClick(View v) {
