@@ -32,11 +32,9 @@ public class SearchHistory implements Serializable{
 	public ArrayList<String> getHistory(){
 		// we need to reverse the records, so the record 
 		// will be displayed according to time
-		ArrayList<String>  reversedRecords = records;
 		
-		Collections.reverse(reversedRecords);
 		
-		return reversedRecords;
+		return records;
 	}
 	
 	public void addRecord(String searchInput) {		
@@ -49,7 +47,7 @@ public class SearchHistory implements Serializable{
 			// check if there is same record existing
 			// we first remove this record and then add it to the end of the list
 			records.remove(input);
-			records.add(input);
+			records.add(0, input);
 			toXML();
 		}
 	}
