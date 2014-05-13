@@ -4,6 +4,7 @@ import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.poiviewer.AlarmActivity;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
+import com.winjune.wifiindoor.version.VersionManager;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -59,6 +60,7 @@ public class UserCenterActivity extends Activity {
                 public void onClick(DialogInterface dialog,  
                         int whichButton) { 
                     //finish();  
+                	VersionManager.downloadVersionInfo(UserCenterActivity.this);
                 }  
             });
 	   

@@ -1,0 +1,28 @@
+<com.winjune.wifiindoor.lib.version.VersionInfoT>
+  <versions>
+    <com.winjune.wifiindoor.lib.version.VersionInfoR>
+      <tableName>busline</tableName>
+      <version>0</version>
+    </com.winjune.wifiindoor.lib.version.VersionInfoR>
+    <com.winjune.wifiindoor.lib.version.VersionInfoR>
+      <tableName>festival</tableName>
+      <version>0</version>
+    </com.winjune.wifiindoor.lib.version.VersionInfoR>
+    <com.winjune.wifiindoor.lib.version.VersionInfoR>
+      <tableName>playhouse</tableName>
+      <version>0</version>
+    </com.winjune.wifiindoor.lib.version.VersionInfoR>
+    <com.winjune.wifiindoor.lib.version.VersionInfoR>
+      <tableName>poi</tableName>
+      <version>0</version>
+    </com.winjune.wifiindoor.lib.version.VersionInfoR>
+    <com.winjune.wifiindoor.lib.version.VersionInfoR>
+      <tableName>movie</tableName>
+      <version>0</version>
+    </com.winjune.wifiindoor.lib.version.VersionInfoR>
+    <com.winjune.wifiindoor.lib.version.VersionInfoR>
+      <tableName>restaurant</tableName>
+      <version>0</version>
+    </com.winjune.wifiindoor.lib.version.VersionInfoR>
+  </versions>
+</com.winjune.wifiindoor.lib.version.VersionInfoT>
