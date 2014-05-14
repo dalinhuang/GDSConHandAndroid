@@ -1,5 +1,6 @@
 package com.winjune.wifiindoor.version;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -37,6 +38,7 @@ public class VersionManager {
 		newInfo.fromXML(newFullFileName, newInfo);
 		ArrayList<VersionInfoR> newVersionInfos = newInfo.getVersions();
 		ArrayList<VersionInfoR> oldVersionInfos = oldInfo.getVersions();
+		String tablist = "";
 		for (int i = 0; i < newVersionInfos.size(); i++)
 		{
 			for (int j = 0; j < oldVersionInfos.size(); j++)
@@ -54,11 +56,21 @@ public class VersionManager {
 						"",
 						false, //useHandler
 						false);// Use Thread	
-						Util.showToast(activity, newVersionInfos.get(i).tableName+" table downloaded!", Toast.LENGTH_LONG);
+						tablist += newVersionInfos.get(i).tableName + ",";
 					}
 				}
 			}
 			
 		}
+		
+		if (tablist.length()>1)
+		{
+		   Util.showToast(activity, tablist.substring(0,tablist.length() -1)+" table(s) downloaded!", Toast.LENGTH_LONG);
+			//Replace old file with new version file
+	    	File newFile = Util.openOrCreateFileInPath(IndoorMapData.CONFIG_FILE_PATH, "new_"+IndoorMapData.VERSION_TABLE_FILE_NAME, false);
+	    	File oldFile = Util.openOrCreateFileInPath(IndoorMapData.CONFIG_FILE_PATH, IndoorMapData.VERSION_TABLE_FILE_NAME, false);
+	    	newFile.renameTo(oldFile);
+		}
+		
 	}	
 }
