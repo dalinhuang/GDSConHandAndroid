@@ -389,9 +389,12 @@ public static void attachLocationSprite(final MapViewerActivity mapViewer, Place
 			Debug.e(e);
 			return;
 		}		
-				
-		LocationSprite mSprite = new LocationSprite(poi.getX() * Util.getRuntimeIndoorMap().getCellPixel(), 
-														poi.getY() * Util.getRuntimeIndoorMap().getCellPixel(), 														
+
+		float adjustedX = poi.getX() - searchResultMarkerITR.getWidth()/2;
+		float adjustedY = poi.getY() - searchResultMarkerITR.getHeight();
+		
+		LocationSprite mSprite = new LocationSprite(adjustedX, 
+				                                    adjustedY, 														
 														searchResultFocusedMarkerITR,
 														searchResultMarkerITR,
 														mapViewer.getVertexBufferObjectManager());		

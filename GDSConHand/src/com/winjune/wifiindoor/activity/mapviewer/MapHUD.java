@@ -233,24 +233,6 @@ public class MapHUD {
 				return true;
 			}
 		});
-		
-		x += mapViewer.TAB_BUTTON_WIDTH + mapViewer.TAB_BUTTON_MARGIN * 2;
-		Library.BUTTON_SEARCH.load(mapViewer, mapViewer.TAB_BUTTON_WIDTH, mapViewer.TAB_BUTTON_HEIGHT);
-		putHUDControlUnit(mapViewer, Library.BUTTON_SEARCH, x, y, new SpriteListener() {
-
-			@Override
-			public boolean onAreaTouched(AnimatedSprite sprite,
-					TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
-					float pTouchAreaLocalY) {
-				
-				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
-					Intent intent_searcher = new Intent(mapViewer, PlaceSearcherActivity.class); 
-					mapViewer.startActivityForResult(intent_searcher, MapViewerActivity.SEARCH_REQUEST_CODE);
-				}
-				
-				return true;
-			}
-		});	
 	}
 
 	public static void initailHUDMapShowBar(MapViewerActivity mapViewer) {

@@ -47,10 +47,13 @@ public class POIBaseActivity extends Activity{
 	
 	public void onMapClick(View v){
 		Intent data = new Intent(this, MapViewerActivity.class);
+		data.setAction(MapViewerActivity.BUNDLE_LOCATION_CONTEXT);
 		Bundle mBundle = new Bundle();
-		mBundle.putSerializable("POI_INSTANCE", poi);
+		mBundle.putSerializable(MapViewerActivity.BUNDLE_LOCATION_CONTEXT, poi);
 		data.putExtras(mBundle);
 		
 		startActivity(data);
+		
+		finish();
 	}
 }

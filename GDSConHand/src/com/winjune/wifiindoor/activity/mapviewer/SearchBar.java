@@ -113,22 +113,28 @@ public class SearchBar {
 		} catch (TextureAtlasBuilderException e) {
 			Debug.e(e);
 			return null;
-		}		
+		}
+		
+		float adjustedX = poi.getX() - searchResultMarkerITR.getWidth()/2;
+		float adjustedY = poi.getY() - searchResultMarkerITR.getHeight();
+		
 				
-		LocationSprite mSprite = new LocationSprite(poi.getX() * Util.getRuntimeIndoorMap().getCellPixel(), 
-														poi.getY() * Util.getRuntimeIndoorMap().getCellPixel(), 														
-														searchResultFocusedMarkerITR,
-														searchResultMarkerITR,
-														mapViewer.getVertexBufferObjectManager());		
+		LocationSprite mSprite = new LocationSprite(adjustedX, 
+													adjustedY, 														
+													searchResultFocusedMarkerITR,
+													searchResultMarkerITR,
+													mapViewer.getVertexBufferObjectManager());		
 				
 		mSprite.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(LocationSprite pSprite,
-					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+					float pTouchAreaLocalX, float pTouchAreaLocalY) {				
 				// TODO Auto-generated method stub
+				
 				mapViewer.focusPlace.changeState(State.NORMAL);
-				pSprite.changeState(State.FOCUSED);		
+				
+				pSprite.changeState(State.FOCUSED);						
 				mapViewer.focusPlace = pSprite;
 			}
 			

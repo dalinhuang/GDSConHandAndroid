@@ -86,6 +86,12 @@ import com.winjune.wifiindoor.webservice.IpsWebService;
 
 
 public class MapViewerActivity extends LayoutGameActivity implements SensorEventListener {
+	public static final String ActionLocate = "ActionLocate";
+	public static final String ActionSearch = "ActionSearch";
+	
+	public static final String BUNDLE_RESULT_SEARCH_CONTEXT = "RESULT_SEARCH_CONTEXT";
+	public static final String BUNDLE_LOCATION_CONTEXT = "LOCATION_CONTEXT";
+	
 
 	public static final String TAG = MapViewerActivity.class.getSimpleName();
 	public static final boolean DEBUG = WifiIpsSettings.DEBUG;
@@ -178,7 +184,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 	public static final int REQUEST_CODE = 0;
 	public static final int CAMERA_REQUEST_CODE = REQUEST_CODE;
-	public static final int SEARCH_REQUEST_CODE = REQUEST_CODE + 1;
 	public static final int USER_CENTER_REQUEST_CODE = REQUEST_CODE + 2;
 
 	public float density = 1.5f;
@@ -379,16 +384,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			  MapViewerUtil.exitApp();
 	       }
 		  break;
-		case SEARCH_REQUEST_CODE:
-			if (resultCode == RESULT_OK) {
-				Bundle bundle = data.getExtras();
-				
-				SearchContext mContext = (SearchContext) bundle.getSerializable(LabelSearchActivity.RESULT_SEARCH_CONTEXT);
-				
-   			   	SearchBar.showSearchResultsOnMap(this, mContext);
-   			   	   			   	
-			}
-			break;
 		case CAMERA_REQUEST_CODE:
 			if (resultCode == RESULT_OK) {
 				Bundle bundle = data.getExtras();
@@ -477,10 +472,18 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		super.onNewIntent(intent);
 		setIntent(intent);
 		
+		String mAction = intent.getAction();
 		Bundle mBundle = getIntent().getExtras();
-		PlaceOfInterest poi = (PlaceOfInterest)mBundle.getSerializable("POI_INSTANCE");
-		LocateBar.attachLocationSprite(this, poi);
-		poi.showContextMenu(getCurrentFocus());
+		
+		if (mAction.equals(ActionLocate)){
+			PlaceOfInterest poi = (PlaceOfInterest)mBundle.getSerializable(BUNDLE_LOCATION_CONTEXT);
+			LocateBar.attachLocationSprite(this, poi);
+			poi.showContextMenu(getCurrentFocus());			
+		}else if (mAction.equals(ActionSearch)) {			
+			SearchContext mContext = (SearchContext) mBundle.getSerializable(BUNDLE_RESULT_SEARCH_CONTEXT);		
+		   	SearchBar.showSearchResultsOnMap(this, mContext);
+		}
+			
 
 //		String tagId = Util.getNfcInfoManager().getTagId(intent);
 //		
@@ -835,7 +838,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	public void searchBarClick(View v) {
         Intent i = new Intent(this, LabelSearchActivity.class); 
-        startActivityForResult(i, SEARCH_REQUEST_CODE);		
+        startActivity(i);		
 	}
 	
 	public void surroundingBarClick(View v){

@@ -32,7 +32,6 @@ import android.widget.TextView;
 
 public class LabelSearchActivity extends Activity {
 	
-	public static String RESULT_SEARCH_CONTEXT = "RESULT_SEARCH_CONTEXT";	
 	private static int TTS_DIGIT_NUM = 4;
 	private SearchHistory history;
 	private ListView lv = null;
@@ -55,10 +54,13 @@ public class LabelSearchActivity extends Activity {
 	    textView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+			public void onItemClick(AdapterView<?> arg0, View v, int position,
 					long arg3) {
+				
+				TextView tv = (TextView)v;
+
 				// TODO Auto-generated method stub
-				performSearch(labelArray[position]);
+				performSearch(tv.getText().toString());
 			}
 	    	
 	    }); 
@@ -158,6 +160,7 @@ public class LabelSearchActivity extends Activity {
 		
 		// by default, the first is the focus one
 		mContext.currentFocusIdx = 0;
+		mContext.searchText = text;
 		
 		if (mContext.poiResults.size() == 1)
 			showResult(mContext);
@@ -207,12 +210,13 @@ public class LabelSearchActivity extends Activity {
 	}	
 	
 	private void showResultsOnMap(SearchContext mContext){
-		Intent data = new Intent();
+		Intent data = new Intent(this, MapViewerActivity.class);
+		data.setAction(MapViewerActivity.BUNDLE_RESULT_SEARCH_CONTEXT);
 		Bundle mBundle = new Bundle();
-		mBundle.putSerializable(RESULT_SEARCH_CONTEXT, mContext);
+		mBundle.putSerializable(MapViewerActivity.BUNDLE_RESULT_SEARCH_CONTEXT, mContext);
 		data.putExtras(mBundle);
-		
-		setResult(RESULT_OK, data);
+
+		startActivity(data);
 		
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		
