@@ -131,6 +131,25 @@
                         style="@style/styleUserCenterItemText"
                         android:text="检查更新"/>
                 </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:onClick="checkOfflineDataUpdateBarClick"
+                    android:paddingTop="1dp" >
+
+                    <ImageView
+                        android:id="@+id/icon_user_center_item"
+                        style="@style/styleUserCenterItemIcon"
+                        android:src="@drawable/ic_update" />
+
+                    <ImageView
+                        android:id="@+id/icon_user_center_next"
+                        style="@style/styleUserCenterItemNext"/>
+
+                    <TextView
+                        style="@style/styleUserCenterItemText"
+                        android:text="离线数据更新"/>
+                </RelativeLayout>
                 <!-- check update layout -->
 
 

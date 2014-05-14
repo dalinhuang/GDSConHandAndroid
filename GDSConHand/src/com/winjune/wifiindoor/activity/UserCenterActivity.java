@@ -1,5 +1,7 @@
 package com.winjune.wifiindoor.activity;
 
+import java.util.ArrayList;
+
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.poiviewer.AlarmActivity;
 import com.winjune.wifiindoor.util.IndoorMapData;
@@ -13,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
 
 public class UserCenterActivity extends Activity {
 
@@ -60,7 +63,6 @@ public class UserCenterActivity extends Activity {
                 public void onClick(DialogInterface dialog,  
                         int whichButton) { 
                     //finish();  
-                	VersionManager.downloadVersionInfo(UserCenterActivity.this);
                 }  
             });
 	   
@@ -83,7 +85,45 @@ public class UserCenterActivity extends Activity {
 	    builder.create();
 	    builder.show();
 	}
-	
+
+	public void checkOfflineDataUpdateBarClick(View v){
+		final ArrayList<String> updateTableList = VersionManager.checkVersionInfo(UserCenterActivity.this);
+		if (updateTableList.size() > 0)
+		{
+			StringBuffer sb = new StringBuffer();  
+			sb.append(this.getString(R.string.app_name));
+			sb.append("有离线数据需要更新");
+		    
+		    AlertDialog.Builder builder = new AlertDialog.Builder(this);	
+			builder.setTitle("更新提示");	
+			builder.setMessage(sb.toString());
+		    builder.setNegativeButton(R.string.download_later,  
+	            new DialogInterface.OnClickListener() {  
+	                public void onClick(DialogInterface dialog,  
+	                        int whichButton) { 
+	                    //finish();  
+	                }  
+	            });
+		   
+			builder.setPositiveButton(R.string.download_now,
+		            new OnClickListener() {  
+		                @Override  
+		                public void onClick(DialogInterface dialog,  
+		                        int which) { 
+		                	VersionManager.downloadVersionInfo(UserCenterActivity.this,updateTableList);
+		                }  
+		            });
+			    
+		    builder.create();
+		    builder.show();			
+		}
+		else
+		{
+			   Util.showToast(this, "离线数据已经是最新的.", Toast.LENGTH_LONG);
+		}
+
+	}
+		
 	public void aboutBarClick(View v){
 		
 	}

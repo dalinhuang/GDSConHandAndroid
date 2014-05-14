@@ -14,8 +14,9 @@ import com.winjune.wifiindoor.util.Util;
 
 public class VersionManager {
 	
-	public static void downloadVersionInfo(Activity activity){
+	public static ArrayList<String> checkVersionInfo(Activity activity){
 		
+		ArrayList<String> updateTableList = new ArrayList<String>();
 		if (android.os.Build.VERSION.SDK_INT > 9) {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 			StrictMode.setThreadPolicy(policy);
@@ -38,7 +39,6 @@ public class VersionManager {
 		newInfo.fromXML(newFullFileName, newInfo);
 		ArrayList<VersionInfoR> newVersionInfos = newInfo.getVersions();
 		ArrayList<VersionInfoR> oldVersionInfos = oldInfo.getVersions();
-		String tablist = "";
 		for (int i = 0; i < newVersionInfos.size(); i++)
 		{
 			for (int j = 0; j < oldVersionInfos.size(); j++)
@@ -47,23 +47,36 @@ public class VersionManager {
 				{
 					if (newVersionInfos.get(i).version>oldVersionInfos.get(j).version)
 					{
-						//New version founded download new version
-						Util.downFile(activity,
-						Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, newVersionInfos.get(i).tableName+"_table.xml"),
-						IndoorMapData.CONFIG_FILE_PATH,
-						newVersionInfos.get(i).tableName+"_table.xml",                     		
-						false,      // Open after download
-						"",
-						false, //useHandler
-						false);// Use Thread	
-						tablist += newVersionInfos.get(i).tableName + ",";
+						updateTableList.add(newVersionInfos.get(i).tableName);
 					}
 				}
 			}
 			
 		}
+		return updateTableList;
+	}
+	
+	public static void downloadVersionInfo(Activity activity, ArrayList<String> updateTableList){
 		
-		if (tablist.length()>1)
+		if (android.os.Build.VERSION.SDK_INT > 9) {
+			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+			StrictMode.setThreadPolicy(policy);
+			}
+		String tablist = "";
+		for (int i = 0; i < updateTableList.size(); i++)
+		{
+			Util.downFile(activity,
+			Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, updateTableList.get(i) + "_table.xml"),
+			IndoorMapData.CONFIG_FILE_PATH,
+			updateTableList.get(i) + "_table.xml",                     		
+			false,      // Open after download
+			"",
+			false, //useHandler
+			false);// Use Thread	
+			tablist += updateTableList.get(i) + ",";
+		}
+		
+		if (updateTableList.size() > 0)
 		{
 		   Util.showToast(activity, tablist.substring(0,tablist.length() -1)+" table(s) downloaded!", Toast.LENGTH_LONG);
 			//Replace old file with new version file
@@ -73,4 +86,5 @@ public class VersionManager {
 		}
 		
 	}	
+	
 }
