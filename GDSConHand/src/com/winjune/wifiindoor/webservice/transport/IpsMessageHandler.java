@@ -34,7 +34,6 @@ import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
 import com.winjune.wifiindoor.webservice.types.Location;
 import com.winjune.wifiindoor.webservice.types.LocationSet;
 import com.winjune.wifiindoor.webservice.types.MapManagerReply;
-import com.winjune.wifiindoor.webservice.types.NaviInfoReply;
 import com.winjune.wifiindoor.webservice.types.QueryInfo;
 import com.winjune.wifiindoor.webservice.types.TestLocateCollectReply;
 
@@ -282,21 +281,7 @@ public class IpsMessageHandler {
 			
 			return;
 		}
-			
-		if (object instanceof NaviInfoReply) {
-			NaviInfoReply naviInfo = (NaviInfoReply) object;			
-			
-			if (activity instanceof MapViewerActivity) {
-				MapViewerActivity viewer1 = (MapViewerActivity) activity;
-				
-				NaviBar.setNaviInfo(viewer1, naviInfo.toNaviInfo());
-
-				return;
-			}
-			
-			return;
-		}
-		
+					
 		if (object instanceof AdGroup) {
 			AdGroup advertiseList = (AdGroup) object;			
 			
@@ -564,22 +549,7 @@ public class IpsMessageHandler {
 		
 		return mWifiIpsHttpApi.queryMap(json);
 	}
-	
-	/*
-	 * update Navi Info
-	 */
-	@V1
-	public static NaviInfoReply queryNaviInfo(JSONObject json) throws WebException,
-			WebCredentialsException, WebError, IOException {
 		
-		if (mWifiIpsHttpApi == null) {			
-			throw new WebException("IPS HTTP API is null!");			
-		}
-		
-		return mWifiIpsHttpApi.queryNaviInfo(json);
-	}
-	
-	
 	/*
 	 * update advertise Info
 	 */
