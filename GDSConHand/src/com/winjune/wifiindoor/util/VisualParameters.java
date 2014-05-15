@@ -38,9 +38,6 @@ public class VisualParameters {
 	public static boolean ADS_ENABLED = false;
 	// SOC for BANNER
 	public static boolean BANNERS_ENABLED = false;
-	// SOC for ENTRY & GOOGLEMAP
-	public static boolean GOOGLE_MAP_EMBEDDED = false;
-	public static boolean MENU_ENTRY_NEEDED = false;
 	
 	// SOC for background lines
 	public static boolean BACKGROUND_LINES_NEEDED = true;

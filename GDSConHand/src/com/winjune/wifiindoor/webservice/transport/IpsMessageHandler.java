@@ -10,11 +10,8 @@ import com.winjune.common.webservice.core.error.WebException;
 import com.winjune.common.webservice.core.transport.ResponseBlockingQueue;
 import com.winjune.common.webservice.core.types.IType;
 import com.winjune.common.webservice.core.types.Test;
-import com.winjune.wifiindoor.activity.GMapEntryActivity;
 import com.winjune.wifiindoor.activity.MapLocatorActivity;
-import com.winjune.wifiindoor.activity.MapSelectorActivity;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
-import com.winjune.wifiindoor.activity.MenuEntryActivity;
 import com.winjune.wifiindoor.activity.mapviewer.AdBanner;
 import com.winjune.wifiindoor.activity.mapviewer.CollectedFlag;
 import com.winjune.wifiindoor.activity.mapviewer.InfoBanner;
@@ -144,22 +141,7 @@ public class IpsMessageHandler {
 
 				return;
 			}
-			
-			if (activity instanceof GMapEntryActivity) {
-				//Log.e("IpsMessageHandler", "entry.updateLocation");
-				GMapEntryActivity entry = (GMapEntryActivity) activity;
-				entry.updateLocation(locations);
 
-				return;
-			}
-			
-			if (activity instanceof MenuEntryActivity) {
-				//Log.e("IpsMessageHandler", "entry.updateLocation");
-				MenuEntryActivity entry = (MenuEntryActivity) activity;
-				entry.updateLocation(locations);
-
-				return;
-			}
 
 			if (activity instanceof MapViewerActivity) {
 				//Log.e("IpsMessageHandler", "viewer.updateLocation");
@@ -175,22 +157,6 @@ public class IpsMessageHandler {
 		if (object instanceof Location) {
 			Location location = (Location) object;
 			
-			if (activity instanceof GMapEntryActivity) {
-				//Log.e("IpsMessageHandler", "entry.updateLocation");
-				GMapEntryActivity entry = (GMapEntryActivity) activity;
-				entry.updateLocation(location);
-
-				return;
-			}
-			
-			if (activity instanceof MenuEntryActivity) {
-				//Log.e("IpsMessageHandler", "entry.updateLocation");
-				MenuEntryActivity entry = (MenuEntryActivity) activity;
-				entry.updateLocation(location);
-
-				return;
-			}
-
 			if (activity instanceof MapViewerActivity) {
 				//Log.e("IpsMessageHandler", "viewer.updateLocation");
 				MapViewerActivity viewer = (MapViewerActivity) activity;
@@ -243,31 +209,9 @@ public class IpsMessageHandler {
 		if (object instanceof BuildingManagerReply) {
 			BuildingManagerReply manager = (BuildingManagerReply) object;
 			
-			if (activity instanceof GMapEntryActivity) {
-				//Log.e("IpsMessageHandler", "entry.updateLocation");
-				GMapEntryActivity entry = (GMapEntryActivity) activity;
-				entry.handleBuildingReply(manager);
-
-				return;
-			}
-			
 			return;
 		} 
-		
-		if (object instanceof MapManagerReply) {
-			MapManagerReply manager = (MapManagerReply) object;
-			
-			if (activity instanceof MapSelectorActivity) {
-				//Log.e("IpsMessageHandler", "entry.updateLocation");
-				MapSelectorActivity selector = (MapSelectorActivity) activity;
-				selector.handleMapListReply(manager);
-
-				return;
-			}
-			
-			return;
-		}
-		
+				
 		if (object instanceof IndoorMapReply) {
 			IndoorMapReply map = (IndoorMapReply) object;
 			

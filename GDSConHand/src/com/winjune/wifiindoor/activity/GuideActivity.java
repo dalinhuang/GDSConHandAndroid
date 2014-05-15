@@ -4,8 +4,6 @@ import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.R.layout;
 import com.winjune.wifiindoor.R.menu;
 import com.winjune.wifiindoor.util.IndoorMapData;
-import com.winjune.wifiindoor.version.ISoftwareVersions;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -13,14 +11,11 @@ import android.view.Menu;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Bundle;
 import android.os.Parcelable;
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.view.PagerAdapter;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -81,10 +76,6 @@ public class GuideActivity extends Activity implements OnPageChangeListener, OnC
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 		    	Intent intent = new Intent(GuideActivity.this, MapLocatorActivity.class);
-				Bundle mBundle = new Bundle(); 
-				mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM, IndoorMapData.BUNDLE_VALUE_REQ_FROM_SELECTOR);
-				mBundle.putInt(IndoorMapData.BUNDLE_KEY_LOCATION_MAP, ISoftwareVersions.GDSC_MAP_ID);
-				intent.putExtras(mBundle); 
 		    	startActivity(intent);
 		        finish();
 			}

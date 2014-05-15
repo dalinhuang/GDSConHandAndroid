@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.MapSelectorActivity;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.activity.QrScannerActivity;
 import com.winjune.wifiindoor.activity.SettingActivity;
@@ -116,29 +115,7 @@ public class MapHUD {
 					return true;
 				}
 			});
-			
-			y += mapViewer.CONTROL_BUTTON_HEIGHT + mapViewer.CONTROL_BUTTON_MARGIN * 2;
-			Library.BUTTON_MAP.load(mapViewer, mapViewer.CONTROL_BUTTON_WIDTH, mapViewer.CONTROL_BUTTON_HEIGHT);
-			putHUDControlUnit(mapViewer, Library.BUTTON_MAP, x, y, new SpriteListener() {
-	
-				@Override
-				public boolean onAreaTouched(AnimatedSprite sprite,
-						TouchEvent pSceneTouchEvent, float pTouchAreaLocalX,
-						float pTouchAreaLocalY) {
-	
-					if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {						
-		        		Intent intent_map_selector = new Intent(mapViewer, MapSelectorActivity.class);
-		        		
-		        		Bundle mBundle = new Bundle(); 
-						mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM, IndoorMapData.BUNDLE_VALUE_REQ_FROM_SELECTOR);
-						intent_map_selector.putExtras(mBundle); 
-						mapViewer.startActivity(intent_map_selector);							
-					}
-	
-					return true;
-				}
-			});		
-			
+						
 		}// planning mode
 
 		if (MapViewerActivity.DEBUG)

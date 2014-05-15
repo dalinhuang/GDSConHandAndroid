@@ -5,8 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
 
-import com.winjune.wifiindoor.version.SoftwareVersionData;
-
 public class Tuner {
 	private static boolean initialed = false;
 	private static Properties properties;
@@ -316,31 +314,7 @@ public class Tuner {
 		} else {
 			properties.setProperty(key, String.valueOf(VisualParameters.BANNERS_ENABLED));
 		}
-		
-		key = "MENU_ENTRY_NEEDED";
-		value = properties.getProperty(key);
-		if (value != null) {
-			if (value.trim().equalsIgnoreCase("true")){
-				VisualParameters.MENU_ENTRY_NEEDED = true;
-			} else {
-				VisualParameters.MENU_ENTRY_NEEDED = false;
-			}
-		} else {
-			properties.setProperty(key, String.valueOf(VisualParameters.MENU_ENTRY_NEEDED));
-		}
-		
-		key = "GOOGLE_MAP_EMBEDDED";
-		value = properties.getProperty(key);
-		if (value != null) {
-			if (value.trim().equalsIgnoreCase("true")){
-				VisualParameters.GOOGLE_MAP_EMBEDDED = true;
-			} else {
-				VisualParameters.GOOGLE_MAP_EMBEDDED = false;
-			}
-		} else {
-			properties.setProperty(key, String.valueOf(VisualParameters.GOOGLE_MAP_EMBEDDED));
-		}
-		
+				
 		key = "BACKGROUND_LINES_NEEDED";
 		value = properties.getProperty(key);
 		if (value != null) {
@@ -353,13 +327,7 @@ public class Tuner {
 			properties.setProperty(key, String.valueOf(VisualParameters.BACKGROUND_LINES_NEEDED));
 		}
 		
-		key = "VERSION_NAME";
-		value = properties.getProperty(key);
-		if (value != null) {
-			SoftwareVersionData.VERSION_NAME = value.trim();
-		} else {
-			properties.setProperty(key, SoftwareVersionData.VERSION_NAME);
-		}
+
 	}
 
 	//Load Configuration from file

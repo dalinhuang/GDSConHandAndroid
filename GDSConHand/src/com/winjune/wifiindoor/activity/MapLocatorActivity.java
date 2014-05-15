@@ -25,7 +25,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class MapLocatorActivity extends Activity {
-	private Bundle bundle;
 	
 	private boolean mapDownloadOngoing = false;
 	private boolean withLocation = false;
@@ -56,52 +55,16 @@ public class MapLocatorActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_locator);
 
-        bundle = getIntent().getExtras();
-		int req = bundle.getInt(IndoorMapData.BUNDLE_KEY_REQ_FROM);
-		
-		switch (req) {
-		
-			case IndoorMapData.BUNDLE_VALUE_REQ_FROM_LOCATOR:
-				
-				Util.showShortToast(this, R.string.locate_current_map);
-				
-		        // Start the Ips Message Handler Thread if it has not been started yet.
-				IpsWebService.setActivity(this);
-				IpsWebService.activateWebService();
+        					
+     // Start the Ips Message Handler Thread if it has not been started yet.
+ 	 IpsWebService.setActivity(this);
+	 IpsWebService.activateWebService();
 		        
-		        // Locate me so I know which map I should load.
-				locateMe();
-				
-				break;
-			
-			case IndoorMapData.BUNDLE_VALUE_REQ_FROM_VIEWER:
-				
-				Util.showShortToast(this, R.string.locate_current_map);
-				
-				// Load new map and pass in the new location
-				int mapId = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_MAP);
-				int mapVersion = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_MAP_VERSION);
-				int colNo = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_COL);
-				int rowNo = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_ROW);
-				
-				updateLocation(mapId, mapVersion, colNo, rowNo);
-				
-				break;
-				
-			case IndoorMapData.BUNDLE_VALUE_REQ_FROM_SELECTOR:
-				
-				Util.showShortToast(this, R.string.load_selected_map);
-				
-				// Load new map only
-				int mapId1 = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_MAP);
-				openMapViewer(mapId1);
-				
-				break;
-		
-			default:
-				finish();
-				break;
-		}
+	 // Locate me so I know which map I should load.
+	 // locateMe();
+	 // default map is 2
+	 openMapViewer(2);
+					
     }
   
 	private void locateMe() {		
@@ -181,7 +144,7 @@ public class MapLocatorActivity extends Activity {
 		
 	}
 	
-	public boolean updateLocation(int mapId, int mapVersion, int colNo, int rowNo) {
+	public boolean updateLocation(int mapId, int colNo, int rowNo) {
 		if ((mapId==-1) || (rowNo==-1) || (colNo==-1)) {			
 			Util.showLongToast(this, R.string.no_match_location);
 			
@@ -190,7 +153,7 @@ public class MapLocatorActivity extends Activity {
 			return false;
 		}
 		
-		openMapViewer(mapId, mapVersion, colNo, rowNo);
+		openMapViewer(mapId,  colNo, rowNo);
 		
 		return true;
 	}
@@ -200,7 +163,7 @@ public class MapLocatorActivity extends Activity {
 	}
 	
 	private void updateLocation(Location location) {
-		updateLocation(location.getMapId(), location.getMapVersion(), location.getX(), location.getY());
+		updateLocation(location.getMapId(), location.getX(), location.getY());
 	}
 	
 	public void connectionFailed(){
@@ -244,12 +207,7 @@ public class MapLocatorActivity extends Activity {
 		try {
 			InputStream map_file_is = new FileInputStream(Util.getMapFilePathName(""+mapId));
 			
-			indoorMap.fromXML(map_file_is);
-			// file has already been closed
-			//map_file_is.close();
-			
-			// For Files in SD Card but not
-			//load_map_rc = designMap.fromXML(IndoorMapData.map_file_path + map_file_name);
+			indoorMap.fromXML(map_file_is);			
 			
 		} catch (Exception e) {
 			
@@ -300,43 +258,18 @@ public class MapLocatorActivity extends Activity {
 		finish();
 	}
 	
-	private void openMapViewer(int mapId, int mapVersion, int colNo, int rowNo) {
+	private void openMapViewer(int mapId, int colNo, int rowNo) {
 		IndoorMap indoorMap = new IndoorMap();
-		boolean updateNeeded = false;
 
 		try {
 			InputStream map_file_is = new FileInputStream(Util.getMapFilePathName(""+mapId));
 			
 			indoorMap.fromXML(map_file_is);
-			// file has already been closed
-			//map_file_is.close();
 			
-			// For Files in SD Card but not
-			//load_map_rc = designMap.fromXML(IndoorMapData.map_file_path + map_file_name);
-			
-			if (indoorMap.getVersionCode() != mapVersion) {
-				updateNeeded = true;
-			}
 		} catch (Exception e) {
-			updateNeeded = true;
-		}
-		
-		if (updateNeeded) {
-			withLocation = true;
-			x = colNo;
-			y = rowNo;
-			if (!downloadMap(mapId)) {
-				// Hoare: to do: create a new xml
-				setContentView(R.layout.activity_startup_entry);
-				
-				Util.showLongToast(this, R.string.oops);
-				Util.showLongToast(this, R.string.server_unreachable);				
-								
-				return;
-			}
 			return;
 		}
-		
+				
 		startNewIntent(indoorMap, colNo, rowNo);
 	}
 

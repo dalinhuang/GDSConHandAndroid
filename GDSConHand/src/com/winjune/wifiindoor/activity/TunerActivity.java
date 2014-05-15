@@ -1,14 +1,31 @@
 package com.winjune.wifiindoor.activity;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+
+import org.andengine.entity.IEntity;
+import org.andengine.entity.primitive.Line;
+import org.andengine.entity.sprite.Sprite;
+import org.andengine.opengl.texture.ITexture;
+import org.andengine.opengl.texture.bitmap.BitmapTexture;
+import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.andengine.util.adt.io.in.IInputStreamOpener;
+import org.andengine.util.debug.Debug;
+
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.R.id;
 import com.winjune.wifiindoor.R.layout;
+import com.winjune.wifiindoor.navi.NaviNode;
+import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Tuner;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
 import com.winjune.wifiindoor.util.WifiIpsSettings;
-import com.winjune.wifiindoor.version.SoftwareVersionData;
+
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -51,9 +68,7 @@ public class TunerActivity extends Activity {
 	private CheckBox PLANNING_MODE_ENABLED;
 	private CheckBox ZOOM_SWITCH_ENABLED;
 	private CheckBox ADS_ENABLED;
-	private CheckBox BANNERS_ENABLED;
-	private CheckBox ENTRY_NEEDED;
-	private CheckBox GOOGLE_MAP_EMBEDDED;
+	private CheckBox BANNERS_ENABLED;	
 	private CheckBox BACKGROUND_LINES_NEEDED;
 	private EditText VERSION_NAME;
 	
@@ -135,8 +150,6 @@ public class TunerActivity extends Activity {
     	ZOOM_SWITCH_ENABLED = (CheckBox) findViewById(R.id.ZOOM_SWITCH_ENABLED);
     	ADS_ENABLED = (CheckBox) findViewById(R.id.ADS_ENABLED);
     	BANNERS_ENABLED = (CheckBox) findViewById(R.id.BANNERS_ENABLED);
-    	ENTRY_NEEDED = (CheckBox) findViewById(R.id.ENTRY_NEEDED);
-    	GOOGLE_MAP_EMBEDDED = (CheckBox) findViewById(R.id.GOOGLE_MAP_EMBEDDED);
     	BACKGROUND_LINES_NEEDED = (CheckBox) findViewById(R.id.BACKGROUND_LINES_NEEDED);
     	VERSION_NAME = (EditText) findViewById(R.id.VERSION_NAME);
     	
@@ -249,13 +262,6 @@ public class TunerActivity extends Activity {
     	value = String.valueOf(BANNERS_ENABLED.isChecked());
     	Tuner.getProperties().setProperty(name, value);
     	
-    	name = "MENU_ENTRY_NEEDED";
-    	value = String.valueOf(ENTRY_NEEDED.isChecked());
-    	Tuner.getProperties().setProperty(name, value);
-    	
-    	name = "GOOGLE_MAP_EMBEDDED";
-    	value = String.valueOf(GOOGLE_MAP_EMBEDDED.isChecked());
-    	Tuner.getProperties().setProperty(name, value);
     	
     	name = "BACKGROUND_LINES_NEEDED";
     	value = String.valueOf(BACKGROUND_LINES_NEEDED.isChecked());
@@ -294,10 +300,7 @@ public class TunerActivity extends Activity {
     	PLANNING_MODE_ENABLED.setChecked(VisualParameters.PLANNING_MODE_ENABLED);
     	ZOOM_SWITCH_ENABLED.setChecked(VisualParameters.ZOOM_SWITCH_ENABLED);
     	ADS_ENABLED.setChecked(VisualParameters.ADS_ENABLED);
-    	BANNERS_ENABLED.setChecked(VisualParameters.BANNERS_ENABLED);
-    	ENTRY_NEEDED.setChecked(VisualParameters.MENU_ENTRY_NEEDED);
-    	GOOGLE_MAP_EMBEDDED.setChecked(VisualParameters.GOOGLE_MAP_EMBEDDED);
+    	BANNERS_ENABLED.setChecked(VisualParameters.BANNERS_ENABLED);    	
     	BACKGROUND_LINES_NEEDED.setChecked(VisualParameters.BACKGROUND_LINES_NEEDED);
-    	VERSION_NAME.setText(String.valueOf(SoftwareVersionData.VERSION_NAME));
 	}
 }
