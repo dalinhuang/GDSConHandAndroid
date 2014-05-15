@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import com.winjune.wifiindoor.R;
 import com.google.gson.Gson;
+import com.winjune.wifiindoor.map.MapManager;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.webservice.IpsWebService;
@@ -55,10 +56,16 @@ public class MapLocatorActivity extends Activity {
         					
         // Start the Ips Message Handler Thread if it has not been started yet.
         IpsWebService.setActivity(this);
-        IpsWebService.activateWebService();		    
+        IpsWebService.activateWebService();		
         
-        // default map is 2
-        openMapViewer(2);
+/*        if (MapManager.fromXML() != IndoorMapData.FILE_RC_OK) {
+        	queryMapList();
+        }  else {        
+        	// default map is 2
+        	openMapViewer(MapManager.getDefaultMapId());
+        }*/
+        
+        openMapViewer(MapManager.getDefaultMapId());
 					
     }
   
@@ -117,7 +124,7 @@ public class MapLocatorActivity extends Activity {
 	
 	private boolean downloadMap(int mapId) {
 		VersionOrMapIdRequest id = new VersionOrMapIdRequest();
-		id.setCode(mapId);
+		id.setCode(MapManager.getVersionCode());
 		
 		mapDownloadOngoing = true;
 		
@@ -154,4 +161,42 @@ public class MapLocatorActivity extends Activity {
 		// go to Map Viewer
 		enterMapViewer(indoorMapReply);
 	}
+	
+	private void queryMapList() {
+    	VersionOrMapIdRequest version = new VersionOrMapIdRequest();
+		version.setCode(0);
+		
+		try {		
+			Gson gson = new Gson();
+			String json = gson.toJson(version);
+			JSONObject data = new JSONObject(json);
+
+			if (IpsWebService.sendMessage(this, IpsMsgConstants.MT_MAP_LIST_QUERY, data)) {
+				
+			} else {
+				// All errors should be handled in the sendToServer
+				// method
+			}
+		} catch (Exception ex) {
+			Util.showToast(this, "GET MAP LIST ERROR: " + ex.getMessage(), Toast.LENGTH_LONG);
+			ex.printStackTrace();
+		}
+	}
+    
+    public void handleMapListReply(MapManagerReply managerReply) {
+    	Log.e("handleMapListReply", "handleMapListReply");
+    	
+    	if (managerReply == null) {
+			return;
+		}
+
+		Log.e("handleMapListReply", "handleMapListReply1.3");
+		MapManager.mapItems = managerReply.toMapItems();
+		MapManager.setVersionCode(managerReply.getVersionCode());
+		
+		MapManager.toXML();
+		
+		openMapViewer(MapManager.getDefaultMapId());			
+
+    }	
 }

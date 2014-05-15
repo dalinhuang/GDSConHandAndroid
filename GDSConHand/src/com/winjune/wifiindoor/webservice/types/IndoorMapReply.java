@@ -113,9 +113,9 @@ public class IndoorMapReply implements IType, Serializable {
 					int left = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_LEFT].trim());
 					int top = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_TOP].trim());
 					int width = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_WIDTH].trim());
-					int height = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_HEIGHT].trim());
-					rowsAndcols[0] = (left+width)/cellPixel;
-					rowsAndcols[1] = (top+height)/cellPixel;
+					int height = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_HEIGHT].trim());					
+					rowsAndcols[0] = (top+height)/cellPixel;
+					rowsAndcols[1] = (left+width)/cellPixel;
 				}
 			}
 		}

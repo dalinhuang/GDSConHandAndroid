@@ -187,7 +187,21 @@ public class IpsMessageHandler {
 			BuildingManagerReply manager = (BuildingManagerReply) object;
 			
 			return;
-		} 
+		}
+		
+		if (object instanceof MapManagerReply) {
+			MapManagerReply manager = (MapManagerReply) object;
+			
+			if (activity instanceof MapLocatorActivity) {
+				//Log.e("IpsMessageHandler", "entry.updateLocation");
+				MapLocatorActivity locator = (MapLocatorActivity) activity;
+				locator.handleMapListReply(manager);
+
+				return;
+			}			
+			
+			return;
+		} 		
 				
 		if (object instanceof IndoorMapReply) {
 			IndoorMapReply map = (IndoorMapReply) object;
