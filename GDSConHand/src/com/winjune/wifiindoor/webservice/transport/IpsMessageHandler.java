@@ -18,7 +18,6 @@ import com.winjune.wifiindoor.activity.MenuEntryActivity;
 import com.winjune.wifiindoor.activity.mapviewer.AdBanner;
 import com.winjune.wifiindoor.activity.mapviewer.CollectedFlag;
 import com.winjune.wifiindoor.activity.mapviewer.InfoBanner;
-import com.winjune.wifiindoor.activity.mapviewer.InterestPlaceBar;
 import com.winjune.wifiindoor.activity.mapviewer.LabelBar;
 import com.winjune.wifiindoor.activity.mapviewer.LocateBar;
 import com.winjune.wifiindoor.activity.mapviewer.NaviBar;
@@ -33,7 +32,6 @@ import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
 import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
 import com.winjune.wifiindoor.webservice.types.CollectStatusReply;
 import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
-import com.winjune.wifiindoor.webservice.types.InterestPlacesInfoReply;
 import com.winjune.wifiindoor.webservice.types.Location;
 import com.winjune.wifiindoor.webservice.types.LocationSet;
 import com.winjune.wifiindoor.webservice.types.MapInfoReply;
@@ -329,20 +327,7 @@ public class IpsMessageHandler {
 			
 			return;
 		}
-		
-		if (object instanceof InterestPlacesInfoReply) {
-			InterestPlacesInfoReply interestPlacesInfo = (InterestPlacesInfoReply) object;			
-			
-			if (activity instanceof MapViewerActivity) {
-				MapViewerActivity viewer1 = (MapViewerActivity) activity;
-				
-				InterestPlaceBar.showInterestPlacesInfo(viewer1, interestPlacesInfo.toInterestPlacesInfo(), true);
-
-				return;
-			}
-			
-			return;
-		}
+	
 		
 		if (object instanceof CollectStatusReply) {
 			CollectStatusReply collectStatus = (CollectStatusReply) object;			
@@ -638,20 +623,6 @@ public class IpsMessageHandler {
 
         return mWifiIpsHttpApi.queryAdvertiseInfo(json);
     }
-	
-	/*
-	 * update Interest Places Info
-	 */
-	@V1
-	public static InterestPlacesInfoReply queryInterestPlacesInfo(JSONObject json)  throws WebException,
-    		WebCredentialsException, WebError, IOException {
-		
-		if (mWifiIpsHttpApi == null) {			
-	        throw new WebException("IPS HTTP API is null!");			
-        }
-
-        return mWifiIpsHttpApi.queryInterestPlacesInfo(json);
-	}	
 	
 	/*
 	 * update collected flags

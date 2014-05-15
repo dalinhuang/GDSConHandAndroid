@@ -13,8 +13,6 @@ import com.winjune.wifiindoor.activity.poiviewer.RestaurantInfoActivity;
 import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
 import com.winjune.wifiindoor.lib.poi.*;
 import com.winjune.wifiindoor.map.FieldInfo;
-import com.winjune.wifiindoor.map.InterestPlace;
-import com.winjune.wifiindoor.map.InterestPlacesInfo;
 import com.winjune.wifiindoor.map.MapInfo;
 import com.winjune.wifiindoor.util.Util;
 
@@ -289,49 +287,5 @@ public class POIManager {
 		
 		return getPOIbyId(hallId).label;
 	}	
-	
-	
-	public static void mapinfo2Poi(MapInfo mapInfo){
-		ArrayList<FieldInfo> mapInfos = mapInfo.getFields();
-		PlaceOfInterest poi;
-		
-		for (FieldInfo mField: mapInfos ) {			
-			poi = new PlaceOfInterest();
-			poi.id = idGenerator++;
-			poi.mapId = mapInfo.getId();
-			poi.alpha = mField.getAlpha();
-			poi.label = mField.getInfo();
-			poi.placeX = mField.getX();
-			poi.placeY = mField.getY();
-			poi.rotation = mField.getRotation();
-			poi.scale = mField.getScale();
-			poi.maxZoomFactor = mField.getMaxZoomFactor();
-			poi.minZoomFactor = mField.getMinZoomFactor();
-			poi.label = mField.getInfo();
-			
-			POIList.add(poi);
-		}
-		
-	}
-	
-	public static void interestPlacesInfo2Poi(InterestPlacesInfo ipInfo){
-		ArrayList<InterestPlace> mapInfos = ipInfo.getFields();
-		PlaceOfInterest poi;		
-		
-		for (InterestPlace mField: mapInfos ) {			
-			poi = new PlaceOfInterest();
-			poi.mapId = ipInfo.getId();
-			poi.id = idGenerator++;
-			poi.detailedDesc = mField.getInfo();
-			poi.placeX = mField.getX();
-			poi.placeY = mField.getY();
-			poi.ttsNo = mField.getSerial();
-			poi.audioUrl = mField.getUrlAudio();
-			poi.webUrl = mField.getUrlVideo();
-			poi.picUrl = mField.getUrlPic();
-			
-			POIList.add(poi);
-		}		
-	}
 		
 }

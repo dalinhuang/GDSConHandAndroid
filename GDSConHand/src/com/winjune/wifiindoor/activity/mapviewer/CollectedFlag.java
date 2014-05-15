@@ -3,7 +3,6 @@ package com.winjune.wifiindoor.activity.mapviewer;
 import java.util.ArrayList;
 
 import org.andengine.entity.primitive.Rectangle;
-import org.andengine.entity.sprite.Sprite;
 import org.json.JSONObject;
 
 import android.widget.Toast;
@@ -12,7 +11,6 @@ import com.google.gson.Gson;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.map.CellCollectStatus;
-import com.winjune.wifiindoor.map.InterestPlace;
 import com.winjune.wifiindoor.map.MapCollectStatus;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.Util;

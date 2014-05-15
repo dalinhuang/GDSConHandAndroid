@@ -29,7 +29,6 @@ import com.iflytek.speech.InitListener;
 import com.iflytek.speech.SpeechSynthesizer;
 import com.iflytek.speech.SynthesizerListener;
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.map.InterestPlace;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;

@@ -42,7 +42,6 @@ import android.widget.TextView;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.R.drawable;
 import com.winjune.wifiindoor.R.string;
-import com.winjune.wifiindoor.map.InterestPlace;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 
@@ -98,7 +97,6 @@ public class POIAudioPlayerActivity extends Activity {
     /** Called when the activity is first created. */
 	@Override
     public void onCreate(Bundle savedInstanceState) {
-    	InterestPlace place = null;
     	String text = null;
     	String picture = null;
     	String audio = null;
@@ -124,27 +122,7 @@ public class POIAudioPlayerActivity extends Activity {
         
         Bundle bundle = getIntent().getExtras();
         int req = bundle.getInt(IndoorMapData.BUNDLE_KEY_REQ_FROM);
-        
-        if (req == IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_TOUCH) {
-        	place = (InterestPlace) bundle.getSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE);
-        	
-        	if (place != null) {        	        
-    			text = place.getInfo();
-    			picture = place.getUrlPic();
-    			audio = place.getUrlAudio();
-        	}
-        }    	
-        else if (req == IndoorMapData.BUNDLE_VAL_INTEREST_REQ_FROM_INPUT) {
-        	place = (InterestPlace) bundle.getSerializable(IndoorMapData.BUNDLE_KEY_INTEREST_PLACE_INSTANCE);
-        	
-        	if (place != null) {        	        
-    			audio = place.getUrlAudio();
-    			text = place.getInfo();
-        	}
-        } 
-        else {
-        	return;
-        }
+     
 				
 		//Play audio
 		if ((audio !=null) && (!audio.trim().isEmpty())) {
