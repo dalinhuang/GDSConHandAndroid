@@ -12,8 +12,6 @@ import com.winjune.wifiindoor.activity.poiviewer.PlayhouseInfoActivity;
 import com.winjune.wifiindoor.activity.poiviewer.RestaurantInfoActivity;
 import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
 import com.winjune.wifiindoor.lib.poi.*;
-import com.winjune.wifiindoor.map.FieldInfo;
-import com.winjune.wifiindoor.map.MapInfo;
 import com.winjune.wifiindoor.util.Util;
 
 public class POIManager {

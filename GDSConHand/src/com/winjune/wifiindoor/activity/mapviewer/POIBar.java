@@ -2,11 +2,16 @@ package com.winjune.wifiindoor.activity.mapviewer;
 
 import java.util.ArrayList;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
+
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.activity.poiviewer.POIAudioPlayerActivity;
 import com.winjune.wifiindoor.activity.poiviewer.POIBaseActivity;
@@ -16,19 +21,15 @@ import com.winjune.wifiindoor.activity.poiviewer.POIWebViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.AnimatedUnit;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.drawing.graphic.model.SpriteListener;
+import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
-import com.winjune.wifiindoor.poi.*;
 import com.winjune.wifiindoor.util.VisualParameters;
 
-public class InterestPlaceBar {
-
-	public static void loadInterestPlaces(MapViewerActivity mapViewer) {
-		
-		showPOIIconOnMap(mapViewer);
-	}
-
+public class POIBar {
+	
 	public static void showPOIIconOnMap(MapViewerActivity mapViewer) {
 		// we don't display the interest place in planning mode
 		if (VisualParameters.PLANNING_MODE_ENABLED)
@@ -58,7 +59,6 @@ public class InterestPlaceBar {
 		}
 		
 	}
-
 	
 	private static void addInterestPlace(MapViewerActivity mapViewer, PlaceOfInterest poi) {
 		// Create and attach Sprite
@@ -191,8 +191,58 @@ public class InterestPlaceBar {
 		
 		return enterTTSActivity ;																
 		
-	}
+	}	
+
+	public static void showPOILabeOnMap(MapViewerActivity mapViewer) {
+		float currentZoomFactor = mapViewer.mCamera.getZoomFactor();
+		
+		// Clear old Map info
+		if (mapViewer.mapInfos == null) {
+			mapViewer.mapInfos = new ArrayList<Text>();
+		} else {
+			for (Text text:mapViewer.mapInfos) {
+				if (text != null) {
+					mapViewer.mainScene.detachChild(text);
+				}
+			}
+			mapViewer.mapInfos.clear();
+		}
+		
+		// Show New Map Info
+
+		for (PlaceOfInterest poi: POIManager.POIList) {			
+			if ((currentZoomFactor >= poi.minZoomFactor)
+				 && (currentZoomFactor <= poi.maxZoomFactor))
+				addTextTag(mapViewer,poi);			
+		}		
+	}		
 	
-}
+	
+	private static void addTextTag(MapViewerActivity mapViewer, PlaceOfInterest poi) {
+		float pX = poi.getX();// * Util.getRuntimeIndoorMap().getCellPixel();
+		float pY = poi.getY();// * Util.getRuntimeIndoorMap().getCellPixel();
+				
+		Text text = new Text(pX,
+				pY, 
+				mapViewer.mFont_mapinfo, 
+				poi.label,
+				100,
+				mapViewer.getVertexBufferObjectManager());
+		text.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		text.setAlpha(poi.getAlpha());
+		text.setRotation(poi.getRotation()); // For future use if we need to rotate a angle
+		text.setScale(poi.getScale()); // For future use if we need to display some label with a bigger/smaller scale
+		text.setPosition(pX-text.getWidth()/2, pY-text.getHeight()/2);
+		
+		mapViewer.mainScene.attachChild(text);
+		
+		// Store so we can clear them in future if needed
+		if (mapViewer.mapInfos == null) {
+			mapViewer.mapInfos = new ArrayList<Text>();
+		}
+		
+		mapViewer.mapInfos.add(text);
+	}	
 	
 
+}

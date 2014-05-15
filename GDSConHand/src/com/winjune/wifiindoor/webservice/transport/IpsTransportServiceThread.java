@@ -30,7 +30,6 @@ import com.winjune.wifiindoor.webservice.types.CollectStatusReply;
 import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
 import com.winjune.wifiindoor.webservice.types.Location;
 import com.winjune.wifiindoor.webservice.types.LocationSet;
-import com.winjune.wifiindoor.webservice.types.MapInfoReply;
 import com.winjune.wifiindoor.webservice.types.MapManagerReply;
 import com.winjune.wifiindoor.webservice.types.NaviInfoReply;
 import com.winjune.wifiindoor.webservice.types.QueryInfo;
@@ -178,14 +177,7 @@ public class IpsTransportServiceThread extends Thread {
 				mTransportServiceListener.onFinishingRequest();
 				mTransportServiceListener.onResponseReceived(indoorMap);
 				break;
-			
-			case IpsMsgConstants.MT_MAP_INFO_QUERY:
-				mTransportServiceListener.onStartingRequest();
-				MapInfoReply mapInfo = IpsMessageHandler.queryMapInfo(requestPayload);
-				mTransportServiceListener.onFinishingRequest();
-				mTransportServiceListener.onResponseReceived(mapInfo);
-				break;
-				
+						
 			case IpsMsgConstants.MT_NAVI_INFO_QUERY:
 				mTransportServiceListener.onStartingRequest();
 				NaviInfoReply naviInfo = IpsMessageHandler.queryNaviInfo(requestPayload);

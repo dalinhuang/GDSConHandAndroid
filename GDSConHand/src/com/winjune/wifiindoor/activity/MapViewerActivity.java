@@ -54,8 +54,7 @@ import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.mapviewer.AdBanner;
 import com.winjune.wifiindoor.activity.mapviewer.CollectedFlag;
 import com.winjune.wifiindoor.activity.mapviewer.InfoBanner;
-import com.winjune.wifiindoor.activity.mapviewer.InterestPlaceBar;
-import com.winjune.wifiindoor.activity.mapviewer.LabelBar;
+import com.winjune.wifiindoor.activity.mapviewer.POIBar;
 import com.winjune.wifiindoor.activity.mapviewer.LocateBar;
 import com.winjune.wifiindoor.activity.mapviewer.MapDrawer;
 import com.winjune.wifiindoor.activity.mapviewer.MapHUD;
@@ -766,13 +765,13 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		}
 		
 		// Show the Map Info Layer
-		LabelBar.loadMapInfo(this);
+		POIBar.showPOILabeOnMap(this);
 		
 		// InitData for Navigator
 		NaviBar.loadNaviInfo(this);
 		
 		// Show the Interest places layer
-		InterestPlaceBar.loadInterestPlaces(this);
+		POIBar.showPOIIconOnMap(this);
 		
 		//Need not show the Search places layer
 		//SearchBar.loadSearchPlaces(this);

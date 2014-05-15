@@ -31,7 +31,6 @@ import com.winjune.wifiindoor.webservice.parsers.json.CollectStatusReplyJsonPars
 import com.winjune.wifiindoor.webservice.parsers.json.IndoorMapReplyJsonParser;
 import com.winjune.wifiindoor.webservice.parsers.json.LocationJsonParser;
 import com.winjune.wifiindoor.webservice.parsers.json.LocationSetJsonParser;
-import com.winjune.wifiindoor.webservice.parsers.json.MapInfoReplyJsonParser;
 import com.winjune.wifiindoor.webservice.parsers.json.MapManagerReplyJsonParser;
 import com.winjune.wifiindoor.webservice.parsers.json.NaviInfoReplyJsonParser;
 import com.winjune.wifiindoor.webservice.parsers.json.NullJsonParser;
@@ -43,7 +42,6 @@ import com.winjune.wifiindoor.webservice.types.CollectStatusReply;
 import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
 import com.winjune.wifiindoor.webservice.types.Location;
 import com.winjune.wifiindoor.webservice.types.LocationSet;
-import com.winjune.wifiindoor.webservice.types.MapInfoReply;
 import com.winjune.wifiindoor.webservice.types.MapManagerReply;
 import com.winjune.wifiindoor.webservice.types.NaviInfoReply;
 import com.winjune.wifiindoor.webservice.types.QueryInfo;
@@ -202,13 +200,6 @@ public class IpsHttpApi {
 				new IndoorMapReplyJsonParser());
 	}
 	
-	public MapInfoReply queryMapInfo(JSONObject json) throws WebException,
-			WebCredentialsException, WebError, IOException {
-		HttpPost httpPost = mHttpApi.createHttpPost(
-				fullUrl(WifiIpsSettings.URL_API_QUERY_MAP_INFO), json);
-		return (MapInfoReply) mHttpApi.doHttpRequest(httpPost,
-				new MapInfoReplyJsonParser());
-	}
 	
 	public NaviInfoReply queryNaviInfo(JSONObject json) throws WebException,
 			WebCredentialsException, WebError, IOException {

@@ -2,8 +2,6 @@ package com.winjune.wifiindoor.activity.mapviewer;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-
 import javax.microedition.khronos.opengles.GL10;
 
 import org.andengine.entity.scene.menu.MenuScene;
@@ -12,19 +10,8 @@ import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.scene.menu.item.TextMenuItem;
 import org.andengine.entity.scene.menu.item.decorator.ColorMenuItemDecorator;
 import org.andengine.entity.sprite.AnimatedSprite;
-import org.andengine.entity.sprite.ButtonSprite;
-import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
-import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
-import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
-import org.andengine.opengl.texture.region.ITextureRegion;
-import org.andengine.util.debug.Debug;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -37,12 +24,10 @@ import android.util.Log;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.MapSelectorActivity;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
-import com.winjune.wifiindoor.activity.PlaceSearcherActivity;
 import com.winjune.wifiindoor.activity.QrScannerActivity;
 import com.winjune.wifiindoor.activity.SettingActivity;
 import com.winjune.wifiindoor.activity.TunerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.AnimatedUnit;
-import com.winjune.wifiindoor.drawing.graphic.model.ImageButtonSprite;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.drawing.graphic.model.SpriteListener;
 import com.winjune.wifiindoor.util.Constants;
