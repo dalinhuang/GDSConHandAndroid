@@ -172,7 +172,7 @@ public class MapLocatorActivity extends Activity {
 			// So default map needs to be loaded.
 			Util.showLongToast(this, R.string.server_unreachable);
 			
-			IndoorMap indoorMap = new IndoorMap();
+			IndoorMapReply indoorMap = new IndoorMapReply();
 			try {
 				InputStream map_file_is = getAssets().open("defaultmap.xml");
 			
@@ -190,7 +190,7 @@ public class MapLocatorActivity extends Activity {
 		}
 	}
 	
-	private void startNewIntent(IndoorMap indoorMap) {
+	private void startNewIntent(IndoorMapReply indoorMap) {
 		Intent intent_locate_map = new Intent(MapLocatorActivity.this, MapViewerActivity.class); 
 		Bundle mBundle = new Bundle(); 
 		mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_MAP_INSTANCE, indoorMap);
@@ -202,7 +202,7 @@ public class MapLocatorActivity extends Activity {
 	}
 
 	private void openMapViewer(int mapId) {
-		IndoorMap indoorMap = new IndoorMap();
+		IndoorMapReply indoorMap = new IndoorMapReply();
 		boolean needLoadDefaultMap = false;
 		try {
 			InputStream map_file_is = new FileInputStream(Util.getMapFilePathName(""+mapId));
@@ -245,7 +245,7 @@ public class MapLocatorActivity extends Activity {
 		startNewIntent(indoorMap);
 	}	
 	
-	private void startNewIntent(IndoorMap indoorMap, int colNo, int rowNo) {
+	private void startNewIntent(IndoorMapReply indoorMap, int colNo, int rowNo) {
 		Intent intent_locate_map = new Intent(MapLocatorActivity.this, MapViewerActivity.class);  
 		Bundle mBundle = new Bundle(); 
 		mBundle.putSerializable(IndoorMapData.BUNDLE_KEY_MAP_INSTANCE, indoorMap);
@@ -259,7 +259,7 @@ public class MapLocatorActivity extends Activity {
 	}
 	
 	private void openMapViewer(int mapId, int colNo, int rowNo) {
-		IndoorMap indoorMap = new IndoorMap();
+		IndoorMapReply indoorMap = new IndoorMapReply();
 
 		try {
 			InputStream map_file_is = new FileInputStream(Util.getMapFilePathName(""+mapId));
@@ -308,22 +308,17 @@ public class MapLocatorActivity extends Activity {
 		}
 		
 		// Store XML file
-		IndoorMap indoorMap = indoorMapReply.toIndoorMap();
-		
-		if (indoorMap == null) {
-			return;
-		}
-		
-		indoorMap.toXML();
+
+		indoorMapReply.toXML();
 		
 		// go to Map Viewer
 		if (mapDownloadOngoing && withLocation) {
 			
-			startNewIntent(indoorMap, x, y);
+			startNewIntent(indoorMapReply, x, y);
 		} else {
 			
 			if (mapDownloadOngoing) {
-				startNewIntent(indoorMap);
+				startNewIntent(indoorMapReply);
 			}
 		}
 	}	

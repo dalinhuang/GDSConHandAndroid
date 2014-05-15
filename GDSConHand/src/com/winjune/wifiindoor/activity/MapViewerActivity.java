@@ -84,6 +84,7 @@ import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
 import com.winjune.wifiindoor.util.WifiIpsSettings;
 import com.winjune.wifiindoor.webservice.IpsWebService;
+import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
 
 
 public class MapViewerActivity extends LayoutGameActivity implements SensorEventListener {
@@ -524,7 +525,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 		// Get MapID from the Map Chooser/Locator
 		bundle = getIntent().getExtras();
-		IndoorMap indoorMap = (IndoorMap) bundle.getSerializable(IndoorMapData.BUNDLE_KEY_MAP_INSTANCE);
+		IndoorMapReply indoorMap = (IndoorMapReply) bundle.getSerializable(IndoorMapData.BUNDLE_KEY_MAP_INSTANCE);
 		indoorMapLoader = new IndoorMapLoader(this, indoorMap);
 		Util.setRuntimeIndoorMap(indoorMapLoader.getRuntimeIndoorMap()); // To avoid pass the map in parameter everywhere
 		

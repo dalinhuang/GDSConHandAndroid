@@ -16,7 +16,6 @@ public class RuntimeIndoorMap {
 	
 	private String mapName;
 	private int mapId;
-	private String mapVersion;
 	private int versionCode;
 	private String mapPictureName;
 	
@@ -40,13 +39,12 @@ public class RuntimeIndoorMap {
 	private HashMap<MapResource, MapPieceSprite> resources;
 
 	public RuntimeIndoorMap(Cell[][] cellMatrix, String mapName, 
-			int mapId, String mapVersion, String mapPictureName, int cellPixel, int versionCode) {
+			int mapId, String mapPictureName, int cellPixel, int versionCode) {
 		this.cells = cellMatrix;
 		this.rowNum = cells.length;
 		this.colNum = cells[0].length;
 		this.mapName = mapName;
 		this.mapId = mapId;
-		this.mapVersion = mapVersion;
 		this.mapPictureName = mapPictureName;
 		setVersionCode(versionCode);
 		setCellPixel(cellPixel);
@@ -269,14 +267,6 @@ public class RuntimeIndoorMap {
 
 	public void setMapId(int mapId) {
 		this.mapId = mapId;
-	}
-
-	public String getMapVersion() {
-		return mapVersion;
-	}
-
-	public void setMapVersion(String mapVersion) {
-		this.mapVersion = mapVersion;
 	}
 
 	public String getMapPictureName() {

@@ -14,6 +14,7 @@ import com.winjune.wifiindoor.runtime.RuntimeUser;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
+import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
 
 
 @SuppressWarnings("unused")
@@ -21,14 +22,14 @@ public class IndoorMapLoader {
 	private MapViewerActivity activity;
 	private RuntimeIndoorMap runtimeIndoorMap;
 
-	private IndoorMap designMap;
+	private IndoorMapReply designMap;
 	
-	public IndoorMap getDesignMap(){
+	public IndoorMapReply getDesignMap(){
 		return designMap;
 	}
 
 	// Load from the Map File according the category and file path.
-	public IndoorMapLoader(MapViewerActivity activity, IndoorMap designMap) {
+	public IndoorMapLoader(MapViewerActivity activity, IndoorMapReply designMap) {
 		this.activity = activity;
 		this.designMap = designMap;
 		loadIndoorMap();
@@ -36,10 +37,13 @@ public class IndoorMapLoader {
 
 	private void loadIndoorMap() {		
 		// TODO: load from design map or save file
-		InitialMap initialMap = designMap.getInitialMap();
 
-		int rows = initialMap.getRows();
-		int cols = initialMap.getColumns();
+		int rows = 0;
+		int cols = 0;
+		int[] rowsAndcols = {rows,cols}; 
+		designMap.getRowsAndColumns(rowsAndcols);
+		rows = rowsAndcols[0];
+		cols = rowsAndcols[1];
 		Cell[][] cellMatrix = new Cell[rows][];
 
 		for (int i = 0; i < cellMatrix.length; i++) {
@@ -51,8 +55,8 @@ public class IndoorMapLoader {
 			}
 		}
 
-		runtimeIndoorMap = new RuntimeIndoorMap(cellMatrix, designMap.getName(), designMap.getId(), designMap.getVersion(), 
-				designMap.getPictureName(), designMap.getInitialMap().getCellPixel(), designMap.getVersionCode());
+		runtimeIndoorMap = new RuntimeIndoorMap(cellMatrix, designMap.getName(), designMap.getId(), 
+				designMap.getNormalMapUrl(), designMap.getCellPixel(), designMap.getVersionCode());
 	}
 	
 	public RuntimeIndoorMap getRuntimeIndoorMap() {
@@ -103,11 +107,7 @@ public class IndoorMapLoader {
 	
 	private void drawUser() {
 
-		if (designMap.getInitialMap() == null) {
-			return;
-		}
-		
-		int cellPixel = designMap.getInitialMap().getCellPixel();
+		int cellPixel = designMap.getCellPixel();
 		
 		AnimatedSprite locationSprite = Library.genUser(activity, Constants.LOCATION_USER, cellPixel);
 
