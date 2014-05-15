@@ -18,6 +18,7 @@ import com.winjune.wifiindoor.R;
 import com.thoughtworks.xstream.XStream;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
+import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
 import com.winjune.wifiindoor.webservice.types.MapManagerItemReply;
 import com.winjune.wifiindoor.webservice.types.MapManagerReply;
 
@@ -29,7 +30,7 @@ public class MapManager implements Serializable {
 	private static final long serialVersionUID = 6444601145013696018L;
 	
 	public static int versionCode = 0;
-	public static ArrayList<MapManagerItem> mapItems = new ArrayList<MapManagerItem>();
+	public static ArrayList<IndoorMapReply> mapItems = new ArrayList<IndoorMapReply>();
 	
 	
 	//Number of the Maps
@@ -42,7 +43,7 @@ public class MapManager implements Serializable {
 	}
 	
 	//Get the MapManagerItem by the Index
-	public static MapManagerItem getMapByIndex(int index){		
+	public static IndoorMapReply getMapByIndex(int index){		
 		return mapItems.get(index);
 	}	
 	

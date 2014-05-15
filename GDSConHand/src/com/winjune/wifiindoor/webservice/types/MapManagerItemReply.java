@@ -1,7 +1,6 @@
 package com.winjune.wifiindoor.webservice.types;
 
 import com.winjune.common.webservice.core.types.IType;
-import com.winjune.wifiindoor.map.MapManagerItem;
 
 public class MapManagerItemReply implements IType{		
 		private int mapId;   
@@ -48,16 +47,5 @@ public class MapManagerItemReply implements IType{
 
 		public void setMapId(int mapId) {
 			this.mapId = mapId;
-		}
-
-		public MapManagerItem toMapItem() {
-			MapManagerItem item = new MapManagerItem();
-			item.setMapId(mapId);
-			item.setColumns(columns);
-			item.setRows(rows);
-			item.setTitle(title);
-			item.setVersion(version);
-			
-			return item;
 		}
 }

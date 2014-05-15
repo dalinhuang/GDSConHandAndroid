@@ -27,8 +27,6 @@ public class RuntimeIndoorMap {
 	private ArrayList<RuntimeUser> tracks;
 	
 	private Cell[][] cells;
-	private Cell startingPosition;
-	private Cell targetPosition;
 	
 	private List<RuntimeIndoorMapListener> listeners = new ArrayList<RuntimeIndoorMapListener>();
 	

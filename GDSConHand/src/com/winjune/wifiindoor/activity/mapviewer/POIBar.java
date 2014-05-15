@@ -119,8 +119,8 @@ public class POIBar {
 			}
 		}, Util.getRuntimeIndoorMap().getCellPixel(), Util.getRuntimeIndoorMap().getCellPixel());
 		
-		float pX = poi.getX() * Util.getRuntimeIndoorMap().getCellPixel();
-		float pY = poi.getY() * Util.getRuntimeIndoorMap().getCellPixel();
+		float pX = poi.getX();
+		float pY = poi.getY();
 		placeSprite.setPosition(pX, pY);
 		
 		mapViewer.mainScene.getChildByIndex(Constants.LAYER_USER).attachChild(placeSprite);

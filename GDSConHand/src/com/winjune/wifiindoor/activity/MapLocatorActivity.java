@@ -191,7 +191,6 @@ public class MapLocatorActivity extends Activity {
 		}
 
 		Log.e("handleMapListReply", "handleMapListReply1.3");
-		MapManager.mapItems = managerReply.toMapItems();
 		MapManager.setVersionCode(managerReply.getVersionCode());
 		
 		MapManager.toXML();
