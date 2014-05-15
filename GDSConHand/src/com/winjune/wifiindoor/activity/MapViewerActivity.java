@@ -45,7 +45,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.winjune.wifiindoor.R;
@@ -821,9 +823,12 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	private void mapSwitchPopShow(View v){
 		LayoutInflater inflater = getLayoutInflater(); 
-		View view = inflater.inflate(R.layout.popup_map_switch, null); 
+		View pop_window_view = inflater.inflate(R.layout.popup_map_switch, null); 
+		View map_view = inflater.inflate(R.layout.template_map_switch_text, (ViewGroup) pop_window_view);
+		TextView tv =  (TextView)map_view.findViewById(R.id.map_label);
+		tv.setText("测试");
 		   
-		final PopupWindow pop = new PopupWindow(view, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, false); 		  				
+		final PopupWindow pop = new PopupWindow(pop_window_view, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, false); 		  				
 		pop.setBackgroundDrawable(new BitmapDrawable()); 
         pop.setOutsideTouchable(true); 
         pop.setFocusable(true);
