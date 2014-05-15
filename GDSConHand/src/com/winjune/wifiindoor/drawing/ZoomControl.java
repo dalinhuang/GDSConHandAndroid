@@ -3,7 +3,6 @@ package com.winjune.wifiindoor.drawing;
 import org.andengine.engine.camera.ZoomCamera;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.MapLocatorActivity;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.activity.mapviewer.POIBar;
 import com.winjune.wifiindoor.activity.mapviewer.MapDrawer;
@@ -95,30 +94,9 @@ public class ZoomControl {
 		if (target < maxZoomFactor){
 			mCamera.setZoomFactor(target);
 		}else{			
-			//Hoare: for test, mapid is harcoded		
-			if (VisualParameters.ZOOM_SWITCH_ENABLED ) {
-				if (Util.getRuntimeIndoorMap().getMapId() == 2) {
-					int colNo = MapViewerUtil.getCenterColNo(activity);
-					int rowNo = MapViewerUtil.getCenterRowNo(activity);
-					
-					Intent intent_locate_map = new Intent(activity,MapLocatorActivity.class);
-					Bundle mBundle = new Bundle();
-					mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM, IndoorMapData.BUNDLE_VALUE_REQ_FROM_VIEWER);
-					mBundle.putInt(IndoorMapData.BUNDLE_KEY_LOCATION_MAP, 1);
-					mBundle.putInt(IndoorMapData.BUNDLE_KEY_LOCATION_COL, colNo);
-					mBundle.putInt(IndoorMapData.BUNDLE_KEY_LOCATION_ROW, rowNo);				
-					intent_locate_map.putExtras(mBundle);
-					activity.startActivity(intent_locate_map);	
-					//activity.finish();
-					//System.gc();
-				} else {
-					mCamera.setZoomFactor(maxZoomFactor);
-				}
-			}else {
-				mCamera.setZoomFactor(maxZoomFactor);
-			}
+			mCamera.setZoomFactor(maxZoomFactor);	
 		}
-		POIBar.showPOILabeOnMap(activity);
+		POIBar.showPoiInfo(activity);
 	}
 	
 	public void zoomOut(){
@@ -137,33 +115,9 @@ public class ZoomControl {
 					mCamera.getCenterY(),
 					true);
 		} else {
-			//Hoare: for test
-			if (VisualParameters.ZOOM_SWITCH_ENABLED) {
-				if (Util.getRuntimeIndoorMap().getMapId() == 1) {
-					
-					int colNo = MapViewerUtil.getCenterColNo(activity);
-					int rowNo = MapViewerUtil.getCenterRowNo(activity);
-					
-					// loading new map
-					Intent intent_locate_map = new Intent(activity,MapLocatorActivity.class);
-					// Bundle bundle = getIntent().getExtras();
-					Bundle mBundle = new Bundle();
-					mBundle.putInt(IndoorMapData.BUNDLE_KEY_REQ_FROM, IndoorMapData.BUNDLE_VALUE_REQ_FROM_VIEWER);
-					mBundle.putInt(IndoorMapData.BUNDLE_KEY_LOCATION_MAP, 2);
-					mBundle.putInt(IndoorMapData.BUNDLE_KEY_LOCATION_COL, colNo);
-					mBundle.putInt(IndoorMapData.BUNDLE_KEY_LOCATION_ROW, rowNo);
-					intent_locate_map.putExtras(mBundle);
-					activity.startActivity(intent_locate_map);
-					//activity.finish();
-					//System.gc();
-				} else {
-					mCamera.setZoomFactor(minZoomFactor);
-				}
-			} else {
-				mCamera.setZoomFactor(minZoomFactor);
-			}
+			mCamera.setZoomFactor(minZoomFactor);
 		}
-		POIBar.showPOILabeOnMap(activity);
+		POIBar.showPoiInfo(activity);
 	}
 	
 	public void zoomMostIn(){

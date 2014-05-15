@@ -10,13 +10,11 @@ import com.winjune.common.webservice.core.error.WebException;
 import com.winjune.common.webservice.core.transport.ResponseBlockingQueue;
 import com.winjune.common.webservice.core.types.IType;
 import com.winjune.common.webservice.core.types.Test;
-import com.winjune.wifiindoor.activity.MapLocatorActivity;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.activity.mapviewer.AdBanner;
 import com.winjune.wifiindoor.activity.mapviewer.CollectedFlag;
 import com.winjune.wifiindoor.activity.mapviewer.InfoBanner;
 import com.winjune.wifiindoor.activity.mapviewer.LocateBar;
-import com.winjune.wifiindoor.activity.mapviewer.NaviBar;
 import com.winjune.wifiindoor.activity.mapviewer.PlanBar;
 import com.winjune.wifiindoor.ads.AdGroup;
 import com.winjune.wifiindoor.util.IndoorMapData;
@@ -27,7 +25,6 @@ import com.winjune.wifiindoor.webservice.transport.IpsTransportServiceListener;
 import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
 import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
 import com.winjune.wifiindoor.webservice.types.CollectStatusReply;
-import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
 import com.winjune.wifiindoor.webservice.types.Location;
 import com.winjune.wifiindoor.webservice.types.LocationSet;
 import com.winjune.wifiindoor.webservice.types.MapManagerReply;
@@ -110,11 +107,6 @@ public class IpsMessageHandler {
 		if ((error != null) && !TextUtils.isEmpty(error)) {
 			Util.showToast(activity, error, Toast.LENGTH_LONG);
 		}
-
-		if (activity instanceof MapLocatorActivity) {
-				MapLocatorActivity locator = (MapLocatorActivity) activity;
-				locator.enterDefaultMap();
-		}
 	}
 
 	private static void handleMessage(IType object) {
@@ -187,35 +179,7 @@ public class IpsMessageHandler {
 			BuildingManagerReply manager = (BuildingManagerReply) object;
 			
 			return;
-		}
-		
-		if (object instanceof MapManagerReply) {
-			MapManagerReply manager = (MapManagerReply) object;
-			
-			if (activity instanceof MapLocatorActivity) {
-				//Log.e("IpsMessageHandler", "entry.updateLocation");
-				MapLocatorActivity locator = (MapLocatorActivity) activity;
-				locator.handleMapListReply(manager);
-
-				return;
-			}			
-			
-			return;
-		} 		
-				
-		if (object instanceof IndoorMapReply) {
-			IndoorMapReply map = (IndoorMapReply) object;
-			
-			if (activity instanceof MapLocatorActivity) {
-				//Log.e("IpsMessageHandler", "entry.updateLocation");
-				MapLocatorActivity locator = (MapLocatorActivity) activity;
-				locator.handleMapReply(map);
-
-				return;
-			}
-			
-			return;
-		}
+		}				
 					
 		if (object instanceof AdGroup) {
 			AdGroup advertiseList = (AdGroup) object;			
@@ -456,35 +420,7 @@ public class IpsMessageHandler {
 		
 		return mWifiIpsHttpApi.queryBuilding(json);
 	}
-	
-	/*
-	 * update mapList
-	 */
-	@V1
-	public static MapManagerReply queryMaps(JSONObject json) throws WebException,
-			WebCredentialsException, WebError, IOException {
-		
-		if (mWifiIpsHttpApi == null) {			
-			throw new WebException("IPS HTTP API is null!");			
-		}
-		
-		return mWifiIpsHttpApi.queryMaps(json);
-	}
-	
-	/*
-	 * update Map
-	 */
-	@V1
-	public static IndoorMapReply queryMap(JSONObject json) throws WebException,
-			WebCredentialsException, WebError, IOException {
-		
-		if (mWifiIpsHttpApi == null) {			
-			throw new WebException("IPS HTTP API is null!");			
-		}
-		
-		return mWifiIpsHttpApi.queryMap(json);
-	}
-		
+				
 	/*
 	 * update advertise Info
 	 */

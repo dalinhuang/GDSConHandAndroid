@@ -8,13 +8,14 @@ import android.util.Log;
 
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
+import com.winjune.wifiindoor.lib.map.MapDataR;
 import com.winjune.wifiindoor.runtime.Cell;
 import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;
 import com.winjune.wifiindoor.runtime.RuntimeUser;
 import com.winjune.wifiindoor.util.Constants;
+import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
-import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
 
 
 @SuppressWarnings("unused")
@@ -22,41 +23,63 @@ public class IndoorMapLoader {
 	private MapViewerActivity activity;
 	private RuntimeIndoorMap runtimeIndoorMap;
 
-	private IndoorMapReply designMap;
+	private MapDataR designMap;
 	
-	public IndoorMapReply getDesignMap(){
+	public MapDataR getDesignMap(){
 		return designMap;
 	}
 
 	// Load from the Map File according the category and file path.
-	public IndoorMapLoader(MapViewerActivity activity, IndoorMapReply designMap) {
+	public IndoorMapLoader(MapViewerActivity activity, MapDataR designMap) {
 		this.activity = activity;
 		this.designMap = designMap;
 		loadIndoorMap();
 	}
 
-	private void loadIndoorMap() {		
+   private void cacNumOfRowsAndCols(String mapUrl, int cellPixel, int[] rowsAndcols) {
+        if ((mapUrl != null) && (!mapUrl.isEmpty())) {
+        	String pieces[] = mapUrl.trim().split(";");
+               
+             //Get last piece
+            if (pieces.length > 0)   {
+            	String lastPiece = pieces[pieces.length-1];
+                String attrs[] = lastPiece.split(",");
+                if (attrs.length == IndoorMapData.ATTR_NUMBER_PER_MAP_PIECE) {
+                	int left = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_LEFT].trim());
+                    int top = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_TOP].trim());
+                    int width = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_WIDTH].trim());
+                    int height = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_HEIGHT].trim());                            
+                    rowsAndcols[0] = (top+height)/cellPixel;
+                    rowsAndcols[1] = (left+width)/cellPixel;
+                }
+            }
+        }
+   }
+	
+	
+   private void loadIndoorMap() {		
 		// TODO: load from design map or save file
 
-		int rows = 0;
-		int cols = 0;
-		int[] rowsAndcols = {rows,cols}; 
-		designMap.getRowsAndColumns(rowsAndcols);
-		rows = rowsAndcols[0];
-		cols = rowsAndcols[1];
-		Cell[][] cellMatrix = new Cell[rows][];
+		int rowNum = 0;
+		int colNum = 0;
+		int[] temp = {rowNum,colNum}; 
+		cacNumOfRowsAndCols(designMap.getNormalMapUrl(), designMap.getCellPixel(), temp);
+		rowNum = temp[0];
+		colNum = temp[1];
+		
+		Cell[][] cellMatrix = new Cell[rowNum][];
 
 		for (int i = 0; i < cellMatrix.length; i++) {
-			Cell[] brow = new Cell[cols];
+			Cell[] brow = new Cell[colNum];
 			cellMatrix[i] = brow;
-			for (int j = 0; j < cols; j++) {
+			for (int j = 0; j < colNum; j++) {
 				brow[j] = new Cell(i, j);
 				brow[j].setPassable(true); // TODO hardcode
 			}
 		}
 
 		runtimeIndoorMap = new RuntimeIndoorMap(cellMatrix, designMap.getName(), designMap.getId(), 
-				designMap.getNormalMapUrl(), designMap.getCellPixel(), designMap.getVersionCode());
+				designMap.getNormalMapUrl(), designMap.getCellPixel());
 	}
 	
 	public RuntimeIndoorMap getRuntimeIndoorMap() {

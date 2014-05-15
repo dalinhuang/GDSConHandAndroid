@@ -15,7 +15,6 @@ import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
-import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
@@ -42,7 +41,6 @@ import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,17 +49,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.mapviewer.AdBanner;
-import com.winjune.wifiindoor.activity.mapviewer.CollectedFlag;
-import com.winjune.wifiindoor.activity.mapviewer.InfoBanner;
-import com.winjune.wifiindoor.activity.mapviewer.POIBar;
-import com.winjune.wifiindoor.activity.mapviewer.LocateBar;
-import com.winjune.wifiindoor.activity.mapviewer.MapDrawer;
-import com.winjune.wifiindoor.activity.mapviewer.MapHUD;
-import com.winjune.wifiindoor.activity.mapviewer.MapViewerUtil;
-import com.winjune.wifiindoor.activity.mapviewer.NaviBar;
-import com.winjune.wifiindoor.activity.mapviewer.PlanBar;
-import com.winjune.wifiindoor.activity.mapviewer.SearchBar;
+import com.winjune.wifiindoor.activity.mapviewer.*;
 import com.winjune.wifiindoor.activity.mapviewer.AdBanner.AdvertisePeriodThread;
 import com.winjune.wifiindoor.activity.poiviewer.EventViewerActivity;
 import com.winjune.wifiindoor.ads.ScreenAdvertisement;
@@ -72,8 +60,9 @@ import com.winjune.wifiindoor.drawing.SoundIndoorMapListener;
 import com.winjune.wifiindoor.drawing.ZoomControl;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.drawing.graphic.model.LocationSprite;
-import com.winjune.wifiindoor.map.IndoorMap;
+import com.winjune.wifiindoor.lib.map.MapDataR;
 import com.winjune.wifiindoor.map.IndoorMapLoader;
+import com.winjune.wifiindoor.map.MapManager;
 import com.winjune.wifiindoor.navi.Navigator;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
@@ -84,7 +73,6 @@ import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
 import com.winjune.wifiindoor.util.WifiIpsSettings;
 import com.winjune.wifiindoor.webservice.IpsWebService;
-import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
 
 
 public class MapViewerActivity extends LayoutGameActivity implements SensorEventListener {
@@ -99,9 +87,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public static final boolean DEBUG = WifiIpsSettings.DEBUG;
 
 	public ZoomCamera mCamera;
-	public Font mFont_hints;
-	public Font mFont_mapinfo;
-	public Font mFont_menu;
+	public Font mFontHint;
+	public Font mFontLabel;
 	public int totalWidth;
 	public int totalHeight;
 	public int cameraWidth;
@@ -109,9 +96,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public ScaleGestureDetector zoomGestureDector;
 	public GestureDetector gestureDetector;
 	public Scene mainScene;
-	private MenuScene mMenuScene;
 	public Sprite backgroundSprite;
-	//private Sprite mapPicSprite;
+
 	public ZoomControl zoomControl;
 	public ModeControl modeControl;
 	public int mMode;
@@ -121,21 +107,13 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public Sound medSound;
 	public ScreenAdvertisement mAdvertisement;
 	public Sprite mapADSprite;
-
-	private Bundle bundle;
-
+	
 	public GraphicIndoorMapListener graphicListener;
 	private IndoorMapLoader indoorMapLoader;
 
 	public int currentCollectingX = -1;
 	public int currentCollectingY = -1;
 	public boolean collectingOnGoing = false;
-
-	public static final int MENU_ITEM_BACK = Menu.FIRST;
-	public static final int MENU_ITEM_INFO = Menu.FIRST + 1;
-	public static final int MENU_ITEM_CONFIG = Menu.FIRST + 2;
-	public static final int MENU_ITEM_EXIT = Menu.FIRST + 3;
-	public static final int MENU_ITEM_SETTING = Menu.FIRST + 4;
 
 	public Thread mPeriodicLocateMeThread;
 	public boolean periodicLocateMeOn;
@@ -155,12 +133,10 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public boolean reDrawOn;
 	public boolean reDrawOngoing;
 	
-	public Thread mUpdateClockThread;
-	public boolean updateClockOn;
 	public int mOrientation; 
 	
-	public ArrayList<Text> mapInfos;
-	public ArrayList<Sprite> interestPlaces;
+	public ArrayList<Text> poiLabels;
+	public ArrayList<Sprite> poiIcons;
 	public LocationSprite focusPlace;
 	public ArrayList<LocationSprite> locationPlaces;
 	public ArrayList<Rectangle> collectedFlags; // Flags for fingerprint collected cells
@@ -180,9 +156,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public int CONTROL_BUTTON_WIDTH;
 	public int CONTROL_BUTTON_HEIGHT;	
 	public int CONTROL_BUTTON_MARGIN;
-	public int TAB_BUTTON_WIDTH;
-	public int TAB_BUTTON_HEIGHT;	
-	public int TAB_BUTTON_MARGIN;
 
 	public static final int REQUEST_CODE = 0;
 	public static final int CAMERA_REQUEST_CODE = REQUEST_CODE;
@@ -215,14 +188,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		mTargetRowNo = -1;
 		periodicLocateMeOn = true;
 		periodicLoacting = false;
-		
-		naviMyPlaceX = -1;
-		naviMyPlaceY = -1;
-		naviFromNode = -1;
-		naviToNode = -1;
-		
-		updateClockOn = true;
-		
+				
 		lastManualLocateTime = System.currentTimeMillis();
 		lastBackTime = lastManualLocateTime - 6000;
 		
@@ -312,11 +278,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 		Util.setEnergySave(true);
 		
-		if (mUpdateClockThread != null){
-			updateClockOn = false;
-			mUpdateClockThread = null;
-		}
-		
 		if (mPeriodicLocateMeThread != null){
 			periodicLocateMeOn = false;
 			mPeriodicLocateMeThread = null;
@@ -351,7 +312,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		Util.setEnergySave(false);
 		periodicLocateMeOn = true;
-		updateClockOn = true;
 		reDrawOn = true;
 
 		Log.e("ViewerActivity", "Start IpsMessageHandler");
@@ -474,7 +434,10 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		super.onNewIntent(intent);
 		setIntent(intent);
 		
-		String mAction = intent.getAction();
+		String mAction = intent.getAction();		
+		if (mAction  == null)			
+			return;
+		
 		Bundle mBundle = getIntent().getExtras();
 		
 		if (mAction.equals(ActionLocate)){
@@ -522,11 +485,9 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		// This should be done before everything since we need some data set in
 		// this step to set the width, camera etc.
 		initData();
-
-		// Get MapID from the Map Chooser/Locator
-		bundle = getIntent().getExtras();
-		IndoorMapReply indoorMap = (IndoorMapReply) bundle.getSerializable(IndoorMapData.BUNDLE_KEY_MAP_INSTANCE);
-		indoorMapLoader = new IndoorMapLoader(this, indoorMap);
+ 
+		MapDataR mapData = (MapDataR) MapManager.getDefaultMap();
+		indoorMapLoader = new IndoorMapLoader(this, mapData);
 		Util.setRuntimeIndoorMap(indoorMapLoader.getRuntimeIndoorMap()); // To avoid pass the map in parameter everywhere
 		
 		// Initialize and Set Camera
@@ -611,14 +572,14 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 		BitmapTextureAtlas fontTexture_hints = new BitmapTextureAtlas(
 				getTextureManager(), 512, 512, TextureOptions.BILINEAR);
-		mFont_hints = FontFactory.createFromAsset(
+		mFontHint = FontFactory.createFromAsset(
 						getFontManager(),
 						fontTexture_hints,
 						getAssets(),
 						"comic.ttf",
 						density * VisualParameters.FONT_CHAR_WIDTH_HINTS,
 						true, Color.BLUE);
-		mFont_hints.load();
+		mFontHint.load();
 		
 		
 		// Ensure the map info font is not too small on large screen
@@ -629,25 +590,14 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		// the reason is that the font size is related the picture density
 		BitmapTextureAtlas fontTexture_mapInfo = new BitmapTextureAtlas(
 				getTextureManager(), 512, 512, TextureOptions.BILINEAR);
-		mFont_mapinfo = FontFactory.createFromAsset(
+		mFontLabel = FontFactory.createFromAsset(
 						getFontManager(),
 						fontTexture_mapInfo,
 						getAssets(),
 						"comic.ttf",
 						VisualParameters.FONT_CHAR_ABS_WIDTH_MAPINFO,
 						true, Color.BLACK);
-		mFont_mapinfo.load();
-		
-		BitmapTextureAtlas fontTexture_menu = new BitmapTextureAtlas(
-				getTextureManager(), 512, 512, TextureOptions.BILINEAR);
-		mFont_menu = FontFactory.createFromAsset(
-						getFontManager(),
-						fontTexture_menu,
-						getAssets(),
-						"comic.ttf",
-						density * VisualParameters.FONT_CHAR_WIDTH_MENU,
-						true, Color.RED);
-		mFont_menu.load();
+		mFontLabel.load();
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
@@ -697,10 +647,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			CollectedFlag.loadCollectedFlag(this);
 		}
 
-		// Create Map pieces on demands
-		//mainScene.getChildByIndex(Constants.LAYER_MAP).attachChild(mapPicSprite);
-		//mainScene.registerTouchArea(mapPicSprite);
-
 		mainScene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 
 			@Override
@@ -711,10 +657,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 		});
 
-		// disable
-		// Menu		
-		// mMenuScene = MapHUD.createMenuScene(this);
-
+	
 		// HUDs
 		hud = new HUD();
 		mCamera.setHUD(hud);
@@ -736,49 +679,23 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		Util.getRuntimeIndoorMap().getUser().setId(Util.getWifiInfoManager().getMyMac());
 
 		// The 1st action
-		int req = bundle.getInt(IndoorMapData.BUNDLE_KEY_REQ_FROM);
+		
 
 		// Update Location
-		switch (req) {
-		case IndoorMapData.BUNDLE_VALUE_REQ_FROM_LOCATOR:
-			int colNo = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_COL);
-			int rowNo = bundle.getInt(IndoorMapData.BUNDLE_KEY_LOCATION_ROW);
-
-			LocateBar.updateLocation(this, 
-									Util.getRuntimeIndoorMap().getMapId(), 
-									Util.getRuntimeIndoorMap().getVersionCode(), 
-									colNo, rowNo);
-
-			break;
-		case IndoorMapData.BUNDLE_VALUE_REQ_FROM_SELECTOR:
-			//Hoare: to do: entry can be configured in database
-			int midRowNo = Util.getRuntimeIndoorMap().getRowNum()/2;
-			int midColNo = Util.getRuntimeIndoorMap().getColNum()/2;
+		int midRowNo = Util.getRuntimeIndoorMap().getRowNum()/2;
+		int midColNo = Util.getRuntimeIndoorMap().getColNum()/2;
 	
-			MapDrawer.setCameraCenterTo(this, midColNo, midRowNo, false); // set Center to left_top cell
+		MapDrawer.setCameraCenterTo(this, midColNo, midRowNo, false); // set Center to left_top cell
 			
-			InfoBanner.infoMe(this, -1, -1); // For map-wide Info
-			break;
-		default:
-		}
+		InfoBanner.infoMe(this, -1, -1); // For map-wide Info
 		
 		// Show the Map Info Layer
-		POIBar.showPOILabeOnMap(this);
+		POIBar.showPoiInfo(this);
 		
 		// InitData for Navigator
 		NaviBar.loadNaviInfo(this);
 		
-		// Show the Interest places layer
-		POIBar.showPOIIconOnMap(this);
-		
-		//Need not show the Search places layer
-		//SearchBar.loadSearchPlaces(this);
-		
-		//createTabHost();
-		
-		AdBanner.showDefaultAd(this);
-		
-
+		// AdBanner.showDefaultAd(this);		
 
 		pOnCreateSceneCallback.onCreateSceneFinished(mainScene);
 		

@@ -37,14 +37,13 @@ public class RuntimeIndoorMap {
 	private HashMap<MapResource, MapPieceSprite> resources;
 
 	public RuntimeIndoorMap(Cell[][] cellMatrix, String mapName, 
-			int mapId, String mapPictureName, int cellPixel, int versionCode) {
+			int mapId, String mapPictureName, int cellPixel) {
 		this.cells = cellMatrix;
 		this.rowNum = cells.length;
 		this.colNum = cells[0].length;
 		this.mapName = mapName;
 		this.mapId = mapId;
 		this.mapPictureName = mapPictureName;
-		setVersionCode(versionCode);
 		setCellPixel(cellPixel);
 		
 		// No need. Only do this when on Navigating

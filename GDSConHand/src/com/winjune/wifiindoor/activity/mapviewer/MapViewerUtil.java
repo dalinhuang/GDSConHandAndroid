@@ -43,11 +43,6 @@ public class MapViewerUtil {
 		
 		// Ensure the ICON is not too small on large screen
 		int MIN_VALUE = Math.max(60, Math.round(Math.min(mapViewer.cameraWidth, mapViewer.cameraHeight)/10));
-
-		mapViewer.TAB_BUTTON_WIDTH = mapViewer.TAB_BUTTON_HEIGHT
-			= Math.min(MIN_VALUE, Math.round(mapViewer.cameraWidth / TAB_BUTTON_NUMBER / 1.5f));
-		// Here use 2 to let the TAB fill the whole width
-		mapViewer.TAB_BUTTON_MARGIN = Math.round ((mapViewer.cameraWidth - mapViewer.TAB_BUTTON_WIDTH * TAB_BUTTON_NUMBER) / TAB_BUTTON_NUMBER / 2);  
 		
 		
 		mapViewer.TOP_SPACE = 0;
@@ -58,15 +53,15 @@ public class MapViewerUtil {
 		if (mapViewer.mOrientation == Configuration.ORIENTATION_PORTRAIT) {			
 			mapViewer.BOTTOM_SPACE += VisualParameters.BOTTOM_SPACE_FOR_ADS_PORTRAIT;
 			mapViewer.CONTROL_BUTTON_WIDTH = mapViewer.CONTROL_BUTTON_HEIGHT 
-					= Math.min(MIN_VALUE, Math.round((mapViewer.cameraHeight - mapViewer.TAB_BUTTON_HEIGHT - VisualParameters.BOTTOM_SPACE_FOR_ADS_PORTRAIT) / CONTROL_BUTTON_NUMBER / 1.5f));
+					= Math.min(MIN_VALUE, Math.round((mapViewer.cameraHeight - VisualParameters.BOTTOM_SPACE_FOR_ADS_PORTRAIT) / CONTROL_BUTTON_NUMBER / 1.5f));
 			// Here use 3f to let the control tab layout on the top of height
-			mapViewer.CONTROL_BUTTON_MARGIN = Math.min(MIN_VALUE, Math.round ((mapViewer.cameraHeight - mapViewer.TAB_BUTTON_HEIGHT - VisualParameters.BOTTOM_SPACE_FOR_ADS_PORTRAIT - mapViewer.CONTROL_BUTTON_HEIGHT * CONTROL_BUTTON_NUMBER) / CONTROL_BUTTON_NUMBER / 3f)); 
+			mapViewer.CONTROL_BUTTON_MARGIN = Math.min(MIN_VALUE, Math.round ((mapViewer.cameraHeight - VisualParameters.BOTTOM_SPACE_FOR_ADS_PORTRAIT - mapViewer.CONTROL_BUTTON_HEIGHT * CONTROL_BUTTON_NUMBER) / CONTROL_BUTTON_NUMBER / 3f)); 
 		} else if (mapViewer.mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
 			// remove the right margin
 			// RIGHT_SPACE += VisualParameters.RIGHT_SPACE_FOR_ADS_LANDSCAPE;
 			mapViewer.CONTROL_BUTTON_WIDTH = mapViewer.CONTROL_BUTTON_HEIGHT 
-					= Math.min(MIN_VALUE, Math.round((mapViewer.cameraHeight - mapViewer.TAB_BUTTON_HEIGHT) / CONTROL_BUTTON_NUMBER / 1.5f));
-			mapViewer.CONTROL_BUTTON_MARGIN = Math.min(MIN_VALUE, Math.round ((mapViewer.cameraHeight - mapViewer.TAB_BUTTON_HEIGHT - mapViewer.CONTROL_BUTTON_HEIGHT * CONTROL_BUTTON_NUMBER) / CONTROL_BUTTON_NUMBER / 3f));// Here use 3f to let the control tab layout on the top of height
+					= Math.min(MIN_VALUE, Math.round((mapViewer.cameraHeight) / CONTROL_BUTTON_NUMBER / 1.5f));
+			mapViewer.CONTROL_BUTTON_MARGIN = Math.min(MIN_VALUE, Math.round ((mapViewer.cameraHeight - mapViewer.CONTROL_BUTTON_HEIGHT * CONTROL_BUTTON_NUMBER) / CONTROL_BUTTON_NUMBER / 3f));// Here use 3f to let the control tab layout on the top of height
 		}	
 		
 		//mapViewer.BOTTOM_SPACE += mapViewer.TAB_BUTTON_HEIGHT;

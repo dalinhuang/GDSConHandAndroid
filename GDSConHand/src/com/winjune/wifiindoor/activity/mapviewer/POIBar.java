@@ -30,49 +30,62 @@ import com.winjune.wifiindoor.util.VisualParameters;
 
 public class POIBar {
 	
-	public static void showPOIIconOnMap(MapViewerActivity mapViewer) {
-		// we don't display the interest place in planning mode
+	public static void showPoiInfo(MapViewerActivity mapViewer){
 		if (VisualParameters.PLANNING_MODE_ENABLED)
 			return;
 		
 		
-		// Clear old Interest Places info
-		if (mapViewer.interestPlaces == null) {
-			mapViewer.interestPlaces = new ArrayList<Sprite>();
+		float currentZoomFactor = mapViewer.mCamera.getZoomFactor();
+		
+		// Clear old Map info
+		if (mapViewer.poiLabels == null) {
+			mapViewer.poiLabels = new ArrayList<Text>();
 		} else {
-			for (Sprite place:mapViewer.interestPlaces) {
+			for (Text text:mapViewer.poiLabels) {
+				if (text != null) {
+					mapViewer.mainScene.detachChild(text);
+				}
+			}
+			mapViewer.poiLabels.clear();
+		}
+				
+		
+		// Clear old POI icons
+		if (mapViewer.poiIcons == null) {
+			mapViewer.poiIcons = new ArrayList<Sprite>();
+		} else {
+			for (Sprite place:mapViewer.poiIcons) {
 				if (place != null) {
 					mapViewer.mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(place);
 					mapViewer.mainScene.unregisterTouchArea(place);
 				}
 			}
-			mapViewer.interestPlaces.clear();
+			mapViewer.poiIcons.clear();
 		}
 		
-		
-		for (PlaceOfInterest poi : POIManager.POIList) {			
-			// X and Y = -1 mean the guide audio 
-			if ((poi.getX() != -1)&& (poi.getY() != -1)) {  
-					addInterestPlace(mapViewer, poi);
+		// Show New Map Info
+
+		for (PlaceOfInterest poi: POIManager.POIList) {			
+			if ((currentZoomFactor >= poi.minZoomFactor)
+				 && (currentZoomFactor <= poi.maxZoomFactor)) {
+				Text mLabel = null;
+				
+				if ((poi.label != null ) && (!poi.label.trim().isEmpty())) {
+					mLabel = showPoiLabel(mapViewer,poi);
+					if (mLabel != null)
+						mapViewer.poiLabels.add(mLabel);
 				}
 			
-		}
-		
+			    Sprite mIcon = showPoiIcon(mapViewer, poi, mLabel);
+			    if (mIcon != null)
+			    	mapViewer.poiIcons.add(mIcon);
+			}
+		}			
+				
 	}
 	
-	private static void addInterestPlace(MapViewerActivity mapViewer, PlaceOfInterest poi) {
-		// Create and attach Sprite
-		Sprite placeSprite = createPOISprite(mapViewer, poi);
-		
-		// Store so we can clear them in future if needed
-		if (mapViewer.interestPlaces == null) {
-			mapViewer.interestPlaces = new ArrayList<Sprite>();
-		}
-
-		mapViewer.interestPlaces.add(placeSprite);
-	}
 	
-	private static Sprite createPOISprite(final MapViewerActivity mapViewer, final PlaceOfInterest poi) {		
+	private static Sprite showPoiIcon(final MapViewerActivity mapViewer, final PlaceOfInterest poi, Text label) {		
         
 		AnimatedUnit  whichSvg = Library.INTEREST_PLACE_FOR_IE;	
 		
@@ -97,7 +110,22 @@ public class POIBar {
 		}	
 		else if ((picture !=null) && (!picture.trim().isEmpty())){
 			whichSvg = Library.INTEREST_PLACE_FOR_PIC;
+		}		
+		
+		int mSize;
+		float pX, pY;		
+		
+		// adjust the icon position according to label 
+		if (label != null){
+			mSize = (int)label.getHeight();
+			pX = poi.getX() - 1.1f*label.getHeight() - label.getWidth()/2;
+			pY = poi.getY() - label.getHeight()/2;			
+		} else {
+			mSize = Util.getRuntimeIndoorMap().getCellPixel();
+			pX = poi.getX()- mSize/2;
+			pY = poi.getY() -mSize/2;
 		}
+
 				
 		Sprite placeSprite = whichSvg.load(mapViewer, new SpriteListener() {
 
@@ -117,10 +145,9 @@ public class POIBar {
 
 				return true;
 			}
-		}, Util.getRuntimeIndoorMap().getCellPixel(), Util.getRuntimeIndoorMap().getCellPixel());
+		}, mSize, mSize);
 		
-		float pX = poi.getX();
-		float pY = poi.getY();
+
 		placeSprite.setPosition(pX, pY);
 		
 		mapViewer.mainScene.getChildByIndex(Constants.LAYER_USER).attachChild(placeSprite);
@@ -191,40 +218,15 @@ public class POIBar {
 		
 		return enterTTSActivity ;																
 		
-	}	
-
-	public static void showPOILabeOnMap(MapViewerActivity mapViewer) {
-		float currentZoomFactor = mapViewer.mCamera.getZoomFactor();
-		
-		// Clear old Map info
-		if (mapViewer.mapInfos == null) {
-			mapViewer.mapInfos = new ArrayList<Text>();
-		} else {
-			for (Text text:mapViewer.mapInfos) {
-				if (text != null) {
-					mapViewer.mainScene.detachChild(text);
-				}
-			}
-			mapViewer.mapInfos.clear();
-		}
-		
-		// Show New Map Info
-
-		for (PlaceOfInterest poi: POIManager.POIList) {			
-			if ((currentZoomFactor >= poi.minZoomFactor)
-				 && (currentZoomFactor <= poi.maxZoomFactor))
-				addTextTag(mapViewer,poi);			
-		}		
-	}		
+	}
 	
-	
-	private static void addTextTag(MapViewerActivity mapViewer, PlaceOfInterest poi) {
+	private static Text showPoiLabel(MapViewerActivity mapViewer, PlaceOfInterest poi) {
 		float pX = poi.getX();// * Util.getRuntimeIndoorMap().getCellPixel();
 		float pY = poi.getY();// * Util.getRuntimeIndoorMap().getCellPixel();
 				
 		Text text = new Text(pX,
 				pY, 
-				mapViewer.mFont_mapinfo, 
+				mapViewer.mFontLabel, 
 				poi.label,
 				100,
 				mapViewer.getVertexBufferObjectManager());
@@ -234,14 +236,11 @@ public class POIBar {
 		text.setScale(poi.getScale()); // For future use if we need to display some label with a bigger/smaller scale
 		text.setPosition(pX-text.getWidth()/2, pY-text.getHeight()/2);
 		
-		mapViewer.mainScene.attachChild(text);
+		mapViewer.mainScene.attachChild(text); 
 		
-		// Store so we can clear them in future if needed
-		if (mapViewer.mapInfos == null) {
-			mapViewer.mapInfos = new ArrayList<Text>();
-		}
+		mapViewer.poiLabels.add(text);
 		
-		mapViewer.mapInfos.add(text);
+		return text;
 	}	
 	
 

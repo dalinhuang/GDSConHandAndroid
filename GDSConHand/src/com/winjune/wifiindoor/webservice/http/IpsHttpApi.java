@@ -28,17 +28,14 @@ import com.winjune.wifiindoor.util.WifiIpsSettings;
 import com.winjune.wifiindoor.webservice.parsers.json.ApkVersionJsonParser;
 import com.winjune.wifiindoor.webservice.parsers.json.BuildingManagerReplyJsonParser;
 import com.winjune.wifiindoor.webservice.parsers.json.CollectStatusReplyJsonParser;
-import com.winjune.wifiindoor.webservice.parsers.json.IndoorMapReplyJsonParser;
 import com.winjune.wifiindoor.webservice.parsers.json.LocationJsonParser;
 import com.winjune.wifiindoor.webservice.parsers.json.LocationSetJsonParser;
-import com.winjune.wifiindoor.webservice.parsers.json.MapManagerReplyJsonParser;
 import com.winjune.wifiindoor.webservice.parsers.json.NullJsonParser;
 import com.winjune.wifiindoor.webservice.parsers.json.QueryInfoJsonParser;
 import com.winjune.wifiindoor.webservice.parsers.json.TestLocationJsonParser;
 import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
 import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
 import com.winjune.wifiindoor.webservice.types.CollectStatusReply;
-import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
 import com.winjune.wifiindoor.webservice.types.Location;
 import com.winjune.wifiindoor.webservice.types.LocationSet;
 import com.winjune.wifiindoor.webservice.types.MapManagerReply;
@@ -181,24 +178,7 @@ public class IpsHttpApi {
 		return (BuildingManagerReply) mHttpApi.doHttpRequest(httpPost,
 				new BuildingManagerReplyJsonParser());
 	}
-	
-	public MapManagerReply queryMaps(JSONObject json) throws WebException,
-			WebCredentialsException, WebError, IOException {
-		HttpPost httpPost = mHttpApi.createHttpPost(
-				fullUrl(WifiIpsSettings.URL_API_QUERY_MAP_LIST), json);
-		return (MapManagerReply) mHttpApi.doHttpRequest(httpPost,
-				new MapManagerReplyJsonParser());
-	}
-	
-	public IndoorMapReply queryMap(JSONObject json) throws WebException,
-			WebCredentialsException, WebError, IOException {
-		HttpPost httpPost = mHttpApi.createHttpPost(
-				fullUrl(WifiIpsSettings.URL_API_DOWNLOAD_MAP), json);
-		return (IndoorMapReply) mHttpApi.doHttpRequest(httpPost,
-				new IndoorMapReplyJsonParser());
-	}
-	
-	
+		
 	public AdGroup queryAdvertiseInfo(JSONObject json) throws WebException,
             WebCredentialsException, WebError, IOException {
         HttpPost httpPost = mHttpApi.createHttpPost(

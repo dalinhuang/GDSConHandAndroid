@@ -27,7 +27,6 @@ import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
 import com.winjune.wifiindoor.webservice.types.ApkVersionReply;
 import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
 import com.winjune.wifiindoor.webservice.types.CollectStatusReply;
-import com.winjune.wifiindoor.webservice.types.IndoorMapReply;
 import com.winjune.wifiindoor.webservice.types.Location;
 import com.winjune.wifiindoor.webservice.types.LocationSet;
 import com.winjune.wifiindoor.webservice.types.MapManagerReply;
@@ -162,21 +161,7 @@ public class IpsTransportServiceThread extends Thread {
 				mTransportServiceListener.onFinishingRequest();
 				mTransportServiceListener.onResponseReceived(buildingManager);
 				break;
-				
-			case IpsMsgConstants.MT_MAP_LIST_QUERY:
-				mTransportServiceListener.onStartingRequest();
-				MapManagerReply mapManager = IpsMessageHandler.queryMaps(requestPayload);
-				mTransportServiceListener.onFinishingRequest();
-				mTransportServiceListener.onResponseReceived(mapManager);
-				break;
-				
-			case IpsMsgConstants.MT_MAP_QUERY:
-				mTransportServiceListener.onStartingRequest();
-				IndoorMapReply indoorMap = IpsMessageHandler.queryMap(requestPayload);
-				mTransportServiceListener.onFinishingRequest();
-				mTransportServiceListener.onResponseReceived(indoorMap);
-				break;
-				
+												
 			case IpsMsgConstants.MT_AD_INFO_QUERY:
 				mTransportServiceListener.onStartingRequest();
 				AdGroup advertiseList = IpsMessageHandler.queryAdvertiseInfo(requestPayload);

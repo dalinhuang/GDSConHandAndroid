@@ -12,8 +12,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
+
 import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.lib.map.MapDataR;
 import com.winjune.wifiindoor.lib.poi.PoiOfflineData;
+import com.winjune.wifiindoor.map.MapManager;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
@@ -156,8 +159,7 @@ public class StartupActivity extends Activity implements OnInitListener{
                 else {
                 	Util.setTTSSupported(isTTSSupported);
                		                                   
-                	Intent intent_map_locator = new Intent(StartupActivity.this, MapLocatorActivity.class);
-                	startActivity(intent_map_locator);
+                	startMapViewer();
        		
                 	finish();
                 }
@@ -180,16 +182,25 @@ public class StartupActivity extends Activity implements OnInitListener{
 		// Copy all the necessary files from assets if necessary.
 		ArrayList<String> fileNames = new ArrayList<String>();
 		String fullPath = Util.getFilePath(IndoorMapData.CONFIG_FILE_PATH);
+		fileNames.add(fullPath+MapManager.mapTableName);
 		fileNames.add(fullPath+PoiOfflineData.buslineTableName);
 		fileNames.add(fullPath+PoiOfflineData.festivalTableName);
 		fileNames.add(fullPath+PoiOfflineData.movieTableName);
 		fileNames.add(fullPath+PoiOfflineData.playhouseTableName);
 		fileNames.add(fullPath+PoiOfflineData.poiTableName);
 		fileNames.add(fullPath+PoiOfflineData.restaurantTableName);
-		fileNames.add(fullPath+"version_table.xml");
-		fileNames.add(fullPath+"map_table.xml");
+		fileNames.add(fullPath+"version_table.xml");		
 		Util.appFilesPrepare(StartupActivity.this, fileNames);
 
+		Util.downFile(StartupActivity.this,
+				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, MapManager.mapTableName),
+				IndoorMapData.CONFIG_FILE_PATH,
+				MapManager.mapTableName,                     		
+				false,      // Open after download
+				"",
+				false, //useHandler
+				false);// Use Thread			
+		
 /*		Util.downFile(StartupActivity.this,
 				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, PoiOfflineData.buslineTableName),
 				IndoorMapData.CONFIG_FILE_PATH,
@@ -242,6 +253,19 @@ public class StartupActivity extends Activity implements OnInitListener{
 				false);// Use Thread	
 
         */
+		
+		MapManager.loadOfflineData(fullPath);		
+		
         POIManager.loadOfflineData();
+        
+        startMapViewer();
+        
+        finish();
 	}
+	
+	private void startMapViewer() {
+		Intent i = new Intent(StartupActivity.this, MapViewerActivity.class); 
+		startActivity(i);		
+	}	
+	
 }

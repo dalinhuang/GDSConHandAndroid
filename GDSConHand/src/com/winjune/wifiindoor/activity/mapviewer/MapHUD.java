@@ -133,8 +133,8 @@ public class MapHUD {
 				+ "                                 ";
 		
 		mapViewer.mHintText = new Text(0,
-				mapViewer.mFont_hints.getLineHeight(),   // Flexible according to the height of 1st line text
-				mapViewer.mFont_hints, 
+				mapViewer.mFontHint.getLineHeight(),   // Flexible according to the height of 1st line text
+				mapViewer.mFontHint, 
 				hintStr,
 				100,
 				mapViewer.getVertexBufferObjectManager());
@@ -144,106 +144,6 @@ public class MapHUD {
 
 		mapViewer.hud.attachChild(mapViewer.mHintText);
 	}
-
-	public static MenuScene createMenuScene(final MapViewerActivity mapViewer) {
-		if (MapViewerActivity.DEBUG)
-			Log.d(MapViewerActivity.TAG, "Start createMenuScene");
-
-		final MenuScene menuScene = new MenuScene(mapViewer.mCamera);
-
-		final IMenuItem backMenuItem = new ColorMenuItemDecorator(
-				new TextMenuItem(MapViewerActivity.MENU_ITEM_BACK, mapViewer.mFont_menu, 
-						mapViewer.getResources().getString(R.string.menu_back),
-						mapViewer.getVertexBufferObjectManager()),
-				new org.andengine.util.color.Color(1.0f, 0.0f, 0.0f),
-				new org.andengine.util.color.Color(0.0f, 0.0f, 0.0f));
-		backMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA,
-				GL10.GL_ONE_MINUS_SRC_ALPHA);
-		menuScene.addMenuItem(backMenuItem);
-
-		final IMenuItem infoMenuItem = new ColorMenuItemDecorator(
-				new TextMenuItem(MapViewerActivity.MENU_ITEM_INFO, mapViewer.mFont_menu, mapViewer.getResources()
-						.getString(R.string.menu_info),
-						mapViewer.getVertexBufferObjectManager()),
-				new org.andengine.util.color.Color(1.0f, 0.0f, 0.0f),
-				new org.andengine.util.color.Color(0.0f, 0.0f, 0.0f));
-		backMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA,
-				GL10.GL_ONE_MINUS_SRC_ALPHA);
-		menuScene.addMenuItem(infoMenuItem);
-
-		final IMenuItem configMenuItem = new ColorMenuItemDecorator(
-				new TextMenuItem(MapViewerActivity.MENU_ITEM_CONFIG, mapViewer.mFont_menu, mapViewer.getResources()
-						.getString(R.string.menu_config),
-						mapViewer.getVertexBufferObjectManager()),
-				new org.andengine.util.color.Color(1.0f, 0.0f, 0.0f),
-				new org.andengine.util.color.Color(0.0f, 0.0f, 0.0f));
-		configMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA,
-				GL10.GL_ONE_MINUS_SRC_ALPHA);
-		menuScene.addMenuItem(configMenuItem);
-
-		final IMenuItem settingMenuItem = new ColorMenuItemDecorator(
-				new TextMenuItem(MapViewerActivity.MENU_ITEM_SETTING, mapViewer.mFont_menu, mapViewer.getResources()
-						.getString(R.string.menu_setting),
-						mapViewer.getVertexBufferObjectManager()),
-				new org.andengine.util.color.Color(1.0f, 0.0f, 0.0f),
-				new org.andengine.util.color.Color(0.0f, 0.0f, 0.0f));
-		settingMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA,
-				GL10.GL_ONE_MINUS_SRC_ALPHA);
-		menuScene.addMenuItem(settingMenuItem);
-
-		final IMenuItem exitMenuItem = new ColorMenuItemDecorator(
-				new TextMenuItem(MapViewerActivity.MENU_ITEM_EXIT, mapViewer.mFont_menu, mapViewer.getResources()
-						.getString(R.string.menu_exit),
-						mapViewer.getVertexBufferObjectManager()),
-				new org.andengine.util.color.Color(1.0f, 0.0f, 0.0f),
-				new org.andengine.util.color.Color(0.0f, 0.0f, 0.0f));
-		exitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA,
-				GL10.GL_ONE_MINUS_SRC_ALPHA);
-		menuScene.addMenuItem(exitMenuItem);
-
-		menuScene.buildAnimations();
-
-		menuScene.setBackgroundEnabled(false);
-
-		menuScene.setOnMenuItemClickListener(new IOnMenuItemClickListener() {
-
-			@Override
-			public boolean onMenuItemClicked(final MenuScene pMenuScene,
-					final IMenuItem pMenuItem, final float pMenuItemLocalX,
-					final float pMenuItemLocalY) {
-				switch (pMenuItem.getID()) {
-				case MapViewerActivity.MENU_ITEM_BACK:
-					// Remove the menu
-					mapViewer.mainScene.clearChildScene();
-					return true;
-				case MapViewerActivity.MENU_ITEM_INFO:
-					// Show all available Information
-					InfoBanner.showInfo(mapViewer);
-					return true;
-				case MapViewerActivity.MENU_ITEM_CONFIG:
-					Intent openConfigIntent = new Intent(mapViewer, TunerActivity.class);
-					mapViewer.startActivity(openConfigIntent);
-					return true;
-				case MapViewerActivity.MENU_ITEM_SETTING:
-					Intent openSettingIntent = new Intent(mapViewer, SettingActivity.class);
-					mapViewer.startActivity(openSettingIntent);
-					return true;
-				case MapViewerActivity.MENU_ITEM_EXIT:
-					// End Activity.
-					MapViewerUtil.exitApp();
-					return true;
-				default:
-					return false;
-				}
-			}
-		});
-
-		if (MapViewerActivity.DEBUG)
-			Log.d(MapViewerActivity.TAG, "End createMenuScene");
-
-		return menuScene;
-	}		
-
 	
 	public static void decideNextActionAfter(final MapViewerActivity mapViewer) {
 		

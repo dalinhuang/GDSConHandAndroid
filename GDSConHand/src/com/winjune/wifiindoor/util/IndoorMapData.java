@@ -23,23 +23,11 @@ public final class IndoorMapData {
 	public static final int NFC_EDIT_STATE_FINISH = 2;
 	
 	// Map Related Constants
-	public static final String BUNDLE_KEY_MAP_INSTANCE = "MAP";
-	public static final String BUNDLE_KEY_LOCATION_COL = "COLNO";
-	public static final String BUNDLE_KEY_LOCATION_ROW = "ROWNO";
-	public static final String BUNDLE_KEY_LOCATION_MAP = "MAPID";
-	public static final String BUNDLE_KEY_LOCATION_MAP_VERSION = "MAP_VERSION";
 	public static final String BUNDLE_KEY_REQ_FROM = "FROM";
-	public static final String BUNDLE_KEY_BUILDING_MAPS = "BUILDING_MAPS";
-	public static final String BUNDLE_KEY_MAP_INFO = "MAP_INFO";
-	public static final String BUNDLE_KEY_LOCATION_INFO = "LOCATION_INFO";
 	public static final String BUNDLE_KEY_NAVI_RESULT = "NAVI_RESULT";
 	public static final String BUNDLE_KEY_INTEREST_PLACE_INSTANCE = "INTEREST_PLACE_INS";
 	public static final String BUNDLE_KEY_INTEREST_PLACE_NO = "INTEREST_PLACE_NO";
 	
-	public static final int BUNDLE_VALUE_REQ_FROM_LOCATOR = 0;
-	public static final int BUNDLE_VALUE_REQ_FROM_SELECTOR = 1;
-	public static final int BUNDLE_VALUE_REQ_FROM_VIEWER = 2;
-	public static final int BUNDLE_VALUE_REQ_FROM_BUILDING = 3;
 	
 	public static final int BUNDLE_VAL_INTEREST_REQ_FROM_TOUCH  = 1;
 	public static final int BUNDLE_VAL_INTEREST_REQ_FROM_INPUT  = 2;

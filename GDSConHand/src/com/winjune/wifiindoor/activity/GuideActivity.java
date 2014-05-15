@@ -75,7 +75,7 @@ public class GuideActivity extends Activity implements OnPageChangeListener, OnC
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-		    	Intent intent = new Intent(GuideActivity.this, MapLocatorActivity.class);
+		    	Intent intent = new Intent(GuideActivity.this, MapViewerActivity.class);
 		    	startActivity(intent);
 		        finish();
 			}
