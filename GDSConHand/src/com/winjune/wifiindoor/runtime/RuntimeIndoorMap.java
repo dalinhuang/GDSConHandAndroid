@@ -8,7 +8,6 @@ import java.util.Map;
 import org.andengine.entity.sprite.AnimatedSprite;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.navi.PathSearcher;
 import com.winjune.wifiindoor.drawing.graphic.model.MapPieceSprite;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
@@ -31,9 +30,6 @@ public class RuntimeIndoorMap {
 	private Cell[][] cells;
 	private Cell startingPosition;
 	private Cell targetPosition;
-	@SuppressWarnings("unused")
-	private List<Cell> cachedPathFromStartingPosition;
-	private Map<Cell, Boolean> keyCellsMap = new HashMap<Cell, Boolean>();
 	
 	private List<RuntimeIndoorMapListener> listeners = new ArrayList<RuntimeIndoorMapListener>();
 	
@@ -162,44 +158,6 @@ public class RuntimeIndoorMap {
 		}
 	}
 	
-	@SuppressWarnings("unused")
-	private void findPathFromStartPositionAndCachePath() {
-
-		List<Cell> path = PathSearcher.findPath(getPassableMatrix(), startingPosition, targetPosition);
-
-		if (path == null) {
-			throw new IllegalStateException("Bad Map there is no path");
-		}
-
-		cachedPathFromStartingPosition = path;
-
-		keyCellsMap.clear();
-	}
-
-	@SuppressWarnings("unused")
-	private List<Cell> findPathFromParticularPosition(int rowNo, int colNo) {
-		return findPathFromParticularPosition(getCellAt(rowNo, colNo));
-	}
-
-	List<Cell> findPathFromParticularPosition(Cell startPosition) {
-		List<Cell> findPath = PathSearcher.findPath(getPassableMatrix(),
-				startPosition, targetPosition);
-
-		return findPath;
-	}
-	
-	@SuppressWarnings("unused")
-	private List<Cell> findPath(int rowNo1, int colNo1, int rowNo2, int colNo2) {
-		return findPath(getCellAt(rowNo1, colNo1), getCellAt(rowNo2, colNo2));
-	}
-
-	private List<Cell> findPath(Cell startPosition, Cell targetPosition) {
-		List<Cell> findPath = PathSearcher.findPath(getPassableMatrix(),
-				startPosition, targetPosition);
-
-		return findPath;
-	}
-
 	public boolean locateUser(int colNo, int rowNo) {
 
 		Cell currentCell = getCellAt(rowNo, colNo); // The map has a revert x,y, so revert the incoming x,y here to get the right cell

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.gson.Gson;
-import com.winjune.wifiindoor.activity.InfoPusherActivity;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.activity.poiviewer.EventViewerActivity;
 import com.winjune.wifiindoor.runtime.Cell;

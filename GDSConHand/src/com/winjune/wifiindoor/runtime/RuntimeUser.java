@@ -72,13 +72,6 @@ public class RuntimeUser {
 		this.speed = speed;
 	}
 
-	public void initialNavigating(RuntimeIndoorMap runtimeIndoorMap, Cell startCell) {
-		setStartCell(startCell);
-		setPath(runtimeIndoorMap.findPathFromParticularPosition(startCell));
-		currentCell = startCell;
-		headingForNextCell();
-	}
-
 	public boolean moving() {
 
 		if (stopping) {
