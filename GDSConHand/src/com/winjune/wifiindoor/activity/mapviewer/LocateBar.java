@@ -2,7 +2,6 @@ package com.winjune.wifiindoor.activity.mapviewer;
 
 import java.util.ArrayList;
 
-import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
@@ -19,8 +18,6 @@ import com.google.gson.Gson;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.LocationSprite;
-import com.winjune.wifiindoor.drawing.graphic.model.LocationSprite.OnClickListener;
-import com.winjune.wifiindoor.drawing.graphic.model.LocationSprite.State;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;

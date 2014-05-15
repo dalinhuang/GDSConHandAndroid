@@ -18,7 +18,6 @@ import org.xmlpull.v1.XmlSerializer;
 import android.app.Activity;
 import android.util.Xml;
 
-import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;
 import com.winjune.wifiindoor.util.AdData;
@@ -70,10 +69,7 @@ public class ScreenAdvertisement {
     }
 
 	//hide ads.
-	private void unshowAds () {
-		AdView adView = (AdView)activity.findViewById(advertisementId);
-		adView.setVisibility(android.view.View.INVISIBLE);
-		adView.setEnabled(false);
+	private void unshowAds () {	
 	}
 	
 	final Runnable unshowAdsRunnable = new Runnable() {
