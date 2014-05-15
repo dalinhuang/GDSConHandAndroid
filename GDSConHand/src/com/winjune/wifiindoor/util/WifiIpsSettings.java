@@ -31,10 +31,10 @@ public class WifiIpsSettings {
 	public static boolean DEBUG = false;
 	
 	public static String PRIMARY_SERVER = "118.102.25.219";
-	public static String SECONDARY_SERVER = "14.18.207.183";
-	public static String CMCC_Site = "www.winjune.com";		//	中国移动
-	public static String CU_Site = "www2.winjune.com";		//	中国联通
-	public static String CT_Site = "www.winjune.com";		//	中国电信
+	public static String SECONDARY_SERVER = "118.102.25.219";
+	public static String CMCC_Site = PRIMARY_SERVER;		//	中国移动
+	public static String CU_Site = SECONDARY_SERVER;		//	中国联通
+	public static String CT_Site = PRIMARY_SERVER;		//	中国电信
 	public static String SERVER_PORT = "8080";
 	public static String SERVER_SUB_DOMAIN = "/GDSCAppServer"; //"/wifiips", "/WifiIpsServer";
 	public static String SERVER = null;
@@ -203,20 +203,22 @@ public class WifiIpsSettings {
 			return true;
 		}
 
+		SERVER = PRIMARY_SERVER + ":" + SERVER_PORT	+ SERVER_SUB_DOMAIN;
+
 		
-		String imsi = getImsi(context);
+/*		String imsi = getImsi(context);
 
 		try {
 			if (imsi!=null){ 
 				if(imsi.startsWith("46000") || imsi.startsWith("46002")) {
 					//因为移动网络编号46000下的IMSI已经用完，所以虚拟了一个46002编号，134/159号段使用了此编号 //中国移动
-					SERVER = InetAddress.getByName(CMCC_Site).getHostAddress() + ":" + SERVER_PORT	+ SERVER_SUB_DOMAIN;
+					SERVER = CMCC_Site + ":" + SERVER_PORT	+ SERVER_SUB_DOMAIN;
 				} else if(imsi.startsWith("46001")) {
 					//中国联通
-					SERVER = InetAddress.getByName("CU_Site").getHostAddress() + ":" + SERVER_PORT	+ SERVER_SUB_DOMAIN;
+					SERVER = CU_Site+ ":" + SERVER_PORT	+ SERVER_SUB_DOMAIN;
 				} else if(imsi.startsWith("46003")) {
 					//中国电信
-					SERVER = InetAddress.getByName("CT_Site").getHostAddress() + ":" + SERVER_PORT	+ SERVER_SUB_DOMAIN;
+					SERVER = CT_Site + ":" + SERVER_PORT	+ SERVER_SUB_DOMAIN;
 				} else {
 					//其他移动网络
 					SERVER = PRIMARY_SERVER + ":" + SERVER_PORT	+ SERVER_SUB_DOMAIN;
@@ -228,7 +230,7 @@ public class WifiIpsSettings {
 		} catch (UnknownHostException e) {
 			SERVER = PRIMARY_SERVER + ":" + SERVER_PORT	+ SERVER_SUB_DOMAIN;
 			e.printStackTrace();
-		}
+		}*/
 		return true;
 	}
 	

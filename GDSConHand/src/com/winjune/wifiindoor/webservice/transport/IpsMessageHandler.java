@@ -113,7 +113,7 @@ public class IpsMessageHandler {
 
 		if (activity instanceof MapLocatorActivity) {
 				MapLocatorActivity locator = (MapLocatorActivity) activity;
-				locator.connectionFailed();
+				locator.enterDefaultMap();
 		}
 	}
 
@@ -130,29 +130,6 @@ public class IpsMessageHandler {
 		// TODO: sometimes the message is handled in background when:
 		// 1. the current foreground Activity B is not register itself into this IpsMessageHandler
 		// 2. The background Activity A is still registered and the Request was sent from A 
-
-		if (object instanceof LocationSet) {
-			LocationSet locations = (LocationSet) object;
-
-			if (activity instanceof MapLocatorActivity) {
-				//Log.e("IpsMessageHandler", "locator.updateLocation");
-				MapLocatorActivity locator = (MapLocatorActivity) activity;
-				locator.updateLocation(locations);
-
-				return;
-			}
-
-
-			if (activity instanceof MapViewerActivity) {
-				//Log.e("IpsMessageHandler", "viewer.updateLocation");
-				MapViewerActivity viewer = (MapViewerActivity) activity;
-				LocateBar.updateLocation(viewer, locations);
-
-				return;
-			}
-			
-			return;
-		} 
 		
 		if (object instanceof Location) {
 			Location location = (Location) object;
