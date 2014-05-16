@@ -14,7 +14,7 @@ import com.winjune.wifiindoor.util.Util;
 
 public class RuntimeIndoorMap {
 	
-	private String mapName;
+	private String mapLabel;
 	private int mapId;
 	private int versionCode;
 	private String mapPictureName;
@@ -41,7 +41,7 @@ public class RuntimeIndoorMap {
 		this.cells = cellMatrix;
 		this.rowNum = cells.length;
 		this.colNum = cells[0].length;
-		this.mapName = mapName;
+		this.mapLabel = mapName;
 		this.mapId = mapId;
 		this.mapPictureName = mapPictureName;
 		setCellPixel(cellPixel);
@@ -250,12 +250,12 @@ public class RuntimeIndoorMap {
 		this.target = target;
 	}
 
-	public String getMapName() {
-		return mapName;
+	public String getMapLabel() {
+		return mapLabel;
 	}
 
-	public void setMapName(String mapName) {
-		this.mapName = mapName;
+	public void setMapLabel(String mapName) {
+		this.mapLabel = mapName;
 	}
 
 	public int getMapId() {
@@ -325,7 +325,7 @@ public class RuntimeIndoorMap {
 			return null;
 		}
 		
-		String text = getMapName() + "\n";
+		String text = getMapLabel() + "\n";
 		
 		for (String information : informations){
 			text += information + "\n";

@@ -489,7 +489,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		MapDataR mapData = (MapDataR) MapManager.getDefaultMap();
 		indoorMapLoader = new IndoorMapLoader(this, mapData);
 		Util.setRuntimeIndoorMap(indoorMapLoader.getRuntimeIndoorMap()); // To avoid pass the map in parameter everywhere
-		
+				
 		// Initialize and Set Camera
 		MapViewerUtil.initCamera(this);
 		
@@ -664,6 +664,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		MapHUD.initailHUDHintBar(this);
 		MapHUD.initialHUDMenuBar(this);
+		
+		// update map switch label
+		TextView mapSwitchT = (TextView) findViewById(R.id.text_map_switch);
+		mapSwitchT.setText(Util.getRuntimeIndoorMap().getMapLabel());
+		
 
 		// Listeners
 		graphicListener = new GraphicIndoorMapListener(this, mainScene, mMapText);
@@ -695,7 +700,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		// InitData for Navigator
 		NaviBar.loadNaviInfo(this);
 		
-		// AdBanner.showDefaultAd(this);		
+		// AdBanner.showDefaultAd(this);			
 
 		pOnCreateSceneCallback.onCreateSceneFinished(mainScene);
 		

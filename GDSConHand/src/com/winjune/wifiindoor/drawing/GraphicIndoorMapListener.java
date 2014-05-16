@@ -50,7 +50,7 @@ public class GraphicIndoorMapListener implements RuntimeIndoorMapListener {
 			}
 		}*/
 		
-		this.mapName = runtimeIndoorMap.getMapName();
+		this.mapName = runtimeIndoorMap.getMapLabel();
 
 	}
 

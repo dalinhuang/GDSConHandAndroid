@@ -19,13 +19,19 @@ public class MapManager {
 		mapList.fromXML(path+mapTableName, mapList);		
 	}
 	
-	public static MapDataR getDefaultMap(){
-		return mapList.maps.get(1);
+	public static MapDataR getDefaultMap(){		
+		if (mapList.maps.size() > 0)
+			return mapList.maps.get(0);
+		else
+			return null;
 	}
 	
 	//Get the MapManagerItem by the Index
-	public static MapDataR getMapByIndex(int index){		
-		return mapList.maps.get(index);
+	public static MapDataR getMapByIndex(int index){
+		if (mapList.maps.size()>index)
+			return mapList.maps.get(index);
+		else
+			return null;
 	}		
 	
 	public static ArrayList<MapDataR> getMaps(){

@@ -78,7 +78,7 @@ public class IndoorMapLoader {
 			}
 		}
 
-		runtimeIndoorMap = new RuntimeIndoorMap(cellMatrix, designMap.getName(), designMap.getId(), 
+		runtimeIndoorMap = new RuntimeIndoorMap(cellMatrix, designMap.getLabel(), designMap.getId(), 
 				designMap.getNormalMapUrl(), designMap.getCellPixel());
 	}
 	
