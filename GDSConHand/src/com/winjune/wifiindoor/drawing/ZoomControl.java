@@ -143,4 +143,10 @@ public class ZoomControl {
 	public OnScaleGestureListener getScaleGestureListner() {
 		return scaleGestureListner;
 	}
+	
+	public void resetZoomFactor(float min, float max) {
+	
+		maxZoomFactor = max;
+		minZoomFactor = min;
+	}
 }

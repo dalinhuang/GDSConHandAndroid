@@ -125,6 +125,14 @@ public class RuntimeIndoorMap {
 		return colNum;
 	}
 	
+	public int getMapWidth(){
+		return colNum * cellPixel;
+	}
+	
+	public int getMapHeight(){
+		return rowNum * cellPixel;
+	}
+	
 	public boolean[][] getPassableMatrix() {
 
 		// TODO to cache the boolean matrix

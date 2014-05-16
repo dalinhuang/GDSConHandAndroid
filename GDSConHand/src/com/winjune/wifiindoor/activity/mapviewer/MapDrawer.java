@@ -25,6 +25,15 @@ public class MapDrawer {
 	
 	public static void switchMapExcute(MapViewerActivity mapViewer) {	
 		
+		int mapWidth = Util.getRuntimeIndoorMap().getMapWidth();
+		int mapHeight = Util.getRuntimeIndoorMap().getMapHeight();
+
+		MapViewerUtil.resetCameraBounds(mapViewer, mapWidth, mapHeight);
+		
+		float defaultZoomFactor = 0.6f;
+		mapViewer.mCamera.setZoomFactor(defaultZoomFactor);
+		mapViewer.zoomControl.resetZoomFactor(0.6f, 8f);
+		
 		mapViewer.reDrawPending = true;
 		drawMap(mapViewer);
 		POIBar.showPoiInfo(mapViewer);

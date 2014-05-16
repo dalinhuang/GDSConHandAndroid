@@ -90,8 +90,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public ZoomCamera mCamera;
 	public Font mFontHint;
 	public Font mFontLabel;
-	public int totalWidth;
-	public int totalHeight;
 	public int cameraWidth;
 	public int cameraHeight;
 	public ScaleGestureDetector zoomGestureDector;
@@ -498,21 +496,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		indoorMapLoader = new IndoorMapLoader(this, mapData);
 		Util.setRuntimeIndoorMap(indoorMapLoader.getRuntimeIndoorMap()); // To avoid pass the map in parameter everywhere
 		
-		int mapWidth = Util.getRuntimeIndoorMap().getColNum() * Util.getRuntimeIndoorMap().getCellPixel();
-		int mapHeight = Util.getRuntimeIndoorMap().getRowNum() * Util.getRuntimeIndoorMap().getCellPixel();
-
-		totalWidth = mapWidth + LEFT_SPACE + RIGHT_SPACE;
-		totalHeight = mapHeight + TOP_SPACE + BOTTOM_SPACE;
-
-		// To align with the Camera
-		if (totalWidth < cameraWidth) {
-			totalWidth = cameraWidth;
-		}
-
-		if (totalHeight < cameraHeight) {
-			totalHeight = cameraHeight;
-		}
-				
 
 		//Obsoleted: Change to: Calculate the Zoom Out rate that the less scaled width or height can be displayed in the screen.
 		//float min_zoom_factor = 1f * cameraWidth / totalWidth;
@@ -523,21 +506,24 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		//float max_zoom_factor = Math.max(min_zoom_factor * 2, 10.0f);
 		//float current_zoom_factor = Math.min(min_zoom_factor * 3, 5.0f);
 		
-		// Change to: do not allow zoomFactor too small, to avoid all or too much map pieces be displayed in the Screen and cause the OOM issue 
+		// Change to: do not allow zoomFactor too small, to avoid all or too much map pieces 
+		// be displayed in the Screen and cause the OOM issue 
 		float min_zoom_factor = 0.8f;		
 		float max_zoom_factor = 8f;	
 		// default use minimized map to show overall
 		float current_zoom_factor = 1f;
 		
 		// Initialize and Set Camera
-		MapViewerUtil.initCamera(this, current_zoom_factor, totalWidth, totalHeight);
+		
+		int mapWidth = Util.getRuntimeIndoorMap().getMapWidth();
+		int mapHeight = Util.getRuntimeIndoorMap().getMapHeight();
+		MapViewerUtil.initCamera(this, current_zoom_factor, mapWidth, mapHeight);
 		
 		// Allowed zoom Factors
 		zoomControl = new ZoomControl(this, mCamera, max_zoom_factor, min_zoom_factor, density);
 
 		// Control the Map Mode
-		modeControl = new ModeControl(Util.getRuntimeIndoorMap());
-
+		modeControl = new ModeControl(Util.getRuntimeIndoorMap());		
 
 		// to enable finger scroll of camera
 		gestureDetector = new GestureDetector(this,
@@ -821,13 +807,19 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	}
 	
 	public void locationBtnClick(View v) {
-		PlaceOfInterest poi = POIManager.getNearestPOI(0, 5, 5);
+		
+		float x = mCamera.getBoundsWidth()/2;
+		float y = mCamera.getBoundsHeight()/2;
+		
+		mCamera.setCenter(x, y);
+		
+	/*	PlaceOfInterest poi = POIManager.getNearestPOI(0, 5, 5);
 		
 		if (poi != null) {		
 			poi.showContextMenu(v);
 		}else {
 			// show toaster
-		}
+		}*/
 	}
 	
 

@@ -20,7 +20,30 @@ import com.winjune.wifiindoor.util.VisualParameters;
 public class MapViewerUtil {
 	
 	
-	public static void initCamera(MapViewerActivity mapViewer, float zoomFactor, int totalWidth, int totalHeight) {
+	public static void resetCameraBounds(MapViewerActivity mapViewer, int mapWidth, int mapHeight) {
+		int totalWidth, totalHeight;
+
+		totalWidth = mapWidth + mapViewer.LEFT_SPACE + mapViewer.RIGHT_SPACE;
+		totalHeight = mapHeight + mapViewer.TOP_SPACE + mapViewer.BOTTOM_SPACE;
+
+		// To align with the Camera
+		if (totalWidth < mapViewer.cameraWidth) 
+			totalWidth = mapViewer.cameraWidth;
+
+		if (totalHeight < mapViewer.cameraHeight)
+			totalHeight = mapViewer.cameraHeight;
+		
+		mapViewer.mCamera.setBounds(0, 0, totalWidth, totalHeight);
+	}
+	
+	public static void initCamera(MapViewerActivity mapViewer, float zoomFactor, int mapWidth, int mapHeight) {
+		
+		mapViewer.TOP_SPACE = 0;
+		mapViewer.BOTTOM_SPACE = 0;
+		mapViewer.LEFT_SPACE = 0;
+		mapViewer.RIGHT_SPACE = 0;		
+		
+		
 		// Get the display
 		Display display = mapViewer.getWindowManager().getDefaultDisplay();
 		DisplayMetrics outMetrics = new DisplayMetrics();
@@ -34,6 +57,7 @@ public class MapViewerUtil {
 								- Util.dip2px(mapViewer, 90); // need to reduce the search bar and action bar height
 		
 		mapViewer.density = Math.min(mapViewer.cameraWidth, mapViewer.cameraHeight) / 480;
+				
 
 		int CONTROL_BUTTON_NUMBER = Library.CONTROL_BUTTON_NUMBER;
 		mapViewer.CONTROL_BUTTON_WIDTH = 30;
@@ -41,12 +65,7 @@ public class MapViewerUtil {
 		
 		// Ensure the ICON is not too small on large screen
 		int MIN_VALUE = Math.max(60, Math.round(Math.min(mapViewer.cameraWidth, mapViewer.cameraHeight)/10));
-		
-		
-		mapViewer.TOP_SPACE = 0;
-		mapViewer.BOTTOM_SPACE = 0;
-		mapViewer.LEFT_SPACE = 0;
-		mapViewer.RIGHT_SPACE = 0;		
+
 
 		if (mapViewer.mOrientation == Configuration.ORIENTATION_PORTRAIT) {			
 			mapViewer.BOTTOM_SPACE += VisualParameters.BOTTOM_SPACE_FOR_ADS_PORTRAIT;
@@ -68,32 +87,13 @@ public class MapViewerUtil {
 		// Original zoom factor
 		mapViewer.mCamera.setZoomFactor(zoomFactor);
 
-		mapViewer.mCamera.setBounds(0, 0, totalWidth, totalHeight);
-		mapViewer.mCamera.setBoundsEnabled(false);
+		resetCameraBounds(mapViewer, mapWidth,  mapHeight);
+		
+		mapViewer.mCamera.setBoundsEnabled(true);
 		
 	}
 	
-	
-	public static int getCenterColNo(MapViewerActivity mapViewer){
-		int colNo;
 		
-		float centerX = mapViewer.mCamera.getCenterX();  
-
-		colNo = (int) centerX / Util.getCurrentCellPixel();
-
-		return colNo;	
-	}
-	
-	public static int getCenterRowNo(MapViewerActivity mapViewer){
-		int rowNo;
-		
-		float centerY = mapViewer.mCamera.getCenterY(); 
-		
-		rowNo = (int) centerY / Util.getCurrentCellPixel();
-		
-		return rowNo;
-	}
-	
 	public static ZoomCamera getMCamera(MapViewerActivity mapViewer) {
 		return mapViewer.mCamera;
 	}

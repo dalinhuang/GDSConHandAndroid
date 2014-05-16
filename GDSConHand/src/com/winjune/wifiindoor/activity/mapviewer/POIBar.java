@@ -73,6 +73,9 @@ public class POIBar {
 				if (poi.mapId != Util.getRuntimeIndoorMap().getMapId())
 					continue;
 				
+				if ((poi.placeX == 0) &&(poi.placeY == 0))
+					continue;
+				
 				if ((poi.label != null ) && (!poi.label.trim().isEmpty())) {
 					mLabel = showPoiLabel(mapViewer,poi);
 					if (mLabel != null)
