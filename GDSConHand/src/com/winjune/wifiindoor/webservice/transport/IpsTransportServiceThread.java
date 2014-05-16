@@ -29,7 +29,6 @@ import com.winjune.wifiindoor.webservice.types.BuildingManagerReply;
 import com.winjune.wifiindoor.webservice.types.CollectStatusReply;
 import com.winjune.wifiindoor.webservice.types.Location;
 import com.winjune.wifiindoor.webservice.types.LocationSet;
-import com.winjune.wifiindoor.webservice.types.MapManagerReply;
 import com.winjune.wifiindoor.webservice.types.QueryInfo;
 import com.winjune.wifiindoor.webservice.types.TestLocateCollectReply;
 
