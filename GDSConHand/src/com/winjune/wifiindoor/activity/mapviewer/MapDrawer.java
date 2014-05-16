@@ -27,6 +27,7 @@ public class MapDrawer {
 		
 		mapViewer.reDrawPending = true;
 		drawMap(mapViewer);
+		POIBar.showPoiInfo(mapViewer);
 	}	
 	
 	public static void setCameraCenterTo(MapViewerActivity mapViewer, int colNo, int rowNo, boolean fromMove) {
@@ -93,6 +94,8 @@ public class MapDrawer {
 		
 		mapViewer.reDrawPending = true;
 		drawMap(mapViewer);
+		
+		POIBar.showPoiInfo(mapViewer);
 	}
 	
 	public static void drawMap(final MapViewerActivity mapViewer) {		

@@ -60,9 +60,6 @@ public class StartupActivity extends Activity implements OnInitListener{
     protected void onResume(){
 		super.onResume();
 		
-		// ??? IpsWebService may not start
-		IpsWebService.setActivity(this);
-
 		if (ApkVersionManager.isApkUpdatePending()) {
 			ApkVersionManager.doNewVersionUpdate(this);
 		}		
@@ -101,12 +98,17 @@ public class StartupActivity extends Activity implements OnInitListener{
         
         setContentView(R.layout.activity_startup_entry);
         
+		final long startTime = System.currentTimeMillis();
+
+        
         if (AutoGuideTTS == null) {        	
 			AutoGuideTTS = new TextToSpeech(this, this);
 		}
         
         Util.initApp(this);
         
+        IpsWebService.startWebService(StartupActivity.this);
+                        
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		isFirstStartup = prefs.getBoolean("firstStartup", false); // disable the guide pages as they are not so necessary
 		//isFirstStartup = true;
@@ -121,16 +123,15 @@ public class StartupActivity extends Activity implements OnInitListener{
         	@Override
 			protected Integer doInBackground(Void... params) {
 				// TODO Auto-generated method stub
-        		long startTime = System.currentTimeMillis();
         		
         		appStartUp();
         		
         		long completeTime = System.currentTimeMillis();
         		long runTime = completeTime - startTime;
         		
-        		if (runTime < 3000) {
+        		if (runTime < 2000) {
         			
-        			long sleepTime = 3000 - runTime;
+        			long sleepTime = 2000 - runTime;
         			//Hoare: give more time to show background picture
             		try {
     					Thread.sleep(sleepTime);
@@ -174,7 +175,7 @@ public class StartupActivity extends Activity implements OnInitListener{
 	// Called in AsyncTask when the APP starts up. It should only include the time consuming tasks.
 	private void appStartUp() {
 		
-		IpsWebService.startWebService(StartupActivity.this);
+		// IpsWebService.startWebService(StartupActivity.this);
 				
 		// Check latest version
 		ApkVersionManager.CheckVersionUpgrade(StartupActivity.this);

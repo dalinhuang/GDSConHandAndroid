@@ -317,9 +317,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 		Log.e("ViewerActivity", "Start IpsMessageHandler");
 		
-		
-		IpsWebService.setActivity(this);
-		IpsWebService.activateWebService();
+		IpsWebService.activateWebService(this);
 		
 		LocateBar.startPeriodicLocateMeThread(this);
 			

@@ -91,8 +91,11 @@ public class ZoomControl {
 	
 	public void zoomIn(int num){
 		float target = mCamera.getZoomFactor() + num * CHANGE_UNIT;
-		if (target < maxZoomFactor){
+		if (target <= maxZoomFactor){
 			mCamera.setZoomFactor(target);
+			
+			// need to refresh poi information
+			POIBar.showPoiInfo(activity);
 		}else{			
 			mCamera.setZoomFactor(maxZoomFactor);	
 		}

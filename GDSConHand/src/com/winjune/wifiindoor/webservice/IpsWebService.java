@@ -33,16 +33,23 @@ public class IpsWebService {
 		IpsMessageHandler.setActivity(activity);
 	}	
 	
-	public static void activateWebService() {
+	public static void activateWebService(Activity activity) {
+		
+		IpsMessageHandler.setActivity(activity);
+		
 		IpsMessageHandler.startTransportServiceThread();
+		
 	}
 
 	public static void startWebService(final Activity activity) {		
 		
-		WifiIpsSettings.getServerAddress(true, activity); 	    
+		WifiIpsSettings.getServerAddress(activity, true);
+				
 		
 		if (initialize(WifiIpsSettings.SERVER, ApkVersionManager.getApkVersionName())) {
-					
+			
+			IpsMessageHandler.setActivity(activity);
+			
 			// Start the Ips Message Handler Thread if it has not been started yet.
 			IpsMessageHandler.startTransportServiceThread();
 			
@@ -50,10 +57,8 @@ public class IpsWebService {
 			
 			//Hoare: bypass ping check since it doesn't work in some mobiles
 			setServerReachable(true);
-			//setServerReachable(WifiIpsSettings.isPingable());		
-		}
-		
-		return;
+			//setServerReachable(WifiIpsSettings.isPingable());					
+		}		
 	}
 	
 	public static boolean sendMessage(Activity activity, int requestCode, JSONObject data) {

@@ -193,8 +193,9 @@ public class WifiIpsSettings {
         }  
     }  
 	
-	public static boolean getServerAddress(boolean force_retry, Context context) {
+	public static boolean getServerAddress(Context context, boolean force_retry) {
 		
+		// reset server address
 		if (force_retry) {
 			SERVER = null;
 		}
