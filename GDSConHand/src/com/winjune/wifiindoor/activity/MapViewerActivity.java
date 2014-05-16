@@ -62,12 +62,11 @@ import com.winjune.wifiindoor.drawing.ZoomControl;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.drawing.graphic.model.LocationSprite;
 import com.winjune.wifiindoor.lib.map.MapDataR;
-import com.winjune.wifiindoor.map.IndoorMapLoader;
 import com.winjune.wifiindoor.map.MapManager;
 import com.winjune.wifiindoor.navi.Navigator;
-import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.poi.SearchContext;
+import com.winjune.wifiindoor.runtime.RuntimeMap;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
@@ -108,7 +107,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public Sprite mapADSprite;
 	
 	public GraphicIndoorMapListener graphicListener;
-	private IndoorMapLoader indoorMapLoader;
 
 	public int currentCollectingX = -1;
 	public int currentCollectingY = -1;
@@ -492,9 +490,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		// this step to set the width, camera etc.
 		initData();
  
-		MapDataR mapData = (MapDataR) MapManager.getDefaultMap();
-		indoorMapLoader = new IndoorMapLoader(this, mapData);
-		Util.setRuntimeIndoorMap(indoorMapLoader.getRuntimeIndoorMap()); // To avoid pass the map in parameter everywhere
+		// setup runtime map data
+		MapDataR mapData = (MapDataR) MapManager.getDefaultMap();		
+		RuntimeMap mRuntimeMap = new RuntimeMap();
+		mRuntimeMap.load(mapData);		
+		Util.setRuntimeIndoorMap(mRuntimeMap); // To avoid pass the map in parameter everywhere
 		
 
 		//Obsoleted: Change to: Calculate the Zoom Out rate that the less scaled width or height can be displayed in the screen.
@@ -618,7 +618,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		Library.initial(mEngine.getTextureManager(), getAssets());
 		
 		// Draw the original in Map units, e.g. user
-		indoorMapLoader.initialMap();
+		Util.getRuntimeIndoorMap().initMap(this);
 
 		// No background color needed as we have a fullscreen background sprite.
 		mainScene.setBackgroundEnabled(true);
@@ -764,11 +764,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		MapDataR mapData = (MapDataR) MapManager.getMapByLabel(label);
 		if (mapData != null){
-			
+									
+			RuntimeMap mRuntimeMap = new RuntimeMap();
+			mRuntimeMap.load(mapData);		
+			Util.setRuntimeIndoorMap(mRuntimeMap); // To avoid pass the map in parameter everywhere
 						
-			indoorMapLoader = new IndoorMapLoader(this, mapData);
-			Util.setRuntimeIndoorMap(indoorMapLoader.getRuntimeIndoorMap());	
-			
 			MapDrawer.switchMapPrepare(this);
 			MapDrawer.switchMapExcute(this);
 			

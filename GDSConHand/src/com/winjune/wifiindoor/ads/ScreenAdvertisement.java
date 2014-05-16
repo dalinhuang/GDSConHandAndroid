@@ -19,7 +19,7 @@ import android.app.Activity;
 import android.util.Xml;
 
 import com.google.gson.Gson;
-import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;
+import com.winjune.wifiindoor.runtime.RuntimeMap;
 import com.winjune.wifiindoor.util.AdData;
 import com.winjune.wifiindoor.util.AdUtil;
 import com.winjune.wifiindoor.util.Util;
@@ -48,7 +48,7 @@ public class ScreenAdvertisement {
 		
 	}
 
-	public ScreenAdvertisement(final Activity activity, RuntimeIndoorMap runtimeIndoorMap) {
+	public ScreenAdvertisement(final Activity activity, RuntimeMap runtimeIndoorMap) {
 		this.activity = activity;
 		this.mapId=runtimeIndoorMap.getMapId();
 		this.AdList=new ArrayList<Ad>();

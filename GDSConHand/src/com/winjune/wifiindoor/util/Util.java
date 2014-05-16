@@ -30,7 +30,7 @@ import com.winjune.wifiindoor.network.WifiInfoManager;
 import com.winjune.wifiindoor.poi.EventManager;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PoiSample;
-import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;
+import com.winjune.wifiindoor.runtime.RuntimeMap;
 import com.winjune.wifiindoor.version.ApkVersionManager;
 import com.winjune.wifiindoor.webservice.IpsWebService;
 import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
@@ -87,7 +87,7 @@ public class Util {
 	
 	private static boolean isDefaultMap = false;
 
-	private static RuntimeIndoorMap runtimeIndoorMap = null;
+	private static RuntimeMap runtimeIndoorMap = null;
 		
 	private static Toast toast = null;
 	
@@ -341,11 +341,11 @@ public class Util {
 		Util.accountName = accountName;
 	}
 
-	public static RuntimeIndoorMap getRuntimeIndoorMap() {
+	public static RuntimeMap getRuntimeIndoorMap() {
 		return runtimeIndoorMap;
 	}
 
-	public static void setRuntimeIndoorMap(RuntimeIndoorMap runtimeIndoorMap) {
+	public static void setRuntimeIndoorMap(RuntimeMap runtimeIndoorMap) {
 		Util.runtimeIndoorMap = runtimeIndoorMap;
 	}
 	

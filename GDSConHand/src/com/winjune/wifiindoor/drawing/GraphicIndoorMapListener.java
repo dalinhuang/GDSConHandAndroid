@@ -11,14 +11,14 @@ import android.widget.Toast;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.drawing.runtime.PreciseCellLocation;
 import com.winjune.wifiindoor.runtime.Cell;
-import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;
-import com.winjune.wifiindoor.runtime.RuntimeIndoorMapListener;
+import com.winjune.wifiindoor.runtime.RuntimeMap;
+import com.winjune.wifiindoor.runtime.RuntimeMapListener;
 import com.winjune.wifiindoor.runtime.RuntimeUser;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 
-public class GraphicIndoorMapListener implements RuntimeIndoorMapListener {
+public class GraphicIndoorMapListener implements RuntimeMapListener {
 
 	private Scene mainScene;
 	private Text mMapText;
@@ -32,7 +32,7 @@ public class GraphicIndoorMapListener implements RuntimeIndoorMapListener {
 	}
 
 	@Override
-	public void initial(RuntimeIndoorMap runtimeIndoorMap) {
+	public void initial(RuntimeMap runtimeIndoorMap) {
 		// No need to draw the background Sprite
 		/*
 		Cell[][] cells = runtimeIndoorMap.getCells();
@@ -55,7 +55,7 @@ public class GraphicIndoorMapListener implements RuntimeIndoorMapListener {
 	}
 
 	@Override
-	public void locate(RuntimeIndoorMap runtimeIndoorMap, int colNo, int rowNo, int userType, int idx) {
+	public void locate(RuntimeMap runtimeIndoorMap, int colNo, int rowNo, int userType, int idx) {
 		// to put a tag on a specific cell
 		switch (userType) {
 			case Constants.LOCATION_USER:

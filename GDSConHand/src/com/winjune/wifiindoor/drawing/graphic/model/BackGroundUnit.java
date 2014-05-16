@@ -8,7 +8,7 @@ import org.andengine.opengl.texture.region.TextureRegion;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.AndEngineGraphicsHelper;
-import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;
+import com.winjune.wifiindoor.runtime.RuntimeMap;
 import com.winjune.wifiindoor.util.Util;
 
 import android.graphics.Bitmap;
@@ -26,7 +26,7 @@ public class BackGroundUnit extends Unit {
 		backgroundTextureRegion = null;
 	}
 	
-	public Sprite load(MapViewerActivity activity, RuntimeIndoorMap runtimeIndoorMap) {		
+	public Sprite load(MapViewerActivity activity, RuntimeMap runtimeIndoorMap) {		
 		int rowCount = runtimeIndoorMap.getRowNum();
 		int colCount = runtimeIndoorMap.getColNum();		
 		int mapWidth = colCount * Util.getCurrentCellPixel();
@@ -40,7 +40,7 @@ public class BackGroundUnit extends Unit {
 		return new Sprite(0, 0, backgroundTextureRegion, activity.getVertexBufferObjectManager());
 	}
 
-	private static Bitmap createBackground(MapViewerActivity activity, RuntimeIndoorMap runtimeIndoorMap) {	
+	private static Bitmap createBackground(MapViewerActivity activity, RuntimeMap runtimeIndoorMap) {	
 		int rowCount = runtimeIndoorMap.getRowNum();
 		int colCount = runtimeIndoorMap.getColNum();
 		int cellPixel = runtimeIndoorMap.getCellPixel();

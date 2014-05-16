@@ -2,7 +2,7 @@ package com.winjune.wifiindoor.drawing;
 
 import org.andengine.entity.sprite.AnimatedSprite;
 
-import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;
+import com.winjune.wifiindoor.runtime.RuntimeMap;
 
 /**
  * @author haleyshi
@@ -10,9 +10,9 @@ import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;
  */
 public class ModeControl {
 
-	private RuntimeIndoorMap runtimeIndoorMap;
+	private RuntimeMap runtimeIndoorMap;
 	
-	public ModeControl(RuntimeIndoorMap runtimeIndoorMap) {
+	public ModeControl(RuntimeMap runtimeIndoorMap) {
 		this.runtimeIndoorMap = runtimeIndoorMap;
 	}
 

@@ -22,7 +22,7 @@ import android.util.Log;
 
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.Unit;
-import com.winjune.wifiindoor.runtime.RuntimeIndoorMap;
+import com.winjune.wifiindoor.runtime.RuntimeMap;
 import com.winjune.wifiindoor.util.AdData;
 import com.winjune.wifiindoor.util.AdUtil;
 import com.winjune.wifiindoor.util.VisualParameters;
@@ -89,7 +89,7 @@ public class AdvertiseUnit extends Unit {
 	*/
 	
 
-	public Sprite load(MapViewerActivity activity, RuntimeIndoorMap runtimeIndoorMap,final AdSpriteListener spriteListener, boolean default_ad) {
+	public Sprite load(MapViewerActivity activity, RuntimeMap runtimeIndoorMap,final AdSpriteListener spriteListener, boolean default_ad) {
         // TODO: why hard-code?
 		int mapWidth = 1000;
 		int mapHeight = 400;
