@@ -54,10 +54,10 @@ import com.winjune.wifiindoor.activity.mapviewer.*;
 import com.winjune.wifiindoor.activity.mapviewer.AdBanner.AdvertisePeriodThread;
 import com.winjune.wifiindoor.activity.poiviewer.EventViewerActivity;
 import com.winjune.wifiindoor.ads.ScreenAdvertisement;
-import com.winjune.wifiindoor.drawing.GraphicIndoorMapListener;
-import com.winjune.wifiindoor.drawing.MapCameraViewGestureListener;
+import com.winjune.wifiindoor.drawing.GraphicMapListener;
+import com.winjune.wifiindoor.drawing.MapViewGestureListener;
 import com.winjune.wifiindoor.drawing.ModeControl;
-import com.winjune.wifiindoor.drawing.SoundIndoorMapListener;
+import com.winjune.wifiindoor.drawing.SoundMapListener;
 import com.winjune.wifiindoor.drawing.ZoomControl;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.drawing.graphic.model.LocationSprite;
@@ -106,7 +106,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public ScreenAdvertisement mAdvertisement;
 	public Sprite mapADSprite;
 	
-	public GraphicIndoorMapListener graphicListener;
+	public GraphicMapListener graphicListener;
 
 	public int currentCollectingX = -1;
 	public int currentCollectingY = -1;
@@ -509,7 +509,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		// Change to: do not allow zoomFactor too small, to avoid all or too much map pieces 
 		// be displayed in the Screen and cause the OOM issue 
 		float min_zoom_factor = 0.8f;		
-		float max_zoom_factor = 8f;	
+		float max_zoom_factor = 6f;	
 		// default use minimized map to show overall
 		float current_zoom_factor = 1f;
 		
@@ -527,7 +527,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 		// to enable finger scroll of camera
 		gestureDetector = new GestureDetector(this,
-				new MapCameraViewGestureListener(this));
+				new MapViewGestureListener(this));
 
 		// zoom when multi-touchs
 		zoomGestureDector = new ScaleGestureDetector(this,
@@ -657,11 +657,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		MapHUD.initialHUDMenuBar(this);	
 
 		// Listeners
-		graphicListener = new GraphicIndoorMapListener(this, mainScene, mMapText);
+		graphicListener = new GraphicMapListener(this, mainScene, mMapText);
 		graphicListener.setOffsetX(LEFT_SPACE);
 		graphicListener.setOffsetY(TOP_SPACE);
 		Util.getRuntimeIndoorMap().addListener(graphicListener);
-		Util.getRuntimeIndoorMap().addListener(new SoundIndoorMapListener());
+		Util.getRuntimeIndoorMap().addListener(new SoundMapListener());
 
 		// Initial in map listeners
 		Util.getRuntimeIndoorMap().initial();

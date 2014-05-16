@@ -19,13 +19,24 @@ import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
 
+enum MapZoomLevel {
+	Normal,
+	Large
+}
+
 public class RuntimeMap {
+	
+	private MapZoomLevel zoomLevel = MapZoomLevel.Normal;
 
 	private int mapId;
 	private String mapLabel;
-	private String mapUrl;
-	
+	private String normalMapUrl;
+	private String largeMapUrl;
 	private int cellPixel;	
+	private int maxLatitude;
+	private int maxLongitude;
+	private int mapWidth;
+	private int mapHeight;
 	private int rowNum;
 	private int colNum;
 	private RuntimeUser user;
@@ -45,18 +56,22 @@ public class RuntimeMap {
 	
 	public void load(MapDataR mData){
 
-		this.mapUrl = mData.getNormalMapUrl();
+		this.normalMapUrl = mData.getNormalMapUrl();
+		this.largeMapUrl = mData.getLargeMapUrl();
 		this.mapLabel = mData.getLabel();
 		this.mapId = mData.getId();
-
+		this.maxLatitude = mData.getLatitude();
+		this.maxLongitude = mData.getLongitude();
+		this.cellPixel = mData.getCellPixel();
 		
-		setCellPixel(mData.getCellPixel());		
+		calcMapSize(normalMapUrl);
+		
+		rowNum = mapHeight/cellPixel;
+        colNum = mapWidth/cellPixel;
+        		
 		setInfoPushed(false);
 		setInformations(null);
-		setInfoPushTime(0);
-
-		
-		calcRowNumAndColNum(mData.getNormalMapUrl());
+		setInfoPushTime(0);       
 		
 		cells = new Cell[rowNum][];
 		for (int i = 0; i < cells.length; i++) {
@@ -75,7 +90,7 @@ public class RuntimeMap {
 		drawUser(mapViewer);
 	}
 	
-	private void calcRowNumAndColNum(String mapUrl) {
+	private void calcMapSize(String mapUrl) {
 		if ((mapUrl == null) || mapUrl.isEmpty())
 			return; 
 				
@@ -89,12 +104,13 @@ public class RuntimeMap {
 	        	int left = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_LEFT].trim());
 	            int top = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_TOP].trim());
 	            int width = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_WIDTH].trim());
-	            int height = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_HEIGHT].trim());                            
-	            rowNum = (top+height)/cellPixel;
-	            colNum = (left+width)/cellPixel;
+	            int height = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_HEIGHT].trim()); 
+	            mapWidth = left + width;
+	            mapHeight = top + height;
+
 	         }
-	     }
-	}	
+	     }		
+	}
 	
 	private void initMapResources(String mapUrl) {
 		if ((mapUrl == null) || mapUrl.isEmpty())
@@ -130,6 +146,43 @@ public class RuntimeMap {
 				}
 			}
 		}		
+	}
+	
+	public boolean zoomInMap(){
+		
+		if (zoomLevel == MapZoomLevel.Large)
+			return false;
+	
+		// store a copy normal map size
+		int normalMapWidth = mapWidth;
+		
+		calcMapSize(largeMapUrl);
+		
+		// increase cellPixel accordingly		
+		cellPixel = cellPixel * mapWidth / normalMapWidth;
+		
+		initMapResources(largeMapUrl);
+		zoomLevel = MapZoomLevel.Large;
+		
+		return true;
+	}
+	
+	public void zoomOutMap(){
+		
+		if (zoomLevel == MapZoomLevel.Normal)
+			return;
+	
+		// store a copy normal map size
+		int largeMapWidth = mapWidth;
+		
+		calcMapSize(normalMapUrl);
+		
+		// increase cellPixel accordingly		
+		cellPixel = cellPixel * mapWidth / largeMapWidth;
+		
+		initMapResources(normalMapUrl);
+		zoomLevel = MapZoomLevel.Normal;		
+		
 	}
 
 	public Cell[][] getCells() {
@@ -170,11 +223,11 @@ public class RuntimeMap {
 	}
 	
 	public int getMapWidth(){
-		return colNum * cellPixel;
+		return mapWidth;
 	}
 	
 	public int getMapHeight(){
-		return rowNum * cellPixel;
+		return mapHeight;
 	}
 	
 	public boolean[][] getPassableMatrix() {
@@ -318,12 +371,12 @@ public class RuntimeMap {
 		this.mapId = mapId;
 	}
 
-	public String getMapPictureName() {
-		return mapUrl;
+	public String getNormalMapUrl() {
+		return normalMapUrl;
 	}
 
-	public void setMapPictureName(String mapPictureName) {
-		this.mapUrl = mapPictureName;
+	public void setNormalMapUrl(String mapUrl) {
+		this.normalMapUrl = mapUrl;
 	}
 	
 	public boolean isInfoPushed() {

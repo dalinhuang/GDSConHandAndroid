@@ -18,14 +18,14 @@ import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 
-public class GraphicIndoorMapListener implements RuntimeMapListener {
+public class GraphicMapListener implements RuntimeMapListener {
 
 	private Scene mainScene;
 	private Text mMapText;
 	private String mapName;
 	private Activity activity;
 
-	public GraphicIndoorMapListener(Activity activity, Scene mainScene, Text mMapText) {
+	public GraphicMapListener(Activity activity, Scene mainScene, Text mMapText) {
 		this.activity = activity;
 		this.mainScene = mainScene;
 		this.mMapText = mMapText;

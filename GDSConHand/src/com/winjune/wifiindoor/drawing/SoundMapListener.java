@@ -12,7 +12,7 @@ import com.winjune.wifiindoor.runtime.RuntimeUser;
  * @author haleyshi
  *
  */
-public class SoundIndoorMapListener implements RuntimeMapListener {
+public class SoundMapListener implements RuntimeMapListener {
 
 	@Override
 	public void initial(RuntimeMap runtimeIndoorMap) {

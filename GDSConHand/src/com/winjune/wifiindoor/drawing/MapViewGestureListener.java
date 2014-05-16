@@ -10,12 +10,12 @@ import com.winjune.wifiindoor.util.Util;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 
-public final class MapCameraViewGestureListener implements OnGestureListener {
+public final class MapViewGestureListener implements OnGestureListener {
 	private static final float VIEW_MOVEMENT_BASE_RATIO = 0.1f;  // Adjust this to let the scroll follow your finger
 
 	private MapViewerActivity activity;
 
-	public MapCameraViewGestureListener(MapViewerActivity activity) {
+	public MapViewGestureListener(MapViewerActivity activity) {
 		this.activity = activity;
 	}
 	

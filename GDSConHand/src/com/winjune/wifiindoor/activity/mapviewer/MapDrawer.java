@@ -19,6 +19,15 @@ import com.winjune.wifiindoor.util.VisualParameters;
 public class MapDrawer {
 	
 	
+	public static void zoomInMap(MapViewerActivity mapViewer){
+		
+		if (Util.getRuntimeIndoorMap().zoomInMap()){
+			switchMapPrepare(mapViewer);
+			switchMapExcute(mapViewer);
+		}
+		
+	}
+	
 	public static void switchMapPrepare(MapViewerActivity mapViewer) {
 		mapViewer.mainScene.getChildByIndex(Constants.LAYER_MAP).detachChildren();
 	}
@@ -30,9 +39,9 @@ public class MapDrawer {
 
 		MapViewerUtil.resetCameraBounds(mapViewer, mapWidth, mapHeight);
 		
-		float defaultZoomFactor = 0.6f;
+		float defaultZoomFactor = 1f;
 		mapViewer.mCamera.setZoomFactor(defaultZoomFactor);
-		mapViewer.zoomControl.resetZoomFactor(0.6f, 8f);
+		mapViewer.zoomControl.resetZoomFactor(0.8f, 6f);
 		
 		mapViewer.reDrawPending = true;
 		drawMap(mapViewer);

@@ -98,6 +98,8 @@ public class ZoomControl {
 			POIBar.showPoiInfo(activity);
 		}else{			
 			mCamera.setZoomFactor(maxZoomFactor);	
+			
+			// MapDrawer.zoomInMap(activity);
 		}
 	}
 	
