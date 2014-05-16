@@ -477,7 +477,16 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 //		}
 
 	}
-
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		
+		// update map switch label
+		TextView mapSwitchT = (TextView) findViewById(R.id.text_map_switch);
+		mapSwitchT.setText(Util.getRuntimeIndoorMap().getMapLabel());		
+	}
+	
 	@Override
 	public EngineOptions onCreateEngineOptions() {
 		Log.i("MapViewer", "onCreateEngineOptions...");
@@ -663,12 +672,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		mCamera.setHUD(hud);
 		
 		MapHUD.initailHUDHintBar(this);
-		MapHUD.initialHUDMenuBar(this);
-		
-		// update map switch label
-		TextView mapSwitchT = (TextView) findViewById(R.id.text_map_switch);
-		mapSwitchT.setText(Util.getRuntimeIndoorMap().getMapLabel());
-		
+		MapHUD.initialHUDMenuBar(this);	
 
 		// Listeners
 		graphicListener = new GraphicIndoorMapListener(this, mainScene, mMapText);
