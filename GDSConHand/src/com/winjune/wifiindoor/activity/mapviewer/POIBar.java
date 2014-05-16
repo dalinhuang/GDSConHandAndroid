@@ -67,8 +67,11 @@ public class POIBar {
 
 		for (PlaceOfInterest poi: POIManager.POIList) {			
 			if ((currentZoomFactor >= poi.minZoomFactor)
-				 && (currentZoomFactor <= poi.maxZoomFactor)) {
+				 && (currentZoomFactor <= poi.maxZoomFactor)) {			
 				Text mLabel = null;
+				
+				if (poi.mapId != Util.getRuntimeIndoorMap().getMapId())
+					continue;
 				
 				if ((poi.label != null ) && (!poi.label.trim().isEmpty())) {
 					mLabel = showPoiLabel(mapViewer,poi);

@@ -96,7 +96,6 @@ public class ZoomControl {
 		}else{			
 			mCamera.setZoomFactor(maxZoomFactor);	
 		}
-		POIBar.showPoiInfo(activity);
 	}
 	
 	public void zoomOut(){
@@ -117,7 +116,6 @@ public class ZoomControl {
 		} else {
 			mCamera.setZoomFactor(minZoomFactor);
 		}
-		POIBar.showPoiInfo(activity);
 	}
 	
 	public void zoomMostIn(){

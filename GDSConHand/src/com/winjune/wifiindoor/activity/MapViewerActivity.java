@@ -499,9 +499,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		MapDataR mapData = (MapDataR) MapManager.getDefaultMap();
 		indoorMapLoader = new IndoorMapLoader(this, mapData);
 		Util.setRuntimeIndoorMap(indoorMapLoader.getRuntimeIndoorMap()); // To avoid pass the map in parameter everywhere
-				
-		// Initialize and Set Camera
-		MapViewerUtil.initCamera(this);
 		
 		int mapWidth = Util.getRuntimeIndoorMap().getColNum() * Util.getRuntimeIndoorMap().getCellPixel();
 		int mapHeight = Util.getRuntimeIndoorMap().getRowNum() * Util.getRuntimeIndoorMap().getCellPixel();
@@ -517,6 +514,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		if (totalHeight < cameraHeight) {
 			totalHeight = cameraHeight;
 		}
+				
 
 		//Obsoleted: Change to: Calculate the Zoom Out rate that the less scaled width or height can be displayed in the screen.
 		//float min_zoom_factor = 1f * cameraWidth / totalWidth;
@@ -533,16 +531,15 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		// default use minimized map to show overall
 		float current_zoom_factor = 1f;
 		
-		// Original zoom factor
-		mCamera.setZoomFactor(current_zoom_factor);
+		// Initialize and Set Camera
+		MapViewerUtil.initCamera(this, current_zoom_factor, totalWidth, totalHeight);
+		
 		// Allowed zoom Factors
 		zoomControl = new ZoomControl(this, mCamera, max_zoom_factor, min_zoom_factor, density);
 
 		// Control the Map Mode
 		modeControl = new ModeControl(Util.getRuntimeIndoorMap());
 
-		mCamera.setBounds(0, 0, totalWidth, totalHeight);
-		mCamera.setBoundsEnabled(true);
 
 		// to enable finger scroll of camera
 		gestureDetector = new GestureDetector(this,
@@ -643,7 +640,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		mainScene.setBackgroundEnabled(true);
 		mainScene.setBackground(new Background(255,255,255)); // white color
 		
-		// Background lines
+/*		// Background lines
 		if (VisualParameters.BACKGROUND_LINES_NEEDED && VisualParameters.PLANNING_MODE_ENABLED) {
 
 			int mapWidth = Util.getRuntimeIndoorMap().getColNum() * Util.getRuntimeIndoorMap().getCellPixel();
@@ -655,7 +652,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			
 			//load the collected flags
 			CollectedFlag.loadCollectedFlag(this);
-		}
+		}*/
 
 		mainScene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 
@@ -698,10 +695,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		MapDrawer.setCameraCenterTo(this, midColNo, midRowNo, false); // set Center to left_top cell
 			
 		InfoBanner.infoMe(this, -1, -1); // For map-wide Info
-		
-		// Show the Map Info Layer
-		POIBar.showPoiInfo(this);
-		
+				
 		// InitData for Navigator
 		NaviBar.loadNaviInfo(this);
 		
@@ -748,6 +742,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	private void mapSwitchPopShow(View v){
 		LayoutInflater inflater = getLayoutInflater(); 
 		View popWin = inflater.inflate(R.layout.popup_map_switch, null);
+			   
+		final PopupWindow pop = new PopupWindow(popWin, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, false); 		  				
+		pop.setBackgroundDrawable(new BitmapDrawable()); 
+        pop.setOutsideTouchable(true); 
+        pop.setFocusable(true);        
 		
 		ArrayList<MapDataR> maps = MapManager.getMaps();
 		
@@ -762,26 +761,39 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-						MapViewerActivity.this.mapSwitchClick(v);
+						MapViewerActivity.this.mapSwitchClick(v);	
+						pop.dismiss();
 					}
 					
 				});
 			}
-		}
-			   
-		final PopupWindow pop = new PopupWindow(popWin, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, false); 		  				
-		pop.setBackgroundDrawable(new BitmapDrawable()); 
-        pop.setOutsideTouchable(true); 
-        pop.setFocusable(true);
+		}        
         
         pop.showAsDropDown(v);;
 	}
 	
 	public void mapSwitchClick(View v){
-		TextView tv = (TextView)v;
-		String label = tv.getText().toString();
+		
+		String label = ((TextView)v).getText().toString();
 		
 		Log.e("Map Switcher",label);
+		
+		MapDataR mapData = (MapDataR) MapManager.getMapByLabel(label);
+		if (mapData != null){
+			
+						
+			indoorMapLoader = new IndoorMapLoader(this, mapData);
+			Util.setRuntimeIndoorMap(indoorMapLoader.getRuntimeIndoorMap());	
+			
+			MapDrawer.switchMapPrepare(this);
+			MapDrawer.switchMapExcute(this);
+			
+			// update map switch label
+			TextView mapSwitchT = (TextView) findViewById(R.id.text_map_switch);
+			mapSwitchT.setText(Util.getRuntimeIndoorMap().getMapLabel());	
+						
+		}
+		
 	}
 	
 	public void searchBarClick(View v) {

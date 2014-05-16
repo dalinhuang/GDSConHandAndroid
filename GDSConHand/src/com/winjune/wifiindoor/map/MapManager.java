@@ -26,6 +26,16 @@ public class MapManager {
 			return null;
 	}
 	
+	public static MapDataR getMapByLabel(String label){
+		
+		for (MapDataR map:mapList.maps){
+			if (map.getLabel().equals(label))
+				return map;
+		}
+		
+		return null;
+	}
+	
 	//Get the MapManagerItem by the Index
 	public static MapDataR getMapByIndex(int index){
 		if (mapList.maps.size()>index)

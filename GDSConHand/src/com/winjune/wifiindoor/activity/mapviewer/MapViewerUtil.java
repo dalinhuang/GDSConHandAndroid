@@ -20,7 +20,7 @@ import com.winjune.wifiindoor.util.VisualParameters;
 public class MapViewerUtil {
 	
 	
-	public static void initCamera(MapViewerActivity mapViewer) {
+	public static void initCamera(MapViewerActivity mapViewer, float zoomFactor, int totalWidth, int totalHeight) {
 		// Get the display
 		Display display = mapViewer.getWindowManager().getDefaultDisplay();
 		DisplayMetrics outMetrics = new DisplayMetrics();
@@ -36,8 +36,6 @@ public class MapViewerUtil {
 		mapViewer.density = Math.min(mapViewer.cameraWidth, mapViewer.cameraHeight) / 480;
 
 		int CONTROL_BUTTON_NUMBER = Library.CONTROL_BUTTON_NUMBER;
-		int TAB_BUTTON_NUMBER = Library.TAB_BUTTON_NUMBER;
-		
 		mapViewer.CONTROL_BUTTON_WIDTH = 30;
 		mapViewer.CONTROL_BUTTON_MARGIN = 10;
 		
@@ -64,12 +62,15 @@ public class MapViewerUtil {
 			mapViewer.CONTROL_BUTTON_MARGIN = Math.min(MIN_VALUE, Math.round ((mapViewer.cameraHeight - mapViewer.CONTROL_BUTTON_HEIGHT * CONTROL_BUTTON_NUMBER) / CONTROL_BUTTON_NUMBER / 3f));// Here use 3f to let the control tab layout on the top of height
 		}	
 		
-		//mapViewer.BOTTOM_SPACE += mapViewer.TAB_BUTTON_HEIGHT;
-		
-		// remove the right margin
-		//RIGHT_SPACE += CONTROL_BUTTON_WIDTH;
 
 		mapViewer.mCamera = new ZoomCamera(0, 0, mapViewer.cameraWidth, mapViewer.cameraHeight);
+		
+		// Original zoom factor
+		mapViewer.mCamera.setZoomFactor(zoomFactor);
+
+		mapViewer.mCamera.setBounds(0, 0, totalWidth, totalHeight);
+		mapViewer.mCamera.setBoundsEnabled(false);
+		
 	}
 	
 	

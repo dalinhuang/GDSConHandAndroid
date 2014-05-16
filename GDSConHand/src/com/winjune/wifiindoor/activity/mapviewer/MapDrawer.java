@@ -18,6 +18,17 @@ import com.winjune.wifiindoor.util.VisualParameters;
 
 public class MapDrawer {
 	
+	
+	public static void switchMapPrepare(MapViewerActivity mapViewer) {
+		mapViewer.mainScene.getChildByIndex(Constants.LAYER_MAP).detachChildren();
+	}
+	
+	public static void switchMapExcute(MapViewerActivity mapViewer) {	
+		
+		mapViewer.reDrawPending = true;
+		drawMap(mapViewer);
+	}	
+	
 	public static void setCameraCenterTo(MapViewerActivity mapViewer, int colNo, int rowNo, boolean fromMove) {
 		float x = colNo; 
 		float y = rowNo;
@@ -55,7 +66,7 @@ public class MapDrawer {
 		
 		// Background follow the screen
 		// we don't want to the background line moves
-		/*
+		
 		if (VisualParameters.BACKGROUND_LINES_NEEDED && VisualParameters.PLANNING_MODE_ENABLED) {
 			//int colNo = (int) (map_left - mapViewer.LEFT_SPACE) / Util.getCurrentCellPixel();
 			//int rowNo = (int) (map_top - mapViewer.TOP_SPACE) / Util.getCurrentCellPixel();
@@ -64,14 +75,15 @@ public class MapDrawer {
 		    //Log.i("Backgorund", colNo + "," + rowNo + "," + background_left + "," + background_top);
 			if (mapViewer.backgroundSprite == null) {
 				mapViewer.backgroundSprite = Library.BACKGROUND3.load(mapViewer, mapViewer.cameraWidth, mapViewer.cameraHeight);
-				mapViewer.backgroundSprite.setPosition(map_left, map_top);
+				// mapViewer.backgroundSprite.setPosition(map_left, map_top);
+				mapViewer.backgroundSprite.setPosition(mapViewer.LEFT_SPACE, mapViewer.TOP_SPACE);
 				mapViewer.mainScene.getChildByIndex(Constants.LAYER_BACKGROUND).attachChild(mapViewer.backgroundSprite);
 			}
 			else {
 				mapViewer.backgroundSprite.setPosition(map_left, map_top);
 			}
 		}
-		*/
+		
 		
 		// Slow down the reDraw request from Move event
 		if (fromMove) {
@@ -222,7 +234,7 @@ public class MapDrawer {
 				});
 			}
 		}
-		
+				
 		System.gc();
 		
 		mapViewer.reDrawOngoing = false;
