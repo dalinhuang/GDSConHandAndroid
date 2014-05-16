@@ -43,6 +43,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -746,12 +747,29 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	
 	private void mapSwitchPopShow(View v){
 		LayoutInflater inflater = getLayoutInflater(); 
-		View pop_window_view = inflater.inflate(R.layout.popup_map_switch, null); 
-		View map_view = inflater.inflate(R.layout.template_map_switch_text, (ViewGroup) pop_window_view);
-		TextView tv =  (TextView)map_view.findViewById(R.id.map_label);
-		tv.setText("测试");
-		   
-		final PopupWindow pop = new PopupWindow(pop_window_view, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, false); 		  				
+		View popWin = inflater.inflate(R.layout.popup_map_switch, null);
+		
+		ArrayList<MapDataR> maps = MapManager.getMaps();
+		
+		for (MapDataR map:maps){
+			if (map.getId() != Util.getRuntimeIndoorMap().getMapId()) {
+				TextView mapLabel = (TextView)inflater.inflate(R.layout.template_map_switch_text, (ViewGroup) popWin, false);				
+				mapLabel.setText(map.getLabel());
+				((ViewGroup)popWin).addView(mapLabel);
+				
+				mapLabel.setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						MapViewerActivity.this.mapSwitchClick(v);
+					}
+					
+				});
+			}
+		}
+			   
+		final PopupWindow pop = new PopupWindow(popWin, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, false); 		  				
 		pop.setBackgroundDrawable(new BitmapDrawable()); 
         pop.setOutsideTouchable(true); 
         pop.setFocusable(true);
@@ -759,9 +777,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
         pop.showAsDropDown(v);;
 	}
 	
-	public void mapSwitchF1Click(View v){
+	public void mapSwitchClick(View v){
+		TextView tv = (TextView)v;
+		String label = tv.getText().toString();
 		
-		Log.e("test", "============mapSwitchF1Click=============");
+		Log.e("Map Switcher",label);
 	}
 	
 	public void searchBarClick(View v) {
