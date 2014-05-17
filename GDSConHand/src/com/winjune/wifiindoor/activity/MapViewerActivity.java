@@ -36,7 +36,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -89,8 +91,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public ZoomCamera mCamera;
 	public Font mFontHint;
 	public Font mFontLabel;
-	public int cameraWidth;
-	public int cameraHeight;
 	public ScaleGestureDetector zoomGestureDector;
 	public GestureDetector gestureDetector;
 	public Scene mainScene;
@@ -123,7 +123,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public int mTargetColNo;
 	public int mTargetRowNo;
 	
-	private long lastBackTime;
+	public long lastBackTime;
 	public long lastManualLocateTime;
 	public boolean reDrawPending;
 	public Thread reDrawThread;
@@ -158,7 +158,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public static final int CAMERA_REQUEST_CODE = REQUEST_CODE;
 	public static final int USER_CENTER_REQUEST_CODE = REQUEST_CODE + 2;
 
-	public float density = 1.5f;
 
 	public AdvertisePeriodThread advertisePeriodThread;
 	
@@ -169,45 +168,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public boolean mContStarted;
 
 	@SuppressLint("ShowToast")
-	private void initData() {
-		if (DEBUG)
-			Log.e(TAG, "Start initialData");
 
-		backgroundSprite = null;
-		//mapPicSprite = null;	
-		
-		currentCollectingX = -1;
-		currentCollectingY = -1;
-		LocateBar.setCollectingOnGoing(this, false);
-		mMode = IndoorMapData.MAP_MODE_VIEW;
-		mNfcEditState = IndoorMapData.NFC_EDIT_STATE_NULL;
-		mTargetColNo = -1;
-		mTargetRowNo = -1;
-		periodicLocateMeOn = true;
-		periodicLoacting = false;
-				
-		lastManualLocateTime = System.currentTimeMillis();
-		lastBackTime = lastManualLocateTime - 6000;
-		
-		reDrawPending = false;
-		reDrawOn = true;
-		reDrawOngoing = false;
-
-		infoQueryToast = Toast.makeText(this,
-				getResources().getString(R.string.no_latest_info),
-				Toast.LENGTH_LONG);
-		infoQueryToast.setMargin(0, 0);
-		infoQueryToast.setGravity(Gravity.TOP, 0, 0);
-		
-		continuousCollectStartTime = 0;
-		continuousCollectStopTime = 0;
-		mContStartRowNo = -1;
-		mContStartColNo = -1;
-		mContStarted = false;
-
-		if (DEBUG)
-			Log.e(TAG, "End initialData");
-	}
 
 	/*
 	 * public void onBackPressed() { // Do nothing }
@@ -246,18 +207,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			zoomControl.zoomOut();
 			return true;
 		} else if (pKeyCode == KeyEvent.KEYCODE_MENU
-				&& pEvent.getAction() == KeyEvent.ACTION_DOWN) {
-			/*
-			if (this.mainScene.hasChildScene()) {
-				// Remove the menu and reset it.
-				this.mainScene.back();
-			} else {
-				// Attach the menu.
-				//this.mainScene.setChildScene(this.mMenuScene, false, true, true);
-			}
-			*/
-			
-			
+				&& pEvent.getAction() == KeyEvent.ACTION_DOWN) {		
 			
 			return true;
 		} else {
@@ -485,53 +435,37 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	@Override
 	public EngineOptions onCreateEngineOptions() {
 		Log.i("MapViewer", "onCreateEngineOptions...");
-		
+				
 		// This should be done before everything since we need some data set in
 		// this step to set the width, camera etc.
-		initData();
+		MapViewerUtil.initData(this);
  
-		// setup runtime map data
+		// Initialize runtime map data
 		MapDataR mapData = (MapDataR) MapManager.getDefaultMap();		
 		RuntimeMap mRuntimeMap = new RuntimeMap();
 		mRuntimeMap.load(mapData);		
-		Util.setRuntimeIndoorMap(mRuntimeMap); // To avoid pass the map in parameter everywhere
-		
-
-		//Obsoleted: Change to: Calculate the Zoom Out rate that the less scaled width or height can be displayed in the screen.
-		//float min_zoom_factor = 1f * cameraWidth / totalWidth;
-		//float height_min_zoom_factor = 1f * cameraHeight / totalHeight;
-		//if (min_zoom_factor < height_min_zoom_factor) {
-		//	min_zoom_factor = height_min_zoom_factor;
-		//}	
-		//float max_zoom_factor = Math.max(min_zoom_factor * 2, 10.0f);
-		//float current_zoom_factor = Math.min(min_zoom_factor * 3, 5.0f);
-		
-		// Change to: do not allow zoomFactor too small, to avoid all or too much map pieces 
-		// be displayed in the Screen and cause the OOM issue 
-		float min_zoom_factor = 0.8f;		
-		float max_zoom_factor = 6f;	
-		// default use minimized map to show overall
-		float current_zoom_factor = 1f;
+		Util.setRuntimeIndoorMap(mRuntimeMap); 		
 		
 		// Initialize and Set Camera
 		
-		int mapWidth = Util.getRuntimeIndoorMap().getMapWidth();
-		int mapHeight = Util.getRuntimeIndoorMap().getMapHeight();
-		MapViewerUtil.initCamera(this, current_zoom_factor, mapWidth, mapHeight);
+		MapViewerUtil.initCamera(this, mRuntimeMap.getDefaultZoomFactor(),
+									   mRuntimeMap.getMapWidth(), 
+									   mRuntimeMap.getMapHeight());
 		
 		// Allowed zoom Factors
-		zoomControl = new ZoomControl(this, mCamera, max_zoom_factor, min_zoom_factor, density);
+		zoomControl = new ZoomControl(this, mCamera, 
+										mRuntimeMap.getMaxZoomFactor(), 
+										mRuntimeMap.getMinZoomFactor(), 
+										Util.getcameraDensity());
 
 		// Control the Map Mode
 		modeControl = new ModeControl(Util.getRuntimeIndoorMap());		
 
 		// to enable finger scroll of camera
-		gestureDetector = new GestureDetector(this,
-				new MapViewGestureListener(this));
+		gestureDetector = new GestureDetector(this,	new MapViewGestureListener(this));
 
 		// zoom when multi-touchs
-		zoomGestureDector = new ScaleGestureDetector(this,
-				zoomControl.getScaleGestureListner());//Hoare
+		zoomGestureDector = new ScaleGestureDetector(this, 	zoomControl.getScaleGestureListner());
 
 		// FullScreen? Landscape? & Camera?
 		ScreenOrientation pScreenOrientation = ScreenOrientation.PORTRAIT_SENSOR;
@@ -540,7 +474,10 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		}
 		
 		//final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(cameraWidth, cameraHeight), mCamera);
-		final EngineOptions engineOptions = new EngineOptions(false, pScreenOrientation, new RatioResolutionPolicy(cameraWidth, cameraHeight), mCamera);
+		final EngineOptions engineOptions = new EngineOptions(false, 
+															pScreenOrientation, 
+															new RatioResolutionPolicy(Util.getCameraWidth(), Util.getCameraHeight()),
+															mCamera);
 
 		// Support Music & Sound
 		engineOptions.getAudioOptions().setNeedsMusic(true).setNeedsSound(true);
@@ -568,7 +505,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 						fontTexture_hints,
 						getAssets(),
 						"comic.ttf",
-						density * VisualParameters.FONT_CHAR_WIDTH_HINTS,
+						Util.getcameraDensity() * VisualParameters.FONT_CHAR_WIDTH_HINTS,
 						true, Color.BLUE);
 		mFontHint.load();
 		
@@ -771,6 +708,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 						
 			MapDrawer.switchMapPrepare(this);
 			MapDrawer.switchMapExcute(this);
+			mCamera.setZoomFactor(Util.getRuntimeIndoorMap().getDefaultZoomFactor());
 			
 			// update map switch label
 			TextView mapSwitchT = (TextView) findViewById(R.id.text_map_switch);

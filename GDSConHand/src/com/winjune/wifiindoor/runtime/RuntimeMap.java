@@ -26,17 +26,20 @@ enum MapZoomLevel {
 
 public class RuntimeMap {
 	
+	private static final float DEFAULT_ZOOM_FACTOR = 0.80f;
+	private static final float MAX_ZOOM_FACTOR = 5.00f;
+	private static final float MIN_ZOOM_FACTOR = 0.50f;
+	private static final float NORMAL_2_LARGE_FACTOR = 2.00f;
+	
 	private MapZoomLevel zoomLevel = MapZoomLevel.Normal;
-
+	
 	private int mapId;
 	private String mapLabel;
 	private String normalMapUrl;
 	private String largeMapUrl;
-	private int cellPixel;	
 	private int maxLatitude;
 	private int maxLongitude;
-	private int mapWidth;
-	private int mapHeight;
+
 	private int rowNum;
 	private int colNum;
 	private RuntimeUser user;
@@ -51,8 +54,21 @@ public class RuntimeMap {
 	private boolean infoPushed;
 	private long infoPushTime;
 	
-	private HashMap<MapResource, MapPieceSprite> resources;
+	private HashMap<MapResource, MapPieceSprite> normalMapResources;
+	private HashMap<MapResource, MapPieceSprite> largeMapResources;
+
 	
+	private int normalMapWidth;
+	private int normalMapHeight;
+	private int normalCellPixel;
+	private int largeMapWidth;
+	private int largeMapHeight;
+	private int largeCellPixel;	
+	private float normalDefaultZoomFactor = 0.00f;
+	private float normalMinZoomFactor = 0.00f;
+	private float normalMaxZoomFactor = 0.00f;
+	private float normal2LargeZoomFactor = 0.00f;
+	private float large2NormalZoomFactor = 0.00f;
 	
 	public void load(MapDataR mData){
 
@@ -62,12 +78,15 @@ public class RuntimeMap {
 		this.mapId = mData.getId();
 		this.maxLatitude = mData.getLatitude();
 		this.maxLongitude = mData.getLongitude();
-		this.cellPixel = mData.getCellPixel();
+		this.normalCellPixel = mData.getCellPixel();
 		
-		calcMapSize(normalMapUrl);
+		calcNormalMapSize();
+		calcLargeMapSize();
+		calcZoomFactors();
+		calcMapScale();
 		
-		rowNum = mapHeight/cellPixel;
-        colNum = mapWidth/cellPixel;
+		rowNum = normalMapWidth/normalCellPixel;
+        colNum = normalMapWidth/normalCellPixel;
         		
 		setInfoPushed(false);
 		setInformations(null);
@@ -83,18 +102,20 @@ public class RuntimeMap {
 			}
 		}
 		
-		initMapResources(mData.getNormalMapUrl());
+		normalMapResources = initMapResources(normalMapUrl);
+		largeMapResources = initMapResources(largeMapUrl);
+
 	}
 	
 	public void initMap(MapViewerActivity mapViewer){
 		drawUser(mapViewer);
 	}
 	
-	private void calcMapSize(String mapUrl) {
-		if ((mapUrl == null) || mapUrl.isEmpty())
+	private void calcNormalMapSize() {
+		if ((normalMapUrl == null) || normalMapUrl.isEmpty())
 			return; 
 				
-	    String pieces[] = mapUrl.trim().split(";");
+	    String pieces[] = normalMapUrl.trim().split(";");
 	               
 	    //Get last piece
 	    if (pieces.length > 0)   {
@@ -105,18 +126,41 @@ public class RuntimeMap {
 	            int top = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_TOP].trim());
 	            int width = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_WIDTH].trim());
 	            int height = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_HEIGHT].trim()); 
-	            mapWidth = left + width;
-	            mapHeight = top + height;
+	            normalMapWidth = left + width;
+	            normalMapHeight = top + height;
 
 	         }
 	     }		
 	}
 	
-	private void initMapResources(String mapUrl) {
+	private void calcLargeMapSize() {
+		if ((largeMapUrl == null) || largeMapUrl.isEmpty())
+			return; 
+				
+	    String pieces[] = largeMapUrl.trim().split(";");
+	               
+	    //Get last piece
+	    if (pieces.length > 0)   {
+	    	String lastPiece = pieces[pieces.length-1];
+	        String attrs[] = lastPiece.split(",");
+	        if (attrs.length == IndoorMapData.ATTR_NUMBER_PER_MAP_PIECE) {
+	        	int left = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_LEFT].trim());
+	            int top = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_TOP].trim());
+	            int width = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_WIDTH].trim());
+	            int height = Integer.parseInt(attrs[IndoorMapData.MAP_PIECE_ATTR_HEIGHT].trim()); 
+	            largeMapWidth = left + width;
+	            largeMapHeight = top + height;
+
+	         }
+	     }		
+	}	
+	
+	
+	private HashMap<MapResource, MapPieceSprite> initMapResources(String mapUrl) {
 		if ((mapUrl == null) || mapUrl.isEmpty())
-			return;
+			return null;
 		
-		resources = new HashMap<MapResource, MapPieceSprite>();
+		HashMap<MapResource, MapPieceSprite> resources = new HashMap<MapResource, MapPieceSprite>();
 		String pieces[] = mapUrl.trim().split(";");
 		
 		for (int i=0; i<pieces.length; i++) {
@@ -145,46 +189,101 @@ public class RuntimeMap {
 					e.printStackTrace();
 				}
 			}
-		}		
+		}	
+		
+		return resources;
+	}
+	
+	private void calcMapScale(){
+		if (largeMapUrl == null)
+			return;
+		
+		normal2LargeZoomFactor = largeMapWidth * 100 / normalMapWidth;
+		normal2LargeZoomFactor = (float)(Math.round(normal2LargeZoomFactor)/100.0);
+
+		large2NormalZoomFactor = normalMapWidth * 100/ largeMapWidth;
+		large2NormalZoomFactor = (float)(Math.round(large2NormalZoomFactor)/100.0);
+		
+		largeCellPixel = (int)(normalCellPixel * normal2LargeZoomFactor); 
 	}
 	
 	public boolean zoomInMap(){
 		
 		if (zoomLevel == MapZoomLevel.Large)
 			return false;
-	
-		// store a copy normal map size
-		int normalMapWidth = mapWidth;
 		
-		calcMapSize(largeMapUrl);
-		
-		// increase cellPixel accordingly		
-		cellPixel = cellPixel * mapWidth / normalMapWidth;
-		
-		initMapResources(largeMapUrl);
+		if ((largeMapUrl == null) || (largeMapUrl.isEmpty()))
+			return false;
+						
 		zoomLevel = MapZoomLevel.Large;
 		
 		return true;
 	}
 	
-	public void zoomOutMap(){
+	public boolean zoomOutMap(){
 		
 		if (zoomLevel == MapZoomLevel.Normal)
-			return;
+			return false;
 	
-		// store a copy normal map size
-		int largeMapWidth = mapWidth;
-		
-		calcMapSize(normalMapUrl);
-		
-		// increase cellPixel accordingly		
-		cellPixel = cellPixel * mapWidth / largeMapWidth;
-		
-		initMapResources(normalMapUrl);
-		zoomLevel = MapZoomLevel.Normal;		
-		
-	}
 
+		zoomLevel = MapZoomLevel.Normal;	
+		
+		return true;		
+	}
+	
+	private void calcZoomFactors(){
+		
+		normalDefaultZoomFactor = DEFAULT_ZOOM_FACTOR;
+		
+		if (Util.getCameraWidth() < normalMapWidth) {
+			normalDefaultZoomFactor = Util.getCameraWidth() * 100 /normalMapWidth;
+			normalDefaultZoomFactor = (float)(Math.round(normalDefaultZoomFactor)/100.0);
+		}
+			
+		
+		if (Util.getCameraHeight() < normalMapHeight){
+			float tempF = 0.00f;
+			tempF = Util.getCameraHeight() * 100 /normalMapHeight;
+			tempF = (float)(Math.round(tempF)/100.0);
+			
+			if (tempF < normalDefaultZoomFactor)
+				normalDefaultZoomFactor = tempF;
+		}
+		
+		if (normalDefaultZoomFactor < MIN_ZOOM_FACTOR)
+			normalMinZoomFactor = normalDefaultZoomFactor;
+		else
+			normalMinZoomFactor = MIN_ZOOM_FACTOR;
+		
+		normalMaxZoomFactor = MAX_ZOOM_FACTOR;
+	}
+	
+	public float getMinZoomFactor(){
+		if (zoomLevel == MapZoomLevel.Normal)
+			return normalMinZoomFactor;
+		else 
+			return 1f;
+	}
+	
+	public float getMaxZoomFactor(){
+		if (zoomLevel == MapZoomLevel.Normal)
+			// return large2NormalZoomFactor * NORMAL_2_LARGE_FACTOR;
+			return normalMaxZoomFactor;
+		else 
+			return normalMaxZoomFactor;
+	}
+	
+	public float getDefaultZoomFactor(){		
+		return normalDefaultZoomFactor;
+	}
+	
+	public float getAdjustedZoomFactor(){
+		if (zoomLevel == MapZoomLevel.Large)
+			return NORMAL_2_LARGE_FACTOR;
+		else 
+			return large2NormalZoomFactor;	
+	}
+	
 	public Cell[][] getCells() {
 		return cells;
 	}
@@ -223,11 +322,17 @@ public class RuntimeMap {
 	}
 	
 	public int getMapWidth(){
-		return mapWidth;
+		if (zoomLevel == MapZoomLevel.Normal)
+			return normalMapWidth;
+		else
+			return largeMapWidth;
 	}
 	
 	public int getMapHeight(){
-		return mapHeight;
+		if (zoomLevel == MapZoomLevel.Normal)
+			return normalMapHeight;
+		else
+			return largeMapHeight;	
 	}
 	
 	public boolean[][] getPassableMatrix() {
@@ -413,8 +518,7 @@ public class RuntimeMap {
 		if ((informations==null) || (informations.isEmpty())){
 			return null;
 		}
-		//Hoare: don't add map title
-		//String text = getMapName() + "\n";
+
 		String text = null;
 		
 		for (String information : informations){
@@ -497,13 +601,13 @@ public class RuntimeMap {
 		return 0;
 	}	
 
-	public int getCellPixel() {
-		return cellPixel;
+	public int getCellPixel() {	
+		if (zoomLevel == MapZoomLevel.Normal)
+			return normalCellPixel;
+		else 
+			return largeCellPixel;
 	}
 
-	public void setCellPixel(int cellPixel) {
-		this.cellPixel = cellPixel;
-	}
 
 	public RuntimeUser getTrack(int i) {
 		if (tracks != null){
@@ -530,16 +634,17 @@ public class RuntimeMap {
 	}
 
 	public HashMap<MapResource, MapPieceSprite> getResources() {
-		return resources;
+		
+		if (zoomLevel == MapZoomLevel.Normal)
+			return normalMapResources;
+		else
+			return largeMapResources;	
 	}
 
-	public void setResources(HashMap<MapResource, MapPieceSprite> resources) {
-		this.resources = resources;
-	}
 	
 	private void drawUser(MapViewerActivity activity) {
 		
-		AnimatedSprite locationSprite = Library.genUser(activity, Constants.LOCATION_USER, cellPixel);
+		AnimatedSprite locationSprite = Library.genUser(activity, Constants.LOCATION_USER, getCellPixel());
 
 		if (locationSprite == null){
 			return;
@@ -554,7 +659,7 @@ public class RuntimeMap {
 		
 		setUser(location);
 		
-		AnimatedSprite targetSprite = Library.genUser(activity, Constants.TARGET_USER, cellPixel);
+		AnimatedSprite targetSprite = Library.genUser(activity, Constants.TARGET_USER, getCellPixel());
 		
 		if (targetSprite == null){
 			return;
@@ -570,7 +675,7 @@ public class RuntimeMap {
 		setTarget(target);
 		
 		for (int i=0; i<Constants.MAX_TRACK_USERS; i++) {
-			AnimatedSprite trackSprite = Library.genUser(activity, Constants.TRACK_USER, cellPixel);
+			AnimatedSprite trackSprite = Library.genUser(activity, Constants.TRACK_USER, getCellPixel());
 			
 			if (trackSprite == null){
 				return;

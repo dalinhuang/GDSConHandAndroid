@@ -24,6 +24,19 @@ public class MapDrawer {
 		if (Util.getRuntimeIndoorMap().zoomInMap()){
 			switchMapPrepare(mapViewer);
 			switchMapExcute(mapViewer);
+			mapViewer.mCamera.setZoomFactor(Util.getRuntimeIndoorMap().getAdjustedZoomFactor());
+
+		}
+		
+	}
+	
+	public static void zoomOutMap(MapViewerActivity mapViewer){
+		
+		if (Util.getRuntimeIndoorMap().zoomOutMap()){
+			switchMapPrepare(mapViewer);
+			switchMapExcute(mapViewer);
+			mapViewer.mCamera.setZoomFactor(Util.getRuntimeIndoorMap().getAdjustedZoomFactor());
+
 		}
 		
 	}
@@ -39,9 +52,8 @@ public class MapDrawer {
 
 		MapViewerUtil.resetCameraBounds(mapViewer, mapWidth, mapHeight);
 		
-		float defaultZoomFactor = 1f;
-		mapViewer.mCamera.setZoomFactor(defaultZoomFactor);
-		mapViewer.zoomControl.resetZoomFactor(0.8f, 6f);
+		mapViewer.zoomControl.resetZoomFactor(Util.getRuntimeIndoorMap().getMinZoomFactor(), 
+											Util.getRuntimeIndoorMap().getMaxZoomFactor());
 		
 		mapViewer.reDrawPending = true;
 		drawMap(mapViewer);
@@ -93,7 +105,7 @@ public class MapDrawer {
 		    //float background_top = rowNo * Util.getCurrentCellPixel() + mapViewer.TOP_SPACE;
 		    //Log.i("Backgorund", colNo + "," + rowNo + "," + background_left + "," + background_top);
 			if (mapViewer.backgroundSprite == null) {
-				mapViewer.backgroundSprite = Library.BACKGROUND3.load(mapViewer, mapViewer.cameraWidth, mapViewer.cameraHeight);
+				mapViewer.backgroundSprite = Library.BACKGROUND3.load(mapViewer, Util.getCameraWidth(), Util.getCameraHeight());
 				// mapViewer.backgroundSprite.setPosition(map_left, map_top);
 				mapViewer.backgroundSprite.setPosition(mapViewer.LEFT_SPACE, mapViewer.TOP_SPACE);
 				mapViewer.mainScene.getChildByIndex(Constants.LAYER_BACKGROUND).attachChild(mapViewer.backgroundSprite);

@@ -54,7 +54,9 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.widget.Toast;
 import android.content.ComponentName;
 import android.content.Context;
@@ -95,6 +97,11 @@ public class Util {
 	private static Handler handler = new Handler();
 	
 	private static Activity currentForegroundActivity = null;
+	
+	private static int cameraWidth;
+	private static int cameraHeight;	
+	private static float cameraDensity = 0.00f;
+
 	
 	public static void initial(Activity activity){		
 		if (initialed) {
@@ -150,7 +157,32 @@ public class Util {
 		
 		ApkVersionManager.initApkVersionInfo(activity);
 		
+		// Get the display
+		Display display = activity.getWindowManager().getDefaultDisplay();
+		DisplayMetrics outMetrics = new DisplayMetrics();
+		
+		
+		display.getMetrics(outMetrics);
+		
+		cameraWidth = outMetrics.widthPixels;
+		cameraHeight = outMetrics.heightPixels - getStatusBarHeight(activity) 
+								- Util.dip2px(activity, 90); // need to reduce the search bar and action bar height
+		
+		cameraDensity = cameraWidth / 480;		
+		
 		initialed = true;
+	}
+	
+	public static int getCameraWidth(){
+		return cameraWidth;
+	}
+	
+	public static int getCameraHeight(){
+		return cameraHeight;
+	}
+	
+	public static float  getcameraDensity(){
+		return cameraDensity;
 	}
 	
 	private static void keepScannning() {		

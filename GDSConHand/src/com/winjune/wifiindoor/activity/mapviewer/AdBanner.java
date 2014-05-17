@@ -74,15 +74,15 @@ public class AdBanner {
 		
 		if (mapViewer.mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
 			// Rotate base on the sprite's center point
-			x = mapViewer.cameraWidth - 1.5f * mapViewer.CONTROL_BUTTON_WIDTH - adWidth * 0.5f - adHeight * 0.5f;
-			y = mapViewer.cameraHeight * 0.5f - adHeight * 0.5f;	
+			x = Util.getCameraWidth() - 1.5f * mapViewer.CONTROL_BUTTON_WIDTH - adWidth * 0.5f - adHeight * 0.5f;
+			y = Util.getCameraHeight() * 0.5f - adHeight * 0.5f;	
 			mapViewer.mapADSprite.setRotation(90.0f);
 		} else {
-			if (adWidth < mapViewer.cameraWidth) {
-				x = (mapViewer.cameraWidth - adWidth) * 0.5f;
+			if (adWidth <  Util.getCameraWidth()) {
+				x = ( Util.getCameraWidth() - adWidth) * 0.5f;
 			}
 			
-			y = mapViewer.cameraHeight - adHeight;
+			y =  Util.getCameraWidth() - adHeight;
 		}
 		
 		mapViewer.mapADSprite.setPosition(x, y);

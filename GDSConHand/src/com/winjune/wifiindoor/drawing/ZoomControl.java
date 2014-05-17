@@ -29,8 +29,8 @@ public class ZoomControl {
 
 	private ZoomCamera mCamera;
 	
-	private float maxZoomFactor;
-	private float minZoomFactor;
+	private float maxZoomFactor = 0.00f;
+	private float minZoomFactor = 0.00f;
 	
 	private OnScaleGestureListener scaleGestureListner;
 
@@ -91,7 +91,7 @@ public class ZoomControl {
 	
 	public void zoomIn(int num){
 		float target = mCamera.getZoomFactor() + num * CHANGE_UNIT;
-		if (target <= maxZoomFactor){
+		if (target < maxZoomFactor){
 			mCamera.setZoomFactor(target);
 			
 			// need to refresh poi information
@@ -99,7 +99,7 @@ public class ZoomControl {
 		}else{			
 			mCamera.setZoomFactor(maxZoomFactor);	
 			
-			// MapDrawer.zoomInMap(activity);
+			//MapDrawer.zoomInMap(activity);
 		}
 	}
 	
@@ -120,6 +120,8 @@ public class ZoomControl {
 					true);
 		} else {
 			mCamera.setZoomFactor(minZoomFactor);
+			
+			//MapDrawer.zoomOutMap(activity);
 		}
 	}
 	

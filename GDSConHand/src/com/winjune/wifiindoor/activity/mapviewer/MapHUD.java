@@ -61,7 +61,7 @@ public class MapHUD {
 		if (MapViewerActivity.DEBUG)
 			Log.d(MapViewerActivity.TAG, "Start initialHUDMenuBar");
 
-		int x = mapViewer.cameraWidth - mapViewer.CONTROL_BUTTON_WIDTH;
+		int x = Util.getCameraWidth() - mapViewer.CONTROL_BUTTON_WIDTH;
 		int y = mapViewer.CONTROL_BUTTON_HEIGHT;						
 
 		if (VisualParameters.PLANNING_MODE_ENABLED) {

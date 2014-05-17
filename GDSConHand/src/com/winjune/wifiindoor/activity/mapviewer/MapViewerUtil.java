@@ -5,8 +5,11 @@ import org.andengine.engine.camera.ZoomCamera;
 import android.content.res.Configuration;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
@@ -14,11 +17,71 @@ import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.util.Constants;
+import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
 
 public class MapViewerUtil {
 	
+	
+	public static void initData(MapViewerActivity mapViewer) {
+
+		mapViewer.backgroundSprite = null;
+		
+		mapViewer.currentCollectingX = -1;
+		mapViewer.currentCollectingY = -1;
+		LocateBar.setCollectingOnGoing(mapViewer, false);
+		mapViewer.mMode = IndoorMapData.MAP_MODE_VIEW;
+		mapViewer.mNfcEditState = IndoorMapData.NFC_EDIT_STATE_NULL;
+		mapViewer.mTargetColNo = -1;
+		mapViewer.mTargetRowNo = -1;
+		mapViewer.periodicLocateMeOn = true;
+		mapViewer.periodicLoacting = false;
+				
+		mapViewer.lastManualLocateTime = System.currentTimeMillis();
+		mapViewer.lastBackTime = mapViewer.lastManualLocateTime - 6000;
+		
+		mapViewer.reDrawPending = false;
+		mapViewer.reDrawOn = true;
+		mapViewer.reDrawOngoing = false;
+
+		mapViewer.infoQueryToast = Toast.makeText(mapViewer,
+				mapViewer.getResources().getString(R.string.no_latest_info),
+				Toast.LENGTH_LONG);
+		mapViewer.infoQueryToast.setMargin(0, 0);
+		mapViewer.infoQueryToast.setGravity(Gravity.TOP, 0, 0);
+		
+		mapViewer.continuousCollectStartTime = 0;
+		mapViewer.continuousCollectStopTime = 0;
+		mapViewer.mContStartRowNo = -1;
+		mapViewer.mContStartColNo = -1;
+		mapViewer.mContStarted = false;
+		
+		
+		// Get the display		
+		mapViewer.mOrientation = mapViewer.getResources().getConfiguration().orientation;	
+		
+		int CONTROL_BUTTON_NUMBER = Library.CONTROL_BUTTON_NUMBER;
+		mapViewer.CONTROL_BUTTON_WIDTH = 30;
+		mapViewer.CONTROL_BUTTON_MARGIN = 10;
+		
+		// Ensure the ICON is not too small on large screen
+		int MIN_VALUE = Math.max(60, Math.round(Math.min(Util.getCameraWidth(), Util.getCameraHeight())/10));
+
+		if (mapViewer.mOrientation == Configuration.ORIENTATION_PORTRAIT) {			
+			mapViewer.BOTTOM_SPACE += VisualParameters.BOTTOM_SPACE_FOR_ADS_PORTRAIT;
+			mapViewer.CONTROL_BUTTON_WIDTH = mapViewer.CONTROL_BUTTON_HEIGHT 
+					= Math.min(MIN_VALUE, Math.round((Util.getCameraWidth() - VisualParameters.BOTTOM_SPACE_FOR_ADS_PORTRAIT) / CONTROL_BUTTON_NUMBER / 1.5f));
+			// Here use 3f to let the control tab layout on the top of height
+			mapViewer.CONTROL_BUTTON_MARGIN = Math.min(MIN_VALUE, Math.round ((Util.getCameraHeight() - VisualParameters.BOTTOM_SPACE_FOR_ADS_PORTRAIT - mapViewer.CONTROL_BUTTON_HEIGHT * CONTROL_BUTTON_NUMBER) / CONTROL_BUTTON_NUMBER / 3f)); 
+		} else if (mapViewer.mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+			// remove the right margin
+			// RIGHT_SPACE += VisualParameters.RIGHT_SPACE_FOR_ADS_LANDSCAPE;
+			mapViewer.CONTROL_BUTTON_WIDTH = mapViewer.CONTROL_BUTTON_HEIGHT 
+					= Math.min(MIN_VALUE, Math.round((Util.getCameraHeight()) / CONTROL_BUTTON_NUMBER / 1.5f));
+			mapViewer.CONTROL_BUTTON_MARGIN = Math.min(MIN_VALUE, Math.round ((Util.getCameraHeight() - mapViewer.CONTROL_BUTTON_HEIGHT * CONTROL_BUTTON_NUMBER) / CONTROL_BUTTON_NUMBER / 3f));// Here use 3f to let the control tab layout on the top of height
+		}		
+	}	
 	
 	public static void resetCameraBounds(MapViewerActivity mapViewer, int mapWidth, int mapHeight) {
 		int totalWidth, totalHeight;
@@ -27,11 +90,11 @@ public class MapViewerUtil {
 		totalHeight = mapHeight + mapViewer.TOP_SPACE + mapViewer.BOTTOM_SPACE;
 
 		// To align with the Camera
-		if (totalWidth < mapViewer.cameraWidth) 
-			totalWidth = mapViewer.cameraWidth;
+		if (totalWidth < Util.getCameraWidth()) 
+			totalWidth = Util.getCameraWidth();
 
-		if (totalHeight < mapViewer.cameraHeight)
-			totalHeight = mapViewer.cameraHeight;
+		if (totalHeight < Util.getCameraHeight())
+			totalHeight = Util.getCameraHeight();
 		
 		mapViewer.mCamera.setBounds(0, 0, totalWidth, totalHeight);
 	}
@@ -41,48 +104,9 @@ public class MapViewerUtil {
 		mapViewer.TOP_SPACE = 0;
 		mapViewer.BOTTOM_SPACE = 0;
 		mapViewer.LEFT_SPACE = 0;
-		mapViewer.RIGHT_SPACE = 0;		
-		
-		
-		// Get the display
-		Display display = mapViewer.getWindowManager().getDefaultDisplay();
-		DisplayMetrics outMetrics = new DisplayMetrics();
-		
-		mapViewer.mOrientation = mapViewer.getResources().getConfiguration().orientation;
-		
-		display.getMetrics(outMetrics);
-		
-		mapViewer.cameraWidth = outMetrics.widthPixels;
-		mapViewer.cameraHeight = outMetrics.heightPixels - Util.getStatusBarHeight(mapViewer) 
-								- Util.dip2px(mapViewer, 90); // need to reduce the search bar and action bar height
-		
-		mapViewer.density = Math.min(mapViewer.cameraWidth, mapViewer.cameraHeight) / 480;
-				
+		mapViewer.RIGHT_SPACE = 0;	
 
-		int CONTROL_BUTTON_NUMBER = Library.CONTROL_BUTTON_NUMBER;
-		mapViewer.CONTROL_BUTTON_WIDTH = 30;
-		mapViewer.CONTROL_BUTTON_MARGIN = 10;
-		
-		// Ensure the ICON is not too small on large screen
-		int MIN_VALUE = Math.max(60, Math.round(Math.min(mapViewer.cameraWidth, mapViewer.cameraHeight)/10));
-
-
-		if (mapViewer.mOrientation == Configuration.ORIENTATION_PORTRAIT) {			
-			mapViewer.BOTTOM_SPACE += VisualParameters.BOTTOM_SPACE_FOR_ADS_PORTRAIT;
-			mapViewer.CONTROL_BUTTON_WIDTH = mapViewer.CONTROL_BUTTON_HEIGHT 
-					= Math.min(MIN_VALUE, Math.round((mapViewer.cameraHeight - VisualParameters.BOTTOM_SPACE_FOR_ADS_PORTRAIT) / CONTROL_BUTTON_NUMBER / 1.5f));
-			// Here use 3f to let the control tab layout on the top of height
-			mapViewer.CONTROL_BUTTON_MARGIN = Math.min(MIN_VALUE, Math.round ((mapViewer.cameraHeight - VisualParameters.BOTTOM_SPACE_FOR_ADS_PORTRAIT - mapViewer.CONTROL_BUTTON_HEIGHT * CONTROL_BUTTON_NUMBER) / CONTROL_BUTTON_NUMBER / 3f)); 
-		} else if (mapViewer.mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-			// remove the right margin
-			// RIGHT_SPACE += VisualParameters.RIGHT_SPACE_FOR_ADS_LANDSCAPE;
-			mapViewer.CONTROL_BUTTON_WIDTH = mapViewer.CONTROL_BUTTON_HEIGHT 
-					= Math.min(MIN_VALUE, Math.round((mapViewer.cameraHeight) / CONTROL_BUTTON_NUMBER / 1.5f));
-			mapViewer.CONTROL_BUTTON_MARGIN = Math.min(MIN_VALUE, Math.round ((mapViewer.cameraHeight - mapViewer.CONTROL_BUTTON_HEIGHT * CONTROL_BUTTON_NUMBER) / CONTROL_BUTTON_NUMBER / 3f));// Here use 3f to let the control tab layout on the top of height
-		}	
-		
-
-		mapViewer.mCamera = new ZoomCamera(0, 0, mapViewer.cameraWidth, mapViewer.cameraHeight);
+		mapViewer.mCamera = new ZoomCamera(0, 0, Util.getCameraWidth(), Util.getCameraHeight());
 		
 		// Original zoom factor
 		mapViewer.mCamera.setZoomFactor(zoomFactor);
