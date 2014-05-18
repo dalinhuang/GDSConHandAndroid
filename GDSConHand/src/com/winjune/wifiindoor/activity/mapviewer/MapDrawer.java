@@ -22,9 +22,9 @@ public class MapDrawer {
 	public static void zoomInMap(MapViewerActivity mapViewer){
 		
 		if (Util.getRuntimeIndoorMap().zoomInMap()){
-			switchMapPrepare(mapViewer);
+			switchMapPrepare(mapViewer);			
 			switchMapExcute(mapViewer);
-			mapViewer.mCamera.setZoomFactor(Util.getRuntimeIndoorMap().getAdjustedZoomFactor());
+			mapViewer.mCamera.setZoomFactor(Util.getRuntimeIndoorMap().getNormal2LargeZoomFactor());
 
 		}
 		
@@ -35,8 +35,7 @@ public class MapDrawer {
 		if (Util.getRuntimeIndoorMap().zoomOutMap()){
 			switchMapPrepare(mapViewer);
 			switchMapExcute(mapViewer);
-			mapViewer.mCamera.setZoomFactor(Util.getRuntimeIndoorMap().getAdjustedZoomFactor());
-
+			mapViewer.mCamera.setZoomFactor(Util.getRuntimeIndoorMap().getLarge2NormalZoomFactor());
 		}
 		
 	}

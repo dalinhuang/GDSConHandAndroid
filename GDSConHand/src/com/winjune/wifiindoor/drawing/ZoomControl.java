@@ -95,11 +95,12 @@ public class ZoomControl {
 			mCamera.setZoomFactor(target);
 			
 			// need to refresh poi information
-			POIBar.showPoiInfo(activity);
+			POIBar.showPoiInfo(activity);						
+			
 		}else{			
 			mCamera.setZoomFactor(maxZoomFactor);	
 			
-			//MapDrawer.zoomInMap(activity);
+			MapDrawer.zoomInMap(activity);
 		}
 	}
 	
@@ -121,7 +122,7 @@ public class ZoomControl {
 		} else {
 			mCamera.setZoomFactor(minZoomFactor);
 			
-			//MapDrawer.zoomOutMap(activity);
+			MapDrawer.zoomOutMap(activity);
 		}
 	}
 	

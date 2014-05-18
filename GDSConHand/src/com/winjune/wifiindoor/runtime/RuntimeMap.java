@@ -29,7 +29,9 @@ public class RuntimeMap {
 	private static final float DEFAULT_ZOOM_FACTOR = 0.80f;
 	private static final float MAX_ZOOM_FACTOR = 5.00f;
 	private static final float MIN_ZOOM_FACTOR = 0.50f;
-	private static final float NORMAL_2_LARGE_FACTOR = 2.00f;
+	private static final float NORMAL_2_LARGE_SWITCH_FACTOR = 2.00f;
+	private static final float LARGE_2_NORMAL_SWITCH_FACTOR = 1.00f;
+
 	
 	private MapZoomLevel zoomLevel = MapZoomLevel.Normal;
 	
@@ -54,8 +56,7 @@ public class RuntimeMap {
 	private boolean infoPushed;
 	private long infoPushTime;
 	
-	private HashMap<MapResource, MapPieceSprite> normalMapResources;
-	private HashMap<MapResource, MapPieceSprite> largeMapResources;
+	private HashMap<MapResource, MapPieceSprite> mapResources;
 
 	
 	private int normalMapWidth;
@@ -67,8 +68,8 @@ public class RuntimeMap {
 	private float normalDefaultZoomFactor = 0.00f;
 	private float normalMinZoomFactor = 0.00f;
 	private float normalMaxZoomFactor = 0.00f;
-	private float normal2LargeZoomFactor = 0.00f;
-	private float large2NormalZoomFactor = 0.00f;
+	private float normal2LargeScale = 0.00f;
+	private float large2NormalScale = 0.00f;
 	
 	public void load(MapDataR mData){
 
@@ -102,9 +103,7 @@ public class RuntimeMap {
 			}
 		}
 		
-		normalMapResources = initMapResources(normalMapUrl);
-		largeMapResources = initMapResources(largeMapUrl);
-
+		mapResources = initMapResources(normalMapUrl);
 	}
 	
 	public void initMap(MapViewerActivity mapViewer){
@@ -198,13 +197,14 @@ public class RuntimeMap {
 		if (largeMapUrl == null)
 			return;
 		
-		normal2LargeZoomFactor = largeMapWidth * 100 / normalMapWidth;
-		normal2LargeZoomFactor = (float)(Math.round(normal2LargeZoomFactor)/100.0);
+		large2NormalScale = largeMapWidth * 100 / normalMapWidth;
+		large2NormalScale = (float)(Math.round(large2NormalScale)/100.0);
 
-		large2NormalZoomFactor = normalMapWidth * 100/ largeMapWidth;
-		large2NormalZoomFactor = (float)(Math.round(large2NormalZoomFactor)/100.0);
+		normal2LargeScale = normalMapWidth * 100/ largeMapWidth;
+		normal2LargeScale = (float)(Math.round(normal2LargeScale)/100.0);
 		
-		largeCellPixel = (int)(normalCellPixel * normal2LargeZoomFactor); 
+		largeCellPixel = (int)(normalCellPixel * largeMapWidth * 100 / normalMapWidth); 
+		largeCellPixel = (int)(Math.round(largeCellPixel)/100.0);
 	}
 	
 	public boolean zoomInMap(){
@@ -215,6 +215,8 @@ public class RuntimeMap {
 		if ((largeMapUrl == null) || (largeMapUrl.isEmpty()))
 			return false;
 						
+		mapResources = initMapResources(largeMapUrl);
+		
 		zoomLevel = MapZoomLevel.Large;
 		
 		return true;
@@ -225,7 +227,8 @@ public class RuntimeMap {
 		if (zoomLevel == MapZoomLevel.Normal)
 			return false;
 	
-
+		mapResources = initMapResources(normalMapUrl);
+		
 		zoomLevel = MapZoomLevel.Normal;	
 		
 		return true;		
@@ -262,26 +265,41 @@ public class RuntimeMap {
 		if (zoomLevel == MapZoomLevel.Normal)
 			return normalMinZoomFactor;
 		else 
-			return 1f;
+			return LARGE_2_NORMAL_SWITCH_FACTOR;
 	}
 	
 	public float getMaxZoomFactor(){
-		if (zoomLevel == MapZoomLevel.Normal)
-			// return large2NormalZoomFactor * NORMAL_2_LARGE_FACTOR;
-			return normalMaxZoomFactor;
-		else 
-			return normalMaxZoomFactor;
+		if ((zoomLevel == MapZoomLevel.Normal) &&
+			(largeMapUrl != null))
+			return getNormal2LargeThreshold();
+		
+		return normalMaxZoomFactor;
+	}	
+		
+	public float getNormal2LargeThreshold(){
+		float tempF = large2NormalScale * 100 * NORMAL_2_LARGE_SWITCH_FACTOR;
+		tempF = (float)(Math.round(tempF)/100.0);
+
+		return tempF;
 	}
+	
+	public float getLarge2NormalThreshold(){
+		return LARGE_2_NORMAL_SWITCH_FACTOR;
+	}	
 	
 	public float getDefaultZoomFactor(){		
 		return normalDefaultZoomFactor;
 	}
 	
-	public float getAdjustedZoomFactor(){
-		if (zoomLevel == MapZoomLevel.Large)
-			return NORMAL_2_LARGE_FACTOR;
-		else 
-			return large2NormalZoomFactor;	
+	public float getNormal2LargeZoomFactor(){
+		return NORMAL_2_LARGE_SWITCH_FACTOR;
+	}
+	
+	public float getLarge2NormalZoomFactor(){
+		float tempF = large2NormalScale * 100 * LARGE_2_NORMAL_SWITCH_FACTOR;
+		tempF = (float)(Math.round(tempF)/100.0);		
+		
+		return tempF;
 	}
 	
 	public Cell[][] getCells() {
@@ -635,10 +653,7 @@ public class RuntimeMap {
 
 	public HashMap<MapResource, MapPieceSprite> getResources() {
 		
-		if (zoomLevel == MapZoomLevel.Normal)
-			return normalMapResources;
-		else
-			return largeMapResources;	
+		return mapResources;
 	}
 
 	

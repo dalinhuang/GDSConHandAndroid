@@ -16,6 +16,7 @@ import com.winjune.wifiindoor.activity.poiviewer.POINormalViewerActivity;
 import com.winjune.wifiindoor.activity.poiviewer.RestaurantInfoActivity;
 import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
 import com.winjune.wifiindoor.lib.poi.PlaceOfInterestR;
+import com.winjune.wifiindoor.util.Util;
 
 enum ContextMenuRequestFrom {
 	Location,
@@ -158,10 +159,10 @@ public class PlaceOfInterest extends PlaceOfInterestR {
 
 	@Override
 	public int getX() {
-		return super.getX()*1200/30000;
+		return super.getX()*Util.getRuntimeIndoorMap().getMapWidth()/30000;
 	}
 	@Override
 	public int getY() {
-		return super.getY()*1600/40000;
+		return super.getY()*Util.getRuntimeIndoorMap().getMapHeight()/40000;
 	}
 }
