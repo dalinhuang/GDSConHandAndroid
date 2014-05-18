@@ -556,25 +556,10 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		// Draw the original in Map units, e.g. user
 		Util.getRuntimeIndoorMap().initMap(this);
-
+		
 		// No background color needed as we have a fullscreen background sprite.
 		mainScene.setBackgroundEnabled(true);
 		mainScene.setBackground(new Background(255,255,255)); // white color
-		
-/*		// Background lines
-		if (VisualParameters.BACKGROUND_LINES_NEEDED && VisualParameters.PLANNING_MODE_ENABLED) {
-
-			int mapWidth = Util.getRuntimeIndoorMap().getColNum() * Util.getRuntimeIndoorMap().getCellPixel();
-			int mapHeight = Util.getRuntimeIndoorMap().getRowNum() * Util.getRuntimeIndoorMap().getCellPixel();
-			
-			backgroundSprite = Library.BACKGROUND3.load(this, mapWidth, mapHeight);
-			backgroundSprite.setPosition(LEFT_SPACE, TOP_SPACE);
-			mainScene.getChildByIndex(Constants.LAYER_BACKGROUND).attachChild(backgroundSprite);
-			
-			//load the collected flags
-			CollectedFlag.loadCollectedFlag(this);
-		}*/
-
 		mainScene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 
 			@Override
@@ -585,6 +570,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 		});
 
+		//Background
+		MapDrawer.drawBackground(this);
 	
 		// HUDs
 		hud = new HUD();

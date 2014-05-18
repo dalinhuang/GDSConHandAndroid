@@ -27,11 +27,10 @@ public class BackGroundUnit3 extends Unit {
 	}
 	
 	public Sprite load(MapViewerActivity activity, int screenWidth, int screenHeight) {		
-		int cellPixel = Util.getRuntimeIndoorMap().getCellPixel();
-		int colCount = screenWidth / cellPixel; 
-		int rowCount = screenHeight / cellPixel + VisualParameters.BACKROUND_LINES_BUFFER_SIZE;// take a few cells for buffer for buttons
-		int backgroundWidth = colCount * cellPixel; 
-		int backgroundHeight = rowCount * cellPixel;
+		int colCount = Util.getRuntimeIndoorMap().getColNum(); 
+		int rowCount = Util.getRuntimeIndoorMap().getRowNum();
+		int backgroundWidth = screenWidth; 
+		int backgroundHeight = screenHeight;
 		
 		if (backgroundTextureRegion==null){
 			BitmapTextureAtlas textureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), getNearestPowerOfTwo(backgroundWidth), getNearestPowerOfTwo(backgroundHeight), TextureOptions.BILINEAR);

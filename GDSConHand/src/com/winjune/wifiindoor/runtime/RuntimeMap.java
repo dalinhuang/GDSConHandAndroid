@@ -86,7 +86,7 @@ public class RuntimeMap {
 		calcZoomFactors();
 		calcMapScale();
 		
-		rowNum = normalMapWidth/normalCellPixel;
+		rowNum = normalMapHeight/normalCellPixel;
         colNum = normalMapWidth/normalCellPixel;
         		
 		setInfoPushed(false);

@@ -60,6 +60,9 @@ public class MapDrawer {
 	}
 	
 	public static void switchMapPrepare(MapViewerActivity mapViewer) {
+		// to do: dispose all sprite resources
+		
+		mapViewer.mainScene.getChildByIndex(Constants.LAYER_BACKGROUND).detachChildren();
 		mapViewer.mainScene.getChildByIndex(Constants.LAYER_MAP).detachChildren();
 		mapViewer.mainScene.getChildByIndex(Constants.LAYER_FLAG).detachChildren();
 		mapViewer.mainScene.getChildByIndex(Constants.LAYER_USER).detachChildren();
@@ -79,9 +82,31 @@ public class MapDrawer {
 											Util.getRuntimeIndoorMap().getMaxZoomFactor());
 		
 		mapViewer.reDrawPending = true;
+		
+		MapDrawer.drawBackground(mapViewer);
+
 		drawMap(mapViewer);
+		
 		POIBar.showPoiInfo(mapViewer);
 	}	
+	
+	public static void drawBackground(MapViewerActivity mapViewer){
+		if (!VisualParameters.BACKGROUND_LINES_NEEDED ||
+			!VisualParameters.PLANNING_MODE_ENABLED)
+			return;
+
+		if (mapViewer.backgroundSprite != null)
+			mapViewer.backgroundSprite.dispose();
+		
+		Library.BACKGROUND3.clearCache();
+		
+		mapViewer.backgroundSprite = Library.BACKGROUND3.load(mapViewer, 
+									Util.getRuntimeIndoorMap().getMapWidth(), 
+									Util.getRuntimeIndoorMap().getMapHeight());
+		
+		mapViewer.backgroundSprite.setPosition(mapViewer.LEFT_SPACE, mapViewer.TOP_SPACE);
+		mapViewer.mainScene.getChildByIndex(Constants.LAYER_BACKGROUND).attachChild(mapViewer.backgroundSprite);
+	}
 	
 	public static void setCameraCenterTo(MapViewerActivity mapViewer, int colNo, int rowNo, boolean fromMove) {
 		float x = colNo; 
@@ -103,42 +128,7 @@ public class MapDrawer {
 	
 	public static void setCameraCenterAndReloadMapPieces(MapViewerActivity mapViewer, float pCenterX, float pCenterY, boolean fromMove) {
 		mapViewer.mCamera.setCenter(pCenterX, pCenterY);
-
-		float zoomFactor = mapViewer.mCamera.getZoomFactor();
-		float centerX = mapViewer.mCamera.getCenterX();  // re-calc for Center may not be the one passed in for the edge zones, already count in the zoomFactor
-		float centerY = mapViewer.mCamera.getCenterY();  // re-calc for Center may not be the one passed in for the edge zones, already count in the zoomFactor
-		float width = mapViewer.mCamera.getWidth();     // = cameraWidth / zoomFactor
-		float height = mapViewer.mCamera.getHeight();   // = cameraWidth / zoomFactor
-		
-		//Log.i("Screen Passed in", pCenterX + "," + pCenterY + "," + cameraWidth + "," + cameraHeight);
-		//Log.i("Screen Factors", centerX + "," + centerY + "," + width + "," + height + "," + zoomFactor);
-		
-		final float map_left = centerX - width / 2;
-		final float map_top = centerY - height / 2;
-		final float map_right = centerX + width / 2;
-		final float map_bottom = centerY + height / 2;
-		
-		// Background follow the screen
-		// we don't want to the background line moves
-		
-		if (VisualParameters.BACKGROUND_LINES_NEEDED && VisualParameters.PLANNING_MODE_ENABLED) {
-			//int colNo = (int) (map_left - mapViewer.LEFT_SPACE) / Util.getCurrentCellPixel();
-			//int rowNo = (int) (map_top - mapViewer.TOP_SPACE) / Util.getCurrentCellPixel();
-			//float background_left = colNo * Util.getCurrentCellPixel() + mapViewer.LEFT_SPACE;
-		    //float background_top = rowNo * Util.getCurrentCellPixel() + mapViewer.TOP_SPACE;
-		    //Log.i("Backgorund", colNo + "," + rowNo + "," + background_left + "," + background_top);
-			if (mapViewer.backgroundSprite == null) {
-				mapViewer.backgroundSprite = Library.BACKGROUND3.load(mapViewer, Util.getCameraWidth(), Util.getCameraHeight());
-				// mapViewer.backgroundSprite.setPosition(map_left, map_top);
-				mapViewer.backgroundSprite.setPosition(mapViewer.LEFT_SPACE, mapViewer.TOP_SPACE);
-				mapViewer.mainScene.getChildByIndex(Constants.LAYER_BACKGROUND).attachChild(mapViewer.backgroundSprite);
-			}
-			else {
-				mapViewer.backgroundSprite.setPosition(map_left, map_top);
-			}
-		}
-		
-		
+	
 		// Slow down the reDraw request from Move event
 		if (fromMove) {
 			mapViewer.reDrawPending = true;

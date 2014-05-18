@@ -41,7 +41,6 @@ public class VisualParameters {
 	
 	// SOC for background lines
 	public static boolean BACKGROUND_LINES_NEEDED = true;
-	public static int BACKROUND_LINES_BUFFER_SIZE = 2;
 	
 	//public static int BOTTOM_SPACE_FOR_ADS_PORTRAIT = 120;
 	//public static int BOTTOM_SPACE_FOR_TABHOST_BAR = 60;

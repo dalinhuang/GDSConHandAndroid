@@ -7,7 +7,6 @@ import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.opengl.texture.TextureManager;
 
-import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.ads.AdvertiseUnit;
 import com.winjune.wifiindoor.util.Constants;
@@ -68,8 +67,6 @@ public class Library {
 	public static final AnimatedUnit BUTTON_MODE = new AnimatedUnit(
 			new String[] { "svg/view.svg", "svg/edit.svg", "svg/nfc_edit.svg", "svg/delete.svg", "svg/test_locate.svg", "svg/test_collect.svg", "svg/path.svg" }, 0);
 	
-	public static final AnimatedUnit BUTTON_ZOOM = new AnimatedUnit(
-			new String[] { "svg/zoomMostIn.svg", "svg/zoomMostOut.svg" }, 0);
 	
 	public static final AnimatedUnit BUTTON_ACTION = new AnimatedUnit(
 			new String[] { "svg/action.svg" }, 0);	
