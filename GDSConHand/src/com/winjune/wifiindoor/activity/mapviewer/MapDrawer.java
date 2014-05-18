@@ -21,27 +21,51 @@ public class MapDrawer {
 	
 	public static void zoomInMap(MapViewerActivity mapViewer){
 		
+		// store the center position
+		float centerX = mapViewer.mCamera.getCenterX();
+		float centerY = mapViewer.mCamera.getCenterY();
+
 		if (Util.getRuntimeIndoorMap().zoomInMap()){
 			switchMapPrepare(mapViewer);			
 			switchMapExcute(mapViewer);
+			
+			// set to the corresponding zoom factor
 			mapViewer.mCamera.setZoomFactor(Util.getRuntimeIndoorMap().getNormal2LargeZoomFactor());
-
+			
+			// calculate the center position according to the scale
+			// set to the old center position
+			float adjustedX = centerX * Util.getRuntimeIndoorMap().getLarge2Normalcale();
+			float adjustedY = centerY * Util.getRuntimeIndoorMap().getLarge2Normalcale();
+			mapViewer.mCamera.setCenter(adjustedX, adjustedY);
 		}
 		
 	}
 	
 	public static void zoomOutMap(MapViewerActivity mapViewer){
+		float centerX = mapViewer.mCamera.getCenterX();
+		float centerY = mapViewer.mCamera.getCenterY();
 		
 		if (Util.getRuntimeIndoorMap().zoomOutMap()){
 			switchMapPrepare(mapViewer);
 			switchMapExcute(mapViewer);
+			// set to the corresponding zoom factor
 			mapViewer.mCamera.setZoomFactor(Util.getRuntimeIndoorMap().getLarge2NormalZoomFactor());
+			// calculate the center position according to the scale
+			// set to the old center position
+			float adjustedX = centerX * Util.getRuntimeIndoorMap().getNormal2LargeScale();
+			float adjustedY = centerY * Util.getRuntimeIndoorMap().getNormal2LargeScale();
+			mapViewer.mCamera.setCenter(adjustedX, adjustedY);			
 		}
 		
 	}
 	
 	public static void switchMapPrepare(MapViewerActivity mapViewer) {
 		mapViewer.mainScene.getChildByIndex(Constants.LAYER_MAP).detachChildren();
+		mapViewer.mainScene.getChildByIndex(Constants.LAYER_FLAG).detachChildren();
+		mapViewer.mainScene.getChildByIndex(Constants.LAYER_USER).detachChildren();
+		mapViewer.mainScene.getChildByIndex(Constants.LAYER_SEARCH).detachChildren();
+		mapViewer.mainScene.getChildByIndex(Constants.LAYER_ROUTE).detachChildren();
+
 	}
 	
 	public static void switchMapExcute(MapViewerActivity mapViewer) {	

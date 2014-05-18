@@ -287,6 +287,14 @@ public class RuntimeMap {
 		return LARGE_2_NORMAL_SWITCH_FACTOR;
 	}	
 	
+	public float getNormal2LargeScale(){
+		return normal2LargeScale;
+	}
+	
+	public float getLarge2Normalcale(){
+		return large2NormalScale;
+	}	
+	
 	public float getDefaultZoomFactor(){		
 		return normalDefaultZoomFactor;
 	}
