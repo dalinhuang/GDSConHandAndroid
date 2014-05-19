@@ -2,15 +2,15 @@
   <versions>
     <com.winjune.wifiindoor.lib.version.VersionInfoR>
       <tableName>busline</tableName>
-      <version>1</version>
+      <version>0</version>
     </com.winjune.wifiindoor.lib.version.VersionInfoR>
     <com.winjune.wifiindoor.lib.version.VersionInfoR>
       <tableName>festival</tableName>
-      <version>1</version>
+      <version>0</version>
     </com.winjune.wifiindoor.lib.version.VersionInfoR>
     <com.winjune.wifiindoor.lib.version.VersionInfoR>
       <tableName>playhouse</tableName>
-      <version>0</version>
+      <version>1</version>
     </com.winjune.wifiindoor.lib.version.VersionInfoR>
     <com.winjune.wifiindoor.lib.version.VersionInfoR>
       <tableName>poi</tableName>
@@ -26,6 +26,14 @@
     </com.winjune.wifiindoor.lib.version.VersionInfoR>
     <com.winjune.wifiindoor.lib.version.VersionInfoR>
       <tableName>map</tableName>
+      <version>0</version>
+    </com.winjune.wifiindoor.lib.version.VersionInfoR>
+    <com.winjune.wifiindoor.lib.version.VersionInfoR>
+      <tableName>navi_node</tableName>
+      <version>0</version>
+    </com.winjune.wifiindoor.lib.version.VersionInfoR>
+    <com.winjune.wifiindoor.lib.version.VersionInfoR>
+      <tableName>naiv_path</tableName>
       <version>0</version>
     </com.winjune.wifiindoor.lib.version.VersionInfoR>
   </versions>

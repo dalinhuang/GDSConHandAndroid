@@ -191,6 +191,8 @@ public class StartupActivity extends Activity implements OnInitListener{
 		fileNames.add(fullPath+PoiOfflineData.poiTableName);
 		fileNames.add(fullPath+PoiOfflineData.restaurantTableName);
 		fileNames.add(fullPath+"version_table.xml");		
+		fileNames.add(fullPath+"navi_node_table.xml");		
+		fileNames.add(fullPath+"navi_path_table.xml");		
 		Util.appFilesPrepare(StartupActivity.this, fileNames);
 
 		Util.downFile(StartupActivity.this,

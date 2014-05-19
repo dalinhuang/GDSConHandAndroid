@@ -1,0 +1,25 @@
+<com.winjune.wifiindoor.lib.map.NaviNodeT>
+  <nodes>
+    <com.winjune.wifiindoor.lib.map.NaviNodeR>
+      <id>1</id>
+      <mapId>2</mapId>
+      <placeX>15915</placeX>
+      <placeY>30126</placeY>
+      <label>入口</label>
+    </com.winjune.wifiindoor.lib.map.NaviNodeR>
+    <com.winjune.wifiindoor.lib.map.NaviNodeR>
+      <id>2</id>
+      <mapId>2</mapId>
+      <placeX>15737</placeX>
+      <placeY>27284</placeY>
+      <label>大厅</label>
+    </com.winjune.wifiindoor.lib.map.NaviNodeR>
+    <com.winjune.wifiindoor.lib.map.NaviNodeR>
+      <id>3</id>
+      <mapId>2</mapId>
+      <placeX>13246</placeX>
+      <placeY>24930</placeY>
+      <label>电梯A</label>
+    </com.winjune.wifiindoor.lib.map.NaviNodeR>
+  </nodes>
+</com.winjune.wifiindoor.lib.map.NaviNodeT>
