@@ -705,6 +705,11 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 	}
 	
+	public void scanBtnClick(View v){
+		Intent i = new Intent(this, QrScannerActivity.class); 
+        startActivity(i);		
+	}
+	
 	public void searchBarClick(View v) {
         Intent i = new Intent(this, LabelSearchActivity.class); 
         startActivity(i);		

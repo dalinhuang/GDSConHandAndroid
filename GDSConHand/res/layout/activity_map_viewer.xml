@@ -12,6 +12,20 @@
        android:background="@color/grey_light_light"       
        android:padding="0.5dp" >
 
+        <ImageView
+            android:id="@+id/scan_button"
+            android:layout_width="45dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@color/white"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="scanBtnClick"
+            android:padding="4dp"            
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_scan" />
+       
         <TextView
             android:id="@+id/text_map_switch"
             android:layout_width="45dp"
@@ -30,7 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_alignBottom="@id/text_map_switch"
-            android:layout_toLeftOf="@id/text_map_switch"
+            android:layout_toRightOf="@id/scan_button"
+            android:layout_toLeftOf="@id/text_map_switch"           
             android:paddingLeft="5dp"
             android:paddingRight="10dp"
             android:layout_marginLeft="0.5dp"
@@ -43,6 +58,8 @@
             android:onClick="searchBarClick"            
             android:textColor="@color/black" >            
         </EditText>
+
+
 
     </RelativeLayout> <!--     search_layout -->
     
@@ -170,10 +187,10 @@
     	        android:id="@+id/btn_zoomout"
     	        android:layout_width="wrap_content"
     	        android:layout_height="wrap_content"
-    	        android:layout_marginRight="10dp"
-    	        android:layout_marginBottom="10dp"    	        
     	        android:layout_alignParentBottom="true"
     	        android:layout_alignParentRight="true"
+    	        android:layout_marginBottom="10dp"
+    	        android:layout_marginRight="10dp"
     	        android:background="@color/white"
     	        android:src="@drawable/btn_zoomout" />
 
@@ -181,13 +198,12 @@
     	        android:id="@+id/btn_zoomin"
     	        android:layout_width="wrap_content"
     	        android:layout_height="wrap_content"
-				android:layout_marginRight="10dp"
-				android:layout_marginBottom="1dp"
     	        android:layout_above="@+id/btn_zoomout"
     	        android:layout_alignParentRight="true"
+    	        android:layout_marginBottom="1dp"
+    	        android:layout_marginRight="10dp"
     	        android:background="@color/white"
     	        android:src="@drawable/btn_zoomin" />
-
     	</RelativeLayout>
 
     </FrameLayout>
