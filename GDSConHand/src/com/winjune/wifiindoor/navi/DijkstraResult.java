@@ -1,12 +1,12 @@
 package com.winjune.wifiindoor.navi;
 
-public class NaviPath {
-	private int dist;
-	private int stepSize;
-	private int[] steps;
-	private String pathDesc;
+public class DijkstraResult {
+	public int dist;
+	public int stepSize;
+	public int[] steps;
+	public String pathDesc;
 	
-	public NaviPath(int nodeNo) {
+	public DijkstraResult(int nodeNo) {
 		stepSize = 0;
 		dist = -1;
 		steps = new int[nodeNo];

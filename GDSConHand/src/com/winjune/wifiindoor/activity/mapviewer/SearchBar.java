@@ -115,8 +115,8 @@ public class SearchBar {
 			return null;
 		}
 		
-		float adjustedX = poi.getX() - searchResultMarkerITR.getWidth()/2;
-		float adjustedY = poi.getY() - searchResultMarkerITR.getHeight();
+		float adjustedX = poi.getMapX() - searchResultMarkerITR.getWidth()/2;
+		float adjustedY = poi.getMapY() - searchResultMarkerITR.getHeight();
 		
 				
 		LocationSprite mSprite = new LocationSprite(adjustedX, 

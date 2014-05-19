@@ -1,12 +1,14 @@
 package com.winjune.wifiindoor.navi;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
+
 import android.util.Log;
 
+import com.winjune.wifiindoor.lib.map.NaviNodeR;
+import com.winjune.wifiindoor.lib.map.NaviNodeT;
+import com.winjune.wifiindoor.lib.map.NaviPathR;
+import com.winjune.wifiindoor.lib.map.NaviPathT;
 import com.winjune.wifiindoor.navi.DijkstraNode;
-import com.winjune.wifiindoor.navi.NaviNode;
-import com.winjune.wifiindoor.navi.NaviData;
 
 public class DijkstraMap {
 	private String LOG_TAG = "Navigator"; 
@@ -22,9 +24,9 @@ public class DijkstraMap {
     	nodes.clear();
     }
     
-    private void addNode(NaviNode node) {
+    private void addNode(NaviNodeR node) {
     	
-    	DijkstraNode dNode =new DijkstraNode(node.getId(), node.getName());  
+    	DijkstraNode dNode =new DijkstraNode(node.getId(), node.getLabel());  
     	
     	nodes.add(dNode);
     } 
@@ -44,9 +46,9 @@ public class DijkstraMap {
     	return nodes;
     }
     
-    private void addEdge(NaviData route){
-    	int fromId = route.getFrom();
-    	int toId = route.getTo();
+    private void addEdge(NaviPathR route){
+    	int fromId = route.getFromNode();
+    	int toId = route.getToNode();
     	int dist = route.getDistance();
     	
     	DijkstraNode fromNode = getNode(fromId);
@@ -63,15 +65,15 @@ public class DijkstraMap {
     	toNode.getChild().put(fromNode, dist);
     }
     
-    public DijkstraMap(ArrayList<NaviNode> nodes, ArrayList<NaviData> routes) {    	
+    public DijkstraMap(NaviNodeT naviNodeTable, NaviPathT naviPathTable) {    	
     	this.nodes = new LinkedHashSet<DijkstraNode>();
     	
     	// build the map
-    	for (NaviNode nNode: nodes) {
+    	for (NaviNodeR nNode: naviNodeTable.getNodes()) {
     		addNode(nNode);
     	}
     	
-    	for (NaviData nRoute: routes) {
+    	for (NaviPathR nRoute: naviPathTable.getPaths()) {
     		addEdge(nRoute);
     	}
     	

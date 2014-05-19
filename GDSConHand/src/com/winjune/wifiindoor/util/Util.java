@@ -993,6 +993,16 @@ public class Util {
 
 		return result;
 	}
-
+		
+	public static int longitudeX2MapX(int longitudeX){
+		return longitudeX * Util.getRuntimeIndoorMap().getMapWidth() 
+				/Util.getRuntimeIndoorMap().getMaxLongitude();		
+	}
+	
+	public static int latitudeY2MapY(int latitudeY){
+		
+		return latitudeY * Util.getRuntimeIndoorMap().getMapHeight()
+			    /Util.getRuntimeIndoorMap().getMaxLatitude();
+	}	
 }
 

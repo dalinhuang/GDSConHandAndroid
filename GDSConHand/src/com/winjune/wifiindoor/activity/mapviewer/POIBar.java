@@ -124,12 +124,12 @@ public class POIBar {
 		// adjust the icon position according to label 
 		if (label != null){
 			mSize = (int)label.getHeight();
-			pX = poi.getX() - 1.1f*label.getHeight() - label.getWidth()/2;
-			pY = poi.getY() - label.getHeight()/2;			
+			pX = poi.getMapX() - 1.1f*label.getHeight() - label.getWidth()/2;
+			pY = poi.getMapY() - label.getHeight()/2;			
 		} else {
 			mSize = Util.getRuntimeIndoorMap().getCellPixel();
-			pX = poi.getX()- mSize/2;
-			pY = poi.getY() -mSize/2;
+			pX = poi.getMapX()- mSize/2;
+			pY = poi.getMapY() -mSize/2;
 		}
 
 				
@@ -227,8 +227,8 @@ public class POIBar {
 	}
 	
 	private static Text showPoiLabel(MapViewerActivity mapViewer, PlaceOfInterest poi) {
-		float pX = poi.getX();// * Util.getRuntimeIndoorMap().getCellPixel();
-		float pY = poi.getY();// * Util.getRuntimeIndoorMap().getCellPixel();
+		float pX = poi.getMapX();// * Util.getRuntimeIndoorMap().getCellPixel();
+		float pY = poi.getMapY();// * Util.getRuntimeIndoorMap().getCellPixel();
 				
 		Text text = new Text(pX,
 				pY, 

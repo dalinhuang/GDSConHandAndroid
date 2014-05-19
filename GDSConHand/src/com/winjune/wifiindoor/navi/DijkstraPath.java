@@ -22,7 +22,7 @@ public class DijkstraPath {
 		pathInfo =new HashMap<Integer,String>();
 	}
     
-    public NaviPath planPath(DijkstraMap map, int fromId, int toId) {    	
+    public DijkstraResult planPath(DijkstraMap map, int fromId, int toId) {    	
     	DijkstraNode start = map.getNode(fromId);
     	DijkstraNode toNode = map.getNode(toId);
     	
@@ -65,7 +65,7 @@ public class DijkstraPath {
         Set<Map.Entry<Integer, String>> pathInfos= pathInfo.entrySet();
         for(Map.Entry<Integer, String> pathInfo:pathInfos){
         	if (pathInfo.getKey() == toId) {
-        		NaviPath naviPath = new NaviPath(map.nodes.size());
+        		DijkstraResult naviPath = new DijkstraResult(map.nodes.size());
         		
         		int dist = path.get(toId);
         		// not edge connected to the target node        		

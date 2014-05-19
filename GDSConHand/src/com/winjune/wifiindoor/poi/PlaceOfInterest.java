@@ -157,12 +157,11 @@ public class PlaceOfInterest extends PlaceOfInterestR {
         pop.showAtLocation(v, Gravity.BOTTOM, 0, 0);		
 	}
 
-	@Override
-	public int getX() {
-		return super.getX()*Util.getRuntimeIndoorMap().getMapWidth()/30000;
+	public int getMapX() {
+		return super.getPlaceX()*Util.getRuntimeIndoorMap().getMapWidth()/Util.getRuntimeIndoorMap().getMaxLongitude();
 	}
-	@Override
-	public int getY() {
-		return super.getY()*Util.getRuntimeIndoorMap().getMapHeight()/40000;
+
+	public int getMapY() {
+		return super.getPlaceY()*Util.getRuntimeIndoorMap().getMapHeight()/Util.getRuntimeIndoorMap().getMaxLatitude();
 	}
 }

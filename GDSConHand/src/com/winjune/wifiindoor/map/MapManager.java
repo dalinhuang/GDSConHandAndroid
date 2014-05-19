@@ -44,6 +44,16 @@ public class MapManager {
 			return null;
 	}		
 	
+	public static MapDataR getMapById(int id){
+		
+		for (MapDataR map:mapList.maps) {
+			if (map.getId() == id)
+				return map;
+		}
+		
+		return null;				
+	}
+	
 	public static ArrayList<MapDataR> getMaps(){
 		return mapList.maps;
 	}

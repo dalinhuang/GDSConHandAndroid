@@ -36,11 +36,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.GestureDetector;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.ScaleGestureDetector;
@@ -65,7 +62,6 @@ import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.drawing.graphic.model.LocationSprite;
 import com.winjune.wifiindoor.lib.map.MapDataR;
 import com.winjune.wifiindoor.map.MapManager;
-import com.winjune.wifiindoor.navi.Navigator;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.poi.SearchContext;
 import com.winjune.wifiindoor.runtime.RuntimeMap;
@@ -137,14 +133,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public LocationSprite focusPlace;
 	public ArrayList<LocationSprite> locationPlaces;
 	public ArrayList<Rectangle> collectedFlags; // Flags for fingerprint collected cells
-	
-	//public NaviInfo naviInfo;
-	public Navigator myNavigator;
-	
-	public int naviMyPlaceX;
-	public int naviMyPlaceY;
-	public int naviFromNode;
-	public int naviToNode;	
 	
 	public int LEFT_SPACE;
 	public int RIGHT_SPACE;
@@ -603,10 +591,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		MapDrawer.setCameraCenterTo(this, midColNo, midRowNo, false); // set Center to left_top cell
 			
 		InfoBanner.infoMe(this, -1, -1); // For map-wide Info
-				
-		// InitData for Navigator
-		NaviBar.loadNaviInfo(this);
-		
+						
 		// AdBanner.showDefaultAd(this);			
 
 		pOnCreateSceneCallback.onCreateSceneFinished(mainScene);

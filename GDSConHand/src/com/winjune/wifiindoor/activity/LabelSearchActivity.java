@@ -1,7 +1,5 @@
 package com.winjune.wifiindoor.activity;
 
-import java.util.List;
-
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.poiviewer.POIBaseActivity;
 import com.winjune.wifiindoor.activity.poiviewer.POITtsPlayerActivity;
@@ -11,6 +9,7 @@ import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.poi.SearchContext;
 import com.winjune.wifiindoor.poi.SearchHistory;
+import com.winjune.wifiindoor.adapter.SearchResultList;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -19,10 +18,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -246,35 +242,5 @@ public class LabelSearchActivity extends Activity {
 	public void moreClick(View v){
         Intent i = new Intent(this, ShortcutEntryActivity.class); 
 		startActivity(i);				
-	}
-		
-	public class SearchResultList extends ArrayAdapter<PlaceOfInterest> {
-		private Context context;
-		private SearchContext mSearchContext; 
-			
-		public SearchResultList(Context context, int resource, SearchContext mSearchContext) {
-			super(context, resource, mSearchContext.poiResults);
-			this.context = context;
-			this.mSearchContext = mSearchContext;
-			// TODO Auto-generated constructor stub
-		}
-			
-		@Override  
-		public View getView(int position, View convertView, ViewGroup parent){  
-			LayoutInflater vi = LayoutInflater.from(context);  
-	 
-			View view=vi.inflate(R.layout.list_search_result, null);
-			
-			TextView poiLabelV = (TextView)view.findViewById(R.id.text_label);
-			
-			String poiLabel = (position +1) +". "+ mSearchContext.poiResults.get(position).label;
-			poiLabelV.setText(poiLabel);
-			
-			TextView placeInfoV = (TextView)view.findViewById(R.id.text_floor_hall);
-			String placeInfo = "二楼：大厅";
-			placeInfoV.setText(placeInfo);			
-					        
-		    return view;  
-		}   		
-	}		
+	}	
 }

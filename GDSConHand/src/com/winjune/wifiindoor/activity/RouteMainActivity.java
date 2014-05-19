@@ -11,20 +11,22 @@ import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.adapter.HistoryDataList;
+import com.winjune.wifiindoor.navi.Navigator;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.poi.RouteSearchHistory;
 import com.winjune.wifiindoor.poi.SearchContext;
 
 public class RouteMainActivity extends Activity {
-	public static final int TERMINATION_REQUEST_CODE = 0;
+	public static final int END_REQUEST_CODE = 0;
 	public static final int START_REQUEST_CODE = 1;
-	public static String IS_START_POINT = "START_POINT";
 
 	private TextView startPointText = null;
 	private TextView endPointText = null;
 	private ListView lv = null;
 	private PlaceOfInterest startPoi = null;
 	private PlaceOfInterest endPoi = null;
+	
+	private Navigator myNavigator;
 
 	private RouteSearchHistory history;
 
@@ -140,13 +142,11 @@ public class RouteMainActivity extends Activity {
 
 	public void jumpToInputEndPointClick(View v) {
 		Intent i = new Intent(this, RouteInputActivity.class);
-		startActivityForResult(i, TERMINATION_REQUEST_CODE);
-		i.putExtra(IS_START_POINT, false);
+		startActivityForResult(i, END_REQUEST_CODE);
 	}
 
 	public void jumpToInputStartPointClick(View v) {
 		Intent i = new Intent(this, RouteInputActivity.class);
-		i.putExtra(IS_START_POINT, true);
 		startActivityForResult(i, START_REQUEST_CODE);
 	}
 
@@ -156,7 +156,7 @@ public class RouteMainActivity extends Activity {
 
 		switch (requestCode) {
 
-		case TERMINATION_REQUEST_CODE:
+		case END_REQUEST_CODE:
 			if (resultCode == RESULT_OK) {
 				Bundle bundle = data.getExtras();
 

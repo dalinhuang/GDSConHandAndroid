@@ -505,6 +505,14 @@ public class RuntimeMap {
 	public String getNormalMapUrl() {
 		return normalMapUrl;
 	}
+	
+	public int getMaxLatitude(){
+		return maxLatitude;
+	}
+	
+	public int getMaxLongitude(){
+		return maxLongitude;
+	}
 
 	public void setNormalMapUrl(String mapUrl) {
 		this.normalMapUrl = mapUrl;

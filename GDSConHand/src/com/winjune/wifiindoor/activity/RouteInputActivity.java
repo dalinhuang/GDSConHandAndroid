@@ -7,10 +7,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,10 +16,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.poiviewer.POIBaseActivity;
+import com.winjune.wifiindoor.adapter.SearchResultList;
 import com.winjune.wifiindoor.adapter.HistoryDataList;
 import com.winjune.wifiindoor.poi.POIManager;
-import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.poi.SearchContext;
 import com.winjune.wifiindoor.poi.SearchHistory;
 
@@ -47,25 +43,25 @@ public class RouteInputActivity extends Activity {
 				android.R.layout.simple_dropdown_item_1line, labelArray);
 		textView.setThreshold(1);
 		textView.setAdapter(autoCompleteAda);
+		
+	    textView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View v, int position,
+					long arg3) {
+				
+				TextView tv = (TextView)v;
+				// TODO Auto-generated method stub
+				performSearch(tv.getText().toString());
+			}	    	
+	    }); 		
 
 		// setup history info
 		lv = (ListView) findViewById(R.id.search_history_list);
 
 		final HistoryDataList historyAda = new HistoryDataList(this,
 				R.layout.list_history, history.getHistory());
-
-		Intent intent = getIntent();
-
-		boolean is_start_point = intent.getBooleanExtra(
-				RouteMainActivity.IS_START_POINT, false);
-
-		historyAda.remove("我的位置");
 		
-		if (is_start_point) {
-			
-			historyAda.insert("我的位置", 0);
-		}
-
 		lv.setAdapter(historyAda);
 
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,20 +98,14 @@ public class RouteInputActivity extends Activity {
 
 		SearchContext mContext = new SearchContext(text);
 		
-		
-
 		if (text.equals("我的位置")) {
 			mContext.searchText = "我的位置";
-			showResultsOnMap(mContext);
-			
+			returnToRouteMain(mContext);			
 			return;
 		}
 		
-
 		mContext.poiResults = POIManager.searchPOIsbyLabel(text);
 		
-		
-
 		if (mContext.poiResults.size() == 0) {
 			AlertDialog alertDialog = new AlertDialog.Builder(this,
 					AlertDialog.THEME_DEVICE_DEFAULT_LIGHT)
@@ -133,7 +123,7 @@ public class RouteInputActivity extends Activity {
 
 		if (mContext.poiResults.size() == 1) {
 
-			showResultsOnMap(mContext);
+			returnToRouteMain(mContext);
 		} else
 			showResultDialog(mContext);
 		
@@ -151,9 +141,14 @@ public class RouteInputActivity extends Activity {
 		builder.setAdapter(resultsAda, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int position) {
-				// TODO Auto-generated method stub
-				mContext.currentFocusIdx = position;
-				showResultsOnMap(mContext);
+				
+				// remove all unselected items 
+				for (int i=0; i<mContext.poiResults.size(); i++){
+					if (position != i)
+						mContext.poiResults.remove(i);
+				}
+								
+				returnToRouteMain(mContext);
 			}
 
 		});
@@ -161,7 +156,7 @@ public class RouteInputActivity extends Activity {
 		builder.show();
 	}
 
-	private void showResultsOnMap(SearchContext mContext) {
+	private void returnToRouteMain(SearchContext mContext) {
 		Intent data = new Intent();
 		Bundle mBundle = new Bundle();
 		mBundle.putSerializable(RESULT_SEARCH_CONTEXT, mContext);
@@ -184,58 +179,5 @@ public class RouteInputActivity extends Activity {
 				R.layout.list_history, history.getHistory());
 		
 		lv.setAdapter(historyAda);
-	}
-
-	public void shortcutClick(View v) {
-		String txt = ((TextView) v).getText().toString();
-
-		PlaceOfInterest poi = POIManager.getPOIbyLabel(txt);
-		if (poi == null) {
-			Log.e("LabelSearch", "POI not found");
-			return;
-		}
-
-		Class mViewerClass = POIManager.getPOIViewerClass(poi.getPoiType());
-
-		Intent intent_poi = new Intent(this, mViewerClass);
-
-		Bundle mBundle = new Bundle();
-		mBundle.putInt(POIBaseActivity.BUNDLE_KEY_POI_ID, poi.id);
-		intent_poi.putExtras(mBundle);
-
-		startActivity(intent_poi);
-	}
-
-	public class SearchResultList extends ArrayAdapter<PlaceOfInterest> {
-		private Context context;
-		private SearchContext mSearchContext;
-
-		public SearchResultList(Context context, int resource,
-				SearchContext mSearchContext) {
-			super(context, resource, mSearchContext.poiResults);
-			this.context = context;
-			this.mSearchContext = mSearchContext;
-			// TODO Auto-generated constructor stub
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			LayoutInflater vi = LayoutInflater.from(context);
-
-			View view = vi.inflate(R.layout.list_search_result, null);
-
-			TextView poiLabelV = (TextView) view.findViewById(R.id.text_label);
-
-			String poiLabel = (position + 1) + ". "
-					+ mSearchContext.poiResults.get(position).label;
-			poiLabelV.setText(poiLabel);
-
-			TextView placeInfoV = (TextView) view
-					.findViewById(R.id.text_floor_hall);
-			String placeInfo = "二楼：大厅";
-			placeInfoV.setText(placeInfo);
-
-			return view;
-		}
 	}
 }

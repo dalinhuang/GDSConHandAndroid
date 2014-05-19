@@ -134,14 +134,14 @@ public class MapViewerUtil {
 		float height = mapViewer.mCamera.getHeight();
 		float x = event.getX() / zoomFactor + centerX - width / 2;
 		float y = event.getY() / zoomFactor + centerY - height / 2;
+		int longitudeX = (int)(0.5+x*Util.getRuntimeIndoorMap().getMaxLongitude()/Util.getRuntimeIndoorMap().getMapWidth());
+		int latitudeY = (int)(0.5+y*Util.getRuntimeIndoorMap().getMaxLatitude()/Util.getRuntimeIndoorMap().getMapHeight());
 		
-		if(VisualParameters.PLANNING_MODE_ENABLED)
-		{
-	    	MapHUD.updateHinText(mapViewer, "x:"+(int)(0.5+x*30000/1200)+"y:"+(int)(0.5+y*40000/1600));
+		if(VisualParameters.PLANNING_MODE_ENABLED){
+	    	MapHUD.updateHinText(mapViewer, "longitudeX:"+longitudeX +" latitudeY:"+latitudeY);
 		}
 			
-
-		final PlaceOfInterest poi = POIManager.getNearestPOI(Util.getRuntimeIndoorMap().getMapId(), (int)x, (int)y);
+		final PlaceOfInterest poi = POIManager.getNearestPOI(Util.getRuntimeIndoorMap().getMapId(), longitudeX, longitudeX);
 		
 		if (poi == null)		
 			return false;

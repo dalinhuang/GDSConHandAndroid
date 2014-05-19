@@ -1,25 +1,6 @@
 package com.winjune.wifiindoor.activity;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-
-import org.andengine.entity.IEntity;
-import org.andengine.entity.primitive.Line;
-import org.andengine.entity.sprite.Sprite;
-import org.andengine.opengl.texture.ITexture;
-import org.andengine.opengl.texture.bitmap.BitmapTexture;
-import org.andengine.opengl.texture.region.ITextureRegion;
-import org.andengine.opengl.texture.region.TextureRegionFactory;
-import org.andengine.opengl.vbo.VertexBufferObjectManager;
-import org.andengine.util.adt.io.in.IInputStreamOpener;
-import org.andengine.util.debug.Debug;
-
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.R.id;
-import com.winjune.wifiindoor.R.layout;
-import com.winjune.wifiindoor.navi.NaviNode;
-import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Tuner;
 import com.winjune.wifiindoor.util.Util;

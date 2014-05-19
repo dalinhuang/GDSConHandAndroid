@@ -178,8 +178,8 @@ public class POIManager {
 		for (PlaceOfInterest aPOI:POIList) {
         	if (aPOI.mapId == mapId) {
         		  
-        		distX =  Math.sqrt(Math.abs(aPOI.getX() - placeX));
-        		distY =  Math.sqrt(Math.abs(aPOI.getY() - placeY));
+        		distX =  Math.sqrt(Math.abs(aPOI.getPlaceX() - placeX));
+        		distY =  Math.sqrt(Math.abs(aPOI.getPlaceY() - placeY));
         		double mDist = distX + distY;
         		if ( mDist < nearestDist) {
         			nearestPoi = aPOI;
@@ -193,7 +193,7 @@ public class POIManager {
 		
 	public static String[] buildAutoCompleteText(){
         String[] labelArray = new String[0];
-        // use Set to avoid ducplicated record
+        // use Set to avoid duplicated record
         Set<String> labelList = new HashSet<String>();
 
         for (PlaceOfInterest aPOI:POIList) {

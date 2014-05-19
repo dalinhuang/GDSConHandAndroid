@@ -1,6 +1,5 @@
 package com.winjune.wifiindoor.activity.mapviewer;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -15,174 +14,16 @@ import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.adt.io.in.IInputStreamOpener;
 import org.andengine.util.debug.Debug;
-import org.json.JSONObject;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.DialogInterface.OnClickListener;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.Toast;
-
-import com.google.gson.Gson;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
-import com.winjune.wifiindoor.activity.NaviResultActivity;
-import com.winjune.wifiindoor.navi.NaviInfo;
-import com.winjune.wifiindoor.navi.NaviNode;
-import com.winjune.wifiindoor.navi.NaviPath;
-import com.winjune.wifiindoor.navi.Navigator;
+import com.winjune.wifiindoor.lib.map.NaviNodeR;
 import com.winjune.wifiindoor.util.Constants;
-import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
-import com.winjune.wifiindoor.webservice.IpsWebService;
-import com.winjune.wifiindoor.webservice.messages.IpsMsgConstants;
-import com.winjune.wifiindoor.webservice.types.VersionOrMapIdRequest;
 
 public class NaviBar {
-	
-	
-	public static void loadNaviInfo(MapViewerActivity mapViewer) {
-		
-		mapViewer.myNavigator = new Navigator();
-		
-		boolean updateNeeded = true; //Hoare: update every time regardless map versionn, for test only
-
-		try {
-			NaviInfo naviInfo = new NaviInfo();
-
-			InputStream map_file_is = new FileInputStream(Util.getNaviInfoFilePathName(""+Util.getRuntimeIndoorMap().getMapId()));
 			
-			naviInfo.fromXML(map_file_is);
-			// file has already been closed
-			//map_file_is.close();
-			
-			// For Files in SD Card but not
-			//load_map_rc = designMap.fromXML(IndoorMapData.map_file_path + map_file_name);
-			
-			if (naviInfo.getVersionCode() != Util.getRuntimeIndoorMap().getVersionCode()) {
-				updateNeeded = true;
-			}
-			
-			// load cached navi info first regardless 
-			mapViewer.myNavigator.init(naviInfo, mapViewer.getResources().getString(R.string.navi_meter));
-			
-		} catch (Exception e) {
-			updateNeeded = true;
-		}
-		
-		if (updateNeeded) {
-			// Hoare: harcode map_id 1 as the GDSC map
-			int mapid = Util.getRuntimeIndoorMap().getMapId();
-			
-			if (mapid == 1 ) {
-				mapid = 2;
-			}				
-			
-
-		} 					
-	}
-			
-	// TODO: how to display the navi. result?
-	private static void  goNavigator(MapViewerActivity mapViewer) {
-		String naviStr = "";
-		
-		if (((mapViewer.naviMyPlaceX == -1) || (mapViewer.naviMyPlaceY == -1)) 
-			&& ((mapViewer.naviFromNode == 0) || (mapViewer.naviToNode == 0))) {
-			naviStr = mapViewer.getResources().getString(R.string.navi_my_place_unknown);
-			showNavigatorViewer(mapViewer, naviStr);
-			return;
-		}
-		
-		int fromNode = getNaviNodeIdFromSpinnerId(mapViewer, mapViewer.naviFromNode);
-		int toNode = getNaviNodeIdFromSpinnerId(mapViewer, mapViewer.naviToNode);
-
-		if ((fromNode == -1) || (toNode == -1)) {
-			naviStr = mapViewer.getResources().getString(R.string.navi_failed_no_data);
-			showNavigatorViewer(mapViewer, naviStr);
-			return;
-		} 
-		
-		if ((mapViewer.myNavigator.naviInfo == null) || (mapViewer.myNavigator.naviInfo.getNodes() == null) 
-			|| (mapViewer.myNavigator.naviInfo.getPaths() == null)) {
-			naviStr = mapViewer.getResources().getString(R.string.navi_failed_no_data);
-			showNavigatorViewer(mapViewer, naviStr);
-			return;
-		}
-		
-		NaviPath bestRoute = mapViewer.myNavigator.getShortestPath(fromNode, toNode);
-		
-		if (bestRoute == null) {
-			naviStr = mapViewer.getResources().getString(R.string.navi_failed_no_route);
-			showNavigatorViewer(mapViewer, naviStr);
-			return;
-		}
-		
-		naviStr += mapViewer.myNavigator.getSpinnerName(mapViewer.naviFromNode) + " ->->->->-> " +
-					mapViewer.myNavigator.getSpinnerName(mapViewer.naviToNode) + "\n";
-		
-		naviStr += mapViewer.getResources().getString(R.string.navi_total_distance) + bestRoute.getDist() 
-					+ mapViewer.getResources().getString(R.string.navi_meter);
-		naviStr += "\n\n";
-		
-		if (mapViewer.naviFromNode == 0) {
-			naviStr += mapViewer.getResources().getString(R.string.navi_my_place) + " ->-> " 
-						+ mapViewer.myNavigator.getSpinnerName(mapViewer.naviFromNode) + "\n";
-		}
-
-		
-		naviStr += bestRoute.getPathDesc();
-		if (mapViewer.naviToNode == 0) {
-			naviStr += mapViewer.myNavigator.getNodeName(fromNode) + " ->-> " 
-					   + mapViewer.getResources().getString(R.string.navi_my_place) + "\n";
-		}		
-		
-		naviStr += mapViewer.getResources().getString(R.string.navi_over) + "\n";		
-		
-		showNavigatorViewer(mapViewer, naviStr);
-	}
-
-	private static void showNavigatorViewer(MapViewerActivity mapViewer, String naviStr) {
-		Intent intent_navigator = new Intent(mapViewer, NaviResultActivity.class); 
-		Bundle mBundle = new Bundle(); 
-		
-		mBundle.putString(IndoorMapData.BUNDLE_KEY_NAVI_RESULT, naviStr);
-		intent_navigator.putExtras(mBundle); 
-		mapViewer.startActivity(intent_navigator);
-	}
-	
-	private static int getNaviNodeIdFromSpinnerId (MapViewerActivity mapViewer, int spinnerId) {
-		if ((mapViewer.myNavigator.naviInfo == null) || (mapViewer.myNavigator.naviInfo.getNodes() == null)) {
-			return -1;
-		}
-		
-		if (spinnerId == 0) { // My Place
-			return mapViewer.myNavigator.getNearestNaviNode(mapViewer.naviMyPlaceX, mapViewer.naviMyPlaceY);
-		}		
-				
-		return mapViewer.myNavigator.getNodeIdBySpinnerIdx(spinnerId);
-	}		
-	
-	// Handle the reply Message for Navi. Info update
-	public static void setNaviInfo(MapViewerActivity mapViewer, NaviInfo naviInfo) {
-		if (naviInfo == null) {
-			return;
-		}			
-			
-		mapViewer.myNavigator.init(naviInfo, mapViewer.getResources().getString(R.string.navi_meter));
-		
-		// Store into file
-		naviInfo.toXML();
-	}	
-	
-	
-	public static void showRouteSprite(final MapViewerActivity mapViewer, final ArrayList<NaviNode> naviNodes) {
+	public static void showNaviResulOnMap(final MapViewerActivity mapViewer, final ArrayList<NaviNodeR> naviNodes) {
 		//Load the start and stop images
 		ITextureRegion startTextureRegion = null;
 		ITextureRegion stopTextureRegion = null;
@@ -207,34 +48,7 @@ public class NaviBar {
 		} catch (IOException e) {
 			Debug.e(e);
 		}
-		
-		//Testing nodes. Need to remove when real navinode info provided.
-		NaviNode naviNode1 = new NaviNode();
-		naviNode1.setX(530);
-		naviNode1.setY(800);
-		naviNode1.setMapId(2);
-		naviNodes.add(naviNode1);
-		NaviNode naviNode2 = new NaviNode();
-		naviNode2.setX(460);
-		naviNode2.setY(900);
-		naviNode2.setMapId(2);
-		naviNodes.add(naviNode2);
-		NaviNode naviNode3 = new NaviNode();
-		naviNode3.setX(550);
-		naviNode3.setY(1030);
-		naviNode3.setMapId(2);
-		naviNodes.add(naviNode3);
-		NaviNode naviNode4 = new NaviNode();
-		naviNode4.setX(650);
-		naviNode4.setY(1040);
-		naviNode4.setMapId(2);
-		naviNodes.add(naviNode4);
-		NaviNode naviNode5 = new NaviNode();
-		naviNode5.setX(720);
-		naviNode5.setY(1010);
-		naviNode5.setMapId(2);
-		naviNodes.add(naviNode5);
-		
+				
 		//Draw dotted route
 		float startX=-1;
 		float startY=-1;
@@ -243,15 +57,15 @@ public class NaviBar {
 		int firstNodeofCurrentMap=-1;
 		int lastNodeofCurrentMap=-1;
 		for (int i = 0; i < naviNodes.size(); i++) {
-			NaviNode naviNode = naviNodes.get(i);
+			NaviNodeR naviNode = naviNodes.get(i);
 			if (Util.getRuntimeIndoorMap().getMapId() == naviNode.getMapId())
 			{
 				if (firstNodeofCurrentMap == -1)
 				{
 					firstNodeofCurrentMap = i;
 					//First node
-					startX = naviNode.getX();
-					startY = naviNode.getY();
+					startX = naviNode.getPlaceX();
+					startY = naviNode.getPlaceY();
 				}
 				else
 				{
@@ -259,8 +73,8 @@ public class NaviBar {
 					{
 						lastNodeofCurrentMap = i;
 					}
-					stopX = naviNode.getX();
-					stopY = naviNode.getY();							
+					stopX = naviNode.getPlaceX();
+					stopY = naviNode.getPlaceY();							
 					drawDottedLine(startX,startY,stopX,stopY,15,15,8,mapViewer.mainScene.getChildByIndex(Constants.LAYER_ROUTE),
 							mapViewer.getVertexBufferObjectManager());
 					startX = stopX;
@@ -279,22 +93,32 @@ public class NaviBar {
 		
 		//Show the start and stop images
 		if (lastNodeofCurrentMap > firstNodeofCurrentMap) {
-			final Sprite startPoint = new Sprite(naviNodes.get(
-					firstNodeofCurrentMap).getX()
-					- startTextureRegion.getWidth() / 2, naviNodes.get(
-					firstNodeofCurrentMap).getY()
-					- startTextureRegion.getHeight(), startTextureRegion,
-					mapViewer.getVertexBufferObjectManager());
+			
+			int mapX, mapY;
+			
+			
+			mapX = Util.longitudeX2MapX(naviNodes.get(firstNodeofCurrentMap).getPlaceX());
+			mapY = Util.latitudeY2MapY(naviNodes.get(firstNodeofCurrentMap).getPlaceY());			
+			
+			final Sprite startPoint = new Sprite(mapX- startTextureRegion.getWidth() / 2, 
+												mapY - startTextureRegion.getHeight(), 
+												startTextureRegion, 
+												mapViewer.getVertexBufferObjectManager());
+			
 			mapViewer.mainScene.getChildByIndex(Constants.LAYER_ROUTE)
 					.attachChild(startPoint);
-			final Sprite stopPoint = new Sprite(naviNodes.get(
-					lastNodeofCurrentMap).getX()
-					- stopTextureRegion.getWidth() / 2, naviNodes.get(
-					lastNodeofCurrentMap).getY()
-					- stopTextureRegion.getHeight(), stopTextureRegion,
-					mapViewer.getVertexBufferObjectManager());
+			
+			mapX = Util.longitudeX2MapX(naviNodes.get(lastNodeofCurrentMap).getPlaceX());
+			mapY = Util.latitudeY2MapY(naviNodes.get(lastNodeofCurrentMap).getPlaceY());				
+			
+			final Sprite stopPoint = new Sprite(mapX - stopTextureRegion.getWidth() / 2, 
+												mapY - stopTextureRegion.getHeight(), 
+												stopTextureRegion,
+												mapViewer.getVertexBufferObjectManager());
+			
 			mapViewer.mainScene.getChildByIndex(Constants.LAYER_ROUTE)
 					.attachChild(stopPoint);
+			
 			//TODO: Use text to show the end point or go up/down stairs
 			//      according to the navinode information.
 			/*

@@ -2,6 +2,12 @@ package com.winjune.wifiindoor.navi;
 
 import java.util.ArrayList;
 
+import com.winjune.wifiindoor.lib.map.NaviNodeR;
+import com.winjune.wifiindoor.lib.map.NaviNodeT;
+import com.winjune.wifiindoor.lib.map.NaviPathR;
+import com.winjune.wifiindoor.lib.map.NaviPathT;
+import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.util.Util;
 
 import android.util.Log;
@@ -9,192 +15,172 @@ import android.util.Log;
 public class Navigator {
 	
 	private static String LOG_TAG = "Navigator";
-	public 	NaviInfo naviInfo = null;
-	private String[] spinnerNames;
-	private int[] spinnerIdxToNodeId;
-	private String unitStr = ""; // 我们用什么单位
-	private boolean isReady = false;	
 	
-	public void init(NaviInfo ni, String unitStr ) {
+	private static boolean isReady = false;	
+	
+	private static NaviNodeT nodeTable;
+	private static NaviPathT pathTable;	
+	
+	private static int myPlaceMapId = 0;
+	private static int myPlaceLongitudeX = 0;;
+	private static int myPlaceLatitudeY = 0;
+		
+	public static void init() {
 		
 		isReady = false;
 		
-		if (naviInfo == null)
-			naviInfo = new NaviInfo();
-				
-		naviInfo.copy(ni);
-		
-		ArrayList<NaviNode> nodes = naviInfo.getNodes();
-		ArrayList<NaviData> paths = naviInfo.getPaths();
-		
-		if (( nodes == null) || (paths == null)){
-			Log.e(LOG_TAG, "No nodes are configred");
-			return;
-		}
-		
-		if ((nodes.size() == 0) || (paths.size() == 0)){
-			Log.e(LOG_TAG, "No nodes are configred");
-			return;
-		}
-		
-		this.unitStr = unitStr;
-		
-		//filter out all invisible nodes 
-		int count = 1;
-		for (NaviNode node : nodes) {
-			// we only show general node name
-			if ( node.getNameId() == 0) { 
-				count ++;
-			}
-		}
-		
-		// build the name list for spinner 
-		// And build a reverse table to get node id by spinner index 
-		spinnerNames = new String[count];
-		spinnerIdxToNodeId = new int[count];
-		count = 1;
-		for (NaviNode node : nodes) {
-			// we only show general node name
-			if ( node.getNameId() == 0) {
-				spinnerNames[count] = node.getName();
-				spinnerIdxToNodeId[count] = node.getId(); 
-				count ++;
-			}
-		}			
+		loadOfflineData();	
 		
 		// Navigator is enabled
 		isReady = true;
 	}
 	
-	public String[] getNodeSpinnerNames(){
-		return spinnerNames;
-	}
-	
-	public int getNodeIdBySpinnerIdx(int index) {
-		
-		if ((index < 0) || (index >= spinnerIdxToNodeId.length)) {
-			Log.e(LOG_TAG, "Wrong spinner idex");
-			return -1;
+	public static ArrayList<NaviNodeR> go(int startPoiId, int endPoiId){
+		NaviNodeR startNaviNode, endNaviNode, startNode, endNode;
+		ArrayList<NaviNodeR> paths;
+						
+		if (startPoiId == 0) {
+			startNaviNode = getNearestNaviNode(myPlaceMapId, myPlaceLongitudeX, myPlaceLatitudeY);
+			
+			startNode = new NaviNodeR(0, myPlaceMapId, myPlaceLongitudeX, myPlaceLatitudeY, "我的位置");			
 		}
-				
-		return spinnerIdxToNodeId[index];
+		else{
+			PlaceOfInterest startPoi = POIManager.getPOIbyId(startPoiId);			
+			if (startPoi == null) {
+				Log.e(LOG_TAG, "Wrong start node ");
+				return null;
+			}
+			
+			startNaviNode = getNearestNaviNode(startPoi.mapId, startPoi.getPlaceX(), startPoi.getMapY());
+			
+			startNode = new NaviNodeR(0, startPoi.mapId, startPoi.getPlaceX(), startPoi.getMapY(), startPoi.getLabel());
+		}
+	
+		PlaceOfInterest endPoi = POIManager.getPOIbyId(endPoiId);			
+		if (endPoi == null){
+			Log.e(LOG_TAG, "Wrong end node ");
+			return null;	
+		}
+		
+		endNaviNode = getNearestNaviNode(endPoi.mapId, endPoi.getPlaceX(), endPoi.getMapY());
+		endNode = new NaviNodeR(0, endPoi.mapId, endPoi.getPlaceX(), endPoi.getMapY(), endPoi.getLabel());
+		
+		if ((startNaviNode == null) || (endNaviNode == null)){
+			Log.e(LOG_TAG, "Wrong navi node ");		
+			return null;
+		}
+		
+		if (startNaviNode == endNaviNode){
+			paths = new ArrayList<NaviNodeR>();			
+			paths.add(startNaviNode);
+			
+		} else{					
+			DijkstraResult dResults = getShortestPath(startNaviNode.getId(), endNaviNode.getId());
+			if ((dResults == null) || (dResults.stepSize <=1)) {
+				Log.e(LOG_TAG, "Wrong DijkstraResult ");
+				return null;	
+			}
+			
+			paths = buildPaths(dResults);
+		}
+		
+		// add start node to the start of the list and end node to the end of the list
+		paths.add(0, startNode);
+		paths.add(endNode);
+		
+		return paths;		
 	}
 	
+	public static void loadOfflineData(){
+		
+	}
+	
+	public static void setMyPosition(int mapId, int colNo, int rowNo){
+		myPlaceMapId = mapId;
+		
+		myPlaceLongitudeX = colNo * Util.getRuntimeIndoorMap().getCellPixel() 
+			     * (Util.getRuntimeIndoorMap().getMaxLongitude())/ (Util.getRuntimeIndoorMap().getMapWidth());
+	
+		myPlaceLatitudeY = rowNo * Util.getRuntimeIndoorMap().getCellPixel() 
+		     	 * (Util.getRuntimeIndoorMap().getMaxLatitude())/ (Util.getRuntimeIndoorMap().getMapHeight());		
+	}
+	
+	public static ArrayList<NaviNodeR> getNodes(){
+		return nodeTable.getNodes();
+	}
+	
+	public static ArrayList<NaviPathR> getPaths(){
+		return pathTable.getPaths();
+	}
+		
 	// User selects 'My place'
 	// we try to look for a nearest node according to his location
-	public int getNearestNaviNode(int myPlaceX, int myPlaceY) {
-		if ((myPlaceX == -1) || (myPlaceY == -1)) {
-			Log.e(LOG_TAG, "Wrong place");
-			return -1;
-		}	
+	public static NaviNodeR getNearestNaviNode(int mapId, int placeX, int PlaceY) {
+		NaviNodeR nearestNode = null;
 		
-		int nodeNo = -1;
-		int delta = Integer.MAX_VALUE;
+		double nearestDist = Double.MAX_VALUE;
+		double distX;
+		double distY;
+				
+		for (NaviNodeR mNode:nodeTable.getNodes()) {
+        	if (mNode.getMapId() == mapId) {        		  
+        		distX =  Math.sqrt(Math.abs(mNode.getPlaceX() - placeX));
+        		distY =  Math.sqrt(Math.abs(mNode.getPlaceY() - PlaceY));
+        		double mDist = distX + distY;
+        		if ( mDist < nearestDist) {
+        			nearestNode = mNode;
+        			nearestDist = mDist;
+        		}        		        		 
+        	}        	
+		}								
 		
-		ArrayList<NaviNode> nodes = naviInfo.getNodes();
-		for (NaviNode node: nodes) {
-			if (node != null) {
-				if (node.getMapId() == Util.getRuntimeIndoorMap().getMapId()) { // Same Map
-					int delta2 = Math.abs(myPlaceX - node.getX()) + Math.abs(myPlaceY - node.getY());
-					
-					if (delta2 < delta) {
-						delta = delta2;
-						nodeNo = node.getId();
-					}
-					
-					if (delta == 0) {
-						return nodeNo;
-					}
-				}
-			}
-		}
-		
-		return nodeNo;
+		return nearestNode;
 	}	
-
 	
-	public NaviPath getShortestPath(int startNode, int endNode) {
+
+	public static DijkstraResult getShortestPath(int startNode, int endNode) {
         		
         if (!isReady) {
         	Log.e(LOG_TAG, "Navigator is not ready");
         	return null;
-        }
-               
-        // There may be a few end options
-     	ArrayList<NaviNode>  targetOptions = new ArrayList<NaviNode>();	
-        
-		ArrayList<NaviNode> nodes = naviInfo.getNodes();
-        for (NaviNode node : nodes) {
-        	if (node.getId() == endNode){
-        		if ((node.getX() != -1) && (node.getY() != -1)) {
-        			//except for node with general names, other nodes with the 
-        			//general name should not be treated as the target node, like entrance
-        			targetOptions.clear();
-        			break;
-        		}        	
-        	}        	
-        	// 针对公共设施比如洗手间, 可能有多个洗手间,但是知有一个通用的显示, 选取最近的
-        	// Firstly we found all possible nodes
-        	if (node.getNameId() == endNode) {
-        		targetOptions.add(node);
-        	}
-        }
-        
+        }               
+       
         DijkstraPath pathPlanner = new DijkstraPath();        
-        NaviPath path = null;        
-        
-        if (targetOptions.isEmpty()) {
-        	
-        	DijkstraMap map = new DijkstraMap(nodes, naviInfo.getPaths());
-        	// only one target node
-        	path = pathPlanner.planPath(map, startNode, endNode);
-		} else {
-			NaviPath tmpPath;
-			
-			for (NaviNode node : targetOptions) {
-				DijkstraMap map = new DijkstraMap(nodes, naviInfo.getPaths());
-				
-	        	tmpPath = pathPlanner.planPath(map, startNode, node.getId());
-	        	
-	        	// no path between startNode and this node
-	        	if (tmpPath == null)
-	        		continue;
-	        	
-	        	if (path == null){
-	        		path = tmpPath;
-	        		
-	        	} else if(tmpPath.getDist() < path.getDist()) {
-	        		// change to the target with the shorter path
-	        		path = tmpPath;
-	        	}
-			}
-		}   
+                        	
+        DijkstraMap map = new DijkstraMap(nodeTable, pathTable);
+
+        DijkstraResult path = pathPlanner.planPath(map, startNode, endNode);
         
         return path;
-	}	
+	}
 	
-	public String getNodeName( int nodeId) {
-		ArrayList<NaviNode> nodes = naviInfo.getNodes();
-		if (nodes == null) {
-			return null;
-		}
-		
-		for (NaviNode node : nodes) {
-			if (node == null) {
-				continue;
-			}
-			
-			if (node.getId() == nodeId) {
-				return "[ " + node.getName() + " ]";
-			}
+	private static NaviNodeR getNaviNodeById(int id){
+		for (NaviNodeR node: nodeTable.nodes){
+			if (node.getId() == id)
+				return node;
 		}
 		
 		return null;
-	}	
-	
-	public String getSpinnerName(int spinnerIdx) {
-		
-		return spinnerNames[spinnerIdx];
 	}
+	
+	private static ArrayList<NaviNodeR> buildPaths(DijkstraResult results){
+		ArrayList<NaviNodeR> paths = new ArrayList<NaviNodeR>();
+		
+		for (int i=0; i<results.stepSize; i++){
+			NaviNodeR stepNode = getNaviNodeById(results.steps[i]);
+		
+			if (stepNode == null){				
+				return null;				
+			}
+			paths.add(stepNode);			
+		}
+		
+		return paths;
+	}
+	
+	private static String getPathDesc(int fromNode, int toNode){
+		return null;
+	}
+	
 }
 

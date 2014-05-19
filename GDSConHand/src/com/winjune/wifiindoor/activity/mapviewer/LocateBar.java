@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.LocationSprite;
+import com.winjune.wifiindoor.navi.Navigator;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
@@ -282,8 +283,7 @@ public class LocateBar {
 			MapDrawer.setCameraCenterTo(mapViewer, colNo, rowNo, false); // x,y
 			
 			// Set last known good location
-			mapViewer.naviMyPlaceX = colNo;
-			mapViewer.naviMyPlaceY = rowNo;
+			Navigator.setMyPosition(mapId, colNo, rowNo);
 
 			// Show Location based News
 			InfoBanner.infoMe(mapViewer, colNo, rowNo);
@@ -387,8 +387,8 @@ public static void attachLocationSprite(final MapViewerActivity mapViewer, Place
 			return;
 		}		
 
-		float adjustedX = poi.getX() - searchResultMarkerITR.getWidth()/2;
-		float adjustedY = poi.getY() - searchResultMarkerITR.getHeight();
+		float adjustedX = poi.getMapX() - searchResultMarkerITR.getWidth()/2;
+		float adjustedY = poi.getMapY() - searchResultMarkerITR.getHeight();
 		
 		LocationSprite mSprite = new LocationSprite(adjustedX, 
 				                                    adjustedY, 														
