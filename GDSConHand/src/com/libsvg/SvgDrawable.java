@@ -32,7 +32,7 @@ import com.winjune.wifiindoor.R;
 
 /**
  * A Drawable that wraps an Svg image and can be stretched or aligned. You can create a
- * SvgDrawable from a file path, an input stream, through XML inflation.
+ * SvgDrawable from a file pathDist, an input stream, through XML inflation.
  * <p>It can be defined in an XML file with the <code>&lt;com.libsvg.SvgDrawable></code> element.</p>
  * <p>
  * Also see the {@link com.libsvg.SvgImageView} class, which cares about loading and operating 
@@ -106,7 +106,7 @@ public class SvgDrawable extends Drawable {
     }
 
     /**
-     * Create a drawable by opening a given file path and decoding the SVG.
+     * Create a drawable by opening a given file pathDist and decoding the SVG.
      * @throws FileNotFoundException 
      * @deprecated Use {@link #SvgDrawable(Resources, String)} to ensure
      * that the drawable has correctly set its target density.
@@ -118,7 +118,7 @@ public class SvgDrawable extends Drawable {
     }
 
     /**
-     * Create a drawable by opening a given file path and decoding the bitmap.
+     * Create a drawable by opening a given file pathDist and decoding the bitmap.
      * @throws FileNotFoundException 
      */
     public SvgDrawable(Resources res, String filepath) throws FileNotFoundException {

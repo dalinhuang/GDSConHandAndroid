@@ -16,6 +16,7 @@ import com.winjune.wifiindoor.activity.poiviewer.POINormalViewerActivity;
 import com.winjune.wifiindoor.activity.poiviewer.RestaurantInfoActivity;
 import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
 import com.winjune.wifiindoor.lib.poi.PlaceOfInterestR;
+import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.Util;
 
 enum ContextMenuRequestFrom {
@@ -42,7 +43,7 @@ public class PlaceOfInterest extends PlaceOfInterestR {
 		        Intent i = new Intent(v.getContext(), POINormalViewerActivity.class); 
 
 				Bundle mBundle = new Bundle(); 
-				mBundle.putInt(POINormalViewerActivity.BUNDLE_KEY_POI_ID, PlaceOfInterest.this.id);
+				mBundle.putInt(Constants.BUNDLE_KEY_POI_ID, PlaceOfInterest.this.id);
 				i.putExtras(mBundle); 	
 				
 		        v.getContext().startActivity(i);				
@@ -65,7 +66,7 @@ public class PlaceOfInterest extends PlaceOfInterestR {
 		        Intent i = new Intent(v.getContext(), POINormalViewerActivity.class); 
 
 				Bundle mBundle = new Bundle(); 
-				mBundle.putInt(POINormalViewerActivity.BUNDLE_KEY_POI_ID, PlaceOfInterest.this.id);
+				mBundle.putInt(Constants.BUNDLE_KEY_POI_ID, PlaceOfInterest.this.id);
 				i.putExtras(mBundle); 	
 				
 		        v.getContext().startActivity(i);				
@@ -88,7 +89,7 @@ public class PlaceOfInterest extends PlaceOfInterestR {
 		        Intent i = new Intent(v.getContext(), POINormalViewerActivity.class); 
 
 				Bundle mBundle = new Bundle(); 
-				mBundle.putInt(POINormalViewerActivity.BUNDLE_KEY_POI_ID, PlaceOfInterest.this.id);
+				mBundle.putInt(Constants.BUNDLE_KEY_POI_ID, PlaceOfInterest.this.id);
 				i.putExtras(mBundle); 	
 				
 		        v.getContext().startActivity(i);				

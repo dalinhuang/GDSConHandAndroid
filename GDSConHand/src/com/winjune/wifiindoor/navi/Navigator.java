@@ -15,29 +15,25 @@ import android.util.Log;
 public class Navigator {
 	
 	private static String LOG_TAG = "Navigator";
+	public static String  NaviNodeTableName = "navi_node_table.xml";		
+	public static String  NaviPathTableName = "navi_path_table.xml";
 	
-	private static boolean isReady = false;	
-	
-	private static NaviNodeT nodeTable;
-	private static NaviPathT pathTable;	
+
+	private static NaviNodeT nodeTable = new NaviNodeT();
+	private static NaviPathT pathTable = new NaviPathT();	
 	
 	private static int myPlaceMapId = 0;
 	private static int myPlaceLongitudeX = 0;;
 	private static int myPlaceLatitudeY = 0;
-		
-	public static void init() {
-		
-		isReady = false;
-		
-		loadOfflineData();	
-		
-		// Navigator is enabled
-		isReady = true;
-	}
 	
+	public static void loadOfflineData(String path){	
+		nodeTable.fromXML(path +NaviNodeTableName, nodeTable);		
+		pathTable.fromXML(path +NaviPathTableName, pathTable);
+	}	
+		
 	public static ArrayList<NaviNodeR> go(int startPoiId, int endPoiId){
 		NaviNodeR startNaviNode, endNaviNode, startNode, endNode;
-		ArrayList<NaviNodeR> paths;
+		ArrayList<NaviNodeR> naviRoute;
 						
 		if (startPoiId == 0) {
 			startNaviNode = getNearestNaviNode(myPlaceMapId, myPlaceLongitudeX, myPlaceLatitudeY);
@@ -53,7 +49,7 @@ public class Navigator {
 			
 			startNaviNode = getNearestNaviNode(startPoi.mapId, startPoi.getPlaceX(), startPoi.getMapY());
 			
-			startNode = new NaviNodeR(0, startPoi.mapId, startPoi.getPlaceX(), startPoi.getMapY(), startPoi.getLabel());
+			startNode = new NaviNodeR(0, startPoi.mapId, startPoi.getPlaceX(), startPoi.getPlaceY(), startPoi.getLabel());
 		}
 	
 		PlaceOfInterest endPoi = POIManager.getPOIbyId(endPoiId);			
@@ -63,7 +59,7 @@ public class Navigator {
 		}
 		
 		endNaviNode = getNearestNaviNode(endPoi.mapId, endPoi.getPlaceX(), endPoi.getMapY());
-		endNode = new NaviNodeR(0, endPoi.mapId, endPoi.getPlaceX(), endPoi.getMapY(), endPoi.getLabel());
+		endNode = new NaviNodeR(0, endPoi.mapId, endPoi.getPlaceX(), endPoi.getPlaceY(), endPoi.getLabel());
 		
 		if ((startNaviNode == null) || (endNaviNode == null)){
 			Log.e(LOG_TAG, "Wrong navi node ");		
@@ -71,28 +67,24 @@ public class Navigator {
 		}
 		
 		if (startNaviNode == endNaviNode){
-			paths = new ArrayList<NaviNodeR>();			
-			paths.add(startNaviNode);
+			naviRoute = new ArrayList<NaviNodeR>();			
+			naviRoute.add(startNaviNode);
 			
 		} else{					
-			DijkstraResult dResults = getShortestPath(startNaviNode.getId(), endNaviNode.getId());
-			if ((dResults == null) || (dResults.stepSize <=1)) {
+			DijkstraResult dResults = getShortestRoute(startNaviNode.getId(), endNaviNode.getId());
+			if (dResults == null){
 				Log.e(LOG_TAG, "Wrong DijkstraResult ");
 				return null;	
 			}
 			
-			paths = buildPaths(dResults);
+			naviRoute = buildNaviRoute(dResults);
 		}
 		
 		// add start node to the start of the list and end node to the end of the list
-		paths.add(0, startNode);
-		paths.add(endNode);
+		naviRoute.add(0, startNode);
+		naviRoute.add(endNode);
 		
-		return paths;		
-	}
-	
-	public static void loadOfflineData(){
-		
+		return naviRoute;		
 	}
 	
 	public static void setMyPosition(int mapId, int colNo, int rowNo){
@@ -138,18 +130,13 @@ public class Navigator {
 	}	
 	
 
-	public static DijkstraResult getShortestPath(int startNode, int endNode) {
-        		
-        if (!isReady) {
-        	Log.e(LOG_TAG, "Navigator is not ready");
-        	return null;
-        }               
+	public static DijkstraResult getShortestRoute(int startNode, int endNode) {        	            
        
         DijkstraPath pathPlanner = new DijkstraPath();        
                         	
         DijkstraMap map = new DijkstraMap(nodeTable, pathTable);
 
-        DijkstraResult path = pathPlanner.planPath(map, startNode, endNode);
+        DijkstraResult path = pathPlanner.planRoute(map, startNode, endNode);
         
         return path;
 	}
@@ -163,12 +150,14 @@ public class Navigator {
 		return null;
 	}
 	
-	private static ArrayList<NaviNodeR> buildPaths(DijkstraResult results){
+	private static ArrayList<NaviNodeR> buildNaviRoute(DijkstraResult result){
 		ArrayList<NaviNodeR> paths = new ArrayList<NaviNodeR>();
+		String stepIdStrs[] = result.pathSteps.split(">");  
 		
-		for (int i=0; i<results.stepSize; i++){
-			NaviNodeR stepNode = getNaviNodeById(results.steps[i]);
 		
+		for (String stepIdStr:stepIdStrs){			
+			int stepId = Integer.parseInt(stepIdStr);
+			NaviNodeR stepNode = getNaviNodeById(stepId);		
 			if (stepNode == null){				
 				return null;				
 			}
@@ -176,10 +165,6 @@ public class Navigator {
 		}
 		
 		return paths;
-	}
-	
-	private static String getPathDesc(int fromNode, int toNode){
-		return null;
 	}
 	
 }

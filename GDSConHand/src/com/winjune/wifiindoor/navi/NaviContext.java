@@ -10,6 +10,13 @@ public class NaviContext implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1905197474553939983L;
-	public ArrayList<NaviNodeR> nodes = new ArrayList<NaviNodeR>();
+	
+	public String text;
+	public ArrayList<NaviNodeR> naviRoute;
+	
+	public NaviContext(String text){
+		this.text = text;
+		naviRoute = new ArrayList<NaviNodeR>();
+	}
 
 }

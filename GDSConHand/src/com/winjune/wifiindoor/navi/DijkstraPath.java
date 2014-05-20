@@ -12,21 +12,23 @@ public class DijkstraPath {
 	private String LOG_TAG = "Navigator";
 	HashSet<DijkstraNode> open;
 	HashSet<DijkstraNode> close;    
-	HashMap<Integer,Integer> path;//封装路径距离
+	HashMap<Integer,Integer> pathDist;//封装路径距离
 	HashMap<Integer,String> pathInfo;//封装路径信息
+	HashMap<Integer,String> pathSteps;//封装路径信息
 	
 	public DijkstraPath(){
 		open = new HashSet<DijkstraNode>();
 		close = new HashSet<DijkstraNode>();
-		path = new HashMap<Integer,Integer>();
-		pathInfo =new HashMap<Integer,String>();
+		pathDist =  new HashMap<Integer,Integer>();
+		pathInfo = new HashMap<Integer,String>();
+		pathSteps = new HashMap<Integer,String>();
 	}
     
-    public DijkstraResult planPath(DijkstraMap map, int fromId, int toId) {    	
-    	DijkstraNode start = map.getNode(fromId);
+    public DijkstraResult planRoute(DijkstraMap map, int fromId, int toId) {    	
+    	DijkstraNode fromNode = map.getNode(fromId);
     	DijkstraNode toNode = map.getNode(toId);
     	
-    	if (start == null) {
+    	if (fromNode == null) {
     		Log.e(LOG_TAG, "Null start: "+ fromId);
     		return null;
     	}
@@ -36,48 +38,53 @@ public class DijkstraPath {
     		return null;    		
     	}    	    	
     		
-    	Log.i(LOG_TAG, start.getName());
-
     	open = map.getNodes();
     	
-    	Map<DijkstraNode,Integer> childs=start.getChild();        	
+    	Map<DijkstraNode,Integer> childs=fromNode.getChild();        	
         for (DijkstraNode node:open) {
-        	if (node == start) {
-        		path.put(node.getId(), 0); 
-        		pathInfo.put(node.getId(), start.getName()+"->"+node.getName()+":0\n");        		
+        	if (node == fromNode) {
+        		pathDist.put(node.getId(), 0); 
+        		pathInfo.put(node.getId(), fromNode.getName()+"->"+node.getName()+":0\n");
+        		pathSteps.put(node.getId(), ""+node.getId());
         	} else {
-        		path.put(node.getId(), Integer.MAX_VALUE); 
-        		pathInfo.put(node.getId(), start.getName()+"->"+node.getName()+":M");
+        		pathDist.put(node.getId(), Integer.MAX_VALUE); 
+        		pathInfo.put(node.getId(), fromNode.getName()+"->"+node.getName()+":M");
+        		pathSteps.put(node.getId(), ""+node.getId());
         	} 
         }
         
         for (DijkstraNode node: childs.keySet()) {
-            	path.put(node.getId(), childs.get(node));  
-            	pathInfo.put(node.getId(), start.getName()+" ->->-> "+node.getName()
+            	pathDist.put(node.getId(), childs.get(node));  
+            	pathInfo.put(node.getId(), fromNode.getName()+" -> "+node.getName()
             				 +": "+childs.get(node)+"\n\n");
+            	pathSteps.put(node.getId(), fromNode.getId() + ">" + node.getId());
         }
         
-        open.remove(start);
-        close.add(start);
+        open.remove(fromNode);
+        close.add(fromNode);
     	
-        computePath(start);
+        computePath(fromNode);
         
-        Set<Map.Entry<Integer, String>> pathInfos= pathInfo.entrySet();
+        Set<Map.Entry<Integer, String>> pathInfos= pathInfo.entrySet();        
+      
         for(Map.Entry<Integer, String> pathInfo:pathInfos){
         	if (pathInfo.getKey() == toId) {
-        		DijkstraResult naviPath = new DijkstraResult(map.nodes.size());
+        		DijkstraResult naviPath = new DijkstraResult();
         		
-        		int dist = path.get(toId);
+        		int dist = pathDist.get(toId);
         		// not edge connected to the target node        		
         		if (dist == Integer.MAX_VALUE){
         			Log.i(LOG_TAG, "no edge is connected to target node.");
         			return null;
         		}
-        		
-        		Log.i(LOG_TAG, "Dist:"+dist);        		       		
-        		naviPath.setDist(dist);
-        		naviPath.appendPathDesc(pathInfo.getValue());
+        		Log.i(LOG_TAG, fromNode.getName()+" -> "+toNode.getName()+": "+dist);        		
         		Log.i(LOG_TAG, pathInfo.getValue());
+        		Log.i(LOG_TAG, pathSteps.get(toId));        		
+        		   		
+        		naviPath.setDist(dist);
+        		naviPath.setPathSteps(pathSteps.get(toId));
+        		naviPath.appendPathDesc(pathInfo.getValue());
+        		        		        		
         		return naviPath;
         	}
         }
@@ -99,12 +106,15 @@ public class DijkstraPath {
         Map<DijkstraNode,Integer> childs=nearest.getChild();
         for(DijkstraNode child:childs.keySet()){
             if(open.contains(child)){//如果子节点在open中
-                Integer newCompute=path.get(nearest.getId())+childs.get(child);
-                if(path.get(child.getId())>newCompute){//之前设置的距离大于新计算出来的距离
-                    path.put(child.getId(), newCompute);
+                Integer newCompute=pathDist.get(nearest.getId())+childs.get(child);
+                if(pathDist.get(child.getId())>newCompute){//之前设置的距离大于新计算出来的距离
+                    pathDist.put(child.getId(), newCompute);
                     pathInfo.put(child.getId(), pathInfo.get(nearest.getId())
-                    		+" ->->-> "+child.getName()
+                    		+" -> "+child.getName()
                     		+": "+childs.get(child) +"\n\n");
+                    
+                	pathSteps.put(child.getId(), pathSteps.get(nearest.getId())+
+                			">"+child.getId());
                 }
             }
         }

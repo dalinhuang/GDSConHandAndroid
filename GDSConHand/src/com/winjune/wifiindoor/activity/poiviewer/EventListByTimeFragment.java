@@ -19,6 +19,7 @@ import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.poi.EventManager;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlayhouseInfo;
+import com.winjune.wifiindoor.util.Constants;
 
 /**
  * A fragment representing a list of Items.
@@ -82,7 +83,7 @@ public class EventListByTimeFragment extends ListFragment {
 			
 		Intent i = new Intent(getActivity(), PlayhouseInfoActivity.class); 
 		Bundle bundle = new Bundle();
-		bundle.putInt(PlayhouseInfoActivity.BUNDLE_KEY_POI_ID, mEventItems.get(position).id);
+		bundle.putInt(Constants.BUNDLE_KEY_POI_ID, mEventItems.get(position).id);
 		
 		i.putExtras(bundle);
 		startActivity(i);	

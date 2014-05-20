@@ -10,11 +10,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.activity.poiviewer.POIBaseActivity;
 import com.winjune.wifiindoor.adapter.HistoryDataList;
+import com.winjune.wifiindoor.navi.NaviContext;
 import com.winjune.wifiindoor.navi.Navigator;
+import com.winjune.wifiindoor.navi.NaviHistory;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
-import com.winjune.wifiindoor.poi.RouteSearchHistory;
 import com.winjune.wifiindoor.poi.SearchContext;
+import com.winjune.wifiindoor.util.Constants;
 
 public class RouteMainActivity extends Activity {
 	public static final int END_REQUEST_CODE = 0;
@@ -28,14 +31,14 @@ public class RouteMainActivity extends Activity {
 	
 	private Navigator myNavigator;
 
-	private RouteSearchHistory history;
+	private NaviHistory history;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_route_main);
 
-		history = new RouteSearchHistory();
+		history = new NaviHistory();
 		history.loadCachedData();
 
 		startPointText = (TextView) findViewById(R.id.input_start_point);
@@ -80,7 +83,10 @@ public class RouteMainActivity extends Activity {
 			alertDialog.show();
 			return;
 		}
-
+		
+		if (startPoi == null)
+			startPoi = new PlaceOfInterest();
+				
 		performSearch(startText + " - " + endText);
 
 	}
@@ -120,10 +126,21 @@ public class RouteMainActivity extends Activity {
 
 	private void performSearch(String text) {
 		if (text.isEmpty())
-			return;
+			return;		
 
 		history.addRecord(text);
 
+		NaviContext context = new NaviContext(text);
+				
+		context.naviRoute = Navigator.go(startPoi.id, endPoi.id);		
+
+		Intent resultI = new Intent(this, NaviResultActivity.class);
+
+		Bundle mBundle = new Bundle(); 
+		mBundle.putSerializable(Constants.BUNDLE_KEY_NAVI_CONTEXT, context);
+		resultI.putExtras(mBundle);
+		startActivity(resultI);
+		
 		finish();
 	}
 

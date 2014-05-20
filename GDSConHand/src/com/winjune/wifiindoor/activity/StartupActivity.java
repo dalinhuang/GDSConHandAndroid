@@ -17,6 +17,7 @@ import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.lib.map.MapDataR;
 import com.winjune.wifiindoor.lib.poi.PoiOfflineData;
 import com.winjune.wifiindoor.map.MapManager;
+import com.winjune.wifiindoor.navi.Navigator;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
@@ -129,9 +130,9 @@ public class StartupActivity extends Activity implements OnInitListener{
         		long completeTime = System.currentTimeMillis();
         		long runTime = completeTime - startTime;
         		
-        		if (runTime < 2000) {
+        		if (runTime < 1500) {
         			
-        			long sleepTime = 2000 - runTime;
+        			long sleepTime = 1500 - runTime;
         			//Hoare: give more time to show background picture
             		try {
     					Thread.sleep(sleepTime);
@@ -191,10 +192,10 @@ public class StartupActivity extends Activity implements OnInitListener{
 		fileNames.add(fullPath+PoiOfflineData.poiTableName);
 		fileNames.add(fullPath+PoiOfflineData.restaurantTableName);
 		fileNames.add(fullPath+"version_table.xml");		
-		fileNames.add(fullPath+"navi_node_table.xml");		
-		fileNames.add(fullPath+"navi_path_table.xml");		
+		fileNames.add(fullPath+ Navigator.NaviNodeTableName);		
+		fileNames.add(fullPath+Navigator.NaviPathTableName);		
 		Util.appFilesPrepare(StartupActivity.this, fileNames);
-
+		/*
 		Util.downFile(StartupActivity.this,
 				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, MapManager.mapTableName),
 				IndoorMapData.CONFIG_FILE_PATH,
@@ -204,7 +205,7 @@ public class StartupActivity extends Activity implements OnInitListener{
 				false, //useHandler
 				false);// Use Thread			
 		
-/*		Util.downFile(StartupActivity.this,
+		Util.downFile(StartupActivity.this,
 				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, PoiOfflineData.buslineTableName),
 				IndoorMapData.CONFIG_FILE_PATH,
 				PoiOfflineData.buslineTableName,                     		
@@ -253,13 +254,32 @@ public class StartupActivity extends Activity implements OnInitListener{
 				false,      // Open after download
 				"",
 				false, //useHandler
-				false);// Use Thread	
-
-        */
+				false);// Use Thread	        
+		
+		Util.downFile(StartupActivity.this,
+				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, Navigator.NaviNodeTableName),
+				IndoorMapData.CONFIG_FILE_PATH,
+				Navigator.NaviNodeTableName,                     		
+				false,      // Open after download
+				"",
+				false, //useHandler
+				false);// Use Thread		
+		
+		Util.downFile(StartupActivity.this,
+				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, Navigator.NaviPathTableName),
+				IndoorMapData.CONFIG_FILE_PATH,
+				Navigator.NaviPathTableName,                     		
+				false,      // Open after download
+				"",
+				false, //useHandler
+				false);// Use Thread		
+		*/	
 		
 		MapManager.loadOfflineData(fullPath);		
 		
-        POIManager.loadOfflineData();
+        POIManager.loadOfflineData(fullPath);
+        
+        Navigator.loadOfflineData(fullPath);
         
         startMapViewer();
         

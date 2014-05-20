@@ -62,6 +62,7 @@ import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.drawing.graphic.model.LocationSprite;
 import com.winjune.wifiindoor.lib.map.MapDataR;
 import com.winjune.wifiindoor.map.MapManager;
+import com.winjune.wifiindoor.navi.NaviContext;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.poi.SearchContext;
 import com.winjune.wifiindoor.runtime.RuntimeMap;
@@ -74,12 +75,6 @@ import com.winjune.wifiindoor.webservice.IpsWebService;
 
 
 public class MapViewerActivity extends LayoutGameActivity implements SensorEventListener {
-	public static final String ActionLocate = "ActionLocate";
-	public static final String ActionSearch = "ActionSearch";
-	
-	public static final String BUNDLE_RESULT_SEARCH_CONTEXT = "RESULT_SEARCH_CONTEXT";
-	public static final String BUNDLE_LOCATION_CONTEXT = "LOCATION_CONTEXT";
-	
 
 	public static final String TAG = MapViewerActivity.class.getSimpleName();
 	public static final boolean DEBUG = WifiIpsSettings.DEBUG;
@@ -373,13 +368,16 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		Bundle mBundle = getIntent().getExtras();
 		
-		if (mAction.equals(ActionLocate)){
-			PlaceOfInterest poi = (PlaceOfInterest)mBundle.getSerializable(BUNDLE_LOCATION_CONTEXT);
+		if (mAction.equals(Constants.ActionLocate)){
+			PlaceOfInterest poi = (PlaceOfInterest)mBundle.getSerializable(Constants.BUNDLE_LOCATION_CONTEXT);
 			LocateBar.attachLocationSprite(this, poi);
 			poi.showContextMenu(getCurrentFocus());			
-		}else if (mAction.equals(ActionSearch)) {			
-			SearchContext mContext = (SearchContext) mBundle.getSerializable(BUNDLE_RESULT_SEARCH_CONTEXT);		
+		}else if (mAction.equals(Constants.ActionSearch)) {			
+			SearchContext mContext = (SearchContext) mBundle.getSerializable(Constants.BUNDLE_RESULT_SEARCH_CONTEXT);		
 		   	SearchBar.showSearchResultsOnMap(this, mContext);
+		}else if (mAction.equals(Constants.ActionRoute)){
+			NaviContext mContext =  (NaviContext)mBundle.getSerializable(Constants.BUNDLE_KEY_NAVI_CONTEXT);
+			NaviBar.showNaviResulOnMap(this, mContext.naviRoute);
 		}
 			
 

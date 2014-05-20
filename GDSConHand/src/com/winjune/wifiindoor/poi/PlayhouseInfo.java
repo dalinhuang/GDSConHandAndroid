@@ -14,6 +14,7 @@ import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
 import com.winjune.wifiindoor.lib.poi.PlaceOfInterestR;
 import com.winjune.wifiindoor.lib.poi.PlayhouseInfoR;
 import com.winjune.wifiindoor.lib.poi.ScheduleTime;
+import com.winjune.wifiindoor.util.Constants;
 
 @SuppressWarnings("serial")
 public class PlayhouseInfo extends PlaceOfInterest{
@@ -165,7 +166,7 @@ public class PlayhouseInfo extends PlaceOfInterest{
 		        Intent i = new Intent(v.getContext(), PlayhouseInfoActivity.class); 
 
 				Bundle mBundle = new Bundle(); 
-				mBundle.putInt(TheatreInfoActivity.BUNDLE_KEY_POI_ID, PlayhouseInfo.this.id);
+				mBundle.putInt(Constants.BUNDLE_KEY_POI_ID, PlayhouseInfo.this.id);
 				i.putExtras(mBundle); 	
 				
 		        v.getContext().startActivity(i);				

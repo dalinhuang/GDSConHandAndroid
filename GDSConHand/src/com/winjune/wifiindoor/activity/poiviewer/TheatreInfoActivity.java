@@ -7,6 +7,7 @@ import com.winjune.wifiindoor.lib.poi.MovieInfoR;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.poi.TheatreInfo;
+import com.winjune.wifiindoor.util.Constants;
 
 import android.os.Bundle;
 import android.content.Context;
@@ -27,7 +28,7 @@ public class TheatreInfoActivity extends POIBaseActivity {
 		super.onCreate(savedInstanceState);
 
 		Bundle mBundle = getIntent().getExtras();
-		poiId = mBundle.getInt(BUNDLE_KEY_POI_ID);			
+		poiId = mBundle.getInt(Constants.BUNDLE_KEY_POI_ID);			
 		
 		setContentView(R.layout.activity_theatre_info);
 		
@@ -63,7 +64,7 @@ public class TheatreInfoActivity extends POIBaseActivity {
         Intent i = new Intent(this, POINormalViewerActivity.class); 
 
 		Bundle mBundle = new Bundle(); 
-		mBundle.putInt(POINormalViewerActivity.BUNDLE_KEY_POI_ID, poiId);
+		mBundle.putInt(Constants.BUNDLE_KEY_POI_ID, poiId);
 		i.putExtras(mBundle); 	
 		
         v.getContext().startActivity(i);			

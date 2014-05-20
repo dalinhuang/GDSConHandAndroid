@@ -3,6 +3,7 @@ package com.winjune.wifiindoor.activity.poiviewer;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
+import com.winjune.wifiindoor.util.Constants;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,10 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class POIBaseActivity extends Activity{	
-	public static String BUNDLE_KEY_POI_ID = "POI_ID";
-	
-	
+public class POIBaseActivity extends Activity{			
 	protected int poiId;
 	protected PlaceOfInterest poi;
 	
@@ -47,9 +45,9 @@ public class POIBaseActivity extends Activity{
 	
 	public void onMapClick(View v){
 		Intent data = new Intent(this, MapViewerActivity.class);
-		data.setAction(MapViewerActivity.BUNDLE_LOCATION_CONTEXT);
+		data.setAction(Constants.ActionLocate);
 		Bundle mBundle = new Bundle();
-		mBundle.putSerializable(MapViewerActivity.BUNDLE_LOCATION_CONTEXT, poi);
+		mBundle.putSerializable(Constants.BUNDLE_LOCATION_CONTEXT, poi);
 		data.putExtras(mBundle);
 		
 		startActivity(data);

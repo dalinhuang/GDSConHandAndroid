@@ -17,6 +17,7 @@ import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.lib.poi.BusLineR;
 import com.winjune.wifiindoor.poi.BusStation;
 import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.util.Constants;
 
 public class BusStationInfoActivity extends POIBaseActivity {
 	
@@ -25,7 +26,7 @@ public class BusStationInfoActivity extends POIBaseActivity {
 		super.onCreate(savedInstanceState);
 		
 		Bundle mBundle = getIntent().getExtras();
-		poiId = mBundle.getInt(BUNDLE_KEY_POI_ID);
+		poiId = mBundle.getInt(Constants.BUNDLE_KEY_POI_ID);
 		poi = POIManager.getPOIbyId(poiId);
 		
 		setContentView(R.layout.activity_bus_station_info);

@@ -22,7 +22,7 @@ public class POIManager {
 	public static ArrayList<PlaceOfInterest> POIList = new ArrayList<PlaceOfInterest>();
 	
 	
-	public static void loadOfflineData(){
+	public static void loadOfflineData(String path){
 		/*alias.put(POIType.Normal, com.winjune.wifiindoor.poi.PlaceOfInterest.class);
 		alias.put(POIType.BusStation, com.winjune.wifiindoor.poi.BusStation.class);
 		alias.put(POIType.Playhouse, com.winjune.wifiindoor.poi.PlayhouseInfo.class);		
@@ -38,7 +38,7 @@ public class POIManager {
 			e.printStackTrace();
 		}*/		
 		
-		PoiOfflineData offlineData = new PoiOfflineData(Util.getFilePath());
+		PoiOfflineData offlineData = new PoiOfflineData(path);
 		
 		offlineData.fromXML();
 		

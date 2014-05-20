@@ -9,6 +9,7 @@ import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.poi.SearchContext;
 import com.winjune.wifiindoor.poi.SearchHistory;
+import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.adapter.SearchResultList;
 
 import android.os.Bundle;
@@ -107,7 +108,7 @@ public class LabelSearchActivity extends Activity {
 			Intent intent_poi = new Intent(this, POITtsPlayerActivity.class);
 
 			Bundle mBundle = new Bundle(); 
-			mBundle.putInt(POITtsPlayerActivity.BUNDLE_KEY_POI_ID, poi.id);
+			mBundle.putInt(Constants.BUNDLE_KEY_POI_ID, poi.id);
 			intent_poi.putExtras(mBundle); 
 			startActivity(intent_poi);
 		}									
@@ -194,7 +195,7 @@ public class LabelSearchActivity extends Activity {
 			Intent intent_poi = new Intent(this, mViewerClass);
 			
 			Bundle mBundle = new Bundle(); 
-			mBundle.putInt(POIBaseActivity.BUNDLE_KEY_POI_ID, poi.id);
+			mBundle.putInt(Constants.BUNDLE_KEY_POI_ID, poi.id);
 			intent_poi.putExtras(mBundle); 		
 			
 			startActivity(intent_poi);
@@ -207,9 +208,9 @@ public class LabelSearchActivity extends Activity {
 	
 	private void showResultsOnMap(SearchContext mContext){
 		Intent data = new Intent(this, MapViewerActivity.class);
-		data.setAction(MapViewerActivity.BUNDLE_RESULT_SEARCH_CONTEXT);
+		data.setAction(Constants.ActionSearch);
 		Bundle mBundle = new Bundle();
-		mBundle.putSerializable(MapViewerActivity.BUNDLE_RESULT_SEARCH_CONTEXT, mContext);
+		mBundle.putSerializable(Constants.BUNDLE_RESULT_SEARCH_CONTEXT, mContext);
 		data.putExtras(mBundle);
 
 		startActivity(data);

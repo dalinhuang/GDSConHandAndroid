@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlayhouseInfo;
 import com.winjune.wifiindoor.poi.EventManager;
+import com.winjune.wifiindoor.util.Constants;
 
 public class EventListByPlaceFragment extends Fragment {
 		
@@ -57,7 +58,7 @@ public class EventListByPlaceFragment extends Fragment {
 					Intent i = new Intent(getActivity(), PlayhouseInfoActivity.class);
 					Bundle bundle = new Bundle();
 					
-					bundle.putInt(PlayhouseInfoActivity.BUNDLE_KEY_POI_ID, eventsListChild.get(groupId).get(childId).id);
+					bundle.putInt(Constants.BUNDLE_KEY_POI_ID, eventsListChild.get(groupId).get(childId).id);
 					i.putExtras(bundle);
 					startActivity(i);					
 					return true;

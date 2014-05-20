@@ -8,6 +8,7 @@ import com.winjune.wifiindoor.lib.poi.ScheduleTime;
 import com.winjune.wifiindoor.poi.PlayhouseInfo;
 import com.winjune.wifiindoor.poi.EventManager;
 import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.adapter.ScheduleTimeList;
 
@@ -36,7 +37,7 @@ public class PlayhouseInfoActivity extends POIBaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_playhouse_info);
 		Bundle bundle = getIntent().getExtras();
-		poiId = bundle.getInt(BUNDLE_KEY_POI_ID);
+		poiId = bundle.getInt(Constants.BUNDLE_KEY_POI_ID);
 		
 		poi = POIManager.getPOIbyId(poiId);
 		
@@ -75,7 +76,7 @@ public class PlayhouseInfoActivity extends POIBaseActivity {
         Intent i = new Intent(this, POINormalViewerActivity.class); 
 
 		Bundle mBundle = new Bundle(); 
-		mBundle.putInt(POINormalViewerActivity.BUNDLE_KEY_POI_ID, poiId);
+		mBundle.putInt(Constants.BUNDLE_KEY_POI_ID, poiId);
 		i.putExtras(mBundle); 	
 		
         v.getContext().startActivity(i);			

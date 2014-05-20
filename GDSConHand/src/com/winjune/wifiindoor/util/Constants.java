@@ -14,4 +14,16 @@ public final class Constants {
 	public static final int TRACK_USER = 2;
 	
 	public static final int MAX_TRACK_USERS = 30;
+	
+	
+	public static final String ActionLocate = "ActionLocate";
+	public static final String ActionSearch = "ActionSearch";
+	public static final String ActionRoute = "ActionRoute";
+	
+	public static final String BUNDLE_KEY_POI_ID = "POI_ID";
+	public static final String BUNDLE_RESULT_SEARCH_CONTEXT = "RESULT_SEARCH_CONTEXT";
+	public static final String BUNDLE_LOCATION_CONTEXT = "LOCATION_CONTEXT";
+	public static final String BUNDLE_KEY_NAVI_CONTEXT = "NAVI_CONTEXT";
+		
+	
 }

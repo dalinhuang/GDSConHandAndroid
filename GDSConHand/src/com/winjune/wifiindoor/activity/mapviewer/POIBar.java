@@ -170,7 +170,7 @@ public class POIBar {
 		if (poi.webUrl != null) {
 			Intent intent_show_interest_place = new Intent(mapViewer, POIWebViewerActivity.class); 
 			Bundle mBundle = new Bundle(); 
-			mBundle.putInt(POIWebViewerActivity.BUNDLE_KEY_POI_ID, poi.id);
+			mBundle.putInt(Constants.BUNDLE_KEY_POI_ID, poi.id);
 			intent_show_interest_place.putExtras(mBundle); 
 			mapViewer.startActivity(intent_show_interest_place);
 			
@@ -185,7 +185,7 @@ public class POIBar {
 			}
 			
 			Bundle mBundle = new Bundle(); 
-			mBundle.putInt(POIBaseActivity.BUNDLE_KEY_POI_ID,poi.id);
+			mBundle.putInt(Constants.BUNDLE_KEY_POI_ID,poi.id);
 			intent_show_interest_place.putExtras(mBundle); 
 			mapViewer.startActivity(intent_show_interest_place);
 		}		

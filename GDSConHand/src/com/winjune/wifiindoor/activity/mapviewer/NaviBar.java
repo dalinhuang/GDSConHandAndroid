@@ -64,8 +64,8 @@ public class NaviBar {
 				{
 					firstNodeofCurrentMap = i;
 					//First node
-					startX = naviNode.getPlaceX();
-					startY = naviNode.getPlaceY();
+					startX = Util.longitudeX2MapX(naviNode.getPlaceX());
+					startY = Util.latitudeY2MapY(naviNode.getPlaceY());
 				}
 				else
 				{
@@ -73,8 +73,8 @@ public class NaviBar {
 					{
 						lastNodeofCurrentMap = i;
 					}
-					stopX = naviNode.getPlaceX();
-					stopY = naviNode.getPlaceY();							
+					stopX = Util.longitudeX2MapX(naviNode.getPlaceX());
+					stopY = Util.latitudeY2MapY(naviNode.getPlaceY());							
 					drawDottedLine(startX,startY,stopX,stopY,15,15,8,mapViewer.mainScene.getChildByIndex(Constants.LAYER_ROUTE),
 							mapViewer.getVertexBufferObjectManager());
 					startX = stopX;

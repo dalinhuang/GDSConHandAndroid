@@ -13,6 +13,7 @@ import com.winjune.wifiindoor.activity.poiviewer.RestaurantInfoActivity;
 import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
+import com.winjune.wifiindoor.util.Constants;
 
 public class ShortcutEntryActivity extends Activity {
 
@@ -38,7 +39,7 @@ public class ShortcutEntryActivity extends Activity {
 		
 		Intent intent_poi = new Intent(this, mViewerClass);		
 		Bundle mBundle = new Bundle(); 
-		mBundle.putInt(POIBaseActivity.BUNDLE_KEY_POI_ID, poi.id);
+		mBundle.putInt(Constants.BUNDLE_KEY_POI_ID, poi.id);
 		intent_poi.putExtras(mBundle); 		
 		
 		startActivity(intent_poi);

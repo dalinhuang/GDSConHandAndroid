@@ -19,6 +19,7 @@ import com.winjune.wifiindoor.activity.poiviewer.RestaurantInfoActivity;
 import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
 import com.winjune.wifiindoor.lib.poi.MovieInfoR;
 import com.winjune.wifiindoor.lib.poi.PlaceOfInterestR;
+import com.winjune.wifiindoor.util.Constants;
 
 public class TheatreInfo extends PlaceOfInterest implements Serializable{
 	
@@ -62,7 +63,7 @@ public class TheatreInfo extends PlaceOfInterest implements Serializable{
 		        Intent i = new Intent(v.getContext(), TheatreInfoActivity.class); 
 
 				Bundle mBundle = new Bundle(); 
-				mBundle.putInt(TheatreInfoActivity.BUNDLE_KEY_POI_ID, TheatreInfo.this.id);
+				mBundle.putInt(Constants.BUNDLE_KEY_POI_ID, TheatreInfo.this.id);
 				i.putExtras(mBundle); 	
 				
 		        v.getContext().startActivity(i);				

@@ -30,6 +30,7 @@ import com.iflytek.speech.SpeechSynthesizer;
 import com.iflytek.speech.SynthesizerListener;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
 
@@ -90,7 +91,7 @@ public class POITtsPlayerActivity extends POIBaseActivity {
         textInfo.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_Medium);        
        		
 		Bundle bundle = getIntent().getExtras();
-		poiId = bundle.getInt(BUNDLE_KEY_POI_ID);
+		poiId = bundle.getInt(Constants.BUNDLE_KEY_POI_ID);
 		poi = POIManager.getPOIbyId(poiId);
 		
 		if (poi != null) {

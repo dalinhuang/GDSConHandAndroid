@@ -16,6 +16,7 @@ import android.webkit.WebViewClient;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.poi.POIManager;
+import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.ShareUtil;
 
@@ -37,7 +38,7 @@ public class POIWebViewerActivity extends POIBaseActivity {
         
         // retrieve URL
 		Bundle bundle = getIntent().getExtras();
-		poiId = bundle.getInt(BUNDLE_KEY_POI_ID);
+		poiId = bundle.getInt(Constants.BUNDLE_KEY_POI_ID);
 		poi = POIManager.getPOIbyId(poiId);
 		
 		url = poi.webUrl;        

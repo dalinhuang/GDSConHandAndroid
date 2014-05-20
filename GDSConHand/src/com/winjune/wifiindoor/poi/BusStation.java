@@ -8,6 +8,7 @@ import com.winjune.wifiindoor.activity.poiviewer.POINormalViewerActivity;
 import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
 import com.winjune.wifiindoor.lib.poi.BusLineR;
 import com.winjune.wifiindoor.lib.poi.PlaceOfInterestR;
+import com.winjune.wifiindoor.util.Constants;
 
 import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
@@ -76,7 +77,7 @@ public class BusStation extends PlaceOfInterest{
 		        Intent i = new Intent(v.getContext(), BusStationInfoActivity.class); 
 
 				Bundle mBundle = new Bundle(); 
-				mBundle.putInt(BusStationInfoActivity.BUNDLE_KEY_POI_ID, BusStation.this.id);
+				mBundle.putInt(Constants.BUNDLE_KEY_POI_ID, BusStation.this.id);
 				i.putExtras(mBundle); 	
 				
 		        v.getContext().startActivity(i);				

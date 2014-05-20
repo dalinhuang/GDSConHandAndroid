@@ -1,4 +1,4 @@
-package com.winjune.wifiindoor.poi;
+package com.winjune.wifiindoor.navi;
 
 
 import java.io.FileInputStream;
@@ -17,7 +17,7 @@ import com.winjune.wifiindoor.util.Util;
 // To do list
 // the records needs to be sorted reversely
 // before add new record, need to check if it is already in the records, if yes, need to adjust the order
-public class RouteSearchHistory implements Serializable{
+public class NaviHistory implements Serializable{
 
 	/**
 	 * 
@@ -41,7 +41,6 @@ public class RouteSearchHistory implements Serializable{
 		if (searchInput == null)
 			return;
 		
-		System.out.println("searchInput" + searchInput);
 		
 		String input =  searchInput.trim();
 		
