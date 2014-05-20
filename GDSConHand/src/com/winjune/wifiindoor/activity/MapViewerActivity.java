@@ -376,9 +376,10 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			SearchContext mContext = (SearchContext) mBundle.getSerializable(Constants.BUNDLE_RESULT_SEARCH_CONTEXT);		
 		   	SearchBar.showSearchResultsOnMap(this, mContext);
 		}else if (mAction.equals(Constants.ActionRoute)){
-			NaviContext mContext =  (NaviContext)mBundle.getSerializable(Constants.BUNDLE_KEY_NAVI_CONTEXT);
+		NaviContext mContext =  (NaviContext)mBundle.getSerializable(Constants.BUNDLE_KEY_NAVI_CONTEXT);
 			NaviBar.showNaviResulOnMap(this, mContext.naviRoute);
-		}
+		  	mContext.showContextMenu(getCurrentFocus());	
+	    }
 			
 
 //		String tagId = Util.getNfcInfoManager().getTagId(intent);

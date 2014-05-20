@@ -1,8 +1,12 @@
 package com.winjune.wifiindoor.activity;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,11 +14,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
-import com.winjune.wifiindoor.activity.poiviewer.POIBaseActivity;
 import com.winjune.wifiindoor.adapter.HistoryDataList;
+import com.winjune.wifiindoor.adapter.SearchResultList;
 import com.winjune.wifiindoor.navi.NaviContext;
 import com.winjune.wifiindoor.navi.Navigator;
 import com.winjune.wifiindoor.navi.NaviHistory;
+import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.poi.SearchContext;
 import com.winjune.wifiindoor.util.Constants;
@@ -26,11 +31,11 @@ public class RouteMainActivity extends Activity {
 	private TextView startPointText = null;
 	private TextView endPointText = null;
 	private ListView lv = null;
-	private PlaceOfInterest startPoi = null;
-	private PlaceOfInterest endPoi = null;
 	
-	private Navigator myNavigator;
-
+	private String searchText = "";
+	private PlaceOfInterest startPoi = new PlaceOfInterest();
+	private PlaceOfInterest endPoi = new PlaceOfInterest();
+	
 	private NaviHistory history;
 
 	@Override
@@ -57,8 +62,27 @@ public class RouteMainActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
-				// TODO Auto-generated method stub
-				performSearch(historyAda.getRecord(position));
+				
+				searchText = historyAda.getRecord(position);
+				String startEndStrs[] = searchText.split(" - ");
+				
+				ArrayList<PlaceOfInterest> startOptions = POIManager.searchPOIsbyLabel(startEndStrs[0]);
+				
+				if (startOptions.size() == 1){
+					startPoi = startOptions.get(0);
+				} else if (startOptions.size() > 1) {
+					showPlaceOptionsDialog(startOptions, true);
+				}
+														
+				ArrayList<PlaceOfInterest> endOptions = POIManager.searchPOIsbyLabel(startEndStrs[1]);
+				
+				if (endOptions.size() == 1){
+					endPoi = endOptions.get(0);
+				} else if (endOptions.size() > 1) {
+					showPlaceOptionsDialog(endOptions, false);
+				}
+				
+				performSearch();
 			}
 		});
 
@@ -82,12 +106,10 @@ public class RouteMainActivity extends Activity {
 					.setPositiveButton("确定", null).create();
 			alertDialog.show();
 			return;
-		}
+		}		
+		searchText = startText + " - " + endText;
 		
-		if (startPoi == null)
-			startPoi = new PlaceOfInterest();
-				
-		performSearch(startText + " - " + endText);
+		performSearch();
 
 	}
 
@@ -124,13 +146,13 @@ public class RouteMainActivity extends Activity {
 
 	}
 
-	private void performSearch(String text) {
-		if (text.isEmpty())
+	private void performSearch() {
+		if (searchText.isEmpty())
 			return;		
 
-		history.addRecord(text);
+		history.addRecord(searchText);
 
-		NaviContext context = new NaviContext(text);
+		NaviContext context = new NaviContext(searchText);
 				
 		context.naviRoute = Navigator.go(startPoi.id, endPoi.id);		
 
@@ -208,5 +230,33 @@ public class RouteMainActivity extends Activity {
 		default:
 		}
 	}
+	
+	private void showPlaceOptionsDialog(final ArrayList<PlaceOfInterest> poiOptions, final boolean isStart) {
+		SearchContext context = new SearchContext("");
+		context.poiResults = poiOptions;
+		
+		SearchResultList resultsAda = new SearchResultList(this,
+				R.layout.list_search_result, context);
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this,
+				AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+		if (isStart)
+			builder.setTitle("请选择您的起点:");
+		else
+			builder.setTitle("请选择您的终点:");
+		
+		builder.setAdapter(resultsAda, new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int position) {			
+				if (isStart)
+					RouteMainActivity.this.startPoi = poiOptions.get(position);
+				else
+					RouteMainActivity.this.endPoi = poiOptions.get(position);
+			}											
+
+		});
+
+		builder.show();
+	}	
 
 }

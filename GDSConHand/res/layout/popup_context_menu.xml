@@ -7,7 +7,5 @@
     android:orientation="vertical" >
 
    <include layout="@layout/template_context_info" />    
-
-   <include layout="@layout/template_context_button2"/>
    
 </LinearLayout>
