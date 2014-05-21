@@ -377,7 +377,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		   	SearchBar.showSearchResultsOnMap(this, mContext);
 		}else if (mAction.equals(Constants.ActionRoute)){
 		NaviContext mContext =  (NaviContext)mBundle.getSerializable(Constants.BUNDLE_KEY_NAVI_CONTEXT);
-			NaviBar.showNaviResulOnMap(this, mContext.naviRoute);
+			NaviBar.showNaviResulOnMap(this, mContext);
 		  	mContext.showContextMenu(getCurrentFocus());	
 	    }
 			
@@ -670,9 +670,13 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		Log.e("Map Switcher",label);
 		
-		MapDataR mapData = (MapDataR) MapManager.getMapByLabel(label);
+		MapDataR mapData = (MapDataR) MapManager.getMapByLabel(label);	
+		switchRuntimeMap(mapData);
+	}
+	
+	public void switchRuntimeMap(MapDataR mapData){
 		if (mapData != null){
-									
+			
 			RuntimeMap mRuntimeMap = new RuntimeMap();
 			mRuntimeMap.load(mapData);		
 			Util.setRuntimeIndoorMap(mRuntimeMap); // To avoid pass the map in parameter everywhere
@@ -685,8 +689,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			TextView mapSwitchT = (TextView) findViewById(R.id.text_map_switch);
 			mapSwitchT.setText(Util.getRuntimeIndoorMap().getMapLabel());	
 						
-		}
-		
+		}		
 	}
 	
 	public void scanBtnClick(View v){

@@ -35,15 +35,7 @@ public class MapManager {
 		
 		return null;
 	}
-	
-	//Get the MapManagerItem by the Index
-	public static MapDataR getMapByIndex(int index){
-		if (mapList.maps.size()>index)
-			return mapList.maps.get(index);
-		else
-			return null;
-	}		
-	
+		
 	public static MapDataR getMapById(int id){
 		
 		for (MapDataR map:mapList.maps) {

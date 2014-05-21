@@ -145,7 +145,8 @@ public class AdvertiseUnit extends Unit {
 				}
 				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
 			}
-		};;
+		};
+		
 	    sprite.setAlpha(VisualParameters.AD_PIC_ALPHA);
 
 		return sprite;
