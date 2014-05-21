@@ -47,6 +47,17 @@ public class NaviBar {
 					
 		final ArrayList<NaviNodeR> naviNodes = context.naviRoute;
 		
+		// check the current runtimemap 
+		// switch to the start node's map
+		int startMapId = context.naviRoute.get(0).getMapId();
+		if (startMapId != Util.getRuntimeIndoorMap().getMapId()){
+			final MapDataR mapData = MapManager.getMapById(startMapId);
+			
+			mapViewer.switchRuntimeMap(mapData);
+			mapViewer.refreshMapLabel(mapData.getLabel());		
+		}
+		
+				
 		//Draw dotted route
 		float startX=-1, startY=-1, stopX=-1, stopY=-1;
 		int firstNodeofCurrentMap=-1;
