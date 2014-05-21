@@ -162,6 +162,12 @@ public class NaviBar {
 					
 					mapViewer.switchRuntimeMap(finalMapData);
 					
+					mapViewer.runOnUiThread(new Runnable() {    
+			            public void run() {    
+							mapViewer.refreshMapLabel(finalMapData.getLabel());
+			            }        
+			        });    		
+					
 					showNaviResulOnMap(mapViewer, context);
 					
 					return true;
@@ -188,7 +194,7 @@ public class NaviBar {
 			text.setScale(0.5f);
 			float textHeight = text.getHeight();
 			float textWidth  = text.getWidth();
-			text.setPosition(mapX-textWidth/2, mapY-textHeight-mTextureRegion.getHeight()*5/12);
+			text.setPosition(mapX-textWidth/2, mapY-textHeight-mTextureRegion.getHeight());
 	
 			// setup flash effect
 			final LoopEntityModifier entityModifier =

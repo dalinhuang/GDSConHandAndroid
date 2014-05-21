@@ -672,6 +672,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		MapDataR mapData = (MapDataR) MapManager.getMapByLabel(label);	
 		switchRuntimeMap(mapData);
+		
+		refreshMapLabel(mapData.getLabel());
 	}
 	
 	public void switchRuntimeMap(MapDataR mapData){
@@ -684,12 +686,14 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			MapDrawer.switchMapPrepare(this);
 			MapDrawer.switchMapExcute(this);
 			mCamera.setZoomFactor(Util.getRuntimeIndoorMap().getDefaultZoomFactor());
-			
-			// update map switch label
-			TextView mapSwitchT = (TextView) findViewById(R.id.text_map_switch);
-			mapSwitchT.setText(Util.getRuntimeIndoorMap().getMapLabel());	
-						
+							
 		}		
+	}
+	
+	public void refreshMapLabel(String label){
+		// update map switch label
+		TextView mapSwitchT = (TextView) findViewById(R.id.text_map_switch);
+		mapSwitchT.setText(label);			
 	}
 	
 	public void scanBtnClick(View v){
