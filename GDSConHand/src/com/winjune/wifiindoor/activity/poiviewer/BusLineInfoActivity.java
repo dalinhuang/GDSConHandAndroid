@@ -74,10 +74,14 @@ public class BusLineInfoActivity extends Activity {
 		}
 			
 		@Override  
-		public View getView(int position, View convertView, ViewGroup parent){  
-			LayoutInflater vi = LayoutInflater.from(context);  
+		public View getView(int position, View convertView, ViewGroup parent){  			
+			View view = convertView;
+			
+			if (view == null) {
+				LayoutInflater vi = LayoutInflater.from(context);  
 	 
-			View view=vi.inflate(R.layout.list_bus_stops, null);
+				view=vi.inflate(R.layout.list_bus_stops, parent, false);
+			}
 			
 			TextView stopNo = (TextView)view.findViewById(R.id.bus_stop_no);
 			String stopNoText = ""+ (position+1);

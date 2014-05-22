@@ -24,9 +24,12 @@ public class SearchResultList extends ArrayAdapter<PlaceOfInterest> {
 		
 	@Override  
 	public View getView(int position, View convertView, ViewGroup parent){  
-		LayoutInflater vi = LayoutInflater.from(context);  
- 
-		View view=vi.inflate(R.layout.list_search_result, null);
+		View view=convertView;
+		
+		if (view == null) {
+			LayoutInflater vi = LayoutInflater.from(context);   
+			view=vi.inflate(R.layout.list_search_result, parent, false);
+		}
 		
 		TextView poiLabelV = (TextView)view.findViewById(R.id.text_label);
 		

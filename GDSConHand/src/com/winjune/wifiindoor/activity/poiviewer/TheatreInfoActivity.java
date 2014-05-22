@@ -82,9 +82,12 @@ public class TheatreInfoActivity extends POIBaseActivity {
 		
 	    @Override  
 	    public View getView(int position, View convertView, ViewGroup parent){  
-	        LayoutInflater vi = LayoutInflater.from(context);  
- 
-			View view=vi.inflate(R.layout.list_event_by_time, null);
+	    	View view = convertView;
+	    	
+	    	if (view == null){	    	
+	    		LayoutInflater vi = LayoutInflater.from(context);   
+	    		view=vi.inflate(R.layout.list_event_by_time, parent, false);
+	    	}
 			
 			ImageView icon = (ImageView)view.findViewById(R.id.list_event_icon);
 			icon.setImageResource(R.drawable.movie_hobbit_thumbnail);

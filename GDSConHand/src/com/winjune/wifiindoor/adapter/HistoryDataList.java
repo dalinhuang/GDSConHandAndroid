@@ -32,10 +32,12 @@ public class HistoryDataList extends ArrayAdapter<String> {
 	}
 	
     @Override  
-    public View getView(int position, View convertView, ViewGroup parent){  
-        LayoutInflater vi = LayoutInflater.from(context);  
-
-		View view=vi.inflate(R.layout.list_history, null);
+    public View getView(int position, View convertView, ViewGroup parent){     	
+    	View view = convertView;
+    	if (view == null){
+    		LayoutInflater vi = LayoutInflater.from(context);  
+    		view=vi.inflate(R.layout.list_history, parent, false);
+    	}
 		
 		TextView historyRecord = (TextView) view.findViewById(R.id.history_record);
 		historyRecord.setText(items.get(position));

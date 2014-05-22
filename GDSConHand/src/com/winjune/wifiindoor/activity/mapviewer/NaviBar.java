@@ -45,18 +45,7 @@ public class NaviBar {
 			
 	public static void showNaviResulOnMap(final MapViewerActivity mapViewer, final NaviContext context) {
 					
-		final ArrayList<NaviNodeR> naviNodes = context.naviRoute;
-		
-		// check the current runtimemap 
-		// switch to the start node's map
-		int startMapId = context.naviRoute.get(0).getMapId();
-		if (startMapId != Util.getRuntimeIndoorMap().getMapId()){
-			final MapDataR mapData = MapManager.getMapById(startMapId);
-			
-			mapViewer.switchRuntimeMap(mapData);
-			mapViewer.refreshMapLabel(mapData.getLabel());		
-		}
-		
+		final ArrayList<NaviNodeR> naviNodes = context.naviRoute;	
 				
 		//Draw dotted route
 		float startX=-1, startY=-1, stopX=-1, stopY=-1;
@@ -118,7 +107,8 @@ public class NaviBar {
 		String hintText = null; 
 		MapDataR mapData = null;
 		final NaviNodeR step = context.naviRoute.get(stepIdx);
-				
+		
+		// set the corresponding icon and hint text
 		switch (type) {
 			case Start:
 				resId = R.drawable.route_start;
@@ -127,13 +117,13 @@ public class NaviBar {
 				resId = R.drawable.route_middle;
 				int fromMapId = context.naviRoute.get(stepIdx-1).getMapId();	
 				mapData = MapManager.getMapById(fromMapId);
-				hintText = "从："+	mapData.getLabel();				
+				hintText = "从"+	mapData.getLabel();				
 				break;
 			case EndMiddle:
 				resId = R.drawable.route_middle;
 				int toMapId = context.naviRoute.get(stepIdx+1).getMapId();	
 				mapData = MapManager.getMapById(toMapId);
-				hintText = "到："+	mapData.getLabel();				
+				hintText = "到"+	mapData.getLabel();				
 				break;
 			default:// StepType.End
 				resId = R.drawable.route_end;
@@ -170,16 +160,16 @@ public class NaviBar {
 			public boolean onAreaTouched(TouchEvent pSceneTouchEvent,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {				
 				if (finalHint != null){
-					
+
 					mapViewer.switchRuntimeMap(finalMapData);
-					
-					mapViewer.runOnUiThread(new Runnable() {    
-			            public void run() {    
+
+					mapViewer.runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
 							mapViewer.refreshMapLabel(finalMapData.getLabel());
+							showNaviResulOnMap(mapViewer, context);
 			            }        
-			        });    		
-					
-					showNaviResulOnMap(mapViewer, context);
+			        });    							
 					
 					return true;
 				}

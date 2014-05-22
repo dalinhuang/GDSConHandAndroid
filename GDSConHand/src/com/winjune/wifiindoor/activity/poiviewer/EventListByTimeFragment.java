@@ -117,9 +117,12 @@ public class EventListByTimeFragment extends ListFragment {
 		
 	    @Override  
 	    public View getView(int position, View convertView, ViewGroup parent){  
-	        LayoutInflater vi = LayoutInflater.from(context);  
- 
-			View view=vi.inflate(R.layout.list_event_by_time, null);
+	    	View view = convertView;
+	    	
+	    	if (view == null) {
+	    		LayoutInflater vi = LayoutInflater.from(context);  
+				view=vi.inflate(R.layout.list_event_by_time, parent, false);
+	    	}
 			
 			TextView title = (TextView) view.findViewById(R.id.event_title);
 			title.setText(mEventItems.get(position).getLabel());

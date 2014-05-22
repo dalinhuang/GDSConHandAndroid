@@ -281,8 +281,12 @@ private void onSetAlarmClick(final int startHour, final int startMinute, final V
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent)
 		{
-			// 创建一个ImageView
-			ImageView imageView = new ImageView(MovieInfoActivity.this);
+			ImageView imageView = (ImageView)convertView;
+			
+			if (imageView == null)
+				// 创建一个ImageView
+				imageView = new ImageView(MovieInfoActivity.this);
+			
 			imageView.setImageResource(R.drawable.movie_hobbit);
 			// 设置ImageView的缩放类型
 			imageView.setScaleType(ImageView.ScaleType.FIT_XY);

@@ -70,9 +70,13 @@ public class BusStationInfoActivity extends POIBaseActivity {
 			}
 			
 		    @Override  
-		    public View getView(int position, View convertView, ViewGroup parent){  		    	
-		        LayoutInflater vi = LayoutInflater.from(context);  
-				View view=vi.inflate(R.layout.list_bus_lines, null);
+		    public View getView(int position, View convertView, ViewGroup parent){  	
+		    	View view = convertView;
+		    	
+		    	if (view ==  null){
+		    		LayoutInflater vi = LayoutInflater.from(context);  
+		    		view=vi.inflate(R.layout.list_bus_lines, parent, false);
+		    	}
 				
 				BusLineR aBL = items.get(position);
 				TextView lineName = (TextView)view.findViewById(R.id.bus_line_name);

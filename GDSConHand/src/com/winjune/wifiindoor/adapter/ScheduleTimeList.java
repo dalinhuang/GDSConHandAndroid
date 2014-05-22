@@ -29,9 +29,12 @@ public class ScheduleTimeList extends ArrayAdapter<ScheduleTime> {
 	
     @Override  
     public View getView(int position, View convertView, ViewGroup parent){  
-        LayoutInflater vi = LayoutInflater.from(context);  
-
-		View view=vi.inflate(R.layout.list_schedule_time, null);
+    	View view = convertView;
+    	
+    	if (view == null) {
+    		LayoutInflater vi = LayoutInflater.from(context);  
+    		view=vi.inflate(R.layout.list_schedule_time, parent, false);
+    	}
 		
 		boolean playStarted = false;
 		Calendar currentTime = Calendar.getInstance();

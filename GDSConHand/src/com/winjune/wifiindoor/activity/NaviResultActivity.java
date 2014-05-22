@@ -47,7 +47,7 @@ public class NaviResultActivity extends Activity{
 		
 		ListView lv = (ListView)findViewById(R.id.route_step_list);
 		
-		ArrayAdapter<String> stepsAda = new ArrayAdapter<String>(this, R.layout.list_route, stepNameList);
+		ArrayAdapter<String> stepsAda = new ArrayAdapter<String>(this, R.layout.list_route_step, stepNameList);
 		lv.setAdapter(stepsAda);
 				
 	}

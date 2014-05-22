@@ -376,9 +376,18 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			SearchContext mContext = (SearchContext) mBundle.getSerializable(Constants.BUNDLE_RESULT_SEARCH_CONTEXT);		
 		   	SearchBar.showSearchResultsOnMap(this, mContext);
 		}else if (mAction.equals(Constants.ActionRoute)){
-		NaviContext mContext =  (NaviContext)mBundle.getSerializable(Constants.BUNDLE_KEY_NAVI_CONTEXT);
+			NaviContext mContext =  (NaviContext)mBundle.getSerializable(Constants.BUNDLE_KEY_NAVI_CONTEXT);
+			// check the current runtime map 
+			// switch to the start node's map
+			int startMapId = mContext.naviRoute.get(0).getMapId();
+			if (startMapId != Util.getRuntimeIndoorMap().getMapId()){
+				final MapDataR mapData = MapManager.getMapById(startMapId);			
+				switchRuntimeMap(mapData);
+				refreshMapLabel(mapData.getLabel());		
+			}		
+		
 			NaviBar.showNaviResulOnMap(this, mContext);
-		  	mContext.showContextMenu(getCurrentFocus());	
+		  	mContext.showContextMenu(this);	
 	    }
 			
 
