@@ -1,6 +1,8 @@
 package com.winjune.wifiindoor.activity.mapviewer;
 
 import org.andengine.engine.camera.ZoomCamera;
+import org.andengine.entity.util.ScreenCapture;
+import org.andengine.entity.util.ScreenCapture.IScreenCaptureCallback;
 
 import android.content.res.Configuration;
 import android.os.Handler;
@@ -18,12 +20,13 @@ import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
+import com.winjune.wifiindoor.util.ShareUtil;
 import com.winjune.wifiindoor.util.Util;
 import com.winjune.wifiindoor.util.VisualParameters;
 
 public class MapViewerUtil {
 	
-	
+
 	public static void initData(MapViewerActivity mapViewer) {
 
 		mapViewer.backgroundSprite = null;
@@ -141,7 +144,7 @@ public class MapViewerUtil {
 	    	MapHUD.updateHinText(mapViewer, "longitudeX:"+longitudeX +" latitudeY:"+latitudeY);
 		}
 			
-		final PlaceOfInterest poi = POIManager.getNearestPOI(Util.getRuntimeIndoorMap().getMapId(), longitudeX, longitudeX);
+		final PlaceOfInterest poi = POIManager.getNearestPOI(Util.getRuntimeIndoorMap().getMapId(), longitudeX, latitudeY);
 		
 		if (poi == null)		
 			return false;
@@ -239,4 +242,24 @@ public class MapViewerUtil {
 		System.exit(0);		
 	}	
 	
+	public static void captureScreenToShare(final MapViewerActivity mapViewer) {
+	
+		ScreenCapture screenCapture = new ScreenCapture();
+		String fileName = Util.getFilePath(IndoorMapData.IMG_FILE_PATH_LOCAL) + "snapshot.png";//
+				        
+        /* Attaching the ScreenCapture to the end. */
+        mapViewer.mainScene.attachChild(screenCapture);
+                
+        screenCapture.capture(Util.getCameraWidth(), Util.getCameraHeight(), fileName, new IScreenCaptureCallback() {
+        	@Override
+        	public void onScreenCaptured(final String pFilePath) {
+        		Util.showToast(mapViewer,  "Screenshot captured sucessfully!", Toast.LENGTH_SHORT); 
+        	}
+
+            @Override
+            public void onScreenCaptureFailed(final String pFilePath, final Exception pException) {
+            	Util.showToast(mapViewer,  "Failed to capture screenshot!", Toast.LENGTH_SHORT);
+            }
+        });        
+	}	
 }

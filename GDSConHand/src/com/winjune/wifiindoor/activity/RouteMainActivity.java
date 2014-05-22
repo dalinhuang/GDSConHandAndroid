@@ -34,7 +34,7 @@ public class RouteMainActivity extends Activity {
 	
 	private String searchText = "";
 	private PlaceOfInterest startPoi = new PlaceOfInterest();
-	private PlaceOfInterest endPoi = new PlaceOfInterest();
+	private PlaceOfInterest endPoi = null;
 	
 	private NaviHistory history;
 
@@ -42,13 +42,23 @@ public class RouteMainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_route_main);
+		
+		Bundle bundle = getIntent().getExtras();
+		int endPoiId = bundle.getInt(Constants.BUNDLE_KEY_POI_ID);
+		if (endPoiId != 0)
+			endPoi = POIManager.getPOIbyId(endPoiId);			
 
 		history = new NaviHistory();
 		history.loadCachedData();
 
 		startPointText = (TextView) findViewById(R.id.input_start_point);
 		endPointText = (TextView) findViewById(R.id.input_end_point);
-
+		
+		if (endPoi != null)
+			endPointText.setText(endPoi.getLabel());
+		else
+			endPoi = new PlaceOfInterest();
+		
 		// setup history info
 		lv = (ListView) findViewById(R.id.route_history_list);
 

@@ -12,6 +12,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.activity.RouteMainActivity;
 import com.winjune.wifiindoor.activity.poiviewer.POINormalViewerActivity;
 import com.winjune.wifiindoor.activity.poiviewer.RestaurantInfoActivity;
 import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
@@ -86,7 +87,7 @@ public class PlaceOfInterest extends PlaceOfInterestR {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-		        Intent i = new Intent(v.getContext(), POINormalViewerActivity.class); 
+		        Intent i = new Intent(v.getContext(), RouteMainActivity.class); 
 
 				Bundle mBundle = new Bundle(); 
 				mBundle.putInt(Constants.BUNDLE_KEY_POI_ID, PlaceOfInterest.this.id);

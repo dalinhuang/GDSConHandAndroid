@@ -5,10 +5,13 @@ import java.util.ArrayList;
 
 import android.app.ActionBar.LayoutParams;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,10 +22,12 @@ import android.widget.TextView;
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.R.color;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
+import com.winjune.wifiindoor.activity.NaviResultActivity;
 import com.winjune.wifiindoor.activity.mapviewer.NaviBar;
 import com.winjune.wifiindoor.lib.map.MapDataR;
 import com.winjune.wifiindoor.lib.map.NaviNodeR;
 import com.winjune.wifiindoor.map.MapManager;
+import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.Util;
 
 public class NaviContext implements Serializable{
@@ -53,6 +58,22 @@ public class NaviContext implements Serializable{
 
         TextView labelText = (TextView) pop.getContentView().findViewById(R.id.text_label);                
         labelText.setText("路线概述");
+        
+        View detailBtn = (View) pop.getContentView().findViewById(R.id.btn_detail);
+        detailBtn.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+
+				Intent resultI = new Intent(mapViewer, NaviResultActivity.class);
+
+				Bundle mBundle = new Bundle(); 
+				mBundle.putSerializable(Constants.BUNDLE_KEY_NAVI_CONTEXT, NaviContext.this);
+				resultI.putExtras(mBundle);
+				mapViewer.startActivity(resultI);				
+			}
+        	
+        });        
         
         if (stepNames == null)
         	stepNames = getStepNames();

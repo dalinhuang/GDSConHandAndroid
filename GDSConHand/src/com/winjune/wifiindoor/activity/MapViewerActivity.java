@@ -752,7 +752,13 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		}*/
 	}
 	
-
+	public void zoomInBtnClick(View v){
+		zoomControl.zoomIn();
+	}
+	
+	public void zoomOutBtnClick(View v){
+		zoomControl.zoomOut();
+	}
 
  	    
 }
