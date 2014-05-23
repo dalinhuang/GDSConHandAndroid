@@ -21,14 +21,12 @@ import com.winjune.wifiindoor.util.Util;
 public class GraphicMapListener implements RuntimeMapListener {
 
 	private Scene mainScene;
-	private Text mMapText;
 	private String mapName;
 	private Activity activity;
 
-	public GraphicMapListener(Activity activity, Scene mainScene, Text mMapText) {
+	public GraphicMapListener(Activity activity, Scene mainScene) {
 		this.activity = activity;
 		this.mainScene = mainScene;
-		this.mMapText = mMapText;
 	}
 
 	@Override

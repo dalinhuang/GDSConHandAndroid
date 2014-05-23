@@ -91,7 +91,6 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public ModeControl modeControl;
 	public int mMode;
 	public HUD hud;
-	public Text mMapText;
 	public Text mHintText;
 	public Sound medSound;
 	public ScreenAdvertisement mAdvertisement;
@@ -551,7 +550,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		Library.initial(mEngine.getTextureManager(), getAssets());
 		
 		// Draw the original in Map units, e.g. user
-		Util.getRuntimeIndoorMap().initMap(this);
+		Util.getRuntimeIndoorMap().initUserLayer(this);
 		
 		// No background color needed as we have a fullscreen background sprite.
 		mainScene.setBackgroundEnabled(true);
@@ -577,14 +576,14 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		MapHUD.initialHUDMenuBar(this);	
 
 		// Listeners
-		graphicListener = new GraphicMapListener(this, mainScene, mMapText);
+		graphicListener = new GraphicMapListener(this, mainScene);
 		graphicListener.setOffsetX(LEFT_SPACE);
 		graphicListener.setOffsetY(TOP_SPACE);
 		Util.getRuntimeIndoorMap().addListener(graphicListener);
 		Util.getRuntimeIndoorMap().addListener(new SoundMapListener());
 
 		// Initial in map listeners
-		Util.getRuntimeIndoorMap().initial();
+		Util.getRuntimeIndoorMap().initListeners();
 
 		// Set User ID
 		Util.getRuntimeIndoorMap().getUser().setId(Util.getWifiInfoManager().getMyMac());
@@ -689,9 +688,25 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		if (mapData != null){
 			
 			RuntimeMap mRuntimeMap = new RuntimeMap();
-			mRuntimeMap.load(mapData);		
-			Util.setRuntimeIndoorMap(mRuntimeMap); // To avoid pass the map in parameter everywhere
 						
+			Util.setRuntimeIndoorMap(mRuntimeMap); // To avoid pass the map in parameter everywhere
+
+			mRuntimeMap.load(mapData);
+			
+			// Listeners
+			graphicListener = new GraphicMapListener(this, mainScene);
+			graphicListener.setOffsetX(LEFT_SPACE);
+			graphicListener.setOffsetY(TOP_SPACE);
+			Util.getRuntimeIndoorMap().addListener(graphicListener);
+			Util.getRuntimeIndoorMap().addListener(new SoundMapListener());
+
+			// Initial in map listeners
+			Util.getRuntimeIndoorMap().initListeners();
+
+			Util.getRuntimeIndoorMap().initUserLayer(this);
+			// Set User ID
+			Util.getRuntimeIndoorMap().getUser().setId(Util.getWifiInfoManager().getMyMac());						
+			
 			MapDrawer.switchMapPrepare(this);
 			MapDrawer.switchMapExcute(this);
 			mCamera.setZoomFactor(Util.getRuntimeIndoorMap().getDefaultZoomFactor());

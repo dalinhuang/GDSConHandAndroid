@@ -119,6 +119,8 @@ public class ZoomControl {
 					mCamera.getCenterX(), 
 					mCamera.getCenterY(),
 					true);
+			
+			POIBar.showPoiInfo(activity);
 		} else {
 			mCamera.setZoomFactor(minZoomFactor);
 			
@@ -139,6 +141,9 @@ public class ZoomControl {
 				mCamera.getCenterX(), 
 				mCamera.getCenterY(),
 				true);		
+		
+		POIBar.showPoiInfo(activity);
+
 	}
 	
 	public float getZoomFactor(){

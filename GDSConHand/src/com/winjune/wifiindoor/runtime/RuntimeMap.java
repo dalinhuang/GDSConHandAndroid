@@ -106,7 +106,7 @@ public class RuntimeMap {
 		mapResources = initMapResources(normalMapUrl);
 	}
 	
-	public void initMap(MapViewerActivity mapViewer){
+	public void initUserLayer(MapViewerActivity mapViewer){
 		drawUser(mapViewer);
 	}
 	
@@ -315,7 +315,7 @@ public class RuntimeMap {
 	}
 
 
-	public void initial(){
+	public void initListeners(){
 		for (RuntimeMapListener l : listeners) {
 			l.initial(this);
 		}

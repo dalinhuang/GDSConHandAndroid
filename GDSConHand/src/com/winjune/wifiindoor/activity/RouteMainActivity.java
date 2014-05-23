@@ -44,9 +44,11 @@ public class RouteMainActivity extends Activity {
 		setContentView(R.layout.activity_route_main);
 		
 		Bundle bundle = getIntent().getExtras();
-		int endPoiId = bundle.getInt(Constants.BUNDLE_KEY_POI_ID);
-		if (endPoiId != 0)
-			endPoi = POIManager.getPOIbyId(endPoiId);			
+		if (bundle != null)	{
+			int endPoiId = bundle.getInt(Constants.BUNDLE_KEY_POI_ID);
+			if (endPoiId != 0)
+				endPoi = POIManager.getPOIbyId(endPoiId);
+		}
 
 		history = new NaviHistory();
 		history.loadCachedData();
