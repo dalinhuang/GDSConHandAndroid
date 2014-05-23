@@ -579,10 +579,13 @@ public class PlanBar {
 			// The samples for each position
 			ArrayList<WifiFingerPrintSample> samplesForThisPosition = new ArrayList<WifiFingerPrintSample>();
 			long stopTimeForThisPosition = mapViewer.continuousCollectStartTime + 
-					(mapViewer.continuousCollectStopTime - mapViewer.continuousCollectStartTime) * (i / positionDelta);
+					((mapViewer.continuousCollectStopTime - mapViewer.continuousCollectStartTime) * i) / positionDelta;
 			
 			while (samples.get(0).getBirthday() < stopTimeForThisPosition){
 				samplesForThisPosition.add(samples.remove(0)); // retrieve the sample and add to the local variable for this position
+				if (samples.isEmpty()) {
+					break;
+				}
 			}
 			
 			if (samplesForThisPosition.size() == 0){
