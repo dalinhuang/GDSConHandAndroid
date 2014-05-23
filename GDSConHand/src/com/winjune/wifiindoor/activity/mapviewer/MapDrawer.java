@@ -83,6 +83,8 @@ public class MapDrawer {
 		
 		mapViewer.reDrawPending = true;
 		
+		Util.getRuntimeIndoorMap().initMap(mapViewer);
+		
 		MapDrawer.drawBackground(mapViewer);
 
 		drawMap(mapViewer);

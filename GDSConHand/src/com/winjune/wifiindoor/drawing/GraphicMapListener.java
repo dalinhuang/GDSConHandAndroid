@@ -113,7 +113,7 @@ public class GraphicMapListener implements RuntimeMapListener {
 		builder.append(Util.getResources().getString(R.string.map))
 				.append(mapName).append(" - ").append(modeStr);
 
-		mMapText.setText(builder.toString());
+		//mMapText.setText(builder.toString());
 		
 		Util.showToast(activity, Util.getResources().getString(R.string.mode_change_to) + ": " + modeStr, Toast.LENGTH_SHORT);
 	}
