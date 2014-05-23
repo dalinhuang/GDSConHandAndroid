@@ -17,10 +17,10 @@ public class LocationSet implements IType {
 	
 	public Location balanceLocation() {
 		if (locations == null) {
-			return new Location(-1, -1, -1, -1);
+			return new Location(-1, -1, -1);
 		} else {
 			if (locations.isEmpty()) {
-				return new Location(-1, -1, -1, -1);
+				return new Location(-1, -1, -1);
 			} else {
 				ArrayList<Location> cloneLocs = new ArrayList<Location>();
 				
@@ -37,18 +37,17 @@ public class LocationSet implements IType {
 				}
 				
 				if (cloneLocs.isEmpty()) {
-					return new Location(-1, -1, -1, -1);
+					return new Location(-1, -1, -1);
 				}
 				
 				int[] counters = new int[cloneLocs.size()];
 				int[] maps = new int[cloneLocs.size()];
-				int[] versions = new int[cloneLocs.size()];
 				int num = 0;
 				
 				for (Location location:locations) {
 					boolean found = false;
 					for (int i=0;i<num;i++) {
-						if ((maps[i] == location.getMapId()) && (versions[i] == location.getMapVersion())) {
+						if ((maps[i] == location.getMapId())) {
 							counters[i]++;
 							found = true;
 						}
@@ -57,7 +56,6 @@ public class LocationSet implements IType {
 					if (!found) {
 						counters[num] = 1;
 						maps[num] = location.getMapId();
-						versions[num] = location.getMapVersion();
 						num++;
 					}
 				}
@@ -73,13 +71,12 @@ public class LocationSet implements IType {
 				}
 				
 				if (bestIdx == -1) {
-					return new Location(-1, -1, -1, -1);
+					return new Location(-1, -1, -1);
 				}
 				
 				locations.clear();
 				
 				int mapId = maps[bestIdx];
-				int version = versions[bestIdx];
 				float sumX = 0f;
 				float sumY = 0f;		
 				
@@ -91,7 +88,7 @@ public class LocationSet implements IType {
 					}
 				}
 
-				return new Location(mapId,  Math.round(sumX/bestCnt), Math.round(sumY/bestCnt), version);
+				return new Location(mapId,  Math.round(sumX/bestCnt), Math.round(sumY/bestCnt));
 			}
 		}		
 	}

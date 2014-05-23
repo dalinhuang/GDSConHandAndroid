@@ -34,7 +34,6 @@ public class LocateBar {
 	public static void setCurrentLocation(MapViewerActivity mapViewer) {
 		updateLocation(mapViewer,
 						Util.getRuntimeIndoorMap().getMapId(), 
-						Util.getRuntimeIndoorMap().getVersionCode(), 
 						mapViewer.mTargetColNo, 
 						mapViewer.mTargetRowNo);
 	}
@@ -217,8 +216,7 @@ public class LocateBar {
 		int idx = 0;
 		
 		for (Location location:locations) {
-			int mapId = location.getMapId();
-			int version = location.getMapVersion();
+			int mapId = location.getMapId();			
 			int colNo = location.getX();
 			int rowNo = location.getY();
 			
@@ -230,7 +228,7 @@ public class LocateBar {
 				continue;
 			}
 
-			if ( (mapId == Util.getRuntimeIndoorMap().getMapId()) && (version == Util.getRuntimeIndoorMap().getVersionCode()) ) {
+			if ( (mapId == Util.getRuntimeIndoorMap().getMapId()) ) {
 				// Inner same Map with same Version
 				
 				// Out of bound
@@ -248,9 +246,9 @@ public class LocateBar {
 		
 	}
 	
-	public static boolean updateLocation(MapViewerActivity mapViewer,int mapId, int mapVersion, int colNo, int rowNo) {
+	public static boolean updateLocation(MapViewerActivity mapViewer,int mapId, int colNo, int rowNo) {
 		if (mapViewer.DEBUG)
-			Log.e("updateLocation", "mapId="+mapId+",mapVersion="+mapVersion+",colNo="+colNo+",rowNo="+rowNo);
+			Log.e("updateLocation", "mapId="+mapId+",colNo="+colNo+",rowNo="+rowNo);
 
 		if (mapId == -1) {
 			Util.showLongToast(mapViewer, R.string.not_in_gdsc);
@@ -266,7 +264,7 @@ public class LocateBar {
 			return false;
 		}
 
-		if ( (mapId == Util.getRuntimeIndoorMap().getMapId()) && (mapVersion == Util.getRuntimeIndoorMap().getVersionCode()) ) {
+		if (mapId == Util.getRuntimeIndoorMap().getMapId())  {
 			// Inner same Map with same version
 			//Util.showShortToast(this, R.string.located);
 			MapHUD.updateHinText(mapViewer, R.string.located);
@@ -350,7 +348,7 @@ public class LocateBar {
 			mapViewer.mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(Util.getRuntimeIndoorMap().getTrack(i).getSprite());
 		}
 		
-		updateLocation(mapViewer, location.getMapId(), location.getMapVersion(), location.getX(), location.getY());
+		updateLocation(mapViewer, location.getMapId(), location.getX(), location.getY());
 	}
 	
 	public static void updateLocation(MapViewerActivity mapViewer, LocationSet locationSet) {

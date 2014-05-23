@@ -4,9 +4,9 @@ public class NfcLocation {
 	private String tagId;
 	private Location location;
 
-	public NfcLocation(String tagId, int mapId, int mNfcColNo, int mNfcRowNo, int mapVersion) {
+	public NfcLocation(String tagId, int mapId, int mNfcColNo, int mNfcRowNo) {
 		setTagId(tagId);
-		location = new Location(mapId, mNfcColNo, mNfcRowNo, mapVersion);
+		location = new Location(mapId, mNfcColNo, mNfcRowNo);
 	}
 
 	public String getTagId() {

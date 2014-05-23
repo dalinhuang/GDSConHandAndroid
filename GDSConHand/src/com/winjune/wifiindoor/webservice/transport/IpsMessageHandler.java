@@ -122,6 +122,21 @@ public class IpsMessageHandler {
 		// 1. the current foreground Activity B is not register itself into this IpsMessageHandler
 		// 2. The background Activity A is still registered and the Request was sent from A 
 		
+		if (object instanceof LocationSet) {
+			LocationSet locationSet = (LocationSet) object;
+				
+			if (activity instanceof MapViewerActivity) {
+				//Log.e("IpsMessageHandler", "viewer.updateLocation");
+				MapViewerActivity viewer = (MapViewerActivity) activity;
+				LocateBar.updateLocation(viewer, locationSet);
+
+				return;
+			}
+			
+			return;
+		} 
+		
+		
 		if (object instanceof Location) {
 			Location location = (Location) object;
 			

@@ -109,7 +109,7 @@ public class InfoBanner {
 		ArrayList<Location> locations = new ArrayList<Location>();
 
 		if (Util.getRuntimeIndoorMap().isRefreshInfoNeeded()) {
-			locations.add(new Location(Util.getRuntimeIndoorMap().getMapId(), -1, -1, Util.getRuntimeIndoorMap().getVersionCode()));
+			locations.add(new Location(Util.getRuntimeIndoorMap().getMapId(), -1, -1));
 		}
 
 		if ((colNo != -1) && (rowNo != -1)) {
@@ -136,7 +136,7 @@ public class InfoBanner {
 					if (cell != null) {
 						if (cell.isRefreshInfoNeeded()) {
 							locations.add(new Location(Util.getRuntimeIndoorMap()
-									.getMapId(), col, row, Util.getRuntimeIndoorMap().getVersionCode()));
+									.getMapId(), col, row));
 						}
 					}
 				}

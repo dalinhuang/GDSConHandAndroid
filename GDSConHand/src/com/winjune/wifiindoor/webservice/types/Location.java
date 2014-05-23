@@ -14,15 +14,13 @@ import com.winjune.common.webservice.core.types.IType;
  */
 public class Location implements IType {
 	private int mapId;
-	private int mapVersion;
 	private int x;
 	private int y;
 	
-	public Location(int mapId, int x, int y, int mapVersion) {
+	public Location(int mapId, int x, int y) {
 		this.mapId = mapId;
 		this.x = x;
 		this.y = y;
-		this.mapVersion = mapVersion;
 	}
 	
 	public Location() {
@@ -64,14 +62,6 @@ public class Location implements IType {
 	 */
 	public void setY(int y) {
 		this.y = y;
-	}
-
-	public int getMapVersion() {
-		return mapVersion;
-	}
-
-	public void setMapVersion(int mapVersion) {
-		this.mapVersion = mapVersion;
 	}
 	
 	@Override

@@ -40,8 +40,7 @@ public class PlanBar {
 		// send Nfc/Qr Locate messsage to server
 		NfcLocation nfcLoc = new NfcLocation(tagId,
 				Util.getRuntimeIndoorMap().getMapId(), 
-				mapViewer.mTargetColNo, mapViewer.mTargetRowNo, 
-				Util.getRuntimeIndoorMap().getVersionCode());
+				mapViewer.mTargetColNo, mapViewer.mTargetRowNo);
 
 		//Util.showShortToast(this, R.string.store_nfc_info_into_map);
 		MapHUD.updateHinText(mapViewer, R.string.store_nfc_info_into_map);
@@ -116,8 +115,7 @@ public class PlanBar {
 			if (Util.getWifiInfoManager().hasEnoughSavedSamples()) {			
 				CollectInfo collect = new CollectInfo();
 				Location location = new Location(Util.getRuntimeIndoorMap().getMapId(), 
-						mapViewer.mTargetColNo, mapViewer.mTargetRowNo, 
-						Util.getRuntimeIndoorMap().getVersionCode());
+						mapViewer.mTargetColNo, mapViewer.mTargetRowNo);
 				collect.setLocation(location);
 	
 				WifiFingerPrint fingnerPrint = Util.getWifiInfoManager().mergeSamples();
@@ -192,8 +190,7 @@ public class PlanBar {
 			public void run() {
 				CollectInfo collect = new CollectInfo();
 				Location location = new Location(Util.getRuntimeIndoorMap().getMapId(), 
-						mapViewer.currentCollectingX, mapViewer.currentCollectingY, 
-						Util.getRuntimeIndoorMap().getVersionCode());
+						mapViewer.currentCollectingX, mapViewer.currentCollectingY);
 				collect.setLocation(location);
 
 				WifiFingerPrint fingnerPrint = new WifiFingerPrint(IndoorMapData.REQUEST_COLLECT);
@@ -269,8 +266,7 @@ public class PlanBar {
 				try {
 					TestLocateCollectRequest testPosition = new TestLocateCollectRequest();
 					testPosition.setLocation(new Location(Util.getRuntimeIndoorMap().getMapId(), 
-							mapViewer.mTargetColNo, mapViewer.mTargetRowNo, 
-							Util.getRuntimeIndoorMap().getVersionCode()));
+							mapViewer.mTargetColNo, mapViewer.mTargetRowNo));
 					WifiFingerPrint fingnerPrint = Util.getWifiInfoManager().mergeSamples();
 					fingnerPrint.log();
 					
@@ -332,8 +328,7 @@ public class PlanBar {
 				try {
 					TestLocateCollectRequest testPosition = new TestLocateCollectRequest();
 					testPosition.setLocation(new Location(Util.getRuntimeIndoorMap().getMapId(), 
-							mapViewer.currentCollectingX, mapViewer.currentCollectingY, 
-							Util.getRuntimeIndoorMap().getVersionCode()));
+							mapViewer.currentCollectingX, mapViewer.currentCollectingY));
 					WifiFingerPrint fingnerPrint = new WifiFingerPrint(IndoorMapData.REQUEST_LOCATE);
 					fingnerPrint.log();
 					testPosition.setFignerPrint(fingnerPrint);
@@ -403,8 +398,7 @@ public class PlanBar {
 			if (Util.getWifiInfoManager().hasEnoughSavedSamples()) {
 				TestLocateCollectRequest testPosition = new TestLocateCollectRequest();
 				testPosition.setLocation(new Location(Util.getRuntimeIndoorMap().getMapId(), 
-						mapViewer.mTargetColNo, mapViewer.mTargetRowNo, 
-						Util.getRuntimeIndoorMap().getVersionCode()));
+						mapViewer.mTargetColNo, mapViewer.mTargetRowNo));
 				
 				WifiFingerPrint fingnerPrint = Util.getWifiInfoManager().mergeSamples();
 				fingnerPrint.log();
@@ -463,8 +457,7 @@ public class PlanBar {
 			public void run() {
 				TestLocateCollectRequest testPosition = new TestLocateCollectRequest();
 				testPosition.setLocation(new Location(Util.getRuntimeIndoorMap().getMapId(), 
-						mapViewer.currentCollectingX, mapViewer.currentCollectingY, 
-						Util.getRuntimeIndoorMap().getVersionCode()));
+						mapViewer.currentCollectingX, mapViewer.currentCollectingY));
 				WifiFingerPrint fingnerPrint = new WifiFingerPrint(IndoorMapData.REQUEST_COLLECT);
 				fingnerPrint.log();
 				testPosition.setFignerPrint(fingnerPrint);
@@ -609,8 +602,7 @@ public class PlanBar {
 				rowNoForThisPosition = mapViewer.mContStartRowNo + i;
 			}
 			Location location = new Location(Util.getRuntimeIndoorMap().getMapId(), 
-					colNoForThisPosition, rowNoForThisPosition, 
-					Util.getRuntimeIndoorMap().getVersionCode());
+					colNoForThisPosition, rowNoForThisPosition);
 			collect.setLocation(location);
 
 			WifiFingerPrint fingnerPrint = new WifiFingerPrint(samplesForThisPosition);
@@ -712,8 +704,7 @@ public class PlanBar {
 	}		
 	
 	public static void deleteFingerprint(MapViewerActivity mapViewer) {
-		Location location = new Location(Util.getRuntimeIndoorMap().getMapId(), mapViewer.mTargetColNo, mapViewer.mTargetRowNo, 
-										Util.getRuntimeIndoorMap().getVersionCode());
+		Location location = new Location(Util.getRuntimeIndoorMap().getMapId(), mapViewer.mTargetColNo, mapViewer.mTargetRowNo);
 		
 		try {
 			Gson gson = new Gson();

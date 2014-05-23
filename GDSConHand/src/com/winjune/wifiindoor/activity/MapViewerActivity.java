@@ -758,13 +758,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		mCamera.setCenter(x, y);
 		
-	/*	PlaceOfInterest poi = POIManager.getNearestPOI(0, 5, 5);
-		
-		if (poi != null) {		
-			poi.showContextMenu(v);
-		}else {
-			// show toaster
-		}*/
+		LocateBar.locateMe(this, false);
 	}
 	
 	public void zoomInBtnClick(View v){
