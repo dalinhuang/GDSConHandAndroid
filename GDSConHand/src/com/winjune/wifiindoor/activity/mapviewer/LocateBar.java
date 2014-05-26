@@ -250,9 +250,9 @@ public class LocateBar {
 		if (mapViewer.DEBUG)
 			Log.e("updateLocation", "mapId="+mapId+",colNo="+colNo+",rowNo="+rowNo);
 
-		if (mapId == -1) {
+		if (mapId != 2) {
 			Util.showLongToast(mapViewer, R.string.not_in_gdsc);
-			return false;
+			//return false;
 		}
 		
 		if ((rowNo == -1) || (colNo == -1)) {
