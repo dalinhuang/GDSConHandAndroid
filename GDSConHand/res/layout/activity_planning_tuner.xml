@@ -414,12 +414,6 @@
                 android:inputType="number" />
         </LinearLayout>
 
-
-
-  
-
-
-
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -450,48 +444,21 @@
             android:layout_height="wrap_content"
             android:text="ADS_ENABLED" />
 
-        <CheckBox
-            android:id="@+id/BANNERS_ENABLED"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="BANNERS_ENABLED" />
-
-        <CheckBox
-            android:id="@+id/ENTRY_NEEDED"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ENTRY_NEEDED" />
-
-        <CheckBox
-            android:id="@+id/GOOGLE_MAP_EMBEDDED"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="GOOGLE_MAP_EMBEDDED" />
-
-        <CheckBox
-            android:id="@+id/BACKGROUND_LINES_NEEDED"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="BACKGROUND_LINES_NEEDED" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/textView51"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="VERSION_NAME"
+                android:text="DEFAULT MAP ID  "
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <EditText
-                android:id="@+id/VERSION_NAME"
+                android:id="@+id/default_map_id"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.24"
-                android:ems="10"
-                android:inputType="text" />
+                android:inputType="number" />
         </LinearLayout>
 
         <TextView
@@ -505,13 +472,6 @@
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textView30"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/team_members"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <LinearLayout
             android:layout_width="match_parent"

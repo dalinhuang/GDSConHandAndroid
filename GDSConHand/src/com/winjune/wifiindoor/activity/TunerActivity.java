@@ -130,9 +130,6 @@ public class TunerActivity extends Activity {
     	PLANNING_MODE_ENABLED = (CheckBox) findViewById(R.id.PLANNING_MODE_ENABLED);
     	ZOOM_SWITCH_ENABLED = (CheckBox) findViewById(R.id.ZOOM_SWITCH_ENABLED);
     	ADS_ENABLED = (CheckBox) findViewById(R.id.ADS_ENABLED);
-    	BANNERS_ENABLED = (CheckBox) findViewById(R.id.BANNERS_ENABLED);
-    	BACKGROUND_LINES_NEEDED = (CheckBox) findViewById(R.id.BACKGROUND_LINES_NEEDED);
-    	VERSION_NAME = (EditText) findViewById(R.id.VERSION_NAME);
     	
     	resetToDefaultValues();
     }
@@ -230,7 +227,7 @@ public class TunerActivity extends Activity {
     	name = "PLANNING_MODE_ENABLED";
     	value = String.valueOf(PLANNING_MODE_ENABLED.isChecked());
     	Tuner.getProperties().setProperty(name, value);  
-    	
+    	   	
     	name = "ZOOM_SWITCH_ENABLED";
     	value = String.valueOf(ZOOM_SWITCH_ENABLED.isChecked());
     	Tuner.getProperties().setProperty(name, value);      	
@@ -239,19 +236,7 @@ public class TunerActivity extends Activity {
     	value = String.valueOf(ADS_ENABLED.isChecked());
     	Tuner.getProperties().setProperty(name, value);
     	
-    	name = "BANNERS_ENABLED";
-    	value = String.valueOf(BANNERS_ENABLED.isChecked());
-    	Tuner.getProperties().setProperty(name, value);
     	
-    	
-    	name = "BACKGROUND_LINES_NEEDED";
-    	value = String.valueOf(BACKGROUND_LINES_NEEDED.isChecked());
-    	Tuner.getProperties().setProperty(name, value);
-    	
-    	name = "VERSION_NAME";
-    	value = VERSION_NAME.getText().toString();
-    	Tuner.getProperties().setProperty(name, value);
- 
     	Tuner.saveConfig();
 		Tuner.syncToConfig();
 	}
@@ -281,7 +266,6 @@ public class TunerActivity extends Activity {
     	PLANNING_MODE_ENABLED.setChecked(VisualParameters.PLANNING_MODE_ENABLED);
     	ZOOM_SWITCH_ENABLED.setChecked(VisualParameters.ZOOM_SWITCH_ENABLED);
     	ADS_ENABLED.setChecked(VisualParameters.ADS_ENABLED);
-    	BANNERS_ENABLED.setChecked(VisualParameters.BANNERS_ENABLED);    	
-    	BACKGROUND_LINES_NEEDED.setChecked(VisualParameters.BACKGROUND_LINES_NEEDED);
-	}
+    	    	
+   }
 }

@@ -21,6 +21,9 @@ public class MapDrawer {
 	
 	public static void zoomInMap(final MapViewerActivity mapViewer){
 		
+		if (!VisualParameters.ZOOM_SWITCH_ENABLED)
+			return;
+		
 		// store the center position
 		final float centerX = mapViewer.mCamera.getCenterX();
 		final float centerY = mapViewer.mCamera.getCenterY();
@@ -49,6 +52,9 @@ public class MapDrawer {
 	}
 	
 	public static void zoomOutMap(final MapViewerActivity mapViewer){
+		if (!VisualParameters.ZOOM_SWITCH_ENABLED)
+			return;		
+		
 		final float centerX = mapViewer.mCamera.getCenterX();
 		final float centerY = mapViewer.mCamera.getCenterY();
 		
@@ -106,8 +112,7 @@ public class MapDrawer {
 	}	
 	
 	public static void drawBackground(MapViewerActivity mapViewer){
-		if (!VisualParameters.BACKGROUND_LINES_NEEDED ||
-			!VisualParameters.PLANNING_MODE_ENABLED)
+		if (!VisualParameters.PLANNING_MODE_ENABLED)
 			return;
 
 		if (mapViewer.backgroundSprite != null)

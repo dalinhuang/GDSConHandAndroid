@@ -302,31 +302,7 @@ public class Tuner {
 		} else {
 			properties.setProperty(key, String.valueOf(VisualParameters.ADS_ENABLED));
 		}
-		
-		key = "BANNERS_ENABLED";
-		value = properties.getProperty(key);
-		if (value != null) {
-			if (value.trim().equalsIgnoreCase("true")){
-				VisualParameters.BANNERS_ENABLED = true;
-			} else {
-				VisualParameters.BANNERS_ENABLED = false;
-			}
-		} else {
-			properties.setProperty(key, String.valueOf(VisualParameters.BANNERS_ENABLED));
-		}
 				
-		key = "BACKGROUND_LINES_NEEDED";
-		value = properties.getProperty(key);
-		if (value != null) {
-			if (value.trim().equalsIgnoreCase("true")){
-				VisualParameters.BACKGROUND_LINES_NEEDED = true;
-			} else {
-				VisualParameters.BACKGROUND_LINES_NEEDED = false;
-			}
-		} else {
-			properties.setProperty(key, String.valueOf(VisualParameters.BACKGROUND_LINES_NEEDED));
-		}
-		
 
 	}
 
