@@ -128,7 +128,13 @@ public class RouteMainActivity extends Activity {
 					.setPositiveButton("确定", null).create();
 			alertDialog.show();
 			return;
+		}	
+
+		if (startText.equals("我的位置")) {
+			startInput = true;
+			startPoi = new PlaceOfInterest();
 		}		
+		
 		searchText = startText + " - " + endText;
 		
 		performSearch();
