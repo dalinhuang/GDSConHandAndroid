@@ -12,7 +12,32 @@
         android:scaleType="fitCenter"
         android:src="@drawable/guide_1" />
     
-    <include layout="@layout/template_intro"/> 
+	<LinearLayout
+    	android:id="@+id/intro_layout" 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/styleContentAMargin"
+        android:layout_marginTop="10dp"                
+        android:background="@color/white"
+        android:orientation="vertical">
+                
+       <TextView
+            android:id="@+id/text_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"            
+            android:layout_marginBottom="5dp"
+            android:background="@color/white"            
+            android:text="测试"      
+            android:gravity="center_vertical"    
+            android:textAppearance="?android:attr/textAppearanceMedium"    
+            android:textColor="@color/black" />        
+    
+   		<include layout="@layout/template_context_button2"/>
+        
+</LinearLayout>    
    
 
 </LinearLayout>

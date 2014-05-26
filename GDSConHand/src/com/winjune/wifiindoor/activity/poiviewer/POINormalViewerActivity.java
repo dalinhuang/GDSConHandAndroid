@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class POINormalViewerActivity extends POIBaseActivity implements OnTouchListener {
 	public static final String TAG = POINormalViewerActivity.class.getSimpleName();
@@ -40,7 +41,7 @@ public class POINormalViewerActivity extends POIBaseActivity implements OnTouchL
 		
 		updateTitleInfo();		
 		
-		imagePager = (ImageView) this.findViewById(R.id.image_slide);
+		imagePager = (ImageView) findViewById(R.id.image_slide);
 		
 		if ((poi.picUrl != null) && (!poi.picUrl.trim().isEmpty())){
 			imgs = poi.picUrl.trim().split(";");									
@@ -51,6 +52,17 @@ public class POINormalViewerActivity extends POIBaseActivity implements OnTouchL
 			vg.removeView(imagePager);
 		}
 		
+		String dettailTxt = "  ";
+		
+		TextView textDetail = (TextView)findViewById(R.id.text_detail);
+		if ((poi.detailedDesc != null) && (!(poi.detailedDesc.trim().isEmpty()))) {
+			dettailTxt += poi.detailedDesc;			
+		} else if ((poi.generalDesc != null) && (!(poi.generalDesc.trim().isEmpty()))) {			
+			dettailTxt += poi.generalDesc;
+		}
+		
+		textDetail.setText(dettailTxt);
+									
 		setupContentButton();		
 	}
 	
