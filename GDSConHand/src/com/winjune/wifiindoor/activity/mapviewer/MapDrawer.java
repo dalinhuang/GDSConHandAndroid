@@ -89,6 +89,20 @@ public class MapDrawer {
 		mapViewer.mainScene.getChildByIndex(Constants.LAYER_USER).detachChildren();
 		mapViewer.mainScene.getChildByIndex(Constants.LAYER_SEARCH).detachChildren();
 		mapViewer.mainScene.getChildByIndex(Constants.LAYER_ROUTE).detachChildren();
+		
+		if (mapViewer.poiIcons != null)
+			mapViewer.poiIcons.clear();
+		
+		if (mapViewer.poiLabels != null)
+			mapViewer.poiLabels.clear();
+		
+		if (mapViewer.locationPlaces != null)
+			mapViewer.locationPlaces.clear();
+		
+		if (mapViewer.collectedFlags != null)
+			mapViewer.collectedFlags.clear();
+		
+		mapViewer.focusPlace = null;
 
 	}
 	

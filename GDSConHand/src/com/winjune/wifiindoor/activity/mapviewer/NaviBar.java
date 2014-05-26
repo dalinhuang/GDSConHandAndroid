@@ -44,6 +44,13 @@ enum StepType{
 public class NaviBar {
 			
 	public static void showNaviResulOnMap(final MapViewerActivity mapViewer, final NaviContext context) {
+				
+		// clear navi result layer
+		mapViewer.mainScene.getChildByIndex(Constants.LAYER_ROUTE).detachChildren();
+		mapViewer.mainScene.getChildByIndex(Constants.LAYER_USER).detachChildren();
+		if (mapViewer.locationPlaces != null)
+			mapViewer.locationPlaces.clear();
+		mapViewer.focusPlace = null;
 					
 		final ArrayList<NaviNodeR> naviNodes = context.naviRoute;	
 				
@@ -237,16 +244,20 @@ public class NaviBar {
 						* Math.sqrt(1 / (slope * slope + 1)) * (direction);
 				gapDeltaX = gapDeltaY / slope * (1);
 			} else {
-				deltaX = lineLength;
+				deltaX = lineLength * direction;
 				deltaY = 0;
-				gapDeltaX = gapLength;
+				gapDeltaX = gapLength * direction;
 				gapDeltaY = 0;
 			}
 		} else {
+			if (y22 < y11 && y22 > 0) {
+				direction = -1;
+			}
+			
 			deltaX = 0;
-			deltaY = lineLength;
+			deltaY = lineLength * direction;
 			gapDeltaX = 0;
-			gapDeltaY = gapLength;
+			gapDeltaY = gapLength * direction;
 		}
 
 		double totalLineLength = Math.sqrt((y22 - y11) * (y22 - y11)

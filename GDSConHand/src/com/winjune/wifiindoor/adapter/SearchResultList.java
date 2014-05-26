@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.map.MapManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.poi.SearchContext;
 
@@ -37,7 +38,8 @@ public class SearchResultList extends ArrayAdapter<PlaceOfInterest> {
 		poiLabelV.setText(poiLabel);
 		
 		TextView placeInfoV = (TextView)view.findViewById(R.id.text_floor_hall);
-		String placeInfo = "二楼：大厅";
+		int mapId = mSearchContext.poiResults.get(position).mapId;
+		String placeInfo = MapManager.getMapById(mapId).getLabel();
 		placeInfoV.setText(placeInfo);			
 				        
 	    return view;  
