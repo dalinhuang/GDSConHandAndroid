@@ -72,9 +72,11 @@ public class Tuner {
 			properties.setProperty(key, String.valueOf(IndoorMapData.MAX_AGE_FOR_WIFI_SAMPLES));
 		}
 		
+		/*
 		if (IndoorMapData.PERIODIC_WIFI_CAPTURE_INTERVAL != 0){
 			IndoorMapData.MAX_WIFI_SAMPLES_BUFFERED = (int) (IndoorMapData.MAX_AGE_FOR_WIFI_SAMPLES / IndoorMapData.PERIODIC_WIFI_CAPTURE_INTERVAL);
 		}
+		*/
 		
 		key = "MIN_WIFI_SAMPLES_BUFFERED";
 		value = properties.getProperty(key);		

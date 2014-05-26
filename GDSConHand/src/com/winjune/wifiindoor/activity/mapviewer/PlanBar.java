@@ -540,6 +540,7 @@ public class PlanBar {
 			return;
 		}
 		
+		ArrayList<WifiFingerPrintSample> samples = Util.getWifiInfoManager().getSamples();
 		mapViewer.continuousCollectStopTime = System.currentTimeMillis();
 		
 		int contStopRowNo = mapViewer.mTargetRowNo;
@@ -569,7 +570,6 @@ public class PlanBar {
 			}
 		}
 		
-		ArrayList<WifiFingerPrintSample> samples = Util.getWifiInfoManager().getSamples();
 		if (samples.size() < positionDelta){
 			Util.showToast(mapViewer, "Not enough sample during the collection!", Toast.LENGTH_SHORT);
 			return;
@@ -579,7 +579,7 @@ public class PlanBar {
 			// The samples for each position
 			ArrayList<WifiFingerPrintSample> samplesForThisPosition = new ArrayList<WifiFingerPrintSample>();
 			long stopTimeForThisPosition = mapViewer.continuousCollectStartTime + 
-					((mapViewer.continuousCollectStopTime - mapViewer.continuousCollectStartTime) * i) / positionDelta;
+					((mapViewer.continuousCollectStopTime - mapViewer.continuousCollectStartTime) * (i + 1)) / (positionDelta + 1);
 			
 			while (samples.get(0).getBirthday() < stopTimeForThisPosition){
 				samplesForThisPosition.add(samples.remove(0)); // retrieve the sample and add to the local variable for this position
