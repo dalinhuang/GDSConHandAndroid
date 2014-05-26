@@ -851,10 +851,14 @@ public class Util {
 		sensorManager.registerListener(listener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
 	}
 	
-	public static void disableAcclerometer(SensorEventListener listener) {
+	public static void disableSensorListener(SensorEventListener listener) {
 		sensorManager.unregisterListener(listener);
 	}
-
+	
+	public static void enableMagneticField(SensorEventListener listener) {
+		sensorManager.registerListener(listener, sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_NORMAL);
+	}
+	
 	public static boolean isNetworkConfigShowing() {
 		return networkConfigShowing;
 	}

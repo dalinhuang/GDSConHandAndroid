@@ -163,8 +163,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		// Disable NFC Foreground Dispatch
 		Util.disableNfc(this);
 		
-		// Disable ACCELEROMETER
-	    Util.disableAcclerometer(this);
+		// Disable sensor listener
+	    Util.disableSensorListener(this);
 	    
 	    if (mAdvertisement != null) {
 	    	mAdvertisement.deleteAdvertises();
@@ -225,8 +225,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		// Disable NFC Foreground Dispatch
 		Util.disableNfc(this);
 		
-		// Enable ACCELEROMETER
-		Util.disableAcclerometer(this);
+		// Disable sensor listener
+		Util.disableSensorListener(this);
 		
 		Util.setCurrentForegroundActivity(null);
 	}
@@ -258,6 +258,9 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		// Enable ACCELEROMETER
 		Util.enableAcclerometer(this);	
+		
+		// Enable Magnetic Field
+		Util.enableMagneticField(this);
         
         Util.setCurrentForegroundActivity(this);
 	}
@@ -318,8 +321,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		// Disable NFC Foreground Dispatch
 		Util.disableNfc(this);
 		
-		// Enable ACCELEROMETER
-		Util.disableAcclerometer(this);
+		// Disable sensor listener
+		Util.disableSensorListener(this);
 		
 		Util.cancelToast();
 		Util.setEnergySave(true);
@@ -631,6 +634,15 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public void onSensorChanged(SensorEvent event) {
 		if (Util.isShakeDetected(event)) {
 		        LocateBar.locateMe(this, false);
+		}
+		
+		float[] values = event.values;
+		int sensorType = event.sensor.getType();
+		
+		if (sensorType == Sensor.TYPE_MAGNETIC_FIELD) {
+			// values[0] is the Z-axis magnetic data
+			// values[1] is the X-axis magnetic data
+			// values[2] is the Y-axis magnetic data
 		}
 	}	
 	
