@@ -35,6 +35,8 @@ public class VisualParameters {
 	// SOC for ADS
 	public static boolean ADS_ENABLED = false;
 	
+	public static int DEFAULT_MAP_ID = 15;
+	
 	private static boolean initialed = false;
 
 

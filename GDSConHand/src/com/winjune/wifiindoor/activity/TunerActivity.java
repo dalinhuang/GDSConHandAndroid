@@ -48,10 +48,8 @@ public class TunerActivity extends Activity {
 
 	private CheckBox PLANNING_MODE_ENABLED;
 	private CheckBox ZOOM_SWITCH_ENABLED;
-	private CheckBox ADS_ENABLED;
-	private CheckBox BANNERS_ENABLED;	
-	private CheckBox BACKGROUND_LINES_NEEDED;
-	private EditText VERSION_NAME;
+	private CheckBox ADS_ENABLED;		
+	private EditText DEFAULT_MAP_ID;
 	
 	@Override
 	protected void onResume() {
@@ -119,10 +117,10 @@ public class TunerActivity extends Activity {
     	MIN_DBM_COUNT_IN = (EditText) findViewById(R.id.MIN_DBM_COUNT_IN);
     	MAX_DBM_COUNT_IN = (EditText) findViewById(R.id.MAX_DBM_COUNT_IN);
     	MIN_AP_COUNT_IN = (EditText) findViewById(R.id.MIN_AP_COUNT_IN);
-    	DEBUG = (CheckBox) findViewById(R.id.DEBUG);
+    	DEBUG = (CheckBox) findViewById(R.id.DEBUG);    	    	
+    	PRIMARY_SERVER = (EditText) findViewById(R.id.PRIMARY_SERVER);
     	SECONDARY_SERVER = (EditText) findViewById(R.id.SECONDARY_SERVER);
     	SERVER_PORT = (EditText) findViewById(R.id.SERVER_PORT);
-    	PRIMARY_SERVER = (EditText) findViewById(R.id.PRIMARY_SERVER);
     	CONNECTION_TIMEOUT = (EditText) findViewById(R.id.CONNECTION_TIMEOUT);
     	SOCKET_TIMEOUT = (EditText) findViewById(R.id.SOCKET_TIMEOUT);
     	SERVER_SUB_DOMAIN = (EditText) findViewById(R.id.SERVER_SUB_DOMAIN);
@@ -130,6 +128,7 @@ public class TunerActivity extends Activity {
     	PLANNING_MODE_ENABLED = (CheckBox) findViewById(R.id.PLANNING_MODE_ENABLED);
     	ZOOM_SWITCH_ENABLED = (CheckBox) findViewById(R.id.ZOOM_SWITCH_ENABLED);
     	ADS_ENABLED = (CheckBox) findViewById(R.id.ADS_ENABLED);
+    	DEFAULT_MAP_ID = (EditText)findViewById(R.id.default_map_id);
     	
     	resetToDefaultValues();
     }
@@ -235,7 +234,10 @@ public class TunerActivity extends Activity {
     	name = "ADS_ENABLED";
     	value = String.valueOf(ADS_ENABLED.isChecked());
     	Tuner.getProperties().setProperty(name, value);
-    	
+
+    	name = "DEFAULT_MAP_ID";
+    	value = String.valueOf(DEFAULT_MAP_ID.getText().toString());
+    	Tuner.getProperties().setProperty(name, value);    	
     	
     	Tuner.saveConfig();
 		Tuner.syncToConfig();
@@ -266,6 +268,6 @@ public class TunerActivity extends Activity {
     	PLANNING_MODE_ENABLED.setChecked(VisualParameters.PLANNING_MODE_ENABLED);
     	ZOOM_SWITCH_ENABLED.setChecked(VisualParameters.ZOOM_SWITCH_ENABLED);
     	ADS_ENABLED.setChecked(VisualParameters.ADS_ENABLED);
-    	    	
+    	DEFAULT_MAP_ID.setText(String.valueOf(VisualParameters.DEFAULT_MAP_ID));
    }
 }

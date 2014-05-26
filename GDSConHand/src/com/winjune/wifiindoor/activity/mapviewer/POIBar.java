@@ -30,10 +30,7 @@ import com.winjune.wifiindoor.util.VisualParameters;
 
 public class POIBar {
 	
-	public static void showPoiInfo(MapViewerActivity mapViewer){
-		if (VisualParameters.PLANNING_MODE_ENABLED)
-			return;
-		
+	public static void showPoiInfo(MapViewerActivity mapViewer){	
 		
 		float currentZoomFactor = mapViewer.mCamera.getZoomFactor();
 		

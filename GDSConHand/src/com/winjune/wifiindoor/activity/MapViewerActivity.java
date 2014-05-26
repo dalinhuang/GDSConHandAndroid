@@ -691,6 +691,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		Log.e("Map Switcher",label);
 		
 		MapDataR mapData = (MapDataR) MapManager.getMapByLabel(label);		
+		
+		switchRuntimeMap(mapData);
 	}
 	
 	

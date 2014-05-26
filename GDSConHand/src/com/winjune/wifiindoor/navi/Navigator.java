@@ -84,11 +84,12 @@ public class Navigator {
 		naviRoute.add(0, startNode);
 		naviRoute.add(endNode);
 		// debug for map switch
+		/*
 		NaviNodeR testNode1 = new NaviNodeR(0, 15, 3000, 3000, "测试1");
 		NaviNodeR testNode2 = new NaviNodeR(0, 15, 4000, 4000, "测试2");
 		naviRoute.add(testNode1);
 		naviRoute.add(testNode2);
-		
+		*/
 		return naviRoute;		
 	}
 	

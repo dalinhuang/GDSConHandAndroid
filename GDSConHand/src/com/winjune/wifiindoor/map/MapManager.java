@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.winjune.wifiindoor.lib.map.MapDataR;
 import com.winjune.wifiindoor.lib.map.MapDataT;
+import com.winjune.wifiindoor.util.VisualParameters;
 
 /**
  * @author haleyshi
@@ -20,8 +21,14 @@ public class MapManager {
 	}
 	
 	public static MapDataR getDefaultMap(){		
-		if (mapList.maps.size() > 0)
-			return mapList.maps.get(0);
+		if (mapList.maps.size() > 0) {
+			MapDataR mapData = getMapById(VisualParameters.DEFAULT_MAP_ID);
+						
+			if (mapData == null)
+				return mapList.maps.get(0);
+			
+			return mapData;
+		}
 		else
 			return null;
 	}

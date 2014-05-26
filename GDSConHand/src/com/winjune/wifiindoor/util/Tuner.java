@@ -302,7 +302,16 @@ public class Tuner {
 		} else {
 			properties.setProperty(key, String.valueOf(VisualParameters.ADS_ENABLED));
 		}
+	
+		key = "DEFAULT_MAP_id";
+		value = properties.getProperty(key);
+		if (value != null) {
+			VisualParameters.DEFAULT_MAP_ID =  Integer.parseInt(value.trim());
 				
+		} else {
+			properties.setProperty(key, String.valueOf(VisualParameters.DEFAULT_MAP_ID));
+		}
+					
 
 	}
 

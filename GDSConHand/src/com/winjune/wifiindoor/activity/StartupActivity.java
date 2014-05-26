@@ -213,7 +213,7 @@ public class StartupActivity extends Activity implements OnInitListener{
 				"",
 				false, //useHandler
 				false);// Use Thread	
-
+		
 		Util.downFile(StartupActivity.this,
 				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, PoiOfflineData.festivalTableName),
 				IndoorMapData.CONFIG_FILE_PATH,
@@ -239,6 +239,8 @@ public class StartupActivity extends Activity implements OnInitListener{
 				"",
 				false, //useHandler
 				false);// Use Thread	
+				
+		*/		
 		Util.downFile(StartupActivity.this,
 				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, PoiOfflineData.poiTableName),
 				IndoorMapData.CONFIG_FILE_PATH,
@@ -247,6 +249,8 @@ public class StartupActivity extends Activity implements OnInitListener{
 				"",
 				false, //useHandler
 				false);// Use Thread	
+		
+		/*
 		Util.downFile(StartupActivity.this,
 				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, PoiOfflineData.restaurantTableName),
 				IndoorMapData.CONFIG_FILE_PATH,
@@ -255,7 +259,7 @@ public class StartupActivity extends Activity implements OnInitListener{
 				"",
 				false, //useHandler
 				false);// Use Thread	        
-		
+		*/
 		Util.downFile(StartupActivity.this,
 				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, Navigator.NaviNodeTableName),
 				IndoorMapData.CONFIG_FILE_PATH,
@@ -273,7 +277,7 @@ public class StartupActivity extends Activity implements OnInitListener{
 				"",
 				false, //useHandler
 				false);// Use Thread		
-		*/	
+	
 		
 		MapManager.loadOfflineData(fullPath);		
 		
