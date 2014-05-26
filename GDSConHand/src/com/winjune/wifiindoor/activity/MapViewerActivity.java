@@ -381,8 +381,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			int startMapId = mContext.naviRoute.get(0).getMapId();
 			if (startMapId != Util.getRuntimeIndoorMap().getMapId()){
 				final MapDataR mapData = MapManager.getMapById(startMapId);			
+
 				switchRuntimeMap(mapData);
-				refreshMapLabel(mapData.getLabel());		
 			}		
 		
 			NaviBar.showNaviResulOnMap(this, mContext);
@@ -678,37 +678,35 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		Log.e("Map Switcher",label);
 		
-		MapDataR mapData = (MapDataR) MapManager.getMapByLabel(label);	
-		switchRuntimeMap(mapData);
-		
-		refreshMapLabel(mapData.getLabel());
+		MapDataR mapData = (MapDataR) MapManager.getMapByLabel(label);		
 	}
+	
 	
 	public void switchRuntimeMap(MapDataR mapData){
 		if (mapData != null){
 			
 			RuntimeMap mRuntimeMap = new RuntimeMap();
-						
-			Util.setRuntimeIndoorMap(mRuntimeMap); // To avoid pass the map in parameter everywhere
 
 			mRuntimeMap.load(mapData);
 			
-			// Listeners
-			graphicListener = new GraphicMapListener(this, mainScene);
-			graphicListener.setOffsetX(LEFT_SPACE);
-			graphicListener.setOffsetY(TOP_SPACE);
-			Util.getRuntimeIndoorMap().addListener(graphicListener);
-			Util.getRuntimeIndoorMap().addListener(new SoundMapListener());
-
+			Util.setRuntimeIndoorMap(mRuntimeMap); // To avoid pass the map in parameter everywhere
+						
 			// Initial in map listeners
+			MapViewerUtil.addListeners(this);
 			Util.getRuntimeIndoorMap().initListeners();
-
+			
 			Util.getRuntimeIndoorMap().initUserLayer(this);
+			
 			// Set User ID
 			Util.getRuntimeIndoorMap().getUser().setId(Util.getWifiInfoManager().getMyMac());						
 			
 			MapDrawer.switchMapPrepare(this);
+			
 			MapDrawer.switchMapExcute(this);
+			
+			// update map switch label accordingly
+			refreshMapLabel(mRuntimeMap.getMapLabel());
+			
 			mCamera.setZoomFactor(Util.getRuntimeIndoorMap().getDefaultZoomFactor());
 							
 		}		

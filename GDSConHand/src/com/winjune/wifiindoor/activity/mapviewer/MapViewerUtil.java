@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.winjune.wifiindoor.R;
 import com.winjune.wifiindoor.activity.MapViewerActivity;
+import com.winjune.wifiindoor.drawing.GraphicMapListener;
+import com.winjune.wifiindoor.drawing.SoundMapListener;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
@@ -240,6 +242,15 @@ public class MapViewerUtil {
 	public static void exitApp() {				
 		
 		System.exit(0);		
+	}	
+	
+	public static void addListeners(MapViewerActivity mapViewer){
+		// Listeners
+		mapViewer.graphicListener = new GraphicMapListener(mapViewer, mapViewer.mainScene);
+		mapViewer.graphicListener.setOffsetX(mapViewer.LEFT_SPACE);
+		mapViewer.graphicListener.setOffsetY(mapViewer.TOP_SPACE);
+		Util.getRuntimeIndoorMap().addListener(mapViewer.graphicListener);
+		Util.getRuntimeIndoorMap().addListener(new SoundMapListener());		
 	}	
 	
 	public static void captureScreenToShare(final MapViewerActivity mapViewer) {

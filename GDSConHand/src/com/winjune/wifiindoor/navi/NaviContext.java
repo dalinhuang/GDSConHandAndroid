@@ -94,10 +94,16 @@ public class NaviContext implements Serializable{
 					if (mMapId != Util.getRuntimeIndoorMap().getMapId()){
 						
 						final MapDataR mapData = MapManager.getMapById(mMapId);
-						mapViewer.switchRuntimeMap(mapData);
-
-						mapViewer.refreshMapLabel(mapData.getLabel());
-						NaviBar.showNaviResulOnMap(mapViewer, NaviContext.this);
+						
+						mapViewer.runOnUiThread(new Runnable() {
+							@Override
+		 					public void run() {
+								
+								mapViewer.switchRuntimeMap(mapData);
+								
+								NaviBar.showNaviResulOnMap(mapViewer, NaviContext.this);
+				            }        
+				        }); 						
 					}
 					
 				}

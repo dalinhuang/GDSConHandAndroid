@@ -160,16 +160,15 @@ public class NaviBar {
 			public boolean onAreaTouched(TouchEvent pSceneTouchEvent,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {				
 				if (finalHint != null){
-
-					mapViewer.switchRuntimeMap(finalMapData);
-
 					mapViewer.runOnUiThread(new Runnable() {
 						@Override
-						public void run() {
-							mapViewer.refreshMapLabel(finalMapData.getLabel());
+	 					public void run() {
+							
+							mapViewer.switchRuntimeMap(finalMapData);
+							
 							showNaviResulOnMap(mapViewer, context);
 			            }        
-			        });    							
+			        });   							
 					
 					return true;
 				}
