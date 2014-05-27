@@ -140,7 +140,7 @@ public class POIBar {
 
 				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
 					
-				   displayInterestPlaceContent(mapViewer, poi);
+				   showPOI(mapViewer, poi);
 				}
 
 				return true;
@@ -157,57 +157,44 @@ public class POIBar {
 	}
 	
 	
-	private static void displayInterestPlaceContent(MapViewerActivity mapViewer, PlaceOfInterest poi){
-		
+	private static void showPOI(MapViewerActivity mapViewer, PlaceOfInterest poi){
+		Intent poiIntent = null;;
+
 		// refine video URL as the general web page
 		// if the web page URL is defined, load web page from URL using web browswer
 		if ((poi.webUrl != null) && !poi.webUrl.trim().isEmpty()) {
-			Intent intent_show_interest_place = new Intent(mapViewer, POIWebViewerActivity.class); 
-			Bundle mBundle = new Bundle(); 
-			mBundle.putInt(Constants.BUNDLE_KEY_POI_ID, poi.id);
-			intent_show_interest_place.putExtras(mBundle); 
-			mapViewer.startActivity(intent_show_interest_place);
-			
-		} else {
-			Intent intent_show_interest_place = new Intent(mapViewer, POIAudioPlayerActivity.class);
-			
-			if (needEnterTTSActivity(poi)){
-				intent_show_interest_place = new Intent(mapViewer, POITtsPlayerActivity.class); 
-			}
-			else{
-				intent_show_interest_place = new Intent(mapViewer, POINormalViewerActivity.class); 
-			}
-			
-			Bundle mBundle = new Bundle(); 
-			mBundle.putInt(Constants.BUNDLE_KEY_POI_ID,poi.id);
-			intent_show_interest_place.putExtras(mBundle); 
-			mapViewer.startActivity(intent_show_interest_place);
-		}		
+			poiIntent = new Intent(mapViewer, POIWebViewerActivity.class);						
+		} else if (isReadable(poi)) {
+			poiIntent = new Intent(mapViewer, POITtsPlayerActivity.class); 			
+		} else{
+			poiIntent = new Intent(mapViewer, POINormalViewerActivity.class); 
+		}
+		
+		Bundle mBundle = new Bundle(); 
+		mBundle.putInt(Constants.BUNDLE_KEY_POI_ID,poi.id);
+		poiIntent.putExtras(mBundle); 
+		mapViewer.startActivity(poiIntent);		
 	}		
 		
-	private static boolean needEnterTTSActivity(PlaceOfInterest poi){
+	private static boolean isReadable(PlaceOfInterest poi){
 		boolean isTTSSupported = false;
-		boolean enterTTSActivity = true;
+		boolean enterTTSActivity = poi.readable;
 		
+		if (!enterTTSActivity)
+			return false;
 		
 		isTTSSupported = Util.isTTSSupported();
 		
 		String text = null;
-    	String picture = null;
     	String audio = null;
 		
 		text = poi.detailedDesc;
-		picture = poi.picUrl;
 		audio = poi.audioUrl;
 		
 		if ((audio !=null) && (!audio.trim().isEmpty())){
 			enterTTSActivity = false;
 		}
-		
-		if ((picture !=null) && (!picture.trim().isEmpty())){
-			enterTTSActivity = false;
-		}
-		
+				
 		if (!isTTSSupported) {
 			enterTTSActivity = false;
 		}
@@ -216,8 +203,7 @@ public class POIBar {
 			enterTTSActivity = false;
 		}
 		
-		return enterTTSActivity ;																
-		
+		return enterTTSActivity;																		
 	}
 	
 	private static Text showPoiLabel(MapViewerActivity mapViewer, PlaceOfInterest poi) {

@@ -97,8 +97,6 @@ public class POIAudioPlayerActivity extends Activity {
     /** Called when the activity is first created. */
 	@Override
     public void onCreate(Bundle savedInstanceState) {
-    	String text = null;
-    	String picture = null;
     	String audio = null;
     	
     	super.onCreate(savedInstanceState);
@@ -124,8 +122,6 @@ public class POIAudioPlayerActivity extends Activity {
         int req = bundle.getInt(IndoorMapData.BUNDLE_KEY_REQ_FROM);
      
 				
-		//Play audio
-		if ((audio !=null) && (!audio.trim().isEmpty())) {
 			LinearLayout audioLayout = new LinearLayout(getApplicationContext());
 			
 			audioLayout.setGravity(Gravity.CENTER);
@@ -189,175 +185,12 @@ public class POIAudioPlayerActivity extends Activity {
 		  
 		   audioPlayButton.setOnClickListener(audioPlayOCL);
 		   audioStopButton.setOnClickListener(audioStopOCL);				
-		} // audio play
-			
-		// Display Text
-		if ( text != null) {
-			textInfo.setText(text);
-			mainLayout.addView(textInfo);
-			
-			
-					
-		}
-
-		//Display picture
-		if ((picture != null) && (!picture.trim().isEmpty())) {
-			
-			final String[] pictures = picture.split(";");
-			
-			listener2 = new OnClickListener() {
-				@Override
-				public void onClick(View arg0) {
-					return;
-				}					
-			};
-				
-			for (int i=0; i<pictures.length; i++) {
-				String picFilName = pictures[i];
-					
-				if (picFilName.trim().isEmpty()) {
-					continue;
-				}
-								
-				RelativeLayout pictureLayout = new RelativeLayout(getApplicationContext());
-					
-				final ImageView imageInfo = new ImageView(getApplicationContext());
-				RelativeLayout.LayoutParams pictureLayoutParams = new RelativeLayout.LayoutParams(  
-			                ViewGroup.LayoutParams.MATCH_PARENT,  
-			                ViewGroup.LayoutParams.MATCH_PARENT);
-				pictureLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT); 
-				//pictureLayoutParams.topMargin = (int) (2 * scale + 0.5f);
-				pictureLayoutParams.topMargin = 2;
-					
-				imageInfo.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
-
-				//Hoare: cache the file in local folder first
-				loadCachedOrDownloadIMG(imageInfo, picFilName);
-					
-				//imageInfo.setScaleType(ImageView.ScaleType.FIT_CENTER);
-					
-				pictureLayout.addView(imageInfo, pictureLayoutParams);
-										  					
-				mainLayout.addView(pictureLayout);
-			}
-			
-			// Add the button to share the content
-			shareButton = new Button(this);
-			shareButton.setEnabled(true);	        
-	        shareButton.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-			shareButton.setText(R.string.share);
-			
-			RelativeLayout shareLayout = new RelativeLayout(getApplicationContext());
-			RelativeLayout.LayoutParams shareLayoutParams = new RelativeLayout.LayoutParams(  
-	                ViewGroup.LayoutParams.MATCH_PARENT,  
-	                ViewGroup.LayoutParams.MATCH_PARENT);
-			shareLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-			
-			shareLayout.addView(shareButton);
-			mainLayout.addView(shareLayout);
-			
-			final String weiboContent = text;
-			
-			shareButton.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					String content; 
-					
-	    			Intent intent = new Intent(Intent.ACTION_SEND); // Intent to be sent to Sina Weibo APP
-	    			intent.setType("image/*");
-	    			intent.putExtra(Intent.EXTRA_SUBJECT, R.string.share);
-	    			
-	    			// Add the text content to the intent
-	    			if (weiboContent != null) {
-		    			content = weiboContent;	    	
-		    			if (content.length() > 280) {
-		    				content = content.substring(0, 277); // cut to match 140 Chinese character for Sina Weibo 
-		    			}
-	    			}else {
-	    				content  = getString(R.string.share_prefix);
-	    			}
-	    					    		
-	    			intent.putExtra(Intent.EXTRA_TEXT,content);
-	    			
-	    			// Add the stream of the picture to the intent
-					String localFilePath = Util.getFilePath(IndoorMapData.IMG_FILE_PATH_LOCAL);
-	    	    	String fullFileName = localFilePath + pictures[0]; // By default share the first picture
-	    			File f = new File (fullFileName);
-	    			Uri uri = Uri.fromFile(f);
-	    			intent.putExtra(Intent.EXTRA_STREAM, uri);
-	    			
-	    			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	    			
-	    			String sinaPackage = "com.sina.weibo";
-	    			
-	    			// Check whether sina weibo is installed
-	    			PackageManager pm = getPackageManager();
-	    			List<ResolveInfo> matches = pm.queryIntentActivities(intent,
-	    					PackageManager.MATCH_DEFAULT_ONLY);
-	    			if (!matches.isEmpty()) {
-	    					    				
-	    				ResolveInfo info = null;
-	    				for (ResolveInfo each : matches) {	    					
-	    					String pkgName = each.activityInfo.applicationInfo.packageName;
-	    					if (sinaPackage.equals(pkgName)) {
-	    						info = each;
-	    						break;				
-	    					}
-	    				}
-	    				
-	    				if (info == null) { // if sina weibo is NOT installed
-	    					Util.showLongToast(POIAudioPlayerActivity.this, R.string.no_weibo_installed);
-	    					return;
-	    				} else {
-	    					intent.setClassName(sinaPackage, info.activityInfo.name);
-	    					startActivity(intent);
-	    				}
-	    			} // !matches.isEmpty()
-				} // onClick(View v)
-			});
-		}// Display picture	
 		
-		scroll.addView(mainLayout);
+
 		setContentView(scroll);				
     }
 
-    private  void loadCachedOrDownloadIMG(final ImageView imageInfo, final String imgFileName){
-       	new Thread() {
-    		public void run() {   			
-    	    	String localFilePath = Util.getFilePath(IndoorMapData.IMG_FILE_PATH_LOCAL);
-    	    	String fullFileName = localFilePath + imgFileName;
-    	    	final String imgURL= Util.fullUrl(IndoorMapData.IMG_FILE_PATH_LOCAL, imgFileName);
-    			File   file = new File (fullFileName);
-    			 
-    	    	if (!file.exists()) {
-    	    		//The file doesn't exist, download the file to the cache folder
-    	    		
-    	    		Util.downFile(POIAudioPlayerActivity.this, imgURL, IndoorMapData.IMG_FILE_PATH_LOCAL, imgFileName,                     		
-    	    							false,      // Open after download
-    	    							"",
-    	    							false, //useHandler
-    	    							false);// Use Thread	
-
-    			 }
-    	    	
-    	    	final Bitmap bitmap = BitmapFactory.decodeFile(fullFileName);
-    				        
-		        runOnUiThread(new Runnable() {
-					public void run() {
-						if (bitmap == null) {
-							imageInfo.setImageResource(R.drawable.no_pic);	
-						} else {
-							imageInfo.setImageBitmap(bitmap);
-							imageInfo.setOnClickListener(listener2);
-						}
-						imageInfo.invalidate();		    
-					}
-				});		        
-    		}
-    	}.start();
-    }    
-
+  
     private void initMediaPlayer(String audioFile) {
     	
     	final String audioURL= Util.fullUrl(IndoorMapData.AUDIO_FILE_PATH_REMOTE, audioFile);
