@@ -37,6 +37,8 @@ public class VisualParameters {
 	
 	public static int DEFAULT_MAP_ID = 15;
 	
+	public static int POI_DISTANCE_THRESHOLD = 50;
+	
 	private static boolean initialed = false;
 
 

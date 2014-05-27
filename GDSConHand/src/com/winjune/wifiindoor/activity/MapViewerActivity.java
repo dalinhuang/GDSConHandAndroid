@@ -264,7 +264,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		Util.enableAcclerometer(this);	
 		
 		// Enable Magnetic Field
-		Util.enableMagneticField(this);
+		// Util.enableMagneticField(this);
         
         Util.setCurrentForegroundActivity(this);
 	}
@@ -672,13 +672,16 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			// values[1] is the X-axis magnetic data
 			// values[2] is the Y-axis magnetic data
 			
-			/*
-			String text = "Magnetic Info Z:" + String.valueOf(values[0]);
-			text += " X:" +String.valueOf(values[1]);
-			text += " Y:" +String.valueOf(values[2]);
+/*			float z = (float)(Math.round(values[0]*1000))/1000;
+			float x = (float)(Math.round(values[1]*1000))/1000;
+			float y = (float)(Math.round(values[2]*1000))/1000;
 			
-			MapHUD.updateHinText(this, text);
-			*/		
+			
+			String text = "Magnetic Info Z:" + String.valueOf(z);
+			text += " X:" +String.valueOf(x);
+			text += " Y:" +String.valueOf(y);
+			
+			MapHUD.updateHinText(this, text);*/
 		}
 	}	
 	

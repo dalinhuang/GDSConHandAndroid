@@ -167,7 +167,7 @@ public class MapViewerUtil {
 		if (poi == null)		
 			return false;
 		
-		// need to clear all location sprites first
+		// need to clear all location spites first
 		SearchBar.clearLocationPlaces(mapViewer);
 		
 		LocateBar.attachLocationSprite(mapViewer, poi);

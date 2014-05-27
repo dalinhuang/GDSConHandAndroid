@@ -13,6 +13,7 @@ import com.winjune.wifiindoor.activity.poiviewer.RestaurantInfoActivity;
 import com.winjune.wifiindoor.activity.poiviewer.TheatreInfoActivity;
 import com.winjune.wifiindoor.lib.poi.*;
 import com.winjune.wifiindoor.util.Util;
+import com.winjune.wifiindoor.util.VisualParameters;
 
 public class POIManager {
 	private static int idGenerator = 1000;
@@ -169,25 +170,33 @@ public class POIManager {
 	}
 	
 	public static PlaceOfInterest getNearestPOI(int mapId, int placeX, int placeY) {
-		PlaceOfInterest nearestPoi = null;
-		double nearestDist = Double.MAX_VALUE;
-		double distX;
-		double distY;
+		PlaceOfInterest nearestPoi = null;		
+		double shortestDist = Double.MAX_VALUE;
 		
 		
 		for (PlaceOfInterest aPOI:POIList) {
-        	if (aPOI.mapId == mapId) {
-        		  
-        		distX =  Math.sqrt(Math.abs(aPOI.getPlaceX() - placeX));
-        		distY =  Math.sqrt(Math.abs(aPOI.getPlaceY() - placeY));
-        		double mDist = distX + distY;
-        		if ( mDist < nearestDist) {
+        	if (aPOI.mapId == mapId) {        		  
+        		double distX =  Math.abs(aPOI.getPlaceX() - placeX);
+        		double distY =  Math.abs(aPOI.getPlaceY() - placeY);
+        		double mDist = distX*distX + distY*distY;
+        		
+        		if ( mDist < shortestDist) {
         			nearestPoi = aPOI;
-        			nearestDist = mDist;
+        			shortestDist = mDist;
         		}        		        		 
         	}        	
 		}					
-	
+		
+		if (nearestPoi != null){
+			// caculate the real distance based on px
+			double realDist =  Math.sqrt(shortestDist) * Util.getRuntimeIndoorMap().getMapWidth()
+							/Util.getRuntimeIndoorMap().getMaxLongitude();
+			
+			// 
+			if (realDist > VisualParameters.POI_DISTANCE_THRESHOLD)
+				nearestPoi = null; 			
+		}
+			
 		return nearestPoi;
 	}
 		

@@ -161,7 +161,7 @@ public class POIBar {
 		
 		// refine video URL as the general web page
 		// if the web page URL is defined, load web page from URL using web browswer
-		if (poi.webUrl != null) {
+		if ((poi.webUrl != null) && !poi.webUrl.trim().isEmpty()) {
 			Intent intent_show_interest_place = new Intent(mapViewer, POIWebViewerActivity.class); 
 			Bundle mBundle = new Bundle(); 
 			mBundle.putInt(Constants.BUNDLE_KEY_POI_ID, poi.id);
