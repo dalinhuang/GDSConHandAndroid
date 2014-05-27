@@ -21,7 +21,7 @@ public class VisualParameters {
 	
 	public static int FONT_CHAR_ABS_WIDTH_MAPINFO = 16;
 	public static int FONT_CHAR_WIDTH_MENU = 40;
-	public static int FONT_CHAR_WIDTH_HINTS = 16;
+	public static int FONT_CHAR_WIDTH_HINTS = 24;
 	
 	// Left Margins for ADS 
 	public static int BOTTOM_SPACE_FOR_ADS_PORTRAIT = 0; //120;  

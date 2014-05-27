@@ -1,6 +1,12 @@
 package com.winjune.wifiindoor.activity.mapviewer;
 
+import java.util.ArrayList;
+
 import org.andengine.engine.camera.ZoomCamera;
+import org.andengine.entity.primitive.Line;
+import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.text.Text;
 import org.andengine.entity.util.ScreenCapture;
 import org.andengine.entity.util.ScreenCapture.IScreenCaptureCallback;
 
@@ -18,6 +24,7 @@ import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.drawing.GraphicMapListener;
 import com.winjune.wifiindoor.drawing.SoundMapListener;
 import com.winjune.wifiindoor.drawing.graphic.model.Library;
+import com.winjune.wifiindoor.drawing.graphic.model.LocationSprite;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.util.Constants;
@@ -86,6 +93,15 @@ public class MapViewerUtil {
 					= Math.min(MIN_VALUE, Math.round((Util.getCameraHeight()) / CONTROL_BUTTON_NUMBER / 1.5f));
 			mapViewer.CONTROL_BUTTON_MARGIN = Math.min(MIN_VALUE, Math.round ((Util.getCameraHeight() - mapViewer.CONTROL_BUTTON_HEIGHT * CONTROL_BUTTON_NUMBER) / CONTROL_BUTTON_NUMBER / 3f));// Here use 3f to let the control tab layout on the top of height
 		}		
+				
+		mapViewer.poiLabels = new ArrayList<Text>();
+		mapViewer.poiIcons = new ArrayList<Sprite>();;
+		mapViewer.focusPlace = null;
+		mapViewer.locationPlaces = new ArrayList<LocationSprite>();
+		mapViewer.collectedFlags = new ArrayList<Rectangle>(); 
+		mapViewer.naviLines = new ArrayList<Line>();
+		mapViewer.naviIcons = new ArrayList<Sprite>();
+		mapViewer.naviHints = new ArrayList<Text>();
 	}	
 	
 	public static void resetCameraBounds(MapViewerActivity mapViewer, int mapWidth, int mapHeight) {
@@ -150,8 +166,9 @@ public class MapViewerUtil {
 		
 		if (poi == null)		
 			return false;
-		// need to clear all sprites first
-		SearchBar.clearSearchResultSprite(mapViewer);
+		
+		// need to clear all location sprites first
+		SearchBar.clearLocationPlaces(mapViewer);
 		
 		LocateBar.attachLocationSprite(mapViewer, poi);
 		

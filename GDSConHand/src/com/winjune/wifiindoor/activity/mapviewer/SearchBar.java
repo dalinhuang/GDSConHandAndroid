@@ -53,8 +53,11 @@ public class SearchBar {
 	
 	public static void showSearchResultsOnMap(MapViewerActivity mapViewer, SearchContext searchContext) {
 		
+		//
+		NaviBar.clearNaviInfo(mapViewer);
+		
 		// Clear old search result markers 
-		clearSearchResultSprite(mapViewer);
+		clearLocationPlaces(mapViewer);
 		
 		// Show New Map Info
 				
@@ -78,10 +81,8 @@ public class SearchBar {
 		
 	}
 	
-	public static void clearSearchResultSprite(MapViewerActivity mapViewer) {
-		if (mapViewer.locationPlaces == null) {
-			mapViewer.locationPlaces = new ArrayList<LocationSprite>();
-		} else {
+	public static void clearLocationPlaces(MapViewerActivity mapViewer) {
+		if (mapViewer.locationPlaces != null) {
 			for (Sprite place:mapViewer.locationPlaces) {
 				if (place != null) {
 					mapViewer.mainScene.getChildByIndex(Constants.LAYER_SEARCH).detachChild(place);
@@ -90,6 +91,8 @@ public class SearchBar {
 			}
 			mapViewer.locationPlaces.clear();
 		}		
+		
+		mapViewer.focusPlace = null;		
 	}
 	
 	public static LocationSprite attachSearchResultSprite(final MapViewerActivity mapViewer, PlaceOfInterest poi, final int index) {

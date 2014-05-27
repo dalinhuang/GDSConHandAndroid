@@ -42,15 +42,44 @@ enum StepType{
 }
 
 public class NaviBar {
+	
+	public static void clearNaviInfo(MapViewerActivity mapViewer){
+	
+		if (mapViewer.naviIcons != null){
+			for (Sprite naviIcon: mapViewer.naviIcons){
+				mapViewer.mainScene.getChildByIndex(Constants.LAYER_ROUTE).detachChild(naviIcon);
+				mapViewer.mainScene.unregisterTouchArea(naviIcon);				
+			}
+			
+			mapViewer.naviIcons.clear();
+		}
+		
+		if (mapViewer.naviHints != null){
+			for (Text naviText: mapViewer.naviHints){
+				mapViewer.mainScene.getChildByIndex(Constants.LAYER_ROUTE).detachChild(naviText);
+			}	
+			
+			mapViewer.naviHints.clear();
+		}		
+		
+		if (mapViewer.naviLines != null){
+			for (Line naviLine: mapViewer.naviLines){
+				mapViewer.mainScene.getChildByIndex(Constants.LAYER_ROUTE).detachChild(naviLine);
+			}	
+			
+			mapViewer.naviLines.clear();
+		}				
+		
+	}
+	
+	
 			
 	public static void showNaviResulOnMap(final MapViewerActivity mapViewer, final NaviContext context) {
 				
 		// clear navi result layer
-		mapViewer.mainScene.getChildByIndex(Constants.LAYER_ROUTE).detachChildren();
-		mapViewer.mainScene.getChildByIndex(Constants.LAYER_USER).detachChildren();
-		if (mapViewer.locationPlaces != null)
-			mapViewer.locationPlaces.clear();
-		mapViewer.focusPlace = null;
+		clearNaviInfo(mapViewer);
+		
+		SearchBar.clearLocationPlaces(mapViewer);
 					
 		final ArrayList<NaviNodeR> naviNodes = context.naviRoute;	
 				
@@ -74,8 +103,7 @@ public class NaviBar {
 					}
 					stopX = Util.longitudeX2MapX(naviNode.getPlaceX());
 					stopY = Util.latitudeY2MapY(naviNode.getPlaceY());							
-					drawDottedLine(startX,startY,stopX,stopY,15,15,8,mapViewer.mainScene.getChildByIndex(Constants.LAYER_ROUTE),
-							mapViewer.getVertexBufferObjectManager());
+					drawDottedLine(startX,startY,stopX,stopY,15,15,8, mapViewer);
 					startX = stopX;
 					startY = stopY;									
 				}
@@ -167,7 +195,7 @@ public class NaviBar {
 			public boolean onAreaTouched(TouchEvent pSceneTouchEvent,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {				
 				if (finalHint != null){
-					mapViewer.runOnUiThread(new Runnable() {
+					mapViewer.runOnUpdateThread(new Runnable() {
 						@Override
 	 					public void run() {
 							
@@ -182,7 +210,10 @@ public class NaviBar {
 				
 				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
 			}
-		};			
+		};
+		
+		// store the inco info
+		mapViewer.naviIcons.add(iconSprite);		
 		
 		mapViewer.mainScene.getChildByIndex(Constants.LAYER_ROUTE).attachChild(iconSprite);
 		
@@ -201,7 +232,7 @@ public class NaviBar {
 			text.setScale(0.5f);
 			float textHeight = text.getHeight();
 			float textWidth  = text.getWidth();
-			text.setPosition(mapX-textWidth/2, mapY-textHeight-mTextureRegion.getHeight());
+			text.setPosition(mapX-textWidth/2, mapY-textHeight-mTextureRegion.getHeight());			
 	
 			// setup flash effect
 			final LoopEntityModifier entityModifier =
@@ -218,12 +249,13 @@ public class NaviBar {
 			text.registerEntityModifier(entityModifier);
 			text.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 			mapViewer.mainScene.getChildByIndex(Constants.LAYER_ROUTE).attachChild(text);
+			
+			mapViewer.naviHints.add(text);
 		}
 	}
 
 	private static void drawDottedLine(float x11, float y11, float x22, float y22,
-			float lineLength, float gapLength, float lineWidth, IEntity entity,
-			VertexBufferObjectManager vertexBufferObjectManager) {
+			float lineLength, float gapLength, float lineWidth, MapViewerActivity mapViewer) {
 		float slope;
 		double deltaY;
 		double deltaX;
@@ -284,13 +316,15 @@ public class NaviBar {
 				newY = (float) (currentY + deltaY);
 			}
 			final Line line = new Line(currentX, currentY, newX, newY,
-					lineWidth, vertexBufferObjectManager);
+					lineWidth, mapViewer.getVertexBufferObjectManager());
 			currentX = (float) (newX + gapDeltaX);
 			currentY = (float) (newY + gapDeltaY);
 			//Draw a blue line
 			line.setColor(0, 0, 1);
-			entity.attachChild(line);
-
+			mapViewer.mainScene.getChildByIndex(Constants.LAYER_ROUTE).attachChild(line);	
+			
+			// store the line infos
+			mapViewer.naviLines.add(line);
 		}
 	}	
 	

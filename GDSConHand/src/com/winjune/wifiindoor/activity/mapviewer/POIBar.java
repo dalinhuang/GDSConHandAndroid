@@ -1,7 +1,5 @@
 package com.winjune.wifiindoor.activity.mapviewer;
 
-import java.util.ArrayList;
-
 import javax.microedition.khronos.opengles.GL10;
 
 import org.andengine.entity.sprite.AnimatedSprite;
@@ -14,7 +12,6 @@ import android.os.Bundle;
 
 import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.activity.poiviewer.POIAudioPlayerActivity;
-import com.winjune.wifiindoor.activity.poiviewer.POIBaseActivity;
 import com.winjune.wifiindoor.activity.poiviewer.POINormalViewerActivity;
 import com.winjune.wifiindoor.activity.poiviewer.POITtsPlayerActivity;
 import com.winjune.wifiindoor.activity.poiviewer.POIWebViewerActivity;
@@ -26,21 +23,15 @@ import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.util.Constants;
 import com.winjune.wifiindoor.util.IndoorMapData;
 import com.winjune.wifiindoor.util.Util;
-import com.winjune.wifiindoor.util.VisualParameters;
 
 public class POIBar {
 	
-	public static void showPoiInfo(MapViewerActivity mapViewer){	
-		
-		float currentZoomFactor = mapViewer.mCamera.getZoomFactor();
-		
+	public static void clearPoiInfo(MapViewerActivity mapViewer){
 		// Clear old Map info
-		if (mapViewer.poiLabels == null) {
-			mapViewer.poiLabels = new ArrayList<Text>();
-		} else {
+		if (mapViewer.poiLabels != null) {
 			for (Text text:mapViewer.poiLabels) {
 				if (text != null) {
-					mapViewer.mainScene.detachChild(text);
+					text.detachSelf();
 				}
 			}
 			mapViewer.poiLabels.clear();
@@ -48,17 +39,23 @@ public class POIBar {
 				
 		
 		// Clear old POI icons
-		if (mapViewer.poiIcons == null) {
-			mapViewer.poiIcons = new ArrayList<Sprite>();
-		} else {
+		if (mapViewer.poiIcons != null) {					
 			for (Sprite place:mapViewer.poiIcons) {
 				if (place != null) {
-					mapViewer.mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(place);
+					place.detachSelf();					
 					mapViewer.mainScene.unregisterTouchArea(place);
 				}
 			}
 			mapViewer.poiIcons.clear();
-		}
+		}		
+	}
+	
+	public static void showPoiInfo(MapViewerActivity mapViewer){	
+		
+		float currentZoomFactor = mapViewer.mCamera.getZoomFactor();
+		
+		// Firstly, clear the old poi info
+		clearPoiInfo(mapViewer);
 		
 		// Show New Map Info
 
@@ -239,7 +236,7 @@ public class POIBar {
 		text.setScale(poi.getScale()); // For future use if we need to display some label with a bigger/smaller scale
 		text.setPosition(pX-text.getWidth()/2, pY-text.getHeight()/2);
 		
-		mapViewer.mainScene.attachChild(text); 
+		mapViewer.mainScene.getChildByIndex(Constants.LAYER_USER).attachChild(text); 
 		
 		mapViewer.poiLabels.add(text);
 		

@@ -52,6 +52,20 @@ public class CollectedFlag {
 		}
 	}
 	
+	public static void clearCollectedFlag(MapViewerActivity mapViewer){
+		if (mapViewer.collectedFlags == null)
+			return;
+			
+		for (Rectangle flag:mapViewer.collectedFlags) {
+			if (flag != null) {
+				mapViewer.mainScene.getChildByIndex(Constants.LAYER_FLAG).detachChild(flag);
+			}
+		}
+		
+		mapViewer.collectedFlags.clear();
+		
+	}
+	
 	public static void showCollectedFlag(final MapViewerActivity mapViewer, MapCollectStatus flags) {
 		
 		if (flags == null) {
@@ -64,16 +78,7 @@ public class CollectedFlag {
 		
 		
 		// Clear old collected flags info
-		if (mapViewer.collectedFlags == null) {
-			mapViewer.collectedFlags = new ArrayList<Rectangle>();
-		} else {
-			for (Rectangle flag:mapViewer.collectedFlags) {
-				if (flag != null) {
-					mapViewer.mainScene.getChildByIndex(Constants.LAYER_FLAG).detachChild(flag);
-				}
-			}
-			mapViewer.collectedFlags.clear();
-		}
+		clearCollectedFlag(mapViewer);
 		
 		// Show the new collected flags info
 		ArrayList<CellCollectStatus> cells = flags.getCells();

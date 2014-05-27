@@ -122,8 +122,7 @@ public class MapHUD {
 		hintStr += "                                                            "
 				+ "                                 ";
 		
-		mapViewer.mHintText = new Text(0,
-				mapViewer.mFontHint.getLineHeight(),   // Flexible according to the height of 1st line text
+		mapViewer.mHintText = new Text(0, 0,
 				mapViewer.mFontHint, 
 				hintStr,
 				100,
@@ -233,7 +232,10 @@ public class MapHUD {
 	}	
 	
 	@SuppressLint("SimpleDateFormat")
-	public static void updateHinText(MapViewerActivity mapViewer, String text) {
+	public static void updateHinText(MapViewerActivity mapViewer, String text) {		
+		if (mapViewer.mHintText == null)
+			return;
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); 
 		String clockStr = sdf.format(new Date(System.currentTimeMillis()));
 		mapViewer.mHintText.setText(clockStr + " " + text);
@@ -241,6 +243,9 @@ public class MapHUD {
 	
 	@SuppressLint("SimpleDateFormat")
 	public static void updateHinText(MapViewerActivity mapViewer, int textId) {
+		if (mapViewer.mHintText == null)
+			return;
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); 
 		String clockStr = sdf.format(new Date(System.currentTimeMillis()));
 		mapViewer.mHintText.setText(clockStr + " " + mapViewer.getResources().getString(textId));

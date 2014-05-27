@@ -11,6 +11,7 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.Entity;
+import org.andengine.entity.primitive.Line;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
@@ -127,6 +128,9 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 	public LocationSprite focusPlace;
 	public ArrayList<LocationSprite> locationPlaces;
 	public ArrayList<Rectangle> collectedFlags; // Flags for fingerprint collected cells
+	public ArrayList<Line> naviLines;
+	public ArrayList<Sprite> naviIcons;
+	public ArrayList<Text> naviHints;
 	
 	public int LEFT_SPACE;
 	public int RIGHT_SPACE;
@@ -371,25 +375,49 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		Bundle mBundle = getIntent().getExtras();
 		
 		if (mAction.equals(Constants.ActionLocate)){
-			PlaceOfInterest poi = (PlaceOfInterest)mBundle.getSerializable(Constants.BUNDLE_LOCATION_CONTEXT);
-			LocateBar.attachLocationSprite(this, poi);
-			poi.showContextMenu(getCurrentFocus());			
-		}else if (mAction.equals(Constants.ActionSearch)) {			
-			SearchContext mContext = (SearchContext) mBundle.getSerializable(Constants.BUNDLE_RESULT_SEARCH_CONTEXT);		
-		   	SearchBar.showSearchResultsOnMap(this, mContext);
+			final PlaceOfInterest poi = (PlaceOfInterest)mBundle.getSerializable(Constants.BUNDLE_LOCATION_CONTEXT);
+			
+			runOnUpdateThread(new Runnable() {
+				@Override
+				public void run() {
+					LocateBar.attachLocationSprite(MapViewerActivity.this, poi);
+					
+				}
+	        });
+			
+			poi.showContextMenu(getCurrentFocus());
+		
+		}else if (mAction.equals(Constants.ActionSearch)) {									
+			final SearchContext mContext = (SearchContext) mBundle.getSerializable(Constants.BUNDLE_RESULT_SEARCH_CONTEXT);
+			
+			runOnUpdateThread(new Runnable() {
+				@Override
+				public void run() {
+					SearchBar.showSearchResultsOnMap(MapViewerActivity.this, mContext);
+				}
+	        });
+					   	
 		}else if (mAction.equals(Constants.ActionRoute)){
-			NaviContext mContext =  (NaviContext)mBundle.getSerializable(Constants.BUNDLE_KEY_NAVI_CONTEXT);
+			final NaviContext mContext =  (NaviContext)mBundle.getSerializable(Constants.BUNDLE_KEY_NAVI_CONTEXT);
 			// check the current runtime map 
 			// switch to the start node's map
 			int startMapId = mContext.naviRoute.get(0).getMapId();
 			if (startMapId != Util.getRuntimeIndoorMap().getMapId()){
 				final MapDataR mapData = MapManager.getMapById(startMapId);			
-
-				switchRuntimeMap(mapData);
-			}		
 		
-			NaviBar.showNaviResulOnMap(this, mContext);
-		  	mContext.showContextMenu(this);	
+				runOnUpdateThread(new Runnable() {
+					@Override
+ 					public void run() {
+						
+						switchRuntimeMap(mapData);
+						
+						NaviBar.showNaviResulOnMap(MapViewerActivity.this, mContext);
+		            }        
+		        });
+				
+			}		
+					
+			mContext.showContextMenu(this);	
 	    }
 			
 
@@ -643,6 +671,14 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			// values[0] is the Z-axis magnetic data
 			// values[1] is the X-axis magnetic data
 			// values[2] is the Y-axis magnetic data
+			
+			/*
+			String text = "Magnetic Info Z:" + String.valueOf(values[0]);
+			text += " X:" +String.valueOf(values[1]);
+			text += " Y:" +String.valueOf(values[2]);
+			
+			MapHUD.updateHinText(this, text);
+			*/		
 		}
 	}	
 	
@@ -690,14 +726,21 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		Log.e("Map Switcher",label);
 		
-		MapDataR mapData = (MapDataR) MapManager.getMapByLabel(label);		
+		final MapDataR mapData = (MapDataR) MapManager.getMapByLabel(label);		
 		
-		switchRuntimeMap(mapData);
+		runOnUpdateThread(new Runnable() {
+			@Override
+			public void run() {					
+				switchRuntimeMap(mapData);		
+            }        
+        }); 						
 	}
 	
 	
 	public void switchRuntimeMap(MapDataR mapData){
 		if (mapData != null){
+					
+			MapDrawer.switchMapPrepare(this);
 			
 			RuntimeMap mRuntimeMap = new RuntimeMap();
 
@@ -712,10 +755,8 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			Util.getRuntimeIndoorMap().initUserLayer(this);
 			
 			// Set User ID
-			Util.getRuntimeIndoorMap().getUser().setId(Util.getWifiInfoManager().getMyMac());						
-			
-			MapDrawer.switchMapPrepare(this);
-			
+			Util.getRuntimeIndoorMap().getUser().setId(Util.getWifiInfoManager().getMyMac());
+						
 			MapDrawer.switchMapExcute(this);
 			
 			// update map switch label accordingly
@@ -726,10 +767,16 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		}		
 	}
 	
-	public void refreshMapLabel(String label){
+	public void refreshMapLabel(final String label){
 		// update map switch label
-		TextView mapSwitchT = (TextView) findViewById(R.id.text_map_switch);
-		mapSwitchT.setText(label);			
+		final TextView mapSwitchT = (TextView) findViewById(R.id.text_map_switch);
+		
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {					
+				mapSwitchT.setText(label);			
+            }        
+        }); 			
 	}
 	
 	public void scanBtnClick(View v){

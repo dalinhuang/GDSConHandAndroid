@@ -95,7 +95,7 @@ public class NaviContext implements Serializable{
 						
 						final MapDataR mapData = MapManager.getMapById(mMapId);
 						
-						mapViewer.runOnUiThread(new Runnable() {
+						mapViewer.runOnUpdateThread(new Runnable() {
 							@Override
 		 					public void run() {
 								

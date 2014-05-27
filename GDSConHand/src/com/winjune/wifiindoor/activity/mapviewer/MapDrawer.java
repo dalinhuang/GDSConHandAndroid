@@ -3,6 +3,7 @@ package com.winjune.wifiindoor.activity.mapviewer;
 import java.util.Set;
 
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.text.Text;
 
 import android.util.Log;
 
@@ -30,7 +31,7 @@ public class MapDrawer {
 
 		if (Util.getRuntimeIndoorMap().zoomInMap()){
 			
-			mapViewer.runOnUiThread(new Runnable() {
+			mapViewer.runOnUpdateThread(new Runnable() {
 				@Override
 					public void run() {
 					
@@ -60,7 +61,7 @@ public class MapDrawer {
 		
 		if (Util.getRuntimeIndoorMap().zoomOutMap()){
 			
-			mapViewer.runOnUiThread(new Runnable() {
+			mapViewer.runOnUpdateThread(new Runnable() {
 				@Override
 				public void run() {					
 					
@@ -88,22 +89,16 @@ public class MapDrawer {
 		mapViewer.mainScene.getChildByIndex(Constants.LAYER_FLAG).detachChildren();
 		mapViewer.mainScene.getChildByIndex(Constants.LAYER_USER).detachChildren();
 		mapViewer.mainScene.getChildByIndex(Constants.LAYER_SEARCH).detachChildren();
-		mapViewer.mainScene.getChildByIndex(Constants.LAYER_ROUTE).detachChildren();
+		mapViewer.mainScene.getChildByIndex(Constants.LAYER_ROUTE).detachChildren();		
+				
+		POIBar.clearPoiInfo(mapViewer);
 		
-		if (mapViewer.poiIcons != null)
-			mapViewer.poiIcons.clear();
+		SearchBar.clearLocationPlaces(mapViewer);
+				
+		CollectedFlag.clearCollectedFlag(mapViewer);
 		
-		if (mapViewer.poiLabels != null)
-			mapViewer.poiLabels.clear();
-		
-		if (mapViewer.locationPlaces != null)
-			mapViewer.locationPlaces.clear();
-		
-		if (mapViewer.collectedFlags != null)
-			mapViewer.collectedFlags.clear();
-		
-		mapViewer.focusPlace = null;
-
+		NaviBar.clearNaviInfo(mapViewer);
+				
 	}
 	
 	public static void switchMapExcute(MapViewerActivity mapViewer) {	
@@ -129,8 +124,9 @@ public class MapDrawer {
 		if (!VisualParameters.PLANNING_MODE_ENABLED)
 			return;
 
-		if (mapViewer.backgroundSprite != null)
-			mapViewer.backgroundSprite.dispose();
+		if (mapViewer.backgroundSprite != null){
+			mapViewer.backgroundSprite.dispose();			
+		}
 		
 		Library.BACKGROUND3.clearCache();
 		
