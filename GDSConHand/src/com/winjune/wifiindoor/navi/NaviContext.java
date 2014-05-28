@@ -91,7 +91,7 @@ public class NaviContext implements Serializable{
 				// TODO Auto-generated method stub
 				if (position < mapIds.size()){
 					int mMapId = mapIds.get(position);
-					if (mMapId != Util.getRuntimeIndoorMap().getMapId()){
+					if (mMapId != Util.getRuntimeMap().getMapId()){
 						
 						final MapDataR mapData = MapManager.getMapById(mMapId);
 						

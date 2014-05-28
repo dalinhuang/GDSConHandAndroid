@@ -373,11 +373,11 @@ public class Util {
 		Util.accountName = accountName;
 	}
 
-	public static RuntimeMap getRuntimeIndoorMap() {
+	public static RuntimeMap getRuntimeMap() {
 		return runtimeIndoorMap;
 	}
 
-	public static void setRuntimeIndoorMap(RuntimeMap runtimeIndoorMap) {
+	public static void setRuntimeMap(RuntimeMap runtimeIndoorMap) {
 		Util.runtimeIndoorMap = runtimeIndoorMap;
 	}
 	
@@ -999,14 +999,14 @@ public class Util {
 	}
 		
 	public static int longitudeX2MapX(int longitudeX){
-		return longitudeX * Util.getRuntimeIndoorMap().getMapWidth() 
-				/Util.getRuntimeIndoorMap().getMaxLongitude();		
+		return longitudeX * Util.getRuntimeMap().getMapWidth() 
+				/Util.getRuntimeMap().getMaxLongitude();		
 	}
 	
 	public static int latitudeY2MapY(int latitudeY){
 		
-		return latitudeY * Util.getRuntimeIndoorMap().getMapHeight()
-			    /Util.getRuntimeIndoorMap().getMaxLatitude();
+		return latitudeY * Util.getRuntimeMap().getMapHeight()
+			    /Util.getRuntimeMap().getMaxLatitude();
 	}	
 }
 

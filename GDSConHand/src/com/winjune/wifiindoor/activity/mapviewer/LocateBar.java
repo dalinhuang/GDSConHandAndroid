@@ -33,7 +33,7 @@ public class LocateBar {
 
 	public static void setCurrentLocation(MapViewerActivity mapViewer) {
 		updateLocation(mapViewer,
-						Util.getRuntimeIndoorMap().getMapId(), 
+						Util.getRuntimeMap().getMapId(), 
 						mapViewer.mTargetColNo, 
 						mapViewer.mTargetRowNo);
 	}
@@ -228,15 +228,15 @@ public class LocateBar {
 				continue;
 			}
 
-			if ( (mapId == Util.getRuntimeIndoorMap().getMapId()) ) {
+			if ( (mapId == Util.getRuntimeMap().getMapId()) ) {
 				// Inner same Map with same Version
 				
 				// Out of bound
-				if ((rowNo >= Util.getRuntimeIndoorMap().getRowNum()) || (colNo >= Util.getRuntimeIndoorMap().getColNum())) {
+				if ((rowNo >= Util.getRuntimeMap().getRowNum()) || (colNo >= Util.getRuntimeMap().getColNum())) {
 					continue;
 				}
 				
-				mapViewer.graphicListener.locate(Util.getRuntimeIndoorMap(), colNo, rowNo, Constants.LAYER_USER, idx);
+				mapViewer.graphicListener.locate(Util.getRuntimeMap(), colNo, rowNo, Constants.LAYER_USER, idx);
 				idx++;
 			} else {
 				// ignore if mapId or version changed
@@ -264,19 +264,19 @@ public class LocateBar {
 			return false;
 		}
 
-		if (mapId == Util.getRuntimeIndoorMap().getMapId())  {
+		if (mapId == Util.getRuntimeMap().getMapId())  {
 			// Inner same Map with same version
 			//Util.showShortToast(this, R.string.located);
 			MapHUD.updateHinText(mapViewer, R.string.located);
 			
 			// Out of bound
-			if ((rowNo >= Util.getRuntimeIndoorMap().getRowNum()) || (colNo >= Util.getRuntimeIndoorMap().getColNum())) {
+			if ((rowNo >= Util.getRuntimeMap().getRowNum()) || (colNo >= Util.getRuntimeMap().getColNum())) {
 				//Util.showLongToast(this, R.string.map_out_of_date);
 				MapHUD.updateHinText(mapViewer, R.string.out_of_map_bound);
 				return false;
 			}
 
-			mapViewer.graphicListener.locate(Util.getRuntimeIndoorMap(), colNo, rowNo, Constants.LOCATION_USER, 0);
+			mapViewer.graphicListener.locate(Util.getRuntimeMap(), colNo, rowNo, Constants.LOCATION_USER, 0);
 
 			MapDrawer.setCameraCenterTo(mapViewer, colNo, rowNo, false); // x,y
 			
@@ -343,9 +343,9 @@ public class LocateBar {
 
 	public static void updateLocation(MapViewerActivity mapViewer, Location location) {
 		// Not display the user		
-		mapViewer.mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(Util.getRuntimeIndoorMap().getUser().getSprite());
-		for (int i=0; i<Util.getRuntimeIndoorMap().getTracksNum();i++){
-			mapViewer.mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(Util.getRuntimeIndoorMap().getTrack(i).getSprite());
+		mapViewer.mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(Util.getRuntimeMap().getUser().getSprite());
+		for (int i=0; i<Util.getRuntimeMap().getTracksNum();i++){
+			mapViewer.mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(Util.getRuntimeMap().getTrack(i).getSprite());
 		}
 		
 		updateLocation(mapViewer, location.getMapId(), location.getX(), location.getY());
@@ -356,7 +356,7 @@ public class LocateBar {
 
 		updateLocation(mapViewer, banlanceLocation);
 		
-		if (banlanceLocation.getMapId() == Util.getRuntimeIndoorMap().getMapId()) {
+		if (banlanceLocation.getMapId() == Util.getRuntimeMap().getMapId()) {
 			updateTrack(mapViewer, locationSet.getLocations());
 		}
         

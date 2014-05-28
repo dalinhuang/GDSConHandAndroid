@@ -24,7 +24,7 @@ public class CollectedFlag {
 	
 	public static void loadCollectedFlag(final MapViewerActivity mapViewer) {
 		
-		int mapid = Util.getRuntimeIndoorMap().getMapId();
+		int mapid = Util.getRuntimeMap().getMapId();
 		
 		downloadCollectedFlag(mapViewer, mapid);
 		
@@ -102,7 +102,7 @@ public class CollectedFlag {
 			
 		mapViewer.runOnUpdateThread(new Runnable() {
 			public void run() {
-				int cellPixel = Util.getRuntimeIndoorMap().getCellPixel();
+				int cellPixel = Util.getRuntimeMap().getCellPixel();
 				float pX = colNo * cellPixel;
 				float pY = rowNo * cellPixel;
 					

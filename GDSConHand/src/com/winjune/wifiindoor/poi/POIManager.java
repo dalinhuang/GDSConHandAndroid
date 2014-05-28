@@ -189,8 +189,8 @@ public class POIManager {
 		
 		if (nearestPoi != null){
 			// caculate the real distance based on px
-			double realDist =  Math.sqrt(shortestDist) * Util.getRuntimeIndoorMap().getMapWidth()
-							/Util.getRuntimeIndoorMap().getMaxLongitude();
+			double realDist =  Math.sqrt(shortestDist) * Util.getRuntimeMap().getMapWidth()
+							/Util.getRuntimeMap().getMaxLongitude();
 			
 			// 
 			if (realDist > VisualParameters.POI_DISTANCE_THRESHOLD)

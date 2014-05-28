@@ -155,14 +155,14 @@ public class MapViewerUtil {
 		float height = mapViewer.mCamera.getHeight();
 		float x = event.getX() / zoomFactor + centerX - width / 2;
 		float y = event.getY() / zoomFactor + centerY - height / 2;
-		int longitudeX = (int)(0.5+x*Util.getRuntimeIndoorMap().getMaxLongitude()/Util.getRuntimeIndoorMap().getMapWidth());
-		int latitudeY = (int)(0.5+y*Util.getRuntimeIndoorMap().getMaxLatitude()/Util.getRuntimeIndoorMap().getMapHeight());
+		int longitudeX = (int)(0.5+x*Util.getRuntimeMap().getMaxLongitude()/Util.getRuntimeMap().getMapWidth());
+		int latitudeY = (int)(0.5+y*Util.getRuntimeMap().getMaxLatitude()/Util.getRuntimeMap().getMapHeight());
 		
 		if(VisualParameters.PLANNING_MODE_ENABLED){
 	    	MapHUD.updateHinText(mapViewer, "longitudeX:"+longitudeX +" latitudeY:"+latitudeY);
 		}
 			
-		final PlaceOfInterest poi = POIManager.getNearestPOI(Util.getRuntimeIndoorMap().getMapId(), longitudeX, latitudeY);
+		final PlaceOfInterest poi = POIManager.getNearestPOI(Util.getRuntimeMap().getMapId(), longitudeX, latitudeY);
 		
 		if (poi == null)		
 			return false;
@@ -220,12 +220,12 @@ public class MapViewerUtil {
 			return;
 		}
 
-		int colNo = (int) ((x - mapViewer.LEFT_SPACE) / Util.getRuntimeIndoorMap().getCellPixel());
-		int rowNo = (int) ((y - mapViewer.TOP_SPACE) / Util.getRuntimeIndoorMap().getCellPixel());
+		int colNo = (int) ((x - mapViewer.LEFT_SPACE) / Util.getRuntimeMap().getCellPixel());
+		int rowNo = (int) ((y - mapViewer.TOP_SPACE) / Util.getRuntimeMap().getCellPixel());
 
 		// Out of Upper Bound
-		if ((colNo >= Util.getRuntimeIndoorMap().getColNum())
-				|| (rowNo >= Util.getRuntimeIndoorMap().getRowNum())) {
+		if ((colNo >= Util.getRuntimeMap().getColNum())
+				|| (rowNo >= Util.getRuntimeMap().getRowNum())) {
 			//Util.showShortToast(this, R.string.out_of_map_bound);
 			MapHUD.updateHinText(mapViewer, R.string.out_of_map_bound);
 			return;
@@ -248,7 +248,7 @@ public class MapViewerUtil {
 		}
 		
 		// Put a flag on the chosen cell
-		mapViewer.graphicListener.locate(Util.getRuntimeIndoorMap(), colNo, rowNo, Constants.TARGET_USER, 0);
+		mapViewer.graphicListener.locate(Util.getRuntimeMap(), colNo, rowNo, Constants.TARGET_USER, 0);
 		MapHUD.updateHinText(mapViewer, mapViewer.getResources().getString(R.string.current_selected_location) + " @[" + colNo + "," + rowNo + "]");
 		
 		// Set for next Action
@@ -266,8 +266,8 @@ public class MapViewerUtil {
 		mapViewer.graphicListener = new GraphicMapListener(mapViewer, mapViewer.mainScene);
 		mapViewer.graphicListener.setOffsetX(mapViewer.LEFT_SPACE);
 		mapViewer.graphicListener.setOffsetY(mapViewer.TOP_SPACE);
-		Util.getRuntimeIndoorMap().addListener(mapViewer.graphicListener);
-		Util.getRuntimeIndoorMap().addListener(new SoundMapListener());		
+		Util.getRuntimeMap().addListener(mapViewer.graphicListener);
+		Util.getRuntimeMap().addListener(new SoundMapListener());		
 	}	
 	
 	public static void captureScreenToShare(final MapViewerActivity mapViewer) {

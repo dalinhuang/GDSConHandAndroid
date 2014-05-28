@@ -58,7 +58,7 @@ public class InfoBanner {
 			int row = loc.getY();
 
 			// Not for this map
-			if (loc.getMapId() != Util.getRuntimeIndoorMap().getMapId()) {
+			if (loc.getMapId() != Util.getRuntimeMap().getMapId()) {
 				continue;
 			}
 
@@ -69,23 +69,23 @@ public class InfoBanner {
 
 			if ((col == -1) || (row == -1)) {
 				// For map overall
-				if (Util.getRuntimeIndoorMap().isSameInfo(messages)) {
+				if (Util.getRuntimeMap().isSameInfo(messages)) {
 					continue;
 				} else {
-					text += Util.getRuntimeIndoorMap().informationsToString(messages);
-					Util.getRuntimeIndoorMap().setInfo(messages);
+					text += Util.getRuntimeMap().informationsToString(messages);
+					Util.getRuntimeMap().setInfo(messages);
 				}
 			} else {
 				// For cell
 
 				// Out of bound
-				if ((col > Util.getRuntimeIndoorMap().getColNum())
-						|| (row > Util.getRuntimeIndoorMap().getRowNum()) || (col < 0)
+				if ((col > Util.getRuntimeMap().getColNum())
+						|| (row > Util.getRuntimeMap().getRowNum()) || (col < 0)
 						|| (row < 0)) {
 					continue;
 				}
 
-				Cell cell = Util.getRuntimeIndoorMap().getCellAt(row, col);
+				Cell cell = Util.getRuntimeMap().getCellAt(row, col);
 
 				if (cell.isSameInfo(messages)) {
 					continue;
@@ -108,8 +108,8 @@ public class InfoBanner {
 		InfoQueryRequest infoQueryReq = new InfoQueryRequest();
 		ArrayList<Location> locations = new ArrayList<Location>();
 
-		if (Util.getRuntimeIndoorMap().isRefreshInfoNeeded()) {
-			locations.add(new Location(Util.getRuntimeIndoorMap().getMapId(), -1, -1));
+		if (Util.getRuntimeMap().isRefreshInfoNeeded()) {
+			locations.add(new Location(Util.getRuntimeMap().getMapId(), -1, -1));
 		}
 
 		if ((colNo != -1) && (rowNo != -1)) {
@@ -118,13 +118,13 @@ public class InfoBanner {
 			int fromCol = Math.max(0, colNo - areaSize);
 			int fromRow = Math.max(0, rowNo - areaSize);
 			int toCol = Math.min(colNo + areaSize,
-					Util.getRuntimeIndoorMap().getColNum() - 1);
+					Util.getRuntimeMap().getColNum() - 1);
 			int toRow = Math.min(rowNo + areaSize,
-					Util.getRuntimeIndoorMap().getRowNum() - 1);
+					Util.getRuntimeMap().getRowNum() - 1);
 
 			for (int col = fromCol; col <= toCol; col++) {
 				for (int row = fromRow; row <= toRow; row++) {
-					Cell cell = Util.getRuntimeIndoorMap().getCellAt(row, col); // y, x:
+					Cell cell = Util.getRuntimeMap().getCellAt(row, col); // y, x:
 																		// Cells
 																		// has
 																		// the
@@ -135,7 +135,7 @@ public class InfoBanner {
 																		// rowNo
 					if (cell != null) {
 						if (cell.isRefreshInfoNeeded()) {
-							locations.add(new Location(Util.getRuntimeIndoorMap()
+							locations.add(new Location(Util.getRuntimeMap()
 									.getMapId(), col, row));
 						}
 					}

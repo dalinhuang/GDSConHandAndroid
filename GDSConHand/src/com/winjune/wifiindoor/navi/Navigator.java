@@ -96,11 +96,11 @@ public class Navigator {
 	public static void setMyPosition(int mapId, int colNo, int rowNo){
 		myPlaceMapId = mapId;
 		
-		myPlaceLongitudeX = colNo * Util.getRuntimeIndoorMap().getCellPixel() 
-			     * (Util.getRuntimeIndoorMap().getMaxLongitude())/ (Util.getRuntimeIndoorMap().getMapWidth());
+		myPlaceLongitudeX = colNo * Util.getRuntimeMap().getCellPixel() 
+			     * (Util.getRuntimeMap().getMaxLongitude())/ (Util.getRuntimeMap().getMapWidth());
 	
-		myPlaceLatitudeY = rowNo * Util.getRuntimeIndoorMap().getCellPixel() 
-		     	 * (Util.getRuntimeIndoorMap().getMaxLatitude())/ (Util.getRuntimeIndoorMap().getMapHeight());		
+		myPlaceLatitudeY = rowNo * Util.getRuntimeMap().getCellPixel() 
+		     	 * (Util.getRuntimeMap().getMaxLatitude())/ (Util.getRuntimeMap().getMapHeight());		
 	}
 	
 	public static ArrayList<NaviNodeR> getNodes(){

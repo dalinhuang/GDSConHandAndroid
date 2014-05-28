@@ -64,7 +64,7 @@ public class POIBar {
 				 && (currentZoomFactor <= poi.maxZoomFactor)) {			
 				Text mLabel = null;
 				
-				if (poi.mapId != Util.getRuntimeIndoorMap().getMapId())
+				if (poi.mapId != Util.getRuntimeMap().getMapId())
 					continue;
 				
 				if ((poi.placeX == 0) &&(poi.placeY == 0))
@@ -121,7 +121,7 @@ public class POIBar {
 			pX = poi.getMapX() - 1.1f*label.getHeight() - label.getWidth()/2;
 			pY = poi.getMapY() - label.getHeight()/2;			
 		} else {
-			mSize = Util.getRuntimeIndoorMap().getCellPixel();
+			mSize = Util.getRuntimeMap().getCellPixel();
 			pX = poi.getMapX()- mSize/2;
 			pY = poi.getMapY() -mSize/2;
 		}

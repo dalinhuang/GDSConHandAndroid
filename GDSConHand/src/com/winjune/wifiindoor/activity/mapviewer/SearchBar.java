@@ -64,7 +64,7 @@ public class SearchBar {
 		
 		// switch to the focused location first
 		int focusedMapId = searchContext.poiResults.get(searchContext.currentFocusIdx).mapId;
-		if (focusedMapId != Util.getRuntimeIndoorMap().getMapId()){
+		if (focusedMapId != Util.getRuntimeMap().getMapId()){
 			final MapDataR mapData = MapManager.getMapById(focusedMapId);				
 			mapViewer.switchRuntimeMap(mapData);								
 		}
@@ -74,7 +74,7 @@ public class SearchBar {
 		for (int i=0; i < searchContext.poiResults.size(); i++) { 
 			PlaceOfInterest poi = searchContext.poiResults.get(i);	
 			
-			if (poi.mapId !=  Util.getRuntimeIndoorMap().getMapId())
+			if (poi.mapId !=  Util.getRuntimeMap().getMapId())
 				continue;
 			
 			LocationSprite mSprite = attachSearchResultSprite(mapViewer, poi, spriteIdx);

@@ -80,7 +80,7 @@ public class MapHUD {
 						
 						mapViewer.mTargetColNo = -1;
 						mapViewer.mTargetRowNo = -1;
-						mapViewer.mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(Util.getRuntimeIndoorMap().getTarget().getSprite());
+						mapViewer.mainScene.getChildByIndex(Constants.LAYER_USER).detachChild(Util.getRuntimeMap().getTarget().getSprite());
 	
 						mapViewer.modeControl.changeMode(sprite, mapViewer.mMode);
 					}

@@ -27,8 +27,8 @@ public class BackGroundUnit3 extends Unit {
 	}
 	
 	public Sprite load(MapViewerActivity activity, int screenWidth, int screenHeight) {		
-		int colCount = Util.getRuntimeIndoorMap().getColNum(); 
-		int rowCount = Util.getRuntimeIndoorMap().getRowNum();
+		int colCount = Util.getRuntimeMap().getColNum(); 
+		int rowCount = Util.getRuntimeMap().getRowNum();
 		int backgroundWidth = screenWidth; 
 		int backgroundHeight = screenHeight;
 		
@@ -42,7 +42,7 @@ public class BackGroundUnit3 extends Unit {
 	}
 
 	private static Bitmap createBackground(MapViewerActivity activity, int colCount, int rowCount) {
-		int cellPixel = Util.getRuntimeIndoorMap().getCellPixel();
+		int cellPixel = Util.getRuntimeMap().getCellPixel();
 		int backgroundWidth = colCount * cellPixel; 
 		int backgroundHeight = rowCount * cellPixel;
 		

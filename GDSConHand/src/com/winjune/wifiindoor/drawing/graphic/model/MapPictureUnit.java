@@ -28,8 +28,8 @@ public class MapPictureUnit extends Unit {
 	}
 
 	public Sprite load(MapViewerActivity activity) {
-		int rowCount = Util.getRuntimeIndoorMap().getRowNum();
-		int colCount = Util.getRuntimeIndoorMap().getColNum();		
+		int rowCount = Util.getRuntimeMap().getRowNum();
+		int colCount = Util.getRuntimeMap().getColNum();		
 		int mapWidth = colCount * Util.getCurrentCellPixel();
 		int mapHeight = rowCount * Util.getCurrentCellPixel();
 		
@@ -46,10 +46,10 @@ public class MapPictureUnit extends Unit {
 
 		// From External File
 		if (textureRegion == null) {
-			File file = new File(Util.getMapPicturePathName(""+Util.getRuntimeIndoorMap().getMapId(), Util.getRuntimeIndoorMap().getNormalMapUrl()));	
+			File file = new File(Util.getMapPicturePathName(""+Util.getRuntimeMap().getMapId(), Util.getRuntimeMap().getNormalMapUrl()));	
 			
 			if (!file.exists()) {
-				Util.downloadMapPicture(activity, ""+Util.getRuntimeIndoorMap().getMapId(), Util.getRuntimeIndoorMap().getNormalMapUrl());
+				Util.downloadMapPicture(activity, ""+Util.getRuntimeMap().getMapId(), Util.getRuntimeMap().getNormalMapUrl());
 			}
 			
 			BitmapTextureAtlas textureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), getNearestPowerOfTwo(mapWidth), getNearestPowerOfTwo(mapHeight), TextureOptions.BILINEAR);

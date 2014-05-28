@@ -87,7 +87,7 @@ public class NaviBar {
 		for (int i = 0; i < naviNodes.size(); i++) {
 			NaviNodeR naviNode = naviNodes.get(i);
 		
-			if (Util.getRuntimeIndoorMap().getMapId() == naviNode.getMapId()){
+			if (Util.getRuntimeMap().getMapId() == naviNode.getMapId()){
 				if (firstNodeofCurrentMap == -1) {
 					firstNodeofCurrentMap = i;
 					//First node

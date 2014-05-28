@@ -29,7 +29,7 @@ public class MapDrawer {
 		final float centerX = mapViewer.mCamera.getCenterX();
 		final float centerY = mapViewer.mCamera.getCenterY();
 
-		if (Util.getRuntimeIndoorMap().zoomInMap()){
+		if (Util.getRuntimeMap().zoomInMap()){
 			
 			mapViewer.runOnUpdateThread(new Runnable() {
 				@Override
@@ -39,12 +39,12 @@ public class MapDrawer {
 					switchMapExcute(mapViewer);
 					
 					// set to the corresponding zoom factor
-					mapViewer.mCamera.setZoomFactor(Util.getRuntimeIndoorMap().getNormal2LargeZoomFactor());
+					mapViewer.mCamera.setZoomFactor(Util.getRuntimeMap().getNormal2LargeZoomFactor());
 					
 					// calculate the center position according to the scale
 					// set to the old center position
-					float adjustedX = centerX * Util.getRuntimeIndoorMap().getLarge2Normalcale();
-					float adjustedY = centerY * Util.getRuntimeIndoorMap().getLarge2Normalcale();
+					float adjustedX = centerX * Util.getRuntimeMap().getLarge2Normalcale();
+					float adjustedY = centerY * Util.getRuntimeMap().getLarge2Normalcale();
 					mapViewer.mCamera.setCenter(adjustedX, adjustedY);
 	            }        
 	        }); 						
@@ -59,7 +59,7 @@ public class MapDrawer {
 		final float centerX = mapViewer.mCamera.getCenterX();
 		final float centerY = mapViewer.mCamera.getCenterY();
 		
-		if (Util.getRuntimeIndoorMap().zoomOutMap()){
+		if (Util.getRuntimeMap().zoomOutMap()){
 			
 			mapViewer.runOnUpdateThread(new Runnable() {
 				@Override
@@ -68,11 +68,11 @@ public class MapDrawer {
 					switchMapPrepare(mapViewer);
 					switchMapExcute(mapViewer);
 					// set to the corresponding zoom factor
-					mapViewer.mCamera.setZoomFactor(Util.getRuntimeIndoorMap().getLarge2NormalZoomFactor());
+					mapViewer.mCamera.setZoomFactor(Util.getRuntimeMap().getLarge2NormalZoomFactor());
 					// calculate the center position according to the scale
 					// set to the old center position
-					float adjustedX = centerX * Util.getRuntimeIndoorMap().getNormal2LargeScale();
-					float adjustedY = centerY * Util.getRuntimeIndoorMap().getNormal2LargeScale();
+					float adjustedX = centerX * Util.getRuntimeMap().getNormal2LargeScale();
+					float adjustedY = centerY * Util.getRuntimeMap().getNormal2LargeScale();
 					mapViewer.mCamera.setCenter(adjustedX, adjustedY);	
 	            }        
 	        }); 						
@@ -103,13 +103,13 @@ public class MapDrawer {
 	
 	public static void switchMapExcute(MapViewerActivity mapViewer) {	
 		
-		int mapWidth = Util.getRuntimeIndoorMap().getMapWidth();
-		int mapHeight = Util.getRuntimeIndoorMap().getMapHeight();
+		int mapWidth = Util.getRuntimeMap().getMapWidth();
+		int mapHeight = Util.getRuntimeMap().getMapHeight();
 
 		MapViewerUtil.resetCameraBounds(mapViewer, mapWidth, mapHeight);
 		
-		mapViewer.zoomControl.resetZoomFactor(Util.getRuntimeIndoorMap().getMinZoomFactor(), 
-											Util.getRuntimeIndoorMap().getMaxZoomFactor());
+		mapViewer.zoomControl.resetZoomFactor(Util.getRuntimeMap().getMinZoomFactor(), 
+											Util.getRuntimeMap().getMaxZoomFactor());
 		
 		mapViewer.reDrawPending = true;
 		
@@ -131,8 +131,8 @@ public class MapDrawer {
 		Library.BACKGROUND3.clearCache();
 		
 		mapViewer.backgroundSprite = Library.BACKGROUND3.load(mapViewer, 
-									Util.getRuntimeIndoorMap().getMapWidth(), 
-									Util.getRuntimeIndoorMap().getMapHeight());
+									Util.getRuntimeMap().getMapWidth(), 
+									Util.getRuntimeMap().getMapHeight());
 		
 		mapViewer.backgroundSprite.setPosition(mapViewer.LEFT_SPACE, mapViewer.TOP_SPACE);
 		mapViewer.mainScene.getChildByIndex(Constants.LAYER_BACKGROUND).attachChild(mapViewer.backgroundSprite);
@@ -142,16 +142,16 @@ public class MapDrawer {
 		float x = colNo; 
 		float y = rowNo;
 					
-		if (colNo < Util.getRuntimeIndoorMap().getColNum()) {
+		if (colNo < Util.getRuntimeMap().getColNum()) {
 			x += 0.5f;
 		}
 		
-		if (rowNo < Util.getRuntimeIndoorMap().getRowNum()) {
+		if (rowNo < Util.getRuntimeMap().getRowNum()) {
 			y += 0.5f;
 		}
 		
-		float pCenterX = (x * Util.getRuntimeIndoorMap().getCellPixel() + mapViewer.LEFT_SPACE);
-		float pCenterY = (y * Util.getRuntimeIndoorMap().getCellPixel() + mapViewer.TOP_SPACE);
+		float pCenterX = (x * Util.getRuntimeMap().getCellPixel() + mapViewer.LEFT_SPACE);
+		float pCenterY = (y * Util.getRuntimeMap().getCellPixel() + mapViewer.TOP_SPACE);
 
 		setCameraCenterAndReloadMapPieces(mapViewer, pCenterX, pCenterY, fromMove);
 	}
@@ -198,7 +198,7 @@ public class MapDrawer {
 		final float map_right = centerX + width / 2;
 		final float map_bottom = centerY + height / 2;			
 		
-		Set<MapResource> resources = Util.getRuntimeIndoorMap().getResources().keySet();
+		Set<MapResource> resources = Util.getRuntimeMap().getResources().keySet();
 		
 		//Log.i("setCameraCenterAndReloadMapPieces", "Checking " + resources.size() + " map pieces");
 		//Log.i("Screen", map_left + "," + map_top + "," + map_right + "," + map_bottom);
@@ -225,51 +225,51 @@ public class MapDrawer {
 			
 			// Create bitmaps and Attach Spites on demand
 			// 2 Rects has cross area
-			MapPieceSprite mapPieceSprite = Util.getRuntimeIndoorMap().getResources().get(resource);
+			MapPieceSprite mapPieceSprite = Util.getRuntimeMap().getResources().get(resource);
 			if (MathUtil.hasCrossArea(map_left, map_top, map_right, map_bottom, left, top, right, bottom)) { // This peice should be displayed	
 				if (mapPieceSprite == null) { // Create bitmap and sprite on-demand	
 					mapPieceSprite = new MapPieceSprite();
 					mapPieceSprite.setState(MapPieceSprite.PREPAREING);
-					Util.getRuntimeIndoorMap().getResources().put(resource, mapPieceSprite); // Let the next round will not try to download/load this Sprite again
+					Util.getRuntimeMap().getResources().put(resource, mapPieceSprite); // Let the next round will not try to download/load this Sprite again
 					
 					new Thread() {
 						@Override
 						public void run() {
-							MapPieceSprite currentPieceSprite = Util.getRuntimeIndoorMap().getResources().get(resource);						
+							MapPieceSprite currentPieceSprite = Util.getRuntimeMap().getResources().get(resource);						
 							Sprite loadedMapPieceSprite = new MapPieceUnit().load(mapViewer, name, pic_width, pic_height);
 							
 							if (loadedMapPieceSprite == null) {
-								Log.e("ERROR", "Fail to load piece, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
-								Util.getRuntimeIndoorMap().getResources().put(resource, null);
+								Log.e("ERROR", "Fail to load piece, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeMap().getMapId()+"", name));
+								Util.getRuntimeMap().getResources().put(resource, null);
 								return;
 							}
 							
 							Log.i("Screen", map_left + "," + map_top + "," + map_right + "," + map_bottom);
-							Log.i("MapPiece", "Load map piece, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+							Log.i("MapPiece", "Load map piece, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeMap().getMapId()+"", name));
 							loadedMapPieceSprite.setPosition(left, top);
 							
 							currentPieceSprite.setSprite(loadedMapPieceSprite);			
-							Util.getRuntimeIndoorMap().getResources().put(resource, currentPieceSprite);
+							Util.getRuntimeMap().getResources().put(resource, currentPieceSprite);
 							currentPieceSprite.setState(MapPieceSprite.READY);						
 							
 							mapViewer.runOnUpdateThread(new Runnable() {
 								@Override
 								public void run() {
-									MapPieceSprite currentPieceSprite = Util.getRuntimeIndoorMap().getResources().get(resource);
+									MapPieceSprite currentPieceSprite = Util.getRuntimeMap().getResources().get(resource);
 									if ((currentPieceSprite != null) && (currentPieceSprite.getState() == MapPieceSprite.READY)) {
 										Sprite sprite = currentPieceSprite.getSprite();
 										if (sprite != null) {
 											if (!sprite.hasParent()) {  // For race-conditions, this sprite may be attached twice
-												Log.i("MapPiece", "Attach map piece, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+												Log.i("MapPiece", "Attach map piece, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeMap().getMapId()+"", name));
 												mapViewer.mainScene.getChildByIndex(Constants.LAYER_MAP).attachChild(sprite);
 												mapViewer.mainScene.registerTouchArea(sprite);
 												currentPieceSprite.setState(MapPieceSprite.ATTACHED);
 											} else {
-												Log.e("MapPiece", "Map piece has already been attahed, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+												Log.e("MapPiece", "Map piece has already been attahed, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeMap().getMapId()+"", name));
 											}	
 										}
 									} else {
-										Log.e("ERROR", "Fail to attach piece, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+										Log.e("ERROR", "Fail to attach piece, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeMap().getMapId()+"", name));
 									}
 								}								
 							});	
@@ -280,30 +280,30 @@ public class MapDrawer {
 				mapViewer.runOnUpdateThread(new Runnable() {
 					@Override
 					public void run() {
-						MapPieceSprite currentPieceSprite = Util.getRuntimeIndoorMap().getResources().get(resource);
+						MapPieceSprite currentPieceSprite = Util.getRuntimeMap().getResources().get(resource);
 						if ( currentPieceSprite != null && currentPieceSprite.getState() == MapPieceSprite.ATTACHED) { // destroy un-needed bitmaps / sprite
 							Log.i("Screen", map_left + "," + map_top + "," + map_right + "," + map_bottom);
-							Log.i("MapPiece", "Destory map piece [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));				
+							Log.i("MapPiece", "Destory map piece [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeMap().getMapId()+"", name));				
 							
 							Sprite sprite = currentPieceSprite.getSprite();					
 							if (sprite != null) {
 								if (sprite.hasParent()) {
-									Log.i("MapPiece", "Detach map piece [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+									Log.i("MapPiece", "Detach map piece [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeMap().getMapId()+"", name));
 									mapViewer.mainScene.getChildByIndex(Constants.LAYER_MAP).detachChild(sprite);
 									mapViewer.mainScene.unregisterTouchArea(sprite);
 									sprite.dispose();
-									Util.getRuntimeIndoorMap().getResources().put(resource, null);
+									Util.getRuntimeMap().getResources().put(resource, null);
 									currentPieceSprite = null;
 									sprite = null;
 								}
 							} else {
-								Log.e("ERROR", "Piece has already been detached, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+								Log.e("ERROR", "Piece has already been detached, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeMap().getMapId()+"", name));
 							}
 						} else {
 							if (currentPieceSprite != null) {
-								Util.getRuntimeIndoorMap().getResources().put(resource, null);
+								Util.getRuntimeMap().getResources().put(resource, null);
 								currentPieceSprite = null;
-								Log.e("WARNING", "Try to detach a piece has not been attached, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeIndoorMap().getMapId()+"", name));
+								Log.e("WARNING", "Try to detach a piece has not been attached, [" + left + "," + top + "," + right + "," + bottom + "], path=" + Util.getMapPicturePathName(Util.getRuntimeMap().getMapId()+"", name));
 							}
 						}
 					}

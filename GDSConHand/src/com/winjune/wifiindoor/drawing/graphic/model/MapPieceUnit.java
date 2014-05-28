@@ -39,14 +39,14 @@ public class MapPieceUnit extends Unit {
 	public Sprite load(MapViewerActivity activity, String fileName, float pic_width, float pic_height) {
 		// From External File
 		if (textureRegion == null) {
-			File file = new File(Util.getMapPicturePathName(""+Util.getRuntimeIndoorMap().getMapId(), fileName));
-			Log.i("MapPiece", "Create Map Piece from file, path=" + Util.getMapPicturePathName(""+Util.getRuntimeIndoorMap().getMapId(), fileName));
+			File file = new File(Util.getMapPicturePathName(""+Util.getRuntimeMap().getMapId(), fileName));
+			Log.i("MapPiece", "Create Map Piece from file, path=" + Util.getMapPicturePathName(""+Util.getRuntimeMap().getMapId(), fileName));
 			
 			if (!file.exists()) {
 				if (Util.getIsDefaultMap()) {
 					// Copy the default assets image file to the map directory.
 					file = Util.openOrCreateFileInPath(IndoorMapData.MAP_FILE_PATH_LOCAL
-							+ Util.getRuntimeIndoorMap().getMapId() + "/", fileName, true);
+							+ Util.getRuntimeMap().getMapId() + "/", fileName, true);
 					try {
 						InputStream in = activity.getAssets().open(fileName);
 						OutputStream out = new FileOutputStream(file);
@@ -63,19 +63,19 @@ public class MapPieceUnit extends Unit {
 
 					} catch (Exception e) {
 						// Get default map failure
-						Log.e("MapPiece", "Default map can't be loaded to path=" + Util.getMapPicturePathName(""+Util.getRuntimeIndoorMap().getMapId(), fileName));
+						Log.e("MapPiece", "Default map can't be loaded to path=" + Util.getMapPicturePathName(""+Util.getRuntimeMap().getMapId(), fileName));
 					}
 
 				}
 				else
 				{
-				Log.i("MapPiece", "File not exist, path=" + Util.getMapPicturePathName(""+Util.getRuntimeIndoorMap().getMapId(), fileName));
+				Log.i("MapPiece", "File not exist, path=" + Util.getMapPicturePathName(""+Util.getRuntimeMap().getMapId(), fileName));
 				if (!IpsWebService.isHttpConnectionEstablished()) { // Mission impossible
 					return null;
 				}
 
-				Log.i("MapPiece", "Download file, path=" + Util.getMapPicturePathName(""+Util.getRuntimeIndoorMap().getMapId(), fileName));
-				Util.downloadMapPicture(activity, ""+Util.getRuntimeIndoorMap().getMapId(), fileName);
+				Log.i("MapPiece", "Download file, path=" + Util.getMapPicturePathName(""+Util.getRuntimeMap().getMapId(), fileName));
+				Util.downloadMapPicture(activity, ""+Util.getRuntimeMap().getMapId(), fileName);
 				}
 			}
 			

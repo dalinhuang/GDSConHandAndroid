@@ -160,10 +160,10 @@ public class PlaceOfInterest extends PlaceOfInterestR {
 	}
 
 	public int getMapX() {
-		return super.getPlaceX()*Util.getRuntimeIndoorMap().getMapWidth()/Util.getRuntimeIndoorMap().getMaxLongitude();
+		return super.getPlaceX()*Util.getRuntimeMap().getMapWidth()/Util.getRuntimeMap().getMaxLongitude();
 	}
 
 	public int getMapY() {
-		return super.getPlaceY()*Util.getRuntimeIndoorMap().getMapHeight()/Util.getRuntimeIndoorMap().getMaxLatitude();
+		return super.getPlaceY()*Util.getRuntimeMap().getMapHeight()/Util.getRuntimeMap().getMaxLatitude();
 	}
 }

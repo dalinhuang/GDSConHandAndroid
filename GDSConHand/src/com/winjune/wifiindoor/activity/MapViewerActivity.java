@@ -402,7 +402,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 			// check the current runtime map 
 			// switch to the start node's map
 			int startMapId = mContext.naviRoute.get(0).getMapId();
-			if (startMapId != Util.getRuntimeIndoorMap().getMapId()){
+			if (startMapId != Util.getRuntimeMap().getMapId()){
 				final MapDataR mapData = MapManager.getMapById(startMapId);			
 		
 				runOnUpdateThread(new Runnable() {
@@ -461,7 +461,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		
 		// update map switch label
 		TextView mapSwitchT = (TextView) findViewById(R.id.text_map_switch);
-		mapSwitchT.setText(Util.getRuntimeIndoorMap().getMapLabel());		
+		mapSwitchT.setText(Util.getRuntimeMap().getMapLabel());		
 	}
 	
 	@Override
@@ -476,7 +476,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		MapDataR mapData = (MapDataR) MapManager.getDefaultMap();		
 		RuntimeMap mRuntimeMap = new RuntimeMap();
 		mRuntimeMap.load(mapData);		
-		Util.setRuntimeIndoorMap(mRuntimeMap); 		
+		Util.setRuntimeMap(mRuntimeMap); 		
 		
 		// Initialize and Set Camera
 		
@@ -491,7 +491,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 										Util.getcameraDensity());
 
 		// Control the Map Mode
-		modeControl = new ModeControl(Util.getRuntimeIndoorMap());		
+		modeControl = new ModeControl(Util.getRuntimeMap());		
 
 		// to enable finger scroll of camera
 		gestureDetector = new GestureDetector(this,	new MapViewGestureListener(this));
@@ -587,7 +587,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		Library.initial(mEngine.getTextureManager(), getAssets());
 		
 		// Draw the original in Map units, e.g. user
-		Util.getRuntimeIndoorMap().initUserLayer(this);
+		Util.getRuntimeMap().initUserLayer(this);
 		
 		// No background color needed as we have a fullscreen background sprite.
 		mainScene.setBackgroundEnabled(true);
@@ -616,21 +616,21 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		graphicListener = new GraphicMapListener(this, mainScene);
 		graphicListener.setOffsetX(LEFT_SPACE);
 		graphicListener.setOffsetY(TOP_SPACE);
-		Util.getRuntimeIndoorMap().addListener(graphicListener);
-		Util.getRuntimeIndoorMap().addListener(new SoundMapListener());
+		Util.getRuntimeMap().addListener(graphicListener);
+		Util.getRuntimeMap().addListener(new SoundMapListener());
 
 		// Initial in map listeners
-		Util.getRuntimeIndoorMap().initListeners();
+		Util.getRuntimeMap().initListeners();
 
 		// Set User ID
-		Util.getRuntimeIndoorMap().getUser().setId(Util.getWifiInfoManager().getMyMac());
+		Util.getRuntimeMap().getUser().setId(Util.getWifiInfoManager().getMyMac());
 
 		// The 1st action
 		
 
 		// Update Location
-		int midRowNo = Util.getRuntimeIndoorMap().getRowNum()/2;
-		int midColNo = Util.getRuntimeIndoorMap().getColNum()/2;
+		int midRowNo = Util.getRuntimeMap().getRowNum()/2;
+		int midColNo = Util.getRuntimeMap().getColNum()/2;
 	
 		MapDrawer.setCameraCenterTo(this, midColNo, midRowNo, false); // set Center to left_top cell
 			
@@ -708,7 +708,7 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 		ArrayList<MapDataR> maps = MapManager.getMaps();
 		
 		for (MapDataR map:maps){
-			if (map.getId() != Util.getRuntimeIndoorMap().getMapId()) {
+			if (map.getId() != Util.getRuntimeMap().getMapId()) {
 				TextView mapLabel = (TextView)inflater.inflate(R.layout.template_map_switch_text, (ViewGroup) popWin, false);				
 				mapLabel.setText(map.getLabel());
 				((ViewGroup)popWin).addView(mapLabel);
@@ -755,23 +755,23 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 
 			mRuntimeMap.load(mapData);
 			
-			Util.setRuntimeIndoorMap(mRuntimeMap); // To avoid pass the map in parameter everywhere
+			Util.setRuntimeMap(mRuntimeMap); // To avoid pass the map in parameter everywhere
 						
 			// Initial in map listeners
 			MapViewerUtil.addListeners(this);
-			Util.getRuntimeIndoorMap().initListeners();
+			Util.getRuntimeMap().initListeners();
 			
-			Util.getRuntimeIndoorMap().initUserLayer(this);
+			Util.getRuntimeMap().initUserLayer(this);
 			
 			// Set User ID
-			Util.getRuntimeIndoorMap().getUser().setId(Util.getWifiInfoManager().getMyMac());
+			Util.getRuntimeMap().getUser().setId(Util.getWifiInfoManager().getMyMac());
 						
 			MapDrawer.switchMapExcute(this);
 			
 			// update map switch label accordingly
 			refreshMapLabel(mRuntimeMap.getMapLabel());
 			
-			mCamera.setZoomFactor(Util.getRuntimeIndoorMap().getDefaultZoomFactor());
+			mCamera.setZoomFactor(Util.getRuntimeMap().getDefaultZoomFactor());
 							
 		}		
 	}

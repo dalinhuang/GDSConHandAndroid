@@ -64,7 +64,7 @@ public class AdBanner {
 			}
 		};
 		
-		mapViewer.mapADSprite = Library.ADVERTISE.load(mapViewer, Util.getRuntimeIndoorMap(), spriteListener, default_ad);
+		mapViewer.mapADSprite = Library.ADVERTISE.load(mapViewer, Util.getRuntimeMap(), spriteListener, default_ad);
 		
 		float adWidth = mapViewer.mapADSprite.getWidth();
 		float adHeight = mapViewer.mapADSprite.getHeight();		
@@ -165,7 +165,7 @@ public class AdBanner {
 		
 		if (VisualParameters.ADS_ENABLED) {
 			//here just need to display default advertise. 
-			mapViewer.mAdvertisement = new ScreenAdvertisement(mapViewer,Util.getRuntimeIndoorMap());
+			mapViewer.mAdvertisement = new ScreenAdvertisement(mapViewer,Util.getRuntimeMap());
 			mapViewer.mAdvertisement.initAdvertiseData();
 			
 			try {

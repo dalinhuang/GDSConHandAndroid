@@ -157,7 +157,7 @@ public class Library {
 	 */
 	public static Rectangle genFlag (MapViewerActivity activity, final float pX, final float pY) {
 		
-		int cellPixel = Util.getRuntimeIndoorMap().getCellPixel();
+		int cellPixel = Util.getRuntimeMap().getCellPixel();
 		
 		Rectangle flag = new Rectangle(pX, pY, cellPixel, cellPixel, activity.getVertexBufferObjectManager());
 		flag.setColor(0, 1, 0); // Green color
