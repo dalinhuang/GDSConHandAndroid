@@ -23,6 +23,8 @@ import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.drawing.graphic.model.LocationSprite;
 import com.winjune.wifiindoor.drawing.graphic.model.LocationSprite.OnClickListener;
 import com.winjune.wifiindoor.drawing.graphic.model.LocationSprite.State;
+import com.winjune.wifiindoor.lib.map.MapDataR;
+import com.winjune.wifiindoor.map.MapManager;
 import com.winjune.wifiindoor.poi.PlaceOfInterest;
 import com.winjune.wifiindoor.poi.SearchContext;
 import com.winjune.wifiindoor.util.Constants;
@@ -51,23 +53,32 @@ public class SearchBar {
 										"icon_focus_marki.png",
 										"icon_focus_markj.png"};
 	
-	public static void showSearchResultsOnMap(MapViewerActivity mapViewer, SearchContext searchContext) {
+	public static void showSearchResultsOnMap(final MapViewerActivity mapViewer, SearchContext searchContext) {
 		
-		//
+		//clear navi results
 		NaviBar.clearNaviInfo(mapViewer);
 		
 		// Clear old search result markers 
 		clearLocationPlaces(mapViewer);
 		
+		
+		// switch to the focused location first
+		int focusedMapId = searchContext.poiResults.get(searchContext.currentFocusIdx).mapId;
+		if (focusedMapId != Util.getRuntimeIndoorMap().getMapId()){
+			final MapDataR mapData = MapManager.getMapById(focusedMapId);				
+			mapViewer.switchRuntimeMap(mapData);								
+		}
+		
 		// Show New Map Info
-				
+		int spriteIdx = 0;				
 		for (int i=0; i < searchContext.poiResults.size(); i++) { 
 			PlaceOfInterest poi = searchContext.poiResults.get(i);	
 			
 			if (poi.mapId !=  Util.getRuntimeIndoorMap().getMapId())
 				continue;
 			
-			LocationSprite mSprite = attachSearchResultSprite(mapViewer, poi, i);
+			LocationSprite mSprite = attachSearchResultSprite(mapViewer, poi, spriteIdx);
+			spriteIdx ++;
 			
 			if (i == searchContext.currentFocusIdx) {
 				if (mSprite != null) {
@@ -76,8 +87,14 @@ public class SearchBar {
 				}					
 			}
 		}
-		PlaceOfInterest poi = searchContext.poiResults.get(searchContext.currentFocusIdx);
-		poi.showContextMenu(mapViewer.getCurrentFocus());
+		final PlaceOfInterest poi = searchContext.poiResults.get(searchContext.currentFocusIdx);
+		
+		mapViewer.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				poi.showContextMenu(mapViewer.getCurrentFocus());
+			}
+        });		
 		
 	}
 	
