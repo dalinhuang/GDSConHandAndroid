@@ -409,14 +409,20 @@ public class MapViewerActivity extends LayoutGameActivity implements SensorEvent
 					@Override
  					public void run() {
 						
-						switchRuntimeMap(mapData);
-						
-						NaviBar.showNaviResulOnMap(MapViewerActivity.this, mContext);
+						switchRuntimeMap(mapData);												
 		            }        
-		        });
-				
+		        });				
 			}		
-					
+			
+			// show navi result on map
+			runOnUpdateThread(new Runnable() {
+				@Override
+				public void run() {									
+					NaviBar.showNaviResulOnMap(MapViewerActivity.this, mContext);
+	            }        
+	        });			
+			
+			// show the context menu
 			mContext.showContextMenu(this);	
 	    }
 			
