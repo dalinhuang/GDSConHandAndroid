@@ -50,8 +50,10 @@ public class RouteMainActivity extends Activity {
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null)	{
 			int endPoiId = bundle.getInt(Constants.BUNDLE_KEY_POI_ID);
-			if (endPoiId != 0)
+			if (endPoiId != 0){
 				endPoi = POIManager.getPOIbyId(endPoiId);
+				endInput = true;
+			}
 		}
 
 		history = new NaviHistory();
