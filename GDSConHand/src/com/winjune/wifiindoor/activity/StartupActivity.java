@@ -185,13 +185,13 @@ public class StartupActivity extends Activity implements OnInitListener{
 		ArrayList<String> fileNames = new ArrayList<String>();
 		String fullPath = Util.getFilePath(IndoorMapData.CONFIG_FILE_PATH);
 		fileNames.add(fullPath+MapManager.mapTableName);
-		fileNames.add(fullPath+PoiOfflineData.buslineTableName);
-		fileNames.add(fullPath+PoiOfflineData.festivalTableName);
-		fileNames.add(fullPath+PoiOfflineData.movieTableName);
-		fileNames.add(fullPath+PoiOfflineData.playhouseTableName);
-		fileNames.add(fullPath+PoiOfflineData.poiTableName);
-		fileNames.add(fullPath+PoiOfflineData.restaurantTableName);
-		fileNames.add(fullPath+"version_table.xml");		
+		fileNames.add(fullPath+PoiOfflineData.buslineTableName + PoiOfflineData.jsonFileExtension);
+		fileNames.add(fullPath+PoiOfflineData.festivalTableName + PoiOfflineData.jsonFileExtension);
+		fileNames.add(fullPath+PoiOfflineData.movieTableName + PoiOfflineData.jsonFileExtension);
+		fileNames.add(fullPath+PoiOfflineData.playhouseTableName + PoiOfflineData.jsonFileExtension);
+		fileNames.add(fullPath+PoiOfflineData.poiTableName + PoiOfflineData.jsonFileExtension);
+		fileNames.add(fullPath+PoiOfflineData.restaurantTableName + PoiOfflineData.jsonFileExtension);
+		fileNames.add(fullPath+"version_table.json");		
 		fileNames.add(fullPath+ Navigator.NaviNodeTableName);		
 		fileNames.add(fullPath+Navigator.NaviPathTableName);		
 		Util.appFilesPrepare(StartupActivity.this, fileNames);
@@ -242,9 +242,9 @@ public class StartupActivity extends Activity implements OnInitListener{
 				
 		*/		
 		Util.downFile(StartupActivity.this,
-				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, PoiOfflineData.poiTableName),
+				Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, PoiOfflineData.poiTableName + PoiOfflineData.jsonFileExtension),
 				IndoorMapData.CONFIG_FILE_PATH,
-				PoiOfflineData.poiTableName,                     		
+				PoiOfflineData.poiTableName + PoiOfflineData.jsonFileExtension,                     		
 				false,      // Open after download
 				"",
 				false, //useHandler

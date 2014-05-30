@@ -15,8 +15,8 @@ import android.util.Log;
 public class Navigator {
 	
 	private static String LOG_TAG = "Navigator";
-	public static String  NaviNodeTableName = "navi_node_table.xml";		
-	public static String  NaviPathTableName = "navi_path_table.xml";
+	public static String  NaviNodeTableName = "navi_node_table.json";		
+	public static String  NaviPathTableName = "navi_path_table.json";
 	
 
 	private static NaviNodeT nodeTable = new NaviNodeT();
@@ -27,8 +27,10 @@ public class Navigator {
 	private static int myPlaceLatitudeY = 0;
 	
 	public static void loadOfflineData(String path){	
-		nodeTable.fromXML(path +NaviNodeTableName, nodeTable);		
-		pathTable.fromXML(path +NaviPathTableName, pathTable);
+//		nodeTable.fromXML(path +NaviNodeTableName, nodeTable);		
+//		pathTable.fromXML(path +NaviPathTableName, pathTable);
+		nodeTable = (NaviNodeT) nodeTable.fromJson(path +NaviNodeTableName, NaviNodeT.class);		
+		pathTable = (NaviPathT) pathTable.fromJson(path +NaviPathTableName, NaviPathT.class);		
 	}	
 		
 	public static ArrayList<NaviNodeR> go(int startPoiId, int endPoiId){

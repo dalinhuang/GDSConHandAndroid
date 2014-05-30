@@ -11,13 +11,14 @@ import com.winjune.wifiindoor.util.VisualParameters;
  *
  */
 public class MapManager {	
-	public static final String mapTableName = "map_table.xml";
+	public static final String mapTableName = "map_table.json";
 	
 	public static MapDataT mapList =  new MapDataT();
 	
 	public static void loadOfflineData(String path){
 		
-		mapList.fromXML(path+mapTableName, mapList);		
+//		mapList.fromXML(path+mapTableName, mapList);	
+		mapList = (MapDataT) mapList.fromJson(path + mapTableName, MapDataT.class);
 	}
 	
 	public static MapDataR getDefaultMap(){		

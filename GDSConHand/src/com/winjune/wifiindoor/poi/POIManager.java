@@ -41,7 +41,8 @@ public class POIManager {
 		
 		PoiOfflineData offlineData = new PoiOfflineData(path);
 		
-		offlineData.fromXML();
+//		offlineData.fromXML();
+		offlineData.fromJson();
 		
 		festivalData = offlineData.festivalTable;
 				

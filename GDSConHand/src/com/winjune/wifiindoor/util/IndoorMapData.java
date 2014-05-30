@@ -63,7 +63,7 @@ public final class IndoorMapData {
 	public static final String MAP_ROUTE_SEARCH_INFO_FILE_NAME = "navi_search_history.xml";
 	public static final String NAVI_INFO_FILE_NAME = "navigator.xml";
 	public static final String INTEREST_PLACE_INFO_FILE_NAME = "interest_places.xml";
-	public static final String VERSION_TABLE_FILE_NAME = "version_table.xml";
+	public static final String VERSION_TABLE_FILE_NAME = "version_table.json";
 	
 	// Put all Map Sanity checking return codes here
 	public static final int MAP_SANITY_RC_OK = 255;
