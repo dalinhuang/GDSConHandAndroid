@@ -100,4 +100,9 @@ public class RestaurantInfoActivity extends FragmentActivity implements
 
 		} 
 	}
+	
+	public void backClick(View v) {
+    	onBackPressed();    	
+	}
+	
 }

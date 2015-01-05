@@ -33,6 +33,7 @@ public class ShortcutEntryActivity extends Activity {
 		PlaceOfInterest poi = POIManager.getPOIbyLabel(txt); 
 		if (poi == null) {
 			Log.e("LabelSearch", "POI not found");
+			return;
 		}
 		
 		Class mViewerClass = POIManager.getPOIViewerClass(poi.getPoiType());
