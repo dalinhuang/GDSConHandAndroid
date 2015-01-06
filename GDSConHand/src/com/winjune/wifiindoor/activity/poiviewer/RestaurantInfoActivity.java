@@ -1,9 +1,12 @@
 package com.winjune.wifiindoor.activity.poiviewer;
 
 import com.winjune.wifiindoor.R;
+import com.winjune.wifiindoor.activity.MapViewerActivity;
 import com.winjune.wifiindoor.poi.POIManager;
 import com.winjune.wifiindoor.poi.RestaurantInfo;
+import com.winjune.wifiindoor.util.Constants;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -103,6 +106,18 @@ public class RestaurantInfoActivity extends FragmentActivity implements
 	
 	public void backClick(View v) {
     	onBackPressed();    	
+	}
+	
+	public void onMapClick(View v){
+		Intent data = new Intent(this, MapViewerActivity.class);
+		data.setAction(Constants.ActionLocate);
+		Bundle mBundle = new Bundle();
+		mBundle.putSerializable(Constants.BUNDLE_LOCATION_CONTEXT, poi);
+		data.putExtras(mBundle);
+		
+		startActivity(data);
+		
+		finish();
 	}
 	
 }
