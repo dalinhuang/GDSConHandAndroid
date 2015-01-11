@@ -30,8 +30,8 @@ public class WifiIpsSettings {
 	
 	public static boolean DEBUG = false;
 	
-	public static String PRIMARY_SERVER = "118.102.25.219";
-	public static String SECONDARY_SERVER = "118.102.25.219";
+	public static String PRIMARY_SERVER = "192.168.11.8"; //"115.29.220.45";
+	public static String SECONDARY_SERVER = "192.168.11.8";
 	public static String CMCC_Site = PRIMARY_SERVER;		//	中国移动
 	public static String CU_Site = SECONDARY_SERVER;		//	中国联通
 	public static String CT_Site = PRIMARY_SERVER;		//	中国电信
