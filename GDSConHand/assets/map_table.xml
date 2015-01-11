@@ -1,220 +1,24 @@
-<com.winjune.wifiindoor.lib.map.IndoorMapT>
-  <indoorMaps>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
+<com.winjune.wifiindoor.lib.map.MapDataT>
+  <maps>
+    <com.winjune.wifiindoor.lib.map.MapDataR>
       <id>1</id>
-      <normalMapUrl>0,0,300,400,map_1_1.PNG;300,0,300,400,map_2_1.PNG;600,0,300,400,map_3_1.PNG;900,0,300,400,map_4_1.PNG;1200,0,300,400,map_5_1.PNG;1500,0,300,400,map_6_1.PNG;1800,0,300,400,map_7_1.PNG;2100,0,300,400,map_8_1.PNG;2400,0,300,400,map_9_1.PNG;2700,0,300,400,map_10_1.PNG;0,400,300,400,map_1_2.PNG;300,400,300,400,map_2_2.PNG;600,400,300,400,map_3_2.PNG;900,400,300,400,map_4_2.PNG;1200,400,300,400,map_5_2.PNG;1500,400,300,400,map_6_2.PNG;1800,400,300,400,map_7_2.PNG;2100,400,300,400,map_8_2.PNG;2400,400,300,400,map_9_2.PNG;2700,400,300,400,map_10_2.PNG;0,800,300,400,map_1_3.PNG;300,800,300,400,map_2_3.PNG;600,800,300,400,map_3_3.PNG;900,800,300,400,map_4_3.PNG;1200,800,300,400,map_5_3.PNG;1500,800,300,400,map_6_3.PNG;1800,800,300,400,map_7_3.PNG;2100,800,300,400,map_8_3.PNG;2400,800,300,400,map_9_3.PNG;2700,800,300,400,map_10_3.PNG;0,1200,300,400,map_1_4.PNG;300,1200,300,400,map_2_4.PNG;600,1200,300,400,map_3_4.PNG;900,1200,300,400,map_4_4.PNG;1200,1200,300,400,map_5_4.PNG;1500,1200,300,400,map_6_4.PNG;1800,1200,300,400,map_7_4.PNG;2100,1200,300,400,map_8_4.PNG;2400,1200,300,400,map_9_4.PNG;2700,1200,300,400,map_10_4.PNG;0,1600,300,400,map_1_5.PNG;300,1600,300,400,map_2_5.PNG;600,1600,300,400,map_3_5.PNG;900,1600,300,400,map_4_5.PNG;1200,1600,300,400,map_5_5.PNG;1500,1600,300,400,map_6_5.PNG;1800,1600,300,400,map_7_5.PNG;2100,1600,300,400,map_8_5.PNG;2400,1600,300,400,map_9_5.PNG;2700,1600,300,400,map_10_5.PNG;0,2000,300,400,map_1_6.PNG;300,2000,300,400,map_2_6.PNG;600,2000,300,400,map_3_6.PNG;900,2000,300,400,map_4_6.PNG;1200,2000,300,400,map_5_6.PNG;1500,2000,300,400,map_6_6.PNG;1800,2000,300,400,map_7_6.PNG;2100,2000,300,400,map_8_6.PNG;2400,2000,300,400,map_9_6.PNG;2700,2000,300,400,map_10_6.PNG;0,2400,300,400,map_1_7.PNG;300,2400,300,400,map_2_7.PNG;600,2400,300,400,map_3_7.PNG;900,2400,300,400,map_4_7.PNG;1200,2400,300,400,map_5_7.PNG;1500,2400,300,400,map_6_7.PNG;1800,2400,300,400,map_7_7.PNG;2100,2400,300,400,map_8_7.PNG;2400,2400,300,400,map_9_7.PNG;2700,2400,300,400,map_10_7.PNG;0,2800,300,400,map_1_8.PNG;300,2800,300,400,map_2_8.PNG;600,2800,300,400,map_3_8.PNG;900,2800,300,400,map_4_8.PNG;1200,2800,300,400,map_5_8.PNG;1500,2800,300,400,map_6_8.PNG;1800,2800,300,400,map_7_8.PNG;2100,2800,300,400,map_8_8.PNG;2400,2800,300,400,map_9_8.PNG;2700,2800,300,400,map_10_8.PNG;0,3200,300,400,map_1_9.PNG;300,3200,300,400,map_2_9.PNG;600,3200,300,400,map_3_9.PNG;900,3200,300,400,map_4_9.PNG;1200,3200,300,400,map_5_9.PNG;1500,3200,300,400,map_6_9.PNG;1800,3200,300,400,map_7_9.PNG;2100,3200,300,400,map_8_9.PNG;2400,3200,300,400,map_9_9.PNG;2700,3200,300,400,map_10_9.PNG;0,3600,300,400,map_1_10.PNG;300,3600,300,400,map_2_10.PNG;600,3600,300,400,map_3_10.PNG;900,3600,300,400,map_4_10.PNG;1200,3600,300,400,map_5_10.PNG;1500,3600,300,400,map_6_10.PNG;1800,3600,300,400,map_7_10.PNG;2100,3600,300,400,map_8_10.PNG;2400,3600,300,400,map_9_10.PNG;2700,3600,300,400,map_10_10.PNG;</normalMapUrl>
-      <name>Guangdong Science Center</name>
-      <label></label>
-      <cellPixel>40</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>2</id>
       <normalMapUrl>0,0,1200,1600,map.png</normalMapUrl>
-      <name>GDSC</name>
+      <largeMapUrl>0,0,300,400,map_1_1.PNG;300,0,300,400,map_2_1.PNG;600,0,300,400,map_3_1.PNG;900,0,300,400,map_4_1.PNG;1200,0,300,400,map_5_1.PNG;1500,0,300,400,map_6_1.PNG;1800,0,300,400,map_7_1.PNG;2100,0,300,400,map_8_1.PNG;2400,0,300,400,map_9_1.PNG;2700,0,300,400,map_10_1.PNG;0,400,300,400,map_1_2.PNG;300,400,300,400,map_2_2.PNG;600,400,300,400,map_3_2.PNG;900,400,300,400,map_4_2.PNG;1200,400,300,400,map_5_2.PNG;1500,400,300,400,map_6_2.PNG;1800,400,300,400,map_7_2.PNG;2100,400,300,400,map_8_2.PNG;2400,400,300,400,map_9_2.PNG;2700,400,300,400,map_10_2.PNG;0,800,300,400,map_1_3.PNG;300,800,300,400,map_2_3.PNG;600,800,300,400,map_3_3.PNG;900,800,300,400,map_4_3.PNG;1200,800,300,400,map_5_3.PNG;1500,800,300,400,map_6_3.PNG;1800,800,300,400,map_7_3.PNG;2100,800,300,400,map_8_3.PNG;2400,800,300,400,map_9_3.PNG;2700,800,300,400,map_10_3.PNG;0,1200,300,400,map_1_4.PNG;300,1200,300,400,map_2_4.PNG;600,1200,300,400,map_3_4.PNG;900,1200,300,400,map_4_4.PNG;1200,1200,300,400,map_5_4.PNG;1500,1200,300,400,map_6_4.PNG;1800,1200,300,400,map_7_4.PNG;2100,1200,300,400,map_8_4.PNG;2400,1200,300,400,map_9_4.PNG;2700,1200,300,400,map_10_4.PNG;0,1600,300,400,map_1_5.PNG;300,1600,300,400,map_2_5.PNG;600,1600,300,400,map_3_5.PNG;900,1600,300,400,map_4_5.PNG;1200,1600,300,400,map_5_5.PNG;1500,1600,300,400,map_6_5.PNG;1800,1600,300,400,map_7_5.PNG;2100,1600,300,400,map_8_5.PNG;2400,1600,300,400,map_9_5.PNG;2700,1600,300,400,map_10_5.PNG;0,2000,300,400,map_1_6.PNG;300,2000,300,400,map_2_6.PNG;600,2000,300,400,map_3_6.PNG;900,2000,300,400,map_4_6.PNG;1200,2000,300,400,map_5_6.PNG;1500,2000,300,400,map_6_6.PNG;1800,2000,300,400,map_7_6.PNG;2100,2000,300,400,map_8_6.PNG;2400,2000,300,400,map_9_6.PNG;2700,2000,300,400,map_10_6.PNG;0,2400,300,400,map_1_7.PNG;300,2400,300,400,map_2_7.PNG;600,2400,300,400,map_3_7.PNG;900,2400,300,400,map_4_7.PNG;1200,2400,300,400,map_5_7.PNG;1500,2400,300,400,map_6_7.PNG;1800,2400,300,400,map_7_7.PNG;2100,2400,300,400,map_8_7.PNG;2400,2400,300,400,map_9_7.PNG;2700,2400,300,400,map_10_7.PNG;0,2800,300,400,map_1_8.PNG;300,2800,300,400,map_2_8.PNG;600,2800,300,400,map_3_8.PNG;900,2800,300,400,map_4_8.PNG;1200,2800,300,400,map_5_8.PNG;1500,2800,300,400,map_6_8.PNG;1800,2800,300,400,map_7_8.PNG;2100,2800,300,400,map_8_8.PNG;2400,2800,300,400,map_9_8.PNG;2700,2800,300,400,map_10_8.PNG;0,3200,300,400,map_1_9.PNG;300,3200,300,400,map_2_9.PNG;600,3200,300,400,map_3_9.PNG;900,3200,300,400,map_4_9.PNG;1200,3200,300,400,map_5_9.PNG;1500,3200,300,400,map_6_9.PNG;1800,3200,300,400,map_7_9.PNG;2100,3200,300,400,map_8_9.PNG;2400,3200,300,400,map_9_9.PNG;2700,3200,300,400,map_10_9.PNG;0,3600,300,400,map_1_10.PNG;300,3600,300,400,map_2_10.PNG;600,3600,300,400,map_3_10.PNG;900,3600,300,400,map_4_10.PNG;1200,3600,300,400,map_5_10.PNG;1500,3600,300,400,map_6_10.PNG;1800,3600,300,400,map_7_10.PNG;2100,3600,300,400,map_8_10.PNG;2400,3600,300,400,map_9_10.PNG;2700,3600,300,400,map_10_10.PNG;</largeMapUrl>
+      <name>GDSC F1</name>
       <label>F1</label>
       <cellPixel>16</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>15</id>
-      <normalMapUrl>0,0,1337,892,map.png</normalMapUrl>
-      <name>CN-GZ-0A-15F</name>
+      <longitude>30000</longitude>
+      <latitude>40000</latitude>
+    </com.winjune.wifiindoor.lib.map.MapDataR>
+    <com.winjune.wifiindoor.lib.map.MapDataR>
+      <id>2</id>
+      <normalMapUrl>0,0,1200,1600,map.png</normalMapUrl>
+      <largeMapUrl>0,0,300,400,map_1_1.PNG;300,0,300,400,map_2_1.PNG;600,0,300,400,map_3_1.PNG;900,0,300,400,map_4_1.PNG;1200,0,300,400,map_5_1.PNG;1500,0,300,400,map_6_1.PNG;1800,0,300,400,map_7_1.PNG;2100,0,300,400,map_8_1.PNG;2400,0,300,400,map_9_1.PNG;2700,0,300,400,map_10_1.PNG;0,400,300,400,map_1_2.PNG;300,400,300,400,map_2_2.PNG;600,400,300,400,map_3_2.PNG;900,400,300,400,map_4_2.PNG;1200,400,300,400,map_5_2.PNG;1500,400,300,400,map_6_2.PNG;1800,400,300,400,map_7_2.PNG;2100,400,300,400,map_8_2.PNG;2400,400,300,400,map_9_2.PNG;2700,400,300,400,map_10_2.PNG;0,800,300,400,map_1_3.PNG;300,800,300,400,map_2_3.PNG;600,800,300,400,map_3_3.PNG;900,800,300,400,map_4_3.PNG;1200,800,300,400,map_5_3.PNG;1500,800,300,400,map_6_3.PNG;1800,800,300,400,map_7_3.PNG;2100,800,300,400,map_8_3.PNG;2400,800,300,400,map_9_3.PNG;2700,800,300,400,map_10_3.PNG;0,1200,300,400,map_1_4.PNG;300,1200,300,400,map_2_4.PNG;600,1200,300,400,map_3_4.PNG;900,1200,300,400,map_4_4.PNG;1200,1200,300,400,map_5_4.PNG;1500,1200,300,400,map_6_4.PNG;1800,1200,300,400,map_7_4.PNG;2100,1200,300,400,map_8_4.PNG;2400,1200,300,400,map_9_4.PNG;2700,1200,300,400,map_10_4.PNG;0,1600,300,400,map_1_5.PNG;300,1600,300,400,map_2_5.PNG;600,1600,300,400,map_3_5.PNG;900,1600,300,400,map_4_5.PNG;1200,1600,300,400,map_5_5.PNG;1500,1600,300,400,map_6_5.PNG;1800,1600,300,400,map_7_5.PNG;2100,1600,300,400,map_8_5.PNG;2400,1600,300,400,map_9_5.PNG;2700,1600,300,400,map_10_5.PNG;0,2000,300,400,map_1_6.PNG;300,2000,300,400,map_2_6.PNG;600,2000,300,400,map_3_6.PNG;900,2000,300,400,map_4_6.PNG;1200,2000,300,400,map_5_6.PNG;1500,2000,300,400,map_6_6.PNG;1800,2000,300,400,map_7_6.PNG;2100,2000,300,400,map_8_6.PNG;2400,2000,300,400,map_9_6.PNG;2700,2000,300,400,map_10_6.PNG;0,2400,300,400,map_1_7.PNG;300,2400,300,400,map_2_7.PNG;600,2400,300,400,map_3_7.PNG;900,2400,300,400,map_4_7.PNG;1200,2400,300,400,map_5_7.PNG;1500,2400,300,400,map_6_7.PNG;1800,2400,300,400,map_7_7.PNG;2100,2400,300,400,map_8_7.PNG;2400,2400,300,400,map_9_7.PNG;2700,2400,300,400,map_10_7.PNG;0,2800,300,400,map_1_8.PNG;300,2800,300,400,map_2_8.PNG;600,2800,300,400,map_3_8.PNG;900,2800,300,400,map_4_8.PNG;1200,2800,300,400,map_5_8.PNG;1500,2800,300,400,map_6_8.PNG;1800,2800,300,400,map_7_8.PNG;2100,2800,300,400,map_8_8.PNG;2400,2800,300,400,map_9_8.PNG;2700,2800,300,400,map_10_8.PNG;0,3200,300,400,map_1_9.PNG;300,3200,300,400,map_2_9.PNG;600,3200,300,400,map_3_9.PNG;900,3200,300,400,map_4_9.PNG;1200,3200,300,400,map_5_9.PNG;1500,3200,300,400,map_6_9.PNG;1800,3200,300,400,map_7_9.PNG;2100,3200,300,400,map_8_9.PNG;2400,3200,300,400,map_9_9.PNG;2700,3200,300,400,map_10_9.PNG;0,3600,300,400,map_1_10.PNG;300,3600,300,400,map_2_10.PNG;600,3600,300,400,map_3_10.PNG;900,3600,300,400,map_4_10.PNG;1200,3600,300,400,map_5_10.PNG;1500,3600,300,400,map_6_10.PNG;1800,3600,300,400,map_7_10.PNG;2100,3600,300,400,map_8_10.PNG;2400,3600,300,400,map_9_10.PNG;2700,3600,300,400,map_10_10.PNG;</largeMapUrl>
+      <name>GDSC F2</name>
       <label>F2</label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>16</id>
-      <normalMapUrl>0,0,300,300,map_1_1.jpg;300,0,300,300,map_2_1.jpg;600,0,300,300,map_3_1.jpg;900,0,197,300,map_4_1.jpg;0,300,300,300,map_1_2.jpg;300,300,300,300,map_2_2.jpg;600,300,300,300,map_3_2.jpg;900,300,197,300,map_4_2.jpg;0,600,300,255,map_1_3.jpg;300,600,300,255,map_2_3.jpg;600,600,300,255,map_3_3.jpg;900,600,197,255,map_4_3.jpg</normalMapUrl>
-      <name>CN-GZ-0A-16F</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>101</id>
-      <normalMapUrl>0,0,600,600,map_1_1.jpg;600,0,600,600,map_2_1.jpg;1200,0,600,600,map_3_1.jpg;0,600,600,600,map_1_2.jpg;600,600,600,600,map_2_2.jpg;1200,600,600,600,map_3_2.jpg;0,1200,600,418,map_1_3.jpg;600,1200,600,418,map_2_3.jpg;1200,1200,600,418,map_3_3.jpg</normalMapUrl>
-      <name>GRANDVIEW MALL - F1</name>
-      <label></label>
-      <cellPixel>10</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>102</id>
-      <normalMapUrl>0,0,1410,956,map.jpg</normalMapUrl>
-      <name>GRANDVIEW MALL - F2</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>103</id>
-      <normalMapUrl>0,0,1400,949,map.jpg</normalMapUrl>
-      <name>GRANDVIEW MALL - F3</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>104</id>
-      <normalMapUrl>0,0,1388,941,map.jpg</normalMapUrl>
-      <name>GRANDVIEW MALL - F4</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>105</id>
-      <normalMapUrl>0,0,1412,957,map.jpg</normalMapUrl>
-      <name>GRANDVIEW MALL - F5</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>106</id>
-      <normalMapUrl>0,0,1394,946,map.jpg</normalMapUrl>
-      <name>GRANDVIEW MALL - F6</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>107</id>
-      <normalMapUrl>0,0,939,877,map.jpg</normalMapUrl>
-      <name>GRANDVIEW MALL - F7</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>108</id>
-      <normalMapUrl>0,0,427,415,map.jpg</normalMapUrl>
-      <name>GRANDVIEW MALL - F_M</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>109</id>
-      <normalMapUrl>0,0,878,832,map.jpg</normalMapUrl>
-      <name>GRANDVIEW MALL - F_B1</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>110</id>
-      <normalMapUrl>0,0,653,589,map.png</normalMapUrl>
-      <name>TIANHE CITY - F_B1</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>111</id>
-      <normalMapUrl>0,0,689,613,map.png</normalMapUrl>
-      <name>TIANHE CITY - F1</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>112</id>
-      <normalMapUrl>0,0,693,623,map.png</normalMapUrl>
-      <name>TIANHE CITY - F2</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>113</id>
-      <normalMapUrl>0,0,693,632,map.png</normalMapUrl>
-      <name>TIANHE CITY - F3</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>114</id>
-      <normalMapUrl>0,0,699,638,map.png</normalMapUrl>
-      <name>TIANHE CITY - F4</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>115</id>
-      <normalMapUrl>0,0,679,533,map.png</normalMapUrl>
-      <name>TIANHE CITY - F5</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>116</id>
-      <normalMapUrl>0,0,699,548,map.png</normalMapUrl>
-      <name>TIANHE CITY - F6</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>117</id>
-      <normalMapUrl>0,0,629,472,map.png</normalMapUrl>
-      <name>TIANHE CITY - F7</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>201</id>
-      <normalMapUrl>0,0,1000,825,map.gif</normalMapUrl>
-      <name>GZ Airport</name>
-      <label></label>
-      <cellPixel>20</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>301</id>
-      <normalMapUrl>0,0,1000,706,map.jpg</normalMapUrl>
-      <name>SHANGHAI WORLD EXPO EXHIBOTION CENTER</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-    <com.winjune.wifiindoor.lib.map.IndoorMapR>
-      <id>401</id>
-      <normalMapUrl>0,0,1500,588,map.jpg</normalMapUrl>
-      <name>Guangzhou Railway Station</name>
-      <label></label>
-      <cellPixel>30</cellPixel>
-      <longitude>0</longitude>
-      <latitude>0</latitude>
-    </com.winjune.wifiindoor.lib.map.IndoorMapR>
-  </indoorMaps>
-</com.winjune.wifiindoor.lib.map.IndoorMapT>
+      <cellPixel>16</cellPixel>
+      <longitude>30000</longitude>
+      <latitude>40000</latitude>
+    </com.winjune.wifiindoor.lib.map.MapDataR>
+  </maps>
+</com.winjune.wifiindoor.lib.map.MapDataT>

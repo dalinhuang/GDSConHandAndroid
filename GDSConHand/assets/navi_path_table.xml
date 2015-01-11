@@ -1,28 +1,3 @@
 <com.winjune.wifiindoor.lib.map.NaviPathT>
-  <paths>
-    <com.winjune.wifiindoor.lib.map.NaviPathR>
-      <id>1</id>
-      <fromNode>1</fromNode>
-      <toNode>2</toNode>
-      <direction>0</direction>
-      <forwardGuide>向前走5米，左转5米</forwardGuide>
-      <backwardGuide></backwardGuide>
-    </com.winjune.wifiindoor.lib.map.NaviPathR>
-    <com.winjune.wifiindoor.lib.map.NaviPathR>
-      <id>2</id>
-      <fromNode>2</fromNode>
-      <toNode>3</toNode>
-      <direction>0</direction>
-      <forwardGuide>向前走8米</forwardGuide>
-      <backwardGuide></backwardGuide>
-    </com.winjune.wifiindoor.lib.map.NaviPathR>
-    <com.winjune.wifiindoor.lib.map.NaviPathR>
-      <id>3</id>
-      <fromNode>1</fromNode>
-      <toNode>4</toNode>
-      <direction>0</direction>
-      <forwardGuide>向前走5米，右转10米</forwardGuide>
-      <backwardGuide></backwardGuide>
-    </com.winjune.wifiindoor.lib.map.NaviPathR>
-  </paths>
+  <paths/>
 </com.winjune.wifiindoor.lib.map.NaviPathT>
