@@ -35,12 +35,13 @@ public class VersionManager {
 		String oldFullFileName = Util.getFilePath(IndoorMapData.CONFIG_FILE_PATH + IndoorMapData.VERSION_TABLE_FILE_NAME);
 		String newFullFileName = Util.getFilePath(IndoorMapData.CONFIG_FILE_PATH + "new_"+IndoorMapData.VERSION_TABLE_FILE_NAME);
 		
-		oldInfo.fromXML(oldFullFileName, oldInfo);
-		newInfo.fromXML(newFullFileName, newInfo);
+		oldInfo = (VersionInfoT) oldInfo.fromJson(oldFullFileName, VersionInfoT.class);
+		newInfo = (VersionInfoT) newInfo.fromJson(newFullFileName, VersionInfoT.class);
 		ArrayList<VersionInfoR> newVersionInfos = newInfo.getVersions();
 		ArrayList<VersionInfoR> oldVersionInfos = oldInfo.getVersions();
 		for (int i = 0; i < newVersionInfos.size(); i++)
 		{
+			/* Hoare: skip version check
 			for (int j = 0; j < oldVersionInfos.size(); j++)
 			{
 				if (newVersionInfos.get(i).tableName.equalsIgnoreCase(oldVersionInfos.get(j).tableName))
@@ -51,6 +52,9 @@ public class VersionManager {
 					}
 				}
 			}
+			*/
+			
+			updateTableList.add(newVersionInfos.get(i).tableName);
 			
 		}
 		return updateTableList;
@@ -66,9 +70,9 @@ public class VersionManager {
 		for (int i = 0; i < updateTableList.size(); i++)
 		{
 			Util.downFile(activity,
-			Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, updateTableList.get(i) + "_table.xml"),
+			Util.fullUrl(IndoorMapData.XML_FILE_PATH_REMOTE, updateTableList.get(i) + "_table.json"),
 			IndoorMapData.CONFIG_FILE_PATH,
-			updateTableList.get(i) + "_table.xml",                     		
+			updateTableList.get(i) + "_table.json",                     		
 			false,      // Open after download
 			"",
 			false, //useHandler

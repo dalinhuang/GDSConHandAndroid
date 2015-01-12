@@ -56,13 +56,13 @@ public final class IndoorMapData {
 		
 	public static final String CONFIG_FILE_NAME = "config.properties";	
 	public static final String MAP_XML_NAME = "map.xml";
-	public static final String MAP_MANAGER_FILE_NAME = "map_manager.xml";
-	public static final String BUILDING_MANAGER_FILE_NAME = "building_manager.xml";
-	public static final String MAP_INFO_FILE_NAME = "map_info.xml";
-	public static final String MAP_SEARCH_INFO_FILE_NAME = "label_search_history.xml";
-	public static final String MAP_ROUTE_SEARCH_INFO_FILE_NAME = "navi_search_history.xml";
-	public static final String NAVI_INFO_FILE_NAME = "navigator.xml";
-	public static final String INTEREST_PLACE_INFO_FILE_NAME = "interest_places.xml";
+	public static final String MAP_MANAGER_FILE_NAME = "map_manager.json";
+	public static final String BUILDING_MANAGER_FILE_NAME = "building_manager.json";
+	public static final String MAP_INFO_FILE_NAME = "map_info.json";
+	public static final String MAP_SEARCH_INFO_FILE_NAME = "label_search_history.json";
+	public static final String MAP_ROUTE_SEARCH_INFO_FILE_NAME = "navi_search_history.json";
+	public static final String NAVI_INFO_FILE_NAME = "navigator.json";
+	public static final String INTEREST_PLACE_INFO_FILE_NAME = "interest_places.json";
 	public static final String VERSION_TABLE_FILE_NAME = "version_table.json";
 	
 	// Put all Map Sanity checking return codes here

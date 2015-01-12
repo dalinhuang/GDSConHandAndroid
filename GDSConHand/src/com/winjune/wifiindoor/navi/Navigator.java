@@ -49,7 +49,8 @@ public class Navigator {
 				return null;
 			}
 			
-			startNaviNode = getNearestNaviNode(startPoi.mapId, startPoi.getPlaceX(), startPoi.getMapY());
+			
+			startNaviNode = getNearestNaviNode(startPoi.mapId, startPoi.getPlaceX(), startPoi.getPlaceY());
 			
 			startNode = new NaviNodeR(0, startPoi.mapId, startPoi.getPlaceX(), startPoi.getPlaceY(), startPoi.getLabel());
 		}
@@ -60,7 +61,7 @@ public class Navigator {
 			return null;	
 		}
 		
-		endNaviNode = getNearestNaviNode(endPoi.mapId, endPoi.getPlaceX(), endPoi.getMapY());
+		endNaviNode = getNearestNaviNode(endPoi.mapId, endPoi.getPlaceX(), endPoi.getPlaceY());
 		endNode = new NaviNodeR(0, endPoi.mapId, endPoi.getPlaceX(), endPoi.getPlaceY(), endPoi.getLabel());
 		
 		if ((startNaviNode == null) || (endNaviNode == null)){
